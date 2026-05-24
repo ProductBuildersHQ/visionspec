@@ -113,7 +113,7 @@ func (t *SpecKitTarget) Export(spec string, config ExportConfig) (*ExportResult,
 }
 
 // generatePlan creates a plan.md from the spec.
-func (t *SpecKitTarget) generatePlan(spec string, projectName string) string {
+func (t *SpecKitTarget) generatePlan(_ string, projectName string) string {
 	var sb strings.Builder
 
 	sb.WriteString("# Implementation Plan: ")
@@ -151,7 +151,7 @@ func (t *SpecKitTarget) generatePlan(spec string, projectName string) string {
 }
 
 // generateTasks creates a tasks.md from the spec.
-func (t *SpecKitTarget) generateTasks(spec string, projectName string) string {
+func (t *SpecKitTarget) generateTasks(_ string, projectName string) string {
 	var sb strings.Builder
 
 	sb.WriteString("# Tasks: ")
