@@ -118,36 +118,43 @@ The status command shows readiness gates:
 
 Once your source specs are complete:
 
-1. **Synthesize GTM docs** (coming soon)
+1. **Synthesize GTM docs**
    ```bash
    multispec synthesize press
    multispec synthesize faq
    multispec synthesize narrative
    ```
 
-2. **Synthesize technical docs** (coming soon)
+2. **Synthesize technical docs**
    ```bash
    multispec synthesize trd
    multispec synthesize ird
    ```
 
-3. **Run evaluations** (coming soon)
+3. **Run evaluations**
    ```bash
    multispec eval --all
    ```
 
-4. **Get approvals** (coming soon)
+4. **Get approvals**
    ```bash
    multispec approve prd
    multispec approve trd
    ```
 
-5. **Reconcile to execution spec** (coming soon)
+5. **Reconcile to execution spec**
    ```bash
    multispec reconcile
    ```
 
-6. **Export to target system** (coming soon)
+6. **Export to target system**
    ```bash
    multispec export speckit
+   ```
+
+7. **Extract and visualize requirement graph**
+   ```bash
+   multispec graph extract
+   multispec graph export --format html
+   multispec graph query --type requirement
    ```

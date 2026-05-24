@@ -49,7 +49,7 @@ The MCP server is a separate binary for integration with AI assistants:
 ```bash
 # Install both binaries
 go install github.com/plexusone/multispec/cmd/multispec@latest
-go install github.com/plexusone/multispec/cmd/mcp-server@latest
+go install github.com/plexusone/multispec/cmd/multispec-mcp@latest
 ```
 
 See [MCP Server](../mcp/index.md) for configuration details.

@@ -108,6 +108,28 @@ The `CONSTITUTION.md` file at `docs/specs/CONSTITUTION.md` defines repo-level co
 
 All generated specs must adhere to the constitution.
 
+## Requirement Graphs
+
+MultiSpec extracts requirement graphs from specs for traceability analysis:
+
+- **Nodes**: requirements, user stories, constraints, decisions, sections
+- **Edges**: traces_to, derived_from, contains
+
+Graphs enable visualization and traceability analysis:
+
+```bash
+# Extract graph from specs
+multispec graph extract
+
+# Export as interactive HTML
+multispec graph export --format html
+
+# Query specific node types
+multispec graph query --type requirement --spec prd
+```
+
+See [Graph Command](../cli/graph.md) for full documentation.
+
 ## Post-Ship Alignment
 
 After shipping, `current-truth.md` maintains alignment between specs and reality:
