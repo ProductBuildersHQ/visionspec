@@ -193,7 +193,7 @@ func runEval(cmd *cobra.Command, args []string) error {
 			return fmt.Errorf("marshaling eval result: %w", err)
 		}
 
-		if err := os.WriteFile(evalPath, evalData, 0600); err != nil {
+		if err := os.WriteFile(evalPath, evalData, 0600); err != nil { //nolint:gosec // G703: evalPath from config.EvalPath with validated project path
 			return fmt.Errorf("writing eval file: %w", err)
 		}
 

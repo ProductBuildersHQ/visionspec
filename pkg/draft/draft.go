@@ -252,7 +252,7 @@ func Finalize(projectPath string, specType types.SpecType) error {
 	}
 
 	// Write to final location
-	if err := os.WriteFile(specPath, []byte(draft.Content), 0600); err != nil {
+	if err := os.WriteFile(specPath, []byte(draft.Content), 0600); err != nil { //nolint:gosec // G703: specPath from config.SpecPath with validated project path
 		return fmt.Errorf("failed to write spec: %w", err)
 	}
 
