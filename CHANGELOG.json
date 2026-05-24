@@ -7,6 +7,29 @@
   "maintainers": ["johncwang@gmail.com"],
   "releases": [
     {
+      "version": "v0.2.0",
+      "date": "2026-05-24",
+      "highlights": [
+        { "description": "Graphize integration for requirement graph extraction and visualization" },
+        { "description": "Documentation accuracy improvements for implementation status" }
+      ],
+      "added": [
+        { "description": "Spec graph extraction from MRD, PRD, UXD, TRD specs (`multispec graph extract`)" },
+        { "description": "Graph export to HTML, GraphML, and JSON formats (`multispec graph export`)" },
+        { "description": "Graph query for filtering nodes by type and spec (`multispec graph query`)" },
+        { "description": "Integration with graphize v0.3.0 and graphfs v0.2.0 for graph operations" }
+      ],
+      "documentation": [
+        { "description": "Corrected MCP tools status from Stub to Implemented (get_spec, get_eval, run_eval, synthesize, reconcile, approve, export)" },
+        { "description": "Corrected CLI commands status from Planned to Implemented (approve, serve, graph)" },
+        { "description": "Added comprehensive MCP tools documentation with all 16 tools" }
+      ],
+      "dependencies": [
+        { "description": "Add graphize v0.3.0 for requirement graph visualization" },
+        { "description": "Add graphfs v0.2.0 for graph data structures" }
+      ]
+    },
+    {
       "version": "v0.1.0",
       "date": "2026-05-24",
       "commit": "7e3b584",
