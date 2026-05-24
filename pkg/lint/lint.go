@@ -57,15 +57,29 @@ var (
 
 // Linter validates multispec projects.
 type Linter struct {
-	specsDir string
-	findings []Finding
+	specsDir   string
+	specConfig *types.SpecConfig
+	findings   []Finding
 }
 
 // New creates a new Linter for the given specs directory.
 func New(specsDir string) *Linter {
 	return &Linter{
-		specsDir: specsDir,
-		findings: make([]Finding, 0),
+		specsDir:   specsDir,
+		specConfig: types.DefaultSpecConfig(),
+		findings:   make([]Finding, 0),
+	}
+}
+
+// NewWithConfig creates a new Linter with a custom spec configuration.
+func NewWithConfig(specsDir string, specConfig *types.SpecConfig) *Linter {
+	if specConfig == nil {
+		specConfig = types.DefaultSpecConfig()
+	}
+	return &Linter{
+		specsDir:   specsDir,
+		specConfig: specConfig,
+		findings:   make([]Finding, 0),
 	}
 }
 
@@ -255,24 +269,28 @@ func (l *Linter) checkConfigExists(projectPath string) {
 
 func (l *Linter) checkSpecFiles(projectPath string) {
 	// Check source specs
-	l.checkSpecsInDir(filepath.Join(projectPath, config.SourceDir), types.SourceSpecTypes())
+	sourceSpecs := l.specConfig.SpecsByCategory(types.CategorySource)
+	l.checkSpecsInDirByName(filepath.Join(projectPath, config.SourceDir), sourceSpecs)
 
 	// Check GTM specs
-	l.checkSpecsInDir(filepath.Join(projectPath, config.GTMDir), types.GTMSpecTypes())
+	gtmSpecs := l.specConfig.SpecsByCategory(types.CategoryGTM)
+	l.checkSpecsInDirByName(filepath.Join(projectPath, config.GTMDir), gtmSpecs)
 
 	// Check technical specs
-	l.checkSpecsInDir(filepath.Join(projectPath, config.TechnicalDir), types.TechnicalSpecTypes())
+	techSpecs := l.specConfig.SpecsByCategory(types.CategoryTechnical)
+	l.checkSpecsInDirByName(filepath.Join(projectPath, config.TechnicalDir), techSpecs)
 }
 
-func (l *Linter) checkSpecsInDir(dirPath string, validTypes []types.SpecType) {
+func (l *Linter) checkSpecsInDirByName(dirPath string, validSpecs []string) {
 	entries, err := os.ReadDir(dirPath)
 	if err != nil {
 		return // Directory doesn't exist, already reported
 	}
 
 	validNames := make(map[string]bool)
-	for _, st := range validTypes {
-		validNames[st.Filename()] = true
+	for _, specName := range validSpecs {
+		// Convert spec name to filename (e.g., "prd" -> "prd.md")
+		validNames[types.SpecType(specName).Filename()] = true
 	}
 
 	for _, entry := range entries {
@@ -313,8 +331,8 @@ func (l *Linter) checkEvalFiles(projectPath string) {
 	}
 
 	validEvalNames := make(map[string]bool)
-	for _, st := range types.AllSpecTypes() {
-		validEvalNames[st.EvalFilename()] = true
+	for _, specName := range l.specConfig.AllSpecs() {
+		validEvalNames[types.SpecType(specName).EvalFilename()] = true
 	}
 
 	for _, entry := range entries {

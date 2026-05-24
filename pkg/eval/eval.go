@@ -55,18 +55,29 @@ type JudgeMetadata struct {
 
 // Evaluator performs evaluations using an LLM judge.
 type Evaluator struct {
-	llm *LLMClient
+	llm          *LLMClient
+	rubricLoader rubrics.Loader
 }
 
 // NewEvaluator creates a new evaluator with the given LLM client.
 func NewEvaluator(llm *LLMClient) *Evaluator {
-	return &Evaluator{llm: llm}
+	return &Evaluator{
+		llm:          llm,
+		rubricLoader: rubrics.DefaultLoader(),
+	}
+}
+
+// SetRubricLoader sets a custom rubric loader for evaluation.
+func (e *Evaluator) SetRubricLoader(loader rubrics.Loader) {
+	if loader != nil {
+		e.rubricLoader = loader
+	}
 }
 
 // Evaluate runs evaluation on content against the rubric for the given spec type.
 func (e *Evaluator) Evaluate(ctx context.Context, specType types.SpecType, content string) (*Result, error) {
-	// Get rubric
-	rubricSet, err := rubrics.Get(specType)
+	// Get rubric from loader
+	rubricSet, err := e.rubricLoader.Load(specType)
 	if err != nil {
 		return nil, fmt.Errorf("no rubric for spec type %s: %w", specType, err)
 	}

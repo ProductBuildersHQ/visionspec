@@ -57,22 +57,32 @@ type Summary struct {
 
 // Generate generates a status report for a project.
 func Generate(project *types.Project) (*Report, error) {
+	return GenerateWithConfig(project, project.GetSpecConfig())
+}
+
+// GenerateWithConfig generates a status report using a custom SpecConfig.
+func GenerateWithConfig(project *types.Project, specConfig *types.SpecConfig) (*Report, error) {
+	if specConfig == nil {
+		specConfig = types.DefaultSpecConfig()
+	}
+
 	report := &Report{
 		Project:     project.Name,
 		Path:        project.Path,
 		GeneratedAt: time.Now(),
 	}
 
-	// Check each spec type
-	for _, specType := range types.AllSpecTypes() {
+	// Check each spec type from the config
+	for _, specName := range specConfig.AllSpecs() {
+		specType := types.SpecType(specName)
 		specPath := config.SpecPath(project.Path, specType)
 		evalPath := config.EvalPath(project.Path, specType)
 
 		ss := SpecStatus{
 			Type:     specType,
-			Category: specType.Category(),
+			Category: specConfig.GetCategory(specName),
 			Filename: specType.Filename(),
-			Required: specType.IsRequired(),
+			Required: specConfig.IsRequired(specName),
 		}
 
 		// Check if spec exists
