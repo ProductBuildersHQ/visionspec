@@ -1,0 +1,13 @@
+name: composability
+description: "Enable organizations to compose custom CLI tools with multispec as a library"
+version: 0.3.0
+
+# Target release
+target_version: v0.3.0
+
+# Feature areas
+features:
+  - CLI as library (pkg/cli)
+  - Custom templates (Loader interface)
+  - Custom rubrics (YAML format)
+  - Configurable spec requirements
