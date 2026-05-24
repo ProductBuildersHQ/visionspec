@@ -133,28 +133,40 @@ func TestRubricSetCategoryByID(t *testing.T) {
 	}
 }
 
-func TestCategoryRubrics(t *testing.T) {
+func TestCategoryCriteria(t *testing.T) {
 	rs := MustGet(types.SpecTypeMRD)
 
 	for _, cat := range rs.Categories {
-		if cat.Rubric == nil {
-			t.Errorf("Category %q has nil rubric", cat.ID)
+		if cat.Criteria.Pass == "" {
+			t.Errorf("Category %q has empty Pass criteria", cat.ID)
+		}
+		if cat.Criteria.Partial == "" {
+			t.Errorf("Category %q has empty Partial criteria", cat.ID)
+		}
+		if cat.Criteria.Fail == "" {
+			t.Errorf("Category %q has empty Fail criteria", cat.ID)
 		}
 	}
 }
 
 func TestPassCriteria(t *testing.T) {
 	defaultCriteria := DefaultPassCriteria()
-	if defaultCriteria.MinScore != 7.0 {
-		t.Errorf("DefaultPassCriteria().MinScore = %f, want 7.0", defaultCriteria.MinScore)
+	if defaultCriteria.RequireAllPass != false {
+		t.Errorf("DefaultPassCriteria().RequireAllPass = %v, want false", defaultCriteria.RequireAllPass)
 	}
 	if defaultCriteria.MaxCritical != 0 {
 		t.Errorf("DefaultPassCriteria().MaxCritical = %d, want 0", defaultCriteria.MaxCritical)
 	}
+	if defaultCriteria.MaxHigh != 0 {
+		t.Errorf("DefaultPassCriteria().MaxHigh = %d, want 0", defaultCriteria.MaxHigh)
+	}
+	if defaultCriteria.MaxMedium != -1 {
+		t.Errorf("DefaultPassCriteria().MaxMedium = %d, want -1 (unlimited)", defaultCriteria.MaxMedium)
+	}
 
 	strictCriteria := StrictPassCriteria()
-	if strictCriteria.MinScore != 8.0 {
-		t.Errorf("StrictPassCriteria().MinScore = %f, want 8.0", strictCriteria.MinScore)
+	if strictCriteria.RequireAllPass != true {
+		t.Errorf("StrictPassCriteria().RequireAllPass = %v, want true", strictCriteria.RequireAllPass)
 	}
 	if strictCriteria.MaxMedium != 3 {
 		t.Errorf("StrictPassCriteria().MaxMedium = %d, want 3", strictCriteria.MaxMedium)
