@@ -9,15 +9,15 @@ import (
 )
 
 func TestDraftPath(t *testing.T) {
-	projectPath := "/test/project"
+	projectPath := filepath.Join("test", "project")
 
 	tests := []struct {
 		specType types.SpecType
 		want     string
 	}{
-		{types.SpecTypeMRD, "/test/project/source/mrd.draft.md"},
-		{types.SpecTypePRD, "/test/project/source/prd.draft.md"},
-		{types.SpecTypeUXD, "/test/project/source/uxd.draft.md"},
+		{types.SpecTypeMRD, filepath.Join("test", "project", "source", "mrd.draft.md")},
+		{types.SpecTypePRD, filepath.Join("test", "project", "source", "prd.draft.md")},
+		{types.SpecTypeUXD, filepath.Join("test", "project", "source", "uxd.draft.md")},
 	}
 
 	for _, tt := range tests {
@@ -31,10 +31,10 @@ func TestDraftPath(t *testing.T) {
 }
 
 func TestMetadataPath(t *testing.T) {
-	projectPath := "/test/project"
+	projectPath := filepath.Join("test", "project")
 
 	got := MetadataPath(projectPath, types.SpecTypeMRD)
-	want := "/test/project/source/mrd.draft.json"
+	want := filepath.Join("test", "project", "source", "mrd.draft.json")
 	if got != want {
 		t.Errorf("MetadataPath() = %q, want %q", got, want)
 	}
