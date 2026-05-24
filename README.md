@@ -96,7 +96,7 @@ docs/specs/
 
 ```
 HUMAN-AUTHORED (Source)
-  MRD.md → PRD.md → UXD.md
+  mrd.md → prd.md → uxd.md
            ↓
 LLM-GENERATED (GTM) ← Working Backwards
   press.md → faq.md → narrative.md

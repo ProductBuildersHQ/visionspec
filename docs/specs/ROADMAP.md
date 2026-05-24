@@ -19,32 +19,32 @@ MultiSpec bridges the gap between organizational intent (MRD, PRD, UXD) and exec
 ```
 ┌─────────────────────────────────────────────────────────────────────────┐
 │ HUMAN-AUTHORED (Source)                                                 │
-│   MRD.md → PRD.md → UXD.md                                              │
+│   mrd.md → prd.md → uxd.md                                              │
 └─────────────────────────────────────────────────────────────────────────┘
                               ↓
 ┌─────────────────────────────────────────────────────────────────────────┐
 │ LLM-GENERATED (GTM) ← Working Backwards methodology                     │
-│   PRESS.md → FAQ.md → NARRATIVE.md                                      │
+│   press.md → faq.md → narrative.md                                      │
 └─────────────────────────────────────────────────────────────────────────┘
                               ↓
 ┌─────────────────────────────────────────────────────────────────────────┐
 │ LLM-GENERATED (Technical)                                               │
-│   TRD.md → IRD.md                                                       │
+│   trd.md → ird.md                                                       │
 └─────────────────────────────────────────────────────────────────────────┘
                               ↓
 ┌─────────────────────────────────────────────────────────────────────────┐
 │ RECONCILIATION                                                          │
-│   All approved specs → SPEC.md (execution spec)                         │
+│   All approved specs → spec.md (execution spec)                         │
 └─────────────────────────────────────────────────────────────────────────┘
                               ↓
 ┌─────────────────────────────────────────────────────────────────────────┐
 │ TARGET EXPORT                                                           │
-│   SPEC.md → SpecKit | GSD | GasTown | GasCity | OpenSpec                │
+│   spec.md → SpecKit | GSD | GasTown | GasCity | OpenSpec                │
 └─────────────────────────────────────────────────────────────────────────┘
                               ↓
 ┌─────────────────────────────────────────────────────────────────────────┐
 │ POST-SHIP ALIGNMENT                                                     │
-│   SPEC.md + shipped reality → CURRENT-TRUTH.md                          │
+│   spec.md + shipped reality → current-truth.md                          │
 └─────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -205,23 +205,23 @@ Establish conventions for spec organization and authoring.
 
 ### Source Spec Templates
 
-- [x] RMI-012: Create MRD.md template (Market Requirements)
+- [x] RMI-012: Create mrd.md template (Market Requirements)
   - Market problem, target audience, competitive landscape
   - Business metrics, success criteria
 
-- [x] RMI-013: Create PRD.md template (Product Requirements)
+- [x] RMI-013: Create prd.md template (Product Requirements)
   - User stories, functional requirements
   - Acceptance criteria, priorities
 
-- [x] RMI-014: Create UXD.md template (User Experience Design)
+- [x] RMI-014: Create uxd.md template (User Experience Design)
   - User journeys, interaction flows
   - Accessibility requirements
 
-- [x] RMI-014a: Create TRD.md template (Technical Requirements)
+- [x] RMI-014a: Create trd.md template (Technical Requirements)
   - Architecture overview, API contracts
   - Data models, technical constraints
 
-- [x] RMI-014b: Create IRD.md template (Infrastructure Requirements)
+- [x] RMI-014b: Create ird.md template (Infrastructure Requirements)
   - Infrastructure architecture, compute, storage
   - Security, observability, DR planning
 
@@ -339,20 +339,20 @@ LLM-generated documents from source specs + constitution.
 
 - [ ] RMI-027: Implement `multispec synthesize press` command
   - Input: MRD + PRD
-  - Output: `gtm/PRESS.md` (press release format)
+  - Output: `gtm/press.md` (press release format)
   - Template: Hook → Problem → Solution → Quote → CTA → Benefits
   - Generate PRESS_EVAL.json
 
 - [ ] RMI-028: Implement `multispec synthesize faq` command
-  - Input: PRESS.md
-  - Output: `gtm/FAQ.md`
+  - Input: press.md
+  - Output: `gtm/faq.md`
   - Structure: External FAQs + Internal FAQs
   - Challenge claims in press release
   - Generate FAQ_EVAL.json
 
 - [ ] RMI-029: Implement `multispec synthesize narrative` command
   - Input: MRD + PRD + FAQ
-  - Output: `gtm/NARRATIVE.md`
+  - Output: `gtm/narrative.md`
   - Structure: Customer → Tension → Future State → Promise → Principles → Non-Goals
   - Generate NARRATIVE_EVAL.json
 
@@ -378,7 +378,7 @@ LLM-generated documents from source specs + constitution.
 
 - [ ] RMI-030: Implement `multispec synthesize trd` command
   - Input: MRD + PRD + UXD + CONSTITUTION
-  - Output: `technical/TRD.md`
+  - Output: `technical/trd.md`
   - Generate TRD_EVAL.json
 
 - [ ] RMI-031: Define TRD template structure
@@ -392,7 +392,7 @@ LLM-generated documents from source specs + constitution.
 
 - [ ] RMI-032: Implement `multispec synthesize ird` command
   - Input: TRD + CONSTITUTION
-  - Output: `technical/IRD.md`
+  - Output: `technical/ird.md`
   - Generate IRD_EVAL.json
 
 - [ ] RMI-033: Define IRD template structure
@@ -415,12 +415,12 @@ LLM-generated documents from source specs + constitution.
 ### Post-Ship Alignment
 
 - [ ] RMI-036: Implement `multispec align` command
-  - Input: SPEC.md + shipped reality (from engineering)
-  - Output: `CURRENT-TRUTH.md`
+  - Input: spec.md + shipped reality (from engineering)
+  - Output: `current-truth.md`
   - Detect: ungrounded claims, missed opportunities, drift
   - Update GTM docs with alignment notes
 
-- [ ] RMI-037: Define CURRENT-TRUTH.md structure
+- [ ] RMI-037: Define current-truth.md structure
   - Product summary (current state)
   - Active capabilities table
   - Known boundaries/limitations
@@ -446,14 +446,14 @@ Conflict detection and unified spec generation.
   - Severity level
   - Suggested resolution
 
-### SPEC.md Generation
+### spec.md Generation
 
 - [ ] RMI-042: Implement `multispec reconcile` command
   - Input: All approved specs
-  - Output: `SPEC.md` (unified execution spec)
+  - Output: `spec.md` (unified execution spec)
   - Output: `SPEC_EVAL.json` (reconciliation evaluation)
 
-- [ ] RMI-043: Define SPEC.md structure
+- [ ] RMI-043: Define spec.md structure
   - Resolved requirements
   - Consolidated constraints
   - Task decomposition
@@ -672,7 +672,7 @@ Future enhancements.
 ### Multi-Project Support
 
 - [ ] RMI-110: Support cross-project dependencies
-  - Project references in SPEC.md
+  - Project references in spec.md
   - Cross-project reconciliation
 
 - [ ] RMI-111: Implement `docs/specs/ROADMAP.md` generation
@@ -730,12 +730,80 @@ Future enhancements.
 | Version | Phase | Key Deliverables |
 |---------|-------|------------------|
 | v0.1.0 | 0-1 | CLI skeleton, directory structure, templates |
-| v0.2.0 | 2 | Evaluation engine, rubrics, status command |
-| v0.3.0 | 3 | GTM synthesis (press, faq, narrative), TRD/IRD synthesis |
-| v0.4.0 | 4 | Reconciliation engine, SPEC.md generation |
-| v0.5.0 | 5a | SpecKit adapter |
-| v0.6.0 | 5b | GSD adapter |
-| v0.7.0 | 5c | GasTown/GasCity adapters |
-| v0.8.0 | 6 | Claude Code skill |
-| v0.9.0 | 7 | Graphize integration, requirement graphs |
+| v0.2.0 | 2, 7 | Evaluation engine, rubrics, graphize integration |
+| v0.3.0 | 9 | Composability (custom templates, rubrics, CLI as library) |
+| v0.4.0 | 3 | GTM synthesis (press, faq, narrative), TRD/IRD synthesis |
+| v0.5.0 | 4 | Reconciliation engine, spec.md generation |
+| v0.6.0 | 5a | SpecKit adapter |
+| v0.7.0 | 5b | GSD adapter |
+| v0.8.0 | 5c | GasTown/GasCity adapters |
+| v0.9.0 | 6 | Claude Code skill |
 | v1.0.0 | 8 | Production release with full feature set |
+
+---
+
+## Phase 9: Composability (v0.3.0)
+
+Enable organizations (companies, open source projects, non-profits) to compose custom CLI tools with multispec as a library.
+
+### CLI as Library
+
+- [ ] RMI-200: Move CLI commands from `internal/cli` to `pkg/cli`
+  - Create `pkg/cli/cli.go` with composition API
+  - `AddCommandsTo(root *cobra.Command, cfg *Config)`
+  - `Commands(cfg *Config)` for selective command access
+  - `DefaultConfig()` for multispec defaults
+
+- [ ] RMI-201: Update `cmd/multispec/main.go` to use `pkg/cli`
+  - Remove `internal/cli` package
+
+### Custom Templates
+
+- [ ] RMI-210: Create template Loader interface (`pkg/templates/loader.go`)
+  - `Loader` interface with `Load()` and `Available()`
+  - `EmbeddedLoader()` - wraps current embedded templates
+  - `NewFileLoader(dir)` - loads from directory
+  - `NewChainLoader(loaders...)` - tries loaders in order
+
+- [ ] RMI-211: Support custom spec types from templates
+  - Allow non-standard spec types (e.g., `security.md`, `compliance.md`)
+  - Register custom types with category
+
+### Custom Rubrics
+
+- [ ] RMI-220: Create rubric Loader interface (`pkg/rubrics/loader.go`)
+  - `Loader` interface with `Load()` and `Available()`
+  - `EmbeddedLoader()` - wraps current Go-defined rubrics
+  - `NewFileLoader(dir)` - loads YAML rubrics
+  - `NewChainLoader(loaders...)`
+
+- [ ] RMI-221: Define rubric YAML schema (`pkg/rubrics/yaml.go`)
+  - `RubricYAML` struct for parsing
+  - Validation and conversion to `RubricSet`
+  - Compatible with structured-evaluation
+
+### Configurable Spec Requirements
+
+- [ ] RMI-230: Add `SpecConfig` types (`pkg/types/spec_config.go`)
+  - `SpecRequirement` struct (required, category, template, rubric)
+  - `SpecConfig` with helper methods
+  - `IsRequired()` with fallback to defaults
+
+- [ ] RMI-231: Update `multispec.yaml` schema
+  - Add `specs:` section for per-spec configuration
+  - Parse and merge with defaults
+
+- [ ] RMI-232: Update `SpecType.IsRequired()` to use config
+  - Check project config first, then defaults
+
+### Documentation & Examples
+
+- [ ] RMI-240: Create example org CLI (`examples/org-cli/`)
+  - Sample CLI importing multispec as library
+  - Custom templates and rubrics
+  - Custom spec types
+
+- [ ] RMI-241: Add organization integration docs (`docs/organization/`)
+  - Integration guide
+  - Configuration reference
+  - Template and rubric customization
