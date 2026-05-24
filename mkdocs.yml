@@ -59,6 +59,8 @@ nav:
       - Tools: mcp/tools.md
   - Specifications:
       - ROADMAP: specs/ROADMAP.md
+  - Releases:
+      - v0.1.0: releases/v0.1.0.md
   - Development:
       - Contributing: development/contributing.md
 
