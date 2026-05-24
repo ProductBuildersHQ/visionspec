@@ -27,7 +27,7 @@
         { "description": "Export framework with SpecKit adapter (spec.md, plan.md, tasks.md)", "commit": "ddef147" },
         { "description": "Project structure validation with `multispec lint`", "commit": "a710be8" },
         { "description": "MCP server with tools: list_projects, get_project_status, start_draft, update_draft, eval_draft, finalize_draft, get_draft, discard_draft", "commit": "2412405" },
-        { "description": "CLI commands: init, lint, status, targets, eval", "commit": "9941480" },
+        { "description": "CLI commands: init, lint, status, targets, eval, synthesize, reconcile, export", "commit": "9941480" },
         { "description": "Authoring skills for Claude Code: author-mrd, author-prd, author-uxd", "commit": "bd82e87" }
       ],
       "changed": [
