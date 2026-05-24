@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://plexusone.github.io/multispec/mcp/">
       
       
-        <link rel="prev" href="../cli/status/">
+        <link rel="prev" href="../cli/graph/">
       
       
         <link rel="next" href="tools/">
@@ -539,6 +539,29 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cli/graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    graph
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -723,6 +746,39 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Available Tools">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#project-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      Project Tools
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spec-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      Spec Tools
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#draft-authoring-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      Draft Authoring Tools
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -892,6 +948,29 @@
             Releases
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../releases/v0.2.0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    v0.2.0
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -1100,6 +1179,39 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Available Tools">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#project-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      Project Tools
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spec-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      Spec Tools
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#draft-authoring-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      Draft Authoring Tools
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -1174,59 +1286,100 @@
 </ol>
 <h2 id="available-tools">Available Tools<a class="headerlink" href="#available-tools" title="Permanent link">&para;</a></h2>
 <p>See <a href="tools/">MCP Tools</a> for the complete list of available tools.</p>
+<h3 id="project-tools">Project Tools<a class="headerlink" href="#project-tools" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
 <th>Tool</th>
-<th>Status</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>list_projects</code></td>
-<td>Implemented</td>
 <td>List all projects</td>
 </tr>
 <tr>
 <td><code>get_project_status</code></td>
-<td>Implemented</td>
 <td>Get project readiness</td>
 </tr>
+</tbody>
+</table>
+<h3 id="spec-tools">Spec Tools<a class="headerlink" href="#spec-tools" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
 <tr>
 <td><code>get_spec</code></td>
-<td>Stub</td>
 <td>Get spec content</td>
 </tr>
 <tr>
 <td><code>get_eval</code></td>
-<td>Stub</td>
 <td>Get evaluation results</td>
 </tr>
 <tr>
 <td><code>run_eval</code></td>
-<td>Stub</td>
-<td>Run evaluation</td>
+<td>Run evaluation against rubric</td>
 </tr>
 <tr>
 <td><code>synthesize</code></td>
-<td>Stub</td>
-<td>Generate specs</td>
+<td>Generate specs from sources</td>
 </tr>
 <tr>
 <td><code>reconcile</code></td>
-<td>Stub</td>
-<td>Generate execution spec</td>
+<td>Generate unified execution spec</td>
 </tr>
 <tr>
 <td><code>approve</code></td>
-<td>Stub</td>
 <td>Approve a spec</td>
 </tr>
 <tr>
 <td><code>export</code></td>
-<td>Stub</td>
-<td>Export to target</td>
+<td>Export to target system</td>
+</tr>
+</tbody>
+</table>
+<h3 id="draft-authoring-tools">Draft Authoring Tools<a class="headerlink" href="#draft-authoring-tools" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>start_draft</code></td>
+<td>Initialize a new draft</td>
+</tr>
+<tr>
+<td><code>get_draft</code></td>
+<td>Get current draft content</td>
+</tr>
+<tr>
+<td><code>update_draft</code></td>
+<td>Save draft content</td>
+</tr>
+<tr>
+<td><code>eval_draft</code></td>
+<td>Evaluate draft against rubric</td>
+</tr>
+<tr>
+<td><code>finalize_draft</code></td>
+<td>Promote draft to final spec</td>
+</tr>
+<tr>
+<td><code>discard_draft</code></td>
+<td>Delete a draft</td>
+</tr>
+<tr>
+<td><code>list_drafts</code></td>
+<td>List all drafts in a project</td>
 </tr>
 </tbody>
 </table>
