@@ -501,7 +501,7 @@ func (s *Server) handleSynthesize(ctx context.Context, req *mcp.CallToolRequest,
 	if err := os.MkdirAll(outputDir, 0755); err != nil {
 		return errorResult("failed to create output directory: " + err.Error())
 	}
-	if err := os.WriteFile(outputPath, []byte(synthResult.Content), 0644); err != nil {
+	if err := os.WriteFile(outputPath, []byte(synthResult.Content), 0600); err != nil {
 		return errorResult("failed to write output: " + err.Error())
 	}
 
@@ -597,7 +597,7 @@ func (s *Server) handleReconcile(ctx context.Context, req *mcp.CallToolRequest, 
 
 	// Write output to spec.md
 	outputPath := config.SpecPath(projectPath, types.SpecTypeSpec)
-	if err := os.WriteFile(outputPath, []byte(reconcileResult.Content), 0644); err != nil {
+	if err := os.WriteFile(outputPath, []byte(reconcileResult.Content), 0600); err != nil {
 		return errorResult("failed to write spec.md: " + err.Error())
 	}
 

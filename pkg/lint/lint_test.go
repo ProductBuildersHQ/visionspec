@@ -115,7 +115,7 @@ func TestLintProject(t *testing.T) {
 	}
 
 	// Create config file
-	if err := os.WriteFile(filepath.Join(projectPath, "multispec.yaml"), []byte("name: user-onboarding\n"), 0644); err != nil {
+	if err := os.WriteFile(filepath.Join(projectPath, "multispec.yaml"), []byte("name: user-onboarding\n"), 0600); err != nil {
 		t.Fatalf("creating config: %v", err)
 	}
 

@@ -98,12 +98,12 @@ func (s SpecType) IsValid() bool {
 type SpecStatus string
 
 const (
-	StatusMissing    SpecStatus = "missing"     // File does not exist
-	StatusDraft      SpecStatus = "draft"       // File exists, not evaluated
-	StatusEvaluated  SpecStatus = "evaluated"   // Evaluation complete
-	StatusApproved   SpecStatus = "approved"    // Approved by reviewer
-	StatusRejected   SpecStatus = "rejected"    // Rejected, needs revision
-	StatusOutdated   SpecStatus = "outdated"    // Source changed since eval
+	StatusMissing   SpecStatus = "missing"   // File does not exist
+	StatusDraft     SpecStatus = "draft"     // File exists, not evaluated
+	StatusEvaluated SpecStatus = "evaluated" // Evaluation complete
+	StatusApproved  SpecStatus = "approved"  // Approved by reviewer
+	StatusRejected  SpecStatus = "rejected"  // Rejected, needs revision
+	StatusOutdated  SpecStatus = "outdated"  // Source changed since eval
 )
 
 // Spec represents a specification document.

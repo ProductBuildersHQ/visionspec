@@ -7,22 +7,23 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/plexusone/structured-evaluation/evaluation"
+
 	"github.com/plexusone/multispec/pkg/rubrics"
 	"github.com/plexusone/multispec/pkg/types"
-	"github.com/plexusone/structured-evaluation/evaluation"
 )
 
 // Result represents the outcome of an evaluation.
 type Result struct {
-	SpecType   types.SpecType      `json:"spec_type"`
-	Timestamp  time.Time           `json:"timestamp"`
-	Score      float64             `json:"score"`
-	Passed     bool                `json:"passed"`
-	Categories []CategoryResult    `json:"categories"`
-	Findings   []Finding           `json:"findings"`
-	Decision   string              `json:"decision"`
-	Summary    string              `json:"summary"`
-	Judge      JudgeMetadata       `json:"judge"`
+	SpecType   types.SpecType   `json:"spec_type"`
+	Timestamp  time.Time        `json:"timestamp"`
+	Score      float64          `json:"score"`
+	Passed     bool             `json:"passed"`
+	Categories []CategoryResult `json:"categories"`
+	Findings   []Finding        `json:"findings"`
+	Decision   string           `json:"decision"`
+	Summary    string           `json:"summary"`
+	Judge      JudgeMetadata    `json:"judge"`
 }
 
 // CategoryResult contains the evaluation result for a category.

@@ -131,7 +131,7 @@ func Start(projectPath string, specType types.SpecType) (*Draft, error) {
 	}
 
 	// Write draft content
-	if err := os.WriteFile(DraftPath(projectPath, specType), []byte(content), 0644); err != nil {
+	if err := os.WriteFile(DraftPath(projectPath, specType), []byte(content), 0600); err != nil {
 		return nil, fmt.Errorf("failed to write draft: %w", err)
 	}
 
@@ -140,7 +140,7 @@ func Start(projectPath string, specType types.SpecType) (*Draft, error) {
 	if err != nil {
 		return nil, fmt.Errorf("failed to marshal metadata: %w", err)
 	}
-	if err := os.WriteFile(MetadataPath(projectPath, specType), metaData, 0644); err != nil {
+	if err := os.WriteFile(MetadataPath(projectPath, specType), metaData, 0600); err != nil {
 		return nil, fmt.Errorf("failed to write metadata: %w", err)
 	}
 
@@ -201,7 +201,7 @@ func Update(projectPath string, specType types.SpecType, content string) (*Draft
 	draft.Metadata.Version++
 
 	// Write content
-	if err := os.WriteFile(DraftPath(projectPath, specType), []byte(content), 0644); err != nil {
+	if err := os.WriteFile(DraftPath(projectPath, specType), []byte(content), 0600); err != nil {
 		return nil, fmt.Errorf("failed to write draft: %w", err)
 	}
 
@@ -210,7 +210,7 @@ func Update(projectPath string, specType types.SpecType, content string) (*Draft
 	if err != nil {
 		return nil, fmt.Errorf("failed to marshal metadata: %w", err)
 	}
-	if err := os.WriteFile(MetadataPath(projectPath, specType), metaData, 0644); err != nil {
+	if err := os.WriteFile(MetadataPath(projectPath, specType), metaData, 0600); err != nil {
 		return nil, fmt.Errorf("failed to write metadata: %w", err)
 	}
 
@@ -252,7 +252,7 @@ func Finalize(projectPath string, specType types.SpecType) error {
 	}
 
 	// Write to final location
-	if err := os.WriteFile(specPath, []byte(draft.Content), 0644); err != nil {
+	if err := os.WriteFile(specPath, []byte(draft.Content), 0600); err != nil {
 		return fmt.Errorf("failed to write spec: %w", err)
 	}
 
@@ -287,7 +287,7 @@ func AddEvalResult(projectPath string, specType types.SpecType, score float64, p
 	if err != nil {
 		return fmt.Errorf("failed to marshal metadata: %w", err)
 	}
-	if err := os.WriteFile(MetadataPath(projectPath, specType), metaData, 0644); err != nil {
+	if err := os.WriteFile(MetadataPath(projectPath, specType), metaData, 0600); err != nil {
 		return fmt.Errorf("failed to write metadata: %w", err)
 	}
 

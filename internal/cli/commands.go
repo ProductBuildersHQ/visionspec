@@ -193,7 +193,7 @@ func runEval(cmd *cobra.Command, args []string) error {
 			return fmt.Errorf("marshaling eval result: %w", err)
 		}
 
-		if err := os.WriteFile(evalPath, evalData, 0644); err != nil {
+		if err := os.WriteFile(evalPath, evalData, 0600); err != nil {
 			return fmt.Errorf("writing eval file: %w", err)
 		}
 
@@ -310,7 +310,7 @@ func runSynthesize(cmd *cobra.Command, args []string) error {
 	if err := os.MkdirAll(outputDir, 0755); err != nil {
 		return fmt.Errorf("creating output directory: %w", err)
 	}
-	if err := os.WriteFile(outputPath, []byte(result.Content), 0644); err != nil {
+	if err := os.WriteFile(outputPath, []byte(result.Content), 0600); err != nil {
 		return fmt.Errorf("writing output: %w", err)
 	}
 
@@ -326,10 +326,12 @@ func runSynthesize(cmd *cobra.Command, args []string) error {
 		} else {
 			evalPath := config.EvalPath(projectPath, specType)
 			evalDir := filepath.Dir(evalPath)
-			if err := os.MkdirAll(evalDir, 0755); err == nil {
-				if evalData, err := json.MarshalIndent(evalResult, "", "  "); err == nil {
-					_ = os.WriteFile(evalPath, evalData, 0644)
-				}
+			if err := os.MkdirAll(evalDir, 0755); err != nil {
+				fmt.Printf("⚠ Failed to create eval directory: %v\n", err)
+			} else if evalData, err := json.MarshalIndent(evalResult, "", "  "); err != nil {
+				fmt.Printf("⚠ Failed to marshal eval result: %v\n", err)
+			} else if err := os.WriteFile(evalPath, evalData, 0600); err != nil {
+				fmt.Printf("⚠ Failed to write eval file: %v\n", err)
 			}
 			if evalResult.Passed {
 				fmt.Printf("✓ %s: %.1f/10 PASS\n", specType, evalResult.Score)
@@ -442,7 +444,7 @@ func runReconcile(cmd *cobra.Command, args []string) error {
 
 	// Write output
 	outputPath := config.SpecPath(projectPath, types.SpecTypeSpec)
-	if err := os.WriteFile(outputPath, []byte(result.Content), 0644); err != nil {
+	if err := os.WriteFile(outputPath, []byte(result.Content), 0600); err != nil {
 		return fmt.Errorf("writing spec.md: %w", err)
 	}
 

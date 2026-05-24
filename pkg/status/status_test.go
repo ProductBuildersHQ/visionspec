@@ -72,7 +72,7 @@ func TestGenerateWithSpecs(t *testing.T) {
 		filepath.Join(tmpDir, "source", "prd.md"),
 	}
 	for _, spec := range specs {
-		if err := os.WriteFile(spec, []byte("# Test\n"), 0644); err != nil {
+		if err := os.WriteFile(spec, []byte("# Test\n"), 0600); err != nil {
 			t.Fatalf("failed to create spec %s: %v", spec, err)
 		}
 	}
@@ -221,7 +221,7 @@ func TestCalculateReadiness(t *testing.T) {
 
 	// Create spec.md to pass the last gate
 	specPath := filepath.Join(report.Path, "spec.md")
-	if err := os.WriteFile(specPath, []byte("# Spec\n"), 0644); err != nil {
+	if err := os.WriteFile(specPath, []byte("# Spec\n"), 0600); err != nil {
 		t.Fatalf("failed to create spec.md: %v", err)
 	}
 

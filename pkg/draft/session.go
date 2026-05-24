@@ -133,12 +133,12 @@ func (s *Session) HasPassingEval() bool {
 type SessionStatus string
 
 const (
-	StatusNew       SessionStatus = "new"        // Just started, no edits
-	StatusEditing   SessionStatus = "editing"    // Has edits, not evaluated
-	StatusEvaluated SessionStatus = "evaluated"  // Has been evaluated
-	StatusPassing   SessionStatus = "passing"    // Passed evaluation
-	StatusFailing   SessionStatus = "failing"    // Failed evaluation
-	StatusReady     SessionStatus = "ready"      // Ready to finalize
+	StatusNew       SessionStatus = "new"       // Just started, no edits
+	StatusEditing   SessionStatus = "editing"   // Has edits, not evaluated
+	StatusEvaluated SessionStatus = "evaluated" // Has been evaluated
+	StatusPassing   SessionStatus = "passing"   // Passed evaluation
+	StatusFailing   SessionStatus = "failing"   // Failed evaluation
+	StatusReady     SessionStatus = "ready"     // Ready to finalize
 )
 
 // Status returns the current session status.

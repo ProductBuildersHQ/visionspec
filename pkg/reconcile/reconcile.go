@@ -50,11 +50,11 @@ type Conflict struct {
 
 // ReconcileResult contains the unified spec and metadata.
 type ReconcileResult struct {
-	Content      string           `json:"content"`
-	Sources      []types.SpecType `json:"sources"`
-	Conflicts    []Conflict       `json:"conflicts,omitempty"`
-	GeneratedAt  time.Time        `json:"generated_at"`
-	DecisionLog  []string         `json:"decision_log,omitempty"`
+	Content     string           `json:"content"`
+	Sources     []types.SpecType `json:"sources"`
+	Conflicts   []Conflict       `json:"conflicts,omitempty"`
+	GeneratedAt time.Time        `json:"generated_at"`
+	DecisionLog []string         `json:"decision_log,omitempty"`
 }
 
 // Reconcile generates a unified spec.md from approved specs.

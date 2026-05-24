@@ -81,21 +81,21 @@ func (t *SpecKitTarget) Export(spec string, config ExportConfig) (*ExportResult,
 
 	// Write spec.md
 	specPath := filepath.Join(specDir, "spec.md")
-	if err := os.WriteFile(specPath, []byte(spec), 0644); err != nil {
+	if err := os.WriteFile(specPath, []byte(spec), 0600); err != nil {
 		return nil, fmt.Errorf("writing spec.md: %w", err)
 	}
 
 	// Generate plan.md from spec
 	plan := t.generatePlan(spec, config.ProjectName)
 	planPath := filepath.Join(specDir, "plan.md")
-	if err := os.WriteFile(planPath, []byte(plan), 0644); err != nil {
+	if err := os.WriteFile(planPath, []byte(plan), 0600); err != nil {
 		return nil, fmt.Errorf("writing plan.md: %w", err)
 	}
 
 	// Generate tasks.md from spec
 	tasks := t.generateTasks(spec, config.ProjectName)
 	tasksPath := filepath.Join(specDir, "tasks.md")
-	if err := os.WriteFile(tasksPath, []byte(tasks), 0644); err != nil {
+	if err := os.WriteFile(tasksPath, []byte(tasks), 0600); err != nil {
 		return nil, fmt.Errorf("writing tasks.md: %w", err)
 	}
 

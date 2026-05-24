@@ -14,24 +14,24 @@ import (
 
 // Report represents a project status report.
 type Report struct {
-	Project     string             `json:"project"`
-	Path        string             `json:"path"`
-	GeneratedAt time.Time          `json:"generated_at"`
+	Project     string                `json:"project"`
+	Path        string                `json:"path"`
+	GeneratedAt time.Time             `json:"generated_at"`
 	Readiness   types.ReadinessStatus `json:"readiness"`
-	Specs       []SpecStatus       `json:"specs"`
-	Summary     Summary            `json:"summary"`
+	Specs       []SpecStatus          `json:"specs"`
+	Summary     Summary               `json:"summary"`
 }
 
 // SpecStatus represents the status of a single spec.
 type SpecStatus struct {
-	Type       types.SpecType   `json:"type"`
+	Type       types.SpecType     `json:"type"`
 	Category   types.SpecCategory `json:"category"`
-	Filename   string           `json:"filename"`
-	Exists     bool             `json:"exists"`
-	Required   bool             `json:"required"`
-	Status     types.SpecStatus `json:"status"`
-	EvalStatus *EvalStatus      `json:"eval_status,omitempty"`
-	Approval   *types.Approval  `json:"approval,omitempty"`
+	Filename   string             `json:"filename"`
+	Exists     bool               `json:"exists"`
+	Required   bool               `json:"required"`
+	Status     types.SpecStatus   `json:"status"`
+	EvalStatus *EvalStatus        `json:"eval_status,omitempty"`
+	Approval   *types.Approval    `json:"approval,omitempty"`
 }
 
 // EvalStatus represents evaluation results.
@@ -48,10 +48,10 @@ type EvalStatus struct {
 
 // Summary provides aggregate statistics.
 type Summary struct {
-	TotalSpecs    int `json:"total_specs"`
-	PresentSpecs  int `json:"present_specs"`
+	TotalSpecs     int `json:"total_specs"`
+	PresentSpecs   int `json:"present_specs"`
 	EvaluatedSpecs int `json:"evaluated_specs"`
-	ApprovedSpecs int `json:"approved_specs"`
+	ApprovedSpecs  int `json:"approved_specs"`
 	BlockingIssues int `json:"blocking_issues"`
 }
 

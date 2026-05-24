@@ -116,7 +116,7 @@ func runInit(cmd *cobra.Command, args []string) error {
 
 	// Add header comment
 	header := "# multispec project configuration\n# See: https://github.com/plexusone/multispec\n\n"
-	if err := os.WriteFile(configPath, []byte(header+string(data)), 0644); err != nil {
+	if err := os.WriteFile(configPath, []byte(header+string(data)), 0600); err != nil {
 		return fmt.Errorf("failed to write config: %w", err)
 	}
 
@@ -156,7 +156,7 @@ func createTemplateFiles(projectPath string) error {
 	}
 
 	for path, content := range templates {
-		if err := os.WriteFile(path, []byte(strings.TrimSpace(content)+"\n"), 0644); err != nil {
+		if err := os.WriteFile(path, []byte(strings.TrimSpace(content)+"\n"), 0600); err != nil {
 			return err
 		}
 		fmt.Printf("Created template: %s\n", filepath.Base(path))

@@ -36,18 +36,18 @@ type Capabilities struct {
 
 // ExportConfig contains configuration for export.
 type ExportConfig struct {
-	ProjectName string `json:"project_name"`
-	OutputDir   string `json:"output_dir"`
+	ProjectName string         `json:"project_name"`
+	OutputDir   string         `json:"output_dir"`
 	Options     map[string]any `json:"options,omitempty"`
 }
 
 // ExportResult contains the result of an export.
 type ExportResult struct {
-	Target      string   `json:"target"`
-	OutputDir   string   `json:"output_dir"`
-	Files       []string `json:"files"`
-	Success     bool     `json:"success"`
-	Message     string   `json:"message,omitempty"`
+	Target    string   `json:"target"`
+	OutputDir string   `json:"output_dir"`
+	Files     []string `json:"files"`
+	Success   bool     `json:"success"`
+	Message   string   `json:"message,omitempty"`
 }
 
 // Registry holds registered targets.

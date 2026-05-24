@@ -40,13 +40,13 @@ type Result struct {
 
 // Rules
 const (
-	RuleProjectNaming     = "project-naming"
+	RuleProjectNaming      = "project-naming"
 	RuleDirectoryStructure = "directory-structure"
-	RuleSpecNaming        = "spec-naming"
-	RuleConfigExists      = "config-exists"
-	RuleRepoLevelNaming   = "repo-level-naming"
-	RuleEvalNaming        = "eval-naming"
-	RuleUnknownFile       = "unknown-file"
+	RuleSpecNaming         = "spec-naming"
+	RuleConfigExists       = "config-exists"
+	RuleRepoLevelNaming    = "repo-level-naming"
+	RuleEvalNaming         = "eval-naming"
+	RuleUnknownFile        = "unknown-file"
 )
 
 var (
