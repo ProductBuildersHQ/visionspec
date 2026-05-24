@@ -160,31 +160,33 @@ func TestFindSpecsDirNotFound(t *testing.T) {
 }
 
 func TestProjectPath(t *testing.T) {
-	got := ProjectPath("/docs/specs", "my-project")
-	want := "/docs/specs/my-project"
+	specsDir := filepath.Join("docs", "specs")
+	got := ProjectPath(specsDir, "my-project")
+	want := filepath.Join("docs", "specs", "my-project")
 	if got != want {
 		t.Errorf("ProjectPath() = %v, want %v", got, want)
 	}
 }
 
 func TestSpecPath(t *testing.T) {
+	projectDir := "project"
 	tests := []struct {
 		specType types.SpecType
 		expected string
 	}{
-		{types.SpecTypeMRD, "/project/source/mrd.md"},
-		{types.SpecTypePRD, "/project/source/prd.md"},
-		{types.SpecTypeUXD, "/project/source/uxd.md"},
-		{types.SpecTypePress, "/project/gtm/press.md"},
-		{types.SpecTypeFAQ, "/project/gtm/faq.md"},
-		{types.SpecTypeTRD, "/project/technical/trd.md"},
-		{types.SpecTypeIRD, "/project/technical/ird.md"},
-		{types.SpecTypeSpec, "/project/spec.md"},
+		{types.SpecTypeMRD, filepath.Join(projectDir, "source", "mrd.md")},
+		{types.SpecTypePRD, filepath.Join(projectDir, "source", "prd.md")},
+		{types.SpecTypeUXD, filepath.Join(projectDir, "source", "uxd.md")},
+		{types.SpecTypePress, filepath.Join(projectDir, "gtm", "press.md")},
+		{types.SpecTypeFAQ, filepath.Join(projectDir, "gtm", "faq.md")},
+		{types.SpecTypeTRD, filepath.Join(projectDir, "technical", "trd.md")},
+		{types.SpecTypeIRD, filepath.Join(projectDir, "technical", "ird.md")},
+		{types.SpecTypeSpec, filepath.Join(projectDir, "spec.md")},
 	}
 
 	for _, tt := range tests {
 		t.Run(string(tt.specType), func(t *testing.T) {
-			got := SpecPath("/project", tt.specType)
+			got := SpecPath(projectDir, tt.specType)
 			if got != tt.expected {
 				t.Errorf("SpecPath() = %v, want %v", got, tt.expected)
 			}
@@ -193,18 +195,19 @@ func TestSpecPath(t *testing.T) {
 }
 
 func TestEvalPath(t *testing.T) {
+	projectDir := "project"
 	tests := []struct {
 		specType types.SpecType
 		expected string
 	}{
-		{types.SpecTypeMRD, "/project/eval/mrd.eval.json"},
-		{types.SpecTypePRD, "/project/eval/prd.eval.json"},
-		{types.SpecTypeTRD, "/project/eval/trd.eval.json"},
+		{types.SpecTypeMRD, filepath.Join(projectDir, "eval", "mrd.eval.json")},
+		{types.SpecTypePRD, filepath.Join(projectDir, "eval", "prd.eval.json")},
+		{types.SpecTypeTRD, filepath.Join(projectDir, "eval", "trd.eval.json")},
 	}
 
 	for _, tt := range tests {
 		t.Run(string(tt.specType), func(t *testing.T) {
-			got := EvalPath("/project", tt.specType)
+			got := EvalPath(projectDir, tt.specType)
 			if got != tt.expected {
 				t.Errorf("EvalPath() = %v, want %v", got, tt.expected)
 			}
