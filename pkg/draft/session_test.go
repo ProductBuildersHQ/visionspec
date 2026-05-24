@@ -11,7 +11,9 @@ import (
 func TestStartSession(t *testing.T) {
 	tmpDir := t.TempDir()
 	projectPath := filepath.Join(tmpDir, "test-project")
-	os.MkdirAll(projectPath, 0755)
+	if err := os.MkdirAll(projectPath, 0755); err != nil {
+		t.Fatal(err)
+	}
 
 	// Start new session
 	session, err := StartSession(projectPath, types.SpecTypeMRD)
@@ -33,7 +35,9 @@ func TestStartSession(t *testing.T) {
 func TestStartSessionResumes(t *testing.T) {
 	tmpDir := t.TempDir()
 	projectPath := filepath.Join(tmpDir, "test-project")
-	os.MkdirAll(projectPath, 0755)
+	if err := os.MkdirAll(projectPath, 0755); err != nil {
+		t.Fatal(err)
+	}
 
 	// Start first session
 	session1, err := StartSession(projectPath, types.SpecTypePRD)
@@ -64,7 +68,9 @@ func TestStartSessionResumes(t *testing.T) {
 func TestResumeSession(t *testing.T) {
 	tmpDir := t.TempDir()
 	projectPath := filepath.Join(tmpDir, "test-project")
-	os.MkdirAll(projectPath, 0755)
+	if err := os.MkdirAll(projectPath, 0755); err != nil {
+		t.Fatal(err)
+	}
 
 	// Start session
 	_, err := StartSession(projectPath, types.SpecTypeUXD)
@@ -86,7 +92,9 @@ func TestResumeSession(t *testing.T) {
 func TestResumeSessionNotFound(t *testing.T) {
 	tmpDir := t.TempDir()
 	projectPath := filepath.Join(tmpDir, "test-project")
-	os.MkdirAll(projectPath, 0755)
+	if err := os.MkdirAll(projectPath, 0755); err != nil {
+		t.Fatal(err)
+	}
 
 	_, err := ResumeSession(projectPath, types.SpecTypeMRD)
 	if err != ErrDraftNotFound {
@@ -97,7 +105,9 @@ func TestResumeSessionNotFound(t *testing.T) {
 func TestSessionUpdate(t *testing.T) {
 	tmpDir := t.TempDir()
 	projectPath := filepath.Join(tmpDir, "test-project")
-	os.MkdirAll(projectPath, 0755)
+	if err := os.MkdirAll(projectPath, 0755); err != nil {
+		t.Fatal(err)
+	}
 
 	session, err := StartSession(projectPath, types.SpecTypeMRD)
 	if err != nil {
@@ -120,7 +130,9 @@ func TestSessionUpdate(t *testing.T) {
 func TestSessionFinalize(t *testing.T) {
 	tmpDir := t.TempDir()
 	projectPath := filepath.Join(tmpDir, "test-project")
-	os.MkdirAll(projectPath, 0755)
+	if err := os.MkdirAll(projectPath, 0755); err != nil {
+		t.Fatal(err)
+	}
 
 	session, err := StartSession(projectPath, types.SpecTypeMRD)
 	if err != nil {
@@ -141,7 +153,9 @@ func TestSessionFinalize(t *testing.T) {
 func TestSessionDiscard(t *testing.T) {
 	tmpDir := t.TempDir()
 	projectPath := filepath.Join(tmpDir, "test-project")
-	os.MkdirAll(projectPath, 0755)
+	if err := os.MkdirAll(projectPath, 0755); err != nil {
+		t.Fatal(err)
+	}
 
 	session, err := StartSession(projectPath, types.SpecTypePRD)
 	if err != nil {
@@ -161,7 +175,9 @@ func TestSessionDiscard(t *testing.T) {
 func TestSessionRecordEval(t *testing.T) {
 	tmpDir := t.TempDir()
 	projectPath := filepath.Join(tmpDir, "test-project")
-	os.MkdirAll(projectPath, 0755)
+	if err := os.MkdirAll(projectPath, 0755); err != nil {
+		t.Fatal(err)
+	}
 
 	session, err := StartSession(projectPath, types.SpecTypeUXD)
 	if err != nil {
@@ -204,7 +220,9 @@ func TestSessionRecordEval(t *testing.T) {
 func TestSessionLastEval(t *testing.T) {
 	tmpDir := t.TempDir()
 	projectPath := filepath.Join(tmpDir, "test-project")
-	os.MkdirAll(projectPath, 0755)
+	if err := os.MkdirAll(projectPath, 0755); err != nil {
+		t.Fatal(err)
+	}
 
 	session, err := StartSession(projectPath, types.SpecTypeMRD)
 	if err != nil {
@@ -217,7 +235,9 @@ func TestSessionLastEval(t *testing.T) {
 	}
 
 	// Add eval
-	session.RecordEval(7.0, true, 1)
+	if err := session.RecordEval(7.0, true, 1); err != nil {
+		t.Fatal(err)
+	}
 
 	lastEval := session.LastEval()
 	if lastEval == nil {
@@ -231,7 +251,9 @@ func TestSessionLastEval(t *testing.T) {
 func TestSessionStatus(t *testing.T) {
 	tmpDir := t.TempDir()
 	projectPath := filepath.Join(tmpDir, "test-project")
-	os.MkdirAll(projectPath, 0755)
+	if err := os.MkdirAll(projectPath, 0755); err != nil {
+		t.Fatal(err)
+	}
 
 	session, err := StartSession(projectPath, types.SpecTypePRD)
 	if err != nil {
@@ -244,19 +266,25 @@ func TestSessionStatus(t *testing.T) {
 	}
 
 	// Editing
-	session.Update("# Updated")
+	if err := session.Update("# Updated"); err != nil {
+		t.Fatal(err)
+	}
 	if session.Status() != StatusEditing {
 		t.Errorf("Status() = %s, want %s", session.Status(), StatusEditing)
 	}
 
 	// Failing
-	session.RecordEval(5.0, false, 10)
+	if err := session.RecordEval(5.0, false, 10); err != nil {
+		t.Fatal(err)
+	}
 	if session.Status() != StatusFailing {
 		t.Errorf("Status() = %s, want %s", session.Status(), StatusFailing)
 	}
 
 	// Passing
-	session.RecordEval(8.5, true, 1)
+	if err := session.RecordEval(8.5, true, 1); err != nil {
+		t.Fatal(err)
+	}
 	if session.Status() != StatusPassing {
 		t.Errorf("Status() = %s, want %s", session.Status(), StatusPassing)
 	}
@@ -265,7 +293,9 @@ func TestSessionStatus(t *testing.T) {
 func TestSessionSummary(t *testing.T) {
 	tmpDir := t.TempDir()
 	projectPath := filepath.Join(tmpDir, "test-project")
-	os.MkdirAll(projectPath, 0755)
+	if err := os.MkdirAll(projectPath, 0755); err != nil {
+		t.Fatal(err)
+	}
 
 	session, err := StartSession(projectPath, types.SpecTypeMRD)
 	if err != nil {
@@ -297,7 +327,9 @@ func TestSessionSummary(t *testing.T) {
 func TestSessionInstructions(t *testing.T) {
 	tmpDir := t.TempDir()
 	projectPath := filepath.Join(tmpDir, "test-project")
-	os.MkdirAll(projectPath, 0755)
+	if err := os.MkdirAll(projectPath, 0755); err != nil {
+		t.Fatal(err)
+	}
 
 	session, err := StartSession(projectPath, types.SpecTypeMRD)
 	if err != nil {

@@ -83,7 +83,9 @@ func TestStartAndGet(t *testing.T) {
 func TestStartDuplicateError(t *testing.T) {
 	tmpDir := t.TempDir()
 	projectPath := filepath.Join(tmpDir, "test-project")
-	os.MkdirAll(projectPath, 0755)
+	if err := os.MkdirAll(projectPath, 0755); err != nil {
+		t.Fatal(err)
+	}
 
 	// Start first draft
 	_, err := Start(projectPath, types.SpecTypeMRD)
@@ -101,7 +103,9 @@ func TestStartDuplicateError(t *testing.T) {
 func TestUpdate(t *testing.T) {
 	tmpDir := t.TempDir()
 	projectPath := filepath.Join(tmpDir, "test-project")
-	os.MkdirAll(projectPath, 0755)
+	if err := os.MkdirAll(projectPath, 0755); err != nil {
+		t.Fatal(err)
+	}
 
 	// Start draft
 	draft, err := Start(projectPath, types.SpecTypePRD)
@@ -127,7 +131,9 @@ func TestUpdate(t *testing.T) {
 func TestDiscard(t *testing.T) {
 	tmpDir := t.TempDir()
 	projectPath := filepath.Join(tmpDir, "test-project")
-	os.MkdirAll(projectPath, 0755)
+	if err := os.MkdirAll(projectPath, 0755); err != nil {
+		t.Fatal(err)
+	}
 
 	// Start draft
 	_, err := Start(projectPath, types.SpecTypeUXD)
@@ -150,7 +156,9 @@ func TestDiscard(t *testing.T) {
 func TestDiscardNotFound(t *testing.T) {
 	tmpDir := t.TempDir()
 	projectPath := filepath.Join(tmpDir, "test-project")
-	os.MkdirAll(projectPath, 0755)
+	if err := os.MkdirAll(projectPath, 0755); err != nil {
+		t.Fatal(err)
+	}
 
 	err := Discard(projectPath, types.SpecTypeMRD)
 	if err != ErrDraftNotFound {
@@ -161,7 +169,9 @@ func TestDiscardNotFound(t *testing.T) {
 func TestFinalize(t *testing.T) {
 	tmpDir := t.TempDir()
 	projectPath := filepath.Join(tmpDir, "test-project")
-	os.MkdirAll(projectPath, 0755)
+	if err := os.MkdirAll(projectPath, 0755); err != nil {
+		t.Fatal(err)
+	}
 
 	// Start and update draft
 	_, err := Start(projectPath, types.SpecTypeMRD)
@@ -201,7 +211,9 @@ func TestFinalize(t *testing.T) {
 func TestAddEvalResult(t *testing.T) {
 	tmpDir := t.TempDir()
 	projectPath := filepath.Join(tmpDir, "test-project")
-	os.MkdirAll(projectPath, 0755)
+	if err := os.MkdirAll(projectPath, 0755); err != nil {
+		t.Fatal(err)
+	}
 
 	// Start draft
 	_, err := Start(projectPath, types.SpecTypePRD)
@@ -240,7 +252,9 @@ func TestAddEvalResult(t *testing.T) {
 func TestListDrafts(t *testing.T) {
 	tmpDir := t.TempDir()
 	projectPath := filepath.Join(tmpDir, "test-project")
-	os.MkdirAll(projectPath, 0755)
+	if err := os.MkdirAll(projectPath, 0755); err != nil {
+		t.Fatal(err)
+	}
 
 	// Start multiple drafts
 	_, err := Start(projectPath, types.SpecTypeMRD)
