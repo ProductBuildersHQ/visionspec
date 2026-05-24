@@ -17,7 +17,7 @@ MultiSpec bridges the gap between organizational intent (MRD, PRD, UXD) and exec
 
 ```
 HUMAN-AUTHORED (Source)
-  MRD.md → PRD.md → UXD.md
+  mrd.md → prd.md → uxd.md
            ↓
 LLM-GENERATED (GTM) ← Working Backwards
   press.md → faq.md → narrative.md
@@ -39,10 +39,13 @@ POST-SHIP ALIGNMENT
 
 ```bash
 # Install
-go install github.com/plexusone/multispec/cmd/multispec@v0.2.0
+go install github.com/plexusone/multispec/cmd/multispec@v0.3.0
 
 # Initialize a new project
 multispec init user-onboarding
+
+# Initialize with a profile (startup, growth, enterprise)
+multispec init my-feature --profile startup
 
 # Validate project structure
 multispec lint
@@ -77,11 +80,30 @@ Status reports can be generated in multiple formats for different use cases:
 
 MultiSpec includes an MCP (Model Context Protocol) server for integration with AI coding assistants like Claude Code and Kiro CLI.
 
+## Configuration Profiles
+
+Profiles define which specs are required for different product lifecycle stages:
+
+| Profile | Required Specs | Use Case |
+|---------|---------------|----------|
+| `0-1` | hypothesis | Idea validation phase |
+| `startup` | prd | Pre-PMF startups |
+| `growth` | prd, uxd, faq | 1-N scaling phase |
+| `enterprise` | mrd, prd, uxd, trd, press, faq, spec | Post-PMF enterprises |
+
+```bash
+# List available profiles
+multispec profiles list
+
+# Initialize with a profile
+multispec init my-project --profile startup
+```
+
 ## Project Status
 
-See the [ROADMAP](specs/ROADMAP.md) for detailed implementation status and [Release Notes](releases/v0.1.0.md) for the latest release.
+See the [ROADMAP](specs/ROADMAP.md) for detailed implementation status and [Release Notes](releases/v0.3.0.md) for the latest release.
 
-**Current Version:** v0.2.0
+**Current Version:** v0.3.0
 
 | Component | Status |
 |-----------|--------|
@@ -92,3 +114,4 @@ See the [ROADMAP](specs/ROADMAP.md) for detailed implementation status and [Rele
 | Reconciliation | Complete |
 | Export (SpecKit) | Complete |
 | Graphize Integration | Complete |
+| Profiles & Composability | Complete |

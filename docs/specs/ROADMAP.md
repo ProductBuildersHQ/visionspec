@@ -706,10 +706,14 @@ Future enhancements.
 | Dependency | Purpose |
 |------------|---------|
 | `github.com/plexusone/structured-evaluation` | Rubric and evaluation types |
+| `github.com/plexusone/omnillm-core` | LLM provider abstraction |
 | `github.com/plexusone/graphize` | Requirement graph extraction and visualization |
+| `github.com/modelcontextprotocol/go-sdk` | MCP server implementation |
 | `github.com/spf13/cobra` | CLI framework |
 | `github.com/spf13/viper` | Configuration |
 | `github.com/fsnotify/fsnotify` | File watching |
+| `gopkg.in/yaml.v3` | YAML parsing for profiles and rubrics |
+| `github.com/gorilla/websocket` | Real-time collaboration (future) |
 
 ---
 
@@ -731,13 +735,18 @@ Future enhancements.
 |---------|-------|------------------|
 | v0.1.0 | 0-1 | CLI skeleton, directory structure, templates |
 | v0.2.0 | 2, 7 | Evaluation engine, rubrics, graphize integration |
-| v0.3.0 | 9 | Composability (custom templates, rubrics, CLI as library) |
+| v0.3.0 | 9 | Composability (custom templates, rubrics, profiles, CLI as library) |
 | v0.4.0 | 3 | GTM synthesis (press, faq, narrative), TRD/IRD synthesis |
 | v0.5.0 | 4 | Reconciliation engine, spec.md generation |
 | v0.6.0 | 5a | SpecKit adapter |
 | v0.7.0 | 5b | GSD adapter |
 | v0.8.0 | 5c | GasTown/GasCity adapters |
-| v0.9.0 | 6 | Claude Code skill |
+| v0.9.0 | 6 | Claude Code skills, Kiro integration |
+| v0.10.0 | 10a | Testing, profile CLI enhancements, MCP resources |
+| v0.11.0 | 10b | Export targets (Linear, Jira, Notion, Confluence) |
+| v0.12.0 | 10c | Spec versioning, cross-project analysis |
+| v0.13.0 | 10d | Real-time collaboration |
+| v0.14.0 | 10e | CI/CD integration (GitHub Actions, pre-commit) |
 | v1.0.0 | 8 | Production release with full feature set |
 
 ---
@@ -748,43 +757,43 @@ Enable organizations (companies, open source projects, non-profits) to compose c
 
 ### CLI as Library
 
-- [ ] RMI-200: Move CLI commands from `internal/cli` to `pkg/cli`
+- [x] RMI-200: Move CLI commands from `internal/cli` to `pkg/cli`
   - Create `pkg/cli/cli.go` with composition API
   - `AddCommandsTo(root *cobra.Command, cfg *Config)`
   - `Commands(cfg *Config)` for selective command access
   - `DefaultConfig()` for multispec defaults
 
-- [ ] RMI-201: Update `cmd/multispec/main.go` to use `pkg/cli`
-  - Remove `internal/cli` package
+- [x] RMI-201: Update `cmd/multispec/main.go` to use `pkg/cli`
+  - `internal/cli/root.go` now uses `pkg/cli.AddCommandsTo()`
 
 ### Custom Templates
 
-- [ ] RMI-210: Create template Loader interface (`pkg/templates/loader.go`)
+- [x] RMI-210: Create template Loader interface (`pkg/templates/loader.go`)
   - `Loader` interface with `Load()` and `Available()`
   - `EmbeddedLoader()` - wraps current embedded templates
   - `NewFileLoader(dir)` - loads from directory
   - `NewChainLoader(loaders...)` - tries loaders in order
 
-- [ ] RMI-211: Support custom spec types from templates
+- [x] RMI-211: Support custom spec types from templates
   - Allow non-standard spec types (e.g., `security.md`, `compliance.md`)
   - Register custom types with category
 
 ### Custom Rubrics
 
-- [ ] RMI-220: Create rubric Loader interface (`pkg/rubrics/loader.go`)
+- [x] RMI-220: Create rubric Loader interface (`pkg/rubrics/loader.go`)
   - `Loader` interface with `Load()` and `Available()`
   - `EmbeddedLoader()` - wraps current Go-defined rubrics
   - `NewFileLoader(dir)` - loads YAML rubrics
   - `NewChainLoader(loaders...)`
 
-- [ ] RMI-221: Define rubric YAML schema (`pkg/rubrics/yaml.go`)
+- [x] RMI-221: Define rubric YAML schema (`pkg/rubrics/yaml.go`)
   - `RubricYAML` struct for parsing
   - Validation and conversion to `RubricSet`
   - Compatible with structured-evaluation
 
 ### Configurable Spec Requirements
 
-- [ ] RMI-230: Add `SpecConfig` types (`pkg/types/spec_config.go`)
+- [x] RMI-230: Add `SpecConfig` types (`pkg/types/spec_config.go`)
   - `SpecRequirement` struct (required, category, template, rubric)
   - `SpecConfig` with helper methods
   - `IsRequired()` with fallback to defaults
@@ -798,7 +807,7 @@ Enable organizations (companies, open source projects, non-profits) to compose c
 
 ### Documentation & Examples
 
-- [ ] RMI-240: Create example org CLI (`examples/org-cli/`)
+- [x] RMI-240: Create example org CLI (`examples/org-cli/`)
   - Sample CLI importing multispec as library
   - Custom templates and rubrics
   - Custom spec types
@@ -807,3 +816,193 @@ Enable organizations (companies, open source projects, non-profits) to compose c
   - Integration guide
   - Configuration reference
   - Template and rubric customization
+
+### Configuration Profiles
+
+- [x] RMI-250: Create profile system (`pkg/profiles/`)
+  - `Profile` type with Name, Description, Extends, SpecConfig
+  - `ProfileLoader` interface with `Load()` and `Available()`
+  - `EmbedFSLoader` - loads from embedded filesystem
+  - `FileLoader` - loads from directory
+  - `ChainLoader` - tries loaders in order
+  - `ResolvingLoader` - resolves profile inheritance
+
+- [x] RMI-251: Create default profiles
+  - `0-1` - Minimal profile with hypothesis document only
+  - `startup` - PRD only for pre-PMF startups
+  - `growth` - PRD + UXD + FAQ for 1-N scaling (extends startup)
+  - `enterprise` - Full spec suite with security/compliance
+
+- [x] RMI-252: Add profile CLI commands
+  - `profiles list` - List available profiles
+  - `profiles show <name>` - Show profile details
+  - `--profile` flag on init command
+
+- [x] RMI-253: Update example CLIs to use profiles
+  - `examples/0-1-product/` - Uses "0-1" profile
+  - `examples/pre-pmf-startup/` - Uses "startup" profile
+  - `examples/1-n-growth/` - Uses "growth" profile
+  - `examples/post-pmf-enterprise/` - Uses "enterprise" profile
+
+- [ ] RMI-254: Add profile tests (`pkg/profiles/*_test.go`)
+  - Test profile loading and inheritance
+  - Test profile merging
+  - Test template/rubric loader creation
+
+---
+
+## Phase 10: Platform Enhancements
+
+Future enhancements for testing, integrations, and developer experience.
+
+### Testing & Quality
+
+- [ ] RMI-300: Add comprehensive profile tests
+  - Unit tests for `pkg/profiles/`
+  - Profile inheritance testing
+  - Loader chain testing
+
+- [ ] RMI-301: Add MCP integration tests
+  - Test all 17 MCP tools
+  - Mock LLM responses for eval testing
+  - Draft workflow end-to-end tests
+
+- [ ] RMI-302: Add end-to-end authoring workflow tests
+  - start_draft → update_draft → eval_draft → finalize_draft
+  - Test with real project structure
+  - Verify file system operations
+
+### Profile CLI Enhancements
+
+- [ ] RMI-310: Implement `profiles create <name>` command
+  - Interactive profile creation wizard
+  - Select base profile to extend
+  - Choose required spec types
+  - Generate profile.yaml
+
+- [ ] RMI-311: Implement `profiles extend <base> <name>` command
+  - Create profile extending another
+  - Override specific settings
+  - Custom templates/rubrics directory
+
+- [ ] RMI-312: Implement profile validation
+  - `profiles validate <path>` command
+  - Check profile.yaml schema
+  - Verify referenced templates/rubrics exist
+
+### MCP Resources
+
+- [ ] RMI-320: Expose templates as MCP resources
+  - `templates://` URI scheme
+  - List available templates
+  - Read template content
+
+- [ ] RMI-321: Expose rubrics as MCP resources
+  - `rubrics://` URI scheme
+  - List available rubrics
+  - Read rubric definitions
+
+- [ ] RMI-322: Expose profiles as MCP resources
+  - `profiles://` URI scheme
+  - List available profiles
+  - Read profile configuration
+
+### Export Target Integrations
+
+- [ ] RMI-330: Implement Linear adapter
+  - Export requirements as Linear issues
+  - Create projects from specs
+  - Sync status updates
+
+- [ ] RMI-331: Implement Jira adapter
+  - Export requirements as Jira epics/stories
+  - Map priorities and labels
+  - Create project boards
+
+- [ ] RMI-332: Implement Notion adapter
+  - Export specs to Notion pages
+  - Create linked databases
+  - Sync bidirectionally (optional)
+
+- [ ] RMI-333: Implement Confluence adapter
+  - Export specs to Confluence pages
+  - Create space structure
+  - Link requirements to pages
+
+### Spec Versioning
+
+- [ ] RMI-340: Implement spec version tracking
+  - Track spec versions with git-like history
+  - Store version metadata in multispec.yaml
+  - Immutable version snapshots
+
+- [ ] RMI-341: Implement `multispec diff <spec> [version]`
+  - Compare current spec with previous version
+  - Show changes by section
+  - Highlight requirement changes
+
+- [ ] RMI-342: Implement `multispec history <spec>`
+  - Show version history for spec
+  - Display change summaries
+  - Link to full diffs
+
+- [ ] RMI-343: Implement `multispec revert <spec> <version>`
+  - Restore spec to previous version
+  - Create new version for revert
+  - Preserve audit trail
+
+### Cross-Project Analysis
+
+- [ ] RMI-350: Implement `multispec search <query>`
+  - Full-text search across all projects
+  - Filter by spec type, project, date
+  - Return ranked results
+
+- [ ] RMI-351: Implement requirements reuse tracking
+  - Detect similar requirements across projects
+  - Suggest reuse opportunities
+  - Track requirement lineage
+
+- [ ] RMI-352: Implement pattern detection
+  - Identify common patterns across specs
+  - Suggest templates from patterns
+  - Generate pattern reports
+
+### Real-time Collaboration
+
+- [ ] RMI-360: Implement WebSocket server
+  - Real-time spec editing
+  - Multiple concurrent editors
+  - Operational transformation
+
+- [ ] RMI-361: Implement presence indicators
+  - Show who is editing which spec
+  - Cursor positions
+  - Edit activity feed
+
+- [ ] RMI-362: Implement conflict resolution
+  - Detect concurrent edits
+  - Merge non-conflicting changes
+  - Prompt for conflict resolution
+
+### CI/CD Integration
+
+- [ ] RMI-370: Create GitHub Actions workflows
+  - `multispec-lint.yml` - Validate on PR
+  - `multispec-eval.yml` - Evaluate changed specs
+  - `multispec-status.yml` - Post status comment
+
+- [ ] RMI-371: Create pre-commit hooks
+  - `pre-commit-lint` - Run lint before commit
+  - `pre-commit-format` - Format specs
+  - Integration with pre-commit framework
+
+- [ ] RMI-372: Implement PR comment integration
+  - Post eval results as PR comments
+  - Show status badge in PR
+  - Link to detailed report
+
+- [ ] RMI-373: Create GitLab CI templates
+  - `.gitlab-ci.yml` templates
+  - Parallel evaluation jobs
+  - Artifact publishing

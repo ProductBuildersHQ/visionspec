@@ -44,7 +44,7 @@ MultiSpec bridges the gap between organizational intent (MRD, PRD, UXD) and exec
 ## Installation
 
 ```bash
-go install github.com/plexusone/multispec/cmd/multispec@v0.2.0
+go install github.com/plexusone/multispec/cmd/multispec@v0.3.0
 ```
 
 ## Quick Start
@@ -128,6 +128,7 @@ POST-SHIP ALIGNMENT
 | `approve <type>` | Approve a spec for reconciliation | Implemented |
 | `export <target>` | Export to target execution system | Implemented (SpecKit) |
 | `graph <cmd>` | Manage requirement graphs (extract, export, query) | Implemented |
+| `profiles <cmd>` | Manage configuration profiles (list, show) | Implemented |
 | `serve` | Start MCP server for AI integration | Implemented |
 
 ## Status Command
@@ -199,6 +200,54 @@ multispec-mcp
 | `gascity` | GasCity city.toml configuration |
 | `openspec` | OpenSpec portable format (future) |
 
+## Configuration Profiles
+
+Profiles define which specs are required for different product lifecycle stages:
+
+```bash
+# List available profiles
+multispec profiles list
+
+# Show profile details
+multispec profiles show startup
+
+# Initialize with a profile
+multispec init my-project --profile startup
+```
+
+| Profile | Required Specs | Use Case |
+|---------|---------------|----------|
+| `0-1` | hypothesis | Idea validation phase |
+| `startup` | prd | Pre-PMF startups |
+| `growth` | prd, uxd, faq | 1-N scaling phase |
+| `enterprise` | mrd, prd, uxd, trd, press, faq, spec | Post-PMF enterprises |
+
+## CLI as Library
+
+Organizations can build custom CLI tools using multispec as a library:
+
+```go
+import (
+    "github.com/plexusone/multispec/pkg/cli"
+    "github.com/plexusone/multispec/pkg/profiles"
+)
+
+func main() {
+    root := &cobra.Command{Use: "org-spec"}
+
+    // Load a profile
+    profile, _ := profiles.DefaultLoader().Load("enterprise")
+    cfg := cli.ConfigFromProfile(profile)
+
+    // Add multispec commands
+    cli.AddCommandsTo(root, cfg)
+
+    root.Execute()
+}
+```
+
+See `examples/` for complete organization CLI examples.
+
 ## Dependencies
 
 - [structured-evaluation](https://github.com/plexusone/structured-evaluation) - Rubric and evaluation types
@@ -224,7 +273,7 @@ make install
 
 See [ROADMAP.md](docs/specs/ROADMAP.md) for detailed implementation status and [CHANGELOG.md](CHANGELOG.md) for release history.
 
-**Current Version:** v0.2.0
+**Current Version:** v0.3.0
 
 | Phase | Status |
 |-------|--------|
@@ -237,6 +286,8 @@ See [ROADMAP.md](docs/specs/ROADMAP.md) for detailed implementation status and [
 | Phase 6: Claude Code Integration | Complete |
 | Phase 7: Graphize Integration | Complete |
 | Phase 8: Advanced Features | Not Started |
+| Phase 9: Composability | Complete |
+| Phase 10: Platform Enhancements | Not Started |
 
 ## License
 

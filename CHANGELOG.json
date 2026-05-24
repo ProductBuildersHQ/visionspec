@@ -7,6 +7,36 @@
   "maintainers": ["johncwang@gmail.com"],
   "releases": [
     {
+      "version": "v0.3.0",
+      "date": "2026-05-24",
+      "highlights": [
+        { "description": "CLI composability - use multispec as a library to build custom organization CLIs" },
+        { "description": "Configuration profiles for different product lifecycle stages (0-1, startup, growth, enterprise)" },
+        { "description": "Custom templates and rubrics with Loader interfaces and YAML support" }
+      ],
+      "added": [
+        { "description": "CLI as library (`pkg/cli`) with `AddCommandsTo()` and `Commands()` APIs" },
+        { "description": "Template Loader interface with EmbeddedLoader, FileLoader, EmbedFSLoader, ChainLoader" },
+        { "description": "Rubric Loader interface with YAML format support for custom rubrics" },
+        { "description": "SpecConfig types for configurable spec requirements per organization" },
+        { "description": "Profile system (`pkg/profiles`) with inheritance via `extends` field" },
+        { "description": "Default profiles: 0-1 (hypothesis), startup (PRD), growth (PRD+UXD+FAQ), enterprise (full suite)" },
+        { "description": "Profile CLI commands: `profiles list`, `profiles show <name>`" },
+        { "description": "`--profile` flag on `init` command for profile-based project initialization" },
+        { "description": "Example organization CLIs in `examples/` directory" }
+      ],
+      "changed": [
+        { "description": "Moved CLI commands from `internal/cli` to `pkg/cli` for library use" },
+        { "description": "Linter now accepts SpecConfig for organization-specific spec requirements" },
+        { "description": "Status command uses SpecConfig for determining required specs" }
+      ],
+      "documentation": [
+        { "description": "Phase 9 Composability added to ROADMAP.md" },
+        { "description": "Phase 10 Platform Enhancements roadmap with future features" },
+        { "description": "Example CLIs demonstrating profile-based organization tools" }
+      ]
+    },
+    {
       "version": "v0.2.0",
       "date": "2026-05-24",
       "highlights": [
