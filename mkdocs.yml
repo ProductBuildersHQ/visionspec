@@ -8,19 +8,19 @@ theme:
   name: material
   custom_dir: docs/overrides
   palette:
-    # Dark mode first (PlexusOne default)
-    - scheme: slate
-      primary: custom
-      accent: custom
-      toggle:
-        icon: material/brightness-4
-        name: Switch to light mode
+    # Light mode first (ProductBuildersHQ default)
     - scheme: default
       primary: custom
       accent: custom
       toggle:
         icon: material/brightness-7
         name: Switch to dark mode
+    - scheme: slate
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
   features:
     - navigation.sections
     - navigation.expand
@@ -28,8 +28,13 @@ theme:
     - search.highlight
     - content.code.copy
 
+# ProductBuildersHQ Theme Assets (served from main site)
 extra_css:
-  - https://plexusone.dev/css/plexusone-mkdocs.css
+  - https://productbuildershq.com/css/productbuildershq-mkdocs.css
+
+extra_javascript:
+  - https://productbuildershq.com/js/site-nav.min.js
+  - https://productbuildershq.com/js/pbhq-nav.js
 
 markdown_extensions:
   - pymdownx.highlight:
