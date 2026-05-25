@@ -8,12 +8,13 @@
   "releases": [
     {
       "version": "v0.4.0",
-      "date": "2026-05-24",
-      "commit": "a5ae565",
+      "date": "2026-05-25",
+      "commit": "1ae5043",
       "highlights": [
         { "description": "Context Sources for grounding spec synthesis in actual codebase data" },
-        { "description": "Git repository analysis with structure, dependencies, and API schema detection" },
-        { "description": "MCP client integration for external context from Jira, Confluence, and other tools" }
+        { "description": "Reconciliation Engine with conflict detection and resolution" },
+        { "description": "Target Adapters: GSD, GasTown, GasCity, SpecKit constitution sync" },
+        { "description": "MkDocs documentation generation with graph metrics" }
       ],
       "added": [
         { "description": "Context aggregation framework (`pkg/context`) with concurrent source fetching and caching", "commit": "ff58b0e" },
@@ -25,11 +26,39 @@
         { "description": "Context CLI commands: `context gather`, `context show`, `context save`, `context sources`", "commit": "d1c2188" },
         { "description": "Context configuration in `multispec.yaml` with repositories, graphize, files, and mcp_servers sections", "commit": "ff58b0e" },
         { "description": "Context snapshot save/load for CI reproducibility", "commit": "ff58b0e" },
-        { "description": "Integration with `synthesize` command for TRD and IRD grounding", "commit": "a98b73d" }
+        { "description": "Integration with `synthesize` command for TRD and IRD grounding", "commit": "a98b73d" },
+        { "description": "Conflict detection algorithm with pattern matching for cross-spec analysis", "commit": "63dfa86" },
+        { "description": "Conflict integration with reconciliation process and decision logging", "commit": "0e7e9bd" },
+        { "description": "GSD target adapter with PLAN.md, STATE.md, and config.json export", "commit": "0ad48e3" },
+        { "description": "GasTown target adapter with formula.toml and bead definitions", "commit": "ceeeeb0" },
+        { "description": "GasCity target adapter with city.toml for multi-agent orchestration", "commit": "ef3a56a" },
+        { "description": "SpecKit constitution sync to `.specify/memory/constitution.md`", "commit": "d0cf167" },
+        { "description": "CONSTITUTION.md multi-location support (repo-level and org-level)", "commit": "cd402fb" },
+        { "description": "`create` command for scaffolding specs from templates", "commit": "45e0934" },
+        { "description": "MkDocs documentation generation package (`pkg/mkdocs`)", "commit": "5ed7639" },
+        { "description": "`docs` command with `generate` and `project` subcommands", "commit": "d2cbd0b" },
+        { "description": "RubricsConfig for custom rubric configuration in projects", "commit": "d3f39b5" },
+        { "description": "GraphMetrics in status reports with traceability statistics", "commit": "f29d6b0" },
+        { "description": "ComputeMetrics function for spec graph analysis", "commit": "c7f5372" },
+        { "description": "`profiles export` command to extract profiles for customization" }
+      ],
+      "changed": [
+        { "description": "Reconcile command outputs spec.eval.json with conflict details and decision log", "commit": "20b8086" },
+        { "description": "CLI commands use config.LoadConstitution for automatic discovery", "commit": "7fc835f" }
+      ],
+      "fixed": [
+        { "description": "Lint errors in context/mcp package (unused error returns)", "commit": "c6f828e" },
+        { "description": "Lint errors in context/git package (unused parameters, ignored errors)", "commit": "ffaa15c" }
       ],
       "documentation": [
-        { "description": "Context sources user guide (`docs/context-sources.md`) with configuration examples", "commit": "a5ae565" },
-        { "description": "Phase 11 Context Sources completed in ROADMAP.md", "commit": "a5ae565" }
+        { "description": "Context sources user guide (`docs/context-sources.md`) with configuration examples", "commit": "91e0028" },
+        { "description": "Custom profiles guide (`docs/guides/custom-profiles.md`) with template and rubric creation" },
+        { "description": "CLI profiles reference (`docs/cli/profiles.md`) with export command documentation" },
+        { "description": "Updated CLI index and concepts documentation" },
+        { "description": "Phase 4 Reconciliation Engine completed in ROADMAP.md", "commit": "e1155ba" },
+        { "description": "Phase 5 Target Adapters completed in ROADMAP.md", "commit": "d1e7b66" },
+        { "description": "Phase 11 Context Sources completed in ROADMAP.md", "commit": "91e0028" },
+        { "description": "Phase 12 Platform Enhancements progress in ROADMAP.md", "commit": "1ae5043" }
       ],
       "dependencies": [
         { "description": "Add doublestar v4 for glob pattern matching", "commit": "ff58b0e" }
