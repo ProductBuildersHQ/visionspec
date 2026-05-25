@@ -54,13 +54,18 @@ nav:
       - init: cli/init.md
       - lint: cli/lint.md
       - status: cli/status.md
+      - profiles: cli/profiles.md
       - graph: cli/graph.md
+  - Guides:
+      - Overview: guides/index.md
+      - Custom Profiles: guides/custom-profiles.md
   - MCP Server:
       - Overview: mcp/index.md
       - Tools: mcp/tools.md
   - Specifications:
       - ROADMAP: specs/ROADMAP.md
   - Releases:
+      - v0.4.0: releases/v0.4.0.md
       - v0.3.0: releases/v0.3.0.md
       - v0.2.0: releases/v0.2.0.md
       - v0.1.0: releases/v0.1.0.md

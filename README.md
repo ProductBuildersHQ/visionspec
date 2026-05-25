@@ -44,7 +44,7 @@ MultiSpec bridges the gap between organizational intent (MRD, PRD, UXD) and exec
 ## Installation
 
 ```bash
-go install github.com/plexusone/multispec/cmd/multispec@v0.3.0
+go install github.com/plexusone/multispec/cmd/multispec@v0.4.0
 ```
 
 ## Quick Start
@@ -121,14 +121,17 @@ POST-SHIP ALIGNMENT
 | `init <project>` | Initialize a new project with standard directory structure | Implemented |
 | `lint [project]` | Validate directory structure and naming conventions | Implemented |
 | `status` | Show project status and readiness gates | Implemented |
+| `create <type>` | Scaffold a new spec from template | Implemented |
 | `targets` | List available export targets | Implemented |
 | `eval [type]` | Evaluate specs using LLM judges | Implemented |
 | `synthesize <type>` | Generate specs from source docs | Implemented |
-| `reconcile` | Generate unified execution spec | Implemented |
+| `reconcile` | Generate unified execution spec with conflict detection | Implemented |
 | `approve <type>` | Approve a spec for reconciliation | Implemented |
-| `export <target>` | Export to target execution system | Implemented (SpecKit) |
+| `export <target>` | Export to target execution system | Implemented |
 | `graph <cmd>` | Manage requirement graphs (extract, export, query) | Implemented |
-| `profiles <cmd>` | Manage configuration profiles (list, show) | Implemented |
+| `profiles <cmd>` | Manage configuration profiles (list, show, export) | Implemented |
+| `docs <cmd>` | Generate MkDocs documentation (generate, project) | Implemented |
+| `context <cmd>` | Manage context sources (gather, show, save, sources) | Implemented |
 | `serve` | Start MCP server for AI integration | Implemented |
 
 ## Status Command
@@ -211,8 +214,14 @@ multispec profiles list
 # Show profile details
 multispec profiles show startup
 
+# Export profile for customization
+multispec profiles export enterprise ./my-profile
+
 # Initialize with a profile
 multispec init my-project --profile startup
+
+# Initialize with custom profile directory
+multispec init my-project --profile-dir ./my-profile
 ```
 
 | Profile | Required Specs | Use Case |
@@ -273,7 +282,7 @@ make install
 
 See [ROADMAP.md](docs/specs/ROADMAP.md) for detailed implementation status and [CHANGELOG.md](CHANGELOG.md) for release history.
 
-**Current Version:** v0.3.0
+**Current Version:** v0.4.0
 
 | Phase | Status |
 |-------|--------|
@@ -282,12 +291,14 @@ See [ROADMAP.md](docs/specs/ROADMAP.md) for detailed implementation status and [
 | Phase 2: Evaluation Engine | Complete |
 | Phase 3: GTM & Technical Synthesis | Complete |
 | Phase 4: Reconciliation Engine | Complete |
-| Phase 5: Target Adapters | Partial (SpecKit) |
+| Phase 5: Target Adapters | Complete |
 | Phase 6: Claude Code Integration | Complete |
 | Phase 7: Graphize Integration | Complete |
 | Phase 8: Advanced Features | Not Started |
 | Phase 9: Composability | Complete |
 | Phase 10: Platform Enhancements | Not Started |
+| Phase 11: Context Sources | Complete |
+| Phase 12: Platform Enhancements | In Progress |
 
 ## License
 

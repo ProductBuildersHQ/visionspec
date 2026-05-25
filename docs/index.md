@@ -39,7 +39,7 @@ POST-SHIP ALIGNMENT
 
 ```bash
 # Install
-go install github.com/plexusone/multispec/cmd/multispec@v0.3.0
+go install github.com/plexusone/multispec/cmd/multispec@v0.4.0
 
 # Initialize a new project
 multispec init user-onboarding
@@ -109,9 +109,9 @@ Organizations can create custom profiles with their own templates and rubrics. S
 
 ## Project Status
 
-See the [ROADMAP](specs/ROADMAP.md) for detailed implementation status and [Release Notes](releases/v0.3.0.md) for the latest release.
+See the [ROADMAP](specs/ROADMAP.md) for detailed implementation status and [Release Notes](releases/v0.4.0.md) for the latest release.
 
-**Current Version:** v0.3.0
+**Current Version:** v0.4.0
 
 | Component | Status |
 |-----------|--------|
