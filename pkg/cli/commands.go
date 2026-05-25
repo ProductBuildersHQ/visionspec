@@ -21,6 +21,7 @@ import (
 	"github.com/plexusone/multispec/pkg/mkdocs"
 	"github.com/plexusone/multispec/pkg/profiles"
 	"github.com/plexusone/multispec/pkg/reconcile"
+	"github.com/plexusone/multispec/pkg/rubrics"
 	"github.com/plexusone/multispec/pkg/specgraph"
 	"github.com/plexusone/multispec/pkg/status"
 	"github.com/plexusone/multispec/pkg/synth"
@@ -1469,11 +1470,13 @@ Default profiles:
 Usage:
   multispec profiles list              # List available profiles
   multispec profiles show startup      # Show profile details
+  multispec profiles export startup ./my-profile  # Export for customization
   multispec init my-project --profile startup`,
 	}
 
 	cmd.AddCommand(profilesListCmd(cfg))
 	cmd.AddCommand(profilesShowCmd(cfg))
+	cmd.AddCommand(profilesExportCmd(cfg))
 
 	return cmd
 }
@@ -1588,6 +1591,107 @@ func profilesShowCmd(cfg *Config) *cobra.Command {
 			} else {
 				fmt.Println("  (uses defaults)")
 			}
+
+			return nil
+		},
+	}
+}
+
+func profilesExportCmd(cfg *Config) *cobra.Command {
+	return &cobra.Command{
+		Use:   "export <profile-name> <output-dir>",
+		Short: "Export a profile to a directory for customization",
+		Long: `Export a built-in profile to a directory so you can customize it.
+
+This creates a complete profile directory with:
+  - profile.yaml     Configuration file
+  - templates/       Template files (.md)
+  - rubrics/         Rubric files (.rubric.yaml)
+
+You can then modify these files and use them as a custom profile.
+
+Examples:
+  # Export enterprise profile to customize
+  multispec profiles export enterprise ./my-profile
+
+  # Use the exported profile
+  multispec init my-project --profile-dir ./my-profile`,
+		Args: cobra.ExactArgs(2),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			profileName := args[0]
+			outputDir := args[1]
+
+			loader := cfg.ProfileLoader
+			if loader == nil {
+				loader = profiles.DefaultLoader()
+			}
+
+			// Verify profile exists
+			profile, err := loader.Load(profileName)
+			if err != nil {
+				return fmt.Errorf("profile %q not found: %w", profileName, err)
+			}
+
+			// Create output directory
+			if err := os.MkdirAll(outputDir, 0755); err != nil {
+				return fmt.Errorf("creating output directory: %w", err)
+			}
+
+			// Export profile.yaml
+			profileYAML := profiles.ProfileToYAML(profile)
+			profilePath := filepath.Join(outputDir, "profile.yaml")
+			if err := profiles.WriteProfileYAML(profilePath, profileYAML); err != nil {
+				return fmt.Errorf("writing profile.yaml: %w", err)
+			}
+			fmt.Printf("Created %s\n", profilePath)
+
+			// Export templates
+			if profile.TemplateLoader != nil {
+				templatesDir := filepath.Join(outputDir, "templates")
+				if err := os.MkdirAll(templatesDir, 0755); err != nil {
+					return fmt.Errorf("creating templates directory: %w", err)
+				}
+
+				for _, specType := range profile.TemplateLoader.Available() {
+					tmpl, err := profile.TemplateLoader.Load(specType)
+					if err != nil {
+						continue
+					}
+					filename := string(specType) + ".md"
+					path := filepath.Join(templatesDir, filename)
+					if err := os.WriteFile(path, []byte(tmpl.Content), 0644); err != nil {
+						return fmt.Errorf("writing template %s: %w", filename, err)
+					}
+					fmt.Printf("Created %s\n", path)
+				}
+			}
+
+			// Export rubrics
+			if profile.RubricLoader != nil {
+				rubricsDir := filepath.Join(outputDir, "rubrics")
+				if err := os.MkdirAll(rubricsDir, 0755); err != nil {
+					return fmt.Errorf("creating rubrics directory: %w", err)
+				}
+
+				for _, specType := range profile.RubricLoader.Available() {
+					rubric, err := profile.RubricLoader.Load(specType)
+					if err != nil {
+						continue
+					}
+					filename := string(specType) + ".rubric.yaml"
+					path := filepath.Join(rubricsDir, filename)
+					if err := rubrics.WriteRubricYAML(path, rubric); err != nil {
+						return fmt.Errorf("writing rubric %s: %w", filename, err)
+					}
+					fmt.Printf("Created %s\n", path)
+				}
+			}
+
+			fmt.Println()
+			fmt.Printf("Profile exported to %s\n", outputDir)
+			fmt.Println()
+			fmt.Println("To use this profile:")
+			fmt.Printf("  multispec init my-project --profile-dir %s\n", outputDir)
 
 			return nil
 		},

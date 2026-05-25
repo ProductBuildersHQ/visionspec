@@ -16,10 +16,12 @@ package profiles
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/plexusone/multispec/pkg/rubrics"
 	"github.com/plexusone/multispec/pkg/templates"
 	"github.com/plexusone/multispec/pkg/types"
+	"gopkg.in/yaml.v3"
 )
 
 // Profile represents a complete multispec configuration profile.
@@ -168,4 +170,33 @@ func (p *Profile) RequiredSpecs() []string {
 		return nil
 	}
 	return p.SpecConfig.RequiredSpecs()
+}
+
+// ProfileToYAML converts a Profile back to ProfileYAML for serialization.
+func ProfileToYAML(p *Profile) *ProfileYAML {
+	py := &ProfileYAML{
+		Name:        p.Name,
+		Description: p.Description,
+		Extends:     p.Extends,
+	}
+
+	if p.SpecConfig != nil && p.SpecConfig.Specs != nil {
+		py.SpecConfig = p.SpecConfig.Specs
+	}
+
+	return py
+}
+
+// WriteProfileYAML writes a ProfileYAML to a file.
+func WriteProfileYAML(path string, py *ProfileYAML) error {
+	data, err := yaml.Marshal(py)
+	if err != nil {
+		return fmt.Errorf("marshaling profile: %w", err)
+	}
+
+	if err := os.WriteFile(path, data, 0644); err != nil {
+		return fmt.Errorf("writing file: %w", err)
+	}
+
+	return nil
 }

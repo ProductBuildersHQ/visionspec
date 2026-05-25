@@ -2,8 +2,10 @@ package rubrics
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/plexusone/multispec/pkg/types"
+	"gopkg.in/yaml.v3"
 )
 
 // RubricYAML represents a rubric definition in YAML format.
@@ -122,4 +124,19 @@ func (rs *RubricSet) ToYAML() *RubricYAML {
 	}
 
 	return yaml
+}
+
+// WriteRubricYAML writes a RubricSet to a YAML file.
+func WriteRubricYAML(path string, rs *RubricSet) error {
+	yamlData := rs.ToYAML()
+	data, err := yaml.Marshal(yamlData)
+	if err != nil {
+		return fmt.Errorf("marshaling rubric: %w", err)
+	}
+
+	if err := os.WriteFile(path, data, 0644); err != nil {
+		return fmt.Errorf("writing file: %w", err)
+	}
+
+	return nil
 }
