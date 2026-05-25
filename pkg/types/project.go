@@ -34,6 +34,9 @@ type Project struct {
 	// Context configures context sources for grounding.
 	Context *ContextConfig `json:"context,omitempty" yaml:"context,omitempty"`
 
+	// Rubrics configures custom rubric loading.
+	Rubrics *RubricsConfig `json:"rubrics,omitempty" yaml:"rubrics,omitempty"`
+
 	// CreatedAt is when the project was initialized.
 	CreatedAt time.Time `json:"created_at" yaml:"created_at"`
 
@@ -158,6 +161,29 @@ type MCPServerContextConfig struct {
 	Env     map[string]string `json:"env,omitempty" yaml:"env,omitempty"`
 	Config  map[string]any    `json:"config,omitempty" yaml:"config,omitempty"`
 	Timeout time.Duration     `json:"timeout,omitempty" yaml:"timeout,omitempty"`
+}
+
+// RubricsConfig configures custom rubric loading for a project.
+type RubricsConfig struct {
+	// Directory is a path to a directory containing .rubric.yaml files.
+	// Rubrics are named: {spec-type}.rubric.yaml (e.g., prd.rubric.yaml).
+	Directory string `json:"directory,omitempty" yaml:"directory,omitempty"`
+
+	// Overrides maps spec types to specific rubric file paths.
+	// This allows using different rubric files for specific specs.
+	Overrides map[SpecType]string `json:"overrides,omitempty" yaml:"overrides,omitempty"`
+
+	// StrictMode requires all categories to pass (no partial scores).
+	StrictMode bool `json:"strict_mode,omitempty" yaml:"strict_mode,omitempty"`
+
+	// MaxCritical is the maximum number of critical findings allowed (default: 0).
+	MaxCritical int `json:"max_critical,omitempty" yaml:"max_critical,omitempty"`
+
+	// MaxHigh is the maximum number of high findings allowed (default: 0).
+	MaxHigh int `json:"max_high,omitempty" yaml:"max_high,omitempty"`
+
+	// MaxMedium is the maximum number of medium findings allowed (-1 = unlimited).
+	MaxMedium int `json:"max_medium,omitempty" yaml:"max_medium,omitempty"`
 }
 
 // ReadinessGate represents a readiness check for a project.
