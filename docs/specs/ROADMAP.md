@@ -435,34 +435,39 @@ Conflict detection and unified spec generation.
 
 ### Conflict Detection
 
-- [ ] RMI-040: Implement conflict detection algorithm
+- [x] RMI-040: Implement conflict detection algorithm
   - Cross-spec requirement conflicts
   - Constraint violations
   - Missing traceability
+  - `pkg/reconcile/conflicts.go` - ConflictDetector with pattern-based detection
 
-- [ ] RMI-041: Define conflict representation
-  - Conflict type (requirement, constraint, tradeoff)
+- [x] RMI-041: Define conflict representation
+  - Conflict type (requirement, constraint, tradeoff, missing)
   - Source specs involved
-  - Severity level
+  - Severity level (high, medium, low)
   - Suggested resolution
+  - Confidence score for detected conflicts
 
 ### spec.md Generation
 
-- [ ] RMI-042: Implement `multispec reconcile` command
+- [x] RMI-042: Implement `multispec reconcile` command
   - Input: All approved specs
   - Output: `spec.md` (unified execution spec)
-  - Output: `SPEC_EVAL.json` (reconciliation evaluation)
+  - Output: `spec.eval.json` (reconciliation evaluation)
+  - Pre-reconciliation conflict detection included in LLM prompt
 
-- [ ] RMI-043: Define spec.md structure
+- [x] RMI-043: Define spec.md structure
   - Resolved requirements
   - Consolidated constraints
   - Task decomposition
   - Dependency graph
   - Decision log (tradeoffs made)
+  - Traceability matrix
 
-- [ ] RMI-044: Support unresolved conflicts in SPEC_EVAL.json
+- [x] RMI-044: Support unresolved conflicts in spec.eval.json
   - Conflicts requiring human decision
-  - Escalation workflow
+  - Status: reconciled, reconciled_with_tradeoffs, needs_review
+  - Decision log with resolutions
 
 ---
 
