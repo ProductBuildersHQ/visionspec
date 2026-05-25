@@ -155,16 +155,20 @@ Establish conventions for spec organization and authoring.
 
 ### MkDocs Integration
 
-- [ ] RMI-016: Generate `{project}/index.md` for each project
+- [x] RMI-016: Generate `{project}/index.md` for each project
   - Spec overview with status badges
   - Links to all specs (source, gtm, technical)
   - Eval summary (pass/fail counts, open findings)
   - Last updated timestamps
+  - `pkg/mkdocs/mkdocs.go` - GenerateProjectIndex, WriteProjectIndex
+  - `multispec docs project` command
 
-- [ ] RMI-017: Generate `docs/specs/index.md` (specs landing page)
+- [x] RMI-017: Generate `docs/specs/index.md` (specs landing page)
   - List all projects with status
   - Link to CONSTITUTION.md and ROADMAP.md
   - Cross-project metrics
+  - `pkg/mkdocs/mkdocs.go` - GenerateSpecsLanding, WriteSpecsLanding
+  - `multispec docs generate` command
 
 - [ ] RMI-018: Generate MkDocs navigation structure
   - Auto-update `mkdocs.yml` nav section
@@ -198,11 +202,13 @@ Establish conventions for spec organization and authoring.
   - All required approvals obtained
   - spec.md generated
 
-- [ ] RMI-019d: Integrate graphize metrics in status report
+- [x] RMI-019d: Integrate graphize metrics in status report
   - Traceability coverage percentage
   - Requirements without TRD coverage
   - Conflict count
   - Link to graph visualization
+  - `pkg/status/status.go` - GraphMetrics struct, RenderText/RenderMarkdown
+  - `pkg/specgraph/specgraph.go` - ComputeMetrics function
 
 - [x] RMI-019e: CI exit codes for readiness
   - `multispec status --ci` exits non-zero if not ready
@@ -271,9 +277,11 @@ Integrate with `structured-evaluation` for per-spec evaluation.
   - `pkg/rubrics/narrative1p.go` - 1-pager narrative evaluation
   - `pkg/rubrics/narrative6p.go` - 6-pager narrative evaluation
 
-- [ ] RMI-022: Support custom rubrics in project config
+- [x] RMI-022: Support custom rubrics in project config
   - Override default rubrics per project
   - Rubric inheritance/extension
+  - `pkg/types/project.go` - RubricsConfig struct
+  - `pkg/rubrics/loader.go` - FileLoader, ChainLoader for custom rubrics
 
 ### Evaluation Commands
 
