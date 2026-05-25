@@ -503,8 +503,10 @@ Export reconciled specs to downstream execution systems.
   - Generate `specs/{seq}-{name}/tasks.md`
   - `pkg/target/speckit.go`
 
-- [ ] RMI-061: Support SpecKit constitution sync
+- [x] RMI-061: Support SpecKit constitution sync
   - Update `.specify/memory/constitution.md` from CONSTITUTION.md
+  - `pkg/target/speckit.go` - syncConstitution method
+  - `pkg/cli/commands.go` - pass constitution path to export config
 
 - [x] RMI-062: Support SpecKit branch conventions
   - Sequential (`001-feature`) or timestamp naming
