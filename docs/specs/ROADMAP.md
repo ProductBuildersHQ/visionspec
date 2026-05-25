@@ -764,17 +764,12 @@ Future enhancements.
 | v0.1.0 | 0-1 | CLI skeleton, directory structure, templates |
 | v0.2.0 | 2, 7 | Evaluation engine, rubrics, graphize integration |
 | v0.3.0 | 9 | Composability (custom templates, rubrics, profiles, CLI as library) |
-| v0.4.0 | 11 | Context Sources / Grounding (git repos, graphize, MCP servers) |
-| v0.5.0 | 4 | Reconciliation engine, spec.md generation |
-| v0.6.0 | 5a | SpecKit adapter |
-| v0.7.0 | 5b | GSD adapter |
-| v0.8.0 | 5c | GasTown/GasCity adapters |
-| v0.9.0 | 6 | Claude Code skills, Kiro integration |
-| v0.10.0 | 10a | Testing, profile CLI enhancements, MCP resources |
-| v0.11.0 | 10b | Export targets (Linear, Jira, Notion, Confluence) |
-| v0.12.0 | 10c | Spec versioning, cross-project analysis |
-| v0.13.0 | 10d | Real-time collaboration |
-| v0.14.0 | 10e | CI/CD integration (GitHub Actions, pre-commit) |
+| v0.4.0 | 4, 5, 11 | Reconciliation with conflicts, target adapters (GSD, GasTown, GasCity), Context Sources |
+| v0.5.0 | 10a | Testing, profile CLI enhancements, MCP resources |
+| v0.6.0 | 10b | Export targets (Linear, Jira, Notion, Confluence) |
+| v0.7.0 | 10c | Spec versioning, cross-project analysis |
+| v0.8.0 | 10d | Real-time collaboration |
+| v0.9.0 | 10e | CI/CD integration (GitHub Actions, pre-commit) |
 | v1.0.0 | 8 | Production release with full feature set |
 
 ---
@@ -840,9 +835,9 @@ Enable organizations (companies, open source projects, non-profits) to compose c
   - Custom templates and rubrics
   - Custom spec types
 
-- [ ] RMI-241: Add organization integration docs (`docs/organization/`)
-  - Integration guide
-  - Configuration reference
+- [x] RMI-241: Add custom profiles documentation (`docs/guides/`)
+  - Custom profiles guide (`docs/guides/custom-profiles.md`)
+  - CLI profiles reference (`docs/cli/profiles.md`)
   - Template and rubric customization
 
 ### Configuration Profiles
@@ -864,7 +859,9 @@ Enable organizations (companies, open source projects, non-profits) to compose c
 - [x] RMI-252: Add profile CLI commands
   - `profiles list` - List available profiles
   - `profiles show <name>` - Show profile details
+  - `profiles export <name> <dir>` - Export profile for customization
   - `--profile` flag on init command
+  - `--profile-dir` flag for custom profile directories
 
 - [x] RMI-253: Update example CLIs to use profiles
   - `examples/0-1-product/` - Uses "0-1" profile
