@@ -1,6 +1,8 @@
 package types
 
-import "time"
+import (
+	"time"
+)
 
 // Project represents a multispec project.
 type Project struct {
@@ -28,6 +30,9 @@ type Project struct {
 	// SpecRequirements configures which specs are required and their settings.
 	// This appears as "spec_config:" in multispec.yaml.
 	SpecRequirements map[string]*SpecRequirement `json:"spec_config,omitempty" yaml:"spec_config,omitempty"`
+
+	// Context configures context sources for grounding.
+	Context *ContextConfig `json:"context,omitempty" yaml:"context,omitempty"`
 
 	// CreatedAt is when the project was initialized.
 	CreatedAt time.Time `json:"created_at" yaml:"created_at"`
@@ -99,6 +104,60 @@ type GasCityConfig struct {
 // OpenSpecConfig configures the OpenSpec export target.
 type OpenSpecConfig struct {
 	Enabled bool `json:"enabled" yaml:"enabled"`
+}
+
+// ContextConfig configures context sources for grounding specs.
+type ContextConfig struct {
+	// Repositories are git repositories to analyze.
+	Repositories []RepositoryContextConfig `json:"repositories,omitempty" yaml:"repositories,omitempty"`
+
+	// Graphize are standalone graphize graph paths.
+	Graphize []GraphizeContextConfig `json:"graphize,omitempty" yaml:"graphize,omitempty"`
+
+	// Files are local files to include as context.
+	Files []FileContextConfig `json:"files,omitempty" yaml:"files,omitempty"`
+
+	// MCPServers are MCP servers for external context.
+	MCPServers map[string]MCPServerContextConfig `json:"mcp_servers,omitempty" yaml:"mcp_servers,omitempty"`
+
+	// CacheTTL is how long to cache context data.
+	CacheTTL time.Duration `json:"cache_ttl,omitempty" yaml:"cache_ttl,omitempty"`
+}
+
+// RepositoryContextConfig configures a git repository context source.
+type RepositoryContextConfig struct {
+	Path     string   `json:"path,omitempty" yaml:"path,omitempty"`
+	URL      string   `json:"url,omitempty" yaml:"url,omitempty"`
+	Branch   string   `json:"branch,omitempty" yaml:"branch,omitempty"`
+	Include  []string `json:"include,omitempty" yaml:"include,omitempty"`
+	Exclude  []string `json:"exclude,omitempty" yaml:"exclude,omitempty"`
+	Analyze  []string `json:"analyze,omitempty" yaml:"analyze,omitempty"`
+	Graphize string   `json:"graphize,omitempty" yaml:"graphize,omitempty"`
+	MaxDepth int      `json:"max_depth,omitempty" yaml:"max_depth,omitempty"`
+}
+
+// GraphizeContextConfig configures a graphize context source.
+type GraphizeContextConfig struct {
+	Path         string   `json:"path" yaml:"path"`
+	Name         string   `json:"name,omitempty" yaml:"name,omitempty"`
+	IncludeNodes []string `json:"include_nodes,omitempty" yaml:"include_nodes,omitempty"`
+	IncludeEdges []string `json:"include_edges,omitempty" yaml:"include_edges,omitempty"`
+}
+
+// FileContextConfig configures a local file context source.
+type FileContextConfig struct {
+	Path    string `json:"path" yaml:"path"`
+	Type    string `json:"type,omitempty" yaml:"type,omitempty"`
+	MaxSize int64  `json:"max_size,omitempty" yaml:"max_size,omitempty"`
+}
+
+// MCPServerContextConfig configures an MCP server context source.
+type MCPServerContextConfig struct {
+	Command string            `json:"command" yaml:"command"`
+	Args    []string          `json:"args,omitempty" yaml:"args,omitempty"`
+	Env     map[string]string `json:"env,omitempty" yaml:"env,omitempty"`
+	Config  map[string]any    `json:"config,omitempty" yaml:"config,omitempty"`
+	Timeout time.Duration     `json:"timeout,omitempty" yaml:"timeout,omitempty"`
 }
 
 // ReadinessGate represents a readiness check for a project.

@@ -3,6 +3,7 @@ module github.com/plexusone/multispec
 go 1.26.0
 
 require (
+	github.com/bmatcuk/doublestar/v4 v4.10.0
 	github.com/modelcontextprotocol/go-sdk v1.6.1
 	github.com/plexusone/graphfs v0.2.0
 	github.com/plexusone/graphize v0.3.0
