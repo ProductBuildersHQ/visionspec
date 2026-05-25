@@ -25,6 +25,10 @@
          <lastmod>2026-05-25</lastmod>
     </url>
     <url>
+         <loc>https://plexusone.github.io/multispec/cli/profiles/</loc>
+         <lastmod>2026-05-25</lastmod>
+    </url>
+    <url>
          <loc>https://plexusone.github.io/multispec/cli/status/</loc>
          <lastmod>2026-05-25</lastmod>
     </url>
@@ -45,6 +49,14 @@
          <lastmod>2026-05-25</lastmod>
     </url>
     <url>
+         <loc>https://plexusone.github.io/multispec/guides/</loc>
+         <lastmod>2026-05-25</lastmod>
+    </url>
+    <url>
+         <loc>https://plexusone.github.io/multispec/guides/custom-profiles/</loc>
+         <lastmod>2026-05-25</lastmod>
+    </url>
+    <url>
          <loc>https://plexusone.github.io/multispec/mcp/</loc>
          <lastmod>2026-05-25</lastmod>
     </url>
@@ -62,6 +74,10 @@
     </url>
     <url>
          <loc>https://plexusone.github.io/multispec/releases/v0.3.0/</loc>
+         <lastmod>2026-05-25</lastmod>
+    </url>
+    <url>
+         <loc>https://plexusone.github.io/multispec/releases/v0.4.0/</loc>
          <lastmod>2026-05-25</lastmod>
     </url>
     <url>

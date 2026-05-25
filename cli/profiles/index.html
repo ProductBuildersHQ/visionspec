@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://plexusone.github.io/multispec/cli/lint/">
+        <link rel="canonical" href="https://plexusone.github.io/multispec/cli/profiles/">
       
       
-        <link rel="prev" href="../init/">
+        <link rel="prev" href="../status/">
       
       
-        <link rel="next" href="../status/">
+        <link rel="next" href="../graph/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -24,7 +24,7 @@
     
     
       
-        <title>lint - MultiSpec</title>
+        <title>profiles - MultiSpec</title>
       
     
     
@@ -78,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#multispec-lint" class="md-skip">
+        <a href="#profiles" class="md-skip">
           Skip to content
         </a>
       
@@ -119,7 +119,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              lint
+              profiles
             
           </span>
         </div>
@@ -497,6 +497,52 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../lint/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    lint
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../status/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    status
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -514,7 +560,7 @@
   
   
   <span class="md-ellipsis">
-    lint
+    profiles
     
   </span>
   
@@ -527,7 +573,7 @@
   
   
   <span class="md-ellipsis">
-    lint
+    profiles
     
   </span>
   
@@ -568,64 +614,37 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#arguments" class="md-nav__link">
+  <a href="#subcommands" class="md-nav__link">
     <span class="md-ellipsis">
-      Arguments
+      Subcommands
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#flags" class="md-nav__link">
-    <span class="md-ellipsis">
-      Flags
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#examples" class="md-nav__link">
-    <span class="md-ellipsis">
-      Examples
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#validation-rules" class="md-nav__link">
-    <span class="md-ellipsis">
-      Validation Rules
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Validation Rules">
+    <nav class="md-nav" aria-label="Subcommands">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#directory-structure" class="md-nav__link">
+  <a href="#list" class="md-nav__link">
     <span class="md-ellipsis">
-      Directory Structure
+      list
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#naming-conventions" class="md-nav__link">
+  <a href="#show" class="md-nav__link">
     <span class="md-ellipsis">
-      Naming Conventions
+      show
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#config-file" class="md-nav__link">
+  <a href="#export" class="md-nav__link">
     <span class="md-ellipsis">
-      Config File
+      export
     </span>
   </a>
   
@@ -637,28 +656,28 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#output-formats" class="md-nav__link">
+  <a href="#using-profiles" class="md-nav__link">
     <span class="md-ellipsis">
-      Output Formats
+      Using Profiles
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Output Formats">
+    <nav class="md-nav" aria-label="Using Profiles">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#text-output" class="md-nav__link">
+  <a href="#with-init-command" class="md-nav__link">
     <span class="md-ellipsis">
-      Text Output
+      With init command
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#json-output" class="md-nav__link">
+  <a href="#profile-inheritance" class="md-nav__link">
     <span class="md-ellipsis">
-      JSON Output
+      Profile inheritance
     </span>
   </a>
   
@@ -666,15 +685,6 @@
         
       </ul>
     </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#exit-codes" class="md-nav__link">
-    <span class="md-ellipsis">
-      Exit Codes
-    </span>
-  </a>
   
 </li>
       
@@ -691,52 +701,6 @@
   
 </nav>
       
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../status/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    status
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../profiles/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    profiles
-    
-  </span>
-  
-
-      </a>
     </li>
   
 
@@ -1307,64 +1271,37 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#arguments" class="md-nav__link">
+  <a href="#subcommands" class="md-nav__link">
     <span class="md-ellipsis">
-      Arguments
+      Subcommands
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#flags" class="md-nav__link">
-    <span class="md-ellipsis">
-      Flags
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#examples" class="md-nav__link">
-    <span class="md-ellipsis">
-      Examples
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#validation-rules" class="md-nav__link">
-    <span class="md-ellipsis">
-      Validation Rules
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Validation Rules">
+    <nav class="md-nav" aria-label="Subcommands">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#directory-structure" class="md-nav__link">
+  <a href="#list" class="md-nav__link">
     <span class="md-ellipsis">
-      Directory Structure
+      list
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#naming-conventions" class="md-nav__link">
+  <a href="#show" class="md-nav__link">
     <span class="md-ellipsis">
-      Naming Conventions
+      show
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#config-file" class="md-nav__link">
+  <a href="#export" class="md-nav__link">
     <span class="md-ellipsis">
-      Config File
+      export
     </span>
   </a>
   
@@ -1376,28 +1313,28 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#output-formats" class="md-nav__link">
+  <a href="#using-profiles" class="md-nav__link">
     <span class="md-ellipsis">
-      Output Formats
+      Using Profiles
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Output Formats">
+    <nav class="md-nav" aria-label="Using Profiles">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#text-output" class="md-nav__link">
+  <a href="#with-init-command" class="md-nav__link">
     <span class="md-ellipsis">
-      Text Output
+      With init command
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#json-output" class="md-nav__link">
+  <a href="#profile-inheritance" class="md-nav__link">
     <span class="md-ellipsis">
-      JSON Output
+      Profile inheritance
     </span>
   </a>
   
@@ -1405,15 +1342,6 @@
         
       </ul>
     </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#exit-codes" class="md-nav__link">
-    <span class="md-ellipsis">
-      Exit Codes
-    </span>
-  </a>
   
 </li>
       
@@ -1445,158 +1373,152 @@
   
 
 
-<h1 id="multispec-lint">multispec lint<a class="headerlink" href="#multispec-lint" title="Permanent link">&para;</a></h1>
-<p>Validate project directory structure and naming conventions.</p>
+<h1 id="profiles">profiles<a class="headerlink" href="#profiles" title="Permanent link">&para;</a></h1>
+<p>Manage configuration profiles that bundle spec requirements, templates, and rubrics.</p>
 <h2 id="synopsis">Synopsis<a class="headerlink" href="#synopsis" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>multispec<span class="w"> </span>lint<span class="w"> </span><span class="o">[</span>project<span class="o">]</span><span class="w"> </span><span class="o">[</span>flags<span class="o">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>multispec<span class="w"> </span>profiles<span class="w"> </span>&lt;subcommand&gt;
 </code></pre></div>
 <h2 id="description">Description<a class="headerlink" href="#description" title="Permanent link">&para;</a></h2>
-<p>Validates that the project follows MultiSpec conventions:</p>
+<p>Configuration profiles allow you to customize which specs are required and how they're evaluated. MultiSpec includes built-in profiles for different product stages:</p>
+<table>
+<thead>
+<tr>
+<th>Profile</th>
+<th>Description</th>
+<th>Required Specs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>0-1</code></td>
+<td>Minimal for idea validation</td>
+<td>hypothesis</td>
+</tr>
+<tr>
+<td><code>startup</code></td>
+<td>Lightweight for pre-PMF</td>
+<td>prd</td>
+</tr>
+<tr>
+<td><code>growth</code></td>
+<td>Metrics-driven for 1-N scaling</td>
+<td>prd, uxd, faq</td>
+</tr>
+<tr>
+<td><code>enterprise</code></td>
+<td>Comprehensive for post-PMF</td>
+<td>prd, mrd, uxd, trd, press, faq</td>
+</tr>
+</tbody>
+</table>
+<h2 id="subcommands">Subcommands<a class="headerlink" href="#subcommands" title="Permanent link">&para;</a></h2>
+<h3 id="list">list<a class="headerlink" href="#list" title="Permanent link">&para;</a></h3>
+<p>List all available profiles.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>multispec<span class="w"> </span>profiles<span class="w"> </span>list
+</code></pre></div>
+<p><strong>Output:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>Available profiles:
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>  0-1          Minimal configuration for idea validation [default]
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>  startup      Lightweight configuration for pre-PMF startups [default]
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>  growth       Metrics-driven configuration for 1-N scaling [default]
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>  enterprise   Comprehensive configuration for post-PMF enterprises [default]
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>Use with: multispec init &lt;project&gt; --profile &lt;name&gt;
+</code></pre></div>
+<h3 id="show">show<a class="headerlink" href="#show" title="Permanent link">&para;</a></h3>
+<p>Show detailed information about a profile.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>multispec<span class="w"> </span>profiles<span class="w"> </span>show<span class="w"> </span>&lt;profile-name&gt;
+</code></pre></div>
+<p><strong>Example:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>multispec<span class="w"> </span>profiles<span class="w"> </span>show<span class="w"> </span>enterprise
+</code></pre></div>
+<p><strong>Output:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>Profile: enterprise
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>Description: Comprehensive configuration for post-PMF enterprises. Full specs with security and compliance.
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>Required specs:
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>  - prd (source)
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>  - mrd (source)
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>  - uxd (source)
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>  - press (gtm)
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>  - faq (gtm)
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>  - trd (technical)
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>Custom templates:
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>  - prd
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>  - mrd
+<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>  - uxd
+<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>  - trd
+<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a>  - press
+<a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a>  - faq
+<a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a>
+<a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a>Custom rubrics:
+<a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a>  - prd
+<a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a>  - mrd
+<a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a>  - uxd
+<a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a>  - trd
+<a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a>  - press
+<a id="__codelineno-5-26" name="__codelineno-5-26" href="#__codelineno-5-26"></a>  - faq
+</code></pre></div>
+<h3 id="export">export<a class="headerlink" href="#export" title="Permanent link">&para;</a></h3>
+<p>Export a profile to a directory for customization.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>multispec<span class="w"> </span>profiles<span class="w"> </span><span class="nb">export</span><span class="w"> </span>&lt;profile-name&gt;<span class="w"> </span>&lt;output-dir&gt;
+</code></pre></div>
+<p>This creates a complete profile directory with:</p>
 <ul>
-<li>Directory structure matches canonical layout</li>
-<li>File naming follows conventions (lowercase specs, kebab-case projects)</li>
-<li>Required directories exist</li>
-<li>Config file is valid</li>
+<li><code>profile.yaml</code> - Configuration file</li>
+<li><code>templates/</code> - Template files (<code>.md</code>)</li>
+<li><code>rubrics/</code> - Rubric files (<code>.rubric.yaml</code>)</li>
 </ul>
-<h2 id="arguments">Arguments<a class="headerlink" href="#arguments" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Argument</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>project</code></td>
-<td>No</td>
-<td>Project name to lint (lints all if omitted)</td>
-</tr>
-</tbody>
-</table>
-<h2 id="flags">Flags<a class="headerlink" href="#flags" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Flag</th>
-<th>Default</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--format</code></td>
-<td><code>text</code></td>
-<td>Output format: <code>text</code> or <code>json</code></td>
-</tr>
-<tr>
-<td><code>--ci</code></td>
-<td><code>false</code></td>
-<td>Exit with non-zero code if lint fails</td>
-</tr>
-</tbody>
-</table>
-<h2 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Lint all projects</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>multispec<span class="w"> </span>lint
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># Lint specific project</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>multispec<span class="w"> </span>lint<span class="w"> </span>user-onboarding
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="c1"># JSON output for CI</span>
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>multispec<span class="w"> </span>lint<span class="w"> </span>--format<span class="w"> </span>json
-<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
-<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="c1"># CI mode (exit 1 on failure)</span>
-<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>multispec<span class="w"> </span>lint<span class="w"> </span>--ci
+<p><strong>Example:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>multispec<span class="w"> </span>profiles<span class="w"> </span><span class="nb">export</span><span class="w"> </span>enterprise<span class="w"> </span>./my-profile
 </code></pre></div>
-<h2 id="validation-rules">Validation Rules<a class="headerlink" href="#validation-rules" title="Permanent link">&para;</a></h2>
-<h3 id="directory-structure">Directory Structure<a class="headerlink" href="#directory-structure" title="Permanent link">&para;</a></h3>
-<p>The linter checks for the expected directory layout:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>docs/specs/{project}/
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>├── source/       # Required
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>├── gtm/          # Required
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>├── technical/    # Required
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>├── eval/         # Required
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>└── multispec.yaml  # Required
+<p><strong>Output:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>Created ./my-profile/profile.yaml
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>Created ./my-profile/templates/prd.md
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>Created ./my-profile/templates/mrd.md
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>Created ./my-profile/templates/uxd.md
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>Created ./my-profile/templates/trd.md
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>Created ./my-profile/templates/press.md
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>Created ./my-profile/templates/faq.md
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>Created ./my-profile/rubrics/prd.rubric.yaml
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>Created ./my-profile/rubrics/mrd.rubric.yaml
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>Created ./my-profile/rubrics/uxd.rubric.yaml
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>Created ./my-profile/rubrics/trd.rubric.yaml
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>Created ./my-profile/rubrics/press.rubric.yaml
+<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>Created ./my-profile/rubrics/faq.rubric.yaml
+<a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>
+<a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a>Profile exported to ./my-profile
+<a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a>
+<a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a>To use this profile:
+<a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a>  multispec init my-project --profile-dir ./my-profile
 </code></pre></div>
-<h3 id="naming-conventions">Naming Conventions<a class="headerlink" href="#naming-conventions" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Element</th>
-<th>Convention</th>
-<th>Valid</th>
-<th>Invalid</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Project directory</td>
-<td>kebab-case</td>
-<td><code>user-onboarding</code></td>
-<td><code>UserOnboarding</code></td>
-</tr>
-<tr>
-<td>Spec files</td>
-<td>lowercase.md</td>
-<td><code>mrd.md</code></td>
-<td><code>MRD.md</code></td>
-</tr>
-<tr>
-<td>Eval files</td>
-<td>lowercase.eval.json</td>
-<td><code>mrd.eval.json</code></td>
-<td><code>MRD_eval.json</code></td>
-</tr>
-</tbody>
-</table>
-<h3 id="config-file">Config File<a class="headerlink" href="#config-file" title="Permanent link">&para;</a></h3>
-<p>The <code>multispec.yaml</code> file must exist and be valid YAML with required fields:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">project-name</span><span class="w">      </span><span class="c1"># Required</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;...&quot;</span><span class="w">      </span><span class="c1"># Optional</span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.1.0</span><span class="w">          </span><span class="c1"># Optional</span>
+<h2 id="using-profiles">Using Profiles<a class="headerlink" href="#using-profiles" title="Permanent link">&para;</a></h2>
+<h3 id="with-init-command">With init command<a class="headerlink" href="#with-init-command" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Use a built-in profile</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>multispec<span class="w"> </span>init<span class="w"> </span>my-project<span class="w"> </span>--profile<span class="w"> </span>startup
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="c1"># Use a custom profile directory</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>multispec<span class="w"> </span>init<span class="w"> </span>my-project<span class="w"> </span>--profile-dir<span class="w"> </span>./my-profile
 </code></pre></div>
-<h2 id="output-formats">Output Formats<a class="headerlink" href="#output-formats" title="Permanent link">&para;</a></h2>
-<h3 id="text-output">Text Output<a class="headerlink" href="#text-output" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>Linting project: user-onboarding
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>  [+] Directory structure valid
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>  [+] Config file valid
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>  [+] Naming conventions followed
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>
-<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>Result: PASSED
+<h3 id="profile-inheritance">Profile inheritance<a class="headerlink" href="#profile-inheritance" title="Permanent link">&para;</a></h3>
+<p>Profiles can extend other profiles using the <code>extends</code> field:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># my-profile/profile.yaml</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-enterprise</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Custom</span><span class="nv"> </span><span class="s">enterprise</span><span class="nv"> </span><span class="s">profile</span><span class="nv"> </span><span class="s">with</span><span class="nv"> </span><span class="s">additional</span><span class="nv"> </span><span class="s">requirements&quot;</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="nt">extends</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">enterprise</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="nt">spec_config</span><span class="p">:</span>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="w">  </span><span class="c1"># Add a custom spec type</span>
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="w">  </span><span class="nt">security-review</span><span class="p">:</span>
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="w">    </span><span class="nt">required</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="w">    </span><span class="nt">category</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">technical</span>
 </code></pre></div>
-<h3 id="json-output">JSON Output<a class="headerlink" href="#json-output" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="p">{</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="nt">&quot;project&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;user-onboarding&quot;</span><span class="p">,</span>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span><span class="nt">&quot;passed&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">  </span><span class="nt">&quot;errors&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">  </span><span class="nt">&quot;warnings&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span>
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="p">}</span>
-</code></pre></div>
-<h2 id="exit-codes">Exit Codes<a class="headerlink" href="#exit-codes" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Code</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>0</td>
-<td>All checks passed</td>
-</tr>
-<tr>
-<td>1</td>
-<td>Lint failures (with <code>--ci</code> flag)</td>
-</tr>
-</tbody>
-</table>
 <h2 id="see-also">See Also<a class="headerlink" href="#see-also" title="Permanent link">&para;</a></h2>
 <ul>
-<li><a href="../init/">init</a> - Create a new project</li>
-<li><a href="../status/">status</a> - Check project readiness</li>
+<li><a href="../../guides/custom-profiles/">Custom Profiles Guide</a> - Complete guide to creating custom profiles</li>
+<li><a href="../init/">init</a> - Initialize projects with profiles</li>
 </ul>
 
 
