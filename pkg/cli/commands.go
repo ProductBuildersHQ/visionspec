@@ -851,7 +851,7 @@ func runReconcile(cmd *cobra.Command, args []string) error {
 		return fmt.Errorf("reconciliation failed: %w", err)
 	}
 
-	// Write output
+	// Write spec.md output
 	outputPath := config.SpecPath(projectPath, types.SpecTypeSpec)
 	if err := os.WriteFile(outputPath, []byte(result.Content), 0600); err != nil {
 		return fmt.Errorf("writing spec.md: %w", err)
@@ -861,10 +861,57 @@ func runReconcile(cmd *cobra.Command, args []string) error {
 	fmt.Printf("  Sources: %v\n", result.Sources)
 
 	if len(result.Conflicts) > 0 {
-		fmt.Printf("  Conflicts: %d (see spec.md Decision Log)\n", len(result.Conflicts))
+		fmt.Printf("  Conflicts detected: %d\n", len(result.Conflicts))
+		for _, c := range result.Conflicts {
+			status := "⚠"
+			if c.Resolution != "" {
+				status = "✓"
+			}
+			fmt.Printf("    %s %s: %s\n", status, c.ID, c.Description)
+		}
 	}
 
+	// Write spec.eval.json with reconciliation metadata
+	evalOutput := map[string]any{
+		"spec_type":    "spec",
+		"generated_at": result.GeneratedAt.Format(time.RFC3339),
+		"sources":      result.Sources,
+		"conflicts":    result.Conflicts,
+		"decision_log": result.DecisionLog,
+		"status":       getReconcileStatus(result.Conflicts),
+	}
+
+	evalJSON, err := json.MarshalIndent(evalOutput, "", "  ")
+	if err != nil {
+		return fmt.Errorf("marshaling eval output: %w", err)
+	}
+
+	evalPath := filepath.Join(projectPath, "eval", "spec.eval.json")
+	if err := os.WriteFile(evalPath, evalJSON, 0600); err != nil {
+		return fmt.Errorf("writing spec.eval.json: %w", err)
+	}
+
+	fmt.Printf("✓ Generated %s\n", evalPath)
+
 	return nil
+}
+
+// getReconcileStatus determines overall reconciliation status.
+func getReconcileStatus(conflicts []reconcile.Conflict) string {
+	unresolvedHigh := 0
+	for _, c := range conflicts {
+		if c.Resolution == "" && c.Severity == "high" {
+			unresolvedHigh++
+		}
+	}
+
+	if unresolvedHigh > 0 {
+		return "needs_review"
+	}
+	if len(conflicts) > 0 {
+		return "reconciled_with_tradeoffs"
+	}
+	return "reconciled"
 }
 
 // cliReconcileLLMAdapter adapts eval.LLMClient to reconcile.LLMClient interface.
