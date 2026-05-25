@@ -284,24 +284,24 @@ type Epic struct {
 
 // Page represents a wiki/documentation page.
 type Page struct {
-	ID       string   `json:"id"`
-	Title    string   `json:"title"`
-	Space    string   `json:"space,omitempty"`
-	Content  string   `json:"content,omitempty"` // Truncated if large
-	Labels   []string `json:"labels,omitempty"`
-	Version  int      `json:"version,omitempty"`
-	Updated  string   `json:"updated,omitempty"`
-	URL      string   `json:"url,omitempty"`
+	ID      string   `json:"id"`
+	Title   string   `json:"title"`
+	Space   string   `json:"space,omitempty"`
+	Content string   `json:"content,omitempty"` // Truncated if large
+	Labels  []string `json:"labels,omitempty"`
+	Version int      `json:"version,omitempty"`
+	Updated string   `json:"updated,omitempty"`
+	URL     string   `json:"url,omitempty"`
 }
 
 // Document represents a document from Google Docs, Office 365, etc.
 type Document struct {
-	ID       string `json:"id"`
-	Title    string `json:"title"`
-	Type     string `json:"type,omitempty"` // doc, sheet, slide
-	Content  string `json:"content,omitempty"`
-	Updated  string `json:"updated,omitempty"`
-	URL      string `json:"url,omitempty"`
+	ID      string `json:"id"`
+	Title   string `json:"title"`
+	Type    string `json:"type,omitempty"` // doc, sheet, slide
+	Content string `json:"content,omitempty"`
+	Updated string `json:"updated,omitempty"`
+	URL     string `json:"url,omitempty"`
 }
 
 // FileContext holds data from local files.
