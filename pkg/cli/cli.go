@@ -98,6 +98,7 @@ func AddCommandsTo(root *cobra.Command, cfg *Config) {
 	cmds := Commands(cfg)
 	root.AddCommand(
 		cmds.Init,
+		cmds.Create,
 		cmds.Lint,
 		cmds.Status,
 		cmds.Eval,
@@ -116,6 +117,7 @@ func AddCommandsTo(root *cobra.Command, cfg *Config) {
 // CommandSet contains all multispec commands.
 type CommandSet struct {
 	Init       *cobra.Command
+	Create     *cobra.Command
 	Lint       *cobra.Command
 	Status     *cobra.Command
 	Eval       *cobra.Command
@@ -139,6 +141,7 @@ func Commands(cfg *Config) *CommandSet {
 
 	return &CommandSet{
 		Init:       initCmd(cfg),
+		Create:     createCmd(cfg),
 		Lint:       lintCmd(cfg),
 		Status:     statusCmd(cfg),
 		Eval:       evalCmd(cfg),

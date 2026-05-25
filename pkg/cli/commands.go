@@ -246,6 +246,107 @@ func createTemplateFiles(projectPath string, cfg *Config) error {
 	return nil
 }
 
+// createCmd creates the create command for scaffolding new specs.
+func createCmd(cfg *Config) *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "create <spec-type>",
+		Short: "Create a new spec from template",
+		Long: `Create a new spec file from a template.
+
+Supported spec types:
+  Source specs:   mrd, prd, uxd
+  GTM specs:      press, faq, narrative-1p, narrative-6p
+  Technical:      trd, ird
+
+The command must be run from within a multispec project directory.
+
+Examples:
+  multispec create mrd          # Create MRD from template
+  multispec create press        # Create Press Release from template`,
+		Args: cobra.ExactArgs(1),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			return runCreate(cmd, args, cfg)
+		},
+	}
+
+	cmd.Flags().Bool("force", false, "Overwrite existing file")
+
+	return cmd
+}
+
+func runCreate(cmd *cobra.Command, args []string, cfg *Config) error {
+	specTypeStr := strings.ToLower(args[0])
+	force, _ := cmd.Flags().GetBool("force")
+
+	// Find project root
+	cwd, err := os.Getwd()
+	if err != nil {
+		return fmt.Errorf("getting working directory: %w", err)
+	}
+
+	projectPath, err := config.FindProjectRoot(cwd)
+	if err != nil {
+		return fmt.Errorf("not in a multispec project (no multispec.yaml found)")
+	}
+
+	// Load project config
+	project, err := config.Load(projectPath)
+	if err != nil {
+		return fmt.Errorf("loading project config: %w", err)
+	}
+
+	// Parse spec type
+	specType := types.SpecType(specTypeStr)
+	if !specType.IsValid() {
+		// List available spec types
+		available := templates.Available()
+		names := make([]string, len(available))
+		for i, t := range available {
+			names[i] = string(t)
+		}
+		return fmt.Errorf("invalid spec type %q (available: %s)", specTypeStr, strings.Join(names, ", "))
+	}
+
+	// Get template
+	loader := cfg.TemplateLoader
+	if loader == nil {
+		loader = templates.DefaultLoader()
+	}
+
+	tmpl, err := loader.Load(specType)
+	if err != nil {
+		return fmt.Errorf("loading template for %s: %w", specType, err)
+	}
+
+	// Determine output path
+	outputPath := config.SpecPath(projectPath, specType)
+
+	// Check if file exists
+	if _, err := os.Stat(outputPath); err == nil && !force {
+		return fmt.Errorf("file %s already exists (use --force to overwrite)", outputPath)
+	}
+
+	// Ensure directory exists
+	if err := os.MkdirAll(filepath.Dir(outputPath), 0755); err != nil {
+		return fmt.Errorf("creating directory: %w", err)
+	}
+
+	// Render template
+	opts := templates.DefaultRenderOptions()
+	opts.ProjectName = project.Name
+	content := tmpl.Render(opts)
+
+	// Write file
+	if err := os.WriteFile(outputPath, []byte(strings.TrimSpace(content)+"\n"), 0600); err != nil {
+		return fmt.Errorf("writing file: %w", err)
+	}
+
+	fmt.Printf("✓ Created %s\n", outputPath)
+	fmt.Printf("\nNext step: Edit %s to add your content\n", filepath.Base(outputPath))
+
+	return nil
+}
+
 // lintCmd creates the lint command.
 func lintCmd(cfg *Config) *cobra.Command {
 	cmd := &cobra.Command{
