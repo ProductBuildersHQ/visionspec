@@ -664,11 +664,8 @@ func runSynthesize(cmd *cobra.Command, args []string) error {
 		input.Press = string(content)
 	}
 
-	// Load constitution if exists
-	constitutionPath := filepath.Join(projectPath, "..", "CONSTITUTION.md")
-	if content, err := os.ReadFile(constitutionPath); err == nil {
-		input.Constitution = string(content)
-	}
+	// Load constitution from repo-level or org-level
+	input.Constitution = config.LoadConstitution(projectPath)
 
 	// Gather context for TRD/IRD synthesis (grounding)
 	if !noContext && (specType == types.SpecTypeTRD || specType == types.SpecTypeIRD) {
@@ -827,11 +824,8 @@ func runReconcile(cmd *cobra.Command, args []string) error {
 		input.IRD = string(content)
 	}
 
-	// Load constitution if exists
-	constitutionPath := filepath.Join(projectPath, "..", "CONSTITUTION.md")
-	if content, err := os.ReadFile(constitutionPath); err == nil {
-		input.Constitution = string(content)
-	}
+	// Load constitution from repo-level or org-level
+	input.Constitution = config.LoadConstitution(projectPath)
 
 	// Create LLM client
 	llmClient, err := eval.NewLLMClientFromProject(project.LLM)
@@ -1082,9 +1076,8 @@ func runExport(cmd *cobra.Command, args []string) error {
 		exportConfig.OutputDir = filepath.Join(projectPath, "export", targetName)
 	}
 
-	// Check for CONSTITUTION.md and pass to SpecKit if present
-	constitutionPath := filepath.Join(projectPath, "CONSTITUTION.md")
-	if _, err := os.Stat(constitutionPath); err == nil {
+	// Pass constitution to SpecKit if found (repo-level or org-level)
+	if constitutionPath := config.FindConstitution(projectPath); constitutionPath != "" {
 		if exportConfig.Options == nil {
 			exportConfig.Options = make(map[string]any)
 		}
