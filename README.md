@@ -298,7 +298,6 @@ See [ROADMAP.md](docs/specs/ROADMAP.md) for detailed implementation status and [
 | Phase 9: Composability | Complete |
 | Phase 10: Platform Enhancements | Not Started |
 | Phase 11: Context Sources | Complete |
-| Phase 12: Platform Enhancements | In Progress |
 
 ## License
 
