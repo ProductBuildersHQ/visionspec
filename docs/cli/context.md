@@ -5,7 +5,7 @@ Gather and manage codebase context for grounding spec synthesis.
 ## Usage
 
 ```bash
-multispec context <subcommand> [flags]
+visionspec context <subcommand> [flags]
 ```
 
 ## Description
@@ -26,7 +26,7 @@ The `context` command manages codebase context that grounds technical spec synth
 Gather context from all configured sources.
 
 ```bash
-multispec context gather [flags]
+visionspec context gather [flags]
 ```
 
 **Flags:**
@@ -41,16 +41,16 @@ multispec context gather [flags]
 
 ```bash
 # Gather context
-multispec context gather
+visionspec context gather
 
 # Output as JSON
-multispec context gather --format json
+visionspec context gather --format json
 
 # Force refresh cached data
-multispec context gather --refresh
+visionspec context gather --refresh
 
 # Custom timeout
-multispec context gather --timeout 5m
+visionspec context gather --timeout 5m
 ```
 
 ## context show
@@ -58,7 +58,7 @@ multispec context gather --timeout 5m
 Display the current context summary from the last gather or saved snapshot.
 
 ```bash
-multispec context show
+visionspec context show
 ```
 
 If no snapshot exists, prompts to run `gather` first.
@@ -68,7 +68,7 @@ If no snapshot exists, prompts to run `gather` first.
 Save gathered context to a snapshot file for CI reproducibility.
 
 ```bash
-multispec context save [flags]
+visionspec context save [flags]
 ```
 
 **Flags:**
@@ -81,10 +81,10 @@ multispec context save [flags]
 
 ```bash
 # Save to default location
-multispec context save
+visionspec context save
 
 # Save to custom path
-multispec context save -o artifacts/context.json
+visionspec context save -o artifacts/context.json
 ```
 
 ## context sources
@@ -92,7 +92,7 @@ multispec context save -o artifacts/context.json
 List all configured context sources.
 
 ```bash
-multispec context sources
+visionspec context sources
 ```
 
 **Output:**
@@ -117,7 +117,7 @@ MCP Servers:
 
 ## Configuration
 
-Configure context sources in `multispec.yaml`:
+Configure context sources in `visionspec.yaml`:
 
 ```yaml
 context:
@@ -170,7 +170,7 @@ When analyzing git repositories, the context includes:
 
 ## Auto-Detection
 
-If no repositories are configured, multispec auto-detects the repository at the project root.
+If no repositories are configured, visionspec auto-detects the repository at the project root.
 
 ## Snapshots
 
@@ -178,10 +178,10 @@ Context snapshots enable reproducible synthesis in CI:
 
 ```bash
 # In CI pipeline
-multispec context save -o context-snapshot.json
+visionspec context save -o context-snapshot.json
 
 # Later, use saved context
-multispec synthesize trd --context-file context-snapshot.json
+visionspec synthesize trd --context-file context-snapshot.json
 ```
 
 ## See Also

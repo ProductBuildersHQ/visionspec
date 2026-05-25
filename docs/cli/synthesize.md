@@ -5,7 +5,7 @@ Generate specifications from source documents using LLM synthesis.
 ## Usage
 
 ```bash
-multispec synthesize <type> [flags]
+visionspec synthesize <type> [flags]
 ```
 
 ## Description
@@ -14,7 +14,7 @@ The `synthesize` command generates specification documents from existing source 
 
 ## Working Backwards Flow
 
-MultiSpec implements Amazon's Working Backwards methodology:
+VisionSpec implements Amazon's Working Backwards methodology:
 
 1. **MRD** - Define the market problem (human-authored)
 2. **Press** - Write the press release announcing the solution
@@ -84,22 +84,22 @@ IRD (synthesized from TRD + context)
 
 ```bash
 # Working Backwards flow
-multispec synthesize press        # Generate Press Release from MRD
-multispec synthesize faq          # Generate FAQ from MRD + Press
-multispec synthesize prd          # Generate PRD from MRD + Press + FAQ
+visionspec synthesize press        # Generate Press Release from MRD
+visionspec synthesize faq          # Generate FAQ from MRD + Press
+visionspec synthesize prd          # Generate PRD from MRD + Press + FAQ
 
 # Technical synthesis
-multispec synthesize trd --eval   # Generate TRD with evaluation
-multispec synthesize ird --no-context  # Generate IRD without context gathering
+visionspec synthesize trd --eval   # Generate TRD with evaluation
+visionspec synthesize ird --no-context  # Generate IRD without context gathering
 
 # Narrative documents
-multispec synthesize narrative-1p
-multispec synthesize narrative-6p
+visionspec synthesize narrative-1p
+visionspec synthesize narrative-6p
 ```
 
 ## Context Grounding
 
-For TRD and IRD synthesis, the command automatically gathers codebase context if configured in `multispec.yaml`:
+For TRD and IRD synthesis, the command automatically gathers codebase context if configured in `visionspec.yaml`:
 
 ```yaml
 context:
@@ -135,7 +135,7 @@ This grounds technical decisions in the reality of existing code. Use `--no-cont
 
 ## LLM Configuration
 
-Configure the LLM in `multispec.yaml`:
+Configure the LLM in `visionspec.yaml`:
 
 ```yaml
 llm:

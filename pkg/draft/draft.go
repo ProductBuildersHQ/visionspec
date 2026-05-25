@@ -9,9 +9,9 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/plexusone/multispec/pkg/config"
-	"github.com/plexusone/multispec/pkg/templates"
-	"github.com/plexusone/multispec/pkg/types"
+	"github.com/ProductBuildersHQ/visionspec/pkg/config"
+	"github.com/ProductBuildersHQ/visionspec/pkg/templates"
+	"github.com/ProductBuildersHQ/visionspec/pkg/types"
 )
 
 // ErrDraftNotFound indicates no draft exists.

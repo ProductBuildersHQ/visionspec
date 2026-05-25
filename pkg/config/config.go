@@ -1,17 +1,20 @@
-// Package config handles configuration loading for multispec.
+// Package config handles configuration loading for visionspec.
 package config
 
 import (
 	"os"
 	"path/filepath"
 
-	"github.com/plexusone/multispec/pkg/types"
+	"github.com/ProductBuildersHQ/visionspec/pkg/types"
 	"gopkg.in/yaml.v3"
 )
 
 const (
 	// ConfigFileName is the canonical config file name.
-	ConfigFileName = "multispec.yaml"
+	ConfigFileName = "visionspec.yaml"
+
+	// LegacyConfigFileName supports migration from multispec.
+	LegacyConfigFileName = "multispec.yaml"
 
 	// SpecsDir is the canonical specs directory name.
 	SpecsDir = "docs/specs"
@@ -31,20 +34,29 @@ const (
 	EvalDir      = "eval"
 )
 
-// Load loads the project configuration from multispec.yaml.
+// Load loads the project configuration from visionspec.yaml (or legacy multispec.yaml).
 func Load(projectPath string) (*types.Project, error) {
 	configPath := filepath.Join(projectPath, ConfigFileName)
 
 	data, err := os.ReadFile(configPath)
 	if err != nil {
 		if os.IsNotExist(err) {
-			// Return empty project if config doesn't exist
-			return &types.Project{
-				Path: projectPath,
-				Name: filepath.Base(projectPath),
-			}, nil
+			// Try legacy config file for backward compatibility
+			legacyPath := filepath.Join(projectPath, LegacyConfigFileName)
+			data, err = os.ReadFile(legacyPath)
+			if err != nil {
+				if os.IsNotExist(err) {
+					// Return empty project if no config exists
+					return &types.Project{
+						Path: projectPath,
+						Name: filepath.Base(projectPath),
+					}, nil
+				}
+				return nil, err
+			}
+		} else {
+			return nil, err
 		}
-		return nil, err
 	}
 
 	var project types.Project
@@ -56,7 +68,7 @@ func Load(projectPath string) (*types.Project, error) {
 	return &project, nil
 }
 
-// Save saves the project configuration to multispec.yaml.
+// Save saves the project configuration to visionspec.yaml.
 func Save(project *types.Project) error {
 	configPath := filepath.Join(project.Path, ConfigFileName)
 
@@ -68,7 +80,7 @@ func Save(project *types.Project) error {
 	return os.WriteFile(configPath, data, 0600)
 }
 
-// FindProjectRoot finds the project root by looking for multispec.yaml.
+// FindProjectRoot finds the project root by looking for visionspec.yaml (or legacy multispec.yaml).
 func FindProjectRoot(startPath string) (string, error) {
 	path := startPath
 	for {
@@ -125,7 +137,7 @@ func EvalPath(projectPath string, specType types.SpecType) string {
 // FindConstitution finds the constitution file from multiple locations.
 // Search order (first found wins):
 // 1. Repo-level: docs/specs/CONSTITUTION.md (from project path)
-// 2. Org-level: ~/.config/multispec/CONSTITUTION.md
+// 2. Org-level: ~/.config/visionspec/CONSTITUTION.md
 // Returns the path if found, empty string otherwise.
 func FindConstitution(projectPath string) string {
 	// Try repo-level constitution
@@ -138,7 +150,7 @@ func FindConstitution(projectPath string) string {
 	// Try org-level constitution
 	homeDir, err := os.UserHomeDir()
 	if err == nil {
-		orgConstitution := filepath.Join(homeDir, ".config", "multispec", ConstitutionFile)
+		orgConstitution := filepath.Join(homeDir, ".config", "visionspec", ConstitutionFile)
 		if _, err := os.Stat(orgConstitution); err == nil {
 			return orgConstitution
 		}

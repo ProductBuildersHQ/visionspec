@@ -1,10 +1,10 @@
 # Context Sources
 
-Context sources enable multispec to gather information from your existing codebases, requirement graphs, and external tools to ground spec synthesis in reality.
+Context sources enable visionspec to gather information from your existing codebases, requirement graphs, and external tools to ground spec synthesis in reality.
 
 ## Overview
 
-When synthesizing technical specs (TRD, IRD), multispec can automatically gather context from:
+When synthesizing technical specs (TRD, IRD), visionspec can automatically gather context from:
 
 - **Git Repositories** - Code structure, dependencies, API schemas
 - **Graphize Graphs** - Requirement traceability data
@@ -15,7 +15,7 @@ This context is included in LLM prompts to ensure generated specs reflect your a
 
 ## Configuration
 
-Add context sources to your `multispec.yaml`:
+Add context sources to your `visionspec.yaml`:
 
 ```yaml
 name: my-feature
@@ -90,7 +90,7 @@ context:
         - pkg/
 ```
 
-Remote repositories are cloned to a cache directory (`/tmp/multispec-repos/`). Shallow clones are used for performance.
+Remote repositories are cloned to a cache directory (`/tmp/visionspec-repos/`). Shallow clones are used for performance.
 
 ### Extracted Information
 
@@ -107,7 +107,7 @@ Remote repositories are cloned to a cache directory (`/tmp/multispec-repos/`). S
 
 ### Auto-Detection
 
-When `graphize: auto` is set on a repository, multispec automatically loads graphs from `.graphize/` directories.
+When `graphize: auto` is set on a repository, visionspec automatically loads graphs from `.graphize/` directories.
 
 ```yaml
 context:
@@ -221,34 +221,34 @@ context:
 
 ```bash
 # Gather from all configured sources
-multispec context gather
+visionspec context gather
 
 # Gather with JSON output
-multispec context gather --format json
+visionspec context gather --format json
 
 # Force refresh (ignore cache)
-multispec context gather --refresh
+visionspec context gather --refresh
 ```
 
 ### Show Context
 
 ```bash
 # Display context summary
-multispec context show
+visionspec context show
 ```
 
 ### Save Snapshot
 
 ```bash
 # Save context to file for CI/reproducibility
-multispec context save --output context-snapshot.json
+visionspec context save --output context-snapshot.json
 ```
 
 ### List Sources
 
 ```bash
 # Show configured sources
-multispec context sources
+visionspec context sources
 ```
 
 ## Context in Synthesis
@@ -257,10 +257,10 @@ Context is automatically used when synthesizing TRD and IRD:
 
 ```bash
 # TRD synthesis includes context
-multispec synthesize trd
+visionspec synthesize trd
 
 # Skip context gathering
-multispec synthesize trd --no-context
+visionspec synthesize trd --no-context
 ```
 
 The context summary is included in the LLM prompt to ground technical decisions.
@@ -277,7 +277,7 @@ context:
 Use `--refresh` to bypass cache:
 
 ```bash
-multispec context gather --refresh
+visionspec context gather --refresh
 ```
 
 ## Snapshots
@@ -286,10 +286,10 @@ Save context snapshots for reproducibility:
 
 ```bash
 # Save snapshot
-multispec context save -o context.json
+visionspec context save -o context.json
 
 # Use snapshot in CI
-multispec synthesize trd --context-file context.json
+visionspec synthesize trd --context-file context.json
 ```
 
 Snapshots contain all gathered context and can be version controlled.
@@ -303,7 +303,7 @@ package custom
 
 import (
     "context"
-    ctx "github.com/plexusone/multispec/pkg/context"
+    ctx "github.com/ProductBuildersHQ/visionspec/pkg/context"
 )
 
 type MySource struct {

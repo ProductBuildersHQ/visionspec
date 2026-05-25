@@ -1,4 +1,4 @@
-// Package main is the entry point for the multispec MCP server.
+// Package main is the entry point for the visionspec MCP server.
 package main
 
 import (
@@ -8,7 +8,7 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/plexusone/multispec/internal/mcp"
+	"github.com/ProductBuildersHQ/visionspec/internal/mcp"
 )
 
 func main() {

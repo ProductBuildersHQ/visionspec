@@ -5,12 +5,12 @@ Start the MCP server for AI assistant integration.
 ## Usage
 
 ```bash
-multispec serve [flags]
+visionspec serve [flags]
 ```
 
 ## Description
 
-The `serve` command starts a Model Context Protocol (MCP) server that enables AI coding assistants like Claude Code and Kiro CLI to interact with MultiSpec projects programmatically.
+The `serve` command starts a Model Context Protocol (MCP) server that enables AI coding assistants like Claude Code and Kiro CLI to interact with VisionSpec projects programmatically.
 
 ## Flags
 
@@ -35,7 +35,7 @@ The server exposes these tools to AI assistants:
 
 | Tool | Description |
 |------|-------------|
-| `list_projects` | List all MultiSpec projects |
+| `list_projects` | List all VisionSpec projects |
 | `get_project_status` | Get project readiness status |
 
 ### Spec Operations
@@ -69,8 +69,8 @@ Add to `~/.claude/claude_desktop_config.json`:
 ```json
 {
   "mcpServers": {
-    "multispec": {
-      "command": "multispec",
+    "visionspec": {
+      "command": "visionspec",
       "args": ["serve"]
     }
   }
@@ -82,8 +82,8 @@ Or if using the separate MCP binary:
 ```json
 {
   "mcpServers": {
-    "multispec": {
-      "command": "multispec-mcp"
+    "visionspec": {
+      "command": "visionspec-mcp"
     }
   }
 }
@@ -96,8 +96,8 @@ Add to your Kiro steering configuration:
 ```yaml
 mcp:
   servers:
-    - name: multispec
-      command: multispec
+    - name: visionspec
+      command: visionspec
       args: ["serve"]
 ```
 
@@ -105,21 +105,21 @@ mcp:
 
 ```bash
 # Start with stdio transport (for Claude Code)
-multispec serve
+visionspec serve
 
 # Start HTTP server on port 8080
-multispec serve --port 8080 --transport http
+visionspec serve --port 8080 --transport http
 
 # Start SSE server
-multispec serve --port 3000 --transport sse
+visionspec serve --port 3000 --transport sse
 ```
 
 ## Working Directory
 
 The MCP server operates relative to the current working directory. It discovers projects by looking for:
 
-1. `docs/specs/` directory containing MultiSpec projects
-2. Individual project directories with `multispec.yaml`
+1. `docs/specs/` directory containing VisionSpec projects
+2. Individual project directories with `visionspec.yaml`
 
 ## See Also
 

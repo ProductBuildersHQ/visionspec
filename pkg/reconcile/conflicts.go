@@ -5,7 +5,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/plexusone/multispec/pkg/types"
+	"github.com/ProductBuildersHQ/visionspec/pkg/types"
 )
 
 // ConflictType represents the type of conflict between specs.

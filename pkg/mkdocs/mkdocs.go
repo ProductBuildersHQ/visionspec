@@ -1,4 +1,4 @@
-// Package mkdocs generates MkDocs-compatible markdown files for multispec projects.
+// Package mkdocs generates MkDocs-compatible markdown files for visionspec projects.
 package mkdocs
 
 import (
@@ -10,9 +10,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/plexusone/multispec/pkg/config"
-	"github.com/plexusone/multispec/pkg/status"
-	"github.com/plexusone/multispec/pkg/types"
+	"github.com/ProductBuildersHQ/visionspec/pkg/config"
+	"github.com/ProductBuildersHQ/visionspec/pkg/status"
+	"github.com/ProductBuildersHQ/visionspec/pkg/types"
 )
 
 // ProjectIndexOptions configures project index generation.
@@ -126,7 +126,7 @@ func GenerateProjectIndex(w io.Writer, report *status.Report, opts ProjectIndexO
 	fmt.Fprintf(w, "- **Approved:** %d\n", report.Summary.ApprovedSpecs)
 
 	fmt.Fprintf(w, "\n---\n")
-	fmt.Fprintf(w, "*Generated at %s by MultiSpec*\n", report.GeneratedAt.Format(time.RFC3339))
+	fmt.Fprintf(w, "*Generated at %s by VisionSpec*\n", report.GeneratedAt.Format(time.RFC3339))
 
 	return nil
 }
@@ -213,7 +213,7 @@ func GenerateSpecsLanding(w io.Writer, projects []ProjectSummary, opts SpecsLand
 	fmt.Fprintf(w, "- **Approved:** %d\n", totalApprovals)
 
 	fmt.Fprintf(w, "\n---\n")
-	fmt.Fprintf(w, "*Generated at %s by MultiSpec*\n", time.Now().Format(time.RFC3339))
+	fmt.Fprintf(w, "*Generated at %s by VisionSpec*\n", time.Now().Format(time.RFC3339))
 
 	return nil
 }
@@ -240,7 +240,7 @@ func ScanProjects(specsDir string) ([]ProjectSummary, error) {
 
 		projectPath := filepath.Join(specsDir, name)
 
-		// Check if it's a valid multispec project
+		// Check if it's a valid visionspec project
 		configPath := filepath.Join(projectPath, config.ConfigFileName)
 		if _, err := os.Stat(configPath); os.IsNotExist(err) {
 			continue

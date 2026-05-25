@@ -1,8 +1,8 @@
-site_name: MultiSpec
+site_name: VisionSpec
 site_description: Multi-domain specification orchestration for humans and AI agents
-site_url: https://plexusone.github.io/multispec
-repo_url: https://github.com/plexusone/multispec
-repo_name: plexusone/multispec
+site_url: https://productbuildershq.com/visionspec
+repo_url: https://github.com/ProductBuildersHQ/visionspec
+repo_name: ProductBuildersHQ/visionspec
 
 theme:
   name: material
@@ -89,4 +89,4 @@ nav:
 extra:
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/plexusone/multispec
+      link: https://github.com/ProductBuildersHQ/visionspec

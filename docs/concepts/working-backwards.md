@@ -1,6 +1,6 @@
 # Working Backwards
 
-MultiSpec implements Amazon's Working Backwards methodology as the foundation for specification development. This document explains the approach, why it matters for AI-assisted execution, and how to apply it effectively.
+VisionSpec implements Amazon's Working Backwards methodology as the foundation for specification development. This document explains the approach, why it matters for AI-assisted execution, and how to apply it effectively.
 
 ## What is Working Backwards?
 
@@ -12,7 +12,7 @@ Working Backwards is a product development methodology pioneered at Amazon. Inst
 
 This inversion ensures that every requirement traces back to a specific customer outcome.
 
-## The MultiSpec Flow
+## The VisionSpec Flow
 
 ```
 MRD (human-authored)
@@ -104,14 +104,14 @@ Synthesize narratives after PRD but before starting technical work:
 
 ```bash
 # Generate narratives for review
-multispec synthesize narrative-1p
-multispec synthesize narrative-6p
+visionspec synthesize narrative-1p
+visionspec synthesize narrative-6p
 
 # Share with stakeholders, gather feedback
 # Edit narratives as needed based on feedback
 
 # Then proceed to technical synthesis
-multispec synthesize trd
+visionspec synthesize trd
 ```
 
 ## Human vs. Synthesized Documents
@@ -133,19 +133,19 @@ multispec synthesize trd
 
 ```bash
 # 1. Initialize project
-multispec init my-feature
+visionspec init my-feature
 
 # 2. Write MRD (human-authored)
 # Define market problem, audience, business goals
 
 # 3. Synthesize Working Backwards chain
-multispec synthesize press    # Vision document
-multispec synthesize faq      # Challenge assumptions
-multispec synthesize prd      # Detailed requirements
+visionspec synthesize press    # Vision document
+visionspec synthesize faq      # Challenge assumptions
+visionspec synthesize prd      # Detailed requirements
 
 # 4. Generate narratives for stakeholder review
-multispec synthesize narrative-1p
-multispec synthesize narrative-6p
+visionspec synthesize narrative-1p
+visionspec synthesize narrative-6p
 
 # 5. Review and refine all documents
 # Edit in git, collaborate with AI, gather feedback
@@ -154,19 +154,19 @@ multispec synthesize narrative-6p
 # Define user journeys and interactions
 
 # 7. Synthesize technical specs
-multispec synthesize trd --eval
-multispec synthesize ird --eval
+visionspec synthesize trd --eval
+visionspec synthesize ird --eval
 
 # 8. Approve all specs
-multispec approve mrd
-multispec approve prd
+visionspec approve mrd
+visionspec approve prd
 # ... approve all
 
 # 9. Reconcile into execution spec
-multispec reconcile
+visionspec reconcile
 
 # 10. Export to target system
-multispec export speckit
+visionspec export speckit
 ```
 
 ### For Existing PRDs
@@ -175,10 +175,10 @@ If you already have a human-authored PRD, you can still use Working Backwards fo
 
 ```bash
 # Synthesize Press from existing MRD + PRD
-multispec synthesize press
+visionspec synthesize press
 
 # Generate FAQ to challenge the PRD
-multispec synthesize faq
+visionspec synthesize faq
 
 # Compare FAQ questions with PRD coverage
 # Update PRD to address gaps
@@ -197,7 +197,7 @@ Different organizational stages need different levels of ceremony:
 
 ```bash
 # Initialize with appropriate profile
-multispec init my-feature --profile growth
+visionspec init my-feature --profile growth
 ```
 
 ## References

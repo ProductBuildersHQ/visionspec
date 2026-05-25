@@ -5,14 +5,14 @@ Mark a specification as approved for reconciliation.
 ## Usage
 
 ```bash
-multispec approve <spec-type> [flags]
+visionspec approve <spec-type> [flags]
 ```
 
 ## Description
 
-The `approve` command marks a specification as approved and ready for reconciliation. Approvals are required before running `multispec reconcile` to generate the unified execution spec.
+The `approve` command marks a specification as approved and ready for reconciliation. Approvals are required before running `visionspec reconcile` to generate the unified execution spec.
 
-Approvals are recorded in `multispec.yaml` with:
+Approvals are recorded in `visionspec.yaml` with:
 
 - Approver identifier
 - Timestamp
@@ -35,13 +35,13 @@ Approvals are recorded in `multispec.yaml` with:
 
 ```bash
 # Approve PRD with default approver
-multispec approve prd
+visionspec approve prd
 
 # Approve TRD with specific approver
-multispec approve trd --approver=eng@company.com
+visionspec approve trd --approver=eng@company.com
 
 # Approve with comment
-multispec approve mrd --approver=pm@company.com --comment="Reviewed in spec review meeting"
+visionspec approve mrd --approver=pm@company.com --comment="Reviewed in spec review meeting"
 ```
 
 ## Output
@@ -54,10 +54,10 @@ multispec approve mrd --approver=pm@company.com --comment="Reviewed in spec revi
 ## Approval Workflow
 
 1. **Write spec** - Create or synthesize the specification
-2. **Evaluate** - Run `multispec eval <type>` to check quality
+2. **Evaluate** - Run `visionspec eval <type>` to check quality
 3. **Review** - Human review of spec content
 4. **Approve** - Mark as approved with this command
-5. **Reconcile** - Run `multispec reconcile` after all approvals
+5. **Reconcile** - Run `visionspec reconcile` after all approvals
 
 ## Required Approvals
 
@@ -71,10 +71,10 @@ The specs required for reconciliation depend on your profile:
 
 ## Checking Approval Status
 
-Use `multispec status` to see which specs are approved:
+Use `visionspec status` to see which specs are approved:
 
 ```bash
-multispec status
+visionspec status
 
 # Approvals:
 #   ✓ mrd - approved by pm@co on 2024-01-10
@@ -85,7 +85,7 @@ multispec status
 
 ## Storage
 
-Approvals are stored in `multispec.yaml`:
+Approvals are stored in `visionspec.yaml`:
 
 ```yaml
 approvals:

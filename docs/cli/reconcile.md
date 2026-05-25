@@ -5,7 +5,7 @@ Generate a unified execution spec from approved specifications.
 ## Usage
 
 ```bash
-multispec reconcile [flags]
+visionspec reconcile [flags]
 ```
 
 ## Description
@@ -25,10 +25,10 @@ The reconciliation process:
 All required specs must be approved before reconciliation:
 
 ```bash
-multispec approve mrd
-multispec approve prd
-multispec approve uxd
-multispec approve trd
+visionspec approve mrd
+visionspec approve prd
+visionspec approve uxd
+visionspec approve trd
 ```
 
 ## Conflict Detection
@@ -85,7 +85,7 @@ The reconciler detects conflicts across specs:
 
 ```bash
 # Run reconciliation
-multispec reconcile
+visionspec reconcile
 
 # Output:
 # ✓ All required specs approved: [mrd prd uxd trd ird]
@@ -107,7 +107,7 @@ Missing approvals:
   ✗ trd
   ✗ ird
 
-Approve specs with: multispec approve <spec-type>
+Approve specs with: visionspec approve <spec-type>
 ```
 
 If high-severity conflicts cannot be resolved, the status will be `needs_review` and manual intervention is required.

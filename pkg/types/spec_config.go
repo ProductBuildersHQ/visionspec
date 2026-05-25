@@ -1,4 +1,4 @@
-// Package types defines the core data structures for multispec.
+// Package types defines the core data structures for visionspec.
 package types
 
 // SpecRequirement defines requirements for a spec type.

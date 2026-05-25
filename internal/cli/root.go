@@ -1,4 +1,4 @@
-// Package cli implements the multispec command-line interface.
+// Package cli implements the visionspec command-line interface.
 //
 // This package provides backward compatibility with the existing CLI.
 // For composable CLI building, use pkg/cli instead.
@@ -7,7 +7,7 @@ package cli
 import (
 	"fmt"
 
-	pkgcli "github.com/plexusone/multispec/pkg/cli"
+	pkgcli "github.com/ProductBuildersHQ/visionspec/pkg/cli"
 	"github.com/spf13/cobra"
 )
 
@@ -23,18 +23,18 @@ var rootCmd *cobra.Command
 
 func init() {
 	rootCmd = &cobra.Command{
-		Use:   "multispec",
-		Short: "Multi-domain specification orchestration for humans and AI agents",
-		Long: `MultiSpec bridges the gap between organizational intent (MRD, PRD, UXD)
-and executable specifications for AI coding agents.
+		Use:   "visionspec",
+		Short: "Vision-first specification orchestration using Working Backwards",
+		Long: `VisionSpec implements Amazon's Working Backwards methodology for
+specification development. Start with the customer experience (Press Release),
+derive requirements (PRD), then build technical specs (TRD, IRD).
 
 It provides:
-  - Domain-specific authoring (source specs)
-  - GTM synthesis (press releases, FAQs, narratives)
+  - Working Backwards flow (MRD → Press → FAQ → PRD)
   - Technical synthesis (TRD, IRD)
   - Structured evaluation with LLM judges
   - Reconciliation into unified execution specs
-  - Export to SpecKit, GSD, GasTown, GasCity, OpenSpec`,
+  - Export to SpecKit, GSD, GasTown, GasCity`,
 		Version: fmt.Sprintf("%s (commit: %s)", Version, Commit),
 	}
 

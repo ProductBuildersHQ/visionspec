@@ -4,7 +4,7 @@ package rubrics
 import (
 	"fmt"
 
-	"github.com/plexusone/multispec/pkg/types"
+	"github.com/ProductBuildersHQ/visionspec/pkg/types"
 	"github.com/plexusone/structured-evaluation/evaluation"
 )
 

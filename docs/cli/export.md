@@ -5,7 +5,7 @@ Export the reconciled spec to target execution systems.
 ## Usage
 
 ```bash
-multispec export <target> [flags]
+visionspec export <target> [flags]
 ```
 
 ## Description
@@ -17,7 +17,7 @@ The `export` command transforms the unified `spec.md` into formats compatible wi
 Before exporting, you must have a reconciled `spec.md`:
 
 ```bash
-multispec reconcile
+visionspec reconcile
 ```
 
 ## Arguments
@@ -100,16 +100,16 @@ GasCity multi-agent orchestration format.
 
 ```bash
 # Export to SpecKit
-multispec export speckit
+visionspec export speckit
 
 # Export to GSD with custom output directory
-multispec export gsd --output ./my-gsd-export
+visionspec export gsd --output ./my-gsd-export
 
 # Dry run to see what would be created
-multispec export gastown --dry-run
+visionspec export gastown --dry-run
 
 # Export to GasCity
-multispec export gascity
+visionspec export gascity
 ```
 
 ## Output
@@ -126,7 +126,7 @@ multispec export gascity
 
 ## Configuration
 
-Target-specific configuration in `multispec.yaml`:
+Target-specific configuration in `visionspec.yaml`:
 
 ```yaml
 targets:

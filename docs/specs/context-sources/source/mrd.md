@@ -57,7 +57,7 @@ Organizations face a fundamental disconnect between documentation and implementa
 
 ### G1: Increase Adoption in Brownfield Contexts
 
-Current multispec adoption limited to greenfield projects. Context sources enables brownfield use cases, expanding TAM 5x.
+Current visionspec adoption limited to greenfield projects. Context sources enables brownfield use cases, expanding TAM 5x.
 
 ### G2: Differentiate from AI Doc Tools
 

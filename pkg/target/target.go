@@ -4,7 +4,7 @@ package target
 import (
 	"fmt"
 
-	"github.com/plexusone/multispec/pkg/types"
+	"github.com/ProductBuildersHQ/visionspec/pkg/types"
 )
 
 // Target defines the interface for export adapters.

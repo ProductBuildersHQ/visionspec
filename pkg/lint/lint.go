@@ -1,4 +1,4 @@
-// Package lint validates multispec directory structure and naming conventions.
+// Package lint validates visionspec directory structure and naming conventions.
 package lint
 
 import (
@@ -8,8 +8,8 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/plexusone/multispec/pkg/config"
-	"github.com/plexusone/multispec/pkg/types"
+	"github.com/ProductBuildersHQ/visionspec/pkg/config"
+	"github.com/ProductBuildersHQ/visionspec/pkg/types"
 )
 
 // Severity levels for lint findings.
@@ -55,7 +55,7 @@ var (
 	evalNameRegex  = regexp.MustCompile(`^[a-z]+\.eval\.json$`)
 )
 
-// Linter validates multispec projects.
+// Linter validates visionspec projects.
 type Linter struct {
 	specsDir   string
 	specConfig *types.SpecConfig
@@ -262,7 +262,7 @@ func (l *Linter) checkConfigExists(projectPath string) {
 	configPath := filepath.Join(projectPath, config.ConfigFileName)
 	if _, err := os.Stat(configPath); os.IsNotExist(err) {
 		l.addFinding(configPath, RuleConfigExists,
-			"missing multispec.yaml configuration file",
+			"missing visionspec.yaml configuration file",
 			SeverityWarning)
 	}
 }

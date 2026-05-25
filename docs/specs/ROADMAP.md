@@ -1,10 +1,10 @@
-# MultiSpec Roadmap
+# VisionSpec Roadmap
 
 Multi-domain specification orchestration for humans and AI agents.
 
 ## Vision
 
-MultiSpec bridges the gap between organizational intent (MRD, PRD, UXD) and executable specifications for AI coding agents. It provides:
+VisionSpec bridges the gap between organizational intent (MRD, PRD, UXD) and executable specifications for AI coding agents. It provides:
 
 - **Domain-specific authoring** - Separate specs for PM, UX, Engineering
 - **GTM synthesis** - LLM-generated press releases, FAQs, narratives (Working Backwards)
@@ -81,7 +81,7 @@ docs/specs/
     ├── current-truth.md               # Post-ship maintained state
     ├── status.html                    # Project readiness report
     ├── index.md                       # MkDocs project page (generated)
-    └── multispec.yaml                 # Project configuration
+    └── visionspec.yaml                 # Project configuration
 ```
 
 ### Naming Conventions (Enforced)
@@ -91,7 +91,7 @@ docs/specs/
 | Project directory | `kebab-case` | `user-onboarding`, `user-onboarding` |
 | Spec files | `lowercase.md` | `mrd.md`, `prd.md`, `spec.md` |
 | Eval files | `{spec}.eval.json` | `mrd.eval.json`, `press.eval.json` |
-| Config file | `multispec.yaml` | Fixed name |
+| Config file | `visionspec.yaml` | Fixed name |
 | Repo-level docs | `CAPS.md` | `CONSTITUTION.md`, `ROADMAP.md` |
 
 **Design principles:**
@@ -107,17 +107,17 @@ docs/specs/
 
 Core project setup and CLI scaffolding.
 
-- [x] RMI-001: Initialize Go module (`github.com/plexusone/multispec`)
-- [x] RMI-002: Create CLI skeleton with Cobra (`multispec` command)
+- [x] RMI-001: Initialize Go module (`github.com/ProductBuildersHQ/visionspec`)
+- [x] RMI-002: Create CLI skeleton with Cobra (`visionspec` command)
 - [x] RMI-003: Define core types package (`pkg/types/`)
-- [x] RMI-004: Add configuration loading (`multispec.yaml`)
+- [x] RMI-004: Add configuration loading (`visionspec.yaml`)
 - [x] RMI-005: Set up CI (lint, test, build)
   - `.github/workflows/go-ci.yaml` - build and test
   - `.github/workflows/go-lint.yaml` - golangci-lint
   - `.github/workflows/go-sast-codeql.yaml` - security analysis
 - [x] RMI-006: Create project README
 
-- [x] RMI-007: Implement `multispec lint` command
+- [x] RMI-007: Implement `visionspec lint` command
   - Validate directory structure matches canonical layout
   - Validate file naming conventions (lowercase specs, kebab-case projects)
   - Report errors for non-standard names
@@ -142,14 +142,14 @@ Establish conventions for spec organization and authoring.
 
 ### Directory Structure
 
-- [x] RMI-010: Implement `multispec init` command
+- [x] RMI-010: Implement `visionspec init` command
   - Create `docs/specs/{project}/` structure
   - Create `source/`, `gtm/`, `technical/`, `eval/` subdirectories
-  - Generate `multispec.yaml` project config
+  - Generate `visionspec.yaml` project config
 
 - [x] RMI-011: Support CONSTITUTION.md at `docs/specs/CONSTITUTION.md`
   - Repo-level governance document
-  - Optional org-level at `~/.config/multispec/CONSTITUTION.md`
+  - Optional org-level at `~/.config/visionspec/CONSTITUTION.md`
   - `pkg/config/config.go` - FindConstitution, LoadConstitution functions
   - Used in synth, reconcile, and export commands
 
@@ -161,14 +161,14 @@ Establish conventions for spec organization and authoring.
   - Eval summary (pass/fail counts, open findings)
   - Last updated timestamps
   - `pkg/mkdocs/mkdocs.go` - GenerateProjectIndex, WriteProjectIndex
-  - `multispec docs project` command
+  - `visionspec docs project` command
 
 - [x] RMI-017: Generate `docs/specs/index.md` (specs landing page)
   - List all projects with status
   - Link to CONSTITUTION.md and ROADMAP.md
   - Cross-project metrics
   - `pkg/mkdocs/mkdocs.go` - GenerateSpecsLanding, WriteSpecsLanding
-  - `multispec docs generate` command
+  - `visionspec docs generate` command
 
 - [ ] RMI-018: Generate MkDocs navigation structure
   - Auto-update `mkdocs.yml` nav section
@@ -176,14 +176,14 @@ Establish conventions for spec organization and authoring.
   - Support `mkdocs-awesome-pages-plugin` `.pages` files
 
 - [ ] RMI-019: Render eval JSON to markdown for MkDocs
-  - `multispec render-evals {project}`
+  - `visionspec render-evals {project}`
   - Generate `eval/index.md` with rendered findings
   - Collapsible sections per spec
   - Severity badges and status indicators
 
 ### Project Status Report
 
-- [x] RMI-019a: Implement `multispec status` core logic
+- [x] RMI-019a: Implement `visionspec status` core logic
   - `pkg/status/status.go` - Generate() function
   - Check spec existence per type
   - Check eval file existence
@@ -211,7 +211,7 @@ Establish conventions for spec organization and authoring.
   - `pkg/specgraph/specgraph.go` - ComputeMetrics function
 
 - [x] RMI-019e: CI exit codes for readiness
-  - `multispec status --ci` exits non-zero if not ready
+  - `visionspec status --ci` exits non-zero if not ready
   - CLI flag wired up, needs renderer to output before exit
 
 ### Source Spec Templates
@@ -248,7 +248,7 @@ Establish conventions for spec organization and authoring.
   - Executive summary format (1-pager)
   - AWS 6-pager format with appendices
 
-- [x] RMI-015: Implement `multispec create {spec-type}` command
+- [x] RMI-015: Implement `visionspec create {spec-type}` command
   - Scaffold new spec from template
   - Support: mrd, prd, uxd, trd, ird, press, faq, narrative-1p, narrative-6p
   - `pkg/cli/commands.go` - createCmd function
@@ -294,21 +294,21 @@ Integrate with `structured-evaluation` for per-spec evaluation.
   - Evaluate draft content before finalization
   - Track eval history in draft metadata
 
-- [ ] RMI-023c: Implement `multispec eval {spec-type}` CLI command
+- [ ] RMI-023c: Implement `visionspec eval {spec-type}` CLI command
   - Load spec and rubric
   - Call LLM judge
   - Write `{spec}.eval.json` output
 
-- [ ] RMI-024: Implement `multispec eval --all` command
+- [ ] RMI-024: Implement `visionspec eval --all` command
   - Evaluate all source specs, GTM docs, and technical docs
   - Generate all `*.eval.json` files
   - Support filtering: `--source`, `--gtm`, `--technical`
 
-- [ ] RMI-025: Implement `multispec render {eval-file}` command
+- [ ] RMI-025: Implement `visionspec render {eval-file}` command
   - Render JSON eval to Markdown for human review
   - Use `structured-evaluation/render/markdown`
 
-- [x] RMI-026: Implement `multispec status` command
+- [x] RMI-026: Implement `visionspec status` command
   - Summary of open items across all evals
   - Severity counts, blocking issues
 
@@ -331,7 +331,7 @@ Integrate with `structured-evaluation` for per-spec evaluation.
 - [x] RMI-026c: Implement LLM evaluation integration
   - `pkg/eval/eval.go` - Evaluation orchestration
   - `pkg/eval/llm.go` - LLM provider integration via omnillm-core
-  - Support project-level LLM config in multispec.yaml
+  - Support project-level LLM config in visionspec.yaml
 
 - [x] RMI-026d: Create authoring skills
   - `skills/author-mrd/SKILL.md`
@@ -352,20 +352,20 @@ LLM-generated documents from source specs + constitution.
 
 ### GTM Document Generation (Working Backwards)
 
-- [x] RMI-027: Implement `multispec synthesize press` command
+- [x] RMI-027: Implement `visionspec synthesize press` command
   - Input: MRD + PRD
   - Output: `gtm/press.md` (press release format)
   - Template: Hook → Problem → Solution → Quote → CTA → Benefits
   - Generate PRESS_EVAL.json
 
-- [x] RMI-028: Implement `multispec synthesize faq` command
+- [x] RMI-028: Implement `visionspec synthesize faq` command
   - Input: press.md
   - Output: `gtm/faq.md`
   - Structure: External FAQs + Internal FAQs
   - Challenge claims in press release
   - Generate FAQ_EVAL.json
 
-- [x] RMI-029: Implement `multispec synthesize narrative` command
+- [x] RMI-029: Implement `visionspec synthesize narrative` command
   - Input: MRD + PRD + FAQ
   - Output: `gtm/narrative.md`
   - Structure: Customer → Tension → Future State → Promise → Principles → Non-Goals
@@ -384,14 +384,14 @@ LLM-generated documents from source specs + constitution.
   - `pkg/rubrics/narrative6p.go` - 6-pager evaluation (AWS format)
 
 - [x] RMI-029d: Support `--eval` flag on synthesize commands
-  - `multispec synthesize press --eval` generates press.md + press.eval.json
+  - `visionspec synthesize press --eval` generates press.md + press.eval.json
   - Auto-evaluate after generation
 
 ### Technical Document Generation
 
 ### TRD Generation
 
-- [x] RMI-030: Implement `multispec synthesize trd` command
+- [x] RMI-030: Implement `visionspec synthesize trd` command
   - Input: MRD + PRD + UXD + CONSTITUTION
   - Output: `technical/trd.md`
   - Generate TRD_EVAL.json
@@ -405,7 +405,7 @@ LLM-generated documents from source specs + constitution.
 
 ### IRD Generation
 
-- [x] RMI-032: Implement `multispec synthesize ird` command
+- [x] RMI-032: Implement `visionspec synthesize ird` command
   - Input: TRD + CONSTITUTION
   - Output: `technical/ird.md`
   - Generate IRD_EVAL.json
@@ -418,18 +418,18 @@ LLM-generated documents from source specs + constitution.
 
 ### Approval Workflow
 
-- [x] RMI-034: Implement `multispec approve {spec-type}` command
-  - Record approval in `multispec.yaml`
+- [x] RMI-034: Implement `visionspec approve {spec-type}` command
+  - Record approval in `visionspec.yaml`
   - Track approver, timestamp
   - Gate for reconciliation
 
-- [x] RMI-035: Support approval status in `multispec status`
+- [x] RMI-035: Support approval status in `visionspec status`
   - Show pending approvals
   - Show approval history
 
 ### Post-Ship Alignment
 
-- [ ] RMI-036: Implement `multispec align` command (moved to Phase 11 with context)
+- [ ] RMI-036: Implement `visionspec align` command (moved to Phase 11 with context)
   - Input: spec.md + shipped reality (from engineering)
   - Output: `current-truth.md`
   - Detect: ungrounded claims, missed opportunities, drift
@@ -465,7 +465,7 @@ Conflict detection and unified spec generation.
 
 ### spec.md Generation
 
-- [x] RMI-042: Implement `multispec reconcile` command
+- [x] RMI-042: Implement `visionspec reconcile` command
   - Input: All approved specs
   - Output: `spec.md` (unified execution spec)
   - Output: `spec.eval.json` (reconciliation evaluation)
@@ -502,13 +502,13 @@ Export reconciled specs to downstream execution systems.
   - List available targets
   - `Get()`, `Available()`, `ListTargets()`
 
-- [x] RMI-052: Implement `multispec targets` command
+- [x] RMI-052: Implement `visionspec targets` command
   - List available targets
   - Show capabilities
 
-- [x] RMI-053: Implement `multispec export {target}` command
+- [x] RMI-053: Implement `visionspec export {target}` command
   - Route to appropriate adapter
-  - Support multiple targets: `multispec export speckit,gsd`
+  - Support multiple targets: `visionspec export speckit,gsd`
 
 ### SpecKit Adapter (Priority 1)
 
@@ -591,29 +591,29 @@ Seamless integration with AI coding assistant workflows via multi-agent-spec and
   - Loader functions for skill directories
   - Matches assistantkit canonical type
 
-- [ ] RMI-099: Define multispec skills in multi-agent-spec format
-  - `multispec-status` - Check project readiness
-  - `multispec-lint` - Validate project structure
-  - `multispec-eval` - Run evaluations
-  - `multispec-synthesize` - Generate specs
-  - `multispec-reconcile` - Generate unified spec
-  - `multispec-export` - Export to targets
+- [ ] RMI-099: Define visionspec skills in multi-agent-spec format
+  - `visionspec-status` - Check project readiness
+  - `visionspec-lint` - Validate project structure
+  - `visionspec-eval` - Run evaluations
+  - `visionspec-synthesize` - Generate specs
+  - `visionspec-reconcile` - Generate unified spec
+  - `visionspec-export` - Export to targets
 
 ### Skill Generation (assistantkit)
 
 - [ ] RMI-100: Generate Claude Code skills via assistantkit
-  - `skills/multispec-status/SKILL.md`
-  - `skills/multispec-lint/SKILL.md`
+  - `skills/visionspec-status/SKILL.md`
+  - `skills/visionspec-lint/SKILL.md`
   - etc.
 
 - [ ] RMI-101: Generate Kiro CLI steering files via assistantkit
-  - `steering/multispec-status.md`
-  - `steering/multispec-lint.md`
+  - `steering/visionspec-status.md`
+  - `steering/visionspec-lint.md`
   - etc.
 
 ### Automation
 
-- [ ] RMI-102: Implement `multispec watch` command
+- [ ] RMI-102: Implement `visionspec watch` command
   - File watcher for spec changes
   - Auto-run eval on change
   - Auto-run reconcile when all approved
@@ -661,10 +661,10 @@ Requirement graph visualization via `github.com/plexusone/graphize`.
   - Version controlled with project
   - One file per node/edge (git-friendly)
 
-- [ ] RMI-144: Implement `multispec graph` commands
-  - `multispec graph extract` - Build graph from specs
-  - `multispec graph query` - Query relationships
-  - `multispec graph export` - Export to HTML/JSON/GraphML
+- [ ] RMI-144: Implement `visionspec graph` commands
+  - `visionspec graph extract` - Build graph from specs
+  - `visionspec graph query` - Query relationships
+  - `visionspec graph export` - Export to HTML/JSON/GraphML
 
 ### Traceability Analysis
 
@@ -776,7 +776,7 @@ Future enhancements.
 
 ## Phase 9: Composability (v0.3.0)
 
-Enable organizations (companies, open source projects, non-profits) to compose custom CLI tools with multispec as a library.
+Enable organizations (companies, open source projects, non-profits) to compose custom CLI tools with visionspec as a library.
 
 ### CLI as Library
 
@@ -784,9 +784,9 @@ Enable organizations (companies, open source projects, non-profits) to compose c
   - Create `pkg/cli/cli.go` with composition API
   - `AddCommandsTo(root *cobra.Command, cfg *Config)`
   - `Commands(cfg *Config)` for selective command access
-  - `DefaultConfig()` for multispec defaults
+  - `DefaultConfig()` for visionspec defaults
 
-- [x] RMI-201: Update `cmd/multispec/main.go` to use `pkg/cli`
+- [x] RMI-201: Update `cmd/visionspec/main.go` to use `pkg/cli`
   - `internal/cli/root.go` now uses `pkg/cli.AddCommandsTo()`
 
 ### Custom Templates
@@ -821,7 +821,7 @@ Enable organizations (companies, open source projects, non-profits) to compose c
   - `SpecConfig` with helper methods
   - `IsRequired()` with fallback to defaults
 
-- [ ] RMI-231: Update `multispec.yaml` schema
+- [ ] RMI-231: Update `visionspec.yaml` schema
   - Add `specs:` section for per-spec configuration
   - Parse and merge with defaults
 
@@ -831,7 +831,7 @@ Enable organizations (companies, open source projects, non-profits) to compose c
 ### Documentation & Examples
 
 - [x] RMI-240: Create example org CLI (`examples/org-cli/`)
-  - Sample CLI importing multispec as library
+  - Sample CLI importing visionspec as library
   - Custom templates and rubrics
   - Custom spec types
 
@@ -958,27 +958,27 @@ Future enhancements for testing, integrations, and developer experience.
 
 - [ ] RMI-340: Implement spec version tracking
   - Track spec versions with git-like history
-  - Store version metadata in multispec.yaml
+  - Store version metadata in visionspec.yaml
   - Immutable version snapshots
 
-- [ ] RMI-341: Implement `multispec diff <spec> [version]`
+- [ ] RMI-341: Implement `visionspec diff <spec> [version]`
   - Compare current spec with previous version
   - Show changes by section
   - Highlight requirement changes
 
-- [ ] RMI-342: Implement `multispec history <spec>`
+- [ ] RMI-342: Implement `visionspec history <spec>`
   - Show version history for spec
   - Display change summaries
   - Link to full diffs
 
-- [ ] RMI-343: Implement `multispec revert <spec> <version>`
+- [ ] RMI-343: Implement `visionspec revert <spec> <version>`
   - Restore spec to previous version
   - Create new version for revert
   - Preserve audit trail
 
 ### Cross-Project Analysis
 
-- [ ] RMI-350: Implement `multispec search <query>`
+- [ ] RMI-350: Implement `visionspec search <query>`
   - Full-text search across all projects
   - Filter by spec type, project, date
   - Return ranked results
@@ -1013,9 +1013,9 @@ Future enhancements for testing, integrations, and developer experience.
 ### CI/CD Integration
 
 - [ ] RMI-370: Create GitHub Actions workflows
-  - `multispec-lint.yml` - Validate on PR
-  - `multispec-eval.yml` - Evaluate changed specs
-  - `multispec-status.yml` - Post status comment
+  - `visionspec-lint.yml` - Validate on PR
+  - `visionspec-eval.yml` - Evaluate changed specs
+  - `visionspec-status.yml` - Post status comment
 
 - [ ] RMI-371: Create pre-commit hooks
   - `pre-commit-lint` - Run lint before commit
@@ -1055,7 +1055,7 @@ Aggregate context from multiple sources to ground spec synthesis in reality.
   - Caching with configurable TTL
   - Error handling and partial results
 
-- [x] RMI-402: Configuration schema in multispec.yaml
+- [x] RMI-402: Configuration schema in visionspec.yaml
   - `context.repositories[]` - git repo configs
   - `context.graphize[]` - graphize graph paths
   - `context.mcp_servers{}` - MCP server configs
@@ -1112,7 +1112,7 @@ Aggregate context from multiple sources to ground spec synthesis in reality.
 
 ### CLI Commands
 
-- [x] RMI-440: Implement `multispec context` command group
+- [x] RMI-440: Implement `visionspec context` command group
   - `context gather` - fetch from all sources
   - `context show` - display aggregated context
   - `context refresh` - clear cache and re-fetch

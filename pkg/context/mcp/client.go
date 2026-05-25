@@ -99,7 +99,7 @@ func (c *Client) Initialize(ctx context.Context) error {
 		"protocolVersion": "2024-11-05",
 		"capabilities":    map[string]any{},
 		"clientInfo": map[string]string{
-			"name":    "multispec",
+			"name":    "visionspec",
 			"version": "0.4.0",
 		},
 	}

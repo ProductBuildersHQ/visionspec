@@ -1,4 +1,4 @@
-// Package mcp implements the Model Context Protocol server for multispec.
+// Package mcp implements the Model Context Protocol server for visionspec.
 package mcp
 
 import (
@@ -11,19 +11,19 @@ import (
 	"strings"
 	"time"
 
+	"github.com/ProductBuildersHQ/visionspec/pkg/config"
+	"github.com/ProductBuildersHQ/visionspec/pkg/draft"
+	"github.com/ProductBuildersHQ/visionspec/pkg/eval"
+	"github.com/ProductBuildersHQ/visionspec/pkg/reconcile"
+	"github.com/ProductBuildersHQ/visionspec/pkg/status"
+	"github.com/ProductBuildersHQ/visionspec/pkg/synth"
+	"github.com/ProductBuildersHQ/visionspec/pkg/target"
+	"github.com/ProductBuildersHQ/visionspec/pkg/templates"
+	"github.com/ProductBuildersHQ/visionspec/pkg/types"
 	"github.com/modelcontextprotocol/go-sdk/mcp"
-	"github.com/plexusone/multispec/pkg/config"
-	"github.com/plexusone/multispec/pkg/draft"
-	"github.com/plexusone/multispec/pkg/eval"
-	"github.com/plexusone/multispec/pkg/reconcile"
-	"github.com/plexusone/multispec/pkg/status"
-	"github.com/plexusone/multispec/pkg/synth"
-	"github.com/plexusone/multispec/pkg/target"
-	"github.com/plexusone/multispec/pkg/templates"
-	"github.com/plexusone/multispec/pkg/types"
 )
 
-// Server implements the MCP server for multispec.
+// Server implements the MCP server for visionspec.
 type Server struct {
 	server *mcp.Server
 }
@@ -31,7 +31,7 @@ type Server struct {
 // NewServer creates a new MCP server.
 func NewServer() *Server {
 	impl := &mcp.Implementation{
-		Name:    "multispec",
+		Name:    "visionspec",
 		Version: "0.2.0",
 	}
 
@@ -98,7 +98,7 @@ func (s *Server) registerTools() {
 	// Tool: list_projects
 	mcp.AddTool(s.server, &mcp.Tool{
 		Name:        "list_projects",
-		Description: "List all multispec projects",
+		Description: "List all visionspec projects",
 	}, s.handleListProjects)
 
 	// Tool: get_project_status
@@ -239,7 +239,7 @@ func (s *Server) handleListProjects(ctx context.Context, req *mcp.CallToolReques
 		if strings.HasPrefix(entry.Name(), ".") {
 			continue
 		}
-		// Check if it has a multispec.yaml
+		// Check if it has a visionspec.yaml
 		configPath := filepath.Join(specsDir, entry.Name(), config.ConfigFileName)
 		if _, err := os.Stat(configPath); err == nil {
 			projects = append(projects, entry.Name())

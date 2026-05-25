@@ -1,6 +1,6 @@
 # 0-1 Product Example
 
-A minimalist multispec configuration for the 0-1 phase: going from idea to first working product.
+A minimalist visionspec configuration for the 0-1 phase: going from idea to first working product.
 
 ## Philosophy
 

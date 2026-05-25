@@ -8,8 +8,8 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/plexusone/multispec/pkg/config"
-	"github.com/plexusone/multispec/pkg/types"
+	"github.com/ProductBuildersHQ/visionspec/pkg/config"
+	"github.com/ProductBuildersHQ/visionspec/pkg/types"
 )
 
 // Report represents a project status report.
@@ -341,7 +341,7 @@ func RenderHTML(w io.Writer, report *Report) error {
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>MultiSpec Status: %s</title>
+  <title>VisionSpec Status: %s</title>
   <style>
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 2rem; }
     h1 { margin-bottom: 0.5rem; }
@@ -454,7 +454,7 @@ func RenderHTML(w io.Writer, report *Report) error {
   </ul>
 
   <footer>
-    Generated at %s by MultiSpec
+    Generated at %s by VisionSpec
   </footer>
 </body>
 </html>
@@ -546,7 +546,7 @@ func RenderMarkdown(w io.Writer, report *Report) error {
 	}
 
 	fmt.Fprintf(w, "\n---\n")
-	fmt.Fprintf(w, "*Generated at %s by MultiSpec*\n", report.GeneratedAt.Format(time.RFC3339))
+	fmt.Fprintf(w, "*Generated at %s by VisionSpec*\n", report.GeneratedAt.Format(time.RFC3339))
 
 	return nil
 }

@@ -1,13 +1,13 @@
 # Organization CLI Example
 
-This example demonstrates how organizations can build custom CLI tools that include multispec commands alongside their own commands. Templates and rubrics are **compiled into the binary** using `//go:embed`, allowing distribution as a single executable.
+This example demonstrates how organizations can build custom CLI tools that include visionspec commands alongside their own commands. Templates and rubrics are **compiled into the binary** using `//go:embed`, allowing distribution as a single executable.
 
 ## Features
 
 - **Single Binary Distribution**: Templates and rubrics embedded at compile time
 - **Custom Templates**: Override default templates with org-specific versions
 - **Custom Rubrics**: Define organization-specific evaluation criteria
-- **Additional Commands**: Add org-specific commands alongside multispec
+- **Additional Commands**: Add org-specific commands alongside visionspec
 
 ## Project Structure
 
@@ -38,7 +38,7 @@ Templates and rubrics must follow specific naming conventions:
 | Templates | `{spec-type}.md` | `prd.md`, `mrd.md`, `custom-spec.md` |
 | Rubrics | `{spec-type}.rubric.yaml` | `prd.rubric.yaml`, `mrd.rubric.yaml` |
 
-The spec-type in the filename must match the `spec_type` field in rubrics and the spec type used in multispec commands.
+The spec-type in the filename must match the `spec_type` field in rubrics and the spec type used in visionspec commands.
 
 ## Building
 
@@ -51,7 +51,7 @@ The resulting `org-spec` binary contains all templates and rubrics - no external
 ## Usage
 
 ```bash
-# Standard multispec commands (using compiled-in org templates/rubrics)
+# Standard visionspec commands (using compiled-in org templates/rubrics)
 org-spec init my-project        # Uses org PRD template with security section
 org-spec lint
 org-spec eval prd               # Uses org PRD rubric with security category
@@ -71,11 +71,11 @@ var orgTemplates embed.FS
 
 cfg.TemplateLoader = templates.NewChainLoader(
     templates.NewEmbedFSLoader(orgTemplates, "templates"),  // Org templates (compiled in)
-    templates.EmbeddedLoader(),                              // Fallback to multispec defaults
+    templates.EmbeddedLoader(),                              // Fallback to visionspec defaults
 )
 ```
 
-Templates in `templates/` are embedded at compile time. When a user runs `org-spec init`, the custom `prd.md` is used instead of the multispec default.
+Templates in `templates/` are embedded at compile time. When a user runs `org-spec init`, the custom `prd.md` is used instead of the visionspec default.
 
 ### Embedding Rubrics
 
@@ -85,7 +85,7 @@ var orgRubrics embed.FS
 
 cfg.RubricLoader = rubrics.NewChainLoader(
     rubrics.NewEmbedFSLoader(orgRubrics, "rubrics"),  // Org rubrics (compiled in)
-    rubrics.EmbeddedLoader(),                          // Fallback to multispec defaults
+    rubrics.EmbeddedLoader(),                          // Fallback to visionspec defaults
 )
 ```
 
@@ -123,9 +123,9 @@ package main
 
 import (
     "embed"
-    "github.com/plexusone/multispec/pkg/cli"
-    "github.com/plexusone/multispec/pkg/templates"
-    "github.com/plexusone/multispec/pkg/rubrics"
+    "github.com/ProductBuildersHQ/visionspec/pkg/cli"
+    "github.com/ProductBuildersHQ/visionspec/pkg/templates"
+    "github.com/ProductBuildersHQ/visionspec/pkg/rubrics"
 )
 
 //go:embed templates/*.md

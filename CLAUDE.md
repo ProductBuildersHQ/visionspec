@@ -1,10 +1,10 @@
 # CLAUDE.md
 
-Instructions for AI assistants working with MultiSpec.
+Instructions for AI assistants working with VisionSpec.
 
 ## Overview
 
-MultiSpec is a multi-domain specification orchestration tool. It helps teams create, evaluate, and reconcile specifications (MRD, PRD, UXD, TRD, IRD) before exporting to AI coding agent execution systems.
+VisionSpec is a multi-domain specification orchestration tool. It helps teams create, evaluate, and reconcile specifications (MRD, PRD, UXD, TRD, IRD) before exporting to AI coding agent execution systems.
 
 ## Project Structure
 
@@ -26,12 +26,12 @@ docs/specs/
     │   └── ird.md            # Infrastructure Requirements
     ├── eval/                 # Evaluation results
     ├── spec.md               # Reconciled execution spec
-    └── multispec.yaml        # Project configuration
+    └── visionspec.yaml        # Project configuration
 ```
 
 ## MCP Tools
 
-When the multispec MCP server is configured, use these tools:
+When the visionspec MCP server is configured, use these tools:
 
 ### Project Management
 
@@ -70,26 +70,26 @@ If MCP is not available, use CLI via Bash:
 
 ```bash
 # Project management
-multispec init <project>              # Create new project
-multispec lint [project]              # Validate structure
-multispec status -p <project>         # Check readiness
+visionspec init <project>              # Create new project
+visionspec lint [project]              # Validate structure
+visionspec status -p <project>         # Check readiness
 
 # Spec operations
-multispec create <type> -p <project>  # Scaffold spec from template
-multispec eval <type> -p <project>    # Evaluate a spec
-multispec synthesize <type> -p <project>  # Generate TRD/IRD/GTM
-multispec reconcile -p <project>      # Generate spec.md
-multispec approve <type> -p <project> # Approve for reconciliation
-multispec export <target> -p <project> # Export to target system
+visionspec create <type> -p <project>  # Scaffold spec from template
+visionspec eval <type> -p <project>    # Evaluate a spec
+visionspec synthesize <type> -p <project>  # Generate TRD/IRD/GTM
+visionspec reconcile -p <project>      # Generate spec.md
+visionspec approve <type> -p <project> # Approve for reconciliation
+visionspec export <target> -p <project> # Export to target system
 
 # Context (for grounding synthesis)
-multispec context gather -p <project> # Fetch codebase context
-multispec context show -p <project>   # Display context summary
+visionspec context gather -p <project> # Fetch codebase context
+visionspec context show -p <project>   # Display context summary
 
 # Profiles
-multispec profiles list               # List available profiles
-multispec profiles show <name>        # Show profile details
-multispec profiles export <name> <dir> # Export for customization
+visionspec profiles list               # List available profiles
+visionspec profiles show <name>        # Show profile details
+visionspec profiles export <name> <dir> # Export for customization
 ```
 
 ## Authoring Workflows

@@ -1,12 +1,12 @@
 # MCP Tools
 
-The MultiSpec MCP server provides the following tools for project management, spec operations, and draft authoring.
+The VisionSpec MCP server provides the following tools for project management, spec operations, and draft authoring.
 
 ## Project Tools
 
 ### list_projects
 
-List all MultiSpec projects in the current repository.
+List all VisionSpec projects in the current repository.
 
 **Arguments:** None
 

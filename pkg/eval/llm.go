@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/plexusone/multispec/pkg/types"
+	"github.com/ProductBuildersHQ/visionspec/pkg/types"
 	"github.com/plexusone/omnillm-core"
 )
 

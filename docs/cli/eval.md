@@ -5,7 +5,7 @@ Evaluate specifications using LLM-as-a-Judge.
 ## Usage
 
 ```bash
-multispec eval [spec-type] [flags]
+visionspec eval [spec-type] [flags]
 ```
 
 ## Description
@@ -38,19 +38,19 @@ Evaluation results are saved to `eval/{spec-type}.eval.json` and include:
 
 ```bash
 # Evaluate a specific spec
-multispec eval prd
+visionspec eval prd
 
 # Evaluate all specs
-multispec eval --all
+visionspec eval --all
 
 # Evaluate only source specs
-multispec eval --source
+visionspec eval --source
 
 # Evaluate GTM documents
-multispec eval --gtm
+visionspec eval --gtm
 
 # Evaluate technical specs
-multispec eval --technical
+visionspec eval --technical
 ```
 
 ## Output
@@ -108,7 +108,7 @@ A spec passes evaluation when:
 
 ## LLM Configuration
 
-The LLM used for evaluation is configured in `multispec.yaml`:
+The LLM used for evaluation is configured in `visionspec.yaml`:
 
 ```yaml
 llm:

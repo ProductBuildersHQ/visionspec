@@ -9,8 +9,8 @@ import (
 	"strings"
 	"time"
 
+	ctx "github.com/ProductBuildersHQ/visionspec/pkg/context"
 	"github.com/bmatcuk/doublestar/v4"
-	ctx "github.com/plexusone/multispec/pkg/context"
 )
 
 // Source analyzes a git repository for context.

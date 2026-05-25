@@ -1,10 +1,10 @@
-# MultiSpec
+# VisionSpec
 
 Multi-domain specification orchestration for humans and AI agents.
 
-## What is MultiSpec?
+## What is VisionSpec?
 
-MultiSpec bridges the gap between organizational intent (MRD, PRD, UXD) and executable specifications for AI coding agents. It provides a structured workflow for:
+VisionSpec bridges the gap between organizational intent (MRD, PRD, UXD) and executable specifications for AI coding agents. It provides a structured workflow for:
 
 - **Domain-specific authoring** - Separate specs for PM, UX, Engineering
 - **GTM synthesis** - LLM-generated press releases, FAQs, narratives (Working Backwards)
@@ -15,7 +15,7 @@ MultiSpec bridges the gap between organizational intent (MRD, PRD, UXD) and exec
 
 ## Working Backwards Flow
 
-MultiSpec implements Amazon's Working Backwards methodology:
+VisionSpec implements Amazon's Working Backwards methodology:
 
 ```
 1. MARKET PROBLEM (human-authored)
@@ -52,26 +52,26 @@ See the [Working Backwards Guide](concepts/working-backwards.md) for the full me
 
 ```bash
 # Install
-go install github.com/plexusone/multispec/cmd/multispec@v0.4.0
+go install github.com/ProductBuildersHQ/visionspec/cmd/visionspec@v0.4.0
 
 # Initialize a new project
-multispec init user-onboarding
+visionspec init user-onboarding
 
 # Initialize with a profile (startup, growth, enterprise)
-multispec init my-feature --profile startup
+visionspec init my-feature --profile startup
 
 # Validate project structure
-multispec lint
+visionspec lint
 
 # Check project status
-multispec status
+visionspec status
 ```
 
 ## Key Features
 
 ### Readiness Gates
 
-MultiSpec tracks project readiness through configurable gates:
+VisionSpec tracks project readiness through configurable gates:
 
 | Gate | Description |
 |------|-------------|
@@ -91,7 +91,7 @@ Status reports can be generated in multiple formats for different use cases:
 
 ### MCP Integration
 
-MultiSpec includes an MCP (Model Context Protocol) server for integration with AI coding assistants like Claude Code and Kiro CLI.
+VisionSpec includes an MCP (Model Context Protocol) server for integration with AI coding assistants like Claude Code and Kiro CLI.
 
 ## Configuration Profiles
 
@@ -106,16 +106,16 @@ Profiles define which specs are required for different product lifecycle stages:
 
 ```bash
 # List available profiles
-multispec profiles list
+visionspec profiles list
 
 # Initialize with a profile
-multispec init my-project --profile startup
+visionspec init my-project --profile startup
 
 # Export a profile for customization
-multispec profiles export enterprise ./my-profile
+visionspec profiles export enterprise ./my-profile
 
 # Use a custom profile
-multispec init my-project --profile-dir ./my-profile
+visionspec init my-project --profile-dir ./my-profile
 ```
 
 Organizations can create custom profiles with their own templates and rubrics. See the [Custom Profiles Guide](guides/custom-profiles.md) for details.

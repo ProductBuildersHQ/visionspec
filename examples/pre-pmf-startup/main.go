@@ -12,8 +12,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/plexusone/multispec/pkg/cli"
-	"github.com/plexusone/multispec/pkg/profiles"
+	"github.com/ProductBuildersHQ/visionspec/pkg/cli"
+	"github.com/ProductBuildersHQ/visionspec/pkg/profiles"
 	"github.com/spf13/cobra"
 )
 
@@ -38,7 +38,7 @@ Only PRD is required. Add more specs as you grow.`,
 	cfg := cli.ConfigFromProfile(profile)
 	cfg.Version = "1.0.0-startup"
 
-	// Add multispec commands
+	// Add visionspec commands
 	cli.AddCommandsTo(root, cfg)
 
 	// Add startup-specific commands

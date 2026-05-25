@@ -1,6 +1,6 @@
 # Pre-PMF Startup Example
 
-A lightweight multispec configuration for pre-product-market-fit startups.
+A lightweight visionspec configuration for pre-product-market-fit startups.
 
 ## Philosophy
 

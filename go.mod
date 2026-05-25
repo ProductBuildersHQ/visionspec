@@ -1,4 +1,4 @@
-module github.com/plexusone/multispec
+module github.com/ProductBuildersHQ/visionspec
 
 go 1.26.0
 

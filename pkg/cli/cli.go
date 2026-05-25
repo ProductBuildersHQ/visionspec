@@ -1,13 +1,13 @@
-// Package cli provides a composable CLI for multispec.
+// Package cli provides a composable CLI for visionspec.
 //
 // Organizations can import this package to build custom CLI tools
-// that include multispec commands alongside their own:
+// that include visionspec commands alongside their own:
 //
 //	package main
 //
 //	import (
 //		"github.com/spf13/cobra"
-//		"github.com/plexusone/multispec/pkg/cli"
+//		"github.com/ProductBuildersHQ/visionspec/pkg/cli"
 //	)
 //
 //	func main() {
@@ -20,10 +20,10 @@
 package cli
 
 import (
-	"github.com/plexusone/multispec/pkg/profiles"
-	"github.com/plexusone/multispec/pkg/rubrics"
-	"github.com/plexusone/multispec/pkg/templates"
-	"github.com/plexusone/multispec/pkg/types"
+	"github.com/ProductBuildersHQ/visionspec/pkg/profiles"
+	"github.com/ProductBuildersHQ/visionspec/pkg/rubrics"
+	"github.com/ProductBuildersHQ/visionspec/pkg/templates"
+	"github.com/ProductBuildersHQ/visionspec/pkg/types"
 	"github.com/spf13/cobra"
 )
 
@@ -38,7 +38,7 @@ type Config struct {
 	RubricLoader rubrics.Loader
 
 	// SpecConfig defines which specs are required and their settings.
-	// If nil, uses default multispec requirements.
+	// If nil, uses default visionspec requirements.
 	SpecConfig *types.SpecConfig
 
 	// ProfileLoader loads configuration profiles.
@@ -46,7 +46,7 @@ type Config struct {
 	ProfileLoader profiles.Loader
 
 	// DefaultProfile is the profile to use when none is specified.
-	// If empty, uses no profile (default multispec behavior).
+	// If empty, uses no profile (default visionspec behavior).
 	DefaultProfile string
 
 	// Version is the CLI version string.
@@ -83,7 +83,7 @@ func (c *Config) GetSpecConfig() *types.SpecConfig {
 	return c.SpecConfig
 }
 
-// AddCommandsTo adds all multispec commands to a root command.
+// AddCommandsTo adds all visionspec commands to a root command.
 func AddCommandsTo(root *cobra.Command, cfg *Config) {
 	if cfg == nil {
 		cfg = DefaultConfig()
@@ -115,7 +115,7 @@ func AddCommandsTo(root *cobra.Command, cfg *Config) {
 	)
 }
 
-// CommandSet contains all multispec commands.
+// CommandSet contains all visionspec commands.
 type CommandSet struct {
 	Init       *cobra.Command
 	Create     *cobra.Command
@@ -134,7 +134,7 @@ type CommandSet struct {
 	Context    *cobra.Command
 }
 
-// Commands returns all multispec commands.
+// Commands returns all visionspec commands.
 // Use this for selective command inclusion.
 func Commands(cfg *Config) *CommandSet {
 	if cfg == nil {

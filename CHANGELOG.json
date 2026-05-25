@@ -1,7 +1,7 @@
 {
   "irVersion": "1.0",
-  "project": "multispec",
-  "repository": "https://github.com/plexusone/multispec",
+  "project": "visionspec",
+  "repository": "https://github.com/ProductBuildersHQ/visionspec",
   "versioning": "semver",
   "commitConvention": "conventional",
   "maintainers": ["johncwang@gmail.com"],
@@ -24,7 +24,7 @@
         { "description": "File source for including architecture docs, ADRs, and API specs as context", "commit": "88a4454" },
         { "description": "MCP client for external tools (Jira, Confluence, Linear, Notion, Google Docs)", "commit": "984af64" },
         { "description": "Context CLI commands: `context gather`, `context show`, `context save`, `context sources`", "commit": "d1c2188" },
-        { "description": "Context configuration in `multispec.yaml` with repositories, graphize, files, and mcp_servers sections", "commit": "ff58b0e" },
+        { "description": "Context configuration in `visionspec.yaml` with repositories, graphize, files, and mcp_servers sections", "commit": "ff58b0e" },
         { "description": "Context snapshot save/load for CI reproducibility", "commit": "ff58b0e" },
         { "description": "Integration with `synthesize` command for TRD and IRD grounding", "commit": "a98b73d" },
         { "description": "Conflict detection algorithm with pattern matching for cross-spec analysis", "commit": "63dfa86" },
@@ -68,7 +68,7 @@
       "version": "v0.3.0",
       "date": "2026-05-24",
       "highlights": [
-        { "description": "CLI composability - use multispec as a library to build custom organization CLIs" },
+        { "description": "CLI composability - use visionspec as a library to build custom organization CLIs" },
         { "description": "Configuration profiles for different product lifecycle stages (0-1, startup, growth, enterprise)" },
         { "description": "Custom templates and rubrics with Loader interfaces and YAML support" }
       ],
@@ -102,9 +102,9 @@
         { "description": "Documentation accuracy improvements for implementation status" }
       ],
       "added": [
-        { "description": "Spec graph extraction from MRD, PRD, UXD, TRD specs (`multispec graph extract`)" },
-        { "description": "Graph export to HTML, GraphML, and JSON formats (`multispec graph export`)" },
-        { "description": "Graph query for filtering nodes by type and spec (`multispec graph query`)" },
+        { "description": "Spec graph extraction from MRD, PRD, UXD, TRD specs (`visionspec graph extract`)" },
+        { "description": "Graph export to HTML, GraphML, and JSON formats (`visionspec graph export`)" },
+        { "description": "Graph query for filtering nodes by type and spec (`visionspec graph query`)" },
         { "description": "Integration with graphize v0.3.0 and graphfs v0.2.0 for graph operations" }
       ],
       "documentation": [
@@ -128,7 +128,7 @@
       ],
       "added": [
         { "description": "Core type definitions for spec types, evaluation, and project configuration", "commit": "b2c2bcb" },
-        { "description": "Project configuration management with `multispec.yaml`", "commit": "dea8836" },
+        { "description": "Project configuration management with `visionspec.yaml`", "commit": "dea8836" },
         { "description": "Spec templates with `go:embed` for MRD, PRD, UXD, Press, FAQ, Narrative, TRD, IRD", "commit": "b4671af" },
         { "description": "Evaluation rubrics for all spec types using categorical scoring (pass/partial/fail)", "commit": "984110f" },
         { "description": "Draft authoring workflow with session management, versioning, and eval history", "commit": "594b4e5" },
@@ -136,7 +136,7 @@
         { "description": "Spec synthesis from source documents (GTM and technical)", "commit": "e526061" },
         { "description": "Spec reconciliation for generating unified execution specs", "commit": "7b11c6d" },
         { "description": "Export framework with SpecKit adapter (spec.md, plan.md, tasks.md)", "commit": "ddef147" },
-        { "description": "Project structure validation with `multispec lint`", "commit": "a710be8" },
+        { "description": "Project structure validation with `visionspec lint`", "commit": "a710be8" },
         { "description": "MCP server with tools: list_projects, get_project_status, start_draft, update_draft, eval_draft, finalize_draft, get_draft, discard_draft", "commit": "2412405" },
         { "description": "CLI commands: init, lint, status, targets, eval, synthesize, reconcile, export", "commit": "9941480" },
         { "description": "Authoring skills for Claude Code: author-mrd, author-prd, author-uxd", "commit": "bd82e87" }

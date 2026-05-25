@@ -1,6 +1,6 @@
 # Post-PMF Enterprise Example
 
-A comprehensive multispec configuration for post-product-market-fit enterprises
+A comprehensive visionspec configuration for post-product-market-fit enterprises
 building SaaS products with microservices, web UI, and mobile apps.
 
 ## Philosophy
@@ -148,4 +148,4 @@ When graduating from pre-PMF to enterprise:
 2. Add security sections to existing PRDs
 3. Add accessibility sections to existing UXDs
 4. Create GTM documentation
-5. Update multispec.yaml with new requirements
+5. Update visionspec.yaml with new requirements

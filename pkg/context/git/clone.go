@@ -106,8 +106,8 @@ func configureSparseCheckout(repoDir string, paths []string) error {
 
 // getCacheDir returns the cache directory for cloned repos.
 func getCacheDir() (string, error) {
-	// Use system temp directory with multispec subdirectory
-	cacheDir := filepath.Join(os.TempDir(), "multispec-repos")
+	// Use system temp directory with visionspec subdirectory
+	cacheDir := filepath.Join(os.TempDir(), "visionspec-repos")
 	if err := os.MkdirAll(cacheDir, 0755); err != nil {
 		return "", err
 	}

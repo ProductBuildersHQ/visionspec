@@ -8,8 +8,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/plexusone/multispec/pkg/rubrics"
-	"github.com/plexusone/multispec/pkg/templates"
+	"github.com/ProductBuildersHQ/visionspec/pkg/rubrics"
+	"github.com/ProductBuildersHQ/visionspec/pkg/templates"
 	"gopkg.in/yaml.v3"
 )
 

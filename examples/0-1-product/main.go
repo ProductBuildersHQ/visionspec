@@ -12,8 +12,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/plexusone/multispec/pkg/cli"
-	"github.com/plexusone/multispec/pkg/profiles"
+	"github.com/ProductBuildersHQ/visionspec/pkg/cli"
+	"github.com/ProductBuildersHQ/visionspec/pkg/profiles"
 	"github.com/spf13/cobra"
 )
 
@@ -21,7 +21,7 @@ func main() {
 	root := &cobra.Command{
 		Use:   "zero-to-one",
 		Short: "Minimal spec management for 0-1 product development",
-		Long: `zero-to-one is a minimalist multispec CLI for the 0-1 phase.
+		Long: `zero-to-one is a minimalist visionspec CLI for the 0-1 phase.
 
 Going from nothing to something? You need:
 - A clear hypothesis to test
@@ -43,7 +43,7 @@ This CLI uses the "0-1" profile with a single "hypothesis" document.`,
 	cfg := cli.ConfigFromProfile(profile)
 	cfg.Version = "1.0.0-zero-to-one"
 
-	// Add multispec commands
+	// Add visionspec commands
 	cli.AddCommandsTo(root, cfg)
 
 	// Add 0-1 specific commands

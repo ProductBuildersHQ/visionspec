@@ -6,11 +6,11 @@ import (
 	"os"
 	"path/filepath"
 
-	ctx "github.com/plexusone/multispec/pkg/context"
-	"github.com/plexusone/multispec/pkg/context/file"
-	"github.com/plexusone/multispec/pkg/context/git"
-	"github.com/plexusone/multispec/pkg/context/graphize"
-	"github.com/plexusone/multispec/pkg/context/mcp"
+	ctx "github.com/ProductBuildersHQ/visionspec/pkg/context"
+	"github.com/ProductBuildersHQ/visionspec/pkg/context/file"
+	"github.com/ProductBuildersHQ/visionspec/pkg/context/git"
+	"github.com/ProductBuildersHQ/visionspec/pkg/context/graphize"
+	"github.com/ProductBuildersHQ/visionspec/pkg/context/mcp"
 )
 
 // CreateFromConfig creates Source instances from configuration.

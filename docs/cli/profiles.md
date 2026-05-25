@@ -5,12 +5,12 @@ Manage configuration profiles that bundle spec requirements, templates, and rubr
 ## Synopsis
 
 ```bash
-multispec profiles <subcommand>
+visionspec profiles <subcommand>
 ```
 
 ## Description
 
-Configuration profiles allow you to customize which specs are required and how they're evaluated. MultiSpec includes built-in profiles for different product stages:
+Configuration profiles allow you to customize which specs are required and how they're evaluated. VisionSpec includes built-in profiles for different product stages:
 
 | Profile | Description | Required Specs |
 |---------|-------------|----------------|
@@ -26,7 +26,7 @@ Configuration profiles allow you to customize which specs are required and how t
 List all available profiles.
 
 ```bash
-multispec profiles list
+visionspec profiles list
 ```
 
 **Output:**
@@ -39,7 +39,7 @@ Available profiles:
   growth       Metrics-driven configuration for 1-N scaling [default]
   enterprise   Comprehensive configuration for post-PMF enterprises [default]
 
-Use with: multispec init <project> --profile <name>
+Use with: visionspec init <project> --profile <name>
 ```
 
 ### show
@@ -47,13 +47,13 @@ Use with: multispec init <project> --profile <name>
 Show detailed information about a profile.
 
 ```bash
-multispec profiles show <profile-name>
+visionspec profiles show <profile-name>
 ```
 
 **Example:**
 
 ```bash
-multispec profiles show enterprise
+visionspec profiles show enterprise
 ```
 
 **Output:**
@@ -92,7 +92,7 @@ Custom rubrics:
 Export a profile to a directory for customization.
 
 ```bash
-multispec profiles export <profile-name> <output-dir>
+visionspec profiles export <profile-name> <output-dir>
 ```
 
 This creates a complete profile directory with:
@@ -104,7 +104,7 @@ This creates a complete profile directory with:
 **Example:**
 
 ```bash
-multispec profiles export enterprise ./my-profile
+visionspec profiles export enterprise ./my-profile
 ```
 
 **Output:**
@@ -127,7 +127,7 @@ Created ./my-profile/rubrics/faq.rubric.yaml
 Profile exported to ./my-profile
 
 To use this profile:
-  multispec init my-project --profile-dir ./my-profile
+  visionspec init my-project --profile-dir ./my-profile
 ```
 
 ## Using Profiles
@@ -136,10 +136,10 @@ To use this profile:
 
 ```bash
 # Use a built-in profile
-multispec init my-project --profile startup
+visionspec init my-project --profile startup
 
 # Use a custom profile directory
-multispec init my-project --profile-dir ./my-profile
+visionspec init my-project --profile-dir ./my-profile
 ```
 
 ### Profile inheritance

@@ -5,12 +5,12 @@ List available export targets and their capabilities.
 ## Usage
 
 ```bash
-multispec targets
+visionspec targets
 ```
 
 ## Description
 
-The `targets` command displays all available export targets that can be used with `multispec export`.
+The `targets` command displays all available export targets that can be used with `visionspec export`.
 
 ## Output
 

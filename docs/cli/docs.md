@@ -5,7 +5,7 @@ Generate MkDocs-compatible documentation files.
 ## Usage
 
 ```bash
-multispec docs <subcommand> [flags]
+visionspec docs <subcommand> [flags]
 ```
 
 ## Description
@@ -24,7 +24,7 @@ The `docs` command generates markdown files for MkDocs integration. It creates i
 Generate index.md files for all projects and the specs landing page.
 
 ```bash
-multispec docs generate [flags]
+visionspec docs generate [flags]
 ```
 
 **Flags:**
@@ -42,10 +42,10 @@ multispec docs generate [flags]
 
 ```bash
 # Generate all documentation
-multispec docs generate
+visionspec docs generate
 
 # Include graph metrics
-multispec docs generate --with-graph
+visionspec docs generate --with-graph
 ```
 
 ## docs project
@@ -53,7 +53,7 @@ multispec docs generate --with-graph
 Generate index.md for a specific project.
 
 ```bash
-multispec docs project <project-name> [flags]
+visionspec docs project <project-name> [flags]
 ```
 
 **Flags:**
@@ -66,10 +66,10 @@ multispec docs project <project-name> [flags]
 
 ```bash
 # Generate index for specific project
-multispec docs project user-onboarding
+visionspec docs project user-onboarding
 
 # With graph metrics
-multispec docs project user-onboarding --with-graph
+visionspec docs project user-onboarding --with-graph
 ```
 
 ## Generated Content
@@ -96,7 +96,7 @@ When using `--with-graph`, includes:
 - Trace coverage percentage
 - Conflict count
 
-Requires running `multispec graph extract` first.
+Requires running `visionspec graph extract` first.
 
 ## MkDocs Integration
 

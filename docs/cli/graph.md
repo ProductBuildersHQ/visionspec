@@ -13,7 +13,7 @@ The `graph` command extracts requirement graphs from spec files, enabling tracea
 Extract a requirement graph from all specs in the project.
 
 ```bash
-multispec graph extract
+visionspec graph extract
 ```
 
 **Output:**
@@ -41,7 +41,7 @@ Node types:
 Export the graph to various formats for visualization or analysis.
 
 ```bash
-multispec graph export [--format FORMAT] [--output DIR]
+visionspec graph export [--format FORMAT] [--output DIR]
 ```
 
 **Flags:**
@@ -63,13 +63,13 @@ multispec graph export [--format FORMAT] [--output DIR]
 
 ```bash
 # Export as interactive HTML
-multispec graph export --format html
+visionspec graph export --format html
 
 # Export as GraphML for yEd
-multispec graph export --format graphml
+visionspec graph export --format graphml
 
 # Export to custom directory
-multispec graph export --format html --output ./reports
+visionspec graph export --format html --output ./reports
 ```
 
 ### query
@@ -77,7 +77,7 @@ multispec graph export --format html --output ./reports
 Query nodes in the graph by type or spec.
 
 ```bash
-multispec graph query [--type TYPE] [--spec SPEC]
+visionspec graph query [--type TYPE] [--spec SPEC]
 ```
 
 **Flags:**
@@ -91,13 +91,13 @@ multispec graph query [--type TYPE] [--spec SPEC]
 
 ```bash
 # List all requirements
-multispec graph query --type requirement
+visionspec graph query --type requirement
 
 # List all PRD nodes
-multispec graph query --spec prd
+visionspec graph query --spec prd
 
 # List constraints from TRD
-multispec graph query --type constraint --spec trd
+visionspec graph query --type constraint --spec trd
 ```
 
 **Output:**

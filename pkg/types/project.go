@@ -4,7 +4,7 @@ import (
 	"time"
 )
 
-// Project represents a multispec project.
+// Project represents a visionspec project.
 type Project struct {
 	// Name is the project identifier (kebab-case).
 	Name string `json:"name" yaml:"name"`
@@ -28,7 +28,7 @@ type Project struct {
 	Targets TargetConfig `json:"targets,omitempty" yaml:"targets,omitempty"`
 
 	// SpecRequirements configures which specs are required and their settings.
-	// This appears as "spec_config:" in multispec.yaml.
+	// This appears as "spec_config:" in visionspec.yaml.
 	SpecRequirements map[string]*SpecRequirement `json:"spec_config,omitempty" yaml:"spec_config,omitempty"`
 
 	// Context configures context sources for grounding.

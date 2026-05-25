@@ -9,8 +9,8 @@ import (
 
 	"github.com/plexusone/structured-evaluation/evaluation"
 
-	"github.com/plexusone/multispec/pkg/rubrics"
-	"github.com/plexusone/multispec/pkg/types"
+	"github.com/ProductBuildersHQ/visionspec/pkg/rubrics"
+	"github.com/ProductBuildersHQ/visionspec/pkg/types"
 )
 
 // Result represents the outcome of an evaluation.
@@ -298,7 +298,7 @@ func (r *Result) ToEvaluationReport(rubricSet *rubrics.RubricSet) *evaluation.Ev
 
 	// Finalize with rubric
 	evalRubric := rubricSet.ToEvaluationRubricSet()
-	report.Finalize(evalRubric, "multispec eval")
+	report.Finalize(evalRubric, "visionspec eval")
 
 	return report
 }

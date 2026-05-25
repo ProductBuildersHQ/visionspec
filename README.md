@@ -1,4 +1,4 @@
-# MultiSpec
+# VisionSpec
 
 [![Go CI][go-ci-svg]][go-ci-url]
 [![Go Lint][go-lint-svg]][go-lint-url]
@@ -9,30 +9,30 @@
 [![Visualization][viz-svg]][viz-url]
 [![License][license-svg]][license-url]
 
- [go-ci-svg]: https://github.com/plexusone/multispec/actions/workflows/go-ci.yaml/badge.svg?branch=main
- [go-ci-url]: https://github.com/plexusone/multispec/actions/workflows/go-ci.yaml
- [go-lint-svg]: https://github.com/plexusone/multispec/actions/workflows/go-lint.yaml/badge.svg?branch=main
- [go-lint-url]: https://github.com/plexusone/multispec/actions/workflows/go-lint.yaml
- [go-sast-svg]: https://github.com/plexusone/multispec/actions/workflows/go-sast-codeql.yaml/badge.svg?branch=main
- [go-sast-url]: https://github.com/plexusone/multispec/actions/workflows/go-sast-codeql.yaml
- [goreport-svg]: https://goreportcard.com/badge/github.com/plexusone/multispec
- [goreport-url]: https://goreportcard.com/report/github.com/plexusone/multispec
- [docs-godoc-svg]: https://pkg.go.dev/badge/github.com/plexusone/multispec
- [docs-godoc-url]: https://pkg.go.dev/github.com/plexusone/multispec
+ [go-ci-svg]: https://github.com/ProductBuildersHQ/visionspec/actions/workflows/go-ci.yaml/badge.svg?branch=main
+ [go-ci-url]: https://github.com/ProductBuildersHQ/visionspec/actions/workflows/go-ci.yaml
+ [go-lint-svg]: https://github.com/ProductBuildersHQ/visionspec/actions/workflows/go-lint.yaml/badge.svg?branch=main
+ [go-lint-url]: https://github.com/ProductBuildersHQ/visionspec/actions/workflows/go-lint.yaml
+ [go-sast-svg]: https://github.com/ProductBuildersHQ/visionspec/actions/workflows/go-sast-codeql.yaml/badge.svg?branch=main
+ [go-sast-url]: https://github.com/ProductBuildersHQ/visionspec/actions/workflows/go-sast-codeql.yaml
+ [goreport-svg]: https://goreportcard.com/badge/github.com/ProductBuildersHQ/visionspec
+ [goreport-url]: https://goreportcard.com/report/github.com/ProductBuildersHQ/visionspec
+ [docs-godoc-svg]: https://pkg.go.dev/badge/github.com/ProductBuildersHQ/visionspec
+ [docs-godoc-url]: https://pkg.go.dev/github.com/ProductBuildersHQ/visionspec
  [docs-mkdoc-svg]: https://img.shields.io/badge/Go-dev%20guide-blue.svg
- [docs-mkdoc-url]: https://plexusone.dev/multispec
+ [docs-mkdoc-url]: https://productbuildershq.com/visionspec
  [viz-svg]: https://img.shields.io/badge/Go-visualizaton-blue.svg
- [viz-url]: https://mango-dune-07a8b7110.1.azurestaticapps.net/?repo=plexusone%2Fmultispec
- [loc-svg]: https://tokei.rs/b1/github/plexusone/multispec
- [repo-url]: https://github.com/plexusone/multispec
+ [viz-url]: https://mango-dune-07a8b7110.1.azurestaticapps.net/?repo=plexusone%2Fvisionspec
+ [loc-svg]: https://tokei.rs/b1/github/ProductBuildersHQ/visionspec
+ [repo-url]: https://github.com/ProductBuildersHQ/visionspec
  [license-svg]: https://img.shields.io/badge/license-MIT-blue.svg
- [license-url]: https://github.com/plexusone/multispec/blob/main/LICENSE
+ [license-url]: https://github.com/ProductBuildersHQ/visionspec/blob/main/LICENSE
 
 Multi-domain specification orchestration for humans and AI agents.
 
 ## Overview
 
-MultiSpec bridges the gap between organizational intent and executable specifications for AI coding agents. It implements **[Amazon's Working Backwards methodology][working-backwards]** to ensure every requirement traces back to a specific customer outcome.
+VisionSpec bridges the gap between organizational intent and executable specifications for AI coding agents. It implements **[Amazon's Working Backwards methodology][working-backwards]** to ensure every requirement traces back to a specific customer outcome.
 
 [working-backwards]: https://www.amazon.com/Working-Backwards-Insights-Stories-Secrets/dp/1250267595/ "Working Backwards by Colin Bryar and Bill Carr (St. Martin's Press, 2021)"
 
@@ -50,22 +50,22 @@ All synthesized documents are committed to git and can be reviewed, edited, and 
 ## Installation
 
 ```bash
-go install github.com/plexusone/multispec/cmd/multispec@v0.4.0
+go install github.com/ProductBuildersHQ/visionspec/cmd/visionspec@v0.4.0
 ```
 
 ## Quick Start
 
 ```bash
 # Initialize a new project
-multispec init user-onboarding
+visionspec init user-onboarding
 
 # Validate project structure
-multispec lint
+visionspec lint
 
 # Check project status
-multispec status
-multispec status --format json
-multispec status --format html > status.html
+visionspec status
+visionspec status --format json
+visionspec status --format html > status.html
 ```
 
 ## Directory Structure
@@ -95,12 +95,12 @@ docs/specs/
     ├── current-truth.md               # Post-ship state
     ├── status.html                    # Readiness report
     ├── index.md                       # MkDocs page
-    └── multispec.yaml                 # Configuration
+    └── visionspec.yaml                 # Configuration
 ```
 
 ## Working Backwards Flow
 
-MultiSpec implements Amazon's Working Backwards methodology. Instead of starting with requirements and hoping they lead to a good customer experience, you start with the vision and work backwards:
+VisionSpec implements Amazon's Working Backwards methodology. Instead of starting with requirements and hoping they lead to a good customer experience, you start with the vision and work backwards:
 
 ```
 1. MARKET PROBLEM (human-authored)
@@ -131,11 +131,11 @@ MultiSpec implements Amazon's Working Backwards methodology. Instead of starting
 
 **Why this order?** The Press Release defines the customer experience before any requirements are written. The FAQ challenges that vision and surfaces gaps. Only then is the PRD derived—grounded in a validated vision rather than abstract feature lists.
 
-See [Working Backwards](https://plexusone.dev/multispec/concepts/working-backwards/) for the full methodology.
+See [Working Backwards](https://productbuildershq.com/visionspec/concepts/working-backwards/) for the full methodology.
 
 ## CLI Commands
 
-Full documentation: [CLI Reference](https://plexusone.dev/multispec/cli/)
+Full documentation: [CLI Reference](https://productbuildershq.com/visionspec/cli/)
 
 ### Project Setup
 
@@ -178,19 +178,19 @@ The `status` command shows project readiness with multiple output formats:
 
 ```bash
 # Terminal output with readiness gates
-multispec status -p myproject
+visionspec status -p myproject
 
 # JSON for programmatic use
-multispec status -p myproject --format json
+visionspec status -p myproject --format json
 
 # HTML report with traffic light indicator
-multispec status -p myproject --format html > status.html
+visionspec status -p myproject --format html > status.html
 
 # Markdown for embedding in docs
-multispec status -p myproject --format markdown
+visionspec status -p myproject --format markdown
 
 # CI mode - exits non-zero if not ready
-multispec status -p myproject --ci
+visionspec status -p myproject --ci
 ```
 
 ### Readiness Gates
@@ -204,18 +204,18 @@ multispec status -p myproject --ci
 
 ## MCP Server
 
-MultiSpec includes an MCP (Model Context Protocol) server for integration with AI coding assistants like Claude Code and Kiro CLI.
+VisionSpec includes an MCP (Model Context Protocol) server for integration with AI coding assistants like Claude Code and Kiro CLI.
 
 ```bash
 # Run MCP server directly
-multispec-mcp
+visionspec-mcp
 ```
 
 ### MCP Tools
 
 | Tool | Status | Description |
 |------|--------|-------------|
-| `list_projects` | Implemented | List all multispec projects |
+| `list_projects` | Implemented | List all visionspec projects |
 | `get_project_status` | Implemented | Get project readiness status |
 | `start_draft` | Implemented | Initialize a new draft |
 | `update_draft` | Implemented | Save draft content |
@@ -247,19 +247,19 @@ Profiles define which specs are required for different product lifecycle stages:
 
 ```bash
 # List available profiles
-multispec profiles list
+visionspec profiles list
 
 # Show profile details
-multispec profiles show startup
+visionspec profiles show startup
 
 # Export profile for customization
-multispec profiles export enterprise ./my-profile
+visionspec profiles export enterprise ./my-profile
 
 # Initialize with a profile
-multispec init my-project --profile startup
+visionspec init my-project --profile startup
 
 # Initialize with custom profile directory
-multispec init my-project --profile-dir ./my-profile
+visionspec init my-project --profile-dir ./my-profile
 ```
 
 | Profile | Required Specs | Use Case |
@@ -271,12 +271,12 @@ multispec init my-project --profile-dir ./my-profile
 
 ## CLI as Library
 
-Organizations can build custom CLI tools using multispec as a library:
+Organizations can build custom CLI tools using visionspec as a library:
 
 ```go
 import (
-    "github.com/plexusone/multispec/pkg/cli"
-    "github.com/plexusone/multispec/pkg/profiles"
+    "github.com/ProductBuildersHQ/visionspec/pkg/cli"
+    "github.com/ProductBuildersHQ/visionspec/pkg/profiles"
 )
 
 func main() {
@@ -286,7 +286,7 @@ func main() {
     profile, _ := profiles.DefaultLoader().Load("enterprise")
     cfg := cli.ConfigFromProfile(profile)
 
-    // Add multispec commands
+    // Add visionspec commands
     cli.AddCommandsTo(root, cfg)
 
     root.Execute()

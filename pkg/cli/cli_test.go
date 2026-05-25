@@ -3,9 +3,9 @@ package cli
 import (
 	"testing"
 
-	"github.com/plexusone/multispec/pkg/rubrics"
-	"github.com/plexusone/multispec/pkg/templates"
-	"github.com/plexusone/multispec/pkg/types"
+	"github.com/ProductBuildersHQ/visionspec/pkg/rubrics"
+	"github.com/ProductBuildersHQ/visionspec/pkg/templates"
+	"github.com/ProductBuildersHQ/visionspec/pkg/types"
 	"github.com/spf13/cobra"
 )
 

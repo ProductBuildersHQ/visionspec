@@ -1,10 +1,10 @@
 # MCP Server
 
-MultiSpec includes a Model Context Protocol (MCP) server for integration with AI coding assistants.
+VisionSpec includes a Model Context Protocol (MCP) server for integration with AI coding assistants.
 
 ## Overview
 
-The MCP server provides a standardized interface for AI assistants like Claude Code and Kiro CLI to interact with MultiSpec projects.
+The MCP server provides a standardized interface for AI assistants like Claude Code and Kiro CLI to interact with VisionSpec projects.
 
 ## Installation
 
@@ -15,13 +15,13 @@ The MCP server is built as a separate binary:
 make build
 
 # The binary is at:
-bin/multispec-mcp
+bin/visionspec-mcp
 ```
 
 Or install directly:
 
 ```bash
-go install github.com/plexusone/multispec/cmd/mcp-server@latest
+go install github.com/ProductBuildersHQ/visionspec/cmd/mcp-server@latest
 ```
 
 ## Configuration
@@ -33,8 +33,8 @@ Add to your Claude Code MCP configuration:
 ```json
 {
   "mcpServers": {
-    "multispec": {
-      "command": "multispec-mcp",
+    "visionspec": {
+      "command": "visionspec-mcp",
       "args": []
     }
   }
@@ -48,8 +48,8 @@ Add to your Kiro steering configuration:
 ```yaml
 mcp:
   servers:
-    - name: multispec
-      command: multispec-mcp
+    - name: visionspec
+      command: visionspec-mcp
 ```
 
 ## Transport
@@ -60,8 +60,8 @@ The MCP server uses stdio transport by default, communicating via stdin/stdout w
 
 The MCP server operates relative to the current working directory. It looks for:
 
-1. `docs/specs/` directory containing MultiSpec projects
-2. Individual project directories with `multispec.yaml`
+1. `docs/specs/` directory containing VisionSpec projects
+2. Individual project directories with `visionspec.yaml`
 
 ## Available Tools
 
@@ -100,10 +100,10 @@ See [MCP Tools](tools.md) for the complete list of available tools.
 
 ## Example Usage
 
-Once configured, you can interact with MultiSpec through your AI assistant:
+Once configured, you can interact with VisionSpec through your AI assistant:
 
 ```
-User: What multispec projects are available?
+User: What visionspec projects are available?
 AI: [calls list_projects tool]
     Found 2 projects: user-onboarding, payment-flow
 

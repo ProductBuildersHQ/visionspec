@@ -2,13 +2,13 @@
 
 ## Overview
 
-Enable multispec to aggregate context from multiple sources—git repositories, graphize graphs, MCP servers, and local files—to ground spec synthesis and alignment in reality.
+Enable visionspec to aggregate context from multiple sources—git repositories, graphize graphs, MCP servers, and local files—to ground spec synthesis and alignment in reality.
 
 **Marketing Name:** Grounding
 
 ## Problem Statement
 
-Current multispec synthesis operates in a vacuum:
+Current visionspec synthesis operates in a vacuum:
 
 1. **Greenfield assumption**: TRD/IRD synthesis assumes no existing code
 2. **Spec-only context**: Synthesis uses only spec documents as input
@@ -34,7 +34,7 @@ As an engineering lead, I want to synthesize a TRD from my existing codebase, so
 
 **Acceptance Criteria:**
 
-- [ ] Configure one or more git repository paths in multispec.yaml
+- [ ] Configure one or more git repository paths in visionspec.yaml
 - [ ] Analyze code structure (directory tree, modules)
 - [ ] Extract dependencies (go.mod, package.json, requirements.txt)
 - [ ] Detect API schemas (OpenAPI, GraphQL, Proto)
@@ -59,7 +59,7 @@ As a product manager, I want to pull context from Jira and Confluence, so that s
 
 **Acceptance Criteria:**
 
-- [ ] Configure MCP servers in multispec.yaml
+- [ ] Configure MCP servers in visionspec.yaml
 - [ ] Connect to MCP servers as a client
 - [ ] Fetch issues/epics from Jira
 - [ ] Fetch pages from Confluence
@@ -68,7 +68,7 @@ As a product manager, I want to pull context from Jira and Confluence, so that s
 
 ### US-4: Context-Aware Synthesis
 
-As an engineer, I want `multispec synthesize trd --with-context` to use aggregated context, so that generated specs are grounded in reality.
+As an engineer, I want `visionspec synthesize trd --with-context` to use aggregated context, so that generated specs are grounded in reality.
 
 **Acceptance Criteria:**
 
@@ -80,7 +80,7 @@ As an engineer, I want `multispec synthesize trd --with-context` to use aggregat
 
 ### US-5: Context-Aware Alignment
 
-As a tech lead, I want `multispec align --with-context` to compare specs against codebase, so that I can detect drift automatically.
+As a tech lead, I want `visionspec align --with-context` to compare specs against codebase, so that I can detect drift automatically.
 
 **Acceptance Criteria:**
 
@@ -96,9 +96,9 @@ As a DevOps engineer, I want to snapshot context for CI reproducibility, so that
 
 **Acceptance Criteria:**
 
-- [ ] `multispec context gather` fetches all sources
-- [ ] `multispec context snapshot` saves to JSON
-- [ ] `multispec synthesize --context-file=...` uses snapshot
+- [ ] `visionspec context gather` fetches all sources
+- [ ] `visionspec context snapshot` saves to JSON
+- [ ] `visionspec synthesize --context-file=...` uses snapshot
 - [ ] Snapshots are cacheable and diffable
 
 ## Functional Requirements
@@ -175,12 +175,12 @@ context:
 
 | Command | Description |
 |---------|-------------|
-| `multispec context gather` | Fetch context from all sources |
-| `multispec context show` | Display aggregated context |
-| `multispec context snapshot` | Save context to JSON file |
-| `multispec context refresh` | Refresh cached context |
-| `multispec synthesize --with-context` | Synthesize using context |
-| `multispec align --with-context` | Align using context |
+| `visionspec context gather` | Fetch context from all sources |
+| `visionspec context show` | Display aggregated context |
+| `visionspec context snapshot` | Save context to JSON file |
+| `visionspec context refresh` | Refresh cached context |
+| `visionspec synthesize --with-context` | Synthesize using context |
+| `visionspec align --with-context` | Align using context |
 
 ### FR-5: MCP Client
 
@@ -201,7 +201,7 @@ Multispec must act as an MCP client to connect to external MCP servers:
 
 ### NFR-2: Security
 
-- MCP server credentials stored securely (not in multispec.yaml)
+- MCP server credentials stored securely (not in visionspec.yaml)
 - Support environment variable substitution
 - Audit log of external data access
 

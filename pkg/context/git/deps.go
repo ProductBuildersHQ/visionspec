@@ -8,7 +8,7 @@ import (
 	"regexp"
 	"strings"
 
-	ctx "github.com/plexusone/multispec/pkg/context"
+	ctx "github.com/ProductBuildersHQ/visionspec/pkg/context"
 )
 
 // analyzeDependencies extracts dependencies from package manager files.

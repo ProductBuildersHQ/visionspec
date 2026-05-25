@@ -1,16 +1,16 @@
-# multispec lint
+# visionspec lint
 
 Validate project directory structure and naming conventions.
 
 ## Synopsis
 
 ```bash
-multispec lint [project] [flags]
+visionspec lint [project] [flags]
 ```
 
 ## Description
 
-Validates that the project follows MultiSpec conventions:
+Validates that the project follows VisionSpec conventions:
 
 - Directory structure matches canonical layout
 - File naming follows conventions (lowercase specs, kebab-case projects)
@@ -34,16 +34,16 @@ Validates that the project follows MultiSpec conventions:
 
 ```bash
 # Lint all projects
-multispec lint
+visionspec lint
 
 # Lint specific project
-multispec lint user-onboarding
+visionspec lint user-onboarding
 
 # JSON output for CI
-multispec lint --format json
+visionspec lint --format json
 
 # CI mode (exit 1 on failure)
-multispec lint --ci
+visionspec lint --ci
 ```
 
 ## Validation Rules
@@ -58,7 +58,7 @@ docs/specs/{project}/
 ├── gtm/          # Required
 ├── technical/    # Required
 ├── eval/         # Required
-└── multispec.yaml  # Required
+└── visionspec.yaml  # Required
 ```
 
 ### Naming Conventions
@@ -71,7 +71,7 @@ docs/specs/{project}/
 
 ### Config File
 
-The `multispec.yaml` file must exist and be valid YAML with required fields:
+The `visionspec.yaml` file must exist and be valid YAML with required fields:
 
 ```yaml
 name: project-name      # Required

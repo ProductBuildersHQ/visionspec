@@ -1,6 +1,6 @@
 # Contributing
 
-Guidelines for contributing to MultiSpec.
+Guidelines for contributing to VisionSpec.
 
 ## Development Setup
 
@@ -13,8 +13,8 @@ Guidelines for contributing to MultiSpec.
 ### Clone and Build
 
 ```bash
-git clone https://github.com/plexusone/multispec.git
-cd multispec
+git clone https://github.com/ProductBuildersHQ/visionspec.git
+cd visionspec
 make build
 ```
 
@@ -33,9 +33,9 @@ make lint
 ## Project Structure
 
 ```
-multispec/
+visionspec/
 ├── cmd/
-│   ├── multispec/      # Main CLI entry point
+│   ├── visionspec/      # Main CLI entry point
 │   └── mcp-server/     # MCP server entry point
 ├── internal/
 │   ├── cli/            # CLI commands (Cobra)

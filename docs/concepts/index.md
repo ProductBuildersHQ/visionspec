@@ -1,10 +1,10 @@
 # Concepts
 
-Core concepts and methodologies behind MultiSpec.
+Core concepts and methodologies behind VisionSpec.
 
 ## Working Backwards
 
-MultiSpec implements Amazon's Working Backwards methodology as the foundation for specification development. Instead of starting with requirements, you start with the customer experience and work backwards to derive requirements.
+VisionSpec implements Amazon's Working Backwards methodology as the foundation for specification development. Instead of starting with requirements, you start with the customer experience and work backwards to derive requirements.
 
 - [Working Backwards Guide](working-backwards.md) - Full methodology and workflow
 

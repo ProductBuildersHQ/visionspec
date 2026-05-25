@@ -7,11 +7,11 @@
   It documents the implementation approach before coding begins.
 -->
 
-# MultiSpec v0.3.0: Composability
+# VisionSpec v0.3.0: Composability
 
 ## Overview
 
-Enable organizations (companies, open source projects, non-profits) to import multispec as a library and build custom CLI tools with:
+Enable organizations (companies, open source projects, non-profits) to import visionspec as a library and build custom CLI tools with:
 
 - Organization-specific spec templates
 - Organization-specific evaluation rubrics
@@ -53,10 +53,10 @@ type Config struct {
     SpecConfig *SpecConfig
 }
 
-// DefaultConfig returns multispec defaults
+// DefaultConfig returns visionspec defaults
 func DefaultConfig() *Config
 
-// AddCommandsTo adds all multispec commands to a root command
+// AddCommandsTo adds all visionspec commands to a root command
 func AddCommandsTo(root *cobra.Command, cfg *Config)
 
 // Commands returns individual commands for selective addition
@@ -81,9 +81,9 @@ package main
 
 import (
     "github.com/spf13/cobra"
-    "github.com/plexusone/multispec/pkg/cli"
-    "github.com/plexusone/multispec/pkg/templates"
-    "github.com/plexusone/multispec/pkg/rubrics"
+    "github.com/ProductBuildersHQ/visionspec/pkg/cli"
+    "github.com/ProductBuildersHQ/visionspec/pkg/templates"
+    "github.com/ProductBuildersHQ/visionspec/pkg/rubrics"
 )
 
 func main() {
@@ -106,7 +106,7 @@ func main() {
         rubrics.EmbeddedLoader(), // fallback
     )
 
-    // Add all multispec commands
+    // Add all visionspec commands
     cli.AddCommandsTo(root, cfg)
 
     // Add org-specific commands
@@ -222,10 +222,10 @@ pass_criteria:
 
 ### 4. Configurable Spec Requirements
 
-Add spec configuration to `multispec.yaml`:
+Add spec configuration to `visionspec.yaml`:
 
 ```yaml
-# multispec.yaml
+# visionspec.yaml
 name: user-onboarding
 description: "User onboarding feature"
 
@@ -303,7 +303,7 @@ func (sc *SpecConfig) CustomSpecs() []string
    - Update `Project` to include `SpecConfig`
 
 2. **Update config loading** (`pkg/config/config.go`)
-   - Parse `specs:` section from multispec.yaml
+   - Parse `specs:` section from visionspec.yaml
    - Merge with defaults
 
 3. **Update IsRequired logic** (`pkg/types/spec.go`)
@@ -348,7 +348,7 @@ func (sc *SpecConfig) CustomSpecs() []string
    - Add `AddCommandsTo()` function
    - Add `Commands()` for selective access
 
-2. **Update cmd/multispec/main.go**
+2. **Update cmd/visionspec/main.go**
    - Use `pkg/cli` with default config
 
 3. **Add integration tests**
@@ -358,7 +358,7 @@ func (sc *SpecConfig) CustomSpecs() []string
 ### Phase 5: Documentation & Examples
 
 1. **Create example** (`examples/org-cli/`)
-   - Sample org CLI using multispec as library
+   - Sample org CLI using visionspec as library
    - Custom templates and rubrics
    - Custom spec types
 
@@ -394,7 +394,7 @@ func (sc *SpecConfig) CustomSpecs() []string
 | `pkg/config/config.go` | Parse specs section |
 | `pkg/templates/templates.go` | Use Loader interface |
 | `pkg/rubrics/rubrics.go` | Use Loader interface |
-| `cmd/multispec/main.go` | Use pkg/cli |
+| `cmd/visionspec/main.go` | Use pkg/cli |
 | `internal/cli/` | Remove (moved to pkg/cli) |
 
 ---

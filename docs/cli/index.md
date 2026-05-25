@@ -1,6 +1,6 @@
 # CLI Reference
 
-MultiSpec provides a command-line interface for managing specifications.
+VisionSpec provides a command-line interface for managing specifications.
 
 ## Global Flags
 
@@ -52,26 +52,26 @@ MultiSpec provides a command-line interface for managing specifications.
 
 ```bash
 # Initialize a project
-multispec init user-onboarding
+visionspec init user-onboarding
 
 # Lint all projects
-multispec lint
+visionspec lint
 
 # Lint specific project
-multispec lint user-onboarding
+visionspec lint user-onboarding
 
 # Check status
-multispec status -p user-onboarding
+visionspec status -p user-onboarding
 
 # JSON output
-multispec status -p user-onboarding --format json
+visionspec status -p user-onboarding --format json
 
 # Generate HTML report
-multispec status -p user-onboarding --format html > status.html
+visionspec status -p user-onboarding --format html > status.html
 
 # CI mode (exit non-zero if not ready)
-multispec status -p user-onboarding --ci
+visionspec status -p user-onboarding --ci
 
 # List export targets
-multispec targets
+visionspec targets
 ```

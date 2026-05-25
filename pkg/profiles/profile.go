@@ -1,4 +1,4 @@
-// Package profiles provides reusable configuration profiles for multispec.
+// Package profiles provides reusable configuration profiles for visionspec.
 //
 // Profiles bundle together spec requirements, templates, and rubrics into
 // a cohesive configuration that can be selected at runtime or compiled
@@ -18,13 +18,13 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/plexusone/multispec/pkg/rubrics"
-	"github.com/plexusone/multispec/pkg/templates"
-	"github.com/plexusone/multispec/pkg/types"
+	"github.com/ProductBuildersHQ/visionspec/pkg/rubrics"
+	"github.com/ProductBuildersHQ/visionspec/pkg/templates"
+	"github.com/ProductBuildersHQ/visionspec/pkg/types"
 	"gopkg.in/yaml.v3"
 )
 
-// Profile represents a complete multispec configuration profile.
+// Profile represents a complete visionspec configuration profile.
 type Profile struct {
 	// Name is the profile identifier (e.g., "startup", "enterprise").
 	Name string `yaml:"name" json:"name"`

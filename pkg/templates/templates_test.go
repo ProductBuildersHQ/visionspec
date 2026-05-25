@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/plexusone/multispec/pkg/types"
+	"github.com/ProductBuildersHQ/visionspec/pkg/types"
 )
 
 func TestGet(t *testing.T) {

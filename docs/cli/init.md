@@ -1,16 +1,16 @@
-# multispec init
+# visionspec init
 
-Initialize a new MultiSpec project.
+Initialize a new VisionSpec project.
 
 ## Synopsis
 
 ```bash
-multispec init <project-name>
+visionspec init <project-name>
 ```
 
 ## Description
 
-Creates a new project with the standard MultiSpec directory structure:
+Creates a new project with the standard VisionSpec directory structure:
 
 ```
 docs/specs/{project}/
@@ -21,7 +21,7 @@ docs/specs/{project}/
 ├── gtm/
 ├── technical/
 ├── eval/
-└── multispec.yaml
+└── visionspec.yaml
 ```
 
 ## Arguments
@@ -34,15 +34,15 @@ docs/specs/{project}/
 
 ```bash
 # Create a new project
-multispec init user-onboarding
+visionspec init user-onboarding
 
 # Create another project
-multispec init payment-integration
+visionspec init payment-integration
 ```
 
 ## Created Files
 
-### `multispec.yaml`
+### `visionspec.yaml`
 
 Project configuration file:
 

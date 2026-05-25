@@ -7,7 +7,7 @@ import (
 	"regexp"
 	"strings"
 
-	ctx "github.com/plexusone/multispec/pkg/context"
+	ctx "github.com/ProductBuildersHQ/visionspec/pkg/context"
 	"gopkg.in/yaml.v3"
 )
 

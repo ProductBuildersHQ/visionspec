@@ -3,8 +3,8 @@ package draft
 import (
 	"fmt"
 
-	"github.com/plexusone/multispec/pkg/templates"
-	"github.com/plexusone/multispec/pkg/types"
+	"github.com/ProductBuildersHQ/visionspec/pkg/templates"
+	"github.com/ProductBuildersHQ/visionspec/pkg/types"
 )
 
 // Session manages the state of a draft authoring session.

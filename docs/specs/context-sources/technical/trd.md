@@ -9,9 +9,9 @@ Technical design for context aggregation from multiple sources to ground spec sy
 ```
 ┌─────────────────────────────────────────────────────────────────────────┐
 │                              CLI Layer                                   │
-│  multispec context gather|show|snapshot                                  │
-│  multispec synthesize --with-context                                     │
-│  multispec align --with-context                                          │
+│  visionspec context gather|show|snapshot                                  │
+│  visionspec synthesize --with-context                                     │
+│  visionspec align --with-context                                          │
 └─────────────────────────────────────────────────────────────────────────┘
                                     │
                                     ▼
@@ -47,7 +47,7 @@ Technical design for context aggregation from multiple sources to ground spec sy
 pkg/context/
 ├── context.go          # Core types: Source, ContextData, AggregatedContext
 ├── aggregator.go       # Aggregator: combines multiple sources
-├── config.go           # Configuration parsing from multispec.yaml
+├── config.go           # Configuration parsing from visionspec.yaml
 ├── cache.go            # Caching layer with TTL
 ├── snapshot.go         # Snapshot save/load
 ├── git/
@@ -568,7 +568,7 @@ type FileConfig struct {
 }
 
 func LoadContextConfig(project *types.Project) (*ContextConfig, error) {
-    // Parse context section from multispec.yaml
+    // Parse context section from visionspec.yaml
 }
 ```
 
@@ -747,14 +747,14 @@ func (s *Synthesizer) buildPromptWithContext(
 
 ```bash
 # Test context gather
-multispec context gather
+visionspec context gather
 
 # Test synthesis with context
-multispec synthesize trd --with-context
+visionspec synthesize trd --with-context
 
 # Test snapshot round-trip
-multispec context snapshot > ctx.json
-multispec synthesize trd --context-file=ctx.json
+visionspec context snapshot > ctx.json
+visionspec synthesize trd --context-file=ctx.json
 ```
 
 ## Implementation Phases

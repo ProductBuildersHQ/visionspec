@@ -12,8 +12,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/plexusone/multispec/pkg/cli"
-	"github.com/plexusone/multispec/pkg/profiles"
+	"github.com/ProductBuildersHQ/visionspec/pkg/cli"
+	"github.com/ProductBuildersHQ/visionspec/pkg/profiles"
 	"github.com/spf13/cobra"
 )
 
@@ -39,7 +39,7 @@ Includes security and WCAG 2.1 AA accessibility requirements.`,
 	cfg := cli.ConfigFromProfile(profile)
 	cfg.Version = "1.0.0-enterprise"
 
-	// Add multispec commands
+	// Add visionspec commands
 	cli.AddCommandsTo(root, cfg)
 
 	// Add enterprise-specific commands

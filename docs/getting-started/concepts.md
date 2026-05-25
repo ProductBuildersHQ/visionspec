@@ -2,7 +2,7 @@
 
 ## Specification Types
 
-MultiSpec organizes specifications into three categories:
+VisionSpec organizes specifications into three categories:
 
 ### Source Specs (Human-Authored)
 
@@ -63,7 +63,7 @@ docs/specs/
     │   └── ...
     ├── spec.md               # Reconciled execution spec
     ├── current-truth.md      # Post-ship maintained state
-    └── multispec.yaml        # Project configuration
+    └── visionspec.yaml        # Project configuration
 ```
 
 ## Configuration Profiles
@@ -79,13 +79,13 @@ Profiles bundle spec requirements, templates, and rubrics for different use case
 
 ```bash
 # Use a profile when initializing
-multispec init my-project --profile startup
+visionspec init my-project --profile startup
 
 # List available profiles
-multispec profiles list
+visionspec profiles list
 
 # Export a profile for customization
-multispec profiles export enterprise ./my-profile
+visionspec profiles export enterprise ./my-profile
 ```
 
 Organizations can create custom profiles with their own templates and rubrics. See the [Custom Profiles Guide](../guides/custom-profiles.md) for details.
@@ -144,7 +144,7 @@ All generated specs must adhere to the constitution.
 
 ## Requirement Graphs
 
-MultiSpec extracts requirement graphs from specs for traceability analysis:
+VisionSpec extracts requirement graphs from specs for traceability analysis:
 
 - **Nodes**: requirements, user stories, constraints, decisions, sections
 - **Edges**: traces_to, derived_from, contains
@@ -153,13 +153,13 @@ Graphs enable visualization and traceability analysis:
 
 ```bash
 # Extract graph from specs
-multispec graph extract
+visionspec graph extract
 
 # Export as interactive HTML
-multispec graph export --format html
+visionspec graph export --format html
 
 # Query specific node types
-multispec graph query --type requirement --spec prd
+visionspec graph query --type requirement --spec prd
 ```
 
 See [Graph Command](../cli/graph.md) for full documentation.

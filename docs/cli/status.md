@@ -1,16 +1,16 @@
-# multispec status
+# visionspec status
 
 Show project status and readiness.
 
 ## Synopsis
 
 ```bash
-multispec status [flags]
+visionspec status [flags]
 ```
 
 ## Description
 
-Displays the current status of a MultiSpec project, including:
+Displays the current status of a VisionSpec project, including:
 
 - Spec existence and status
 - Evaluation results
@@ -30,19 +30,19 @@ Displays the current status of a MultiSpec project, including:
 
 ```bash
 # Terminal output
-multispec status -p user-onboarding
+visionspec status -p user-onboarding
 
 # JSON for programmatic use
-multispec status -p user-onboarding --format json
+visionspec status -p user-onboarding --format json
 
 # HTML report
-multispec status -p user-onboarding --format html > status.html
+visionspec status -p user-onboarding --format html > status.html
 
 # Markdown for embedding
-multispec status -p user-onboarding --format markdown
+visionspec status -p user-onboarding --format markdown
 
 # CI mode
-multispec status -p user-onboarding --ci
+visionspec status -p user-onboarding --ci
 ```
 
 ## Output Formats

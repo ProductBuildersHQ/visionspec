@@ -4,6 +4,8 @@ import (
 	"os"
 	"path/filepath"
 	"testing"
+
+	"github.com/ProductBuildersHQ/visionspec/pkg/config"
 )
 
 func TestKebabCaseRegex(t *testing.T) {
@@ -99,7 +101,7 @@ func TestEvalNameRegex(t *testing.T) {
 
 func TestLintProject(t *testing.T) {
 	// Create temp directory
-	tmpDir, err := os.MkdirTemp("", "multispec-lint-test")
+	tmpDir, err := os.MkdirTemp("", "visionspec-lint-test")
 	if err != nil {
 		t.Fatalf("creating temp dir: %v", err)
 	}
@@ -115,7 +117,7 @@ func TestLintProject(t *testing.T) {
 	}
 
 	// Create config file
-	if err := os.WriteFile(filepath.Join(projectPath, "multispec.yaml"), []byte("name: user-onboarding\n"), 0600); err != nil {
+	if err := os.WriteFile(filepath.Join(projectPath, config.ConfigFileName), []byte("name: user-onboarding\n"), 0600); err != nil {
 		t.Fatalf("creating config: %v", err)
 	}
 
@@ -132,7 +134,7 @@ func TestLintProject(t *testing.T) {
 }
 
 func TestLintProjectBadName(t *testing.T) {
-	tmpDir, err := os.MkdirTemp("", "multispec-lint-test")
+	tmpDir, err := os.MkdirTemp("", "visionspec-lint-test")
 	if err != nil {
 		t.Fatalf("creating temp dir: %v", err)
 	}
@@ -167,7 +169,7 @@ func TestLintProjectBadName(t *testing.T) {
 }
 
 func TestLintProjectMissingDirs(t *testing.T) {
-	tmpDir, err := os.MkdirTemp("", "multispec-lint-test")
+	tmpDir, err := os.MkdirTemp("", "visionspec-lint-test")
 	if err != nil {
 		t.Fatalf("creating temp dir: %v", err)
 	}

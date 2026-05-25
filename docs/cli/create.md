@@ -5,14 +5,14 @@ Create a new spec file from a template.
 ## Usage
 
 ```bash
-multispec create <spec-type> [flags]
+visionspec create <spec-type> [flags]
 ```
 
 ## Description
 
 The `create` command scaffolds a new specification file from an embedded template. This provides a starting point for writing specs with the correct structure and sections.
 
-The command must be run from within a multispec project directory (where `multispec.yaml` exists).
+The command must be run from within a visionspec project directory (where `visionspec.yaml` exists).
 
 ## Arguments
 
@@ -44,16 +44,16 @@ The command must be run from within a multispec project directory (where `multis
 
 ```bash
 # Create a new MRD
-multispec create mrd
+visionspec create mrd
 
 # Create a PRD
-multispec create prd
+visionspec create prd
 
 # Create a Press Release (Working Backwards)
-multispec create press
+visionspec create press
 
 # Overwrite existing TRD
-multispec create trd --force
+visionspec create trd --force
 ```
 
 ## Output

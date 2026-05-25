@@ -1,7 +1,7 @@
 //nolint:dupl // Rubric definitions are intentionally similar in structure
 package rubrics
 
-import "github.com/plexusone/multispec/pkg/types"
+import "github.com/ProductBuildersHQ/visionspec/pkg/types"
 
 func init() {
 	Register(NewMRDRubricSet())

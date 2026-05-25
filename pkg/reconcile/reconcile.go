@@ -7,7 +7,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/plexusone/multispec/pkg/types"
+	"github.com/ProductBuildersHQ/visionspec/pkg/types"
 )
 
 // Reconciler generates unified specs from approved source specs.

@@ -2,7 +2,7 @@ package context
 
 import "time"
 
-// Config holds the context configuration from multispec.yaml.
+// Config holds the context configuration from visionspec.yaml.
 type Config struct {
 	// Project name (from parent config)
 	ProjectName string `yaml:"-"`

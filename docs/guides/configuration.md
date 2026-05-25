@@ -1,10 +1,10 @@
 # Configuration Reference
 
-Complete reference for `multispec.yaml` configuration options.
+Complete reference for `visionspec.yaml` configuration options.
 
 ## Overview
 
-Each MultiSpec project contains a `multispec.yaml` file in its root directory. This file configures LLM providers, export targets, context sources, rubrics, and spec requirements.
+Each VisionSpec project contains a `visionspec.yaml` file in its root directory. This file configures LLM providers, export targets, context sources, rubrics, and spec requirements.
 
 ## Minimal Configuration
 
@@ -383,7 +383,7 @@ targets:
 
 ## Configuration Profiles
 
-MultiSpec supports configuration profiles that provide pre-configured settings for different organizational stages.
+VisionSpec supports configuration profiles that provide pre-configured settings for different organizational stages.
 
 **Available profiles:**
 
@@ -397,7 +397,7 @@ MultiSpec supports configuration profiles that provide pre-configured settings f
 Export a profile to use as a starting point:
 
 ```bash
-multispec profiles export startup
+visionspec profiles export startup
 ```
 
 See the [Profiles Guide](profiles.md) for details.

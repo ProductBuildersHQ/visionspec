@@ -1,6 +1,6 @@
 # 1-N Growth Example
 
-A metrics-driven multispec configuration for the 1-N growth phase: scaling what works after finding product-market fit.
+A metrics-driven visionspec configuration for the 1-N growth phase: scaling what works after finding product-market fit.
 
 ## Philosophy
 

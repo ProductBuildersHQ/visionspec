@@ -12,22 +12,22 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/plexusone/multispec/internal/mcp"
-	"github.com/plexusone/multispec/pkg/config"
-	ctxpkg "github.com/plexusone/multispec/pkg/context"
-	"github.com/plexusone/multispec/pkg/context/sources"
-	"github.com/plexusone/multispec/pkg/eval"
-	"github.com/plexusone/multispec/pkg/lint"
-	"github.com/plexusone/multispec/pkg/mkdocs"
-	"github.com/plexusone/multispec/pkg/profiles"
-	"github.com/plexusone/multispec/pkg/reconcile"
-	"github.com/plexusone/multispec/pkg/rubrics"
-	"github.com/plexusone/multispec/pkg/specgraph"
-	"github.com/plexusone/multispec/pkg/status"
-	"github.com/plexusone/multispec/pkg/synth"
-	"github.com/plexusone/multispec/pkg/target"
-	"github.com/plexusone/multispec/pkg/templates"
-	"github.com/plexusone/multispec/pkg/types"
+	"github.com/ProductBuildersHQ/visionspec/internal/mcp"
+	"github.com/ProductBuildersHQ/visionspec/pkg/config"
+	ctxpkg "github.com/ProductBuildersHQ/visionspec/pkg/context"
+	"github.com/ProductBuildersHQ/visionspec/pkg/context/sources"
+	"github.com/ProductBuildersHQ/visionspec/pkg/eval"
+	"github.com/ProductBuildersHQ/visionspec/pkg/lint"
+	"github.com/ProductBuildersHQ/visionspec/pkg/mkdocs"
+	"github.com/ProductBuildersHQ/visionspec/pkg/profiles"
+	"github.com/ProductBuildersHQ/visionspec/pkg/reconcile"
+	"github.com/ProductBuildersHQ/visionspec/pkg/rubrics"
+	"github.com/ProductBuildersHQ/visionspec/pkg/specgraph"
+	"github.com/ProductBuildersHQ/visionspec/pkg/status"
+	"github.com/ProductBuildersHQ/visionspec/pkg/synth"
+	"github.com/ProductBuildersHQ/visionspec/pkg/target"
+	"github.com/ProductBuildersHQ/visionspec/pkg/templates"
+	"github.com/ProductBuildersHQ/visionspec/pkg/types"
 	"github.com/spf13/cobra"
 	"gopkg.in/yaml.v3"
 )
@@ -36,8 +36,8 @@ import (
 func initCmd(cfg *Config) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "init <project-name>",
-		Short: "Initialize a new multispec project",
-		Long: `Initialize a new multispec project with the canonical directory structure.
+		Short: "Initialize a new visionspec project",
+		Long: `Initialize a new visionspec project with the canonical directory structure.
 
 The project name must be kebab-case (lowercase with hyphens).
 
@@ -53,7 +53,7 @@ Creates:
   ├── gtm/             # LLM-generated GTM docs (press, faq, narrative)
   ├── technical/       # LLM-generated technical docs (trd, ird)
   ├── eval/            # Evaluation results
-  └── multispec.yaml   # Project configuration`,
+  └── visionspec.yaml   # Project configuration`,
 		Args: cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			return runInit(cmd, args, cfg)
@@ -173,7 +173,7 @@ func runInit(cmd *cobra.Command, args []string, cfg *Config) error {
 	}
 
 	// Add header comment
-	header := "# multispec project configuration\n# See: https://github.com/plexusone/multispec\n\n"
+	header := "# visionspec project configuration\n# See: https://github.com/ProductBuildersHQ/visionspec\n\n"
 	if err := os.WriteFile(configPath, []byte(header+string(data)), 0600); err != nil {
 		return fmt.Errorf("failed to write config: %w", err)
 	}
@@ -187,24 +187,24 @@ func runInit(cmd *cobra.Command, args []string, cfg *Config) error {
 	}
 
 	// Print summary
-	fmt.Printf("\n✅ Created multispec project: %s\n\n", projectName)
+	fmt.Printf("\n✅ Created visionspec project: %s\n\n", projectName)
 	fmt.Println("Directory structure:")
 	fmt.Printf("  %s/\n", projectName)
 	fmt.Println("  ├── source/        # Human-authored specs (mrd, prd, uxd)")
 	fmt.Println("  ├── gtm/           # Synthesized GTM docs (press, faq, narrative)")
 	fmt.Println("  ├── technical/     # Synthesized technical docs (trd, ird)")
 	fmt.Println("  ├── eval/          # Evaluation results")
-	fmt.Println("  └── multispec.yaml # Project configuration")
+	fmt.Println("  └── visionspec.yaml # Project configuration")
 	fmt.Println()
 	fmt.Println("Working Backwards workflow:")
-	fmt.Println("  1. Write MRD:           multispec create mrd")
-	fmt.Println("  2. Synthesize vision:   multispec synthesize press")
-	fmt.Println("  3. Challenge scope:     multispec synthesize faq")
-	fmt.Println("  4. Derive requirements: multispec synthesize prd")
-	fmt.Println("  5. Review narratives:   multispec synthesize narrative-1p")
-	fmt.Println("  6. Write UXD:           multispec create uxd")
-	fmt.Println("  7. Technical specs:     multispec synthesize trd && multispec synthesize ird")
-	fmt.Println("  8. Reconcile:           multispec reconcile")
+	fmt.Println("  1. Write MRD:           visionspec create mrd")
+	fmt.Println("  2. Synthesize vision:   visionspec synthesize press")
+	fmt.Println("  3. Challenge scope:     visionspec synthesize faq")
+	fmt.Println("  4. Derive requirements: visionspec synthesize prd")
+	fmt.Println("  5. Review narratives:   visionspec synthesize narrative-1p")
+	fmt.Println("  6. Write UXD:           visionspec create uxd")
+	fmt.Println("  7. Technical specs:     visionspec synthesize trd && visionspec synthesize ird")
+	fmt.Println("  8. Reconcile:           visionspec reconcile")
 	fmt.Println()
 	fmt.Println("All synthesized docs are editable - refine them in git or with AI assistants.")
 
@@ -265,11 +265,11 @@ Supported spec types:
   GTM specs:      press, faq, narrative-1p, narrative-6p
   Technical:      trd, ird
 
-The command must be run from within a multispec project directory.
+The command must be run from within a visionspec project directory.
 
 Examples:
-  multispec create mrd          # Create MRD from template
-  multispec create press        # Create Press Release from template`,
+  visionspec create mrd          # Create MRD from template
+  visionspec create press        # Create Press Release from template`,
 		Args: cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			return runCreate(cmd, args, cfg)
@@ -293,7 +293,7 @@ func runCreate(cmd *cobra.Command, args []string, cfg *Config) error {
 
 	projectPath, err := config.FindProjectRoot(cwd)
 	if err != nil {
-		return fmt.Errorf("not in a multispec project (no multispec.yaml found)")
+		return fmt.Errorf("not in a visionspec project (no visionspec.yaml found)")
 	}
 
 	// Load project config
@@ -359,7 +359,7 @@ func lintCmd(cfg *Config) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "lint [project]",
 		Short: "Validate directory structure and naming conventions",
-		Long: `Validate that the project follows multispec conventions:
+		Long: `Validate that the project follows visionspec conventions:
 
   - Directory structure matches canonical layout
   - File naming follows conventions (lowercase specs, kebab-case projects)
@@ -367,9 +367,9 @@ func lintCmd(cfg *Config) *cobra.Command {
   - Config file is valid
 
 Examples:
-  multispec lint                    # Lint all projects
-  multispec lint user-onboarding    # Lint specific project
-  multispec lint --format json      # Output as JSON`,
+  visionspec lint                    # Lint all projects
+  visionspec lint user-onboarding    # Lint specific project
+  visionspec lint --format json      # Output as JSON`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			return runLint(cmd, args, cfg)
 		},
@@ -547,10 +547,10 @@ func evalCmd(cfg *Config) *cobra.Command {
 		Long: `Evaluate specification documents using LLM-as-a-Judge.
 
 Examples:
-  multispec eval prd          # Evaluate PRD
-  multispec eval --all        # Evaluate all specs
-  multispec eval --source     # Evaluate source specs only
-  multispec eval --gtm        # Evaluate GTM docs only`,
+  visionspec eval prd          # Evaluate PRD
+  visionspec eval --all        # Evaluate all specs
+  visionspec eval --source     # Evaluate source specs only
+  visionspec eval --gtm        # Evaluate GTM docs only`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			return runEval(cmd, args, cfg)
 		},
@@ -578,7 +578,7 @@ func runEval(cmd *cobra.Command, args []string, cfg *Config) error {
 
 	projectPath, err := config.FindProjectRoot(cwd)
 	if err != nil {
-		return fmt.Errorf("not in a multispec project (no multispec.yaml found)")
+		return fmt.Errorf("not in a visionspec project (no visionspec.yaml found)")
 	}
 
 	// Load project config for LLM settings
@@ -695,17 +695,17 @@ func synthesizeCmd(cfg *Config) *cobra.Command { //nolint:unparam // cfg reserve
 		Long: `Generate specification documents from source specs using LLM synthesis.
 
 Working Backwards Flow:
-  multispec synthesize press        # MRD → press.md (vision document)
-  multispec synthesize faq          # MRD + Press → faq.md (scope clarification)
-  multispec synthesize prd          # MRD + Press + FAQ → prd.md (detailed requirements)
+  visionspec synthesize press        # MRD → press.md (vision document)
+  visionspec synthesize faq          # MRD + Press → faq.md (scope clarification)
+  visionspec synthesize prd          # MRD + Press + FAQ → prd.md (detailed requirements)
 
 Technical Synthesis:
-  multispec synthesize trd          # MRD + PRD + UXD + CONSTITUTION + CONTEXT → trd.md
-  multispec synthesize ird          # TRD + CONSTITUTION + CONTEXT → ird.md
+  visionspec synthesize trd          # MRD + PRD + UXD + CONSTITUTION + CONTEXT → trd.md
+  visionspec synthesize ird          # TRD + CONSTITUTION + CONTEXT → ird.md
 
 Narrative Documents:
-  multispec synthesize narrative-1p # MRD + PRD → narrative-1p.md
-  multispec synthesize narrative-6p # MRD + PRD + UXD → narrative-6p.md
+  visionspec synthesize narrative-1p # MRD + PRD → narrative-1p.md
+  visionspec synthesize narrative-6p # MRD + PRD + UXD → narrative-6p.md
 
 Context grounding:
   For TRD and IRD, if context sources are configured, the synthesizer
@@ -739,7 +739,7 @@ func runSynthesize(cmd *cobra.Command, args []string) error {
 
 	projectPath, err := config.FindProjectRoot(cwd)
 	if err != nil {
-		return fmt.Errorf("not in a multispec project (no multispec.yaml found)")
+		return fmt.Errorf("not in a visionspec project (no visionspec.yaml found)")
 	}
 
 	// Load project config
@@ -896,7 +896,7 @@ func runReconcile(cmd *cobra.Command, args []string) error {
 
 	projectPath, err := config.FindProjectRoot(cwd)
 	if err != nil {
-		return fmt.Errorf("not in a multispec project (no multispec.yaml found)")
+		return fmt.Errorf("not in a visionspec project (no visionspec.yaml found)")
 	}
 
 	// Load project config
@@ -912,7 +912,7 @@ func runReconcile(cmd *cobra.Command, args []string) error {
 		for _, m := range missing {
 			fmt.Printf("  ✗ %s\n", m)
 		}
-		fmt.Println("\nApprove specs with: multispec approve <spec-type>")
+		fmt.Println("\nApprove specs with: visionspec approve <spec-type>")
 		return fmt.Errorf("cannot reconcile without required approvals")
 	}
 
@@ -1040,8 +1040,8 @@ func approveCmd(cfg *Config) *cobra.Command { //nolint:unparam // cfg reserved f
 		Long: `Mark a specification as approved.
 
 Examples:
-  multispec approve prd                    # Approve PRD
-  multispec approve trd --approver=eng@co  # Approve with approver`,
+  visionspec approve prd                    # Approve PRD
+  visionspec approve trd --approver=eng@co  # Approve with approver`,
 		Args: cobra.ExactArgs(1),
 		RunE: runApprove,
 	}
@@ -1071,7 +1071,7 @@ func runApprove(cmd *cobra.Command, args []string) error {
 
 	projectPath, err := config.FindProjectRoot(cwd)
 	if err != nil {
-		return fmt.Errorf("not in a multispec project (no multispec.yaml found)")
+		return fmt.Errorf("not in a visionspec project (no visionspec.yaml found)")
 	}
 
 	// Load project config
@@ -1136,7 +1136,7 @@ Targets:
   openspec  - OpenSpec portable format (not yet implemented)
 
 Examples:
-  multispec export speckit`,
+  visionspec export speckit`,
 		Args: cobra.ExactArgs(1),
 		RunE: runExport,
 	}
@@ -1158,7 +1158,7 @@ func runExport(cmd *cobra.Command, args []string) error {
 
 	projectPath, err := config.FindProjectRoot(cwd)
 	if err != nil {
-		return fmt.Errorf("not in a multispec project (no multispec.yaml found)")
+		return fmt.Errorf("not in a visionspec project (no visionspec.yaml found)")
 	}
 
 	// Load project config
@@ -1172,7 +1172,7 @@ func runExport(cmd *cobra.Command, args []string) error {
 	specContent, err := os.ReadFile(specPath)
 	if err != nil {
 		if os.IsNotExist(err) {
-			return fmt.Errorf("spec.md not found - run 'multispec reconcile' first")
+			return fmt.Errorf("spec.md not found - run 'visionspec reconcile' first")
 		}
 		return fmt.Errorf("reading spec.md: %w", err)
 	}
@@ -1248,10 +1248,10 @@ Subcommands:
   export    Export to HTML/JSON/GraphML
 
 Examples:
-  multispec graph extract                    # Extract graph from current project
-  multispec graph export --format html       # Export graph as HTML
-  multispec graph export --format graphml    # Export graph as GraphML
-  multispec graph query --type requirement   # List all requirements`,
+  visionspec graph extract                    # Extract graph from current project
+  visionspec graph export --format html       # Export graph as HTML
+  visionspec graph export --format graphml    # Export graph as GraphML
+  visionspec graph query --type requirement   # List all requirements`,
 	}
 
 	// Add subcommands
@@ -1293,7 +1293,7 @@ func runGraphExtract(cmd *cobra.Command, args []string) error {
 
 	projectPath, err := config.FindProjectRoot(cwd)
 	if err != nil {
-		return fmt.Errorf("not in a multispec project (no multispec.yaml found)")
+		return fmt.Errorf("not in a visionspec project (no visionspec.yaml found)")
 	}
 
 	// Extract graph
@@ -1342,7 +1342,7 @@ func runGraphExport(cmd *cobra.Command, args []string) error {
 
 	projectPath, err := config.FindProjectRoot(cwd)
 	if err != nil {
-		return fmt.Errorf("not in a multispec project (no multispec.yaml found)")
+		return fmt.Errorf("not in a visionspec project (no visionspec.yaml found)")
 	}
 
 	// Load graph
@@ -1389,14 +1389,14 @@ func runGraphQuery(cmd *cobra.Command, args []string) error {
 
 	projectPath, err := config.FindProjectRoot(cwd)
 	if err != nil {
-		return fmt.Errorf("not in a multispec project (no multispec.yaml found)")
+		return fmt.Errorf("not in a visionspec project (no visionspec.yaml found)")
 	}
 
 	// Load graph
 	graphPath := filepath.Join(projectPath, ".graphize", "spec-graph.json")
 	g, err := specgraph.LoadJSON(graphPath)
 	if err != nil {
-		return fmt.Errorf("loading graph (run 'multispec graph extract' first): %w", err)
+		return fmt.Errorf("loading graph (run 'visionspec graph extract' first): %w", err)
 	}
 
 	// Query using library
@@ -1441,8 +1441,8 @@ The MCP server provides tools for:
 Configuration for Claude Code (~/.claude/claude_desktop_config.json):
   {
     "mcpServers": {
-      "multispec": {
-        "command": "multispec",
+      "visionspec": {
+        "command": "visionspec",
         "args": ["serve"]
       }
     }
@@ -1479,10 +1479,10 @@ Default profiles:
   enterprise  Comprehensive for post-PMF (all specs + security)
 
 Usage:
-  multispec profiles list              # List available profiles
-  multispec profiles show startup      # Show profile details
-  multispec profiles export startup ./my-profile  # Export for customization
-  multispec init my-project --profile startup`,
+  visionspec profiles list              # List available profiles
+  visionspec profiles show startup      # Show profile details
+  visionspec profiles export startup ./my-profile  # Export for customization
+  visionspec init my-project --profile startup`,
 	}
 
 	cmd.AddCommand(profilesListCmd(cfg))
@@ -1523,7 +1523,7 @@ func profilesListCmd(cfg *Config) *cobra.Command {
 			}
 
 			fmt.Println()
-			fmt.Println("Use with: multispec init <project> --profile <name>")
+			fmt.Println("Use with: visionspec init <project> --profile <name>")
 
 			return nil
 		},
@@ -1623,10 +1623,10 @@ You can then modify these files and use them as a custom profile.
 
 Examples:
   # Export enterprise profile to customize
-  multispec profiles export enterprise ./my-profile
+  visionspec profiles export enterprise ./my-profile
 
   # Use the exported profile
-  multispec init my-project --profile-dir ./my-profile`,
+  visionspec init my-project --profile-dir ./my-profile`,
 		Args: cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			profileName := args[0]
@@ -1702,7 +1702,7 @@ Examples:
 			fmt.Printf("Profile exported to %s\n", outputDir)
 			fmt.Println()
 			fmt.Println("To use this profile:")
-			fmt.Printf("  multispec init my-project --profile-dir %s\n", outputDir)
+			fmt.Printf("  visionspec init my-project --profile-dir %s\n", outputDir)
 
 			return nil
 		},
@@ -1727,10 +1727,10 @@ Subcommands:
   sources   List configured context sources
 
 Examples:
-  multispec context gather                  # Gather context from all sources
-  multispec context show                    # Show context summary
-  multispec context save --output ctx.json  # Save snapshot
-  multispec context sources                 # List configured sources`,
+  visionspec context gather                  # Gather context from all sources
+  visionspec context show                    # Show context summary
+  visionspec context save --output ctx.json  # Save snapshot
+  visionspec context sources                 # List configured sources`,
 	}
 
 	cmd.AddCommand(contextGatherCmd(cfg))
@@ -1768,7 +1768,7 @@ func runContextGather(cmd *cobra.Command, args []string) error {
 
 	projectPath, err := config.FindProjectRoot(cwd)
 	if err != nil {
-		return fmt.Errorf("not in a multispec project (no multispec.yaml found)")
+		return fmt.Errorf("not in a visionspec project (no visionspec.yaml found)")
 	}
 
 	// Load project config
@@ -1788,7 +1788,7 @@ func runContextGather(cmd *cobra.Command, args []string) error {
 
 	if agg.SourceCount() == 0 {
 		fmt.Println("No context sources configured.")
-		fmt.Println("\nAdd sources to multispec.yaml:")
+		fmt.Println("\nAdd sources to visionspec.yaml:")
 		fmt.Println("  context:")
 		fmt.Println("    repositories:")
 		fmt.Println("      - path: /path/to/repo")
@@ -1839,14 +1839,14 @@ func contextShowCmd(cfg *Config) *cobra.Command { //nolint:unparam // cfg reserv
 
 			projectPath, err := config.FindProjectRoot(cwd)
 			if err != nil {
-				return fmt.Errorf("not in a multispec project (no multispec.yaml found)")
+				return fmt.Errorf("not in a visionspec project (no visionspec.yaml found)")
 			}
 
 			// Try to load existing snapshot
 			snapshotPath := filepath.Join(projectPath, ".context-snapshot.json")
 			ac, err := ctxpkg.LoadSnapshot(snapshotPath)
 			if err != nil {
-				fmt.Println("No context snapshot found. Run 'multispec context gather' first.")
+				fmt.Println("No context snapshot found. Run 'visionspec context gather' first.")
 				return nil
 			}
 
@@ -1879,7 +1879,7 @@ func runContextSave(cmd *cobra.Command, args []string) error {
 
 	projectPath, err := config.FindProjectRoot(cwd)
 	if err != nil {
-		return fmt.Errorf("not in a multispec project (no multispec.yaml found)")
+		return fmt.Errorf("not in a visionspec project (no visionspec.yaml found)")
 	}
 
 	// Load project config
@@ -1938,7 +1938,7 @@ func contextSourcesCmd(cfg *Config) *cobra.Command { //nolint:unparam // cfg res
 
 			projectPath, err := config.FindProjectRoot(cwd)
 			if err != nil {
-				return fmt.Errorf("not in a multispec project (no multispec.yaml found)")
+				return fmt.Errorf("not in a visionspec project (no visionspec.yaml found)")
 			}
 
 			// Load project config
@@ -1999,7 +1999,7 @@ func contextSourcesCmd(cfg *Config) *cobra.Command { //nolint:unparam // cfg res
 			if !ctxCfg.HasSources() {
 				fmt.Println("  (no sources configured)")
 				fmt.Println()
-				fmt.Println("Add sources to multispec.yaml:")
+				fmt.Println("Add sources to visionspec.yaml:")
 				fmt.Println("  context:")
 				fmt.Println("    repositories:")
 				fmt.Println("      - path: /path/to/repo")
@@ -2096,8 +2096,8 @@ Subcommands:
   project     Generate index.md for a specific project
 
 Examples:
-  multispec docs generate             # Generate all docs
-  multispec docs project my-project   # Generate docs for specific project`,
+  visionspec docs generate             # Generate all docs
+  visionspec docs project my-project   # Generate docs for specific project`,
 	}
 
 	cmd.AddCommand(docsGenerateCmd(cfg))
@@ -2134,7 +2134,7 @@ func runDocsGenerate(cmd *cobra.Command, args []string) error {
 
 	specsDir, err := config.FindSpecsDir(cwd)
 	if err != nil {
-		return fmt.Errorf("not in a multispec workspace (no docs/specs found)")
+		return fmt.Errorf("not in a visionspec workspace (no docs/specs found)")
 	}
 
 	fmt.Println("⋯ Generating MkDocs files...")
@@ -2234,13 +2234,13 @@ func runDocsProject(cmd *cobra.Command, args []string) error {
 	if len(args) > 0 {
 		specsDir, err := config.FindSpecsDir(cwd)
 		if err != nil {
-			return fmt.Errorf("not in a multispec workspace (no docs/specs found)")
+			return fmt.Errorf("not in a visionspec workspace (no docs/specs found)")
 		}
 		projectPath = filepath.Join(specsDir, args[0])
 	} else {
 		projectPath, err = config.FindProjectRoot(cwd)
 		if err != nil {
-			return fmt.Errorf("not in a multispec project (no multispec.yaml found)")
+			return fmt.Errorf("not in a visionspec project (no visionspec.yaml found)")
 		}
 	}
 

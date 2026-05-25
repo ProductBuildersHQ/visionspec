@@ -1,4 +1,4 @@
-// Package specgraph provides requirement graph extraction from multispec specs.
+// Package specgraph provides requirement graph extraction from visionspec specs.
 // It integrates with graphize to build knowledge graphs from spec documents.
 //
 //nolint:dupl // Extraction functions are intentionally similar in structure
@@ -12,11 +12,11 @@ import (
 	"regexp"
 	"strings"
 
+	"github.com/ProductBuildersHQ/visionspec/pkg/config"
+	"github.com/ProductBuildersHQ/visionspec/pkg/types"
 	"github.com/plexusone/graphfs/pkg/graph"
 	"github.com/plexusone/graphize/pkg/exporters/graphml"
 	"github.com/plexusone/graphize/pkg/exporters/htmlsite"
-	"github.com/plexusone/multispec/pkg/config"
-	"github.com/plexusone/multispec/pkg/types"
 )
 
 // Node types for spec graphs.
@@ -44,7 +44,7 @@ const (
 	EdgeTypeContains      = "contains"
 )
 
-// SpecExtractor extracts requirement graphs from multispec projects.
+// SpecExtractor extracts requirement graphs from visionspec projects.
 type SpecExtractor struct {
 	projectPath string
 }
@@ -673,7 +673,7 @@ func Export(g *graph.Graph, opts ExportOptions) (*ExportResult, error) {
 	case FormatGraphML:
 		gen := graphml.NewGenerator()
 		gen.GraphID = "spec-graph"
-		gen.Description = "MultiSpec requirement graph"
+		gen.Description = "VisionSpec requirement graph"
 		genResult, err := gen.Generate(nodes, g.Edges)
 		if err != nil {
 			return nil, fmt.Errorf("generating GraphML: %w", err)

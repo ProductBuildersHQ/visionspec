@@ -18,7 +18,7 @@ The fastest way to create a custom profile is to export an existing one:
 
 ```bash
 # Export the enterprise profile as a starting point
-multispec profiles export enterprise ./my-profile
+visionspec profiles export enterprise ./my-profile
 
 # Customize the files
 vim ./my-profile/profile.yaml
@@ -26,7 +26,7 @@ vim ./my-profile/templates/prd.md
 vim ./my-profile/rubrics/prd.rubric.yaml
 
 # Use your custom profile
-multispec init my-project --profile-dir ./my-profile
+visionspec init my-project --profile-dir ./my-profile
 ```
 
 ## Profile Directory Structure
@@ -59,7 +59,7 @@ The spec-type in the filename must match:
 
 - The `spec_type` field in rubric YAML files
 - The spec name in `profile.yaml`
-- The spec type used in multispec commands
+- The spec type used in visionspec commands
 
 ## profile.yaml Reference
 
@@ -275,9 +275,9 @@ package main
 
 import (
     "embed"
-    "github.com/plexusone/multispec/pkg/cli"
-    "github.com/plexusone/multispec/pkg/templates"
-    "github.com/plexusone/multispec/pkg/rubrics"
+    "github.com/ProductBuildersHQ/visionspec/pkg/cli"
+    "github.com/ProductBuildersHQ/visionspec/pkg/templates"
+    "github.com/ProductBuildersHQ/visionspec/pkg/rubrics"
     "github.com/spf13/cobra"
 )
 
@@ -317,7 +317,7 @@ The resulting binary contains all templates and rubrics - no external files need
 
 | Loader | Source | Use Case |
 |--------|--------|----------|
-| `EmbeddedLoader()` | Built-in defaults | Fallback to multispec defaults |
+| `EmbeddedLoader()` | Built-in defaults | Fallback to visionspec defaults |
 | `NewEmbedFSLoader(fs, dir)` | `embed.FS` | Compile into binary |
 | `NewFileLoader(dir)` | Filesystem | Runtime loading |
 | `NewChainLoader(...)` | Multiple | Try loaders in order |
@@ -340,4 +340,4 @@ The resulting binary contains all templates and rubrics - no external files need
 
 - [profiles command](../cli/profiles.md) - CLI reference
 - [Evaluation System](../getting-started/concepts.md#evaluation-system) - How evaluation works
-- [examples/org-cli](https://github.com/plexusone/multispec/tree/main/examples/org-cli) - Complete example
+- [examples/org-cli](https://github.com/ProductBuildersHQ/visionspec/tree/main/examples/org-cli) - Complete example
