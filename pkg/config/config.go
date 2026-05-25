@@ -121,3 +121,44 @@ func SpecPath(projectPath string, specType types.SpecType) string {
 func EvalPath(projectPath string, specType types.SpecType) string {
 	return filepath.Join(projectPath, EvalDir, specType.EvalFilename())
 }
+
+// FindConstitution finds the constitution file from multiple locations.
+// Search order (first found wins):
+// 1. Repo-level: docs/specs/CONSTITUTION.md (from project path)
+// 2. Org-level: ~/.config/multispec/CONSTITUTION.md
+// Returns the path if found, empty string otherwise.
+func FindConstitution(projectPath string) string {
+	// Try repo-level constitution
+	specsDir := filepath.Dir(projectPath) // Go up from project to docs/specs
+	repoConstitution := filepath.Join(specsDir, ConstitutionFile)
+	if _, err := os.Stat(repoConstitution); err == nil {
+		return repoConstitution
+	}
+
+	// Try org-level constitution
+	homeDir, err := os.UserHomeDir()
+	if err == nil {
+		orgConstitution := filepath.Join(homeDir, ".config", "multispec", ConstitutionFile)
+		if _, err := os.Stat(orgConstitution); err == nil {
+			return orgConstitution
+		}
+	}
+
+	return ""
+}
+
+// LoadConstitution loads the constitution content from the first found location.
+// Returns empty string if no constitution file exists.
+func LoadConstitution(projectPath string) string {
+	constitutionPath := FindConstitution(projectPath)
+	if constitutionPath == "" {
+		return ""
+	}
+
+	content, err := os.ReadFile(constitutionPath)
+	if err != nil {
+		return ""
+	}
+
+	return string(content)
+}
