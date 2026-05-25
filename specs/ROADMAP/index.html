@@ -2611,7 +2611,10 @@
 <li>[x] RMI-002: Create CLI skeleton with Cobra (<code>multispec</code> command)</li>
 <li>[x] RMI-003: Define core types package (<code>pkg/types/</code>)</li>
 <li>[x] RMI-004: Add configuration loading (<code>multispec.yaml</code>)</li>
-<li>[ ] RMI-005: Set up CI (lint, test, build)</li>
+<li>[x] RMI-005: Set up CI (lint, test, build)</li>
+<li><code>.github/workflows/go-ci.yaml</code> - build and test</li>
+<li><code>.github/workflows/go-lint.yaml</code> - golangci-lint</li>
+<li><code>.github/workflows/go-sast-codeql.yaml</code> - security analysis</li>
 <li>
 <p>[x] RMI-006: Create project README</p>
 </li>
@@ -2652,27 +2655,33 @@
 <p>Generate <code>multispec.yaml</code> project config</p>
 </li>
 <li>
-<p>[ ] RMI-011: Support CONSTITUTION.md at <code>docs/specs/CONSTITUTION.md</code></p>
+<p>[x] RMI-011: Support CONSTITUTION.md at <code>docs/specs/CONSTITUTION.md</code></p>
 </li>
 <li>Repo-level governance document</li>
 <li>Optional org-level at <code>~/.config/multispec/CONSTITUTION.md</code></li>
+<li><code>pkg/config/config.go</code> - FindConstitution, LoadConstitution functions</li>
+<li>Used in synth, reconcile, and export commands</li>
 </ul>
 <h3 id="mkdocs-integration">MkDocs Integration<a class="headerlink" href="#mkdocs-integration" title="Permanent link">&para;</a></h3>
 <ul>
-<li>[ ] RMI-016: Generate <code>{project}/index.md</code> for each project</li>
+<li>[x] RMI-016: Generate <code>{project}/index.md</code> for each project</li>
 <li>Spec overview with status badges</li>
 <li>Links to all specs (source, gtm, technical)</li>
 <li>Eval summary (pass/fail counts, open findings)</li>
+<li>Last updated timestamps</li>
+<li><code>pkg/mkdocs/mkdocs.go</code> - GenerateProjectIndex, WriteProjectIndex</li>
 <li>
-<p>Last updated timestamps</p>
+<p><code>multispec docs project</code> command</p>
 </li>
 <li>
-<p>[ ] RMI-017: Generate <code>docs/specs/index.md</code> (specs landing page)</p>
+<p>[x] RMI-017: Generate <code>docs/specs/index.md</code> (specs landing page)</p>
 </li>
 <li>List all projects with status</li>
 <li>Link to CONSTITUTION.md and ROADMAP.md</li>
+<li>Cross-project metrics</li>
+<li><code>pkg/mkdocs/mkdocs.go</code> - GenerateSpecsLanding, WriteSpecsLanding</li>
 <li>
-<p>Cross-project metrics</p>
+<p><code>multispec docs generate</code> command</p>
 </li>
 <li>
 <p>[ ] RMI-018: Generate MkDocs navigation structure</p>
@@ -2719,13 +2728,15 @@
 <p>spec.md generated</p>
 </li>
 <li>
-<p>[ ] RMI-019d: Integrate graphize metrics in status report</p>
+<p>[x] RMI-019d: Integrate graphize metrics in status report</p>
 </li>
 <li>Traceability coverage percentage</li>
 <li>Requirements without TRD coverage</li>
 <li>Conflict count</li>
+<li>Link to graph visualization</li>
+<li><code>pkg/status/status.go</code> - GraphMetrics struct, RenderText/RenderMarkdown</li>
 <li>
-<p>Link to graph visualization</p>
+<p><code>pkg/specgraph/specgraph.go</code> - ComputeMetrics function</p>
 </li>
 <li>
 <p>[x] RMI-019e: CI exit codes for readiness</p>
@@ -2790,10 +2801,12 @@
 <p>AWS 6-pager format with appendices</p>
 </li>
 <li>
-<p>[ ] RMI-015: Implement <code>multispec create {spec-type}</code> command</p>
+<p>[x] RMI-015: Implement <code>multispec create {spec-type}</code> command</p>
 </li>
 <li>Scaffold new spec from template</li>
 <li>Support: mrd, prd, uxd, trd, ird, press, faq, narrative-1p, narrative-6p</li>
+<li><code>pkg/cli/commands.go</code> - createCmd function</li>
+<li><code>pkg/cli/cli.go</code> - registered in CommandSet</li>
 </ul>
 <hr />
 <h2 id="phase-2-evaluation-engine">Phase 2: Evaluation Engine<a class="headerlink" href="#phase-2-evaluation-engine" title="Permanent link">&para;</a></h2>
@@ -2820,10 +2833,12 @@
 <p><code>pkg/rubrics/narrative6p.go</code> - 6-pager narrative evaluation</p>
 </li>
 <li>
-<p>[ ] RMI-022: Support custom rubrics in project config</p>
+<p>[x] RMI-022: Support custom rubrics in project config</p>
 </li>
 <li>Override default rubrics per project</li>
 <li>Rubric inheritance/extension</li>
+<li><code>pkg/types/project.go</code> - RubricsConfig struct</li>
+<li><code>pkg/rubrics/loader.go</code> - FileLoader, ChainLoader for custom rubrics</li>
 </ul>
 <h3 id="evaluation-commands">Evaluation Commands<a class="headerlink" href="#evaluation-commands" title="Permanent link">&para;</a></h3>
 <ul>
@@ -3036,103 +3051,114 @@
 <p>Conflict detection and unified spec generation.</p>
 <h3 id="conflict-detection">Conflict Detection<a class="headerlink" href="#conflict-detection" title="Permanent link">&para;</a></h3>
 <ul>
-<li>[ ] RMI-040: Implement conflict detection algorithm</li>
+<li>[x] RMI-040: Implement conflict detection algorithm</li>
 <li>Cross-spec requirement conflicts</li>
 <li>Constraint violations</li>
+<li>Missing traceability</li>
 <li>
-<p>Missing traceability</p>
+<p><code>pkg/reconcile/conflicts.go</code> - ConflictDetector with pattern-based detection</p>
 </li>
 <li>
-<p>[ ] RMI-041: Define conflict representation</p>
+<p>[x] RMI-041: Define conflict representation</p>
 </li>
-<li>Conflict type (requirement, constraint, tradeoff)</li>
+<li>Conflict type (requirement, constraint, tradeoff, missing)</li>
 <li>Source specs involved</li>
-<li>Severity level</li>
+<li>Severity level (high, medium, low)</li>
 <li>Suggested resolution</li>
+<li>Confidence score for detected conflicts</li>
 </ul>
 <h3 id="specmd-generation">spec.md Generation<a class="headerlink" href="#specmd-generation" title="Permanent link">&para;</a></h3>
 <ul>
-<li>[ ] RMI-042: Implement <code>multispec reconcile</code> command</li>
+<li>[x] RMI-042: Implement <code>multispec reconcile</code> command</li>
 <li>Input: All approved specs</li>
 <li>Output: <code>spec.md</code> (unified execution spec)</li>
+<li>Output: <code>spec.eval.json</code> (reconciliation evaluation)</li>
 <li>
-<p>Output: <code>SPEC_EVAL.json</code> (reconciliation evaluation)</p>
+<p>Pre-reconciliation conflict detection included in LLM prompt</p>
 </li>
 <li>
-<p>[ ] RMI-043: Define spec.md structure</p>
+<p>[x] RMI-043: Define spec.md structure</p>
 </li>
 <li>Resolved requirements</li>
 <li>Consolidated constraints</li>
 <li>Task decomposition</li>
 <li>Dependency graph</li>
+<li>Decision log (tradeoffs made)</li>
 <li>
-<p>Decision log (tradeoffs made)</p>
+<p>Traceability matrix</p>
 </li>
 <li>
-<p>[ ] RMI-044: Support unresolved conflicts in SPEC_EVAL.json</p>
+<p>[x] RMI-044: Support unresolved conflicts in spec.eval.json</p>
 </li>
 <li>Conflicts requiring human decision</li>
-<li>Escalation workflow</li>
+<li>Status: reconciled, reconciled_with_tradeoffs, needs_review</li>
+<li>Decision log with resolutions</li>
 </ul>
 <hr />
 <h2 id="phase-5-target-adapters">Phase 5: Target Adapters<a class="headerlink" href="#phase-5-target-adapters" title="Permanent link">&para;</a></h2>
 <p>Export reconciled specs to downstream execution systems.</p>
 <h3 id="adapter-framework">Adapter Framework<a class="headerlink" href="#adapter-framework" title="Permanent link">&para;</a></h3>
 <ul>
-<li>[ ] RMI-050: Define <code>Target</code> interface</li>
-<li><code>Name()</code>, <code>Version()</code>, <code>Capabilities()</code></li>
+<li>[x] RMI-050: Define <code>Target</code> interface</li>
+<li><code>Name()</code>, <code>Description()</code>, <code>Capabilities()</code></li>
+<li><code>Validate()</code>, <code>Export()</code></li>
 <li>
-<p><code>Validate()</code>, <code>Export()</code></p>
+<p><code>pkg/target/target.go</code></p>
 </li>
 <li>
-<p>[ ] RMI-051: Implement target registry</p>
+<p>[x] RMI-051: Implement target registry</p>
 </li>
 <li>Register adapters by name</li>
+<li>List available targets</li>
 <li>
-<p>List available targets</p>
+<p><code>Get()</code>, <code>Available()</code>, <code>ListTargets()</code></p>
 </li>
 <li>
-<p>[ ] RMI-052: Implement <code>multispec targets</code> command</p>
+<p>[x] RMI-052: Implement <code>multispec targets</code> command</p>
 </li>
 <li>List available targets</li>
 <li>
 <p>Show capabilities</p>
 </li>
 <li>
-<p>[ ] RMI-053: Implement <code>multispec export {target}</code> command</p>
+<p>[x] RMI-053: Implement <code>multispec export {target}</code> command</p>
 </li>
 <li>Route to appropriate adapter</li>
 <li>Support multiple targets: <code>multispec export speckit,gsd</code></li>
 </ul>
 <h3 id="speckit-adapter-priority-1">SpecKit Adapter (Priority 1)<a class="headerlink" href="#speckit-adapter-priority-1" title="Permanent link">&para;</a></h3>
 <ul>
-<li>[ ] RMI-060: Implement SpecKit adapter</li>
+<li>[x] RMI-060: Implement SpecKit adapter</li>
 <li>Generate <code>specs/{seq}-{name}/spec.md</code></li>
 <li>Generate <code>specs/{seq}-{name}/plan.md</code></li>
+<li>Generate <code>specs/{seq}-{name}/tasks.md</code></li>
 <li>
-<p>Generate <code>specs/{seq}-{name}/tasks.md</code></p>
+<p><code>pkg/target/speckit.go</code></p>
 </li>
 <li>
-<p>[ ] RMI-061: Support SpecKit constitution sync</p>
+<p>[x] RMI-061: Support SpecKit constitution sync</p>
+</li>
+<li>Update <code>.specify/memory/constitution.md</code> from CONSTITUTION.md</li>
+<li><code>pkg/target/speckit.go</code> - syncConstitution method</li>
+<li>
+<p><code>pkg/cli/commands.go</code> - pass constitution path to export config</p>
 </li>
 <li>
-<p>Update <code>.specify/memory/constitution.md</code> from CONSTITUTION.md</p>
-</li>
-<li>
-<p>[ ] RMI-062: Support SpecKit branch conventions</p>
+<p>[x] RMI-062: Support SpecKit branch conventions</p>
 </li>
 <li>Sequential (<code>001-feature</code>) or timestamp naming</li>
 </ul>
 <h3 id="gsd-adapter-priority-2">GSD Adapter (Priority 2)<a class="headerlink" href="#gsd-adapter-priority-2" title="Permanent link">&para;</a></h3>
 <ul>
-<li>[ ] RMI-070: Implement GSD adapter</li>
+<li>[x] RMI-070: Implement GSD adapter</li>
 <li>Generate <code>PLAN.md</code> files with YAML frontmatter + XML tasks</li>
 <li>Generate initial <code>STATE.md</code></li>
+<li>Generate <code>.planning/config.json</code></li>
 <li>
-<p>Generate <code>.planning/config.json</code></p>
+<p><code>pkg/target/gsd.go</code></p>
 </li>
 <li>
-<p>[ ] RMI-071: Map requirements to <code>must_haves</code></p>
+<p>[x] RMI-071: Map requirements to <code>must_haves</code></p>
 </li>
 <li><code>must_haves.truths</code> from acceptance criteria</li>
 <li><code>must_haves.artifacts</code> from deliverables</li>
@@ -3140,20 +3166,21 @@
 <p><code>must_haves.key_links</code> from dependencies</p>
 </li>
 <li>
-<p>[ ] RMI-072: Support GSD phases</p>
+<p>[x] RMI-072: Support GSD phases</p>
 </li>
 <li>Map spec phases to GSD phase structure</li>
 <li>Generate wave dependencies</li>
 </ul>
 <h3 id="gastown-adapter-priority-3">GasTown Adapter (Priority 3)<a class="headerlink" href="#gastown-adapter-priority-3" title="Permanent link">&para;</a></h3>
 <ul>
-<li>[ ] RMI-080: Implement GasTown adapter</li>
+<li>[x] RMI-080: Implement GasTown adapter</li>
 <li>Generate TOML formulas (convoy/workflow/expansion)</li>
+<li>Generate Bead definitions</li>
 <li>
-<p>Generate Bead definitions</p>
+<p><code>pkg/target/gastown.go</code></p>
 </li>
 <li>
-<p>[ ] RMI-081: Support formula types</p>
+<p>[x] RMI-081: Support formula types</p>
 </li>
 <li>Convoy for parallel review</li>
 <li>Workflow for sequential execution</li>
@@ -3161,17 +3188,18 @@
 <p>Expansion for template-based generation</p>
 </li>
 <li>
-<p>[ ] RMI-082: Map task dependencies to Bead DAG</p>
+<p>[x] RMI-082: Map task dependencies to Bead DAG</p>
 </li>
 <li>Blocked/ready relationships</li>
 <li>Convoy coordination</li>
 </ul>
 <h3 id="gascity-adapter-priority-3">GasCity Adapter (Priority 3)<a class="headerlink" href="#gascity-adapter-priority-3" title="Permanent link">&para;</a></h3>
 <ul>
-<li>[ ] RMI-085: Implement GasCity adapter</li>
+<li>[x] RMI-085: Implement GasCity adapter</li>
 <li>Generate <code>city.toml</code> agent configuration</li>
 <li>Generate agent definitions</li>
 <li>Generate orders</li>
+<li><code>pkg/target/gascity.go</code></li>
 </ul>
 <h3 id="openspec-adapter-future">OpenSpec Adapter (Future)<a class="headerlink" href="#openspec-adapter-future" title="Permanent link">&para;</a></h3>
 <ul>
