@@ -283,7 +283,7 @@ func (c *Client) Close() error {
 	case <-done:
 		return nil
 	case <-time.After(5 * time.Second):
-		c.cmd.Process.Kill()
+		_ = c.cmd.Process.Kill() // Best effort; we're already returning an error
 		return fmt.Errorf("server did not exit gracefully")
 	}
 }

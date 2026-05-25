@@ -82,17 +82,8 @@ func (s *Source) Fetch(c context.Context) (*ctx.ContextData, error) {
 		ServerType: detectServerType(s.name, tools),
 	}
 
-	// Fetch context based on available tools
-	if err := s.fetchContext(c, tools, external); err != nil {
-		return &ctx.ContextData{
-			Source:    s.Name(),
-			Type:      ctx.SourceTypeMCP,
-			FetchedAt: time.Now(),
-			Duration:  time.Since(start),
-			External:  external,
-			Errors:    []string{err.Error()},
-		}, nil
-	}
+	// Fetch context based on available tools (best-effort)
+	s.fetchContext(c, tools, external)
 
 	return &ctx.ContextData{
 		Source:    s.Name(),
@@ -146,7 +137,9 @@ func detectServerType(name string, tools []Tool) string {
 	return "generic"
 }
 
-func (s *Source) fetchContext(c context.Context, tools []Tool, external *ctx.ExternalContext) error {
+// fetchContext fetches context from available tools.
+// This is a best-effort operation; failures are silently ignored.
+func (s *Source) fetchContext(c context.Context, tools []Tool, external *ctx.ExternalContext) {
 	// Build tool map for quick lookup
 	toolMap := make(map[string]Tool)
 	for _, t := range tools {
@@ -154,25 +147,16 @@ func (s *Source) fetchContext(c context.Context, tools []Tool, external *ctx.Ext
 	}
 
 	// Try to fetch issues (Jira, Linear, etc.)
-	if err := s.fetchIssues(c, toolMap, external); err != nil {
-		// Non-fatal, continue with other fetches
-		fmt.Printf("  Warning: fetching issues: %v\n", err)
-	}
+	s.fetchIssues(c, toolMap, external)
 
 	// Try to fetch pages (Confluence, Notion, etc.)
-	if err := s.fetchPages(c, toolMap, external); err != nil {
-		fmt.Printf("  Warning: fetching pages: %v\n", err)
-	}
+	s.fetchPages(c, toolMap, external)
 
 	// Try to fetch documents (Google Docs, etc.)
-	if err := s.fetchDocuments(c, toolMap, external); err != nil {
-		fmt.Printf("  Warning: fetching documents: %v\n", err)
-	}
-
-	return nil
+	s.fetchDocuments(c, toolMap, external)
 }
 
-func (s *Source) fetchIssues(c context.Context, tools map[string]Tool, external *ctx.ExternalContext) error {
+func (s *Source) fetchIssues(c context.Context, tools map[string]Tool, external *ctx.ExternalContext) {
 	// Look for issue-fetching tools
 	issueTools := []string{
 		"search_issues",
@@ -217,15 +201,13 @@ func (s *Source) fetchIssues(c context.Context, tools map[string]Tool, external 
 			}
 
 			if len(external.Issues) > 0 {
-				return nil
+				return
 			}
 		}
 	}
-
-	return nil
 }
 
-func (s *Source) fetchPages(c context.Context, tools map[string]Tool, external *ctx.ExternalContext) error {
+func (s *Source) fetchPages(c context.Context, tools map[string]Tool, external *ctx.ExternalContext) {
 	// Look for page-fetching tools
 	pageTools := []string{
 		"search_pages",
@@ -264,15 +246,13 @@ func (s *Source) fetchPages(c context.Context, tools map[string]Tool, external *
 			}
 
 			if len(external.Pages) > 0 {
-				return nil
+				return
 			}
 		}
 	}
-
-	return nil
 }
 
-func (s *Source) fetchDocuments(c context.Context, tools map[string]Tool, external *ctx.ExternalContext) error {
+func (s *Source) fetchDocuments(c context.Context, tools map[string]Tool, external *ctx.ExternalContext) {
 	// Look for document-fetching tools
 	docTools := []string{
 		"list_documents",
@@ -305,12 +285,10 @@ func (s *Source) fetchDocuments(c context.Context, tools map[string]Tool, extern
 			}
 
 			if len(external.Documents) > 0 {
-				return nil
+				return
 			}
 		}
 	}
-
-	return nil
 }
 
 // parseIssuesFromText extracts issues from tool response text.
