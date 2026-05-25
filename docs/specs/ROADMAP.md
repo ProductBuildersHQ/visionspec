@@ -477,48 +477,52 @@ Export reconciled specs to downstream execution systems.
 
 ### Adapter Framework
 
-- [ ] RMI-050: Define `Target` interface
-  - `Name()`, `Version()`, `Capabilities()`
+- [x] RMI-050: Define `Target` interface
+  - `Name()`, `Description()`, `Capabilities()`
   - `Validate()`, `Export()`
+  - `pkg/target/target.go`
 
-- [ ] RMI-051: Implement target registry
+- [x] RMI-051: Implement target registry
   - Register adapters by name
   - List available targets
+  - `Get()`, `Available()`, `ListTargets()`
 
-- [ ] RMI-052: Implement `multispec targets` command
+- [x] RMI-052: Implement `multispec targets` command
   - List available targets
   - Show capabilities
 
-- [ ] RMI-053: Implement `multispec export {target}` command
+- [x] RMI-053: Implement `multispec export {target}` command
   - Route to appropriate adapter
   - Support multiple targets: `multispec export speckit,gsd`
 
 ### SpecKit Adapter (Priority 1)
 
-- [ ] RMI-060: Implement SpecKit adapter
+- [x] RMI-060: Implement SpecKit adapter
   - Generate `specs/{seq}-{name}/spec.md`
   - Generate `specs/{seq}-{name}/plan.md`
   - Generate `specs/{seq}-{name}/tasks.md`
+  - `pkg/target/speckit.go`
 
 - [ ] RMI-061: Support SpecKit constitution sync
   - Update `.specify/memory/constitution.md` from CONSTITUTION.md
 
-- [ ] RMI-062: Support SpecKit branch conventions
+- [x] RMI-062: Support SpecKit branch conventions
   - Sequential (`001-feature`) or timestamp naming
 
 ### GSD Adapter (Priority 2)
 
-- [ ] RMI-070: Implement GSD adapter
+- [x] RMI-070: Implement GSD adapter
   - Generate `PLAN.md` files with YAML frontmatter + XML tasks
   - Generate initial `STATE.md`
   - Generate `.planning/config.json`
+  - `pkg/target/gsd.go`
 
-- [ ] RMI-071: Map requirements to `must_haves`
+- [x] RMI-071: Map requirements to `must_haves`
   - `must_haves.truths` from acceptance criteria
   - `must_haves.artifacts` from deliverables
   - `must_haves.key_links` from dependencies
 
-- [ ] RMI-072: Support GSD phases
+- [x] RMI-072: Support GSD phases
   - Map spec phases to GSD phase structure
   - Generate wave dependencies
 
