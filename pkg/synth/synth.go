@@ -33,6 +33,7 @@ type SynthesisInput struct {
 	TRD          string // Technical Requirements Document (for IRD synthesis)
 	Constitution string // Project/org constitution
 	Press        string // Press Release (for FAQ synthesis)
+	Context      string // Aggregated context summary (for grounding)
 }
 
 // SynthesisResult contains the generated document and metadata.
@@ -76,6 +77,13 @@ func (s *Synthesizer) buildPrompt(targetType types.SpecType, input SynthesisInpu
 	switch targetType {
 	case types.SpecTypeTRD:
 		sb.WriteString("Generate a Technical Requirements Document (TRD) based on the following source specs.\n\n")
+		if input.Context != "" {
+			sb.WriteString("## Codebase Context (for grounding)\n\n")
+			sb.WriteString("The following context describes the existing codebase and systems. ")
+			sb.WriteString("Use this to ground your technical decisions in reality:\n\n")
+			sb.WriteString(input.Context)
+			sb.WriteString("\n\n")
+		}
 		if input.MRD != "" {
 			sb.WriteString("## Market Requirements Document (MRD)\n\n")
 			sb.WriteString(input.MRD)
@@ -97,6 +105,13 @@ func (s *Synthesizer) buildPrompt(targetType types.SpecType, input SynthesisInpu
 
 	case types.SpecTypeIRD:
 		sb.WriteString("Generate an Infrastructure Requirements Document (IRD) based on the following source specs.\n\n")
+		if input.Context != "" {
+			sb.WriteString("## Codebase Context (for grounding)\n\n")
+			sb.WriteString("The following context describes the existing codebase and infrastructure. ")
+			sb.WriteString("Use this to ground your infrastructure decisions in reality:\n\n")
+			sb.WriteString(input.Context)
+			sb.WriteString("\n\n")
+		}
 		if input.TRD != "" {
 			sb.WriteString("## Technical Requirements Document (TRD)\n\n")
 			sb.WriteString(input.TRD)
