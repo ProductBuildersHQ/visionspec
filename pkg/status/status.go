@@ -14,12 +14,24 @@ import (
 
 // Report represents a project status report.
 type Report struct {
-	Project     string                `json:"project"`
-	Path        string                `json:"path"`
-	GeneratedAt time.Time             `json:"generated_at"`
-	Readiness   types.ReadinessStatus `json:"readiness"`
-	Specs       []SpecStatus          `json:"specs"`
-	Summary     Summary               `json:"summary"`
+	Project      string                `json:"project"`
+	Path         string                `json:"path"`
+	GeneratedAt  time.Time             `json:"generated_at"`
+	Readiness    types.ReadinessStatus `json:"readiness"`
+	Specs        []SpecStatus          `json:"specs"`
+	Summary      Summary               `json:"summary"`
+	GraphMetrics *GraphMetrics         `json:"graph_metrics,omitempty"`
+}
+
+// GraphMetrics contains traceability and graph statistics.
+type GraphMetrics struct {
+	TotalRequirements int     `json:"total_requirements"`
+	TotalUserStories  int     `json:"total_user_stories"`
+	TotalConstraints  int     `json:"total_constraints"`
+	TotalDecisions    int     `json:"total_decisions"`
+	TraceCoverage     float64 `json:"trace_coverage"` // Percentage of requirements traced to TRD
+	ConflictCount     int     `json:"conflict_count"`
+	GraphPath         string  `json:"graph_path,omitempty"`
 }
 
 // SpecStatus represents the status of a single spec.
@@ -119,6 +131,13 @@ func GenerateWithConfig(project *types.Project, specConfig *types.SpecConfig) (*
 	report.Readiness = calculateReadiness(report)
 
 	return report, nil
+}
+
+// WithGraphMetrics adds graph metrics to a report.
+// This is a separate call because graph extraction can be expensive.
+func (r *Report) WithGraphMetrics(metrics *GraphMetrics) *Report {
+	r.GraphMetrics = metrics
+	return r
 }
 
 func calculateReadiness(report *Report) types.ReadinessStatus {
@@ -291,6 +310,19 @@ func RenderText(w io.Writer, report *Report) error {
 		report.Summary.PresentSpecs,
 		report.Summary.EvaluatedSpecs,
 		report.Summary.ApprovedSpecs)
+
+	// Graph metrics if available
+	if report.GraphMetrics != nil {
+		fmt.Fprintf(w, "\nTraceability Metrics:\n")
+		fmt.Fprintf(w, "  Requirements: %d, User Stories: %d, Constraints: %d, Decisions: %d\n",
+			report.GraphMetrics.TotalRequirements,
+			report.GraphMetrics.TotalUserStories,
+			report.GraphMetrics.TotalConstraints,
+			report.GraphMetrics.TotalDecisions)
+		fmt.Fprintf(w, "  Trace Coverage: %.0f%%, Conflicts: %d\n",
+			report.GraphMetrics.TraceCoverage*100,
+			report.GraphMetrics.ConflictCount)
+	}
 
 	return nil
 }
@@ -498,6 +530,21 @@ func RenderMarkdown(w io.Writer, report *Report) error {
 	fmt.Fprintf(w, "- **Present:** %d\n", report.Summary.PresentSpecs)
 	fmt.Fprintf(w, "- **Evaluated:** %d\n", report.Summary.EvaluatedSpecs)
 	fmt.Fprintf(w, "- **Approved:** %d\n", report.Summary.ApprovedSpecs)
+
+	// Graph metrics if available
+	if report.GraphMetrics != nil {
+		fmt.Fprintf(w, "\n## Traceability Metrics\n\n")
+		fmt.Fprintf(w, "- **Requirements:** %d extracted\n", report.GraphMetrics.TotalRequirements)
+		fmt.Fprintf(w, "- **User Stories:** %d extracted\n", report.GraphMetrics.TotalUserStories)
+		fmt.Fprintf(w, "- **Constraints:** %d extracted\n", report.GraphMetrics.TotalConstraints)
+		fmt.Fprintf(w, "- **Decisions:** %d extracted\n", report.GraphMetrics.TotalDecisions)
+		fmt.Fprintf(w, "- **Trace Coverage:** %.0f%%\n", report.GraphMetrics.TraceCoverage*100)
+		fmt.Fprintf(w, "- **Conflicts:** %d detected\n", report.GraphMetrics.ConflictCount)
+		if report.GraphMetrics.GraphPath != "" {
+			fmt.Fprintf(w, "\n[View Graph →](%s)\n", report.GraphMetrics.GraphPath)
+		}
+	}
+
 	fmt.Fprintf(w, "\n---\n")
 	fmt.Fprintf(w, "*Generated at %s by MultiSpec*\n", report.GeneratedAt.Format(time.RFC3339))
 
