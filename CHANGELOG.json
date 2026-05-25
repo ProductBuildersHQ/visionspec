@@ -7,6 +7,35 @@
   "maintainers": ["johncwang@gmail.com"],
   "releases": [
     {
+      "version": "v0.4.0",
+      "date": "2026-05-24",
+      "commit": "a5ae565",
+      "highlights": [
+        { "description": "Context Sources for grounding spec synthesis in actual codebase data" },
+        { "description": "Git repository analysis with structure, dependencies, and API schema detection" },
+        { "description": "MCP client integration for external context from Jira, Confluence, and other tools" }
+      ],
+      "added": [
+        { "description": "Context aggregation framework (`pkg/context`) with concurrent source fetching and caching", "commit": "ff58b0e" },
+        { "description": "Git repository source with structure analysis, dependency detection, and API schema extraction", "commit": "ed8dd24" },
+        { "description": "Remote git repository support with sparse checkout and shallow cloning", "commit": "ed8dd24" },
+        { "description": "Graphize source for requirement traceability graph integration", "commit": "953a2fa" },
+        { "description": "File source for including architecture docs, ADRs, and API specs as context", "commit": "88a4454" },
+        { "description": "MCP client for external tools (Jira, Confluence, Linear, Notion, Google Docs)", "commit": "984af64" },
+        { "description": "Context CLI commands: `context gather`, `context show`, `context save`, `context sources`", "commit": "d1c2188" },
+        { "description": "Context configuration in `multispec.yaml` with repositories, graphize, files, and mcp_servers sections", "commit": "ff58b0e" },
+        { "description": "Context snapshot save/load for CI reproducibility", "commit": "ff58b0e" },
+        { "description": "Integration with `synthesize` command for TRD and IRD grounding", "commit": "a98b73d" }
+      ],
+      "documentation": [
+        { "description": "Context sources user guide (`docs/context-sources.md`) with configuration examples", "commit": "a5ae565" },
+        { "description": "Phase 11 Context Sources completed in ROADMAP.md", "commit": "a5ae565" }
+      ],
+      "dependencies": [
+        { "description": "Add doublestar v4 for glob pattern matching", "commit": "ff58b0e" }
+      ]
+    },
+    {
       "version": "v0.3.0",
       "date": "2026-05-24",
       "highlights": [

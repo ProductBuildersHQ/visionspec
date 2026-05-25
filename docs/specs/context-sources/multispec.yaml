@@ -1,0 +1,25 @@
+name: context-sources
+description: |
+  Context aggregation from multiple sources (git repos, graphize graphs, MCP servers)
+  for grounding spec synthesis and alignment in reality.
+
+  Marketing name: "Grounding"
+
+version: 0.4.0
+status: planning
+
+created_at: 2026-05-24
+updated_at: 2026-05-24
+
+maintainers:
+  - johncwang@gmail.com
+
+tags:
+  - v0.4.0
+  - synthesis
+  - context
+  - grounding
+
+llm:
+  provider: anthropic
+  model: claude-sonnet-4-20250514

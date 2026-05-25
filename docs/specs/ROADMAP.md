@@ -337,20 +337,20 @@ LLM-generated documents from source specs + constitution.
 
 ### GTM Document Generation (Working Backwards)
 
-- [ ] RMI-027: Implement `multispec synthesize press` command
+- [x] RMI-027: Implement `multispec synthesize press` command
   - Input: MRD + PRD
   - Output: `gtm/press.md` (press release format)
   - Template: Hook → Problem → Solution → Quote → CTA → Benefits
   - Generate PRESS_EVAL.json
 
-- [ ] RMI-028: Implement `multispec synthesize faq` command
+- [x] RMI-028: Implement `multispec synthesize faq` command
   - Input: press.md
   - Output: `gtm/faq.md`
   - Structure: External FAQs + Internal FAQs
   - Challenge claims in press release
   - Generate FAQ_EVAL.json
 
-- [ ] RMI-029: Implement `multispec synthesize narrative` command
+- [x] RMI-029: Implement `multispec synthesize narrative` command
   - Input: MRD + PRD + FAQ
   - Output: `gtm/narrative.md`
   - Structure: Customer → Tension → Future State → Promise → Principles → Non-Goals
@@ -368,7 +368,7 @@ LLM-generated documents from source specs + constitution.
   - `pkg/rubrics/narrative1p.go` - 1-pager evaluation
   - `pkg/rubrics/narrative6p.go` - 6-pager evaluation (AWS format)
 
-- [ ] RMI-029d: Support `--eval` flag on synthesize commands
+- [x] RMI-029d: Support `--eval` flag on synthesize commands
   - `multispec synthesize press --eval` generates press.md + press.eval.json
   - Auto-evaluate after generation
 
@@ -376,12 +376,12 @@ LLM-generated documents from source specs + constitution.
 
 ### TRD Generation
 
-- [ ] RMI-030: Implement `multispec synthesize trd` command
+- [x] RMI-030: Implement `multispec synthesize trd` command
   - Input: MRD + PRD + UXD + CONSTITUTION
   - Output: `technical/trd.md`
   - Generate TRD_EVAL.json
 
-- [ ] RMI-031: Define TRD template structure
+- [x] RMI-031: Define TRD template structure
   - Architecture overview
   - API contracts
   - Data models
@@ -390,12 +390,12 @@ LLM-generated documents from source specs + constitution.
 
 ### IRD Generation
 
-- [ ] RMI-032: Implement `multispec synthesize ird` command
+- [x] RMI-032: Implement `multispec synthesize ird` command
   - Input: TRD + CONSTITUTION
   - Output: `technical/ird.md`
   - Generate IRD_EVAL.json
 
-- [ ] RMI-033: Define IRD template structure
+- [x] RMI-033: Define IRD template structure
   - Infrastructure requirements
   - Deployment architecture
   - Scaling considerations
@@ -403,18 +403,18 @@ LLM-generated documents from source specs + constitution.
 
 ### Approval Workflow
 
-- [ ] RMI-034: Implement `multispec approve {spec-type}` command
+- [x] RMI-034: Implement `multispec approve {spec-type}` command
   - Record approval in `multispec.yaml`
   - Track approver, timestamp
   - Gate for reconciliation
 
-- [ ] RMI-035: Support approval status in `multispec status`
+- [x] RMI-035: Support approval status in `multispec status`
   - Show pending approvals
   - Show approval history
 
 ### Post-Ship Alignment
 
-- [ ] RMI-036: Implement `multispec align` command
+- [ ] RMI-036: Implement `multispec align` command (moved to Phase 11 with context)
   - Input: spec.md + shipped reality (from engineering)
   - Output: `current-truth.md`
   - Detect: ungrounded claims, missed opportunities, drift
@@ -736,7 +736,7 @@ Future enhancements.
 | v0.1.0 | 0-1 | CLI skeleton, directory structure, templates |
 | v0.2.0 | 2, 7 | Evaluation engine, rubrics, graphize integration |
 | v0.3.0 | 9 | Composability (custom templates, rubrics, profiles, CLI as library) |
-| v0.4.0 | 3 | GTM synthesis (press, faq, narrative), TRD/IRD synthesis |
+| v0.4.0 | 11 | Context Sources / Grounding (git repos, graphize, MCP servers) |
 | v0.5.0 | 4 | Reconciliation engine, spec.md generation |
 | v0.6.0 | 5a | SpecKit adapter |
 | v0.7.0 | 5b | GSD adapter |
@@ -1006,3 +1006,145 @@ Future enhancements for testing, integrations, and developer experience.
   - `.gitlab-ci.yml` templates
   - Parallel evaluation jobs
   - Artifact publishing
+
+---
+
+## Phase 11: Context Sources / Grounding (v0.4.0)
+
+Aggregate context from multiple sources to ground spec synthesis in reality.
+
+**Project Spec:** [docs/specs/context-sources/](context-sources/)
+
+**Marketing Name:** Grounding
+
+### Context Source Interface
+
+- [x] RMI-400: Define Source interface (`pkg/context/`)
+  - `Source` interface with `Name()`, `Type()`, `Fetch()`
+  - `ContextData` unified data structure
+  - `AggregatedContext` combined results
+  - Source types: git, graphize, mcp, file
+
+- [x] RMI-401: Implement Aggregator
+  - Concurrent fetching from multiple sources
+  - Caching with configurable TTL
+  - Error handling and partial results
+
+- [x] RMI-402: Configuration schema in multispec.yaml
+  - `context.repositories[]` - git repo configs
+  - `context.graphize[]` - graphize graph paths
+  - `context.mcp_servers{}` - MCP server configs
+  - `context.files[]` - local file configs
+
+### Git Repository Analysis
+
+- [x] RMI-410: Implement GitSource (`pkg/context/git/`)
+  - Structure analysis (directory tree)
+  - Dependency extraction (go.mod, package.json, etc.)
+  - API schema detection (OpenAPI, GraphQL, Proto)
+  - README and documentation extraction
+  - Language statistics (LOC by language)
+
+- [x] RMI-411: Support remote repositories
+  - Clone via URL with sparse checkout
+  - Branch selection
+  - Shallow clone for performance
+
+### Graphize Integration
+
+- [x] RMI-420: Implement GraphizeSource (`pkg/context/graphize/`)
+  - Load graphs from .graphize/ directories
+  - Extract nodes: requirement, decision, constraint, user_story
+  - Extract edges: traces_to, derived_from, depends_on
+  - Traceability statistics
+
+- [x] RMI-421: Auto-detect graphize in git repos
+  - `graphize: auto` config option
+  - Discover .graphize/ in repo root
+
+### MCP Client
+
+- [x] RMI-430: Implement MCP client (`pkg/context/mcp/`)
+  - Subprocess management for MCP servers
+  - JSON-RPC protocol implementation
+  - Tool call interface
+
+- [x] RMI-431: Jira integration
+  - Fetch issues by JQL
+  - Extract epics, stories, tasks
+  - Include descriptions, status, labels
+
+- [x] RMI-432: Confluence integration
+  - Fetch pages by space/label
+  - Extract page content
+  - Include metadata
+
+- [x] RMI-433: Additional MCP servers
+  - Google Docs
+  - Office 365
+  - Aha
+  - Productboard
+
+### CLI Commands
+
+- [x] RMI-440: Implement `multispec context` command group
+  - `context gather` - fetch from all sources
+  - `context show` - display aggregated context
+  - `context refresh` - clear cache and re-fetch
+  - `context snapshot` - save to JSON file
+
+- [x] RMI-441: Add `--with-context` flag to synthesize
+  - Load context before synthesis
+  - Pass to Synthesizer
+  - Include in prompts
+
+- [ ] RMI-442: Add `--with-context` flag to align
+  - Compare spec against codebase context
+  - Detect drift and unimplemented features
+  - Generate current-truth.md
+
+- [ ] RMI-443: Add `--context-file` flag
+  - Load context from snapshot file
+  - For CI reproducibility
+
+### Context-Aware Synthesis
+
+- [x] RMI-450: Update Synthesizer for context
+  - `SynthesizeWithContext()` method
+  - Context-aware prompt building
+  - Include code structure, APIs, dependencies
+  - Include graphize traceability
+
+- [x] RMI-451: Context-aware TRD synthesis
+  - Reference actual codebase structure
+  - Include existing API contracts
+  - Trace to graphize requirements
+
+- [x] RMI-452: Context-aware IRD synthesis
+  - Reference actual infrastructure
+  - Include deployment configs
+  - Trace to TRD architecture
+
+### Caching and Snapshots
+
+- [x] RMI-460: Implement context cache
+  - In-memory cache with TTL
+  - Invalidation on config change
+
+- [x] RMI-461: Implement context snapshots
+  - JSON serialization of AggregatedContext
+  - Load from file for offline/CI use
+  - Diff between snapshots
+
+### Documentation
+
+- [x] RMI-470: Context sources user guide
+  - Configuration reference
+  - Git repo setup
+  - MCP server configuration
+  - Graphize integration
+
+- [x] RMI-471: Context sources API documentation
+  - Source interface
+  - Writing custom sources
+  - Extending MCP integrations
