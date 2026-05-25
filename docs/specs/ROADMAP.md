@@ -242,9 +242,11 @@ Establish conventions for spec organization and authoring.
   - Executive summary format (1-pager)
   - AWS 6-pager format with appendices
 
-- [ ] RMI-015: Implement `multispec create {spec-type}` command
+- [x] RMI-015: Implement `multispec create {spec-type}` command
   - Scaffold new spec from template
   - Support: mrd, prd, uxd, trd, ird, press, faq, narrative-1p, narrative-6p
+  - `pkg/cli/commands.go` - createCmd function
+  - `pkg/cli/cli.go` - registered in CommandSet
 
 ---
 
