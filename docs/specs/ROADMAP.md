@@ -528,25 +528,27 @@ Export reconciled specs to downstream execution systems.
 
 ### GasTown Adapter (Priority 3)
 
-- [ ] RMI-080: Implement GasTown adapter
+- [x] RMI-080: Implement GasTown adapter
   - Generate TOML formulas (convoy/workflow/expansion)
   - Generate Bead definitions
+  - `pkg/target/gastown.go`
 
-- [ ] RMI-081: Support formula types
+- [x] RMI-081: Support formula types
   - Convoy for parallel review
   - Workflow for sequential execution
   - Expansion for template-based generation
 
-- [ ] RMI-082: Map task dependencies to Bead DAG
+- [x] RMI-082: Map task dependencies to Bead DAG
   - Blocked/ready relationships
   - Convoy coordination
 
 ### GasCity Adapter (Priority 3)
 
-- [ ] RMI-085: Implement GasCity adapter
+- [x] RMI-085: Implement GasCity adapter
   - Generate `city.toml` agent configuration
   - Generate agent definitions
   - Generate orders
+  - `pkg/target/gascity.go`
 
 ### OpenSpec Adapter (Future)
 
