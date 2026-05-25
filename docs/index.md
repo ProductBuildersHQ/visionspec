@@ -97,7 +97,15 @@ multispec profiles list
 
 # Initialize with a profile
 multispec init my-project --profile startup
+
+# Export a profile for customization
+multispec profiles export enterprise ./my-profile
+
+# Use a custom profile
+multispec init my-project --profile-dir ./my-profile
 ```
+
+Organizations can create custom profiles with their own templates and rubrics. See the [Custom Profiles Guide](guides/custom-profiles.md) for details.
 
 ## Project Status
 

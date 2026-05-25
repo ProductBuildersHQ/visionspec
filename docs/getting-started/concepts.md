@@ -56,6 +56,30 @@ docs/specs/
     └── multispec.yaml        # Project configuration
 ```
 
+## Configuration Profiles
+
+Profiles bundle spec requirements, templates, and rubrics for different use cases:
+
+| Profile | Use Case | Required Specs |
+|---------|----------|----------------|
+| `0-1` | Idea validation | hypothesis |
+| `startup` | Pre-PMF startups | prd |
+| `growth` | 1-N scaling | prd, uxd, faq |
+| `enterprise` | Post-PMF enterprises | prd, mrd, uxd, trd, press, faq |
+
+```bash
+# Use a profile when initializing
+multispec init my-project --profile startup
+
+# List available profiles
+multispec profiles list
+
+# Export a profile for customization
+multispec profiles export enterprise ./my-profile
+```
+
+Organizations can create custom profiles with their own templates and rubrics. See the [Custom Profiles Guide](../guides/custom-profiles.md) for details.
+
 ## Readiness Gates
 
 Projects progress through readiness gates:
