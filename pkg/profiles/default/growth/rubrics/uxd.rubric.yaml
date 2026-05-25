@@ -1,0 +1,83 @@
+# Growth Phase UXD Evaluation Rubric
+
+spec_type: uxd
+name: "Growth UXD Rubric"
+description: "User Experience Design evaluation for growth-phase products"
+version: "1.0"
+
+categories:
+  - id: design_goals
+    name: "Design Goals"
+    description: "Clarity of UX objectives and design principles"
+    weight: 0.12
+    required: true
+    criteria:
+      pass: "Clear, measurable UX goals aligned with product strategy and guiding principles"
+      partial: "Goals present but could be more specific"
+      fail: "Design goals missing"
+
+  - id: user_personas
+    name: "User Personas"
+    description: "Quality and depth of user persona definitions"
+    weight: 0.18
+    required: true
+    criteria:
+      pass: "Rich personas with goals, pain points, behaviors, and scenarios"
+      partial: "Basic personas present but shallow"
+      fail: "Personas missing or inadequate"
+
+  - id: user_journeys
+    name: "User Journeys"
+    description: "Completeness of user journey mapping"
+    weight: 0.18
+    required: true
+    criteria:
+      pass: "Complete journeys with entry/exit points, success criteria, and edge cases"
+      partial: "Basic flows present but incomplete"
+      fail: "User journeys missing"
+
+  - id: information_architecture
+    name: "Information Architecture"
+    description: "Structure and organization of content"
+    weight: 0.15
+    required: true
+    criteria:
+      pass: "Clear site map, navigation structure, and content hierarchy"
+      partial: "Basic structure present"
+      fail: "Information architecture missing"
+
+  - id: wireframes
+    name: "Wireframes and Layouts"
+    description: "Quality and coverage of wireframes"
+    weight: 0.17
+    required: true
+    criteria:
+      pass: "Comprehensive wireframes for all key screens with element descriptions"
+      partial: "Some wireframes but incomplete coverage"
+      fail: "Wireframes missing"
+
+  - id: accessibility
+    name: "Accessibility"
+    description: "WCAG compliance and inclusive design considerations"
+    weight: 0.15
+    required: true
+    criteria:
+      pass: "WCAG compliance specified, comprehensive checklist, keyboard/screen reader considerations"
+      partial: "Basic accessibility mentioned"
+      fail: "Accessibility not addressed"
+
+  - id: error_states
+    name: "Error States and Edge Cases"
+    description: "Handling of errors, empty states, and edge cases"
+    weight: 0.05
+    required: false
+    criteria:
+      pass: "Comprehensive error messages, empty states, loading states, and recovery actions"
+      partial: "Some error states defined"
+      fail: "Error states not addressed"
+
+pass_criteria:
+  require_all_pass: false
+  max_critical: 0
+  max_high: 1
+  max_medium: 2

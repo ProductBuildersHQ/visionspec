@@ -1,0 +1,83 @@
+# Enterprise TRD Evaluation Rubric
+
+spec_type: trd
+name: "Enterprise TRD Rubric"
+description: "Technical Requirements Document evaluation for enterprise implementations"
+version: "1.0"
+
+categories:
+  - id: architecture_clarity
+    name: "Architecture Clarity"
+    description: "How clearly the system architecture is described"
+    weight: 0.18
+    required: true
+    criteria:
+      pass: "Clear architecture with diagrams, component descriptions, and data flow"
+      partial: "Basic architecture present but lacks detail"
+      fail: "No clear architecture described"
+
+  - id: prd_traceability
+    name: "PRD Traceability"
+    description: "Whether technical design traces back to PRD requirements"
+    weight: 0.12
+    required: true
+    criteria:
+      pass: "Every PRD requirement has corresponding technical design"
+      partial: "Some traceability but gaps exist"
+      fail: "No traceability to requirements"
+
+  - id: api_design
+    name: "API Design"
+    description: "Quality of API/interface definitions"
+    weight: 0.15
+    required: true
+    criteria:
+      pass: "Complete API spec with request/response schemas and error handling"
+      partial: "Basic API definition present"
+      fail: "No API design"
+
+  - id: data_design
+    name: "Data Design"
+    description: "Quality of data models and storage design"
+    weight: 0.12
+    required: true
+    criteria:
+      pass: "Complete data models with relationships, storage rationale, and migration plan"
+      partial: "Basic data design present"
+      fail: "No data design"
+
+  - id: nfr_coverage
+    name: "NFR Coverage"
+    description: "Coverage of non-functional requirements (performance, security, etc.)"
+    weight: 0.18
+    required: true
+    criteria:
+      pass: "Comprehensive NFRs with specific targets and measurement plans"
+      partial: "Some NFRs but gaps in coverage"
+      fail: "No NFR coverage"
+
+  - id: security_design
+    name: "Security Design"
+    description: "Enterprise security architecture and controls"
+    weight: 0.15
+    required: true
+    criteria:
+      pass: "Complete security design with authentication, authorization, encryption, and audit logging"
+      partial: "Basic security design but missing enterprise controls"
+      fail: "Security design inadequate"
+
+  - id: implementability
+    name: "Implementability"
+    description: "Whether the design is implementable by an engineer"
+    weight: 0.10
+    required: true
+    criteria:
+      pass: "Design is actionable with clear path to implementation"
+      partial: "Design needs some clarification before implementation"
+      fail: "Cannot be implemented from this document"
+
+pass_criteria:
+  require_all_pass: false
+  max_critical: 0
+  max_high: 0
+  max_medium: 2
