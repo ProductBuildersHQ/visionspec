@@ -54,6 +54,20 @@ trd: {
   style.stroke: "#1565c0"
 }
 
+tpd: {
+  label: TPD\n(Test Plan)
+  shape: rectangle
+  style.fill: "#e3f2fd"
+  style.stroke: "#1565c0"
+}
+
+ird: {
+  label: IRD\n(Infrastructure)
+  shape: rectangle
+  style.fill: "#e3f2fd"
+  style.stroke: "#1565c0"
+}
+
 narrative: {
   label: 6-Pager Narrative\n(Executive Document)
   shape: rectangle
@@ -61,7 +75,7 @@ narrative: {
   style.stroke: "#c2185b"
 }
 
-# Flow
+# Flow - Working Backwards
 mrd -> press: synthesize
 press -> faq: synthesize
 mrd -> faq
@@ -69,10 +83,20 @@ faq -> prd: synthesize
 press -> prd
 mrd -> prd
 
+# Technical synthesis
 uxd -> trd
 prd -> trd: synthesize
 mrd -> trd
 
+# Test plan synthesis
+prd -> tpd
+trd -> tpd: synthesize
+uxd -> tpd
+
+# Infrastructure synthesis
+trd -> ird: synthesize
+
+# Executive narrative
 mrd -> narrative: synthesize
 prd -> narrative
 press -> narrative
@@ -82,7 +106,7 @@ legend: {
   label: Legend
   near: bottom-center
 
-  grid-columns: 3
+  grid-columns: 4
 
   human: {
     label: Human-Authored
@@ -103,5 +127,12 @@ legend: {
     shape: rectangle
     style.fill: "#fff3e0"
     style.stroke: "#ef6c00"
+  }
+
+  exec: {
+    label: Executive
+    shape: rectangle
+    style.fill: "#fce4ec"
+    style.stroke: "#c2185b"
   }
 }
