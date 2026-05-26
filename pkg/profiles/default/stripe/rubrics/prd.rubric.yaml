@@ -1,0 +1,77 @@
+name: "Stripe API Product Requirements Evaluation"
+description: "Evaluates API PRDs for developer-centric thinking, use cases, and integration clarity"
+pass_criteria:
+  min_score: 7.0
+  max_critical: 0
+  max_high: 0
+
+categories:
+  - id: developer_personas
+    name: "Developer Personas"
+    description: "Whether developer audience is clearly defined"
+    weight: 0.15
+    required: true
+    criteria:
+      pass: "Clear developer segments with distinct needs, complexity levels, and priorities"
+      partial: "Some persona definition but not segmented by needs"
+      fail: "Generic 'developers' without understanding different use cases"
+
+  - id: developer_journeys
+    name: "Developer Journeys"
+    description: "Whether integration paths are mapped end-to-end"
+    weight: 0.20
+    required: true
+    criteria:
+      pass: "Clear journeys from discovery to production; friction points identified; success metrics defined"
+      partial: "Some journey thinking but gaps in the path"
+      fail: "No journey mapping; would be unclear how developers succeed"
+
+  - id: use_case_clarity
+    name: "Use Case Clarity"
+    description: "Whether use cases are specific and prioritized"
+    weight: 0.20
+    required: true
+    criteria:
+      pass: "Use cases are specific with clear priority; developer value articulated for each"
+      partial: "Use cases listed but priority unclear"
+      fail: "Vague use cases; unclear what developers would build"
+
+  - id: integration_patterns
+    name: "Integration Patterns"
+    description: "Whether integration patterns are defined"
+    weight: 0.15
+    required: true
+    criteria:
+      pass: "Clear patterns (sync, async, webhook) with guidance on when to use each"
+      partial: "Some patterns mentioned but guidance missing"
+      fail: "No integration patterns; developers would be guessing"
+
+  - id: error_experience
+    name: "Error Experience"
+    description: "Whether error handling expectations are defined"
+    weight: 0.15
+    required: true
+    criteria:
+      pass: "Error handling requirements explicit; developer expectations defined; remediation required"
+      partial: "Some error thinking but not systematic"
+      fail: "Errors not considered from developer perspective"
+
+  - id: sdk_requirements
+    name: "SDK Requirements"
+    description: "Whether SDK expectations are defined"
+    weight: 0.10
+    required: true
+    criteria:
+      pass: "SDK languages prioritized; SDK principles defined; feature matrix clear"
+      partial: "SDK mentioned but requirements unclear"
+      fail: "No SDK planning"
+
+  - id: success_metrics
+    name: "Success Metrics"
+    description: "Whether developer success is measurable"
+    weight: 0.05
+    required: false
+    criteria:
+      pass: "Clear metrics for developer acquisition, activation, and success"
+      partial: "Some metrics but not comprehensive"
+      fail: "No success metrics; would be unable to measure"

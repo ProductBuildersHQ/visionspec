@@ -13,6 +13,7 @@ import "embed"
 // Methodology profiles (by product development approach)
 //go:embed default/aws/profile.yaml default/aws/templates/*.md default/aws/rubrics/*.rubric.yaml
 //go:embed default/google/profile.yaml default/google/templates/*.md default/google/rubrics/*.rubric.yaml
+//go:embed default/stripe/profile.yaml default/stripe/templates/*.md default/stripe/rubrics/*.rubric.yaml
 //go:embed default/lean-startup/profile.yaml default/lean-startup/templates/*.md default/lean-startup/rubrics/*.rubric.yaml
 //go:embed default/design-thinking/profile.yaml default/design-thinking/templates/*.md default/design-thinking/rubrics/*.rubric.yaml
 //go:embed default/jtbd/profile.yaml default/jtbd/templates/*.md default/jtbd/rubrics/*.rubric.yaml
@@ -41,7 +42,7 @@ var DefaultProfileNames = []string{
 	// Stage-based
 	"0-1", "startup", "growth", "enterprise",
 	// Methodology-based
-	"aws", "google", "lean-startup", "design-thinking", "jtbd",
+	"aws", "google", "stripe", "lean-startup", "design-thinking", "jtbd",
 }
 
 // IsDefaultProfile returns true if the name is a default profile.

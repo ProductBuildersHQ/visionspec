@@ -1,0 +1,77 @@
+name: "Stripe Platform Strategy Evaluation"
+description: "Evaluates platform/API strategy for market clarity, ecosystem thinking, and business model"
+pass_criteria:
+  min_score: 7.0
+  max_critical: 0
+  max_high: 0
+
+categories:
+  - id: developer_market
+    name: "Developer Market Definition"
+    description: "Whether the developer market is clearly defined and sized"
+    weight: 0.20
+    required: true
+    criteria:
+      pass: "Clear TAM/SAM/SOM for developer audience; segments defined with needs and value"
+      partial: "Market mentioned but not quantified or segmented"
+      fail: "No market definition; unclear who would use this"
+
+  - id: competitive_position
+    name: "Competitive Position"
+    description: "Whether competitive landscape is understood"
+    weight: 0.15
+    required: true
+    criteria:
+      pass: "Competitors analyzed with strengths/weaknesses; differentiation clear and defensible"
+      partial: "Competitors mentioned but analysis superficial"
+      fail: "Competition not considered"
+
+  - id: platform_strategy
+    name: "Platform Strategy"
+    description: "Whether platform/ecosystem thinking is present"
+    weight: 0.20
+    required: true
+    criteria:
+      pass: "Clear platform principles; build/buy/partner decisions; ecosystem strategy defined"
+      partial: "Some platform thinking but not systematic"
+      fail: "Thinking of API as feature, not platform"
+
+  - id: business_model
+    name: "Business Model"
+    description: "Whether monetization and unit economics are defined"
+    weight: 0.15
+    required: true
+    criteria:
+      pass: "Clear monetization model; pricing philosophy explicit; unit economics understood"
+      partial: "Monetization mentioned but economics unclear"
+      fail: "No business model thinking"
+
+  - id: go_to_market
+    name: "Go-to-Market"
+    description: "Whether developer GTM is planned"
+    weight: 0.15
+    required: true
+    criteria:
+      pass: "Clear developer acquisition, activation, and success strategy with metrics"
+      partial: "Some GTM thinking but incomplete"
+      fail: "No GTM plan for developers"
+
+  - id: success_metrics
+    name: "Success Metrics"
+    description: "Whether platform success is measurable"
+    weight: 0.10
+    required: true
+    criteria:
+      pass: "North star metric defined; supporting metrics cover acquisition to revenue"
+      partial: "Some metrics but not comprehensive"
+      fail: "No success metrics"
+
+  - id: roadmap_investment
+    name: "Roadmap and Investment"
+    description: "Whether investment is justified with phased approach"
+    weight: 0.05
+    required: false
+    criteria:
+      pass: "Phased roadmap with clear milestones; investment justified by market opportunity"
+      partial: "Some roadmap but investment unclear"
+      fail: "No roadmap or investment justification"

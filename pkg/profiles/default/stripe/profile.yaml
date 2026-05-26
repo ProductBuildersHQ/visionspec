@@ -1,0 +1,55 @@
+name: stripe
+description: "Stripe API-first methodology. Documentation as product, precise contracts, developer-centric specs where writing IS the product."
+extends: growth
+
+methodology:
+  name: "Stripe API-First"
+  principles:
+    - contract_first: "API design precedes implementation; the spec IS the source of truth"
+    - docs_as_product: "Documentation is a first-class product, not an afterthought"
+    - developer_empathy: "Every spec is written from the API consumer's perspective"
+    - precision: "No ambiguity; every input, output, and error is explicitly defined"
+    - consistency: "Patterns are predictable across the entire API surface"
+    - versioning_discipline: "Breaking changes are managed with care and clear migration paths"
+    - externally_legible: "Specs should be readable by external developers, not just internal teams"
+    - code_as_documentation: "Examples and SDKs are integral to the spec, not supplementary"
+
+  artifacts:
+    primary:
+      - api_spec: "API Specification - OpenAPI/contract defining all endpoints"
+      - api_prd: "API Product Requirements - developer use cases and integration journeys"
+    supporting:
+      - platform_strategy: "Platform/API market strategy and ecosystem thinking"
+      - dx_spec: "Developer Experience spec - SDKs, samples, onboarding"
+
+  workflow:
+    description: "Contract-first development with docs-as-product"
+    phases:
+      - name: "Define Contract"
+        description: "Write the API spec first; design the interface before implementation"
+        artifacts: ["api_spec"]
+      - name: "Document Use Cases"
+        description: "Define developer journeys and integration scenarios"
+        artifacts: ["api_prd", "dx_spec"]
+      - name: "Build & Validate"
+        description: "Implementation follows the spec; docs are tested like code"
+        artifacts: ["sdk", "code_samples"]
+
+  decision_framework:
+    questions:
+      - "Can a developer integrate this without asking us questions?"
+      - "Is every error case documented with remediation steps?"
+      - "Would this spec work as external documentation?"
+      - "Are the naming conventions consistent with existing APIs?"
+
+templates:
+  trd: "templates/trd.md"      # API Specification
+  prd: "templates/prd.md"      # API Product Requirements
+  mrd: "templates/mrd.md"      # Platform Strategy
+  uxd: "templates/uxd.md"      # Developer Experience Spec
+
+rubrics:
+  trd: "rubrics/trd.rubric.yaml"   # API Specification evaluation
+  prd: "rubrics/prd.rubric.yaml"   # API PRD evaluation
+  mrd: "rubrics/mrd.rubric.yaml"   # Platform Strategy evaluation
+  uxd: "rubrics/uxd.rubric.yaml"   # DX Spec evaluation
