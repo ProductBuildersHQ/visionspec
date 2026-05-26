@@ -165,4 +165,3 @@ For deeper understanding of AWS Working Backwards methodology, see:
 
 - [AWS Leadership Principles](https://www.amazon.jobs/en/principles)
 - *Working Backwards* by Colin Bryar and Bill Carr
-- Internal reference: `frameworks-internal/aws-leadership-principles/`
