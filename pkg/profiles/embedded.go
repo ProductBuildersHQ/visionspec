@@ -12,6 +12,7 @@ import "embed"
 //
 // Methodology profiles (by product development approach)
 //go:embed default/aws/profile.yaml default/aws/templates/*.md default/aws/rubrics/*.rubric.yaml
+//go:embed default/google/profile.yaml default/google/templates/*.md default/google/rubrics/*.rubric.yaml
 //go:embed default/lean-startup/profile.yaml default/lean-startup/templates/*.md default/lean-startup/rubrics/*.rubric.yaml
 //go:embed default/design-thinking/profile.yaml default/design-thinking/templates/*.md default/design-thinking/rubrics/*.rubric.yaml
 //go:embed default/jtbd/profile.yaml default/jtbd/templates/*.md default/jtbd/rubrics/*.rubric.yaml
@@ -32,6 +33,7 @@ func DefaultLoader() Loader {
 //
 // Methodology profiles (by product development approach):
 //   - aws: Amazon Working Backwards with Leadership Principles
+//   - google: Google Design Docs + RFC culture with OKRs
 //   - lean-startup: Eric Ries' Build-Measure-Learn with validated learning
 //   - design-thinking: Stanford d.school human-centered design
 //   - jtbd: Clayton Christensen's Jobs-to-be-Done framework
@@ -39,7 +41,7 @@ var DefaultProfileNames = []string{
 	// Stage-based
 	"0-1", "startup", "growth", "enterprise",
 	// Methodology-based
-	"aws", "lean-startup", "design-thinking", "jtbd",
+	"aws", "google", "lean-startup", "design-thinking", "jtbd",
 }
 
 // IsDefaultProfile returns true if the name is a default profile.

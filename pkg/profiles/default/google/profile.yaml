@@ -1,0 +1,57 @@
+name: google
+description: "Google Design Doc + RFC culture. Analytical, engineering-heavy approach with explicit tradeoffs, peer review, and OKR alignment."
+extends: enterprise
+
+methodology:
+  name: "Google Design Docs"
+  principles:
+    - explicit_tradeoffs: "Every decision has tradeoffs; make them visible"
+    - alternatives_considered: "Always evaluate multiple approaches"
+    - peer_review: "RFCs ensure diverse perspectives before building"
+    - data_driven: "Decisions backed by data and experiments"
+    - okr_alignment: "Work connects to measurable objectives"
+    - non_goals: "What we won't do is as important as what we will"
+    - technical_depth: "Engineering reasoning is first-class"
+    - scalability_first: "Design for scale from the start"
+    - reversibility: "Prefer reversible decisions; be explicit about irreversible ones"
+    - launch_and_iterate: "Ship, measure, improve"
+
+  artifacts:
+    - design_doc: "Core technical specification with tradeoffs"
+    - rfc: "Request for comments for peer review"
+    - okr: "Objectives and key results"
+    - experiment: "Hypothesis-driven experiment plans"
+
+spec_config:
+  # Design doc is the core artifact
+  trd:
+    required: true
+    category: technical
+
+  # PRD for product context
+  prd:
+    required: true
+    category: source
+
+  # MRD optional - design docs often include context
+  mrd:
+    required: false
+    category: source
+
+  # UXD for user-facing features
+  uxd:
+    required: false
+    category: source
+
+  # Press/FAQ less emphasized - more internal focus
+  press:
+    required: false
+    category: gtm
+  faq:
+    required: false
+    category: gtm
+
+  # IRD for infrastructure decisions
+  ird:
+    required: false
+    category: technical

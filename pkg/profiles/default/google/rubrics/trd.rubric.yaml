@@ -1,0 +1,77 @@
+name: "Google Design Doc Evaluation"
+description: "Evaluates Design Docs for technical rigor, explicit tradeoffs, and alternatives analysis"
+pass_criteria:
+  min_score: 7.0
+  max_critical: 0
+  max_high: 0
+
+categories:
+  - id: goals_nongoals
+    name: "Goals and Non-Goals"
+    description: "Whether goals are specific and non-goals explicitly bound scope"
+    weight: 0.15
+    required: true
+    criteria:
+      pass: "Goals are specific and measurable; non-goals explicitly stated with rationale"
+      partial: "Goals present but non-goals weak or missing"
+      fail: "No clear goals or scope is unbounded"
+
+  - id: alternatives_analysis
+    name: "Alternatives Analysis"
+    description: "Whether multiple approaches were genuinely considered"
+    weight: 0.20
+    required: true
+    criteria:
+      pass: "Multiple alternatives with honest pros/cons; clear rationale for rejection; 'do nothing' considered"
+      partial: "Alternatives listed but analysis superficial or feels post-hoc"
+      fail: "No alternatives; design presented as only option"
+
+  - id: tradeoffs_explicit
+    name: "Explicit Tradeoffs"
+    description: "Whether tradeoffs are acknowledged and justified"
+    weight: 0.20
+    required: true
+    criteria:
+      pass: "Key tradeoffs explicitly stated with what we gain, what we give up, and why acceptable"
+      partial: "Some tradeoffs mentioned but not systematic"
+      fail: "No tradeoffs acknowledged; design presented as having no costs"
+
+  - id: technical_depth
+    name: "Technical Depth"
+    description: "Whether design is detailed enough for implementation"
+    weight: 0.15
+    required: true
+    criteria:
+      pass: "Detailed design with interfaces, data models, APIs; implementation could begin from doc"
+      partial: "Some technical detail but gaps remain"
+      fail: "High-level only; would require significant design work to implement"
+
+  - id: cross_cutting_concerns
+    name: "Cross-Cutting Concerns"
+    description: "Whether scalability, reliability, security, observability are addressed"
+    weight: 0.15
+    required: true
+    criteria:
+      pass: "All cross-cutting concerns systematically addressed with specific requirements"
+      partial: "Some concerns addressed but coverage incomplete"
+      fail: "Cross-cutting concerns ignored"
+
+  - id: implementation_plan
+    name: "Implementation Plan"
+    description: "Whether there's a clear path from design to production"
+    weight: 0.10
+    required: true
+    criteria:
+      pass: "Phased implementation with milestones, migration strategy, rollback plan"
+      partial: "Some implementation thinking but not comprehensive"
+      fail: "No implementation plan"
+
+  - id: open_questions
+    name: "Open Questions"
+    description: "Whether unknowns are honestly acknowledged"
+    weight: 0.05
+    required: false
+    criteria:
+      pass: "Open questions explicitly listed with owners and due dates"
+      partial: "Some questions acknowledged"
+      fail: "No acknowledgment of unknowns; overconfident"

@@ -1,0 +1,77 @@
+name: "Google Experiment Plan Evaluation"
+description: "Evaluates experiment plans for statistical rigor, clear hypotheses, and actionable design"
+pass_criteria:
+  min_score: 7.0
+  max_critical: 0
+  max_high: 0
+
+categories:
+  - id: hypothesis_clarity
+    name: "Hypothesis Clarity"
+    description: "Whether hypothesis is specific, testable, and actionable"
+    weight: 0.20
+    required: true
+    criteria:
+      pass: "Hypothesis in If/Then/Because format; specific predictions; clear causal reasoning"
+      partial: "Hypothesis exists but vague or not specific about expected magnitude"
+      fail: "No clear hypothesis; 'let's see what happens' approach"
+
+  - id: success_criteria_predefined
+    name: "Pre-Defined Success Criteria"
+    description: "Whether success criteria are defined before experiment runs"
+    weight: 0.20
+    required: true
+    criteria:
+      pass: "Success criteria defined with minimum/target/stretch; decision framework explicit"
+      partial: "Some criteria but not comprehensive"
+      fail: "No pre-defined criteria; goalposts could be moved"
+
+  - id: statistical_rigor
+    name: "Statistical Rigor"
+    description: "Whether experiment is properly powered with valid analysis plan"
+    weight: 0.20
+    required: true
+    criteria:
+      pass: "Power analysis complete; sample size justified; statistical methods appropriate"
+      partial: "Some statistical thinking but gaps"
+      fail: "No statistical rigor; would produce unreliable results"
+
+  - id: metrics_design
+    name: "Metrics Design"
+    description: "Whether primary, secondary, and guardrail metrics are appropriate"
+    weight: 0.15
+    required: true
+    criteria:
+      pass: "Primary metric well-chosen; guardrails protect against harm; counter-metrics catch unintended effects"
+      partial: "Some metrics but guardrails weak"
+      fail: "Poor metric choice; would measure wrong thing or miss harms"
+
+  - id: implementation_plan
+    name: "Implementation Plan"
+    description: "Whether rollout, monitoring, and stopping criteria are defined"
+    weight: 0.10
+    required: true
+    criteria:
+      pass: "Phased rollout with gates; monitoring plan; stopping criteria explicit"
+      partial: "Some implementation thinking"
+      fail: "No rollout plan; would be all-or-nothing"
+
+  - id: analysis_plan
+    name: "Analysis Plan"
+    description: "Whether analysis approach is defined in advance"
+    weight: 0.10
+    required: true
+    criteria:
+      pass: "Pre-analysis checks defined; segmentation planned; interpretation guidelines set"
+      partial: "Some analysis planning"
+      fail: "No analysis plan; would be ad-hoc interpretation"
+
+  - id: risk_mitigation
+    name: "Risk Mitigation"
+    description: "Whether risks are identified with mitigations"
+    weight: 0.05
+    required: false
+    criteria:
+      pass: "Risks identified; stopping criteria would catch problems; rollback plan exists"
+      partial: "Some risk awareness"
+      fail: "Risks not considered"

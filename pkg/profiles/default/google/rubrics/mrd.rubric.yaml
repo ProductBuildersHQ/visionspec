@@ -1,0 +1,77 @@
+name: "Google OKR Evaluation"
+description: "Evaluates OKR documents for ambition, measurability, and alignment"
+pass_criteria:
+  min_score: 7.0
+  max_critical: 0
+  max_high: 0
+
+categories:
+  - id: objective_quality
+    name: "Objective Quality"
+    description: "Whether objectives are inspiring and appropriately ambitious"
+    weight: 0.20
+    required: true
+    criteria:
+      pass: "Objectives are qualitative, inspiring, ambitious (70% achievement = success); time-bound"
+      partial: "Objectives exist but feel like tasks or are too conservative"
+      fail: "No clear objectives or objectives are just metrics"
+
+  - id: key_result_measurability
+    name: "Key Result Measurability"
+    description: "Whether key results are specific and measurable"
+    weight: 0.25
+    required: true
+    criteria:
+      pass: "KRs are specific, measurable with baselines, targets, and measurement methods"
+      partial: "KRs exist but some are vague or unmeasurable"
+      fail: "KRs are not measurable; would be unable to score"
+
+  - id: strategic_alignment
+    name: "Strategic Alignment"
+    description: "Whether OKRs connect to higher-level strategy"
+    weight: 0.15
+    required: true
+    criteria:
+      pass: "Clear connection to company/team mission; strategic rationale for each objective"
+      partial: "Some alignment but not explicit"
+      fail: "OKRs disconnected from strategy"
+
+  - id: ambition_level
+    name: "Ambition Level"
+    description: "Whether OKRs are appropriately ambitious (not sandbagged)"
+    weight: 0.15
+    required: true
+    criteria:
+      pass: "Stretch targets included; commitments vs aspirations distinguished; failure is acceptable"
+      partial: "Some ambition but mostly conservative"
+      fail: "Sandbagged; 100% achievement would be expected"
+
+  - id: resource_alignment
+    name: "Resource Alignment"
+    description: "Whether resources are allocated to support OKRs"
+    weight: 0.10
+    required: true
+    criteria:
+      pass: "Team allocation mapped to objectives; cross-functional needs identified"
+      partial: "Some resource thinking but not systematic"
+      fail: "No resource alignment; OKRs disconnected from capacity"
+
+  - id: dependencies_risks
+    name: "Dependencies and Risks"
+    description: "Whether dependencies and risks are identified"
+    weight: 0.10
+    required: true
+    criteria:
+      pass: "Dependencies mapped with fallbacks; key risks identified"
+      partial: "Some dependencies noted"
+      fail: "Dependencies not considered"
+
+  - id: check_in_structure
+    name: "Check-In Structure"
+    description: "Whether there's a plan to track and update OKRs"
+    weight: 0.05
+    required: false
+    criteria:
+      pass: "Clear cadence for check-ins; scoring methodology defined"
+      partial: "Some tracking planned"
+      fail: "Set and forget; no tracking plan"

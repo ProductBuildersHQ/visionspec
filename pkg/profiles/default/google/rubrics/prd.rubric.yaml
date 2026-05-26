@@ -1,0 +1,87 @@
+name: "Google RFC Evaluation"
+description: "Evaluates RFC documents for peer review readiness, clarity, and stakeholder engagement"
+pass_criteria:
+  min_score: 7.0
+  max_critical: 0
+  max_high: 0
+
+categories:
+  - id: problem_clarity
+    name: "Problem Clarity"
+    description: "Whether the problem and motivation are clearly articulated"
+    weight: 0.15
+    required: true
+    criteria:
+      pass: "Problem clearly stated with user and business impact; compelling case for action"
+      partial: "Problem described but impact unclear"
+      fail: "No clear problem; solution looking for problem"
+
+  - id: goals_nongoals
+    name: "Goals and Non-Goals"
+    description: "Whether scope is well-bounded with explicit exclusions"
+    weight: 0.15
+    required: true
+    criteria:
+      pass: "Goals specific and measurable; non-goals explicit with rationale"
+      partial: "Goals present but non-goals weak"
+      fail: "Scope unbounded; unclear what success looks like"
+
+  - id: alternatives_tradeoffs
+    name: "Alternatives and Tradeoffs"
+    description: "Whether alternatives were considered and tradeoffs acknowledged"
+    weight: 0.15
+    required: true
+    criteria:
+      pass: "Multiple alternatives with honest analysis; tradeoffs explicit"
+      partial: "Some alternatives but analysis superficial"
+      fail: "No alternatives; proposal presented as only option"
+
+  - id: peer_review_setup
+    name: "Peer Review Setup"
+    description: "Whether the RFC is structured for effective review"
+    weight: 0.15
+    required: true
+    criteria:
+      pass: "Clear reviewers listed; specific feedback requested; comment period defined"
+      partial: "Some review structure but gaps"
+      fail: "Not set up for review; would be approved rubber-stamp style"
+
+  - id: risk_assessment
+    name: "Risk Assessment"
+    description: "Whether risks and dependencies are identified"
+    weight: 0.10
+    required: true
+    criteria:
+      pass: "Risks identified with likelihood, impact, and mitigation; dependencies mapped"
+      partial: "Some risks noted but not systematic"
+      fail: "Risks not considered"
+
+  - id: success_metrics
+    name: "Success Metrics"
+    description: "Whether success is measurable"
+    weight: 0.15
+    required: true
+    criteria:
+      pass: "Clear metrics with baselines, targets, and measurement methods"
+      partial: "Some metrics but not all measurable"
+      fail: "No success metrics; would be unable to evaluate"
+
+  - id: launch_plan
+    name: "Launch Plan"
+    description: "Whether rollout is planned with rollback capability"
+    weight: 0.10
+    required: true
+    criteria:
+      pass: "Phased rollout with criteria; rollback plan defined"
+      partial: "Some launch thinking but incomplete"
+      fail: "No launch plan; would be big-bang"
+
+  - id: open_questions
+    name: "Open Questions"
+    description: "Whether unknowns are surfaced for discussion"
+    weight: 0.05
+    required: false
+    criteria:
+      pass: "Open questions listed with proposed answers to seed discussion"
+      partial: "Some questions noted"
+      fail: "No questions; appears to have all answers already"
