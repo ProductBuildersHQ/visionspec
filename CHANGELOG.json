@@ -7,6 +7,55 @@
   "maintainers": ["johncwang@gmail.com"],
   "releases": [
     {
+      "version": "v0.5.0",
+      "date": "2026-05-26",
+      "commit": "a469138",
+      "highlights": [
+        { "description": "Project renamed to VisionSpec under ProductBuildersHQ" },
+        { "description": "Six methodology profiles: AWS, Google, Stripe, Lean Startup, Design Thinking, JTBD" },
+        { "description": "Working Backwards synthesis flow with vision-first development" },
+        { "description": "Comprehensive framework documentation with D2 flow diagrams" }
+      ],
+      "breaking": [
+        { "description": "Project renamed from multispec to visionspec", "commit": "5ad4f29" },
+        { "description": "Module path changed to github.com/ProductBuildersHQ/visionspec", "commit": "5ad4f29" },
+        { "description": "CLI binary renamed to `visionspec` (was `multispec`)", "commit": "5ad4f29" },
+        { "description": "Config file renamed to `visionspec.yaml` (multispec.yaml still supported)", "commit": "5ad4f29" }
+      ],
+      "added": [
+        { "description": "AWS Working Backwards methodology profile with Leadership Principles rubrics", "commit": "9c96a17" },
+        { "description": "Google Design Docs + RFC methodology profile with OKR and experiment templates", "commit": "bcafa8d" },
+        { "description": "Stripe API-first methodology profile with docs-as-product philosophy", "commit": "5528016" },
+        { "description": "Lean Startup methodology profile with Build-Measure-Learn and hypothesis validation", "commit": "c6eb2ec" },
+        { "description": "Design Thinking methodology profile with Stanford d.school 5-stage process", "commit": "c6eb2ec" },
+        { "description": "Jobs to be Done methodology profile with outcome-driven requirements", "commit": "c6eb2ec" },
+        { "description": "Working Backwards synthesis flow: MRD → Press → FAQ → PRD", "commit": "5ed0950" },
+        { "description": "PRD synthesis from Working Backwards artifacts (MRD + Press + FAQ)", "commit": "5ed0950" },
+        { "description": "D2 flow diagrams for all six methodology frameworks (ELK layout)", "commit": "81b315f" },
+        { "description": "ProductBuildersHQ MkDocs theme with CDN assets", "commit": "0bb513e" }
+      ],
+      "changed": [
+        { "description": "Press now synthesizes from MRD only (was MRD + PRD)", "commit": "5ed0950" },
+        { "description": "FAQ now synthesizes from MRD + Press (was Press only)", "commit": "5ed0950" },
+        { "description": "Default profiles expanded: 6 stage-based + 6 methodology-based", "commit": "5528016" }
+      ],
+      "fixed": [
+        { "description": "Remove non-existent Phase 12 reference from README", "commit": "7e89c58" },
+        { "description": "Fix gofmt lint errors in embedded.go", "commit": "702796e" }
+      ],
+      "documentation": [
+        { "description": "Framework documentation for all six methodologies with flow diagrams", "commit": "f17e68a" },
+        { "description": "Framework comparison matrix and profile selection guide", "commit": "f17e68a" },
+        { "description": "Working Backwards methodology guide", "commit": "668971f" },
+        { "description": "CLI documentation for all commands (approve, context, create, docs, eval, export, reconcile, serve, synthesize, targets)", "commit": "0809e90" },
+        { "description": "Configuration reference guide with all visionspec.yaml options", "commit": "fe02b20" },
+        { "description": "CLAUDE.md for AI assistant integration with MCP tools reference", "commit": "ce13ce7" },
+        { "description": "Working Backwards references and attribution", "commit": "45ff249" },
+        { "description": "Updated navigation and CLI reference organization", "commit": "e3e4b2c" },
+        { "description": "Frameworks section added to MkDocs navigation", "commit": "a469138" }
+      ]
+    },
+    {
       "version": "v0.4.0",
       "date": "2026-05-25",
       "commit": "1ae5043",
