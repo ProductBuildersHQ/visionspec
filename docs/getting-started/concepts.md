@@ -35,6 +35,7 @@ PRD can be human-authored or synthesized from the Working Backwards chain. When 
 | Spec | Name | Input | Purpose |
 |------|------|-------|---------|
 | TRD | Technical Requirements | MRD + PRD + UXD + CONSTITUTION | Architecture, APIs, data models |
+| TPD | Test Plan Document | PRD + TRD + UXD | Test cases, automation, quality gates |
 | IRD | Infrastructure Requirements | TRD + CONSTITUTION | Deployment, scaling, operations |
 
 All synthesized documents are committed to git and can be edited by humans or refined collaboratively with AI assistants.
@@ -56,6 +57,7 @@ docs/specs/
     │   └── narrative.md
     ├── technical/            # LLM-generated technical
     │   ├── trd.md
+    │   ├── tpd.md
     │   └── ird.md
     ├── eval/                 # Evaluation results
     │   ├── mrd.eval.json
@@ -139,6 +141,33 @@ The `CONSTITUTION.md` file at `docs/specs/CONSTITUTION.md` defines repo-level co
 - Architecture patterns
 - Security requirements
 - Performance targets
+- Quality and testing requirements
+
+### Quality and Testing Requirements
+
+The CONSTITUTION should define universal testing guardrails:
+
+```markdown
+## Quality and Testing Requirements
+
+### Test Coverage
+- Minimum unit test coverage: {threshold}%
+- All public APIs must have integration tests
+- All user journeys must have E2E tests
+
+### CI/CD Gates
+- All tests must pass before merge
+- No deployment without passing integration tests
+- Performance regression threshold: {X}%
+
+### Test Types Required
+- Unit tests for all business logic
+- Integration tests for API boundaries
+- E2E tests for critical user journeys
+- Security tests for authentication/authorization
+```
+
+These guardrails are enforced in the TPD (Test Plan Document) and evaluated during synthesis.
 
 All generated specs must adhere to the constitution.
 

@@ -24,6 +24,8 @@ Amazon's Working Backwards methodology starts with the customer and works backwa
 | PRFAQ Combined | PRD | Product requirements derived from narrative |
 | 6-Pager | Narrative | Executive decision document |
 | Design Doc | TRD | Technical architecture |
+| Test Plan | TPD | Test cases, automation, quality gates |
+| Ops Review | IRD | Infrastructure and operations |
 
 ## Using the AWS Profile
 
@@ -50,6 +52,11 @@ multispec synthesize faq -p my-product
 
 # Generate PRD from Working Backwards artifacts
 multispec synthesize prd -p my-product
+
+# Generate technical specs
+multispec synthesize trd -p my-product
+multispec synthesize tpd -p my-product  # Test plan
+multispec synthesize ird -p my-product  # Infrastructure
 
 # Generate 6-Pager Narrative
 multispec synthesize narrative-6p -p my-product

@@ -34,6 +34,8 @@ UXD (human-authored)
     ↓
 TRD (synthesized from MRD + PRD + UXD + context)
     ↓
+TPD (synthesized from PRD + TRD + UXD)
+    ↓
 IRD (synthesized from TRD + context)
 ```
 
@@ -48,6 +50,7 @@ IRD (synthesized from TRD + context)
 **Technical Synthesis**
 
 - `trd` - Technical Requirements from MRD + PRD + UXD + CONSTITUTION + CONTEXT
+- `tpd` - Test Plan Document from PRD + TRD + UXD
 - `ird` - Infrastructure Requirements from TRD + CONSTITUTION + CONTEXT
 
 **Narrative Documents**
@@ -59,7 +62,7 @@ IRD (synthesized from TRD + context)
 
 | Argument | Description |
 |----------|-------------|
-| `type` | Spec type to synthesize: `press`, `faq`, `prd`, `trd`, `ird`, `narrative-1p`, `narrative-6p` |
+| `type` | Spec type to synthesize: `press`, `faq`, `prd`, `trd`, `tpd`, `ird`, `narrative-1p`, `narrative-6p` |
 
 ## Flags
 
@@ -76,6 +79,7 @@ IRD (synthesized from TRD + context)
 | `faq` | MRD, Press | Scope clarification from vision |
 | `prd` | MRD, Press, FAQ | Detailed requirements from Working Backwards artifacts |
 | `trd` | MRD, PRD | Technical requirements (UXD optional) |
+| `tpd` | PRD, TRD, UXD | Test plan from requirements and technical design |
 | `ird` | TRD | Infrastructure requirements |
 | `narrative-1p` | MRD, PRD | 1-page executive narrative |
 | `narrative-6p` | MRD, PRD | 6-page detailed narrative (UXD optional) |
@@ -90,6 +94,7 @@ visionspec synthesize prd          # Generate PRD from MRD + Press + FAQ
 
 # Technical synthesis
 visionspec synthesize trd --eval   # Generate TRD with evaluation
+visionspec synthesize tpd          # Generate TPD (test plan) from PRD + TRD + UXD
 visionspec synthesize ird --no-context  # Generate IRD without context gathering
 
 # Narrative documents
@@ -99,7 +104,7 @@ visionspec synthesize narrative-6p
 
 ## Context Grounding
 
-For TRD and IRD synthesis, the command automatically gathers codebase context if configured in `visionspec.yaml`:
+For TRD, TPD, and IRD synthesis, the command automatically gathers codebase context if configured in `visionspec.yaml`:
 
 ```yaml
 context:
