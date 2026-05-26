@@ -5,12 +5,13 @@ import "embed"
 // Embed all default profiles
 //
 // Stage-based profiles (by company maturity)
+//
+// Methodology profiles (by product development approach)
+//
 //go:embed default/0-1/profile.yaml default/0-1/templates/*.md default/0-1/rubrics/*.rubric.yaml
 //go:embed default/startup/profile.yaml default/startup/templates/*.md default/startup/rubrics/*.rubric.yaml
 //go:embed default/growth/profile.yaml default/growth/templates/*.md default/growth/rubrics/*.rubric.yaml
 //go:embed default/enterprise/profile.yaml default/enterprise/templates/*.md default/enterprise/rubrics/*.rubric.yaml
-//
-// Methodology profiles (by product development approach)
 //go:embed default/aws/profile.yaml default/aws/templates/*.md default/aws/rubrics/*.rubric.yaml
 //go:embed default/google/profile.yaml default/google/templates/*.md default/google/rubrics/*.rubric.yaml
 //go:embed default/stripe/profile.yaml default/stripe/templates/*.md default/stripe/rubrics/*.rubric.yaml
