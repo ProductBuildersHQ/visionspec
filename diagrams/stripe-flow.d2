@@ -76,26 +76,32 @@ api_review -> dx_spec: "approved"
 dx_spec -> docs
 dx_spec -> sdk
 
-# Key Principles
-principles: {
-  label: Key Principles
-  near: bottom-right
-  style.fill: "#fafafa"
+# Footer - positioned below diagram
+footer: {
+  label: Reference
+  near: bottom-center
 
-  p1: "Contract-first design"
-  p2: "Documentation as product"
-  p3: "Developer empathy"
-  p4: "Precision (no ambiguity)"
-}
+  grid-columns: 2
 
-# VisionSpec Mapping
-mapping: {
-  label: VisionSpec Mapping
-  near: bottom-left
-  style.fill: "#fafafa"
+  # Key Principles
+  principles: {
+    label: Key Principles
+    style.fill: "#fafafa"
 
-  mrd_map: "MRD → Platform Strategy"
-  prd_map: "PRD → API Product Requirements"
-  trd_map: "TRD → API Specification"
-  uxd_map: "UXD → Developer Experience Spec"
+    p1: "Contract-first design"
+    p2: "Documentation as product"
+    p3: "Developer empathy"
+    p4: "Precision (no ambiguity)"
+  }
+
+  # VisionSpec Mapping
+  mapping: {
+    label: VisionSpec Mapping
+    style.fill: "#fafafa"
+
+    mrd_map: "MRD → Platform Strategy"
+    prd_map: "PRD → API Product Requirements"
+    trd_map: "TRD → API Specification"
+    uxd_map: "UXD → Developer Experience Spec"
+  }
 }

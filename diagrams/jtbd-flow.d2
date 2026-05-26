@@ -98,23 +98,29 @@ job_discovery -> outcomes
 outcomes -> quantify
 quantify -> strategy
 
-# Formula
-formula: {
-  label: "Opportunity = Importance + (Importance - Satisfaction)"
-  shape: text
+# Footer - positioned below diagram
+footer: {
+  label: Reference
   near: bottom-center
-  style.font-size: 14
-  style.italic: true
-}
 
-# VisionSpec Mapping
-mapping: {
-  label: VisionSpec Mapping
-  near: bottom-left
-  style.fill: "#fafafa"
+  grid-columns: 2
 
-  mrd_map: "MRD → Job Statement & Context"
-  prd_map: "PRD → Outcome-Driven Requirements"
-  uxd_map: "UXD → Job Map & Testing"
-  trd_map: "TRD → Solution Architecture"
+  # Formula
+  formula: {
+    label: "Opportunity = Importance + (Importance - Satisfaction)"
+    shape: text
+    style.font-size: 14
+    style.italic: true
+  }
+
+  # VisionSpec Mapping
+  mapping: {
+    label: VisionSpec Mapping
+    style.fill: "#fafafa"
+
+    mrd_map: "MRD → Job Statement & Context"
+    prd_map: "PRD → Outcome-Driven Requirements"
+    uxd_map: "UXD → Job Map & Testing"
+    trd_map: "TRD → Solution Architecture"
+  }
 }
