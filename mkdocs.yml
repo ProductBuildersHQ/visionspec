@@ -57,6 +57,14 @@ nav:
   - Concepts:
       - Overview: concepts/index.md
       - Working Backwards: concepts/working-backwards.md
+  - Frameworks:
+      - Overview: frameworks/index.md
+      - AWS Working Backwards: frameworks/aws.md
+      - Google Design Docs: frameworks/google.md
+      - Stripe API-First: frameworks/stripe.md
+      - Lean Startup: frameworks/lean-startup.md
+      - Design Thinking: frameworks/design-thinking.md
+      - Jobs to be Done: frameworks/jtbd.md
   - CLI Reference:
       - Overview: cli/index.md
       - init: cli/init.md
