@@ -40,8 +40,8 @@ func TestGenerate(t *testing.T) {
 		t.Errorf("Path = %q, want %q", report.Path, tmpDir)
 	}
 
-	if report.Summary.TotalSpecs != 11 {
-		t.Errorf("TotalSpecs = %d, want 11", report.Summary.TotalSpecs)
+	if report.Summary.TotalSpecs != 12 {
+		t.Errorf("TotalSpecs = %d, want 12", report.Summary.TotalSpecs)
 	}
 
 	// All specs should be missing
