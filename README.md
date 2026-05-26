@@ -39,8 +39,9 @@ VisionSpec bridges the gap between organizational intent and executable specific
 **Key Capabilities:**
 
 - 📣 **Working Backwards flow** - Start with vision (Press Release), derive requirements (PRD)
+- 🎯 **Methodology profiles** - AWS, Google, Stripe, Lean Startup, Design Thinking, JTBD
 - ✍️ **Domain-specific authoring** - Separate specs for PM, UX, Engineering
-- ⚙️ **LLM synthesis** - Generate Press, FAQ, PRD, TRD, IRD from source specs
+- ⚙️ **LLM synthesis** - Generate Press, FAQ, PRD, TRD, TPD, IRD from source specs
 - 📊 **Structured evaluation** - Per-domain LLM judges with customizable rubrics
 - 🔄 **Reconciliation** - Conflict detection and tradeoff resolution
 - 📦 **Target adapters** - Export to SpecKit, GSD, GasTown, GasCity, OpenSpec
@@ -50,7 +51,7 @@ All synthesized documents are committed to git and can be reviewed, edited, and 
 ## Installation
 
 ```bash
-go install github.com/ProductBuildersHQ/visionspec/cmd/visionspec@v0.4.0
+go install github.com/ProductBuildersHQ/visionspec/cmd/visionspec@v0.5.0
 ```
 
 ## Quick Start
@@ -85,6 +86,7 @@ docs/specs/
     │   └── narrative.md
     ├── technical/                     # LLM-generated technical docs
     │   ├── trd.md
+    │   ├── tpd.md
     │   └── ird.md
     ├── eval/                          # All evaluations
     │   ├── mrd.eval.json
@@ -117,7 +119,8 @@ VisionSpec implements Amazon's Working Backwards methodology. Instead of startin
    uxd.md
        ↓
 5. TECHNICAL SPECS (synthesized, editable)
-   trd.md  →  ird.md
+   trd.md  →  tpd.md  →  ird.md
+   (design)   (tests)    (infra)
        ↓
 6. RECONCILIATION
    All approved specs → spec.md
@@ -243,24 +246,11 @@ visionspec-mcp
 
 ## Configuration Profiles
 
-Profiles define which specs are required for different product lifecycle stages:
+VisionSpec includes two types of profiles:
 
-```bash
-# List available profiles
-visionspec profiles list
+### Stage-Based Profiles
 
-# Show profile details
-visionspec profiles show startup
-
-# Export profile for customization
-visionspec profiles export enterprise ./my-profile
-
-# Initialize with a profile
-visionspec init my-project --profile startup
-
-# Initialize with custom profile directory
-visionspec init my-project --profile-dir ./my-profile
-```
+For different product lifecycle stages:
 
 | Profile | Required Specs | Use Case |
 |---------|---------------|----------|
@@ -268,6 +258,41 @@ visionspec init my-project --profile-dir ./my-profile
 | `startup` | prd | Pre-PMF startups |
 | `growth` | prd, uxd, faq | 1-N scaling phase |
 | `enterprise` | mrd, prd, uxd, trd, press, faq, spec | Post-PMF enterprises |
+
+### Methodology Profiles
+
+For different organizational methodologies:
+
+| Profile | Methodology | Best For |
+|---------|-------------|----------|
+| `aws` | Working Backwards | Customer-centric products (PR/FAQ, 6-pager) |
+| `google` | Design Docs + RFC | Engineering-heavy orgs (OKRs, experiments) |
+| `stripe` | API-First | Platform/API products (contract-first, DX) |
+| `lean-startup` | Build-Measure-Learn | Early validation (hypothesis, MVP) |
+| `design-thinking` | Stanford d.school | Human-centered design (empathy, prototyping) |
+| `jtbd` | Jobs to be Done | Customer motivations (job statements, outcomes) |
+
+### Using Profiles
+
+```bash
+# List available profiles
+visionspec profiles list
+
+# Show profile details
+visionspec profiles show aws
+
+# Initialize with a methodology profile
+visionspec init my-product --profile aws
+
+# Initialize with a stage profile
+visionspec init my-feature --profile startup
+
+# Export profile for customization
+visionspec profiles export enterprise ./my-profile
+
+# Initialize with custom profile directory
+visionspec init my-project --profile-dir ./my-profile
+```
 
 ## CLI as Library
 
@@ -320,7 +345,7 @@ make install
 
 See [ROADMAP.md](docs/specs/ROADMAP.md) for detailed implementation status and [CHANGELOG.md](CHANGELOG.md) for release history.
 
-**Current Version:** v0.4.0
+**Current Version:** v0.5.0
 
 | Phase | Status |
 |-------|--------|
@@ -336,6 +361,7 @@ See [ROADMAP.md](docs/specs/ROADMAP.md) for detailed implementation status and [
 | Phase 9: Composability | Complete |
 | Phase 10: Platform Enhancements | Not Started |
 | Phase 11: Context Sources | Complete |
+| Phase 12: Methodology Profiles | Complete |
 
 ## License
 

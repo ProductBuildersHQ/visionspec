@@ -6,9 +6,10 @@ Multi-domain specification orchestration for humans and AI agents.
 
 VisionSpec bridges the gap between organizational intent (MRD, PRD, UXD) and executable specifications for AI coding agents. It provides a structured workflow for:
 
+- **Methodology profiles** - AWS, Google, Stripe, Lean Startup, Design Thinking, JTBD
 - **Domain-specific authoring** - Separate specs for PM, UX, Engineering
 - **GTM synthesis** - LLM-generated press releases, FAQs, narratives (Working Backwards)
-- **Technical synthesis** - LLM-generated TRD, IRD from source specs
+- **Technical synthesis** - LLM-generated TRD, TPD, IRD from source specs
 - **Structured evaluation** - Per-domain LLM judges with customizable rubrics
 - **Reconciliation** - Conflict detection and tradeoff resolution
 - **Target adapters** - Export to SpecKit, GSD, GasTown, GasCity, OpenSpec
@@ -32,7 +33,8 @@ VisionSpec implements Amazon's Working Backwards methodology:
    uxd.md
        ↓
 5. TECHNICAL SPECS (synthesized, editable)
-   trd.md  →  ird.md
+   trd.md  →  tpd.md  →  ird.md
+   (design)   (tests)    (infra)
        ↓
 6. RECONCILIATION
    All approved specs → spec.md
@@ -52,12 +54,15 @@ See the [Working Backwards Guide](concepts/working-backwards.md) for the full me
 
 ```bash
 # Install
-go install github.com/ProductBuildersHQ/visionspec/cmd/visionspec@v0.4.0
+go install github.com/ProductBuildersHQ/visionspec/cmd/visionspec@v0.5.0
 
 # Initialize a new project
 visionspec init user-onboarding
 
-# Initialize with a profile (startup, growth, enterprise)
+# Initialize with a methodology profile
+visionspec init my-product --profile aws
+
+# Initialize with a stage profile
 visionspec init my-feature --profile startup
 
 # Validate project structure
@@ -95,7 +100,9 @@ VisionSpec includes an MCP (Model Context Protocol) server for integration with 
 
 ## Configuration Profiles
 
-Profiles define which specs are required for different product lifecycle stages:
+VisionSpec includes two types of profiles:
+
+### Stage-Based Profiles
 
 | Profile | Required Specs | Use Case |
 |---------|---------------|----------|
@@ -104,12 +111,25 @@ Profiles define which specs are required for different product lifecycle stages:
 | `growth` | prd, uxd, faq | 1-N scaling phase |
 | `enterprise` | mrd, prd, uxd, trd, press, faq, spec | Post-PMF enterprises |
 
+### Methodology Profiles
+
+| Profile | Methodology | Best For |
+|---------|-------------|----------|
+| `aws` | Working Backwards | Customer-centric products |
+| `google` | Design Docs + RFC | Engineering-heavy orgs |
+| `stripe` | API-First | Platform/API products |
+| `lean-startup` | Build-Measure-Learn | Early validation |
+| `design-thinking` | Stanford d.school | Human-centered design |
+| `jtbd` | Jobs to be Done | Customer motivations |
+
+See [Frameworks](frameworks/index.md) for detailed methodology documentation.
+
 ```bash
 # List available profiles
 visionspec profiles list
 
-# Initialize with a profile
-visionspec init my-project --profile startup
+# Initialize with a methodology profile
+visionspec init my-product --profile aws
 
 # Export a profile for customization
 visionspec profiles export enterprise ./my-profile
@@ -122,17 +142,18 @@ Organizations can create custom profiles with their own templates and rubrics. S
 
 ## Project Status
 
-See the [ROADMAP](specs/ROADMAP.md) for detailed implementation status and [Release Notes](releases/v0.4.0.md) for the latest release.
+See the [ROADMAP](specs/ROADMAP.md) for detailed implementation status and [Release Notes](releases/v0.5.0.md) for the latest release.
 
-**Current Version:** v0.4.0
+**Current Version:** v0.5.0
 
 | Component | Status |
 |-----------|--------|
 | CLI (init, lint, status, eval, synthesize, reconcile) | Complete |
 | MCP Server (draft workflow, eval) | Complete |
 | Evaluation Engine | Complete |
-| GTM & Technical Synthesis | Complete |
+| GTM & Technical Synthesis (Press, FAQ, PRD, TRD, TPD, IRD) | Complete |
 | Reconciliation | Complete |
 | Export (SpecKit) | Complete |
 | Graphize Integration | Complete |
 | Profiles & Composability | Complete |
+| Methodology Profiles (AWS, Google, Stripe, Lean, DT, JTBD) | Complete |
