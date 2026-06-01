@@ -6,7 +6,9 @@ import (
 	"fmt"
 	"io/fs"
 	"os"
+	"path"
 	"path/filepath"
+	"strings"
 )
 
 //go:embed embedded/*
@@ -26,22 +28,21 @@ func Export(destDir string) ([]string, error) {
 
 	var files []string
 
-	err := fs.WalkDir(embeddedFS, "embedded", func(path string, d fs.DirEntry, err error) error {
+	err := fs.WalkDir(embeddedFS, "embedded", func(embeddedPath string, d fs.DirEntry, err error) error {
 		if err != nil {
 			return err
 		}
 
 		// Skip the root "embedded" directory
-		if path == "embedded" {
+		if embeddedPath == "embedded" {
 			return nil
 		}
 
 		// Calculate destination path (strip "embedded/" prefix)
-		relPath, err := filepath.Rel("embedded", path)
-		if err != nil {
-			return err
-		}
-		destPath := filepath.Join(destDir, relPath)
+		// embed.FS paths always use forward slashes, so use strings.TrimPrefix
+		relPath := strings.TrimPrefix(embeddedPath, "embedded/")
+		// Convert to OS-specific path for local filesystem
+		destPath := filepath.Join(destDir, filepath.FromSlash(relPath))
 
 		if d.IsDir() {
 			if err := os.MkdirAll(destPath, 0755); err != nil {
@@ -50,10 +51,10 @@ func Export(destDir string) ([]string, error) {
 			return nil
 		}
 
-		// Read file from embedded FS
-		content, err := embeddedFS.ReadFile(path)
+		// Read file from embedded FS (embeddedPath uses forward slashes)
+		content, err := embeddedFS.ReadFile(embeddedPath)
 		if err != nil {
-			return fmt.Errorf("reading embedded file %s: %w", path, err)
+			return fmt.Errorf("reading embedded file %s: %w", embeddedPath, err)
 		}
 
 		// Write file to destination
@@ -73,23 +74,21 @@ func Export(destDir string) ([]string, error) {
 }
 
 // List returns the paths of all embedded rule files.
+// Paths are returned with forward slashes for cross-platform consistency.
 func List() ([]string, error) {
 	var files []string
 
-	err := fs.WalkDir(embeddedFS, "embedded", func(path string, d fs.DirEntry, err error) error {
+	err := fs.WalkDir(embeddedFS, "embedded", func(embeddedPath string, d fs.DirEntry, err error) error {
 		if err != nil {
 			return err
 		}
 
-		if path == "embedded" || d.IsDir() {
+		if embeddedPath == "embedded" || d.IsDir() {
 			return nil
 		}
 
-		// Strip "embedded/" prefix
-		relPath, err := filepath.Rel("embedded", path)
-		if err != nil {
-			return err
-		}
+		// Strip "embedded/" prefix (embed.FS always uses forward slashes)
+		relPath := strings.TrimPrefix(embeddedPath, "embedded/")
 		files = append(files, relPath)
 		return nil
 	})
@@ -102,11 +101,14 @@ func List() ([]string, error) {
 }
 
 // Get returns the content of a specific rule file.
-func Get(path string) ([]byte, error) {
-	fullPath := filepath.Join("embedded", path)
+func Get(rulePath string) ([]byte, error) {
+	// Normalize path separators to forward slashes for embed.FS
+	normalizedPath := strings.ReplaceAll(rulePath, "\\", "/")
+	// Use path.Join (not filepath.Join) because embed.FS always uses forward slashes
+	fullPath := path.Join("embedded", normalizedPath)
 	content, err := embeddedFS.ReadFile(fullPath)
 	if err != nil {
-		return nil, fmt.Errorf("reading rule %s: %w", path, err)
+		return nil, fmt.Errorf("reading rule %s: %w", rulePath, err)
 	}
 	return content, nil
 }
