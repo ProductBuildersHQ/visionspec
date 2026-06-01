@@ -453,3 +453,103 @@ func (t *GSDTarget) generateConfig(config ExportConfig) []byte {
 	data, _ := json.MarshalIndent(cfg, "", "  ")
 	return data
 }
+
+// CanSync returns whether this target supports syncing.
+func (t *GSDTarget) CanSync(config ExportConfig) bool {
+	outputDir := config.OutputDir
+	if outputDir == "" {
+		outputDir = ".planning"
+	}
+
+	statePath := filepath.Join(outputDir, "STATE.md")
+	_, err := os.Stat(statePath)
+	return err == nil
+}
+
+// Sync retrieves task state from the exported GSD target.
+func (t *GSDTarget) Sync(config ExportConfig) (*SyncResult, error) {
+	outputDir := config.OutputDir
+	if outputDir == "" {
+		outputDir = ".planning"
+	}
+
+	// Read STATE.md
+	statePath := filepath.Join(outputDir, "STATE.md")
+	content, err := os.ReadFile(statePath)
+	if err != nil {
+		return nil, fmt.Errorf("reading STATE.md: %w", err)
+	}
+
+	// Parse tasks from STATE.md
+	tasks := t.parseStateTasks(string(content))
+
+	// Calculate summary
+	summary := SyncSummary{TotalTasks: len(tasks)}
+	for _, task := range tasks {
+		switch task.Status {
+		case "todo":
+			summary.TodoCount++
+		case "in_progress":
+			summary.InProgress++
+		case "done":
+			summary.DoneCount++
+		}
+	}
+
+	return &SyncResult{
+		Target:   t.Name(),
+		SyncedAt: time.Now(),
+		Tasks:    tasks,
+		Summary:  summary,
+	}, nil
+}
+
+// parseStateTasks extracts tasks from STATE.md content.
+// GSD uses: [ ] for todo, [~] for in_progress, [x] for done
+func (t *GSDTarget) parseStateTasks(content string) []TaskState {
+	var tasks []TaskState
+
+	lines := strings.Split(content, "\n")
+	taskID := 0
+	for _, line := range lines {
+		line = strings.TrimSpace(line)
+
+		var status, title string
+
+		// Check for GSD-style markers
+		if strings.HasPrefix(line, "- [ ]") {
+			status = "todo"
+			title = strings.TrimPrefix(line, "- [ ]")
+		} else if strings.HasPrefix(line, "- [~]") {
+			status = "in_progress"
+			title = strings.TrimPrefix(line, "- [~]")
+		} else if strings.HasPrefix(line, "- [x]") || strings.HasPrefix(line, "- [X]") {
+			status = "done"
+			title = strings.TrimPrefix(line, "- [x]")
+			title = strings.TrimPrefix(title, "- [X]")
+		} else {
+			continue
+		}
+
+		taskID++
+		title = strings.TrimSpace(title)
+
+		// Extract task ID if present (e.g., "TASK-001: Description")
+		id := fmt.Sprintf("GSD-%03d", taskID)
+		if colonIdx := strings.Index(title, ":"); colonIdx > 0 && colonIdx < 20 {
+			possibleID := strings.TrimSpace(title[:colonIdx])
+			if strings.Contains(possibleID, "-") || strings.HasPrefix(possibleID, "TASK") {
+				id = possibleID
+				title = strings.TrimSpace(title[colonIdx+1:])
+			}
+		}
+
+		tasks = append(tasks, TaskState{
+			ID:     id,
+			Title:  title,
+			Status: status,
+		})
+	}
+
+	return tasks
+}

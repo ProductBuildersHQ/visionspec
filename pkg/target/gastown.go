@@ -311,3 +311,108 @@ func quoteStrings(ss []string) string {
 	}
 	return strings.Join(quoted, ", ")
 }
+
+// CanSync returns whether this target supports syncing.
+func (t *GasTownTarget) CanSync(config ExportConfig) bool {
+	outputDir := config.OutputDir
+	if outputDir == "" {
+		outputDir = ".gastown"
+	}
+
+	beadsDir := filepath.Join(outputDir, "beads")
+	_, err := os.Stat(beadsDir)
+	return err == nil
+}
+
+// Sync retrieves task state from the exported GasTown target.
+func (t *GasTownTarget) Sync(config ExportConfig) (*SyncResult, error) {
+	outputDir := config.OutputDir
+	if outputDir == "" {
+		outputDir = ".gastown"
+	}
+
+	beadsDir := filepath.Join(outputDir, "beads")
+	entries, err := os.ReadDir(beadsDir)
+	if err != nil {
+		return nil, fmt.Errorf("reading beads directory: %w", err)
+	}
+
+	var tasks []TaskState
+	for _, entry := range entries {
+		if entry.IsDir() || !strings.HasSuffix(entry.Name(), ".toml") {
+			continue
+		}
+
+		beadPath := filepath.Join(beadsDir, entry.Name())
+		task, err := t.parseBeadFile(beadPath)
+		if err != nil {
+			continue // Skip invalid beads
+		}
+
+		tasks = append(tasks, task)
+	}
+
+	// Calculate summary
+	summary := SyncSummary{TotalTasks: len(tasks)}
+	for _, task := range tasks {
+		switch task.Status {
+		case "todo", "ready":
+			summary.TodoCount++
+		case "in_progress":
+			summary.InProgress++
+		case "done":
+			summary.DoneCount++
+		}
+	}
+
+	return &SyncResult{
+		Target:   t.Name(),
+		SyncedAt: time.Now(),
+		Tasks:    tasks,
+		Summary:  summary,
+	}, nil
+}
+
+// parseBeadFile extracts task state from a bead TOML file.
+func (t *GasTownTarget) parseBeadFile(path string) (TaskState, error) {
+	content, err := os.ReadFile(path)
+	if err != nil {
+		return TaskState{}, err
+	}
+
+	text := string(content)
+
+	// Simple TOML parsing for key fields
+	id := extractTOMLValue(text, "id")
+	name := extractTOMLValue(text, "name")
+	status := extractTOMLValue(text, "status")
+
+	// Map GasTown status to standard status
+	mappedStatus := "todo"
+	switch strings.ToLower(status) {
+	case "ready":
+		mappedStatus = "todo"
+	case "blocked":
+		mappedStatus = "blocked"
+	case "done", "complete", "completed":
+		mappedStatus = "done"
+	case "in_progress", "running":
+		mappedStatus = "in_progress"
+	}
+
+	return TaskState{
+		ID:     id,
+		Title:  name,
+		Status: mappedStatus,
+	}, nil
+}
+
+// extractTOMLValue extracts a simple string value from TOML content.
+func extractTOMLValue(content, key string) string {
+	re := regexp.MustCompile(key + `\s*=\s*"([^"]*)"`)
+	matches := re.FindStringSubmatch(content)
+	if len(matches) > 1 {
+		return matches[1]
+	}
+	return ""
+}

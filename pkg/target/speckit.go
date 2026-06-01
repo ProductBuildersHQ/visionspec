@@ -224,3 +224,154 @@ func slugify(s string) string {
 	s = strings.ReplaceAll(s, "_", "-")
 	return s
 }
+
+// CanSync returns whether this target supports syncing.
+func (t *SpecKitTarget) CanSync(config ExportConfig) bool {
+	// Check if output dir exists with tasks.md
+	outputDir := config.OutputDir
+	if outputDir == "" {
+		outputDir = "specs"
+	}
+
+	// Find the latest branch directory
+	entries, err := os.ReadDir(outputDir)
+	if err != nil {
+		return false
+	}
+
+	for _, entry := range entries {
+		if entry.IsDir() {
+			tasksPath := filepath.Join(outputDir, entry.Name(), "tasks.md")
+			if _, err := os.Stat(tasksPath); err == nil {
+				return true
+			}
+		}
+	}
+
+	return false
+}
+
+// Sync retrieves task state from the exported SpecKit target.
+func (t *SpecKitTarget) Sync(config ExportConfig) (*SyncResult, error) {
+	outputDir := config.OutputDir
+	if outputDir == "" {
+		outputDir = "specs"
+	}
+
+	// Find the latest branch directory
+	entries, err := os.ReadDir(outputDir)
+	if err != nil {
+		return nil, fmt.Errorf("reading output directory: %w", err)
+	}
+
+	var latestDir string
+	for _, entry := range entries {
+		if entry.IsDir() {
+			latestDir = filepath.Join(outputDir, entry.Name())
+		}
+	}
+
+	if latestDir == "" {
+		return nil, fmt.Errorf("no exported branch found in %s", outputDir)
+	}
+
+	// Read tasks.md
+	tasksPath := filepath.Join(latestDir, "tasks.md")
+	content, err := os.ReadFile(tasksPath)
+	if err != nil {
+		return nil, fmt.Errorf("reading tasks.md: %w", err)
+	}
+
+	// Parse tasks
+	tasks := t.parseTasks(string(content))
+
+	// Calculate summary
+	summary := SyncSummary{TotalTasks: len(tasks)}
+	for _, task := range tasks {
+		switch task.Status {
+		case "todo":
+			summary.TodoCount++
+		case "in_progress":
+			summary.InProgress++
+		case "done":
+			summary.DoneCount++
+		}
+	}
+
+	return &SyncResult{
+		Target:   t.Name(),
+		SyncedAt: time.Now(),
+		Tasks:    tasks,
+		Summary:  summary,
+	}, nil
+}
+
+// parseTasks extracts tasks from tasks.md content.
+// SpecKit uses: [ ] for todo, [x] for done
+func (t *SpecKitTarget) parseTasks(content string) []TaskState {
+	var tasks []TaskState
+
+	// Look for table rows
+	lines := strings.Split(content, "\n")
+	for _, line := range lines {
+		line = strings.TrimSpace(line)
+		if !strings.HasPrefix(line, "|") {
+			continue
+		}
+
+		// Skip header and separator rows
+		if strings.Contains(line, "---") || strings.Contains(line, "Task") {
+			continue
+		}
+
+		cells := strings.Split(line, "|")
+		if len(cells) < 4 {
+			continue
+		}
+
+		id := strings.TrimSpace(cells[1])
+		title := strings.TrimSpace(cells[2])
+		statusCell := strings.TrimSpace(cells[3])
+
+		status := "todo"
+		statusLower := strings.ToLower(statusCell)
+		if strings.Contains(statusLower, "done") || strings.Contains(statusLower, "complete") {
+			status = "done"
+		} else if strings.Contains(statusLower, "progress") || strings.Contains(statusLower, "wip") {
+			status = "in_progress"
+		}
+
+		if id != "" && id != "#" {
+			tasks = append(tasks, TaskState{
+				ID:     id,
+				Title:  title,
+				Status: status,
+			})
+		}
+	}
+
+	// Also look for checkbox lists
+	checkboxRE := strings.NewReplacer()
+	_ = checkboxRE
+	for i, line := range lines {
+		line = strings.TrimSpace(line)
+		if strings.HasPrefix(line, "- [ ]") {
+			title := strings.TrimPrefix(line, "- [ ]")
+			tasks = append(tasks, TaskState{
+				ID:     fmt.Sprintf("CB-%03d", i+1),
+				Title:  strings.TrimSpace(title),
+				Status: "todo",
+			})
+		} else if strings.HasPrefix(line, "- [x]") || strings.HasPrefix(line, "- [X]") {
+			title := strings.TrimPrefix(line, "- [x]")
+			title = strings.TrimPrefix(title, "- [X]")
+			tasks = append(tasks, TaskState{
+				ID:     fmt.Sprintf("CB-%03d", i+1),
+				Title:  strings.TrimSpace(title),
+				Status: "done",
+			})
+		}
+	}
+
+	return tasks
+}

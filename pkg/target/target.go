@@ -3,6 +3,7 @@ package target
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/ProductBuildersHQ/visionspec/pkg/types"
 )
@@ -130,4 +131,63 @@ func ProjectTargetConfig(project *types.Project, targetName string) *ExportConfi
 	}
 
 	return cfg
+}
+
+// Syncer defines the interface for targets that support bidirectional sync.
+// This is an optional interface that targets can implement.
+type Syncer interface {
+	// CanSync returns whether this target supports syncing.
+	CanSync(config ExportConfig) bool
+
+	// Sync retrieves task state from the exported target.
+	Sync(config ExportConfig) (*SyncResult, error)
+}
+
+// SyncResult contains the result of a sync operation.
+type SyncResult struct {
+	Target   string      `json:"target"`
+	SyncedAt time.Time   `json:"synced_at"`
+	Tasks    []TaskState `json:"tasks"`
+	Summary  SyncSummary `json:"summary"`
+}
+
+// TaskState represents the state of a single task.
+type TaskState struct {
+	ID     string `json:"id"`
+	Title  string `json:"title"`
+	Status string `json:"status"` // todo, in_progress, done, blocked
+}
+
+// SyncSummary provides aggregate task statistics.
+type SyncSummary struct {
+	TotalTasks int `json:"total_tasks"`
+	TodoCount  int `json:"todo_count"`
+	InProgress int `json:"in_progress"`
+	DoneCount  int `json:"done_count"`
+}
+
+// GetSyncer checks if a target implements Syncer and returns it.
+func GetSyncer(name string) (Syncer, error) {
+	target, err := Get(name)
+	if err != nil {
+		return nil, err
+	}
+
+	syncer, ok := target.(Syncer)
+	if !ok {
+		return nil, fmt.Errorf("target %s does not support sync", name)
+	}
+
+	return syncer, nil
+}
+
+// SyncableTargets returns names of targets that support sync.
+func SyncableTargets() []string {
+	var names []string
+	for name, target := range registry {
+		if _, ok := target.(Syncer); ok {
+			names = append(names, name)
+		}
+	}
+	return names
 }
