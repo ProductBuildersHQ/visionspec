@@ -11,9 +11,186 @@ Activate this workflow when the user says:
 - "I need to write a PRD/MRD/TRD"
 - "What specs do I need for [project]?"
 
-## Workflow Phases
+## Step 1: Framework Selection
 
-VisionSpec implements Amazon's Working Backwards methodology in five phases:
+When starting a new project, ask the user which methodology framework to use:
+
+```
+Which methodology framework would you like to use?
+
+1. AWS Working Backwards (default) - Start with customer announcement, work backwards to requirements
+2. Lean Startup - Hypothesis-driven, build-measure-learn cycles
+3. Design Thinking - Human-centered, empathy-first approach
+4. Jobs to be Done - Focus on customer job statements and outcomes
+5. Google - OKRs, design docs, and experimentation
+6. Stripe - API-first, developer experience focused
+```
+
+**Default**: If user doesn't specify or says "just start", use **AWS Working Backwards**.
+
+Initialize project with the selected profile:
+
+```bash
+visionspec init <project> --profile <framework>
+# Examples:
+visionspec init myproject --profile aws          # Default
+visionspec init myproject --profile lean-startup
+visionspec init myproject --profile design-thinking
+visionspec init myproject --profile jtbd
+visionspec init myproject --profile google
+visionspec init myproject --profile stripe
+```
+
+## Framework-Specific Flows
+
+### AWS Working Backwards (Default)
+
+Customer-centric, vision-first approach. Start with the press release.
+
+```
+MRD (market problem)
+    ↓
+Press Release (customer announcement)
+    ↓
+FAQ (challenge assumptions)
+    ↓
+PRD (derive requirements)
+    ↓
+UXD (user experience)
+    ↓
+TRD → TPD → IRD (technical specs)
+    ↓
+spec.md (reconciled execution spec)
+```
+
+### Lean Startup
+
+Hypothesis-driven, rapid validation cycles.
+
+```
+Hypothesis (what we believe)
+    ↓
+MRD (problem validation)
+    ↓
+MVP PRD (minimum viable product)
+    ↓
+Experiment Design (how to test)
+    ↓
+UXD (lean prototype)
+    ↓
+TRD (technical approach)
+    ↓
+spec.md → Build → Measure → Learn → Iterate
+```
+
+### Design Thinking
+
+Human-centered, empathy-first approach.
+
+```
+Empathy Research (user interviews, observation)
+    ↓
+MRD (define the problem)
+    ↓
+Ideation (brainstorm solutions)
+    ↓
+PRD (selected solution)
+    ↓
+UXD (prototype)
+    ↓
+User Testing → Iterate
+    ↓
+TRD → TPD → IRD
+    ↓
+spec.md
+```
+
+### Jobs to be Done (JTBD)
+
+Focus on customer jobs and desired outcomes.
+
+```
+Job Statements (what customers are trying to accomplish)
+    ↓
+MRD (job context and constraints)
+    ↓
+Outcome Expectations (how customers measure success)
+    ↓
+PRD (solution that addresses job)
+    ↓
+UXD (experience that enables job completion)
+    ↓
+TRD → TPD → IRD
+    ↓
+spec.md
+```
+
+### Google
+
+OKRs, design docs, and data-driven experimentation.
+
+```
+OKRs (objectives and key results)
+    ↓
+MRD (problem and opportunity)
+    ↓
+Design Doc (technical approach with alternatives)
+    ↓
+RFC (request for comments, gather feedback)
+    ↓
+PRD + UXD (refined requirements)
+    ↓
+Experiment Design (A/B tests, metrics)
+    ↓
+TRD → TPD → IRD
+    ↓
+spec.md
+```
+
+### Stripe
+
+API-first, developer experience focused.
+
+```
+API Contract (define the interface first)
+    ↓
+MRD (developer pain points)
+    ↓
+DX Review (developer experience critique)
+    ↓
+PRD (API requirements)
+    ↓
+UXD (docs, examples, error messages)
+    ↓
+TRD (implementation behind API)
+    ↓
+TPD (API contract tests, integration tests)
+    ↓
+IRD
+    ↓
+spec.md
+```
+
+## Detecting Existing Framework
+
+If the project already exists, check which framework is configured:
+
+```bash
+visionspec status -p <project>
+# Look for "Profile:" in output
+```
+
+Or check `visionspec.yaml`:
+
+```yaml
+profile: aws  # or lean-startup, design-thinking, etc.
+```
+
+Continue with the configured framework's flow.
+
+## Workflow Phases (AWS Working Backwards Default)
+
+The default flow implements Amazon's Working Backwards methodology in five phases:
 
 ```
 Phase 1: DISCOVERY
