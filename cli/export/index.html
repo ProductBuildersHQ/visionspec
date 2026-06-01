@@ -1088,6 +1088,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#aidlc" class="md-nav__link">
+    <span class="md-ellipsis">
+      aidlc
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1968,6 +1977,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#aidlc" class="md-nav__link">
+    <span class="md-ellipsis">
+      aidlc
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -2059,7 +2077,7 @@
 <tbody>
 <tr>
 <td><code>target</code></td>
-<td>Target system: <code>speckit</code>, <code>gsd</code>, <code>gastown</code>, <code>gascity</code></td>
+<td>Target system: <code>speckit</code>, <code>gsd</code>, <code>gastown</code>, <code>gascity</code>, <code>aidlc</code></td>
 </tr>
 </tbody>
 </table>
@@ -2142,6 +2160,23 @@
 <li>Order (task) dependencies</li>
 <li>Orchestration modes (orchestrated, autonomous, hybrid)</li>
 </ul>
+<h3 id="aidlc">aidlc<a class="headerlink" href="#aidlc" title="Permanent link">&para;</a></h3>
+<p>AWS AI-DLC Workflows format for the AI Development Lifecycle.</p>
+<p><strong>Output files:</strong></p>
+<ul>
+<li><code>vision-document.md</code> - Vision and goals (from MRD/Press/PRD)</li>
+<li><code>technical-environment.md</code> - Technical landscape (from TRD/IRD/context)</li>
+<li><code>imported-requirements.md</code> - Combined requirements from spec.md</li>
+</ul>
+<p><strong>Features:</strong></p>
+<ul>
+<li>Three-phase lifecycle (Inception, Construction, Operations)</li>
+<li>Approval gates for requirements refinement</li>
+<li>Multi-agent specialist phases</li>
+<li>Integration with existing VisionSpec specs</li>
+</ul>
+<p><strong>Usage with AIDLC:</strong></p>
+<p>After export, use the trigger pattern: "Using AI-DLC, develop this feature based on the vision document."</p>
 <h2 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Export to SpecKit</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>visionspec<span class="w"> </span><span class="nb">export</span><span class="w"> </span>speckit
@@ -2154,6 +2189,9 @@
 <a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>
 <a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="c1"># Export to GasCity</span>
 <a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>visionspec<span class="w"> </span><span class="nb">export</span><span class="w"> </span>gascity
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="c1"># Export to AWS AI-DLC Workflows</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>visionspec<span class="w"> </span><span class="nb">export</span><span class="w"> </span>aidlc
 </code></pre></div>
 <h2 id="output">Output<a class="headerlink" href="#output" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>⋯ Exporting to speckit...
@@ -2179,6 +2217,9 @@
 <a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">    </span><span class="nt">rig</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-rig</span>
 <a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="w">  </span><span class="nt">gascity</span><span class="p">:</span>
 <a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">    </span><span class="nt">city_dir</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">export/gascity</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="w">  </span><span class="nt">aidlc</span><span class="p">:</span>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="w">    </span><span class="nt">output_dir</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.aidlc</span>
 </code></pre></div>
 <h2 id="constitution-sync">Constitution Sync<a class="headerlink" href="#constitution-sync" title="Permanent link">&para;</a></h2>
 <p>For SpecKit exports, if <code>CONSTITUTION.md</code> exists, it's synced to <code>.specify/memory/constitution.md</code> for agent memory integration.</p>

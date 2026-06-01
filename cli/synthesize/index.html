@@ -1998,7 +1998,9 @@
 <a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>    ↓
 <a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>TRD (synthesized from MRD + PRD + UXD + context)
 <a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>    ↓
-<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>IRD (synthesized from TRD + context)
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>TPD (synthesized from PRD + TRD + UXD)
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>    ↓
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>IRD (synthesized from TRD + context)
 </code></pre></div>
 <h2 id="synthesis-types">Synthesis Types<a class="headerlink" href="#synthesis-types" title="Permanent link">&para;</a></h2>
 <p><strong>Working Backwards Flow</strong></p>
@@ -2010,6 +2012,7 @@
 <p><strong>Technical Synthesis</strong></p>
 <ul>
 <li><code>trd</code> - Technical Requirements from MRD + PRD + UXD + CONSTITUTION + CONTEXT</li>
+<li><code>tpd</code> - Test Plan Document from PRD + TRD + UXD</li>
 <li><code>ird</code> - Infrastructure Requirements from TRD + CONSTITUTION + CONTEXT</li>
 </ul>
 <p><strong>Narrative Documents</strong></p>
@@ -2028,7 +2031,7 @@
 <tbody>
 <tr>
 <td><code>type</code></td>
-<td>Spec type to synthesize: <code>press</code>, <code>faq</code>, <code>prd</code>, <code>trd</code>, <code>ird</code>, <code>narrative-1p</code>, <code>narrative-6p</code></td>
+<td>Spec type to synthesize: <code>press</code>, <code>faq</code>, <code>prd</code>, <code>trd</code>, <code>tpd</code>, <code>ird</code>, <code>narrative-1p</code>, <code>narrative-6p</code></td>
 </tr>
 </tbody>
 </table>
@@ -2088,6 +2091,11 @@
 <td>Technical requirements (UXD optional)</td>
 </tr>
 <tr>
+<td><code>tpd</code></td>
+<td>PRD, TRD, UXD</td>
+<td>Test plan from requirements and technical design</td>
+</tr>
+<tr>
 <td><code>ird</code></td>
 <td>TRD</td>
 <td>Infrastructure requirements</td>
@@ -2112,14 +2120,15 @@
 <a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
 <a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="c1"># Technical synthesis</span>
 <a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>visionspec<span class="w"> </span>synthesize<span class="w"> </span>trd<span class="w"> </span>--eval<span class="w">   </span><span class="c1"># Generate TRD with evaluation</span>
-<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>visionspec<span class="w"> </span>synthesize<span class="w"> </span>ird<span class="w"> </span>--no-context<span class="w">  </span><span class="c1"># Generate IRD without context gathering</span>
-<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>
-<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="c1"># Narrative documents</span>
-<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>visionspec<span class="w"> </span>synthesize<span class="w"> </span>narrative-1p
-<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>visionspec<span class="w"> </span>synthesize<span class="w"> </span>narrative-6p
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>visionspec<span class="w"> </span>synthesize<span class="w"> </span>tpd<span class="w">          </span><span class="c1"># Generate TPD (test plan) from PRD + TRD + UXD</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>visionspec<span class="w"> </span>synthesize<span class="w"> </span>ird<span class="w"> </span>--no-context<span class="w">  </span><span class="c1"># Generate IRD without context gathering</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="c1"># Narrative documents</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>visionspec<span class="w"> </span>synthesize<span class="w"> </span>narrative-1p
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>visionspec<span class="w"> </span>synthesize<span class="w"> </span>narrative-6p
 </code></pre></div>
 <h2 id="context-grounding">Context Grounding<a class="headerlink" href="#context-grounding" title="Permanent link">&para;</a></h2>
-<p>For TRD and IRD synthesis, the command automatically gathers codebase context if configured in <code>visionspec.yaml</code>:</p>
+<p>For TRD, TPD, and IRD synthesis, the command automatically gathers codebase context if configured in <code>visionspec.yaml</code>:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nt">context</span><span class="p">:</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="nt">repositories</span><span class="p">:</span>
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;.&quot;</span>

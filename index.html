@@ -388,6 +388,30 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Configuration Profiles">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#stage-based-profiles" class="md-nav__link">
+    <span class="md-ellipsis">
+      Stage-Based Profiles
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#methodology-profiles" class="md-nav__link">
+    <span class="md-ellipsis">
+      Methodology Profiles
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -1897,6 +1921,30 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Configuration Profiles">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#stage-based-profiles" class="md-nav__link">
+    <span class="md-ellipsis">
+      Stage-Based Profiles
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#methodology-profiles" class="md-nav__link">
+    <span class="md-ellipsis">
+      Methodology Profiles
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -1932,12 +1980,13 @@
 <h2 id="what-is-visionspec">What is VisionSpec?<a class="headerlink" href="#what-is-visionspec" title="Permanent link">&para;</a></h2>
 <p>VisionSpec bridges the gap between organizational intent (MRD, PRD, UXD) and executable specifications for AI coding agents. It provides a structured workflow for:</p>
 <ul>
+<li><strong>Methodology profiles</strong> - AWS, Google, Stripe, Lean Startup, Design Thinking, JTBD</li>
 <li><strong>Domain-specific authoring</strong> - Separate specs for PM, UX, Engineering</li>
 <li><strong>GTM synthesis</strong> - LLM-generated press releases, FAQs, narratives (Working Backwards)</li>
-<li><strong>Technical synthesis</strong> - LLM-generated TRD, IRD from source specs</li>
+<li><strong>Technical synthesis</strong> - LLM-generated TRD, TPD, IRD from source specs</li>
 <li><strong>Structured evaluation</strong> - Per-domain LLM judges with customizable rubrics</li>
 <li><strong>Reconciliation</strong> - Conflict detection and tradeoff resolution</li>
-<li><strong>Target adapters</strong> - Export to SpecKit, GSD, GasTown, GasCity, OpenSpec</li>
+<li><strong>Target adapters</strong> - Export to SpecKit, GSD, GasTown, GasCity, AWS AI-DLC, OpenSpec</li>
 </ul>
 <h2 id="working-backwards-flow">Working Backwards Flow<a class="headerlink" href="#working-backwards-flow" title="Permanent link">&para;</a></h2>
 <p>VisionSpec implements Amazon's Working Backwards methodology:</p>
@@ -1955,34 +2004,38 @@
 <a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>   uxd.md
 <a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>       ↓
 <a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>5. TECHNICAL SPECS (synthesized, editable)
-<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>   trd.md  →  ird.md
-<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>       ↓
-<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>6. RECONCILIATION
-<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>   All approved specs → spec.md
-<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>       ↓
-<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>7. AI EXECUTION
-<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>   spec.md → SpecKit | GSD | GasTown | GasCity
-<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>       ↓
-<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>8. POST-SHIP ALIGNMENT
-<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>   spec.md + reality → current-truth.md
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>   trd.md  →  tpd.md  →  ird.md
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>   (design)   (tests)    (infra)
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>       ↓
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>6. RECONCILIATION
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>   All approved specs → spec.md
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>       ↓
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>7. AI EXECUTION
+<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>   spec.md → SpecKit | GSD | GasTown | GasCity
+<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>       ↓
+<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>8. POST-SHIP ALIGNMENT
+<a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>   spec.md + reality → current-truth.md
 </code></pre></div>
 <p>All synthesized documents are committed to git and can be reviewed, edited, and refined by humans or collaboratively with AI assistants.</p>
 <p>See the <a href="concepts/working-backwards/">Working Backwards Guide</a> for the full methodology.</p>
 <h2 id="quick-start">Quick Start<a class="headerlink" href="#quick-start" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Install</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>go<span class="w"> </span>install<span class="w"> </span>github.com/ProductBuildersHQ/visionspec/cmd/visionspec@v0.4.0
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>go<span class="w"> </span>install<span class="w"> </span>github.com/ProductBuildersHQ/visionspec/cmd/visionspec@v0.5.0
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># Initialize a new project</span>
 <a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>visionspec<span class="w"> </span>init<span class="w"> </span>user-onboarding
 <a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="c1"># Initialize with a profile (startup, growth, enterprise)</span>
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>visionspec<span class="w"> </span>init<span class="w"> </span>my-feature<span class="w"> </span>--profile<span class="w"> </span>startup
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="c1"># Initialize with a methodology profile</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>visionspec<span class="w"> </span>init<span class="w"> </span>my-product<span class="w"> </span>--profile<span class="w"> </span>aws
 <a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
-<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="c1"># Validate project structure</span>
-<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>visionspec<span class="w"> </span>lint
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="c1"># Initialize with a stage profile</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>visionspec<span class="w"> </span>init<span class="w"> </span>my-feature<span class="w"> </span>--profile<span class="w"> </span>startup
 <a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>
-<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="c1"># Check project status</span>
-<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>visionspec<span class="w"> </span>status
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="c1"># Validate project structure</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>visionspec<span class="w"> </span>lint
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="c1"># Check project status</span>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>visionspec<span class="w"> </span>status
 </code></pre></div>
 <h2 id="key-features">Key Features<a class="headerlink" href="#key-features" title="Permanent link">&para;</a></h2>
 <h3 id="readiness-gates">Readiness Gates<a class="headerlink" href="#readiness-gates" title="Permanent link">&para;</a></h3>
@@ -2024,7 +2077,8 @@
 <h3 id="mcp-integration">MCP Integration<a class="headerlink" href="#mcp-integration" title="Permanent link">&para;</a></h3>
 <p>VisionSpec includes an MCP (Model Context Protocol) server for integration with AI coding assistants like Claude Code and Kiro CLI.</p>
 <h2 id="configuration-profiles">Configuration Profiles<a class="headerlink" href="#configuration-profiles" title="Permanent link">&para;</a></h2>
-<p>Profiles define which specs are required for different product lifecycle stages:</p>
+<p>VisionSpec includes two types of profiles:</p>
+<h3 id="stage-based-profiles">Stage-Based Profiles<a class="headerlink" href="#stage-based-profiles" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
@@ -2056,11 +2110,54 @@
 </tr>
 </tbody>
 </table>
+<h3 id="methodology-profiles">Methodology Profiles<a class="headerlink" href="#methodology-profiles" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Profile</th>
+<th>Methodology</th>
+<th>Best For</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>aws</code></td>
+<td>Working Backwards</td>
+<td>Customer-centric products</td>
+</tr>
+<tr>
+<td><code>google</code></td>
+<td>Design Docs + RFC</td>
+<td>Engineering-heavy orgs</td>
+</tr>
+<tr>
+<td><code>stripe</code></td>
+<td>API-First</td>
+<td>Platform/API products</td>
+</tr>
+<tr>
+<td><code>lean-startup</code></td>
+<td>Build-Measure-Learn</td>
+<td>Early validation</td>
+</tr>
+<tr>
+<td><code>design-thinking</code></td>
+<td>Stanford d.school</td>
+<td>Human-centered design</td>
+</tr>
+<tr>
+<td><code>jtbd</code></td>
+<td>Jobs to be Done</td>
+<td>Customer motivations</td>
+</tr>
+</tbody>
+</table>
+<p>See <a href="frameworks/">Frameworks</a> for detailed methodology documentation.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># List available profiles</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>visionspec<span class="w"> </span>profiles<span class="w"> </span>list
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># Initialize with a profile</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>visionspec<span class="w"> </span>init<span class="w"> </span>my-project<span class="w"> </span>--profile<span class="w"> </span>startup
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># Initialize with a methodology profile</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>visionspec<span class="w"> </span>init<span class="w"> </span>my-product<span class="w"> </span>--profile<span class="w"> </span>aws
 <a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
 <a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="c1"># Export a profile for customization</span>
 <a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>visionspec<span class="w"> </span>profiles<span class="w"> </span><span class="nb">export</span><span class="w"> </span>enterprise<span class="w"> </span>./my-profile
@@ -2070,8 +2167,8 @@
 </code></pre></div>
 <p>Organizations can create custom profiles with their own templates and rubrics. See the <a href="guides/custom-profiles/">Custom Profiles Guide</a> for details.</p>
 <h2 id="project-status">Project Status<a class="headerlink" href="#project-status" title="Permanent link">&para;</a></h2>
-<p>See the <a href="specs/ROADMAP/">ROADMAP</a> for detailed implementation status and <a href="releases/v0.4.0/">Release Notes</a> for the latest release.</p>
-<p><strong>Current Version:</strong> v0.4.0</p>
+<p>See the <a href="specs/ROADMAP/">ROADMAP</a> for detailed implementation status and <a href="releases/v0.5.0/">Release Notes</a> for the latest release.</p>
+<p><strong>Current Version:</strong> v0.5.0</p>
 <table>
 <thead>
 <tr>
@@ -2093,7 +2190,7 @@
 <td>Complete</td>
 </tr>
 <tr>
-<td>GTM &amp; Technical Synthesis</td>
+<td>GTM &amp; Technical Synthesis (Press, FAQ, PRD, TRD, TPD, IRD)</td>
 <td>Complete</td>
 </tr>
 <tr>
@@ -2110,6 +2207,10 @@
 </tr>
 <tr>
 <td>Profiles &amp; Composability</td>
+<td>Complete</td>
+</tr>
+<tr>
+<td>Methodology Profiles (AWS, Google, Stripe, Lean, DT, JTBD)</td>
 <td>Complete</td>
 </tr>
 </tbody>

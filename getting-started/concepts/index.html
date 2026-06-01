@@ -539,6 +539,21 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="CONSTITUTION.md">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quality-and-testing-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quality and Testing Requirements
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -1980,6 +1995,21 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="CONSTITUTION.md">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quality-and-testing-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quality and Testing Requirements
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -2119,6 +2149,12 @@
 <td>Architecture, APIs, data models</td>
 </tr>
 <tr>
+<td>TPD</td>
+<td>Test Plan Document</td>
+<td>PRD + TRD + UXD</td>
+<td>Test cases, automation, quality gates</td>
+</tr>
+<tr>
 <td>IRD</td>
 <td>Infrastructure Requirements</td>
 <td>TRD + CONSTITUTION</td>
@@ -2142,14 +2178,15 @@
 <a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    │   └── narrative.md
 <a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>    ├── technical/            # LLM-generated technical
 <a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>    │   ├── trd.md
-<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>    │   └── ird.md
-<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>    ├── eval/                 # Evaluation results
-<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>    │   ├── mrd.eval.json
-<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>    │   ├── prd.eval.json
-<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>    │   └── ...
-<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>    ├── spec.md               # Reconciled execution spec
-<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>    ├── current-truth.md      # Post-ship maintained state
-<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>    └── visionspec.yaml        # Project configuration
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>    │   ├── tpd.md
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>    │   └── ird.md
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>    ├── eval/                 # Evaluation results
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>    │   ├── mrd.eval.json
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>    │   ├── prd.eval.json
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>    │   └── ...
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>    ├── spec.md               # Reconciled execution spec
+<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>    ├── current-truth.md      # Post-ship maintained state
+<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>    └── visionspec.yaml        # Project configuration
 </code></pre></div>
 <h2 id="configuration-profiles">Configuration Profiles<a class="headerlink" href="#configuration-profiles" title="Permanent link">&para;</a></h2>
 <p>Profiles bundle spec requirements, templates, and rubrics for different use cases:</p>
@@ -2264,7 +2301,29 @@
 <li>Architecture patterns</li>
 <li>Security requirements</li>
 <li>Performance targets</li>
+<li>Quality and testing requirements</li>
 </ul>
+<h3 id="quality-and-testing-requirements">Quality and Testing Requirements<a class="headerlink" href="#quality-and-testing-requirements" title="Permanent link">&para;</a></h3>
+<p>The CONSTITUTION should define universal testing guardrails:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="gu">## Quality and Testing Requirements</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="gu">### Test Coverage</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="k">-</span><span class="w"> </span>Minimum unit test coverage: {threshold}%
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="k">-</span><span class="w"> </span>All public APIs must have integration tests
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="k">-</span><span class="w"> </span>All user journeys must have E2E tests
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="gu">### CI/CD Gates</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="k">-</span><span class="w"> </span>All tests must pass before merge
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="k">-</span><span class="w"> </span>No deployment without passing integration tests
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="k">-</span><span class="w"> </span>Performance regression threshold: {X}%
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="gu">### Test Types Required</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="k">-</span><span class="w"> </span>Unit tests for all business logic
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="k">-</span><span class="w"> </span>Integration tests for API boundaries
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="k">-</span><span class="w"> </span>E2E tests for critical user journeys
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="k">-</span><span class="w"> </span>Security tests for authentication/authorization
+</code></pre></div>
+<p>These guardrails are enforced in the TPD (Test Plan Document) and evaluated during synthesis.</p>
 <p>All generated specs must adhere to the constitution.</p>
 <h2 id="requirement-graphs">Requirement Graphs<a class="headerlink" href="#requirement-graphs" title="Permanent link">&para;</a></h2>
 <p>VisionSpec extracts requirement graphs from specs for traceability analysis:</p>
@@ -2273,14 +2332,14 @@
 <li><strong>Edges</strong>: traces_to, derived_from, contains</li>
 </ul>
 <p>Graphs enable visualization and traceability analysis:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Extract graph from specs</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>visionspec<span class="w"> </span>graph<span class="w"> </span>extract
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># Export as interactive HTML</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>visionspec<span class="w"> </span>graph<span class="w"> </span><span class="nb">export</span><span class="w"> </span>--format<span class="w"> </span>html
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="c1"># Query specific node types</span>
-<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>visionspec<span class="w"> </span>graph<span class="w"> </span>query<span class="w"> </span>--type<span class="w"> </span>requirement<span class="w"> </span>--spec<span class="w"> </span>prd
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Extract graph from specs</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>visionspec<span class="w"> </span>graph<span class="w"> </span>extract
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1"># Export as interactive HTML</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>visionspec<span class="w"> </span>graph<span class="w"> </span><span class="nb">export</span><span class="w"> </span>--format<span class="w"> </span>html
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="c1"># Query specific node types</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>visionspec<span class="w"> </span>graph<span class="w"> </span>query<span class="w"> </span>--type<span class="w"> </span>requirement<span class="w"> </span>--spec<span class="w"> </span>prd
 </code></pre></div>
 <p>See <a href="../../cli/graph/">Graph Command</a> for full documentation.</p>
 <h2 id="post-ship-alignment">Post-Ship Alignment<a class="headerlink" href="#post-ship-alignment" title="Permanent link">&para;</a></h2>
