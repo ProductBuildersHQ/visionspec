@@ -190,6 +190,7 @@
     {
       "version": "v0.3.0",
       "date": "2026-05-24",
+      "commit": "6fc7007",
       "highlights": [
         { "description": "CLI composability - use visionspec as a library to build custom organization CLIs" },
         { "description": "Configuration profiles for different product lifecycle stages (0-1, startup, growth, enterprise)" },
@@ -220,23 +221,31 @@
     {
       "version": "v0.2.0",
       "date": "2026-05-24",
+      "commit": "82c621c",
       "highlights": [
         { "description": "Graphize integration for requirement graph extraction and visualization" },
         { "description": "Documentation accuracy improvements for implementation status" }
       ],
       "added": [
-        { "description": "Spec graph extraction from MRD, PRD, UXD, TRD specs (`visionspec graph extract`)" },
-        { "description": "Graph export to HTML, GraphML, and JSON formats (`visionspec graph export`)" },
-        { "description": "Graph query for filtering nodes by type and spec (`visionspec graph query`)" },
-        { "description": "Integration with graphize v0.3.0 and graphfs v0.2.0 for graph operations" }
+        { "description": "Spec graph extraction from MRD, PRD, UXD, TRD specs (`visionspec graph extract`)", "commit": "e33c3fb" },
+        { "description": "Graph export to HTML, GraphML, and JSON formats (`visionspec graph export`)", "commit": "e33c3fb" },
+        { "description": "Graph query for filtering nodes by type and spec (`visionspec graph query`)", "commit": "33622e3" },
+        { "description": "Integration with graphize v0.3.0 and graphfs v0.2.0 for graph operations", "commit": "e33c3fb" }
+      ],
+      "fixed": [
+        { "description": "Use filepath.Join for cross-platform path tests", "commit": "82c621c" }
       ],
       "documentation": [
-        { "description": "Corrected MCP tools status from Stub to Implemented (get_spec, get_eval, run_eval, synthesize, reconcile, approve, export)" },
-        { "description": "Corrected CLI commands status from Planned to Implemented (approve, serve, graph)" },
-        { "description": "Added comprehensive MCP tools documentation with all 16 tools" }
+        { "description": "Corrected MCP tools status from Stub to Implemented (get_spec, get_eval, run_eval, synthesize, reconcile, approve, export)", "commit": "c152a4f" },
+        { "description": "Corrected CLI commands status from Planned to Implemented (approve, serve, graph)", "commit": "77a6ac4" },
+        { "description": "Added comprehensive MCP tools documentation with all 16 tools", "commit": "c152a4f" },
+        { "description": "Graph command documentation", "commit": "2b9901c" }
+      ],
+      "tests": [
+        { "description": "Unit tests for types and config packages", "commit": "a2491ff" }
       ],
       "dependencies": [
-        { "description": "Add graphize v0.3.0 for requirement graph visualization" },
+        { "description": "Add graphize v0.3.0 for requirement graph visualization", "commit": "e33c3fb" },
         { "description": "Add graphfs v0.2.0 for graph data structures" }
       ]
     },
