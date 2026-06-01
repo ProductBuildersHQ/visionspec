@@ -112,6 +112,7 @@ func AddCommandsTo(root *cobra.Command, cfg *Config) {
 		cmds.Serve,
 		cmds.Profiles,
 		cmds.Context,
+		cmds.Rules,
 	)
 }
 
@@ -132,6 +133,7 @@ type CommandSet struct {
 	Serve      *cobra.Command
 	Profiles   *cobra.Command
 	Context    *cobra.Command
+	Rules      *cobra.Command
 }
 
 // Commands returns all visionspec commands.
@@ -157,5 +159,6 @@ func Commands(cfg *Config) *CommandSet {
 		Serve:      serveCmd(cfg),
 		Profiles:   profilesCmd(cfg),
 		Context:    contextCmd(cfg),
+		Rules:      rulesCmd(cfg),
 	}
 }

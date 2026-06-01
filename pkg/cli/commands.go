@@ -22,6 +22,7 @@ import (
 	"github.com/ProductBuildersHQ/visionspec/pkg/profiles"
 	"github.com/ProductBuildersHQ/visionspec/pkg/reconcile"
 	"github.com/ProductBuildersHQ/visionspec/pkg/rubrics"
+	"github.com/ProductBuildersHQ/visionspec/pkg/rules"
 	"github.com/ProductBuildersHQ/visionspec/pkg/specgraph"
 	"github.com/ProductBuildersHQ/visionspec/pkg/status"
 	"github.com/ProductBuildersHQ/visionspec/pkg/synth"
@@ -2284,4 +2285,101 @@ func runDocsProject(cmd *cobra.Command, args []string) error {
 
 	fmt.Printf("✓ Generated %s/index.md\n", project.Name)
 	return nil
+}
+
+// rulesCmd creates the rules command.
+func rulesCmd(_ *Config) *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "rules",
+		Short: "Manage workflow rules for AI assistant orchestration",
+		Long: `Workflow rules guide AI assistants (Claude Code, Kiro, Cursor) through
+the VisionSpec specification workflow.
+
+Rules provide:
+  - Trigger patterns for activating VisionSpec workflows
+  - Phase-by-phase guidance for spec creation
+  - Framework-specific flows (AWS, Lean Startup, Design Thinking, etc.)
+  - Evaluation and approval gates
+
+Usage:
+  visionspec rules list              # List available rules
+  visionspec rules export [dir]      # Export rules to project directory`,
+	}
+
+	cmd.AddCommand(rulesListCmd())
+	cmd.AddCommand(rulesExportCmd())
+
+	return cmd
+}
+
+func rulesListCmd() *cobra.Command {
+	return &cobra.Command{
+		Use:   "list",
+		Short: "List available workflow rules",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			ruleFiles, err := rules.List()
+			if err != nil {
+				return fmt.Errorf("listing rules: %w", err)
+			}
+
+			fmt.Println("Available workflow rules:")
+			fmt.Println()
+
+			for _, f := range ruleFiles {
+				fmt.Printf("  %s\n", f)
+			}
+
+			fmt.Println()
+			fmt.Println("Export rules to your project with: visionspec rules export")
+			return nil
+		},
+	}
+}
+
+func rulesExportCmd() *cobra.Command {
+	return &cobra.Command{
+		Use:   "export [output-dir]",
+		Short: "Export workflow rules to a directory",
+		Long: `Export VisionSpec workflow rules to your project.
+
+This copies the workflow rules that guide AI assistants through
+spec creation and review. The rules work with:
+  - Claude Code (via CLAUDE.md reference)
+  - AWS Kiro (via .kiro/steering/)
+  - Cursor (via .cursor/rules/)
+
+Examples:
+  # Export to default location (.visionspec-rules)
+  visionspec rules export
+
+  # Export to custom directory
+  visionspec rules export ./my-rules
+
+After export, reference in your CLAUDE.md:
+  See .visionspec-rules/ for VisionSpec workflow guidance.`,
+		Args: cobra.MaximumNArgs(1),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			outputDir := ".visionspec-rules"
+			if len(args) > 0 {
+				outputDir = args[0]
+			}
+
+			files, err := rules.Export(outputDir)
+			if err != nil {
+				return fmt.Errorf("exporting rules: %w", err)
+			}
+
+			fmt.Printf("✓ Exported %d rule files to %s\n", len(files), outputDir)
+			fmt.Println()
+			fmt.Println("Contents:")
+			fmt.Println("  core-workflow.md         - Main orchestration rules")
+			fmt.Println("  phases/                  - Phase-by-phase guidance")
+			fmt.Println("  gates/                   - Evaluation and approval gates")
+			fmt.Println("  frameworks/              - Framework-specific flows")
+			fmt.Println()
+			fmt.Println("To use with Claude Code, add to your CLAUDE.md:")
+			fmt.Println("  See .visionspec-rules/ for VisionSpec workflow guidance.")
+			return nil
+		},
+	}
 }

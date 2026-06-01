@@ -7,6 +7,49 @@
   "maintainers": ["johncwang@gmail.com"],
   "releases": [
     {
+      "version": "v0.6.0",
+      "date": "2026-06-01",
+      "status": "unreleased",
+      "highlights": [
+        { "description": "Test Plan Document (TPD) spec type for comprehensive test planning" },
+        { "description": "AWS AI-DLC Workflows export target for AI Development Lifecycle integration" },
+        { "description": "Workflow rules for AI assistant orchestration (Claude Code, Kiro, Cursor)" },
+        { "description": "Framework selection with flows for all 6 methodologies" }
+      ],
+      "added": [
+        { "description": "TPD (Test Plan Document) spec type with synthesis from PRD + TRD + UXD", "commit": "01b2756" },
+        { "description": "TPD template with 14 sections covering test strategy, cases, automation, CI/CD", "commit": "01b2756" },
+        { "description": "TPD rubrics for enterprise, AWS, and Google profiles", "commit": "01b2756" },
+        { "description": "AWS AI-DLC Workflows export target (`visionspec export aidlc`)", "commit": "2863e21" },
+        { "description": "AIDLC export generates vision-document.md, technical-environment.md, imported-requirements.md", "commit": "2863e21" },
+        { "description": "Workflow rules directory (.visionspec-rules/) for AI assistant orchestration", "commit": "3108878" },
+        { "description": "Core workflow with trigger patterns and phase orchestration", "commit": "3108878" },
+        { "description": "Phase-specific rules: Discovery, Vision, Experience, Technical, Reconciliation", "commit": "3108878" },
+        { "description": "Gate definitions for evaluation and approval workflows", "commit": "3108878" },
+        { "description": "Framework selection in workflow with 6 methodology flows", "commit": "e222d9c" },
+        { "description": "CLI command `visionspec rules export` to copy workflow rules to projects" },
+        { "description": "Phase-specific workflow rules for Lean Startup, Design Thinking, JTBD, Google, Stripe" }
+      ],
+      "changed": [
+        { "description": "AWS flow diagram updated to include TPD and IRD nodes", "commit": "01b2756" },
+        { "description": "TotalSpecs count increased from 11 to 12 for TPD addition", "commit": "d3c99ad" }
+      ],
+      "fixed": [
+        { "description": "Add nolint:dupl to extractConstraints for intentional similar structure", "commit": "ce5a26b" }
+      ],
+      "documentation": [
+        { "description": "TPD documentation in concepts.md and synthesize.md", "commit": "7b1f1b7" },
+        { "description": "CONSTITUTION Quality and Testing Requirements section", "commit": "7b1f1b7" },
+        { "description": "AWS framework doc updated with TPD and IRD mapping", "commit": "9cfafee" },
+        { "description": "Export targets documentation updated with AIDLC", "commit": "2863e21" },
+        { "description": "CLAUDE.md updated with workflow rules reference and AIDLC target", "commit": "3108878" }
+      ],
+      "tests": [
+        { "description": "AIDLC export target test coverage", "commit": "2863e21" },
+        { "description": "AIDLC integration test with full project workflow" }
+      ]
+    },
+    {
       "version": "v0.5.0",
       "date": "2026-05-26",
       "commit": "a469138",
