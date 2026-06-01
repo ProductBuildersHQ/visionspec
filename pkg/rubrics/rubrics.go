@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"github.com/ProductBuildersHQ/visionspec/pkg/types"
-	"github.com/plexusone/structured-evaluation/evaluation"
+	"github.com/plexusone/structured-evaluation/rubric"
 )
 
 // RubricSet contains all criteria for evaluating a spec type.
@@ -123,8 +123,8 @@ func (rs *RubricSet) CategoryByID(id string) (*Category, bool) {
 }
 
 // ToEvaluationRubricSet converts to structured-evaluation RubricSet.
-func (rs *RubricSet) ToEvaluationRubricSet() *evaluation.RubricSet {
-	evalRS := evaluation.NewRubricSet(
+func (rs *RubricSet) ToEvaluationRubricSet() *rubric.RubricSet {
+	evalRS := rubric.NewRubricSet(
 		string(rs.SpecType)+"-rubric",
 		rs.Name,
 		"1.0",
@@ -132,7 +132,7 @@ func (rs *RubricSet) ToEvaluationRubricSet() *evaluation.RubricSet {
 	evalRS.Description = rs.Description
 
 	for _, cat := range rs.Categories {
-		evalCat := evaluation.NewCategory(cat.ID, cat.Name, cat.Description).
+		evalCat := rubric.NewCategory(cat.ID, cat.Name, cat.Description).
 			SetWeight(cat.Weight).
 			SetRequired(cat.Required).
 			WithPassPartialFail(

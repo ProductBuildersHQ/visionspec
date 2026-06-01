@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/plexusone/structured-evaluation/evaluation"
+	"github.com/plexusone/structured-evaluation/rubric"
 
 	"github.com/ProductBuildersHQ/visionspec/pkg/rubrics"
 	"github.com/ProductBuildersHQ/visionspec/pkg/types"
@@ -260,33 +260,33 @@ func evaluatePassCriteria(score float64, findings []Finding, criteria rubrics.Pa
 
 // ToEvaluationReport converts the result to a structured-evaluation report.
 // The rubricSet parameter is required for finalization.
-func (r *Result) ToEvaluationReport(rubricSet *rubrics.RubricSet) *evaluation.EvaluationReport {
-	report := evaluation.NewEvaluationReport(string(r.SpecType), "")
+func (r *Result) ToEvaluationReport(rubricSet *rubrics.RubricSet) *rubric.Rubric {
+	report := rubric.NewRubric(string(r.SpecType), "")
 
 	// Add category results, converting numeric scores to categorical
 	for _, cat := range r.Categories {
 		score := numericToCategorical(cat.Score)
-		cr := evaluation.NewCategoryResult(cat.ID, score, cat.Explanation)
+		cr := rubric.NewCategoryResult(cat.ID, score, cat.Explanation)
 		report.AddCategoryResult(*cr)
 	}
 
 	// Add findings
 	for _, f := range r.Findings {
-		severity := evaluation.SeverityMedium
+		severity := rubric.SeverityMedium
 		switch f.Severity {
 		case "critical":
-			severity = evaluation.SeverityCritical
+			severity = rubric.SeverityCritical
 		case "high":
-			severity = evaluation.SeverityHigh
+			severity = rubric.SeverityHigh
 		case "medium":
-			severity = evaluation.SeverityMedium
+			severity = rubric.SeverityMedium
 		case "low":
-			severity = evaluation.SeverityLow
+			severity = rubric.SeverityLow
 		case "info":
-			severity = evaluation.SeverityInfo
+			severity = rubric.SeverityInfo
 		}
 
-		report.AddFinding(evaluation.Finding{
+		report.AddFinding(rubric.Finding{
 			Severity:       severity,
 			Category:       f.Category,
 			Title:          f.Title,
@@ -304,13 +304,13 @@ func (r *Result) ToEvaluationReport(rubricSet *rubrics.RubricSet) *evaluation.Ev
 }
 
 // numericToCategorical converts a numeric score (0-10) to categorical (pass/partial/fail).
-func numericToCategorical(score float64) evaluation.ScoreValue {
+func numericToCategorical(score float64) rubric.ScoreValue {
 	switch {
 	case score >= 7.0:
-		return evaluation.ScorePass
+		return rubric.ScorePass
 	case score >= 5.0:
-		return evaluation.ScorePartial
+		return rubric.ScorePartial
 	default:
-		return evaluation.ScoreFail
+		return rubric.ScoreFail
 	}
 }

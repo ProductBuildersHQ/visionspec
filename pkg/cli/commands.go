@@ -31,6 +31,8 @@ import (
 	"github.com/ProductBuildersHQ/visionspec/pkg/templates"
 	"github.com/ProductBuildersHQ/visionspec/pkg/testgen"
 	"github.com/ProductBuildersHQ/visionspec/pkg/types"
+	"github.com/plexusone/structured-evaluation/claims"
+	"github.com/plexusone/structured-evaluation/rubric"
 	"github.com/spf13/cobra"
 	"gopkg.in/yaml.v3"
 )
@@ -549,11 +551,21 @@ func evalCmd(cfg *Config) *cobra.Command {
 		Short: "Evaluate specs using LLM judges",
 		Long: `Evaluate specification documents using LLM-as-a-Judge.
 
+Output formats:
+  - JSON eval result (default): prd.eval.json
+  - Structured evaluation report: prd.evaluation.json
+  - Claims report: prd.claims.json
+  - Summary report: eval-summary.json (with --summary)
+  - Markdown report: prd.eval.md (with --markdown)
+
 Examples:
-  visionspec eval prd          # Evaluate PRD
-  visionspec eval --all        # Evaluate all specs
-  visionspec eval --source     # Evaluate source specs only
-  visionspec eval --gtm        # Evaluate GTM docs only`,
+  visionspec eval prd              # Evaluate PRD
+  visionspec eval --all            # Evaluate all specs
+  visionspec eval --source         # Evaluate source specs only
+  visionspec eval --gtm            # Evaluate GTM docs only
+  visionspec eval prd --verbose    # Show detailed findings
+  visionspec eval --all --summary  # Generate summary with embedded reports
+  visionspec eval prd --markdown   # Generate markdown report`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			return runEval(cmd, args, cfg)
 		},
@@ -563,6 +575,10 @@ Examples:
 	cmd.Flags().Bool("source", false, "Evaluate source specs only")
 	cmd.Flags().Bool("gtm", false, "Evaluate GTM docs only")
 	cmd.Flags().Bool("technical", false, "Evaluate technical docs only")
+	cmd.Flags().Bool("verbose", false, "Show detailed findings and explanations")
+	cmd.Flags().Bool("markdown", false, "Generate markdown report")
+	cmd.Flags().Bool("summary", false, "Generate summary report with embedded reports")
+	cmd.Flags().Bool("claims", false, "Generate claims report from findings")
 
 	return cmd
 }
@@ -572,6 +588,10 @@ func runEval(cmd *cobra.Command, args []string, cfg *Config) error {
 	sourceFlag, _ := cmd.Flags().GetBool("source")
 	gtmFlag, _ := cmd.Flags().GetBool("gtm")
 	technicalFlag, _ := cmd.Flags().GetBool("technical")
+	verboseFlag, _ := cmd.Flags().GetBool("verbose")
+	markdownFlag, _ := cmd.Flags().GetBool("markdown")
+	summaryFlag, _ := cmd.Flags().GetBool("summary")
+	claimsFlag, _ := cmd.Flags().GetBool("claims")
 
 	// Find project root
 	cwd, err := os.Getwd()
@@ -637,11 +657,16 @@ func runEval(cmd *cobra.Command, args []string, cfg *Config) error {
 
 	// Create evaluator with optional custom rubric loader
 	evaluator := eval.NewEvaluator(llmClient)
-	if cfg.RubricLoader != nil {
-		evaluator.SetRubricLoader(cfg.RubricLoader)
+	rubricLoader := cfg.RubricLoader
+	if rubricLoader == nil {
+		rubricLoader = rubrics.DefaultLoader()
 	}
+	evaluator.SetRubricLoader(rubricLoader)
 
 	ctx := context.Background()
+
+	// Collect results for summary report
+	evalSummary := eval.NewEvalSummary(project.Name, "")
 
 	// Evaluate each spec
 	for _, specType := range specTypes {
@@ -679,11 +704,62 @@ func runEval(cmd *cobra.Command, args []string, cfg *Config) error {
 			return fmt.Errorf("writing eval file: %w", err)
 		}
 
+		// Generate structured evaluation report
+		rubricSet, _ := rubricLoader.Load(specType)
+		var evalReport *rubric.Rubric
+		if rubricSet != nil {
+			evalReport = result.ToEvaluationReport(rubricSet)
+			evalReportPath := strings.TrimSuffix(evalPath, ".eval.json") + ".evaluation.json"
+			if evalReportData, err := json.MarshalIndent(evalReport, "", "  "); err == nil {
+				_ = os.WriteFile(evalReportPath, evalReportData, 0600)
+			}
+		}
+
+		// Generate claims report if requested or for summary
+		var claimsReport *claims.ClaimsReport
+		if claimsFlag || summaryFlag {
+			claimsReport = result.ToClaimsReport(string(specType) + ".md")
+			if claimsFlag {
+				claimsPath := strings.TrimSuffix(evalPath, ".eval.json") + ".claims.json"
+				if claimsData, err := json.MarshalIndent(claimsReport, "", "  "); err == nil {
+					_ = os.WriteFile(claimsPath, claimsData, 0600)
+				}
+			}
+		}
+
+		// Generate markdown report if requested
+		if markdownFlag {
+			mdPath := strings.TrimSuffix(evalPath, ".json") + ".md"
+			mdFile, err := os.Create(mdPath)
+			if err == nil {
+				renderer := eval.NewMarkdownRenderer()
+				_ = renderer.Render(mdFile, result)
+				mdFile.Close()
+			}
+		}
+
+		// Add to summary
+		evalSummary.AddResult(string(specType), result, evalReport, claimsReport)
+
 		// Print summary
-		if result.Passed {
+		if verboseFlag {
+			renderer := eval.NewTerminalRenderer(true)
+			_ = renderer.Render(os.Stdout, result)
+		} else if result.Passed {
 			fmt.Printf("✓ %s: %.1f/10 PASS (%d findings)\n", specType, result.Score, len(result.Findings))
 		} else {
 			fmt.Printf("✗ %s: %.1f/10 FAIL (%d findings)\n", specType, result.Score, len(result.Findings))
+		}
+	}
+
+	// Generate summary report if requested
+	if summaryFlag && len(specTypes) > 0 {
+		summaryReport := evalSummary.ToSummaryReport("SPEC EVALUATION")
+		summaryPath := filepath.Join(projectPath, "eval", "eval-summary.json")
+		if summaryData, err := json.MarshalIndent(summaryReport, "", "  "); err == nil {
+			if err := os.WriteFile(summaryPath, summaryData, 0600); err == nil {
+				fmt.Printf("✓ Generated summary report: %s\n", summaryPath)
+			}
 		}
 	}
 

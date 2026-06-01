@@ -24,8 +24,8 @@ github.com/plexusone/graphize v0.3.0 h1:QUcJFY1COaEH9CXVaSHCGaOS/YY3U3X1FDFMnRPE
 github.com/plexusone/graphize v0.3.0/go.mod h1:QNYe3faUK1hN0q03LW17JNwPx+cob12RXkoC3ly6gZE=
 github.com/plexusone/omnillm-core v0.16.0 h1:ClEEAaAl/jgn0nV65azRAulEkLoMtCZqnWQBJCBH5eU=
 github.com/plexusone/omnillm-core v0.16.0/go.mod h1:0KzNniPwHXVtfRgfyD3fAlaj8RDktQwRrxEFQrXbLtE=
-github.com/plexusone/structured-evaluation v0.5.0 h1:4FfvmmyNbNDtLVG+mb5SV1r/qVPlSBgzg+hSMj5+m/s=
-github.com/plexusone/structured-evaluation v0.5.0/go.mod h1:aqkP0xYPPXNg1ZB7MkDqFcWbrXLahrpRtAoYCav72bg=
+github.com/plexusone/structured-evaluation v0.6.0 h1:YQ/ypjHf6xXAVwFgJ9uYMr1g9lWkCBc+qDCrrpK2kAY=
+github.com/plexusone/structured-evaluation v0.6.0/go.mod h1:aqkP0xYPPXNg1ZB7MkDqFcWbrXLahrpRtAoYCav72bg=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/russross/blackfriday/v2 v2.1.0/go.mod h1:+Rmxgy9KzJVeS9/2gXHxylqXiyQDYRxCVz55jmeOWTM=
