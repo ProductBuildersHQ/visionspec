@@ -2,6 +2,16 @@
 
 Instructions for AI assistants working with VisionSpec.
 
+## Workflow Rules
+
+For detailed orchestration rules, see `.visionspec-rules/`:
+
+- [core-workflow.md](.visionspec-rules/core-workflow.md) - Main orchestration rules
+- [phases/](.visionspec-rules/phases/) - Phase-by-phase guidance
+- [gates/](.visionspec-rules/gates/) - Evaluation and approval gates
+
+**Trigger Pattern**: Activate the workflow when user says "Using VisionSpec, [intent]" or asks to create/write specs.
+
 ## Overview
 
 VisionSpec is a multi-domain specification orchestration tool. It helps teams create, evaluate, and reconcile specifications (MRD, PRD, UXD, TRD, IRD) before exporting to AI coding agent execution systems.
@@ -166,6 +176,7 @@ A spec passes with score >= 7.0 and no critical/high findings.
 | `gsd` | PLAN.md, STATE.md | Get Shit Done methodology |
 | `gastown` | formula.toml | Multi-agent formulas |
 | `gascity` | city.toml | Multi-agent orchestration |
+| `aidlc` | .aidlc/ directory | AWS AI-DLC Workflows |
 
 ## Tips
 
