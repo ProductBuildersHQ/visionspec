@@ -113,6 +113,9 @@ func AddCommandsTo(root *cobra.Command, cfg *Config) {
 		cmds.Profiles,
 		cmds.Context,
 		cmds.Rules,
+		cmds.Generate,
+		cmds.Sync,
+		cmds.Drift,
 	)
 }
 
@@ -134,6 +137,9 @@ type CommandSet struct {
 	Profiles   *cobra.Command
 	Context    *cobra.Command
 	Rules      *cobra.Command
+	Generate   *cobra.Command
+	Sync       *cobra.Command
+	Drift      *cobra.Command
 }
 
 // Commands returns all visionspec commands.
@@ -160,5 +166,8 @@ func Commands(cfg *Config) *CommandSet {
 		Profiles:   profilesCmd(cfg),
 		Context:    contextCmd(cfg),
 		Rules:      rulesCmd(cfg),
+		Generate:   generateCmd(cfg),
+		Sync:       syncCmd(cfg),
+		Drift:      driftCmd(cfg),
 	}
 }

@@ -16,6 +16,7 @@ import (
 	"github.com/ProductBuildersHQ/visionspec/pkg/config"
 	ctxpkg "github.com/ProductBuildersHQ/visionspec/pkg/context"
 	"github.com/ProductBuildersHQ/visionspec/pkg/context/sources"
+	"github.com/ProductBuildersHQ/visionspec/pkg/drift"
 	"github.com/ProductBuildersHQ/visionspec/pkg/eval"
 	"github.com/ProductBuildersHQ/visionspec/pkg/lint"
 	"github.com/ProductBuildersHQ/visionspec/pkg/mkdocs"
@@ -28,6 +29,7 @@ import (
 	"github.com/ProductBuildersHQ/visionspec/pkg/synth"
 	"github.com/ProductBuildersHQ/visionspec/pkg/target"
 	"github.com/ProductBuildersHQ/visionspec/pkg/templates"
+	"github.com/ProductBuildersHQ/visionspec/pkg/testgen"
 	"github.com/ProductBuildersHQ/visionspec/pkg/types"
 	"github.com/spf13/cobra"
 	"gopkg.in/yaml.v3"
@@ -2382,4 +2384,419 @@ After export, reference in your CLAUDE.md:
 			return nil
 		},
 	}
+}
+
+// generateCmd creates the generate command with subcommands.
+func generateCmd(cfg *Config) *cobra.Command { //nolint:unparam // cfg reserved for future use
+	cmd := &cobra.Command{
+		Use:   "generate <subcommand>",
+		Short: "Generate artifacts from specs",
+		Long: `Generate various artifacts from specification documents.
+
+Subcommands:
+  tests     Generate test stubs from TPD (Test Plan Document)
+
+Examples:
+  visionspec generate tests --lang go --output ./tests
+  visionspec generate tests --lang ts --framework jest
+  visionspec generate tests --lang py`,
+	}
+
+	cmd.AddCommand(generateTestsCmd(cfg))
+
+	return cmd
+}
+
+func generateTestsCmd(cfg *Config) *cobra.Command { //nolint:unparam // cfg reserved for future use
+	cmd := &cobra.Command{
+		Use:   "tests",
+		Short: "Generate test stubs from TPD",
+		Long: `Generate executable test stubs from the Test Plan Document (TPD).
+
+Supported languages:
+  go    Go (testing or testify framework)
+  ts    TypeScript (Jest or Vitest)
+  py    Python (pytest)
+
+The command parses test tables from the TPD and generates corresponding
+test stub files with TODOs for implementation.
+
+Examples:
+  visionspec generate tests --lang go                    # Go with standard testing
+  visionspec generate tests --lang go --framework testify # Go with testify
+  visionspec generate tests --lang ts --output ./tests   # TypeScript/Jest
+  visionspec generate tests --lang py --group-by priority # Python grouped by priority`,
+		RunE: runGenerateTests,
+	}
+
+	cmd.Flags().String("lang", "go", "Target language: go, ts, py")
+	cmd.Flags().String("framework", "", "Test framework (go: testing|testify, ts: jest|vitest, py: pytest)")
+	cmd.Flags().String("output", "", "Output directory (default: ./generated-tests)")
+	cmd.Flags().String("package", "", "Package/module name")
+	cmd.Flags().String("group-by", "type", "Group tests by: type, priority, file")
+
+	return cmd
+}
+
+func runGenerateTests(cmd *cobra.Command, args []string) error {
+	lang, _ := cmd.Flags().GetString("lang")
+	framework, _ := cmd.Flags().GetString("framework")
+	outputDir, _ := cmd.Flags().GetString("output")
+	packageName, _ := cmd.Flags().GetString("package")
+	groupBy, _ := cmd.Flags().GetString("group-by")
+
+	// Find project root
+	cwd, err := os.Getwd()
+	if err != nil {
+		return fmt.Errorf("getting working directory: %w", err)
+	}
+
+	projectPath, err := config.FindProjectRoot(cwd)
+	if err != nil {
+		return fmt.Errorf("not in a visionspec project (no visionspec.yaml found)")
+	}
+
+	// Load TPD
+	tpdPath := config.SpecPath(projectPath, types.SpecTypeTPD)
+	tpdContent, err := os.ReadFile(tpdPath)
+	if err != nil {
+		if os.IsNotExist(err) {
+			return fmt.Errorf("TPD not found at %s - run 'visionspec synthesize tpd' first", tpdPath)
+		}
+		return fmt.Errorf("reading TPD: %w", err)
+	}
+
+	// Parse TPD
+	parser := testgen.NewParser()
+	parsed, err := parser.Parse(string(tpdContent))
+	if err != nil {
+		return fmt.Errorf("parsing TPD: %w", err)
+	}
+
+	allTests := parsed.AllTestCases()
+	if len(allTests) == 0 {
+		fmt.Println("No test cases found in TPD")
+		return nil
+	}
+
+	fmt.Printf("Found %d test cases in TPD\n", len(allTests))
+
+	// Get generator
+	gen, err := testgen.Get(lang)
+	if err != nil {
+		available := testgen.Available()
+		return fmt.Errorf("unknown language %q (available: %v)", lang, available)
+	}
+
+	// Set defaults
+	if outputDir == "" {
+		outputDir = filepath.Join(projectPath, "generated-tests", lang)
+	}
+	if packageName == "" {
+		packageName = "tests"
+	}
+
+	// Generate
+	opts := testgen.GenerateOptions{
+		OutputDir:     outputDir,
+		PackageName:   packageName,
+		TestFramework: framework,
+		GroupBy:       groupBy,
+	}
+
+	fmt.Printf("Generating %s tests to %s...\n", lang, outputDir)
+
+	result, err := gen.Generate(allTests, opts)
+	if err != nil {
+		return fmt.Errorf("generating tests: %w", err)
+	}
+
+	// Print summary
+	fmt.Printf("\n✓ Generated %d test stubs\n", result.TotalTests)
+	fmt.Printf("  Language:  %s\n", result.Language)
+	fmt.Printf("  Framework: %s\n", result.Framework)
+	fmt.Printf("  Output:    %s\n", result.OutputDir)
+	fmt.Println("  Files:")
+	for _, f := range result.Files {
+		fmt.Printf("    - %s (%d tests)\n", filepath.Base(f.Path), f.TestCount)
+	}
+
+	fmt.Println("\nNext steps:")
+	fmt.Println("  1. Review generated test stubs")
+	fmt.Println("  2. Implement TODO sections")
+	fmt.Println("  3. Remove @pytest.mark.skip / t.Skip() markers")
+
+	return nil
+}
+
+// driftCmd creates the drift detection command.
+func driftCmd(cfg *Config) *cobra.Command { //nolint:unparam // cfg reserved for future use
+	cmd := &cobra.Command{
+		Use:   "drift",
+		Short: "Detect drift between spec and code",
+		Long: `Detect drift between the reconciled spec.md and the actual codebase.
+
+Drift detection identifies:
+  - Unimplemented: Requirements in spec not found in code
+  - Undocumented: Code that exists without spec coverage
+  - Mismatch: Spec and code exist but differ
+
+The command uses context sources configured in visionspec.yaml to analyze
+the codebase. Run 'visionspec context gather' first to populate context.
+
+Examples:
+  visionspec drift                    # Full drift report
+  visionspec drift --severity high    # Only high/critical items
+  visionspec drift --format json      # JSON output
+  visionspec drift --ci               # Exit non-zero if drift found`,
+		RunE: runDrift,
+	}
+
+	cmd.Flags().String("format", "text", "Output format: text, json, markdown")
+	cmd.Flags().String("severity", "low", "Minimum severity: low, medium, high, critical")
+	cmd.Flags().Bool("ci", false, "CI mode: exit non-zero if drift detected")
+
+	return cmd
+}
+
+func runDrift(cmd *cobra.Command, args []string) error {
+	formatStr, _ := cmd.Flags().GetString("format")
+	severityStr, _ := cmd.Flags().GetString("severity")
+	ciMode, _ := cmd.Flags().GetBool("ci")
+
+	// Parse format
+	var format drift.RenderFormat
+	switch formatStr {
+	case "json":
+		format = drift.FormatJSON
+	case "markdown", "md":
+		format = drift.FormatMarkdown
+	default:
+		format = drift.FormatText
+	}
+
+	// Parse severity
+	var minSeverity drift.Severity
+	switch severityStr {
+	case "critical":
+		minSeverity = drift.SeverityCritical
+	case "high":
+		minSeverity = drift.SeverityHigh
+	case "medium":
+		minSeverity = drift.SeverityMedium
+	default:
+		minSeverity = drift.SeverityLow
+	}
+
+	// Find project root
+	cwd, err := os.Getwd()
+	if err != nil {
+		return fmt.Errorf("getting working directory: %w", err)
+	}
+
+	projectPath, err := config.FindProjectRoot(cwd)
+	if err != nil {
+		return fmt.Errorf("not in a visionspec project (no visionspec.yaml found)")
+	}
+
+	// Load project
+	project, err := config.Load(projectPath)
+	if err != nil {
+		return fmt.Errorf("loading project: %w", err)
+	}
+
+	// Load spec.md
+	specPath := filepath.Join(projectPath, "spec.md")
+	specContent, err := os.ReadFile(specPath)
+	if err != nil {
+		if os.IsNotExist(err) {
+			return fmt.Errorf("spec.md not found - run 'visionspec reconcile' first")
+		}
+		return fmt.Errorf("reading spec.md: %w", err)
+	}
+
+	// Load context (if available)
+	var aggregatedCtx *ctxpkg.AggregatedContext
+	contextCachePath := filepath.Join(projectPath, ".visionspec", "context-cache.json")
+	if contextData, err := os.ReadFile(contextCachePath); err == nil {
+		var ctx ctxpkg.AggregatedContext
+		if json.Unmarshal(contextData, &ctx) == nil {
+			aggregatedCtx = &ctx
+		}
+	}
+
+	if aggregatedCtx == nil {
+		// Create minimal context
+		aggregatedCtx = &ctxpkg.AggregatedContext{
+			Project: project.Name,
+		}
+	}
+
+	// Run drift detection
+	detector := drift.NewDetector()
+	opts := drift.DetectOptions{
+		MinSeverity: minSeverity,
+	}
+
+	report, err := detector.Detect(string(specContent), aggregatedCtx, opts)
+	if err != nil {
+		return fmt.Errorf("drift detection failed: %w", err)
+	}
+
+	// Render report
+	renderer := drift.NewRenderer(format)
+	if err := renderer.Render(os.Stdout, report); err != nil {
+		return fmt.Errorf("rendering report: %w", err)
+	}
+
+	// CI mode: exit with error if drift found
+	if ciMode && report.HasDrift() {
+		if report.HasBlockers() {
+			return fmt.Errorf("drift detected with blockers (critical/high severity)")
+		}
+		return fmt.Errorf("drift detected")
+	}
+
+	return nil
+}
+
+// syncCmd creates the sync command.
+func syncCmd(cfg *Config) *cobra.Command { //nolint:unparam // cfg reserved for future use
+	cmd := &cobra.Command{
+		Use:   "sync [target]",
+		Short: "Sync task state from exported targets",
+		Long: `Sync task state from exported execution targets.
+
+This command retrieves the current state of tasks from an exported target
+(SpecKit, GSD, GasTown) and updates the project's execution state.
+
+Supported targets:
+  speckit   GitHub Spec-Kit (tasks.md)
+  gsd       GSD (STATE.md)
+  gastown   GasTown (beads/*.toml)
+
+Examples:
+  visionspec sync speckit
+  visionspec sync gsd
+  visionspec sync gastown`,
+		Args: cobra.MaximumNArgs(1),
+		RunE: runSync,
+	}
+
+	cmd.Flags().BoolP("verbose", "v", false, "Show detailed task information")
+
+	return cmd
+}
+
+func runSync(cmd *cobra.Command, args []string) error {
+	verbose, _ := cmd.Flags().GetBool("verbose")
+
+	// Find project root
+	cwd, err := os.Getwd()
+	if err != nil {
+		return fmt.Errorf("getting working directory: %w", err)
+	}
+
+	projectPath, err := config.FindProjectRoot(cwd)
+	if err != nil {
+		return fmt.Errorf("not in a visionspec project (no visionspec.yaml found)")
+	}
+
+	// Load project
+	project, err := config.Load(projectPath)
+	if err != nil {
+		return fmt.Errorf("loading project: %w", err)
+	}
+
+	// Determine target
+	var targetName string
+	if len(args) > 0 {
+		targetName = args[0]
+	} else if project.Targets.Default != "" {
+		targetName = project.Targets.Default
+	} else {
+		// List available syncable targets
+		syncable := target.SyncableTargets()
+		if len(syncable) == 0 {
+			return fmt.Errorf("no syncable targets available")
+		}
+		return fmt.Errorf("specify a target: visionspec sync <%s>", strings.Join(syncable, "|"))
+	}
+
+	// Get syncer
+	syncer, err := target.GetSyncer(targetName)
+	if err != nil {
+		return err
+	}
+
+	// Get target config
+	exportCfg := target.ProjectTargetConfig(project, targetName)
+
+	// Check if sync is possible
+	if !syncer.CanSync(*exportCfg) {
+		return fmt.Errorf("cannot sync %s - export first with 'visionspec export %s'", targetName, targetName)
+	}
+
+	fmt.Printf("Syncing task state from %s...\n", targetName)
+
+	// Perform sync
+	result, err := syncer.Sync(*exportCfg)
+	if err != nil {
+		return fmt.Errorf("sync failed: %w", err)
+	}
+
+	// Update project execution state
+	project.Execution = &types.ExecutionState{
+		Target:   result.Target,
+		SyncedAt: result.SyncedAt,
+		Tasks:    make([]types.ExecutionTask, len(result.Tasks)),
+		Summary: types.ExecutionSummary{
+			TotalTasks: result.Summary.TotalTasks,
+			TodoCount:  result.Summary.TodoCount,
+			InProgress: result.Summary.InProgress,
+			DoneCount:  result.Summary.DoneCount,
+		},
+	}
+	for i, t := range result.Tasks {
+		project.Execution.Tasks[i] = types.ExecutionTask{
+			ID:     t.ID,
+			Title:  t.Title,
+			Status: t.Status,
+		}
+	}
+
+	// Save project
+	project.UpdatedAt = result.SyncedAt
+	if err := config.Save(project); err != nil {
+		return fmt.Errorf("saving project: %w", err)
+	}
+
+	// Print summary
+	fmt.Printf("\n✓ Synced %d tasks from %s\n", result.Summary.TotalTasks, result.Target)
+	fmt.Printf("  Todo:        %d\n", result.Summary.TodoCount)
+	fmt.Printf("  In Progress: %d\n", result.Summary.InProgress)
+	fmt.Printf("  Done:        %d\n", result.Summary.DoneCount)
+
+	// Progress bar
+	if result.Summary.TotalTasks > 0 {
+		pct := float64(result.Summary.DoneCount) / float64(result.Summary.TotalTasks) * 100
+		fmt.Printf("  Progress:    %.0f%%\n", pct)
+	}
+
+	// Show tasks if verbose
+	if verbose && len(result.Tasks) > 0 {
+		fmt.Println("\nTasks:")
+		for _, t := range result.Tasks {
+			statusIcon := "[ ]"
+			switch t.Status {
+			case "done":
+				statusIcon = "[x]"
+			case "in_progress":
+				statusIcon = "[~]"
+			}
+			fmt.Printf("  %s %s: %s\n", statusIcon, t.ID, t.Title)
+		}
+	}
+
+	return nil
 }
