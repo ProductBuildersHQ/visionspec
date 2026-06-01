@@ -765,12 +765,10 @@ Future enhancements.
 | v0.2.0 | 2, 7 | Evaluation engine, rubrics, graphize integration |
 | v0.3.0 | 9 | Composability (custom templates, rubrics, profiles, CLI as library) |
 | v0.4.0 | 4, 5, 11 | Reconciliation with conflicts, target adapters (GSD, GasTown, GasCity), Context Sources |
-| v0.5.0 | 10a | Testing, profile CLI enhancements, MCP resources |
-| v0.6.0 | 10b | Export targets (Linear, Jira, Notion, Confluence) |
-| v0.7.0 | 10c | Spec versioning, cross-project analysis |
-| v0.8.0 | 10d | Real-time collaboration |
-| v0.9.0 | 10e | CI/CD integration (GitHub Actions, pre-commit) |
-| v1.0.0 | 8 | Production release with full feature set |
+| v0.5.0 | 12 | Methodology profiles (AWS, Google, Stripe, Lean Startup, Design Thinking, JTBD), Working Backwards flow |
+| v0.6.0 | 13 | TPD spec type, AWS AI-DLC export, workflow rules for AI assistants |
+| v0.7.0 | 14 | Execution integration (status sync, drift detection, test generation, issue export) |
+| v1.0.0 | 8, 10 | Production release with full feature set |
 
 ---
 
@@ -1173,3 +1171,121 @@ Aggregate context from multiple sources to ground spec synthesis in reality.
   - Source interface
   - Writing custom sources
   - Extending MCP integrations
+
+---
+
+## Phase 13: AI Workflow Orchestration (v0.6.0)
+
+AI assistant integration with workflow rules for Claude Code, Kiro, and Cursor.
+
+### Test Plan Document (TPD)
+
+- [x] RMI-500: Add TPD spec type
+  - TPD template with 14 sections (strategy, cases, automation, CI/CD)
+  - Synthesis from PRD + TRD + UXD
+  - TPD rubrics for enterprise, AWS, and Google profiles
+
+### AWS AI-DLC Export Target
+
+- [x] RMI-510: Implement AIDLC target adapter
+  - Generate vision-document.md from MRD + Press
+  - Generate technical-environment.md from TRD + IRD + context
+  - Generate imported-requirements.md from spec.md
+  - `pkg/target/aidlc.go`
+
+### Workflow Rules
+
+- [x] RMI-520: Create workflow rules directory structure
+  - `.visionspec-rules/core-workflow.md` main orchestration
+  - Phase-specific rules: Discovery, Vision, Experience, Technical, Reconciliation
+  - Gate definitions for evaluation and approval
+
+- [x] RMI-521: Add framework selection to workflow
+  - 6 methodology flows (AWS, Lean Startup, Design Thinking, JTBD, Google, Stripe)
+  - Default to AWS Working Backwards
+  - Framework-specific phase rules in `frameworks/` subdirectory
+
+- [x] RMI-522: Implement rules CLI commands
+  - `rules list` - List available workflow rules
+  - `rules export [dir]` - Export rules to project
+  - Embedded rules via go:embed for distribution
+
+### Documentation
+
+- [x] RMI-530: TPD documentation
+  - TPD in concepts.md and synthesize.md
+  - CONSTITUTION Quality and Testing Requirements section
+  - AWS framework doc updated with TPD mapping
+
+- [x] RMI-531: Export targets documentation
+  - AIDLC target in export.md and targets.md
+  - CLAUDE.md updated with workflow rules reference
+
+---
+
+## Phase 14: Execution Integration (v0.7.0)
+
+Bidirectional integration with AI coding agent execution systems.
+
+### Status Synchronization
+
+- [ ] RMI-600: Bidirectional status sync
+  - Pull execution status from SpecKit, GSD, GasTown
+  - Update visionspec status with execution progress
+  - `visionspec sync <target>` command
+
+- [ ] RMI-601: Execution status tracking in MCP
+  - New MCP tools: `get_execution_status`, `sync_execution`
+  - Status webhooks for real-time updates
+  - Execution timeline view
+
+### Spec Drift Detection
+
+- [ ] RMI-610: Implement drift detection
+  - Compare spec.md with shipped implementation
+  - Detect unimplemented requirements
+  - Detect undocumented features
+  - `visionspec drift` command
+
+- [ ] RMI-611: Drift resolution workflow
+  - Generate drift report with categorized differences
+  - Suggest spec updates or implementation changes
+  - Track drift over time
+
+### Executable Test Generation
+
+- [ ] RMI-620: Generate test cases from TPD
+  - Export test cases as executable test stubs
+  - Support Go, TypeScript, Python
+  - `visionspec generate tests` command
+
+- [ ] RMI-621: Test coverage mapping
+  - Map TPD test cases to actual tests
+  - Track coverage by requirement
+  - Report uncovered requirements
+
+### Issue Export
+
+- [ ] RMI-630: GitHub Issues export
+  - Export requirements as GitHub issues
+  - Create milestones from phases
+  - Link issues to specs via labels
+  - `visionspec export github` command
+
+- [ ] RMI-631: Jira export
+  - Export requirements as Jira epics/stories
+  - Map priorities and labels
+  - Create project boards
+  - `visionspec export jira` command
+
+### MCP Execution Tracking
+
+- [ ] RMI-640: MCP execution context
+  - Track which spec requirements are being implemented
+  - Real-time progress updates
+  - Requirement completion notifications
+
+- [ ] RMI-641: Execution prompts
+  - MCP prompts for guided implementation
+  - Requirement-aware code generation hints
+  - Acceptance criteria verification
