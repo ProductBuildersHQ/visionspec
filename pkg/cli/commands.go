@@ -709,9 +709,9 @@ func runEval(cmd *cobra.Command, args []string, cfg *Config) error {
 		var evalReport *rubric.Rubric
 		if rubricSet != nil {
 			evalReport = result.ToEvaluationReport(rubricSet)
-			evalReportPath := strings.TrimSuffix(evalPath, ".eval.json") + ".evaluation.json"
+			evalReportPath := filepath.Clean(strings.TrimSuffix(evalPath, ".eval.json") + ".evaluation.json")
 			if evalReportData, err := json.MarshalIndent(evalReport, "", "  "); err == nil {
-				_ = os.WriteFile(evalReportPath, evalReportData, 0600)
+				_ = os.WriteFile(evalReportPath, evalReportData, 0600) //nolint:gosec // G703: path derived from validated config.EvalPath, cleaned with filepath.Clean
 			}
 		}
 
@@ -720,9 +720,9 @@ func runEval(cmd *cobra.Command, args []string, cfg *Config) error {
 		if claimsFlag || summaryFlag {
 			claimsReport = result.ToClaimsReport(string(specType) + ".md")
 			if claimsFlag {
-				claimsPath := strings.TrimSuffix(evalPath, ".eval.json") + ".claims.json"
+				claimsPath := filepath.Clean(strings.TrimSuffix(evalPath, ".eval.json") + ".claims.json")
 				if claimsData, err := json.MarshalIndent(claimsReport, "", "  "); err == nil {
-					_ = os.WriteFile(claimsPath, claimsData, 0600)
+					_ = os.WriteFile(claimsPath, claimsData, 0600) //nolint:gosec // G703: path derived from validated config.EvalPath, cleaned with filepath.Clean
 				}
 			}
 		}
