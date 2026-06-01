@@ -51,7 +51,7 @@ All synthesized documents are committed to git and can be reviewed, edited, and 
 ## Installation
 
 ```bash
-go install github.com/ProductBuildersHQ/visionspec/cmd/visionspec@v0.5.0
+go install github.com/ProductBuildersHQ/visionspec/cmd/visionspec@v0.6.0
 ```
 
 ## Quick Start
@@ -167,6 +167,7 @@ Full documentation: [CLI Reference](https://productbuildershq.com/visionspec/cli
 | `targets` | List available export targets |
 | `serve` | Start MCP server for AI integration |
 | `docs <cmd>` | Generate MkDocs documentation |
+| `rules <cmd>` | Export workflow rules for AI assistants |
 
 ### Context & Traceability
 
@@ -346,7 +347,7 @@ make install
 
 See [ROADMAP.md](docs/specs/ROADMAP.md) for detailed implementation status and [CHANGELOG.md](CHANGELOG.md) for release history.
 
-**Current Version:** v0.5.0
+**Current Version:** v0.6.0
 
 | Phase | Status |
 |-------|--------|
@@ -360,9 +361,10 @@ See [ROADMAP.md](docs/specs/ROADMAP.md) for detailed implementation status and [
 | Phase 7: Graphize Integration | Complete |
 | Phase 8: Advanced Features | Not Started |
 | Phase 9: Composability | Complete |
-| Phase 10: Platform Enhancements | Not Started |
+| Phase 10: Platform Enhancements | In Progress |
 | Phase 11: Context Sources | Complete |
 | Phase 12: Methodology Profiles | Complete |
+| Phase 13: AI Workflow Orchestration | Complete |
 
 ## License
 

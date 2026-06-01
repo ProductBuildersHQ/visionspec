@@ -54,7 +54,7 @@ See the [Working Backwards Guide](concepts/working-backwards.md) for the full me
 
 ```bash
 # Install
-go install github.com/ProductBuildersHQ/visionspec/cmd/visionspec@v0.5.0
+go install github.com/ProductBuildersHQ/visionspec/cmd/visionspec@v0.6.0
 
 # Initialize a new project
 visionspec init user-onboarding
@@ -142,9 +142,9 @@ Organizations can create custom profiles with their own templates and rubrics. S
 
 ## Project Status
 
-See the [ROADMAP](specs/ROADMAP.md) for detailed implementation status and [Release Notes](releases/v0.5.0.md) for the latest release.
+See the [ROADMAP](specs/ROADMAP.md) for detailed implementation status and [Release Notes](releases/v0.6.0.md) for the latest release.
 
-**Current Version:** v0.5.0
+**Current Version:** v0.6.0
 
 | Component | Status |
 |-----------|--------|
@@ -153,7 +153,8 @@ See the [ROADMAP](specs/ROADMAP.md) for detailed implementation status and [Rele
 | Evaluation Engine | Complete |
 | GTM & Technical Synthesis (Press, FAQ, PRD, TRD, TPD, IRD) | Complete |
 | Reconciliation | Complete |
-| Export (SpecKit) | Complete |
+| Export (SpecKit, GSD, GasTown, GasCity, AIDLC) | Complete |
 | Graphize Integration | Complete |
 | Profiles & Composability | Complete |
 | Methodology Profiles (AWS, Google, Stripe, Lean, DT, JTBD) | Complete |
+| AI Workflow Orchestration (rules) | Complete |
