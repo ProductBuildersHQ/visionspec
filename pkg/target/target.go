@@ -123,6 +123,10 @@ func ProjectTargetConfig(project *types.Project, targetName string) *ExportConfi
 		if project.Targets.GasCity != nil {
 			cfg.OutputDir = project.Targets.GasCity.CityDir
 		}
+	case "aidlc":
+		if project.Targets.AIDLC != nil {
+			cfg.OutputDir = project.Targets.AIDLC.OutputDir
+		}
 	}
 
 	return cfg

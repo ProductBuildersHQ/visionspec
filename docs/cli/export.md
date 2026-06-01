@@ -24,7 +24,7 @@ visionspec reconcile
 
 | Argument | Description |
 |----------|-------------|
-| `target` | Target system: `speckit`, `gsd`, `gastown`, `gascity` |
+| `target` | Target system: `speckit`, `gsd`, `gastown`, `gascity`, `aidlc` |
 
 ## Flags
 
@@ -96,6 +96,27 @@ GasCity multi-agent orchestration format.
 - Order (task) dependencies
 - Orchestration modes (orchestrated, autonomous, hybrid)
 
+### aidlc
+
+AWS AI-DLC Workflows format for the AI Development Lifecycle.
+
+**Output files:**
+
+- `vision-document.md` - Vision and goals (from MRD/Press/PRD)
+- `technical-environment.md` - Technical landscape (from TRD/IRD/context)
+- `imported-requirements.md` - Combined requirements from spec.md
+
+**Features:**
+
+- Three-phase lifecycle (Inception, Construction, Operations)
+- Approval gates for requirements refinement
+- Multi-agent specialist phases
+- Integration with existing VisionSpec specs
+
+**Usage with AIDLC:**
+
+After export, use the trigger pattern: "Using AI-DLC, develop this feature based on the vision document."
+
 ## Examples
 
 ```bash
@@ -110,6 +131,9 @@ visionspec export gastown --dry-run
 
 # Export to GasCity
 visionspec export gascity
+
+# Export to AWS AI-DLC Workflows
+visionspec export aidlc
 ```
 
 ## Output
@@ -142,6 +166,9 @@ targets:
     rig: my-rig
   gascity:
     city_dir: export/gascity
+  aidlc:
+    enabled: true
+    output_dir: .aidlc
 ```
 
 ## Constitution Sync

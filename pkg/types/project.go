@@ -74,6 +74,7 @@ type TargetConfig struct {
 	GSD      *GSDConfig      `json:"gsd,omitempty" yaml:"gsd,omitempty"`
 	GasTown  *GasTownConfig  `json:"gastown,omitempty" yaml:"gastown,omitempty"`
 	GasCity  *GasCityConfig  `json:"gascity,omitempty" yaml:"gascity,omitempty"`
+	AIDLC    *AIDLCConfig    `json:"aidlc,omitempty" yaml:"aidlc,omitempty"`
 	OpenSpec *OpenSpecConfig `json:"openspec,omitempty" yaml:"openspec,omitempty"`
 }
 
@@ -107,6 +108,12 @@ type GasCityConfig struct {
 // OpenSpecConfig configures the OpenSpec export target.
 type OpenSpecConfig struct {
 	Enabled bool `json:"enabled" yaml:"enabled"`
+}
+
+// AIDLCConfig configures the AWS AI-DLC Workflows export target.
+type AIDLCConfig struct {
+	Enabled   bool   `json:"enabled" yaml:"enabled"`
+	OutputDir string `json:"output_dir,omitempty" yaml:"output_dir,omitempty"` // default: ".aidlc"
 }
 
 // ContextConfig configures context sources for grounding specs.

@@ -12,7 +12,7 @@ VisionSpec bridges the gap between organizational intent (MRD, PRD, UXD) and exe
 - **Technical synthesis** - LLM-generated TRD, TPD, IRD from source specs
 - **Structured evaluation** - Per-domain LLM judges with customizable rubrics
 - **Reconciliation** - Conflict detection and tradeoff resolution
-- **Target adapters** - Export to SpecKit, GSD, GasTown, GasCity, OpenSpec
+- **Target adapters** - Export to SpecKit, GSD, GasTown, GasCity, AWS AI-DLC, OpenSpec
 
 ## Working Backwards Flow
 

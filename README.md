@@ -44,7 +44,7 @@ VisionSpec bridges the gap between organizational intent and executable specific
 - ⚙️ **LLM synthesis** - Generate Press, FAQ, PRD, TRD, TPD, IRD from source specs
 - 📊 **Structured evaluation** - Per-domain LLM judges with customizable rubrics
 - 🔄 **Reconciliation** - Conflict detection and tradeoff resolution
-- 📦 **Target adapters** - Export to SpecKit, GSD, GasTown, GasCity, OpenSpec
+- 📦 **Target adapters** - Export to SpecKit, GSD, GasTown, GasCity, AWS AI-DLC, OpenSpec
 
 All synthesized documents are committed to git and can be reviewed, edited, and refined by humans or collaboratively with AI assistants.
 
@@ -242,6 +242,7 @@ visionspec-mcp
 | `gsd` | Get Shit Done (PLAN.md, STATE.md) |
 | `gastown` | GasTown formulas and beads |
 | `gascity` | GasCity city.toml configuration |
+| `aidlc` | AWS AI-DLC Workflows (vision-document.md, technical-environment.md) |
 | `openspec` | OpenSpec portable format (future) |
 
 ## Configuration Profiles
