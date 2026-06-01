@@ -37,11 +37,37 @@ type Project struct {
 	// Rubrics configures custom rubric loading.
 	Rubrics *RubricsConfig `json:"rubrics,omitempty" yaml:"rubrics,omitempty"`
 
+	// Execution tracks the state of exported execution targets.
+	Execution *ExecutionState `json:"execution,omitempty" yaml:"execution,omitempty"`
+
 	// CreatedAt is when the project was initialized.
 	CreatedAt time.Time `json:"created_at" yaml:"created_at"`
 
 	// UpdatedAt is when the project was last modified.
 	UpdatedAt time.Time `json:"updated_at" yaml:"updated_at"`
+}
+
+// ExecutionState tracks the state of tasks in an exported target.
+type ExecutionState struct {
+	Target   string           `json:"target" yaml:"target"`
+	SyncedAt time.Time        `json:"synced_at" yaml:"synced_at"`
+	Tasks    []ExecutionTask  `json:"tasks" yaml:"tasks"`
+	Summary  ExecutionSummary `json:"summary" yaml:"summary"`
+}
+
+// ExecutionTask represents a task in the execution state.
+type ExecutionTask struct {
+	ID     string `json:"id" yaml:"id"`
+	Title  string `json:"title" yaml:"title"`
+	Status string `json:"status" yaml:"status"` // todo, in_progress, done, blocked
+}
+
+// ExecutionSummary provides aggregate statistics.
+type ExecutionSummary struct {
+	TotalTasks int `json:"total_tasks" yaml:"total_tasks"`
+	TodoCount  int `json:"todo_count" yaml:"todo_count"`
+	InProgress int `json:"in_progress" yaml:"in_progress"`
+	DoneCount  int `json:"done_count" yaml:"done_count"`
 }
 
 // LLMConfig configures the LLM provider for a project.
