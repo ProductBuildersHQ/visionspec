@@ -51,7 +51,7 @@ All synthesized documents are committed to git and can be reviewed, edited, and 
 ## Installation
 
 ```bash
-go install github.com/ProductBuildersHQ/visionspec/cmd/visionspec@v0.6.0
+go install github.com/ProductBuildersHQ/visionspec/cmd/visionspec@v0.7.0
 ```
 
 ## Quick Start

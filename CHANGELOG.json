@@ -7,6 +7,34 @@
   "maintainers": ["johncwang@gmail.com"],
   "releases": [
     {
+      "version": "v0.7.0",
+      "date": "2026-06-01",
+      "commit": "36cf2ce",
+      "highlights": [
+        { "description": "Spec-to-code drift detection for identifying implementation divergence" },
+        { "description": "Test generation from Test Plan Documents (TPD)" },
+        { "description": "Generate, sync, and drift CLI commands for continuous spec alignment" },
+        { "description": "Updated to structured-evaluation v0.6.0 with rubric package" }
+      ],
+      "added": [
+        { "description": "Drift detection engine (`pkg/drift`) for spec-to-code analysis", "commit": "f4eae9d" },
+        { "description": "ExecutionState type for tracking sync state between specs and code", "commit": "3c07b31" },
+        { "description": "Syncer interface for target adapter status synchronization", "commit": "eb598b4" },
+        { "description": "Test generation from TPD specs (`pkg/testgen`)", "commit": "bd42c44" },
+        { "description": "CLI `generate` command for test generation from TPD", "commit": "eb5fea8" },
+        { "description": "CLI `sync` command for bidirectional spec-code synchronization", "commit": "eb5fea8" },
+        { "description": "CLI `drift` command for detecting spec-to-code divergence", "commit": "eb5fea8" }
+      ],
+      "changed": [
+        { "description": "Updated structured-evaluation dependency from v0.5.0 to v0.6.0", "commit": "36cf2ce" },
+        { "description": "Renamed evaluation imports to rubric package per structured-evaluation v0.6.0", "commit": "36cf2ce" },
+        { "description": "Added claims, render, and summary evaluation support", "commit": "36cf2ce" }
+      ],
+      "documentation": [
+        { "description": "v0.7.0 release notes with drift detection and test generation features" }
+      ]
+    },
+    {
       "version": "v0.6.0",
       "date": "2026-06-01",
       "commit": "7f4d11d",
