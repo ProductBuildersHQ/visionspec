@@ -1,0 +1,89 @@
+name: aws-feature
+description: "Amazon Working Backwards methodology for feature-level opportunities. Starts with OpportunitySpec (merged Patton + Cagan), uses PR/FAQ-driven development."
+extends: enterprise
+
+# Methodology documentation
+methodology:
+  name: "Amazon Working Backwards (Feature)"
+  description: |
+    For features on existing product lines, OpportunitySpec replaces MRD as the
+    starting document. OpportunitySpec combines Patton's discovery-focused
+    Opportunity Canvas with Cagan's business-case-focused SVPG Assessment.
+  principles:
+    - customer_obsession: "Start with the customer and work backwards"
+    - ownership: "Think long-term, act on behalf of the entire company"
+    - invent_and_simplify: "Find simplifying assumptions, expect innovation"
+    - are_right_a_lot: "Seek diverse perspectives, disconfirm beliefs"
+    - insist_on_highest_standards: "Relentlessly high standards"
+    - think_big: "Create bold direction, look around corners"
+    - bias_for_action: "Speed matters, two-way door decisions"
+    - frugality: "Accomplish more with less"
+    - earn_trust: "Vocally self-critical, benchmark against best"
+    - deep_dive: "Stay connected to details, narratives expose gaps"
+    - have_backbone: "Disagree and commit, truth-seeking over social cohesion"
+    - deliver_results: "Focus on inputs, launch is the starting line"
+
+spec_config:
+  # OpportunitySpec replaces MRD for features
+  opportunity-spec:
+    required: true
+    category: source
+    description: "12-box canvas combining Patton (discovery) + Cagan (business case)"
+
+  # MRD is not required for features (overrides enterprise)
+  mrd:
+    required: false
+    category: source
+
+  # PR/FAQ are central to Working Backwards
+  press:
+    required: true
+    category: gtm
+  faq:
+    required: true
+    category: gtm
+
+  # 6-pager is the standard narrative format
+  narrative-6p:
+    required: true
+    category: gtm
+
+  # 1-pager is executive summary
+  narrative-1p:
+    required: false
+    category: gtm
+
+# Synthesis rules
+synthesis:
+  # Press Release can be synthesized from OpportunitySpec
+  press:
+    sources:
+      - opportunity-spec
+    prompt_context: |
+      Generate a Press Release from the OpportunitySpec. Focus on:
+      - User Value (Box 4) for the headline and customer benefit
+      - Users & Problem (Box 1) for the problem statement
+      - Solution Ideas (Box 3) for the solution description
+      - Business Value (Box 5) and Competitive Edge (Box 6) for differentiation
+      - Success Metrics (Box 9) for measurable outcomes
+
+  # FAQ can be synthesized from OpportunitySpec + Press
+  faq:
+    sources:
+      - opportunity-spec
+      - press
+    prompt_context: |
+      Generate FAQ from the OpportunitySpec and Press Release. Include questions about:
+      - Users & Problem: Who is this for? Why is this a problem?
+      - Current Solutions: How do people solve this today?
+      - Competitive Edge: Why us? Why not competitors?
+      - Market & Timing: Why now?
+      - Critical Requirements: What must be true?
+      - Risks & Assumptions: What could go wrong?
+
+  # PRD synthesized from Working Backwards artifacts
+  prd:
+    sources:
+      - opportunity-spec
+      - press
+      - faq

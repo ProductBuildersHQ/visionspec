@@ -1,0 +1,70 @@
+name: aws-product
+description: "Amazon Working Backwards methodology for new product lines. Starts with MRD, uses PR/FAQ-driven development with emphasis on customer obsession, ownership, and high standards."
+extends: enterprise
+
+# Methodology documentation
+methodology:
+  name: "Amazon Working Backwards"
+  principles:
+    - customer_obsession: "Start with the customer and work backwards"
+    - ownership: "Think long-term, act on behalf of the entire company"
+    - invent_and_simplify: "Find simplifying assumptions, expect innovation"
+    - are_right_a_lot: "Seek diverse perspectives, disconfirm beliefs"
+    - insist_on_highest_standards: "Relentlessly high standards"
+    - think_big: "Create bold direction, look around corners"
+    - bias_for_action: "Speed matters, two-way door decisions"
+    - frugality: "Accomplish more with less"
+    - earn_trust: "Vocally self-critical, benchmark against best"
+    - deep_dive: "Stay connected to details, narratives expose gaps"
+    - have_backbone: "Disagree and commit, truth-seeking over social cohesion"
+    - deliver_results: "Focus on inputs, launch is the starting line"
+
+spec_config:
+  # PR/FAQ are central to Working Backwards
+  press:
+    required: true
+    category: gtm
+  faq:
+    required: true
+    category: gtm
+
+  # 6-pager is the standard narrative format
+  narrative-6p:
+    required: true
+    category: gtm
+
+  # 1-pager is executive summary
+  narrative-1p:
+    required: false
+    category: gtm
+
+  # Business Model Canvas: synthesized from MRD
+  bmc:
+    required: false
+    category: gtm
+    description: "Business Model Canvas extracted from MRD for stakeholder review"
+
+# Synthesis rules
+synthesis:
+  bmc:
+    sources:
+      - mrd
+    guidance: "Extract Business Model Canvas blocks from MRD. Focus on customer obsession and working backwards."
+
+  press:
+    sources:
+      - mrd
+    guidance: "Write from customer perspective. Customer obsession is key."
+
+  faq:
+    sources:
+      - mrd
+      - press
+    guidance: "Challenge assumptions ruthlessly. Include internal stakeholder and customer questions."
+
+  narrative-6p:
+    sources:
+      - mrd
+      - press
+      - faq
+    guidance: "Amazon 6-pager format. Data-driven narrative, no slides."

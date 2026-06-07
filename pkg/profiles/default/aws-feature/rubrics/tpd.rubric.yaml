@@ -1,0 +1,83 @@
+# AWS Working Backwards TPD Evaluation Rubric
+
+spec_type: tpd
+name: "AWS TPD Rubric"
+description: "Test Plan Document evaluation for AWS Working Backwards methodology"
+version: "1.0"
+
+categories:
+  - id: customer_experience_validation
+    name: "Customer Experience Validation"
+    description: "Tests validate the customer experience promised in Press Release"
+    weight: 0.20
+    required: true
+    criteria:
+      pass: "Test scenarios directly map to Press Release customer promises"
+      partial: "Some customer experience testing but gaps in coverage"
+      fail: "No connection to customer experience validation"
+
+  - id: working_backwards_traceability
+    name: "Working Backwards Traceability"
+    description: "Tests trace back through FAQ, PRD to original vision"
+    weight: 0.15
+    required: true
+    criteria:
+      pass: "Clear traceability from tests through PRD/FAQ to Press Release"
+      partial: "Some traceability but missing intermediate links"
+      fail: "No working backwards traceability"
+
+  - id: decision_reversibility
+    name: "Decision Reversibility Testing"
+    description: "Tests consider reversibility of technical decisions"
+    weight: 0.12
+    required: true
+    criteria:
+      pass: "Tests include rollback scenarios and feature flag validation"
+      partial: "Basic rollback testing but incomplete"
+      fail: "No reversibility testing"
+
+  - id: bar_raiser_readiness
+    name: "Bar Raiser Readiness"
+    description: "Test plan would pass bar raiser review"
+    weight: 0.15
+    required: true
+    criteria:
+      pass: "Comprehensive plan demonstrating ownership and customer obsession"
+      partial: "Good plan but missing depth in some areas"
+      fail: "Would not pass bar raiser review"
+
+  - id: operational_excellence
+    name: "Operational Excellence Testing"
+    description: "Tests support operational excellence principles"
+    weight: 0.13
+    required: true
+    criteria:
+      pass: "Includes chaos testing, runbook validation, and observability testing"
+      partial: "Basic operational testing but gaps exist"
+      fail: "No operational excellence testing"
+
+  - id: automation_first
+    name: "Automation First"
+    description: "Test automation is prioritized appropriately"
+    weight: 0.13
+    required: true
+    criteria:
+      pass: "Clear automation strategy with pipeline integration and coverage targets"
+      partial: "Some automation but manual-heavy plan"
+      fail: "No automation strategy"
+
+  - id: frugality
+    name: "Frugality"
+    description: "Test plan is efficient without unnecessary complexity"
+    weight: 0.12
+    required: false
+    criteria:
+      pass: "Lean test plan focused on high-value testing"
+      partial: "Some unnecessary complexity"
+      fail: "Over-engineered or wasteful approach"
+
+pass_criteria:
+  require_all_pass: false
+  max_critical: 0
+  max_high: 0
+  max_medium: 2

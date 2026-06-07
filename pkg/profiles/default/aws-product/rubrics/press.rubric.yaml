@@ -1,0 +1,87 @@
+name: "AWS Press Release Evaluation"
+description: "Evaluates Press Release documents using Amazon Working Backwards methodology and Leadership Principles"
+pass_criteria:
+  min_score: 7.0
+  max_critical: 0
+  max_high: 0
+
+categories:
+  - id: working_backwards_fidelity
+    name: "Working Backwards Fidelity"
+    description: "Whether the document genuinely works backwards from customer needs, not forwards from a solution"
+    weight: 0.20
+    required: true
+    criteria:
+      pass: "Authentic customer perspective; problem clearly existed before solution was conceived; customer voice feels real"
+      partial: "Customer framing present but feels retrofitted to justify a predetermined solution"
+      fail: "Solution-first thinking disguised as customer-first; problem statement invented to justify solution"
+
+  - id: headline_impact
+    name: "Headline Impact"
+    description: "Whether the headline clearly communicates the primary customer benefit"
+    weight: 0.15
+    required: true
+    criteria:
+      pass: "Compelling headline with clear customer benefit; would make a customer want to read more"
+      partial: "Headline present but benefit unclear or generic"
+      fail: "No clear headline or focuses on company/technology rather than customer benefit"
+
+  - id: customer_problem
+    name: "Customer Problem"
+    description: "How well the customer problem is articulated with authentic voice"
+    weight: 0.20
+    required: true
+    criteria:
+      pass: "Vivid problem description with authentic customer quotes; reader can feel the pain"
+      partial: "Problem stated but lacks specificity or authentic customer voice"
+      fail: "No clear customer problem or problem feels manufactured"
+
+  - id: solution_clarity
+    name: "Solution Clarity"
+    description: "Whether the solution and benefits are clearly explained in customer terms"
+    weight: 0.15
+    required: true
+    criteria:
+      pass: "Crystal clear solution with concrete, measurable benefits stated in customer terms"
+      partial: "Solution described but benefits vague or too technical"
+      fail: "No clear solution articulated or drowns in jargon"
+
+  - id: customer_validation
+    name: "Customer Validation"
+    description: "Quality of customer quotes and validation"
+    weight: 0.10
+    required: false
+    criteria:
+      pass: "Authentic customer quotes with specific success stories that feel real"
+      partial: "Generic quotes without specificity; could apply to any product"
+      fail: "No customer validation or quotes are obviously fabricated"
+
+  - id: simplifying_assumption
+    name: "Simplifying Assumption"
+    description: "Whether the document identifies the key insight that makes this achievable"
+    weight: 0.10
+    required: false
+    criteria:
+      pass: "Clear simplifying assumption identified that unlocks the solution"
+      partial: "Some simplification mentioned but not a breakthrough insight"
+      fail: "No simplifying assumption; solution seems overly complex"
+
+  - id: call_to_action
+    name: "Call to Action"
+    description: "Clarity of availability, pricing, and next steps"
+    weight: 0.05
+    required: true
+    criteria:
+      pass: "Clear availability, pricing, and specific action steps; bias for action"
+      partial: "CTA present but vague"
+      fail: "No call to action"
+
+  - id: readability
+    name: "Readability"
+    description: "Whether the press release is written in plain, accessible language"
+    weight: 0.05
+    required: false
+    criteria:
+      pass: "Clear, jargon-free prose accessible to general audience"
+      partial: "Somewhat technical but understandable"
+      fail: "Incomprehensible to target audience"

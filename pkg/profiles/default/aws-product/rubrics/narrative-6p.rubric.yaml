@@ -1,0 +1,107 @@
+name: "AWS 6-Pager Evaluation"
+description: "Evaluates 6-pager narratives using Amazon Leadership Principles with emphasis on customer obsession, ownership, and deep dive"
+pass_criteria:
+  min_score: 7.0
+  max_critical: 0
+  max_high: 0
+
+categories:
+  - id: customer_problem_depth
+    name: "Customer Problem Depth"
+    description: "How deeply and authentically the customer problem is understood"
+    weight: 0.20
+    required: true
+    criteria:
+      pass: "Deep dive into customer problem with specific anecdotes; reader feels the pain; authentic customer voice"
+      partial: "Problem described but lacks depth or specificity"
+      fail: "Customer problem superficial or clearly retrofitted to solution"
+
+  - id: working_backwards_fidelity
+    name: "Working Backwards Fidelity"
+    description: "Whether the narrative genuinely works backwards from customer needs"
+    weight: 0.15
+    required: true
+    criteria:
+      pass: "Clear evidence of working backwards; solution flows from problem; not solution-seeking-problem"
+      partial: "Customer framing present but connection to solution feels forced"
+      fail: "Solution-first thinking; customer problem invented to justify predetermined solution"
+
+  - id: simplifying_assumptions
+    name: "Simplifying Assumptions"
+    description: "Whether breakthrough simplifying insights are identified"
+    weight: 0.10
+    required: true
+    criteria:
+      pass: "Key simplifying assumption identified that unlocks the solution; 'blindingly obvious in retrospect' insight"
+      partial: "Some simplification mentioned but not a breakthrough"
+      fail: "No simplifying assumptions; solution feels overly complex"
+
+  - id: tenets_quality
+    name: "Tenets Quality"
+    description: "Whether tenets are opinionated and useful for decision-making"
+    weight: 0.05
+    required: true
+    criteria:
+      pass: "Tenets are opinionated, help resolve tradeoffs, and guide the team"
+      partial: "Tenets present but generic or non-actionable"
+      fail: "No tenets or tenets are meaningless platitudes"
+
+  - id: think_big
+    name: "Think Big"
+    description: "Whether the vision is bold and ambitious"
+    weight: 0.10
+    required: true
+    criteria:
+      pass: "Bold vision that looks around corners; not incremental thinking; inspires action"
+      partial: "Vision present but feels safe or incremental"
+      fail: "Thinking small; no ambition evident"
+
+  - id: decision_analysis
+    name: "Decision Analysis"
+    description: "Quality of one-way door vs two-way door decision analysis"
+    weight: 0.10
+    required: true
+    criteria:
+      pass: "Decisions clearly categorized by reversibility; appropriate deliberation for one-way doors; speed for two-way doors"
+      partial: "Some decision analysis but reversibility not consistently considered"
+      fail: "No decision analysis or all decisions treated the same"
+
+  - id: business_case_rigor
+    name: "Business Case Rigor"
+    description: "Whether the business case focuses on inputs and is honest about assumptions"
+    weight: 0.10
+    required: true
+    criteria:
+      pass: "Clear metrics focusing on inputs; assumptions explicit; honest about uncertainty"
+      partial: "Business case present but too focused on outputs or assumptions hidden"
+      fail: "No business case or metrics are meaningless"
+
+  - id: self_critical_honesty
+    name: "Self-Critical Honesty"
+    description: "Whether risks and limitations are honestly acknowledged"
+    weight: 0.10
+    required: true
+    criteria:
+      pass: "Vocally self-critical; risks honestly assessed; alternative approaches genuinely considered"
+      partial: "Some risks mentioned but feels defensive"
+      fail: "No acknowledgment of risks; overconfident"
+
+  - id: post_launch_thinking
+    name: "Post-Launch Thinking"
+    description: "Whether the narrative plans for iteration after launch"
+    weight: 0.05
+    required: false
+    criteria:
+      pass: "Clear recognition that 'launch is the starting line'; iteration plan; long-term ownership"
+      partial: "Some post-launch thinking but not detailed"
+      fail: "Launch treated as finish line; no iteration plan"
+
+  - id: narrative_detail
+    name: "Narrative Detail"
+    description: "Whether details are sufficient to guide implementation"
+    weight: 0.05
+    required: true
+    criteria:
+      pass: "Details are specific enough to guide engineering; hard to fake; deep dive quality"
+      partial: "Some details but gaps remain"
+      fail: "Hand-wavy; details avoided; PowerPoint-level thinking"
