@@ -1,0 +1,142 @@
+# AWS Working Backwards - Product Flow (MRD Start)
+# Layout: ELK
+
+direction: down
+
+title: {
+  label: AWS Working Backwards - Product Flow
+  near: top-center
+  shape: text
+  style.font-size: 24
+  style.bold: true
+}
+
+# Discovery Phase
+mrd: {
+  label: MRD\n(Market Requirements)
+  shape: rectangle
+  style.fill: "#e8f5e9"
+  style.stroke: "#2e7d32"
+}
+
+# Vision Phase (Working Backwards)
+press: {
+  label: Press Release\n(Vision Document)
+  shape: rectangle
+  style.fill: "#e3f2fd"
+  style.stroke: "#1565c0"
+}
+
+faq: {
+  label: FAQ\n(Challenge Assumptions)
+  shape: rectangle
+  style.fill: "#e3f2fd"
+  style.stroke: "#1565c0"
+}
+
+narrative: {
+  label: 6-Pager Narrative\n(Executive Document)
+  shape: rectangle
+  style.fill: "#fce4ec"
+  style.stroke: "#c2185b"
+}
+
+# Requirements Phase
+prd: {
+  label: PRD\n(Product Requirements)
+  shape: rectangle
+  style.fill: "#fff3e0"
+  style.stroke: "#ef6c00"
+}
+
+# Experience Phase
+uxd: {
+  label: UXD\n(User Experience)
+  shape: rectangle
+  style.fill: "#e8f5e9"
+  style.stroke: "#2e7d32"
+}
+
+# Technical Phase
+trd: {
+  label: TRD\n(Technical Design)
+  shape: rectangle
+  style.fill: "#e3f2fd"
+  style.stroke: "#1565c0"
+}
+
+tpd: {
+  label: TPD\n(Test Plan)
+  shape: rectangle
+  style.fill: "#e3f2fd"
+  style.stroke: "#1565c0"
+}
+
+ird: {
+  label: IRD\n(Infrastructure)
+  shape: rectangle
+  style.fill: "#e3f2fd"
+  style.stroke: "#1565c0"
+  style.stroke-dash: 3
+}
+
+# Flow - Working Backwards
+mrd -> press: synthesize
+press -> faq: synthesize
+mrd -> faq
+faq -> prd: synthesize
+press -> prd
+mrd -> prd
+
+# Executive narrative
+mrd -> narrative: synthesize
+prd -> narrative
+press -> narrative
+
+# Technical synthesis
+uxd -> trd
+prd -> trd: synthesize
+mrd -> trd
+
+# Test plan synthesis
+prd -> tpd
+trd -> tpd: synthesize
+uxd -> tpd
+
+# Infrastructure synthesis (optional)
+trd -> ird: synthesize
+
+# Legend
+legend: {
+  label: Legend
+  near: bottom-center
+  grid-columns: 4
+
+  human: {
+    label: Human-Authored
+    shape: rectangle
+    style.fill: "#e8f5e9"
+    style.stroke: "#2e7d32"
+  }
+
+  synth: {
+    label: Synthesized
+    shape: rectangle
+    style.fill: "#e3f2fd"
+    style.stroke: "#1565c0"
+  }
+
+  hybrid: {
+    label: Hybrid
+    shape: rectangle
+    style.fill: "#fff3e0"
+    style.stroke: "#ef6c00"
+  }
+
+  exec: {
+    label: Executive
+    shape: rectangle
+    style.fill: "#fce4ec"
+    style.stroke: "#c2185b"
+  }
+}

@@ -1,0 +1,111 @@
+# AWS Working Backwards - Feature Flow (OpportunitySpec Start)
+# Layout: ELK
+
+direction: down
+
+title: {
+  label: AWS Working Backwards - Feature Flow
+  near: top-center
+  shape: text
+  style.font-size: 24
+  style.bold: true
+}
+
+# Discovery Phase (Patton + Cagan)
+opportunity-spec: {
+  label: OpportunitySpec\n(12-Box Canvas)
+  shape: rectangle
+  style.fill: "#e8f5e9"
+  style.stroke: "#2e7d32"
+}
+
+# Vision Phase (Working Backwards)
+press: {
+  label: Press Release\n(Vision Document)
+  shape: rectangle
+  style.fill: "#e3f2fd"
+  style.stroke: "#1565c0"
+}
+
+faq: {
+  label: FAQ\n(Challenge Assumptions)
+  shape: rectangle
+  style.fill: "#e3f2fd"
+  style.stroke: "#1565c0"
+}
+
+# Requirements Phase
+prd: {
+  label: PRD\n(Product Requirements)
+  shape: rectangle
+  style.fill: "#fff3e0"
+  style.stroke: "#ef6c00"
+}
+
+# Experience Phase
+uxd: {
+  label: UXD\n(User Experience)
+  shape: rectangle
+  style.fill: "#e8f5e9"
+  style.stroke: "#2e7d32"
+}
+
+# Technical Phase
+trd: {
+  label: TRD\n(Technical Design)
+  shape: rectangle
+  style.fill: "#e3f2fd"
+  style.stroke: "#1565c0"
+}
+
+tpd: {
+  label: TPD\n(Test Plan)
+  shape: rectangle
+  style.fill: "#e3f2fd"
+  style.stroke: "#1565c0"
+}
+
+# Flow - Working Backwards
+opportunity-spec -> press: synthesize
+press -> faq: synthesize
+opportunity-spec -> faq
+faq -> prd: synthesize
+press -> prd
+opportunity-spec -> prd
+
+# Technical synthesis
+uxd -> trd
+prd -> trd: synthesize
+
+# Test plan synthesis
+prd -> tpd
+trd -> tpd: synthesize
+uxd -> tpd
+
+# Legend
+legend: {
+  label: Legend
+  near: bottom-center
+  grid-columns: 3
+
+  human: {
+    label: Human-Authored
+    shape: rectangle
+    style.fill: "#e8f5e9"
+    style.stroke: "#2e7d32"
+  }
+
+  synth: {
+    label: Synthesized
+    shape: rectangle
+    style.fill: "#e3f2fd"
+    style.stroke: "#1565c0"
+  }
+
+  hybrid: {
+    label: Hybrid
+    shape: rectangle
+    style.fill: "#fff3e0"
+    style.stroke: "#ef6c00"
+  }
+}
