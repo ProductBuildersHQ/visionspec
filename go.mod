@@ -4,18 +4,19 @@ go 1.26.0
 
 require (
 	github.com/bmatcuk/doublestar/v4 v4.10.0
+	github.com/fsnotify/fsnotify v1.10.1
 	github.com/modelcontextprotocol/go-sdk v1.6.1
 	github.com/plexusone/graphfs v0.2.0
 	github.com/plexusone/graphize v0.3.0
 	github.com/plexusone/omnillm-core v0.16.0
-	github.com/plexusone/structured-evaluation v0.6.0
+	github.com/plexusone/structured-evaluation v0.7.0
 	github.com/spf13/cobra v1.10.2
 	gopkg.in/yaml.v3 v3.0.1
 )
 
 require (
 	github.com/google/jsonschema-go v0.4.3 // indirect
-	github.com/grokify/mogo v0.74.5 // indirect
+	github.com/grokify/mogo v0.74.6 // indirect
 	github.com/grokify/sogo v0.15.0 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/segmentio/asm v1.2.1 // indirect
