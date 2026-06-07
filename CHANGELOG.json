@@ -7,6 +7,59 @@
   "maintainers": ["johncwang@gmail.com"],
   "releases": [
     {
+      "version": "v0.8.0",
+      "date": "2026-06-07",
+      "commit": "5e2f72a",
+      "highlights": [
+        { "description": "Big Tech methodology profiles with multi-company best practices (Google, Amazon, Meta, Stripe)" },
+        { "description": "Constitution spec support for organizational governance and constraint inheritance" },
+        { "description": "Agent specs and Claude Code skills for AI assistant integration" },
+        { "description": "MCP resource handlers for programmatic spec access" },
+        { "description": "Continuous Discovery and Shape Up methodology profiles" }
+      ],
+      "added": [
+        { "description": "Big Tech profiles with 10 methodology integration (`big-tech-product`, `big-tech-feature`)", "commit": "8b5c5af" },
+        { "description": "Big Tech Essentials profiles with streamlined 3-company approach", "commit": "b6a4b2c" },
+        { "description": "AWS feature and product-level profiles for Working Backwards at different scopes", "commit": "1f75de9" },
+        { "description": "Continuous Discovery profile with Teresa Torres' opportunity tree methodology", "commit": "bd66c14" },
+        { "description": "Shape Up profile with Basecamp's 6-week cycle methodology", "commit": "bd66c14" },
+        { "description": "Experiment and lean-canvas specs added to 0-1 profile", "commit": "916c3ff" },
+        { "description": "TRD and UXD specs added to startup profile", "commit": "349bc31" },
+        { "description": "TRD, TPD, and IRD specs added to growth profile", "commit": "db9ac4f" },
+        { "description": "Enterprise profile expanded with governance specs", "commit": "afa4067" },
+        { "description": "Constitution spec support (`pkg/constitution`) with inheritance hierarchy", "commit": "1fd3462" },
+        { "description": "Application-wide type definitions (`pkg/apptypes`) for microservices and loaders", "commit": "b72c0b8" },
+        { "description": "Version management utilities (`pkg/version`) with diff and comparison", "commit": "4d2e461" },
+        { "description": "MCP resource handlers for spec content delivery", "commit": "51f06ac" },
+        { "description": "Claude Code skill definitions for eval, export, lint, reconcile, status, synthesize", "commit": "b35438b" },
+        { "description": "Agent specs with orchestrator, evaluator, exporter, synthesizer, reconciler agents", "commit": "3640bba" },
+        { "description": "Steering documents for AI agent behavior configuration", "commit": "3640bba" },
+        { "description": "MkDocs eval documentation generator", "commit": "4d75e00" },
+        { "description": "IRD evaluation rubric and updated template", "commit": "50c0e29" },
+        { "description": "Infrastructure specification templates (microservice, constitutions)", "commit": "337bdb1" },
+        { "description": "Workflow and architecture D2 diagrams", "commit": "b565141" }
+      ],
+      "changed": [
+        { "description": "CLI updated with new commands and features", "commit": "df86c45" },
+        { "description": "Embedded profile registry updated with all new profiles", "commit": "6ffb681" },
+        { "description": "Org-cli example updated with new APIs", "commit": "4d5fec0" },
+        { "description": "Go module dependencies updated", "commit": "4050f87" }
+      ],
+      "refactored": [
+        { "description": "Legacy AWS profile removed in favor of aws-product and aws-feature profiles", "commit": "6faed99" }
+      ],
+      "documentation": [
+        { "description": "Big Tech and methodology framework guides (Big Tech, Continuous Discovery, Opportunity Spec, Shape Up)", "commit": "47e744e" },
+        { "description": "Execution target documentation (SpecKit, GSD, GasTown, GasCity, AWS AI-DLC)", "commit": "e68dff5" },
+        { "description": "Workflow example documentation with PetStore API walkthrough", "commit": "a82d396" },
+        { "description": "Organization customization guide for building custom CLIs", "commit": "9fa3eef" },
+        { "description": "CLI documentation for generate, sync, drift commands", "commit": "1e38fa9" },
+        { "description": "MkDocs navigation updated with new framework and CLI entries", "commit": "d55b404" },
+        { "description": "Core workflow rules updated for AI assistant orchestration", "commit": "6c76d2a" },
+        { "description": "README and ROADMAP updated for v0.7.0 and v0.8.0 features", "commit": "5e2f72a" }
+      ]
+    },
+    {
       "version": "v0.7.0",
       "date": "2026-06-01",
       "commit": "36cf2ce",
