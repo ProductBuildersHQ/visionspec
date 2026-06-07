@@ -1,0 +1,107 @@
+name: "AWS PRD Evaluation"
+description: "Evaluates Product Requirements Documents with Amazon Leadership Principles emphasis on decision analysis and customer focus"
+pass_criteria:
+  min_score: 7.0
+  max_critical: 0
+  max_high: 0
+
+categories:
+  - id: customer_obsession
+    name: "Customer Obsession"
+    description: "Whether requirements clearly trace back to validated customer needs"
+    weight: 0.15
+    required: true
+    criteria:
+      pass: "Every requirement traces to a specific customer need; customer voice evident throughout"
+      partial: "Requirements exist but customer connection is weak"
+      fail: "Requirements feel internally driven, not customer-driven"
+
+  - id: problem_definition
+    name: "Problem Definition"
+    description: "Clarity of the problem statement from user perspective"
+    weight: 0.15
+    required: true
+    criteria:
+      pass: "Problem is specific, measurable, and clearly impacts users; worked backwards from customer"
+      partial: "Problem exists but lacks specificity or customer grounding"
+      fail: "No clear problem statement"
+
+  - id: decision_reversibility
+    name: "Decision Reversibility"
+    description: "Whether decisions are analyzed as one-way or two-way doors"
+    weight: 0.10
+    required: true
+    criteria:
+      pass: "Clear identification of one-way vs two-way door decisions; appropriate deliberation for each"
+      partial: "Some decision analysis but reversibility not consistently considered"
+      fail: "No reversibility analysis; all decisions treated the same"
+
+  - id: goals_scope
+    name: "Goals and Scope"
+    description: "Clarity of goals and explicit non-goals"
+    weight: 0.10
+    required: true
+    criteria:
+      pass: "Goals are SMART, non-goals explicitly stated, scope is bounded; think big but focused"
+      partial: "Goals present but scope could be clearer"
+      fail: "Goals and scope missing"
+
+  - id: user_stories
+    name: "User Stories"
+    description: "Quality and completeness of user stories"
+    weight: 0.15
+    required: true
+    criteria:
+      pass: "All stories follow standard format, are prioritized, with clear acceptance criteria"
+      partial: "Stories exist but some lack acceptance criteria"
+      fail: "User stories missing or inadequate"
+
+  - id: functional_requirements
+    name: "Functional Requirements"
+    description: "Completeness and testability of functional requirements"
+    weight: 0.15
+    required: true
+    criteria:
+      pass: "Requirements are complete, traceable to stories, and testable; highest standards"
+      partial: "Requirements exist but some are vague"
+      fail: "Functional requirements missing"
+
+  - id: simplifying_assumptions
+    name: "Simplifying Assumptions"
+    description: "Whether key simplifying assumptions are identified"
+    weight: 0.05
+    required: false
+    criteria:
+      pass: "Clear simplifying assumptions that reduce complexity and enable faster delivery"
+      partial: "Some simplification mentioned"
+      fail: "No simplifying assumptions; solution feels overengineered"
+
+  - id: frugality
+    name: "Frugality"
+    description: "Whether requirements demonstrate accomplish more with less mindset"
+    weight: 0.05
+    required: false
+    criteria:
+      pass: "Requirements focused on essential value; no gold-plating; constraints acknowledged"
+      partial: "Some nice-to-haves but mostly focused"
+      fail: "Kitchen sink approach; no prioritization"
+
+  - id: success_metrics
+    name: "Success Metrics"
+    description: "Definition of measurable success criteria focusing on inputs"
+    weight: 0.05
+    required: true
+    criteria:
+      pass: "SMART metrics with baselines, targets; focus on inputs we control, not just outputs"
+      partial: "Some metrics but lacking specificity or too output-focused"
+      fail: "Success metrics missing"
+
+  - id: dependencies
+    name: "Dependencies and Risks"
+    description: "Identification of dependencies and open questions"
+    weight: 0.05
+    required: false
+    criteria:
+      pass: "Dependencies mapped with owners, status, and risk mitigation; vocally self-critical"
+      partial: "Some dependencies noted"
+      fail: "Dependencies not addressed"

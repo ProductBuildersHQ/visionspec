@@ -1,0 +1,395 @@
+name: big-tech
+description: |
+  Comprehensive "best of all worlds" profile combining practices from 10 leading methodologies:
+  - AWS Working Backwards (customer obsession, PR/FAQ, 6-pager)
+  - Google Design Docs (OKRs, tradeoffs, alternatives, experimentation)
+  - Stripe API-First (developer experience, documentation quality)
+  - Netflix Freedom & Responsibility (context not control, transparency)
+  - Spotify Bets (autonomous squads, fail fast)
+  - Meta (move fast, bold bets)
+  - Apple (DRI, focus)
+  - Microsoft (growth mindset, accessibility)
+  - Basecamp Shape Up (appetite, pitches, hill charts, circuit breaker)
+  - Teresa Torres Continuous Discovery (weekly touchpoints, OST, assumption testing)
+extends: enterprise
+
+# This is a base profile - use big-tech-product or big-tech-feature instead
+abstract: true
+
+methodology:
+  name: "Big Tech Best Practices"
+
+  # Guidance on when to use which practices
+  practice_selection:
+    # Use Shape Up practices when:
+    shapeup_when:
+      - "Fixed timeline is more important than fixed scope"
+      - "Estimating is wasteful; appetite makes more sense"
+      - "Teams need autonomy to figure things out"
+      - "Project needs clear circuit breaker for failure"
+
+    # Use Continuous Discovery practices when:
+    continuous_discovery_when:
+      - "Problem space is uncertain and needs exploration"
+      - "Building features without recent customer input"
+      - "Multiple solutions could work; need to validate"
+      - "Assumptions are risky; need to test before building"
+
+    # Use Working Backwards when:
+    working_backwards_when:
+      - "New product or major initiative"
+      - "Need to align stakeholders on vision"
+      - "Customer benefit needs to be crystal clear"
+      - "FAQ will expose hidden concerns"
+
+    # Use Design Docs/RFC when:
+    design_docs_when:
+      - "Architectural decisions have significant tradeoffs"
+      - "Multiple alternatives need to be evaluated"
+      - "Reversibility is uncertain (one-way door)"
+      - "Peer review will add valuable perspectives"
+
+  # Practices organized by source company
+  practices:
+    # Amazon - Customer obsession and narrative-driven development
+    amazon:
+      - customer_obsession: "Start with the customer and work backwards"
+      - working_backwards: "Write the press release first, then build"
+      - ownership: "Think long-term, act on behalf of the entire company"
+      - bias_for_action: "Speed matters; most decisions are reversible (two-way doors)"
+      - highest_standards: "Relentlessly high standards, never settle"
+      - deep_dive: "Stay connected to details; narratives expose gaps"
+      - disagree_and_commit: "Truth-seeking over social cohesion"
+      - frugality: "Accomplish more with less; constraints breed resourcefulness"
+
+    # Google - Engineering rigor and data-driven decisions
+    google:
+      - explicit_tradeoffs: "Every decision has costs; make them visible"
+      - alternatives_considered: "Always evaluate multiple approaches before deciding"
+      - peer_review: "RFCs and design reviews ensure diverse perspectives"
+      - data_driven: "Decisions backed by data, metrics, and experiments"
+      - okr_alignment: "Work connects to measurable objectives and key results"
+      - non_goals: "What we won't do is as important as what we will"
+      - ten_x_thinking: "Aim for 10x improvement, not 10%"
+      - technical_depth: "Engineering reasoning is first-class citizen"
+      - reversibility: "Prefer reversible decisions; be explicit about irreversible ones"
+      - launch_and_iterate: "Ship, measure, learn, improve"
+
+    # Stripe - Developer experience and API-first
+    stripe:
+      - api_first: "Design the interface before the implementation"
+      - developer_experience: "Optimize for developer productivity and happiness"
+      - incremental_delivery: "Ship small, ship often, ship safely"
+      - documentation_quality: "Docs are part of the product, not an afterthought"
+      - error_messages_matter: "Helpful errors are a feature"
+      - consistency: "APIs should be predictable and follow conventions"
+
+    # Netflix - Autonomy and alignment
+    netflix:
+      - freedom_and_responsibility: "Give talented people freedom, expect accountability"
+      - context_not_control: "Provide context for decisions, not commands"
+      - highly_aligned_loosely_coupled: "Align on strategy, decouple execution"
+      - radical_transparency: "Share information broadly, default to open"
+      - no_brilliant_jerks: "Team health matters as much as individual brilliance"
+      - adequate_performance_gets_severance: "High performance culture"
+
+    # Spotify - Agile at scale
+    spotify:
+      - bets_not_projects: "Frame work as bets with explicit risk and expected outcomes"
+      - autonomous_squads: "Small teams with end-to-end ownership"
+      - alignment_over_autonomy: "Autonomy requires alignment on goals"
+      - fail_fast_learn_fast: "Quick experiments over long planning cycles"
+
+    # Meta - Speed and iteration
+    meta:
+      - move_fast: "Speed is a competitive advantage"
+      - bold_bets: "Take big swings on transformative ideas"
+      - hackathon_culture: "Rapid prototyping to validate ideas"
+
+    # Apple - Focus and responsibility
+    apple:
+      - dri: "Directly Responsible Individual for every decision"
+      - say_no: "Focus means saying no to good ideas"
+      - deep_integration: "Own the full stack when it matters"
+
+    # Microsoft - Growth and inclusion
+    microsoft:
+      - growth_mindset: "Learn from failure, embrace challenges"
+      - accessibility_first: "Design for everyone from the start"
+
+    # Basecamp - Shape Up (Ryan Singer)
+    basecamp:
+      - fixed_time_variable_scope: "Appetite sets time; scope flexes to fit"
+      - shaping: "Define problems at the right level of abstraction"
+      - betting_not_planning: "No backlogs; bet on shaped pitches"
+      - small_autonomous_teams: "One designer, one or two programmers"
+      - circuit_breaker: "Stop if it's not working; don't drag out failures"
+      - cool_down: "Two-week break between cycles for recovery"
+      - appetite_not_estimates: "How much time is this worth, not how long will it take"
+      - hill_charts: "Track uncertainty (uphill) and execution (downhill)"
+      - rabbit_holes: "Identify and avoid scope traps before starting"
+
+    # Teresa Torres - Continuous Discovery
+    continuous_discovery:
+      - weekly_touchpoints: "Talk to customers every week, not just during research"
+      - story_based_interviews: "Collect stories of past behavior, not opinions"
+      - opportunity_solution_trees: "Visualize path from outcome to solutions"
+      - assumption_testing: "Test riskiest assumptions before building"
+      - compare_and_contrast: "Test multiple solutions in parallel"
+      - product_trio: "PM, Design, Engineering collaborate on discovery"
+      - outcome_driven: "Start with measurable outcome, not feature requests"
+      - small_experiments: "Run small, fast experiments to reduce risk"
+
+  # Unified principles (merged and deduplicated)
+  principles:
+    # Customer & User Focus
+    - customer_obsession: "Start with the customer and work backwards (Amazon)"
+    - developer_experience: "Optimize for developer productivity (Stripe)"
+    - accessibility_first: "Design for everyone from the start (Microsoft)"
+
+    # Vision & Ambition
+    - ten_x_thinking: "Aim for 10x improvement, not 10% (Google)"
+    - working_backwards: "Write the press release first (Amazon)"
+    - bold_bets: "Take big swings on transformative ideas (Meta)"
+    - bets_not_projects: "Frame work as bets with explicit risk (Spotify)"
+
+    # Decision Making
+    - explicit_tradeoffs: "Every decision has costs; make them visible (Google)"
+    - alternatives_considered: "Always evaluate multiple approaches (Google)"
+    - data_driven: "Decisions backed by data and experiments (Google)"
+    - bias_for_action: "Speed matters; two-way door decisions (Amazon)"
+    - reversibility: "Prefer reversible decisions (Google)"
+    - dri: "Directly Responsible Individual for every decision (Apple)"
+
+    # Quality & Standards
+    - highest_standards: "Relentlessly high standards (Amazon)"
+    - api_first: "Design the interface before implementation (Stripe)"
+    - documentation_quality: "Docs are part of the product (Stripe)"
+    - non_goals: "What we won't do is as important as what we will (Google)"
+    - say_no: "Focus means saying no to good ideas (Apple)"
+
+    # Collaboration & Review
+    - peer_review: "RFCs ensure diverse perspectives (Google)"
+    - disagree_and_commit: "Truth-seeking, then commit (Amazon)"
+    - context_not_control: "Provide context, not commands (Netflix)"
+    - radical_transparency: "Default to open (Netflix)"
+
+    # Execution & Delivery
+    - ownership: "Think long-term, end-to-end ownership (Amazon)"
+    - incremental_delivery: "Ship small, ship often (Stripe)"
+    - launch_and_iterate: "Ship, measure, improve (Google)"
+    - move_fast: "Speed is a competitive advantage (Meta)"
+    - fail_fast_learn_fast: "Quick experiments over long planning (Spotify)"
+
+    # Team & Culture
+    - freedom_and_responsibility: "Freedom with accountability (Netflix)"
+    - highly_aligned_loosely_coupled: "Align strategy, decouple execution (Netflix)"
+    - autonomous_squads: "Small teams with ownership (Spotify)"
+    - growth_mindset: "Learn from failure (Microsoft)"
+    - frugality: "Constraints breed resourcefulness (Amazon)"
+
+    # Scoping & Planning (Shape Up)
+    - fixed_time_variable_scope: "Appetite sets time; scope flexes (Basecamp)"
+    - appetite_not_estimates: "How much is it worth, not how long (Basecamp)"
+    - shaping: "Define at right abstraction level (Basecamp)"
+    - betting_not_planning: "No backlogs; bet on pitches (Basecamp)"
+    - circuit_breaker: "Stop failures early, don't drag out (Basecamp)"
+    - rabbit_holes: "Identify scope traps upfront (Basecamp)"
+
+    # Discovery & Validation (Teresa Torres)
+    - weekly_touchpoints: "Talk to customers every week (Torres)"
+    - story_based_interviews: "Collect stories, not opinions (Torres)"
+    - opportunity_solution_trees: "Visualize outcome to solution path (Torres)"
+    - assumption_testing: "Test riskiest assumptions first (Torres)"
+    - compare_and_contrast: "Test multiple solutions in parallel (Torres)"
+    - product_trio: "PM, Design, Engineering collaborate (Torres)"
+
+  # Key artifacts from each methodology
+  artifacts:
+    # Amazon
+    - press_release: "Customer announcement (Amazon)"
+    - faq: "Challenge assumptions (Amazon)"
+    - six_pager: "Narrative document (Amazon)"
+    # Google
+    - design_doc: "Technical specification with tradeoffs (Google)"
+    - rfc: "Request for comments (Google)"
+    - okr: "Objectives and key results (Google)"
+    - experiment_plan: "Hypothesis-driven validation (Google/Spotify)"
+    # Stripe
+    - api_spec: "Interface-first design (Stripe)"
+    # Spotify
+    - bet_brief: "Explicit risk and outcome framing (Spotify)"
+    # Shape Up (Basecamp)
+    - pitch: "Shaped problem and solution with appetite (Basecamp)"
+    - hill_chart: "Progress tracking by uncertainty phase (Basecamp)"
+    - scope_map: "Scopes with hill positions (Basecamp)"
+    # Continuous Discovery (Teresa Torres)
+    - ost: "Opportunity Solution Tree (Torres)"
+    - discovery_snapshot: "Weekly discovery summary (Torres)"
+    - assumption_map: "Risk matrix by assumption type (Torres)"
+    - experience_map: "Customer journey phases (Torres)"
+
+# Spec configuration - combine strengths of all methodologies
+spec_config:
+  # Discovery phase - Amazon PR/FAQ + Google OKRs
+  mrd:
+    required: true
+    category: source
+    description: "Market requirements with OKR alignment"
+
+  press:
+    required: true
+    category: gtm
+    description: "Working backwards press release"
+
+  faq:
+    required: true
+    category: gtm
+    description: "Challenge assumptions, internal and external"
+
+  # Requirements phase - API-first + narrative
+  prd:
+    required: true
+    category: source
+    description: "Product requirements with API contracts"
+
+  narrative-6p:
+    required: false
+    category: gtm
+    description: "Amazon-style 6-pager for major initiatives"
+
+  narrative-1p:
+    required: false
+    category: gtm
+    description: "Executive summary"
+
+  # Experience phase - DX + UX
+  uxd:
+    required: true
+    category: source
+    description: "User experience with developer experience considerations"
+
+  # Technical phase - Design docs with tradeoffs
+  trd:
+    required: true
+    category: technical
+    description: "Design doc with alternatives and explicit tradeoffs"
+
+  tpd:
+    required: true
+    category: technical
+    description: "Test plan with experiment design"
+
+  ird:
+    required: false
+    category: technical
+    description: "Infrastructure requirements"
+
+  # Shape Up artifacts (optional - use for fixed-time projects)
+  shapeup-pitch:
+    required: false
+    category: source
+    description: "Shaped pitch with appetite, problem, solution, rabbit holes"
+
+  shapeup-scope:
+    required: false
+    category: tracking
+    description: "Scopes with hill chart positions for execution tracking"
+
+  # Continuous Discovery artifacts (optional - use for research-heavy work)
+  ost:
+    required: false
+    category: source
+    description: "Opportunity Solution Tree linking outcome to solutions"
+
+  discovery-snapshot:
+    required: false
+    category: tracking
+    description: "Weekly discovery summary with interviews and learnings"
+
+  assumption-map:
+    required: false
+    category: source
+    description: "Risk matrix by assumption type (DVFUE)"
+
+# Synthesis rules - leverage multiple source documents
+synthesis:
+  press:
+    sources:
+      - mrd
+    guidance: "Write from customer perspective, include measurable outcomes (OKRs)"
+
+  faq:
+    sources:
+      - mrd
+      - press
+    guidance: "Include internal stakeholder questions and API/DX concerns"
+
+  prd:
+    sources:
+      - mrd
+      - press
+      - faq
+    guidance: "Include API contracts, non-goals, and success metrics"
+
+  trd:
+    sources:
+      - prd
+      - uxd
+    guidance: "Include alternatives considered, explicit tradeoffs, and reversibility assessment"
+
+  tpd:
+    sources:
+      - prd
+      - trd
+    guidance: "Include experiment design with hypothesis and success criteria"
+
+# Evaluation thresholds - high standards
+evaluation:
+  pass_threshold: 80
+  partial_threshold: 60
+
+# Additional rubric criteria from combined methodologies
+rubric_extensions:
+  mrd:
+    - okr_quality: "Objectives inspiring, key results measurable"
+    - customer_clarity: "Customer segment and pain clearly defined"
+
+  prd:
+    - api_contract: "Interface defined before implementation details"
+    - non_goals: "Explicit scope exclusions listed"
+    - alternatives: "Multiple approaches evaluated"
+
+  trd:
+    - tradeoffs: "Explicit costs and benefits of chosen approach"
+    - reversibility: "Two-way vs one-way door assessment"
+    - scalability: "Design for 10x growth"
+
+  uxd:
+    - developer_experience: "API usability and error handling"
+    - accessibility: "Inclusive design considerations"
+
+  # Shape Up artifact rubrics
+  shapeup-pitch:
+    - problem_clarity: "Problem well-defined with evidence"
+    - appetite_reasoning: "Time budget justified and appropriate"
+    - solution_abstraction: "Right level of detail - not too detailed, not too vague"
+    - rabbit_holes: "Scope traps identified and mitigated"
+    - no_gos: "Clear boundaries on what's excluded"
+
+  # Continuous Discovery artifact rubrics
+  ost:
+    - outcome_measurable: "Clear, measurable outcome at root"
+    - opportunities_researched: "Opportunities grounded in customer interviews"
+    - solutions_multiple: "Multiple solutions per opportunity"
+    - experiments_defined: "Clear tests for riskiest assumptions"
+
+  discovery-snapshot:
+    - weekly_cadence: "At least one customer touchpoint per week"
+    - story_quality: "Stories capture situation, behavior, outcome"
+    - learnings_actionable: "Insights lead to decisions"
+
+  assumption-map:
+    - type_coverage: "All assumption types considered (DVFUE)"
+    - prioritization: "High importance + low confidence = test first"
+    - tests_designed: "Tests have clear success criteria"

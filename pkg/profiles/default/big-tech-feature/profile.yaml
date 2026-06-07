@@ -1,0 +1,98 @@
+name: big-tech-feature
+description: "Big Tech best practices for feature-level opportunities on existing products. Starts with OpportunitySpec + OKRs, uses PR/FAQ-driven development with design docs, API-first thinking, and autonomous team practices."
+extends: big-tech
+
+# Feature-level workflow: OpportunitySpec is the starting document
+spec_config:
+  # Discovery phase - OpportunitySpec with OKRs (Patton + Cagan + Google)
+  opportunity-spec:
+    required: true
+    category: source
+    description: "12-box opportunity canvas with OKR alignment - the starting document for features"
+
+  # MRD not required for feature-level (use big-tech-product instead)
+  mrd:
+    required: false
+    category: source
+
+  # Vision phase - PR/FAQ (Amazon)
+  press:
+    required: true
+    category: gtm
+    description: "Working backwards press release for the feature"
+
+  faq:
+    required: true
+    category: gtm
+    description: "Challenge assumptions, include developer FAQ"
+
+  # Narratives optional for features
+  narrative-6p:
+    required: false
+    category: gtm
+    description: "Amazon-style 6-pager for major features"
+
+  narrative-1p:
+    required: false
+    category: gtm
+    description: "Executive summary"
+
+  # Requirements phase - PRD with API contracts (Google + Stripe)
+  prd:
+    required: true
+    category: source
+    description: "Product requirements with API contracts, non-goals, and alternatives"
+
+  # Experience phase - UXD with DX (Stripe + Microsoft)
+  uxd:
+    required: true
+    category: source
+    description: "User experience with developer experience and accessibility"
+
+  # Technical phase - Design docs (Google)
+  trd:
+    required: true
+    category: technical
+    description: "Design doc with alternatives, tradeoffs, and reversibility assessment"
+
+  tpd:
+    required: true
+    category: technical
+    description: "Test plan with experiment design and hypothesis validation"
+
+  ird:
+    required: false
+    category: technical
+    description: "Infrastructure requirements"
+
+# Synthesis rules for feature-level flow
+synthesis:
+  press:
+    sources:
+      - opportunity-spec
+    guidance: "Write from customer perspective. Focus on the specific user value from OpportunitySpec. Frame as a bet with explicit risk (Spotify)."
+
+  faq:
+    sources:
+      - opportunity-spec
+      - press
+    guidance: "Include internal stakeholder questions, customer questions, and developer/API questions (Stripe). Address risks and assumptions from OpportunitySpec."
+
+  prd:
+    sources:
+      - opportunity-spec
+      - press
+      - faq
+    guidance: "Include API contracts (Stripe), non-goals (Google), alternatives considered (Google). Map to OpportunitySpec's critical requirements and success metrics."
+
+  trd:
+    sources:
+      - prd
+      - uxd
+    guidance: "Google design doc format. Include alternatives considered, explicit tradeoffs, reversibility assessment (two-way vs one-way door), and scalability (10x thinking)."
+
+  tpd:
+    sources:
+      - prd
+      - trd
+    guidance: "Include experiment design with hypothesis and success criteria (Google/Spotify). Validate assumptions from OpportunitySpec. Define what 'fail fast' looks like."

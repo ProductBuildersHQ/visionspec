@@ -1,0 +1,87 @@
+name: "AWS FAQ Evaluation"
+description: "Evaluates FAQ documents using Amazon Working Backwards methodology with emphasis on vetting and truth-seeking"
+pass_criteria:
+  min_score: 7.0
+  max_critical: 0
+  max_high: 0
+
+categories:
+  - id: working_backwards_fidelity
+    name: "Working Backwards Fidelity"
+    description: "Whether the FAQ genuinely vets the product idea rather than just marketing it"
+    weight: 0.15
+    required: true
+    criteria:
+      pass: "FAQ challenges the Press Release; surfaces real concerns; feels like honest vetting"
+      partial: "Some critical questions but mostly softball questions"
+      fail: "FAQ reads like marketing material; no genuine vetting of the idea"
+
+  - id: question_coverage
+    name: "Question Coverage"
+    description: "Whether the FAQ anticipates the questions customers will actually ask"
+    weight: 0.20
+    required: true
+    criteria:
+      pass: "Comprehensive coverage including tough questions customers and stakeholders will ask"
+      partial: "Basic questions covered but gaps in difficult areas"
+      fail: "Inadequate question coverage; avoids hard questions"
+
+  - id: answer_clarity
+    name: "Answer Clarity"
+    description: "How clearly and directly questions are answered"
+    weight: 0.15
+    required: true
+    criteria:
+      pass: "Direct, clear answers with no evasion; honest about limitations"
+      partial: "Answers present but could be clearer or more direct"
+      fail: "Answers don't address questions or are evasive"
+
+  - id: self_critical_honesty
+    name: "Self-Critical Honesty"
+    description: "Whether the document is vocally self-critical about limitations and risks"
+    weight: 0.15
+    required: true
+    criteria:
+      pass: "Honest about what the product can't do; acknowledges risks and limitations; earns trust"
+      partial: "Some limitations mentioned but feels defensive"
+      fail: "No acknowledgment of limitations; feels like sales pitch"
+
+  - id: objection_handling
+    name: "Objection Handling"
+    description: "Whether the FAQ addresses likely concerns with honest, substantive responses"
+    weight: 0.15
+    required: true
+    criteria:
+      pass: "Proactively addresses concerns with honest, confident responses; disagree-and-commit spirit"
+      partial: "Some objections covered but responses feel defensive"
+      fail: "No objection handling or dismissive of concerns"
+
+  - id: customer_language
+    name: "Customer Language"
+    description: "Whether questions and answers use customer language, not internal jargon"
+    weight: 0.10
+    required: true
+    criteria:
+      pass: "Questions phrased as customers would ask; answers in plain language"
+      partial: "Some jargon but generally accessible"
+      fail: "Written for internal audience, not customers"
+
+  - id: pricing_transparency
+    name: "Pricing Transparency"
+    description: "Clarity of pricing and cost-related information"
+    weight: 0.05
+    required: false
+    criteria:
+      pass: "Clear pricing with examples and cost estimation guidance"
+      partial: "Basic pricing present but lacks detail"
+      fail: "No pricing information or deliberately vague"
+
+  - id: getting_started
+    name: "Getting Started Clarity"
+    description: "How well the path to adoption is explained"
+    weight: 0.05
+    required: true
+    criteria:
+      pass: "Clear step-by-step path from interest to success; bias for action"
+      partial: "Basic getting started info present"
+      fail: "No getting started guidance"

@@ -1,0 +1,413 @@
+# OpportunitySpec Rubric
+# LLM-as-a-Judge evaluation criteria for OpportunitySpec documents
+# Based on merged Patton (Opportunity Canvas) + Cagan (SVPG Assessment) frameworks
+
+name: OpportunitySpec Evaluation Rubric
+version: "1.0"
+description: |
+  Evaluates OpportunitySpec documents for completeness, clarity, and decision-readiness.
+  The OpportunitySpec combines discovery (Patton) with business case (Cagan) into a
+  12-box framework suitable for feature-level opportunity evaluation.
+
+# Scoring thresholds
+thresholds:
+  pass: 80
+  partial: 60
+
+# Evaluation categories with weighted scoring
+categories:
+  - name: Discovery Clarity
+    weight: 20
+    description: Evaluates Row 1 (Users & Problem, Current Solutions, Solution Ideas)
+    criteria:
+      - id: DC1
+        name: Problem Definition
+        weight: 8
+        pass:
+          description: Problem statement is specific, evidence-based, and articulates clear customer pains
+          indicators:
+            - Quantified impact on users
+            - Evidence from research/data
+            - Clear before/after states
+        partial:
+          description: Problem is stated but lacks specificity or evidence
+          indicators:
+            - General problem description
+            - Assumptions instead of evidence
+            - Vague impact description
+        fail:
+          description: Problem is unclear, generic, or missing
+          indicators:
+            - No clear problem statement
+            - Solution-first thinking
+            - Missing user context
+
+      - id: DC2
+        name: User Identification
+        weight: 6
+        pass:
+          description: Target users clearly defined with goals, context, and frustrations
+          indicators:
+            - Named user types/personas
+            - Specific user goals documented
+            - Context of use described
+        partial:
+          description: Users mentioned but lacking depth
+          indicators:
+            - Generic user descriptions
+            - Missing goals or context
+            - No persona connections
+        fail:
+          description: Users not identified or too vague
+          indicators:
+            - "All users" or "everyone"
+            - No user research evident
+            - Missing user section
+
+      - id: DC3
+        name: Competitive Analysis
+        weight: 6
+        pass:
+          description: Comprehensive view of alternatives including direct competitors, workarounds, and status quo cost
+          indicators:
+            - Named competitors with strengths/weaknesses
+            - User workarounds identified
+            - Cost of inaction quantified
+        partial:
+          description: Some alternatives mentioned but analysis is shallow
+          indicators:
+            - Competitors listed without analysis
+            - Missing indirect alternatives
+            - No status quo cost
+        fail:
+          description: Competitive landscape missing or dismissive
+          indicators:
+            - "No competition" claims
+            - Missing alternatives section
+            - Ignoring existing solutions
+
+  - name: Value Proposition
+    weight: 25
+    description: Evaluates Row 2 (User Value, Business Value, Competitive Edge)
+    criteria:
+      - id: VP1
+        name: User Value Articulation
+        weight: 10
+        pass:
+          description: Clear value statement with specific benefits, pains relieved, and outcomes
+          indicators:
+            - Compelling value statement
+            - Direct link to user pains
+            - Measurable outcomes defined
+        partial:
+          description: Value described but connection to user needs is weak
+          indicators:
+            - Feature-focused instead of benefit-focused
+            - Generic benefits listed
+            - Missing outcome definition
+        fail:
+          description: No clear user value articulated
+          indicators:
+            - Missing value statement
+            - Technology-focused
+            - No user outcomes
+
+      - id: VP2
+        name: Business Value Justification
+        weight: 8
+        pass:
+          description: Strong business case with revenue/cost impact, strategic fit, and market sizing
+          indicators:
+            - Quantified business outcomes
+            - Strategic alignment explained
+            - Market size estimated (TAM/SAM/SOM)
+        partial:
+          description: Business value mentioned but not quantified or justified
+          indicators:
+            - Vague business benefits
+            - Missing financial projections
+            - No strategic context
+        fail:
+          description: Business value not addressed
+          indicators:
+            - No business problem stated
+            - Missing business outcomes
+            - No market sizing
+
+      - id: VP3
+        name: Differentiation
+        weight: 7
+        pass:
+          description: Clear, defensible differentiation with unique capabilities and unfair advantages
+          indicators:
+            - Specific differentiator identified
+            - Hard-to-replicate advantages
+            - Leverages existing assets
+        partial:
+          description: Differentiation claimed but not substantiated
+          indicators:
+            - Generic advantages
+            - Easily replicable features
+            - No unique capabilities
+        fail:
+          description: No differentiation or "better execution" only
+          indicators:
+            - Missing differentiator section
+            - Same as competitors
+            - No competitive moat
+
+  - name: Market & Timing
+    weight: 20
+    description: Evaluates Row 3 (Market & Timing, Go-to-Market, Success Metrics)
+    criteria:
+      - id: MT1
+        name: Market Definition
+        weight: 7
+        pass:
+          description: Specific target segments with clear characteristics and sizing
+          indicators:
+            - Named segments with criteria
+            - Industry/geography/size specified
+            - Prioritized segment focus
+        partial:
+          description: Market described but segments unclear
+          indicators:
+            - Broad market description
+            - Missing segment criteria
+            - No prioritization
+        fail:
+          description: Market not defined or "everyone"
+          indicators:
+            - No target market
+            - Overly broad scope
+            - Missing market section
+
+      - id: MT2
+        name: Timing Rationale
+        weight: 6
+        pass:
+          description: Compelling "why now" with market triggers, technology shifts, or competitive dynamics
+          indicators:
+            - Specific timing drivers identified
+            - Window of opportunity defined
+            - Urgency justified
+        partial:
+          description: Timing mentioned but rationale is weak
+          indicators:
+            - Generic timing reasons
+            - No window definition
+            - Missing urgency level
+        fail:
+          description: No timing rationale or "anytime" answer
+          indicators:
+            - Missing "why now"
+            - No market triggers
+            - Timing not addressed
+
+      - id: MT3
+        name: Success Metrics
+        weight: 7
+        pass:
+          description: Clear north star metric with supporting user/business metrics and targets
+          indicators:
+            - Primary metric identified
+            - Targets specified
+            - Leading indicators defined
+        partial:
+          description: Metrics listed but targets or hierarchy unclear
+          indicators:
+            - Multiple metrics without priority
+            - Missing targets
+            - No leading indicators
+        fail:
+          description: No success metrics defined
+          indicators:
+            - Missing metrics section
+            - Vague success definition
+            - No measurement plan
+
+  - name: Validation Readiness
+    weight: 20
+    description: Evaluates Row 4 (Critical Requirements, Risks & Assumptions, Recommendation)
+    criteria:
+      - id: VR1
+        name: Requirements Clarity
+        weight: 7
+        pass:
+          description: Must-have capabilities clearly defined with technical, integration, and compliance needs
+          indicators:
+            - Prioritized must-haves
+            - Technical requirements specified
+            - Dependencies identified
+        partial:
+          description: Requirements listed but prioritization or completeness unclear
+          indicators:
+            - Long unprioritized list
+            - Missing technical details
+            - Incomplete dependencies
+        fail:
+          description: Requirements not defined or too vague
+          indicators:
+            - No must-haves identified
+            - Missing requirements section
+            - Only nice-to-haves
+
+      - id: VR2
+        name: Risk Identification
+        weight: 7
+        pass:
+          description: Key assumptions and risks identified with probability, impact, and mitigation strategies
+          indicators:
+            - Riskiest assumption called out
+            - Risks rated by probability/impact
+            - Mitigations proposed
+        partial:
+          description: Risks mentioned but analysis incomplete
+          indicators:
+            - Risks listed without rating
+            - Missing mitigations
+            - No assumption validation plan
+        fail:
+          description: Risks not addressed or dismissed
+          indicators:
+            - No risks identified
+            - "Low risk" without justification
+            - Missing assumptions
+
+      - id: VR3
+        name: Recommendation Quality
+        weight: 6
+        pass:
+          description: Clear go/no-go with rationale, confidence level, and concrete next steps
+          indicators:
+            - Explicit decision stated
+            - Rationale tied to analysis
+            - Actionable next steps
+        partial:
+          description: Recommendation made but rationale or next steps unclear
+          indicators:
+            - Decision without rationale
+            - Vague next steps
+            - Missing confidence level
+        fail:
+          description: No recommendation or hedged non-answer
+          indicators:
+            - Missing recommendation
+            - "Need more research" without specifics
+            - No decision made
+
+  - name: Document Quality
+    weight: 15
+    description: Overall quality, coherence, and actionability
+    criteria:
+      - id: DQ1
+        name: Coherence
+        weight: 5
+        pass:
+          description: All 12 boxes tell a consistent story with logical flow between sections
+          indicators:
+            - Problem flows to solution
+            - Value aligns with user needs
+            - Metrics match outcomes
+        partial:
+          description: Some disconnects between sections
+          indicators:
+            - Gaps in logic
+            - Inconsistent terminology
+            - Some sections feel isolated
+        fail:
+          description: Sections contradict or don't connect
+          indicators:
+            - Contradictory statements
+            - No narrative flow
+            - Copy-paste feel
+
+      - id: DQ2
+        name: Completeness
+        weight: 5
+        pass:
+          description: All 12 boxes substantively addressed with appropriate depth
+          indicators:
+            - No empty sections
+            - Each box has substance
+            - Appropriate detail level
+        partial:
+          description: Most boxes addressed but some gaps or thin sections
+          indicators:
+            - 1-2 boxes underdeveloped
+            - Some placeholder content
+            - Uneven depth
+        fail:
+          description: Multiple boxes empty or placeholder
+          indicators:
+            - >3 boxes missing
+            - Extensive placeholders
+            - Clearly incomplete
+
+      - id: DQ3
+        name: Actionability
+        weight: 5
+        pass:
+          description: Document enables decision-making with clear asks, timelines, and owners
+          indicators:
+            - Investment ask specified
+            - Timeline provided
+            - Next steps have owners
+        partial:
+          description: Some actionable elements but missing specifics
+          indicators:
+            - Vague investment ask
+            - Missing timeline
+            - No ownership assigned
+        fail:
+          description: Not actionable - cannot make decision from this
+          indicators:
+            - No clear ask
+            - No timeline or resources
+            - Missing next steps
+
+# Evaluation instructions for LLM judge
+evaluation_instructions: |
+  Evaluate the OpportunitySpec document against each criterion in this rubric.
+
+  For each criterion:
+  1. Read the criterion description and indicators
+  2. Find relevant content in the document
+  3. Assign pass (100%), partial (50%), or fail (0%)
+  4. Provide specific evidence from the document
+
+  Calculate weighted scores:
+  - Criterion score = (pass/partial/fail %) × criterion weight
+  - Category score = sum of criterion scores in category
+  - Final score = sum of (category scores × category weights) / 100
+
+  Final determination:
+  - PASS: Score >= 80%
+  - PARTIAL: Score >= 60% and < 80%
+  - FAIL: Score < 60%
+
+# Output format
+output_format:
+  type: structured
+  fields:
+    - name: overall_score
+      type: number
+      description: Weighted score 0-100
+    - name: determination
+      type: enum
+      values: [PASS, PARTIAL, FAIL]
+    - name: category_scores
+      type: array
+      description: Score breakdown by category
+    - name: criterion_results
+      type: array
+      description: Pass/partial/fail for each criterion with evidence
+    - name: strengths
+      type: array
+      description: What the document does well
+    - name: improvements
+      type: array
+      description: Specific improvements needed
+    - name: recommendation
+      type: string
+      description: Summary recommendation for document author
