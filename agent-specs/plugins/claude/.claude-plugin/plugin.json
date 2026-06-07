@@ -1,0 +1,12 @@
+{
+  "name": "visionspec",
+  "version": "0.7.0",
+  "description": "Multi-domain specification orchestration using Working Backwards methodology",
+  "author": "ProductBuildersHQ",
+  "license": "Apache-2.0",
+  "repository": "https://github.com/ProductBuildersHQ/visionspec",
+  "homepage": "https://productbuildershq.com/visionspec",
+  "commands": "./commands/",
+  "skills": "./skills/",
+  "agents": "./agents/"
+}

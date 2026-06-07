@@ -1,0 +1,37 @@
+{
+  "team": "visionspec-team",
+  "targets": [
+    {
+      "name": "local-claude",
+      "platform": "claude-code",
+      "priority": "p1",
+      "output": "plugins/claude",
+      "claudeCode": {
+        "agentDir": "agents",
+        "skillsDir": "skills",
+        "commandsDir": "commands",
+        "format": "markdown"
+      }
+    },
+    {
+      "name": "local-kiro",
+      "platform": "kiro-cli",
+      "priority": "p1",
+      "output": "plugins/kiro",
+      "kiroCli": {
+        "prefix": "vs_",
+        "agentsDir": "agents",
+        "steeringDir": "steering"
+      }
+    },
+    {
+      "name": "local-gemini",
+      "platform": "gemini-cli",
+      "priority": "p2",
+      "output": "plugins/gemini",
+      "geminiCli": {
+        "contextFileName": "GEMINI.md"
+      }
+    }
+  ]
+}

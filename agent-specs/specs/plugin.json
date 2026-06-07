@@ -1,0 +1,18 @@
+{
+  "name": "visionspec",
+  "displayName": "VisionSpec",
+  "version": "0.7.0",
+  "description": "Multi-domain specification orchestration using Working Backwards methodology",
+  "author": "ProductBuildersHQ",
+  "repository": "https://github.com/ProductBuildersHQ/visionspec",
+  "homepage": "https://productbuildershq.com/visionspec",
+  "license": "Apache-2.0",
+  "keywords": ["specification", "working-backwards", "mrd", "prd", "documentation"],
+  "commands": "commands",
+  "skills": "skills",
+  "agents": "agents",
+  "context": "# VisionSpec Agent Team\n\nVisionSpec uses the Working Backwards methodology to create comprehensive specifications that flow from market requirements to implementation-ready documents.\n\n## Specification Flow\n\nMRD → Press Release → FAQ → PRD → UXD → TRD → TPD → IRD → spec.md\n\n## Execution Targets\n\nOnce reconciled, specs can be exported to: AWS AI-DLC, GitHub SpecKit, GSD, GasTown, GasCity",
+  "dependencies": [
+    {"name": "git", "command": "git"}
+  ]
+}

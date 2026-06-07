@@ -1,0 +1,187 @@
+{
+  "$schema": "https://raw.githubusercontent.com/plexusone/multi-agent-spec/main/schema/orchestration/team.schema.json",
+  "name": "visionspec-team",
+  "version": "0.7.0",
+  "description": "VisionSpec specification orchestration team using Working Backwards methodology",
+  "agents": [
+    "visionspec-orchestrator",
+    "mrd-author",
+    "synthesizer",
+    "evaluator",
+    "reconciler",
+    "exporter"
+  ],
+  "orchestrator": "visionspec-orchestrator",
+  "workflow": {
+    "type": "graph",
+    "steps": [
+      {
+        "name": "create-mrd",
+        "agent": "mrd-author",
+        "depends_on": [],
+        "inputs": [
+          {
+            "name": "source_materials",
+            "type": "array",
+            "description": "Ideation documents, requirements, etc."
+          }
+        ],
+        "outputs": [
+          {
+            "name": "mrd_path",
+            "type": "string",
+            "description": "Path to created MRD"
+          }
+        ]
+      },
+      {
+        "name": "synthesize-press",
+        "agent": "synthesizer",
+        "depends_on": ["create-mrd"],
+        "inputs": [
+          {
+            "name": "mrd_path",
+            "type": "string",
+            "from": "create-mrd.mrd_path"
+          },
+          {
+            "name": "spec_type",
+            "type": "string",
+            "description": "press"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "press_path",
+            "type": "string"
+          }
+        ]
+      },
+      {
+        "name": "synthesize-faq",
+        "agent": "synthesizer",
+        "depends_on": ["synthesize-press"],
+        "inputs": [
+          {
+            "name": "mrd_path",
+            "type": "string",
+            "from": "create-mrd.mrd_path"
+          },
+          {
+            "name": "press_path",
+            "type": "string",
+            "from": "synthesize-press.press_path"
+          },
+          {
+            "name": "spec_type",
+            "type": "string",
+            "description": "faq"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "faq_path",
+            "type": "string"
+          }
+        ]
+      },
+      {
+        "name": "synthesize-prd",
+        "agent": "synthesizer",
+        "depends_on": ["synthesize-faq"],
+        "inputs": [
+          {
+            "name": "spec_type",
+            "type": "string",
+            "description": "prd"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "prd_path",
+            "type": "string"
+          }
+        ]
+      },
+      {
+        "name": "synthesize-trd",
+        "agent": "synthesizer",
+        "depends_on": ["synthesize-prd"],
+        "inputs": [
+          {
+            "name": "spec_type",
+            "type": "string",
+            "description": "trd"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "trd_path",
+            "type": "string"
+          }
+        ]
+      },
+      {
+        "name": "synthesize-tpd",
+        "agent": "synthesizer",
+        "depends_on": ["synthesize-trd"],
+        "inputs": [
+          {
+            "name": "spec_type",
+            "type": "string",
+            "description": "tpd"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "tpd_path",
+            "type": "string"
+          }
+        ]
+      },
+      {
+        "name": "evaluate-all",
+        "agent": "evaluator",
+        "depends_on": ["synthesize-tpd"],
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "evaluation_results",
+            "type": "object"
+          }
+        ]
+      },
+      {
+        "name": "reconcile",
+        "agent": "reconciler",
+        "depends_on": ["evaluate-all"],
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "spec_path",
+            "type": "string"
+          }
+        ]
+      },
+      {
+        "name": "export",
+        "agent": "exporter",
+        "depends_on": ["reconcile"],
+        "inputs": [
+          {
+            "name": "target",
+            "type": "string",
+            "description": "Export target (aidlc, speckit, gsd, gastown, gascity)"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "export_path",
+            "type": "string"
+          }
+        ]
+      }
+    ]
+  },
+  "context": "VisionSpec uses the Working Backwards methodology to create comprehensive specifications. The workflow starts with market requirements (MRD), flows through vision documents (Press, FAQ), product definition (PRD), and technical design (TRD, TPD), culminating in a reconciled spec.md that can be exported to various execution targets."
+}
