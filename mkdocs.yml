@@ -86,6 +86,22 @@ nav:
       - Overview: guides/index.md
       - Configuration: guides/configuration.md
       - Custom Profiles: guides/custom-profiles.md
+      - Organization Customization: guides/organization-customization.md
+  - Execution Targets:
+      - Overview: execution-targets/index.md
+      - AWS AI-DLC: execution-targets/aws-aidlc.md
+      - GitHub SpecKit: execution-targets/speckit.md
+      - GSD: execution-targets/gsd.md
+      - GasTown: execution-targets/gastown.md
+      - GasCity: execution-targets/gascity.md
+      - Choosing a Target: execution-targets/choosing-a-target.md
+  - Examples:
+      - Overview: examples/index.md
+      - PetStore API:
+          - Overview: examples/petstore/index.md
+          - Working Backwards: examples/petstore/working-backwards.md
+          - Technical Specification: examples/petstore/technical-spec.md
+          - Execution: examples/petstore/execution.md
   - MCP Server:
       - Overview: mcp/index.md
       - Tools: mcp/tools.md
