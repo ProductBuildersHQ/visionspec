@@ -8,20 +8,22 @@ import "embed"
 //
 // Methodology profiles (by product development approach)
 //
-// Stage-based profiles
+// # Stage-based profiles
+//
+// # AWS methodology profiles
+//
+// # Other company methodology profiles
+//
+// Big Tech profiles (combines 10 methodologies)
+//
+// Big Tech Essentials profiles (simplified 3-company synthesis)
 //
 //go:embed default/0-1/profile.yaml default/0-1/templates/*.md default/0-1/rubrics/*.yaml
 //go:embed default/startup/profile.yaml default/startup/templates/*.md default/startup/rubrics/*.yaml
 //go:embed default/growth/profile.yaml default/growth/templates/*.md default/growth/rubrics/*.yaml
 //go:embed default/enterprise/profile.yaml default/enterprise/templates/*.md default/enterprise/rubrics/*.yaml
-//
-// AWS methodology profiles
-//
 //go:embed default/aws-product/profile.yaml default/aws-product/templates/*.md default/aws-product/rubrics/*.yaml
 //go:embed default/aws-feature/profile.yaml default/aws-feature/templates/*.md default/aws-feature/rubrics/*.yaml
-//
-// Other company methodology profiles
-//
 //go:embed default/google/profile.yaml default/google/templates/*.md default/google/rubrics/*.yaml
 //go:embed default/stripe/profile.yaml default/stripe/templates/*.md default/stripe/rubrics/*.yaml
 //go:embed default/lean-startup/profile.yaml default/lean-startup/templates/*.md default/lean-startup/rubrics/*.yaml
@@ -29,15 +31,9 @@ import "embed"
 //go:embed default/jtbd/profile.yaml default/jtbd/templates/*.md default/jtbd/rubrics/*.yaml
 //go:embed default/shapeup/profile.yaml default/shapeup/templates/*.md default/shapeup/rubrics/*.yaml
 //go:embed default/continuous-discovery/profile.yaml default/continuous-discovery/templates/*.md default/continuous-discovery/rubrics/*.yaml
-//
-// Big Tech profiles (combines 10 methodologies)
-//
 //go:embed default/big-tech/profile.yaml
 //go:embed default/big-tech-product/profile.yaml default/big-tech-product/templates/*.md default/big-tech-product/rubrics/*.yaml
 //go:embed default/big-tech-feature/profile.yaml default/big-tech-feature/templates/*.md default/big-tech-feature/rubrics/*.yaml
-//
-// Big Tech Essentials profiles (simplified 3-company synthesis)
-//
 //go:embed default/big-tech-essentials/profile.yaml
 //go:embed default/big-tech-essentials-product/profile.yaml default/big-tech-essentials-product/rubrics/*.yaml
 //go:embed default/big-tech-essentials-feature/profile.yaml default/big-tech-essentials-feature/rubrics/*.yaml

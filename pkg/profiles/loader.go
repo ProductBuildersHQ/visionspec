@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/fs"
 	"os"
+	"path"
 	"path/filepath"
 	"strings"
 
@@ -36,10 +37,11 @@ func NewEmbedFSLoader(fsys embed.FS, dir string) Loader {
 }
 
 func (l *embedFSLoader) Load(name string) (*Profile, error) {
-	profileDir := filepath.Join(l.dir, name)
+	// Use path.Join (not filepath.Join) for embed.FS which always uses forward slashes
+	profileDir := path.Join(l.dir, name)
 
 	// Load profile.yaml
-	profilePath := filepath.Join(profileDir, "profile.yaml")
+	profilePath := path.Join(profileDir, "profile.yaml")
 	data, err := l.fs.ReadFile(profilePath)
 	if err != nil {
 		return nil, fmt.Errorf("profile %q not found: %w", name, err)
@@ -56,7 +58,7 @@ func (l *embedFSLoader) Load(name string) (*Profile, error) {
 	}
 
 	// Set up template loader for this profile
-	templatesDir := filepath.Join(profileDir, "templates")
+	templatesDir := path.Join(profileDir, "templates")
 	if _, err := l.fs.ReadDir(templatesDir); err == nil {
 		// Create a sub-filesystem for templates
 		subFS, err := fs.Sub(l.fs, templatesDir)
@@ -66,7 +68,7 @@ func (l *embedFSLoader) Load(name string) (*Profile, error) {
 	}
 
 	// Set up rubric loader for this profile
-	rubricsDir := filepath.Join(profileDir, "rubrics")
+	rubricsDir := path.Join(profileDir, "rubrics")
 	if _, err := l.fs.ReadDir(rubricsDir); err == nil {
 		// Create a sub-filesystem for rubrics
 		subFS, err := fs.Sub(l.fs, rubricsDir)
@@ -88,7 +90,8 @@ func (l *embedFSLoader) Available() []string {
 	for _, entry := range entries {
 		if entry.IsDir() {
 			// Check if it has a profile.yaml
-			profilePath := filepath.Join(l.dir, entry.Name(), "profile.yaml")
+			// Use path.Join (not filepath.Join) for embed.FS which always uses forward slashes
+			profilePath := path.Join(l.dir, entry.Name(), "profile.yaml")
 			if _, err := l.fs.ReadFile(profilePath); err == nil {
 				names = append(names, entry.Name())
 			}
