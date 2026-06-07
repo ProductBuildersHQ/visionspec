@@ -9,7 +9,7 @@
     {
       "version": "v0.8.0",
       "date": "2026-06-07",
-      "commit": "5e2f72a",
+      "commit": "ac7f789",
       "highlights": [
         { "description": "Big Tech methodology profiles with multi-company best practices (Google, Amazon, Meta, Stripe)" },
         { "description": "Constitution spec support for organizational governance and constraint inheritance" },
@@ -47,6 +47,10 @@
       ],
       "refactored": [
         { "description": "Legacy AWS profile removed in favor of aws-product and aws-feature profiles", "commit": "6faed99" }
+      ],
+      "fixed": [
+        { "description": "Windows compatibility: Use path.Join for embed.FS paths (filepath.Join uses backslashes on Windows)", "commit": "5a7a867" },
+        { "description": "Refactored MCP resource handlers to eliminate code duplication", "commit": "ac7f789" }
       ],
       "documentation": [
         { "description": "Big Tech and methodology framework guides (Big Tech, Continuous Discovery, Opportunity Spec, Shape Up)", "commit": "47e744e" },
