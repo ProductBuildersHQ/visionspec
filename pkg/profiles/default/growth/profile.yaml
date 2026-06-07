@@ -15,3 +15,17 @@ spec_config:
   faq:
     required: true
     category: gtm
+
+  # Technical specs: optional but recommended as architecture stabilizes
+  trd:
+    required: false
+    category: technical
+    description: "Technical design for scalable architecture"
+  ird:
+    required: false
+    category: technical
+    description: "Infrastructure for growth scaling"
+  tpd:
+    required: false
+    category: technical
+    description: "Test plan for quality at scale"

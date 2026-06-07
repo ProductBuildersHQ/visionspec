@@ -1,0 +1,73 @@
+# Growth IRD Evaluation Rubric
+
+spec_type: ird
+name: "Growth IRD Rubric"
+description: "Infrastructure Requirements Document evaluation for growth-stage implementations"
+version: "1.0"
+
+categories:
+  - id: architecture_completeness
+    name: "Architecture Completeness"
+    description: "Whether infrastructure covers required components"
+    weight: 0.25
+    required: true
+    criteria:
+      pass: "Complete infrastructure with compute, storage, and networking"
+      partial: "Basic infrastructure but missing components"
+      fail: "Incomplete infrastructure"
+
+  - id: trd_alignment
+    name: "TRD Alignment"
+    description: "Whether infrastructure supports technical requirements"
+    weight: 0.20
+    required: true
+    criteria:
+      pass: "Infrastructure clearly supports TRD architecture"
+      partial: "Some alignment but gaps exist"
+      fail: "Infrastructure doesn't support requirements"
+
+  - id: scalability
+    name: "Scalability Design"
+    description: "Whether infrastructure can scale with growth"
+    weight: 0.20
+    required: true
+    criteria:
+      pass: "Auto-scaling configured with clear triggers"
+      partial: "Basic scaling capability"
+      fail: "No scalability planning"
+
+  - id: security
+    name: "Security Controls"
+    description: "Basic security controls defined"
+    weight: 0.15
+    required: true
+    criteria:
+      pass: "Network isolation, IAM, and encryption configured"
+      partial: "Some security controls"
+      fail: "Inadequate security"
+
+  - id: monitoring
+    name: "Monitoring"
+    description: "Observability and alerting"
+    weight: 0.10
+    required: true
+    criteria:
+      pass: "Metrics, logs, and alerts configured"
+      partial: "Basic monitoring"
+      fail: "No monitoring"
+
+  - id: cost_awareness
+    name: "Cost Awareness"
+    description: "Cost estimation present"
+    weight: 0.10
+    required: false
+    criteria:
+      pass: "Cost estimate with optimization considerations"
+      partial: "Basic cost estimate"
+      fail: "No cost analysis"
+
+pass_criteria:
+  require_all_pass: false
+  max_critical: 0
+  max_high: 1
+  max_medium: 2
