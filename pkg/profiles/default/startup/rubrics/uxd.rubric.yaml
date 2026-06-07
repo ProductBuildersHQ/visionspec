@@ -1,0 +1,63 @@
+# Startup UXD Evaluation Rubric
+
+spec_type: uxd
+name: "Startup UXD Rubric"
+description: "User Experience Design evaluation for pre-PMF startups"
+version: "1.0"
+
+categories:
+  - id: user_focus
+    name: "User Focus"
+    description: "Clear understanding of target user"
+    weight: 0.30
+    required: true
+    criteria:
+      pass: "Target user clearly defined with specific pain point"
+      partial: "User mentioned but needs more specificity"
+      fail: "No clear target user"
+
+  - id: user_journey
+    name: "User Journey"
+    description: "Current vs future state comparison"
+    weight: 0.20
+    required: true
+    criteria:
+      pass: "Clear current pain and future improvement"
+      partial: "Journey described but unclear improvement"
+      fail: "No user journey"
+
+  - id: key_screens
+    name: "Key Screens"
+    description: "Visual representation of MVP"
+    weight: 0.25
+    required: true
+    criteria:
+      pass: "Key screens with main interactions"
+      partial: "Some screens but incomplete"
+      fail: "No visual design"
+
+  - id: mvp_scope
+    name: "MVP Scope"
+    description: "Clear MVP boundaries"
+    weight: 0.15
+    required: true
+    criteria:
+      pass: "Clear must-have vs nice-to-have distinction"
+      partial: "Scope mentioned but unclear"
+      fail: "No scope definition"
+
+  - id: simplicity
+    name: "Simplicity"
+    description: "Design is appropriately simple for MVP"
+    weight: 0.10
+    required: true
+    criteria:
+      pass: "Minimal, focused design for core value"
+      partial: "Somewhat complex for MVP stage"
+      fail: "Over-designed for MVP"
+
+pass_criteria:
+  require_all_pass: false
+  max_critical: 0
+  max_high: 1
+  max_medium: 2

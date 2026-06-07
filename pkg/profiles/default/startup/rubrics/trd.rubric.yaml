@@ -1,0 +1,73 @@
+# Startup TRD Evaluation Rubric
+
+spec_type: trd
+name: "Startup TRD Rubric"
+description: "Technical Requirements Document evaluation for pre-PMF startups"
+version: "1.0"
+
+categories:
+  - id: architecture
+    name: "Architecture"
+    description: "Basic system architecture defined"
+    weight: 0.25
+    required: true
+    criteria:
+      pass: "Clear architecture with technology choices justified"
+      partial: "Architecture present but choices unclear"
+      fail: "No architecture defined"
+
+  - id: data_model
+    name: "Data Model"
+    description: "Core data entities defined"
+    weight: 0.20
+    required: true
+    criteria:
+      pass: "Core entities defined with key fields"
+      partial: "Some data model but incomplete"
+      fail: "No data model"
+
+  - id: mvp_scope
+    name: "MVP Scope"
+    description: "Clear technical MVP boundaries"
+    weight: 0.20
+    required: true
+    criteria:
+      pass: "Clear must-build vs cut-for-MVP distinction"
+      partial: "Scope mentioned but unclear"
+      fail: "No scope definition"
+
+  - id: deployment
+    name: "Deployment"
+    description: "Basic deployment approach"
+    weight: 0.15
+    required: true
+    criteria:
+      pass: "Clear deployment approach with environments"
+      partial: "Deployment mentioned"
+      fail: "No deployment plan"
+
+  - id: security_basics
+    name: "Security Basics"
+    description: "Basic security considerations"
+    weight: 0.10
+    required: true
+    criteria:
+      pass: "Basic security checklist addressed"
+      partial: "Some security considerations"
+      fail: "No security consideration"
+
+  - id: pragmatism
+    name: "Pragmatism"
+    description: "Technical choices are pragmatic for startup"
+    weight: 0.10
+    required: true
+    criteria:
+      pass: "Pragmatic choices that optimize for speed to market"
+      partial: "Some over-engineering"
+      fail: "Over-engineered for stage"
+
+pass_criteria:
+  require_all_pass: false
+  max_critical: 0
+  max_high: 1
+  max_medium: 2

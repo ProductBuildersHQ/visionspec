@@ -12,6 +12,7 @@ spec_config:
   uxd:
     required: false
     category: source
+    description: "Lightweight UX design for MVP"
 
   # GTM specs: all optional for pre-PMF
   press:
@@ -31,6 +32,7 @@ spec_config:
   trd:
     required: false
     category: technical
+    description: "Lightweight technical design for MVP"
   ird:
     required: false
     category: technical
