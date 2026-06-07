@@ -39,6 +39,7 @@ func NewServer() *Server {
 
 	s := &Server{server: server}
 	s.registerTools()
+	s.registerResources()
 
 	return s
 }
