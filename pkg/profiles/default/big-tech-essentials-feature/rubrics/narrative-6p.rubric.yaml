@@ -1,0 +1,57 @@
+name: "6-Pager Evaluation (Essentials)"
+description: "Simplified evaluation of Amazon-style 6-pager narratives. Core criteria only - focuses on narrative quality and data support."
+pass_criteria:
+  min_score: 6.5
+  max_critical: 0
+  max_high: 1
+
+categories:
+  - id: narrative_quality
+    name: "Narrative Quality"
+    description: "Whether the document tells a coherent story"
+    weight: 0.30
+    required: true
+    criteria:
+      pass: "Clear narrative arc; easy to follow from problem to solution"
+      partial: "Story exists but lacks flow"
+      fail: "Bullet points masquerading as narrative"
+
+  - id: customer_focus
+    name: "Customer Focus"
+    description: "Whether the narrative centers on customer needs"
+    weight: 0.25
+    required: true
+    criteria:
+      pass: "Customer perspective central throughout"
+      partial: "Some customer focus but mixed with internal concerns"
+      fail: "Internally-focused narrative"
+
+  - id: data_support
+    name: "Data Support"
+    description: "Whether claims are supported by data"
+    weight: 0.20
+    required: true
+    criteria:
+      pass: "Key claims backed by data with sources cited"
+      partial: "Some data but missing key evidence"
+      fail: "No data support; assertions without evidence"
+
+  - id: alternatives_tradeoffs
+    name: "Alternatives and Tradeoffs"
+    description: "Whether alternatives were considered (Google practice)"
+    weight: 0.15
+    required: false
+    criteria:
+      pass: "Clear alternatives considered with explicit tradeoffs"
+      partial: "Some alternatives mentioned"
+      fail: "No alternatives considered"
+
+  - id: length_format
+    name: "Length and Format"
+    description: "Whether the document follows 6-pager format"
+    weight: 0.10
+    required: false
+    criteria:
+      pass: "6 pages or less; no slides; pure prose"
+      partial: "Slightly over 6 pages or some bullet lists"
+      fail: "Way too long or slide-like format"

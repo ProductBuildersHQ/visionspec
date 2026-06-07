@@ -1,0 +1,234 @@
+name: big-tech-essentials
+description: |
+  Streamlined big-tech profile combining core practices from 3 leading methodologies:
+  - AWS Working Backwards (customer obsession, PR/FAQ, 6-pager)
+  - Google Design Docs (OKRs, tradeoffs, alternatives)
+  - Stripe API-First (developer experience, documentation quality)
+
+  This profile provides the essential big-tech rigor without the full 10-company synthesis.
+  Teams get the core DNA (customer obsession, data-driven decisions, API-first thinking)
+  with simplified evaluation criteria.
+
+  For the full synthesis including Netflix, Spotify, Meta, Apple, Microsoft, Basecamp,
+  and Teresa Torres practices, use big-tech-product or big-tech-feature instead.
+extends: enterprise
+
+# This is a base profile - use big-tech-essentials-product or big-tech-essentials-feature
+abstract: true
+
+methodology:
+  name: "Big Tech Essentials"
+
+  # Guidance on when to use this vs full big-tech
+  profile_selection:
+    use_essentials_when:
+      - "Team is new to big-tech practices and wants to start simple"
+      - "Project timeline doesn't allow for full 10-company rigor"
+      - "Team size is small (< 5 people)"
+      - "Focus is on shipping rather than exhaustive documentation"
+      - "Company culture is not yet aligned with Netflix/Spotify autonomy practices"
+
+    use_full_big_tech_when:
+      - "Enterprise-scale project with multiple stakeholders"
+      - "Team has experience with Shape Up or Continuous Discovery"
+      - "Project requires explicit bet-framing (Spotify) or circuit breakers (Basecamp)"
+      - "Discovery phase needs weekly customer touchpoints (Teresa Torres)"
+      - "Company culture emphasizes autonomy and alignment (Netflix)"
+
+  # Core practices (3 companies only)
+  practices:
+    # Amazon - Customer obsession and narrative-driven development
+    amazon:
+      - customer_obsession: "Start with the customer and work backwards"
+      - working_backwards: "Write the press release first, then build"
+      - ownership: "Think long-term, act on behalf of the entire company"
+      - bias_for_action: "Speed matters; most decisions are reversible (two-way doors)"
+      - highest_standards: "Relentlessly high standards, never settle"
+      - disagree_and_commit: "Truth-seeking over social cohesion"
+
+    # Google - Engineering rigor and data-driven decisions
+    google:
+      - explicit_tradeoffs: "Every decision has costs; make them visible"
+      - alternatives_considered: "Always evaluate multiple approaches before deciding"
+      - data_driven: "Decisions backed by data, metrics, and experiments"
+      - okr_alignment: "Work connects to measurable objectives and key results"
+      - non_goals: "What we won't do is as important as what we will"
+      - peer_review: "Design reviews ensure diverse perspectives"
+      - reversibility: "Prefer reversible decisions; be explicit about irreversible ones"
+
+    # Stripe - Developer experience and API-first
+    stripe:
+      - api_first: "Design the interface before the implementation"
+      - developer_experience: "Optimize for developer productivity"
+      - incremental_delivery: "Ship small, ship often, ship safely"
+      - documentation_quality: "Docs are part of the product, not an afterthought"
+      - error_messages_matter: "Helpful errors are a feature"
+
+  # Unified principles (merged from 3 companies)
+  principles:
+    # Customer & User Focus
+    - customer_obsession: "Start with the customer and work backwards (Amazon)"
+    - developer_experience: "Optimize for developer productivity (Stripe)"
+
+    # Vision & Ambition
+    - working_backwards: "Write the press release first (Amazon)"
+
+    # Decision Making
+    - explicit_tradeoffs: "Every decision has costs; make them visible (Google)"
+    - alternatives_considered: "Always evaluate multiple approaches (Google)"
+    - data_driven: "Decisions backed by data and experiments (Google)"
+    - bias_for_action: "Speed matters; two-way door decisions (Amazon)"
+    - reversibility: "Prefer reversible decisions (Google)"
+
+    # Quality & Standards
+    - highest_standards: "Relentlessly high standards (Amazon)"
+    - api_first: "Design the interface before implementation (Stripe)"
+    - documentation_quality: "Docs are part of the product (Stripe)"
+    - non_goals: "What we won't do is as important as what we will (Google)"
+
+    # Collaboration & Review
+    - peer_review: "Design reviews ensure diverse perspectives (Google)"
+    - disagree_and_commit: "Truth-seeking, then commit (Amazon)"
+
+    # Execution & Delivery
+    - ownership: "Think long-term, end-to-end ownership (Amazon)"
+    - incremental_delivery: "Ship small, ship often (Stripe)"
+
+  # Key artifacts (simplified)
+  artifacts:
+    # Amazon
+    - press_release: "Customer announcement (Amazon)"
+    - faq: "Challenge assumptions (Amazon)"
+    - six_pager: "Narrative document (Amazon)"
+    # Google
+    - design_doc: "Technical specification with tradeoffs (Google)"
+    - okr: "Objectives and key results (Google)"
+    # Stripe
+    - api_spec: "Interface-first design (Stripe)"
+
+# Spec configuration - same specs as big-tech, same required set
+spec_config:
+  # Discovery phase - Amazon PR/FAQ + Google OKRs
+  mrd:
+    required: true
+    category: source
+    description: "Market requirements with OKR alignment"
+
+  press:
+    required: true
+    category: gtm
+    description: "Working backwards press release"
+
+  faq:
+    required: true
+    category: gtm
+    description: "Challenge assumptions, internal and external"
+
+  # Requirements phase - API-first + narrative
+  prd:
+    required: true
+    category: source
+    description: "Product requirements with API contracts"
+
+  narrative-6p:
+    required: false
+    category: gtm
+    description: "Amazon-style 6-pager for major initiatives"
+
+  narrative-1p:
+    required: false
+    category: gtm
+    description: "Executive summary"
+
+  # Experience phase - DX + UX
+  uxd:
+    required: true
+    category: source
+    description: "User experience with developer experience considerations"
+
+  # Technical phase - Design docs with tradeoffs
+  trd:
+    required: true
+    category: technical
+    description: "Design doc with alternatives and explicit tradeoffs"
+
+  tpd:
+    required: true
+    category: technical
+    description: "Test plan with experiment design"
+
+  ird:
+    required: false
+    category: technical
+    description: "Infrastructure requirements"
+
+  # Shape Up artifacts (not included in essentials - too advanced)
+  shapeup-pitch:
+    required: false
+    category: source
+    description: "Use big-tech-product for Shape Up integration"
+
+  # Continuous Discovery artifacts (not included in essentials - too advanced)
+  ost:
+    required: false
+    category: source
+    description: "Use big-tech-product for Continuous Discovery integration"
+
+# Synthesis rules - same flow, simplified guidance
+synthesis:
+  press:
+    sources:
+      - mrd
+    guidance: "Write from customer perspective, include measurable outcomes (OKRs)"
+
+  faq:
+    sources:
+      - mrd
+      - press
+    guidance: "Include internal stakeholder questions and API/DX concerns"
+
+  prd:
+    sources:
+      - mrd
+      - press
+      - faq
+    guidance: "Include API contracts, non-goals, and success metrics"
+
+  trd:
+    sources:
+      - prd
+      - uxd
+    guidance: "Include alternatives considered and explicit tradeoffs"
+
+  tpd:
+    sources:
+      - prd
+      - trd
+    guidance: "Include hypothesis and success criteria for key validations"
+
+# Evaluation thresholds - slightly lower than full big-tech (70% vs 80%)
+evaluation:
+  pass_threshold: 70
+  partial_threshold: 50
+
+# Simplified rubric criteria (core only, no advanced practices)
+rubric_extensions:
+  mrd:
+    - okr_quality: "Objectives inspiring, key results measurable"
+    - customer_clarity: "Customer segment and pain clearly defined"
+
+  prd:
+    - api_contract: "Interface defined before implementation details"
+    - non_goals: "Explicit scope exclusions listed"
+    - alternatives: "At least one alternative approach considered"
+
+  trd:
+    - tradeoffs: "Explicit costs and benefits of chosen approach"
+    - reversibility: "Two-way vs one-way door assessment"
+    # Removed: scalability (10x thinking) - too advanced for essentials
+
+  uxd:
+    - developer_experience: "API usability and error handling"
+    # Removed: accessibility - teams may have separate process
+
+  # Shape Up and Continuous Discovery rubrics not included in essentials

@@ -1,0 +1,57 @@
+name: "Press Release Evaluation (Essentials)"
+description: "Simplified evaluation of Press Release documents using Amazon Working Backwards methodology. Core criteria only - focuses on customer problem and solution clarity."
+pass_criteria:
+  min_score: 6.5
+  max_critical: 0
+  max_high: 1
+
+categories:
+  - id: headline_impact
+    name: "Headline Impact"
+    description: "Whether the headline clearly communicates the primary customer benefit"
+    weight: 0.20
+    required: true
+    criteria:
+      pass: "Compelling headline with clear customer benefit"
+      partial: "Headline present but benefit unclear"
+      fail: "No clear headline or focuses on company rather than customer"
+
+  - id: customer_problem
+    name: "Customer Problem"
+    description: "How well the customer problem is articulated"
+    weight: 0.30
+    required: true
+    criteria:
+      pass: "Clear problem description; reader can understand the pain"
+      partial: "Problem stated but lacks specificity"
+      fail: "No clear customer problem"
+
+  - id: solution_clarity
+    name: "Solution Clarity"
+    description: "Whether the solution and benefits are clearly explained"
+    weight: 0.30
+    required: true
+    criteria:
+      pass: "Clear solution with concrete benefits stated in customer terms"
+      partial: "Solution described but benefits vague or too technical"
+      fail: "No clear solution articulated"
+
+  - id: call_to_action
+    name: "Call to Action"
+    description: "Clarity of next steps"
+    weight: 0.10
+    required: true
+    criteria:
+      pass: "Clear next steps and availability"
+      partial: "CTA present but vague"
+      fail: "No call to action"
+
+  - id: readability
+    name: "Readability"
+    description: "Whether the press release is written in plain language"
+    weight: 0.10
+    required: false
+    criteria:
+      pass: "Clear, jargon-free prose"
+      partial: "Somewhat technical but understandable"
+      fail: "Incomprehensible to target audience"

@@ -1,0 +1,47 @@
+name: "Test Plan Evaluation (Essentials)"
+description: "Simplified evaluation of Test Plan documents. Core criteria only - focuses on coverage and hypothesis validation."
+pass_criteria:
+  min_score: 6.5
+  max_critical: 0
+  max_high: 1
+
+categories:
+  - id: test_coverage
+    name: "Test Coverage"
+    description: "Whether key functionality is covered by tests"
+    weight: 0.35
+    required: true
+    criteria:
+      pass: "All key user flows and requirements have test coverage"
+      partial: "Some coverage but gaps exist"
+      fail: "Test coverage inadequate"
+
+  - id: acceptance_criteria
+    name: "Acceptance Criteria"
+    description: "Clarity of pass/fail criteria"
+    weight: 0.25
+    required: true
+    criteria:
+      pass: "Clear pass/fail criteria for each test case"
+      partial: "Some criteria but ambiguous"
+      fail: "No clear acceptance criteria"
+
+  - id: hypothesis_validation
+    name: "Hypothesis Validation"
+    description: "Whether tests validate key assumptions"
+    weight: 0.20
+    required: false
+    criteria:
+      pass: "Tests designed to validate risky assumptions from PRD"
+      partial: "Some assumption testing"
+      fail: "No assumption testing; purely functional"
+
+  - id: edge_cases
+    name: "Edge Cases"
+    description: "Whether edge cases are considered"
+    weight: 0.20
+    required: false
+    criteria:
+      pass: "Key edge cases and error scenarios covered"
+      partial: "Some edge cases but not comprehensive"
+      fail: "Only happy path testing"
