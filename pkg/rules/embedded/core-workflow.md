@@ -18,32 +18,102 @@ When starting a new project, ask the user which methodology framework to use:
 ```
 Which methodology framework would you like to use?
 
-1. AWS Working Backwards (default) - Start with customer announcement, work backwards to requirements
-2. Lean Startup - Hypothesis-driven, build-measure-learn cycles
-3. Design Thinking - Human-centered, empathy-first approach
-4. Jobs to be Done - Focus on customer job statements and outcomes
+1. Big Tech - Product (recommended) - Best of all worlds (10 methodologies), MRD start
+2. Big Tech - Feature - Best of all worlds (10 methodologies), OpportunitySpec start
+3. AWS Working Backwards - Product - Start with MRD for new product lines
+4. AWS Working Backwards - Feature - Start with OpportunitySpec for features
 5. Google - OKRs, design docs, and experimentation
 6. Stripe - API-first, developer experience focused
+7. Shape Up - Fixed time, variable scope, betting on pitches (Basecamp)
+8. Continuous Discovery - Weekly touchpoints, OST, assumption testing (Teresa Torres)
+9. Lean Startup - Hypothesis-driven, build-measure-learn cycles
+10. Design Thinking - Human-centered, empathy-first approach
+11. Jobs to be Done - Focus on customer job statements and outcomes
 ```
 
-**Default**: If user doesn't specify or says "just start", use **AWS Working Backwards**.
+Note: Big Tech profiles include Shape Up and Continuous Discovery practices as optional artifacts.
+When using Big Tech, you can add pitches, hill charts, OSTs, and assumption maps as needed.
+
+**Default**: If user doesn't specify or says "just start":
+- For **new products**: use `big-tech-product` (comprehensive best practices, MRD start)
+- For **features on existing products**: use `big-tech-feature` (comprehensive best practices, OpportunitySpec start)
+- For **API/platform products**: use `big-tech-feature` or `stripe`
 
 Initialize project with the selected profile:
 
 ```bash
 visionspec init <project> --profile <framework>
 # Examples:
-visionspec init myproject --profile aws          # Default
+visionspec init myproject --profile big-tech-product       # Best practices, MRD start (recommended)
+visionspec init myproject --profile big-tech-feature       # Best practices, OpportunitySpec start
+visionspec init myproject --profile aws-product            # Amazon Working Backwards, MRD start
+visionspec init myproject --profile aws-feature            # Amazon Working Backwards, OpportunitySpec start
+visionspec init myproject --profile google
+visionspec init myproject --profile stripe
+visionspec init myproject --profile shapeup                # Basecamp Shape Up, Pitch-based
+visionspec init myproject --profile continuous-discovery   # Teresa Torres, OST + weekly touchpoints
 visionspec init myproject --profile lean-startup
 visionspec init myproject --profile design-thinking
 visionspec init myproject --profile jtbd
-visionspec init myproject --profile google
-visionspec init myproject --profile stripe
 ```
 
 ## Framework-Specific Flows
 
-### AWS Working Backwards (Default)
+### Big Tech Product (Recommended for New Products)
+
+Combined best practices from AWS, Google, Stripe, Netflix, Spotify, and more. Starts with MRD.
+
+```
+MRD + OKRs (market problem with measurable objectives)
+    ↓
+Press Release (customer announcement - Amazon)
+    ↓
+FAQ (challenge assumptions, include developer FAQ - Amazon/Stripe)
+    ↓
+6-Pager (narrative stakeholder alignment - Amazon)
+    ↓
+PRD + API Contracts (requirements with non-goals and alternatives - Google/Stripe)
+    ↓
+UXD + DX (user experience with developer experience and accessibility - Stripe/Microsoft)
+    ↓
+Design Doc (TRD with explicit tradeoffs and reversibility - Google)
+    ↓
+Test Plan + Experiments (TPD with hypothesis-driven validation - Google/Spotify)
+    ↓
+spec.md (reconciled execution spec)
+```
+
+### Big Tech Feature (Recommended for Features)
+
+Same practices as Big Tech Product, but starts with OpportunitySpec for feature-level opportunities.
+
+```
+OpportunitySpec + OKRs (12-box canvas with measurable objectives)
+    ↓
+Press Release (feature announcement - Amazon)
+    ↓
+FAQ (challenge assumptions, include developer FAQ - Amazon/Stripe)
+    ↓
+PRD + API Contracts (requirements with non-goals and alternatives - Google/Stripe)
+    ↓
+UXD + DX (user experience with developer experience and accessibility - Stripe/Microsoft)
+    ↓
+Design Doc (TRD with explicit tradeoffs and reversibility - Google)
+    ↓
+Test Plan + Experiments (TPD with hypothesis-driven validation - Google/Spotify)
+    ↓
+spec.md (reconciled execution spec)
+```
+
+Key practices integrated (both profiles):
+- Customer obsession + Working backwards (Amazon)
+- OKRs + 10x thinking + Explicit tradeoffs (Google)
+- API-first + Developer experience (Stripe)
+- Freedom & Responsibility + Context not control (Netflix)
+- Bets not projects + Fail fast (Spotify)
+- DRI (Apple) + Growth mindset (Microsoft)
+
+### AWS Working Backwards
 
 Customer-centric, vision-first approach. Start with the press release.
 
@@ -183,7 +253,7 @@ visionspec status -p <project>
 Or check `visionspec.yaml`:
 
 ```yaml
-profile: aws  # or lean-startup, design-thinking, etc.
+profile: aws-product  # or aws-feature, lean-startup, design-thinking, etc.
 ```
 
 Continue with the configured framework's flow.
