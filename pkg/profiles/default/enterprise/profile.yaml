@@ -1,17 +1,24 @@
 name: enterprise
-description: "Comprehensive configuration for post-PMF enterprises. Full specs with security and compliance."
+description: "Comprehensive configuration for post-PMF enterprises. Full specs with security and compliance. MRD includes embedded Business Model Canvas."
 
 spec_config:
   # Source specs: all required
-  prd:
+  mrd:
     required: true
     category: source
-  mrd:
+    description: "Market requirements with embedded Business Model Canvas"
+  prd:
     required: true
     category: source
   uxd:
     required: true
     category: source
+
+  # Business Model Canvas: synthesized from MRD
+  bmc:
+    required: false
+    category: gtm
+    description: "Business Model Canvas extracted from MRD for stakeholder review"
 
   # GTM specs: required for launches
   press:
@@ -27,15 +34,66 @@ spec_config:
     required: false
     category: gtm
 
-  # Technical specs: TRD required
+  # Technical specs
   trd:
     required: true
     category: technical
+  tpd:
+    required: true
+    category: technical
+    description: "Test plan document"
   ird:
     required: false
     category: technical
+    description: "Infrastructure requirements"
 
   # Output specs
   spec:
     required: true
     category: output
+
+# Synthesis rules
+synthesis:
+  bmc:
+    sources:
+      - mrd
+    guidance: "Extract Business Model Canvas blocks from MRD sections 2-11. Format as standalone canvas for visual review."
+
+  press:
+    sources:
+      - mrd
+    guidance: "Write from customer perspective based on value propositions and customer segments in MRD."
+
+  faq:
+    sources:
+      - mrd
+      - press
+    guidance: "Address customer questions based on segments, internal questions based on risks and assumptions."
+
+  prd:
+    sources:
+      - mrd
+      - press
+      - faq
+    guidance: "Derive product requirements from market requirements. Map to customer segments."
+
+  trd:
+    sources:
+      - prd
+      - uxd
+    guidance: "Technical design to support PRD requirements."
+
+  tpd:
+    sources:
+      - prd
+      - trd
+    guidance: "Test plan covering all PRD requirements with traceability."
+
+  spec:
+    sources:
+      - mrd
+      - prd
+      - uxd
+      - trd
+      - tpd
+    guidance: "Unified specification consolidating all approved specs."

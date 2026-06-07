@@ -1,0 +1,83 @@
+# Enterprise Unified Spec Evaluation Rubric
+
+spec_type: spec
+name: "Enterprise Unified Spec Rubric"
+description: "Unified specification document evaluation for enterprise execution readiness"
+version: "1.0"
+
+categories:
+  - id: source_completeness
+    name: "Source Document Completeness"
+    description: "Whether all source documents are referenced and approved"
+    weight: 0.15
+    required: true
+    criteria:
+      pass: "All required documents (MRD, PRD, UXD, TRD, TPD, IRD) referenced with approval status"
+      partial: "Most documents referenced but some missing or unapproved"
+      fail: "Missing critical source documents"
+
+  - id: consistency
+    name: "Cross-Document Consistency"
+    description: "Whether information is consistent across all source documents"
+    weight: 0.18
+    required: true
+    criteria:
+      pass: "No contradictions between source documents, unified narrative"
+      partial: "Minor inconsistencies that don't affect execution"
+      fail: "Significant contradictions between documents"
+
+  - id: traceability
+    name: "Requirements Traceability"
+    description: "Ability to trace from business need to implementation"
+    weight: 0.15
+    required: true
+    criteria:
+      pass: "Clear traceability from MRD → PRD → TRD → TPD with IDs"
+      partial: "Some traceability but gaps exist"
+      fail: "Cannot trace requirements through documents"
+
+  - id: execution_readiness
+    name: "Execution Readiness"
+    description: "Whether document provides enough detail to begin implementation"
+    weight: 0.18
+    required: true
+    criteria:
+      pass: "Team can begin work immediately with no ambiguity"
+      partial: "Some clarifications needed but work can start"
+      fail: "Too many open questions to begin work"
+
+  - id: launch_plan
+    name: "Launch Plan Quality"
+    description: "Completeness of timeline, milestones, and launch checklist"
+    weight: 0.12
+    required: true
+    criteria:
+      pass: "Clear timeline with milestones, dependencies, and comprehensive checklist"
+      partial: "Basic timeline but missing checklist items"
+      fail: "No launch plan"
+
+  - id: risk_coverage
+    name: "Risk Coverage"
+    description: "Aggregation and prioritization of risks across all documents"
+    weight: 0.10
+    required: true
+    criteria:
+      pass: "All risks aggregated with owners and mitigations assigned"
+      partial: "Risks listed but not prioritized or assigned"
+      fail: "Risks not consolidated"
+
+  - id: stakeholder_alignment
+    name: "Stakeholder Alignment"
+    description: "Evidence of stakeholder review and approval"
+    weight: 0.12
+    required: true
+    criteria:
+      pass: "All required approvals obtained with signatures/dates"
+      partial: "Some approvals but missing key stakeholders"
+      fail: "No stakeholder sign-off"
+
+pass_criteria:
+  require_all_pass: false
+  max_critical: 0
+  max_high: 0
+  max_medium: 1

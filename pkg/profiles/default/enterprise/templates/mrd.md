@@ -15,19 +15,65 @@
      - What is the cost of not solving this problem?
 -->
 
-## 2. Target Market
+## 2. Customer Segments
 
-<!-- Define the target market segments.
+<!-- Define the target customer segments (BMC: Customer Segments).
      - Who are the primary customers?
+     - What are their needs and pain points?
      - What is the market size (TAM, SAM, SOM)?
-     - What are the key demographics or firmographics?
 -->
 
 ### 2.1 Primary Segment
 
+| Attribute | Description |
+|-----------|-------------|
+| **Segment Name** | |
+| **Description** | |
+| **Size (TAM)** | |
+| **Size (SAM)** | |
+| **Size (SOM)** | |
+| **Key Needs** | |
+| **Pain Points** | |
+
 ### 2.2 Secondary Segments
 
-## 3. Competitive Landscape
+| Segment | Size | Needs | Pain Points |
+|---------|------|-------|-------------|
+| | | | |
+
+### 2.3 Buyer Personas
+
+<!-- Key decision makers and influencers -->
+
+| Persona | Role | Goals | Challenges | Buying Criteria |
+|---------|------|-------|------------|-----------------|
+| | | | | |
+
+## 3. Value Propositions
+
+<!-- Define the value delivered to each customer segment (BMC: Value Propositions).
+     - What customer pains are we relieving?
+     - What customer gains are we creating?
+     - Why will customers choose us over alternatives?
+-->
+
+### 3.1 Primary Value Proposition
+
+| Component | Description |
+|-----------|-------------|
+| **Customer Pains** | |
+| **Pain Relievers** | |
+| **Customer Gains** | |
+| **Gain Creators** | |
+| **Unique Value** | |
+
+### 3.2 Value Proposition by Segment
+
+| Segment | Key Value | Differentiation |
+|---------|-----------|-----------------|
+| | | |
+
+## 4. Competitive Landscape
 
 <!-- Analyze existing solutions and competitors.
      - Who are the direct competitors?
@@ -35,73 +81,200 @@
      - How will this solution differentiate?
 -->
 
-### 3.1 Direct Competitors
+### 4.1 Direct Competitors
 
-### 3.2 Indirect Competitors
+| Competitor | Market Share | Strengths | Weaknesses | Threat Level |
+|------------|--------------|-----------|------------|--------------|
+| | | | | |
 
-### 3.3 Competitive Differentiation
+### 4.2 Indirect Competitors
 
-## 4. Market Requirements
+| Competitor | Offering | Overlap |
+|------------|----------|---------|
+| | | |
 
-<!-- List the high-level requirements from a market perspective.
+### 4.3 Competitive Differentiation
+
+<!-- Why will customers choose us? -->
+
+## 5. Channels
+
+<!-- How will we reach and deliver value to customers? (BMC: Channels)
+     Phases: Awareness → Evaluation → Purchase → Delivery → After-sales
+-->
+
+### 5.1 Channel Strategy
+
+| Phase | Channel | Description |
+|-------|---------|-------------|
+| Awareness | | How customers discover us |
+| Evaluation | | How customers evaluate our offering |
+| Purchase | | How customers buy |
+| Delivery | | How we deliver value |
+| After-sales | | How we support post-purchase |
+
+### 5.2 Channel Mix
+
+| Channel Type | Channels | Priority |
+|--------------|----------|----------|
+| Direct | | |
+| Indirect/Partner | | |
+| Digital | | |
+
+## 6. Customer Relationships
+
+<!-- What type of relationship does each segment expect? (BMC: Customer Relationships) -->
+
+| Segment | Relationship Type | Description |
+|---------|-------------------|-------------|
+| | Personal assistance | |
+| | Dedicated support | |
+| | Self-service | |
+| | Automated | |
+| | Community | |
+| | Co-creation | |
+
+## 7. Revenue Streams
+
+<!-- How will we generate revenue? (BMC: Revenue Streams) -->
+
+### 7.1 Revenue Model
+
+| Stream | Type | Pricing Model | Target Segment |
+|--------|------|---------------|----------------|
+| | Asset sale / Subscription / Usage fee / Licensing | Fixed / Dynamic / Negotiated | |
+
+### 7.2 Pricing Strategy
+
+| Tier | Price | Billing | Key Features |
+|------|-------|---------|--------------|
+| | | | |
+
+### 7.3 Revenue Projections
+
+| Timeline | Revenue Target | Assumptions |
+|----------|----------------|-------------|
+| Year 1 | | |
+| Year 2 | | |
+| Year 3 | | |
+
+## 8. Key Resources
+
+<!-- What resources are required to deliver the value proposition? (BMC: Key Resources) -->
+
+| Resource | Type | Description | Critical |
+|----------|------|-------------|----------|
+| | Physical | | Yes/No |
+| | Intellectual | | Yes/No |
+| | Human | | Yes/No |
+| | Financial | | Yes/No |
+
+## 9. Key Activities
+
+<!-- What activities are required to deliver the value proposition? (BMC: Key Activities) -->
+
+| Activity | Category | Description | Resources |
+|----------|----------|-------------|-----------|
+| | Production | | |
+| | Problem-solving | | |
+| | Platform/Network | | |
+
+## 10. Key Partnerships
+
+<!-- What partnerships are required? (BMC: Key Partnerships) -->
+
+| Partner | Type | Motivation | Resources/Activities |
+|---------|------|------------|----------------------|
+| | Strategic alliance | Optimization / Risk reduction / Acquisition | |
+| | Joint venture | | |
+| | Buyer-supplier | | |
+
+## 11. Cost Structure
+
+<!-- What are the key costs? (BMC: Cost Structure) -->
+
+### 11.1 Cost Model
+
+| Cost Driver | Type | Category | Estimate |
+|-------------|------|----------|----------|
+| | Fixed / Variable | Cost-driven / Value-driven | |
+
+### 11.2 Cost Projections
+
+| Timeline | Total Cost | Key Drivers |
+|----------|------------|-------------|
+| Year 1 | | |
+| Year 2 | | |
+| Year 3 | | |
+
+## 12. Market Requirements
+
+<!-- High-level requirements from a market perspective.
      These should be features/capabilities customers are asking for.
 -->
 
-### 4.1 Must-Have Requirements
+### 12.1 Must-Have Requirements
 
-| ID | Requirement | Rationale |
-|----|-------------|-----------|
-| MR-1 | | |
-| MR-2 | | |
+| ID | Requirement | Segment | Rationale |
+|----|-------------|---------|-----------|
+| MR-1 | | | |
+| MR-2 | | | |
 
-### 4.2 Should-Have Requirements
+### 12.2 Should-Have Requirements
 
-| ID | Requirement | Rationale |
-|----|-------------|-----------|
-| MR-3 | | |
+| ID | Requirement | Segment | Rationale |
+|----|-------------|---------|-----------|
+| MR-3 | | | |
 
-### 4.3 Nice-to-Have Requirements
+### 12.3 Nice-to-Have Requirements
 
-| ID | Requirement | Rationale |
-|----|-------------|-----------|
-| MR-4 | | |
+| ID | Requirement | Segment | Rationale |
+|----|-------------|---------|-----------|
+| MR-4 | | | |
 
-## 5. Business Goals
+## 13. Business Goals and OKRs
 
-<!-- Define measurable business objectives.
-     - What revenue/growth targets does this support?
-     - What strategic objectives does this advance?
--->
+<!-- Define measurable business objectives. -->
 
-### 5.1 Success Metrics
+### 13.1 Objectives and Key Results
 
-| Metric | Target | Timeline |
-|--------|--------|----------|
-| | | |
+| Objective | Key Result | Target | Timeline |
+|-----------|------------|--------|----------|
+| | | | |
+| | | | |
 
-### 5.2 Strategic Alignment
+### 13.2 Strategic Alignment
 
-## 6. Constraints and Assumptions
+<!-- How does this align with company strategy? -->
 
-### 6.1 Constraints
+## 14. Constraints and Assumptions
+
+### 14.1 Constraints
 
 <!-- List any market, regulatory, or business constraints. -->
 
-### 6.2 Assumptions
+-
+-
+
+### 14.2 Assumptions
 
 <!-- List key assumptions that underpin this analysis. -->
 
-## 7. Timeline and Milestones
+| Assumption | Validated | Evidence |
+|------------|-----------|----------|
+| | Yes/No | |
+
+## 15. Risks
+
+| Risk | Impact | Probability | Mitigation |
+|------|--------|-------------|------------|
+| | High/Med/Low | High/Med/Low | |
+
+## 16. Timeline and Milestones
 
 | Milestone | Target Date | Description |
 |-----------|-------------|-------------|
 | | | |
-
-## 8. Risks
-
-| Risk | Impact | Probability | Mitigation |
-|------|--------|-------------|------------|
-| | | | |
 
 ## Appendix
 
@@ -110,3 +283,8 @@
 ### B. Customer Interviews
 
 ### C. Market Data
+
+### D. BMC Export Reference
+
+<!-- The Business Model Canvas can be exported as a standalone document
+     for stakeholder review using: multispec synthesize bmc -->
