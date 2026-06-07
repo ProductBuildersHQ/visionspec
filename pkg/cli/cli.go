@@ -20,6 +20,8 @@
 package cli
 
 import (
+	"github.com/ProductBuildersHQ/visionspec/pkg/apptypes"
+	"github.com/ProductBuildersHQ/visionspec/pkg/constitution"
 	"github.com/ProductBuildersHQ/visionspec/pkg/profiles"
 	"github.com/ProductBuildersHQ/visionspec/pkg/rubrics"
 	"github.com/ProductBuildersHQ/visionspec/pkg/templates"
@@ -28,6 +30,17 @@ import (
 )
 
 // Config allows customization of CLI behavior.
+// Organizations can provide custom loaders to override defaults:
+//
+//	cfg := cli.DefaultConfig()
+//	cfg.TemplateLoader = templates.NewChainLoader(
+//		orgTemplates,     // Organization-specific (prescriptive)
+//		cfg.TemplateLoader, // Fall back to visionspec defaults
+//	)
+//	cfg.ConstitutionLoader = constitution.NewChainLoader(
+//		orgConstitutions,
+//		cfg.ConstitutionLoader,
+//	)
 type Config struct {
 	// TemplateLoader loads spec templates.
 	// If nil, uses embedded templates.
@@ -45,6 +58,15 @@ type Config struct {
 	// If nil, uses default profiles.
 	ProfileLoader profiles.Loader
 
+	// ConstitutionLoader loads organization/team/project constitutions.
+	// If nil, no built-in constitutions are available.
+	// Organizations typically provide their own loader with prescriptive defaults.
+	ConstitutionLoader constitution.Loader
+
+	// AppTypeLoader loads app type specifications.
+	// If nil, uses built-in app type specs.
+	AppTypeLoader apptypes.Loader
+
 	// DefaultProfile is the profile to use when none is specified.
 	// If empty, uses no profile (default visionspec behavior).
 	DefaultProfile string
@@ -54,24 +76,30 @@ type Config struct {
 }
 
 // DefaultConfig returns the default configuration.
+// This provides flexible, choice-based defaults suitable for open source use.
+// Organizations should use NewOrgConfig() or customize loaders for prescriptive defaults.
 func DefaultConfig() *Config {
 	return &Config{
-		TemplateLoader: templates.DefaultLoader(),
-		RubricLoader:   rubrics.DefaultLoader(),
-		SpecConfig:     types.DefaultSpecConfig(),
-		ProfileLoader:  profiles.DefaultLoader(),
-		Version:        "0.3.0",
+		TemplateLoader:     templates.DefaultLoader(),
+		RubricLoader:       rubrics.DefaultLoader(),
+		SpecConfig:         types.DefaultSpecConfig(),
+		ProfileLoader:      profiles.DefaultLoader(),
+		ConstitutionLoader: nil, // No built-in constitutions; orgs provide their own
+		AppTypeLoader:      apptypes.DefaultLoader(),
+		Version:            "0.3.0",
 	}
 }
 
 // ConfigFromProfile creates a Config from a profile.
 func ConfigFromProfile(profile *profiles.Profile) *Config {
 	return &Config{
-		TemplateLoader: profile.GetTemplateLoader(),
-		RubricLoader:   profile.GetRubricLoader(),
-		SpecConfig:     profile.GetSpecConfig(),
-		ProfileLoader:  profiles.DefaultLoader(),
-		Version:        "0.3.0",
+		TemplateLoader:     profile.GetTemplateLoader(),
+		RubricLoader:       profile.GetRubricLoader(),
+		SpecConfig:         profile.GetSpecConfig(),
+		ProfileLoader:      profiles.DefaultLoader(),
+		ConstitutionLoader: nil, // Profiles don't include constitutions yet
+		AppTypeLoader:      apptypes.DefaultLoader(),
+		Version:            "0.3.0",
 	}
 }
 
@@ -81,6 +109,23 @@ func (c *Config) GetSpecConfig() *types.SpecConfig {
 		return types.DefaultSpecConfig()
 	}
 	return c.SpecConfig
+}
+
+// GetConstitutionLoader returns the ConstitutionLoader.
+// Returns nil if no loader is configured (organizations must provide their own).
+func (c *Config) GetConstitutionLoader() constitution.Loader {
+	if c == nil {
+		return nil
+	}
+	return c.ConstitutionLoader
+}
+
+// GetAppTypeLoader returns the AppTypeLoader, falling back to built-in specs if nil.
+func (c *Config) GetAppTypeLoader() apptypes.Loader {
+	if c == nil || c.AppTypeLoader == nil {
+		return apptypes.DefaultLoader()
+	}
+	return c.AppTypeLoader
 }
 
 // AddCommandsTo adds all visionspec commands to a root command.
@@ -102,6 +147,7 @@ func AddCommandsTo(root *cobra.Command, cfg *Config) {
 		cmds.Lint,
 		cmds.Status,
 		cmds.Eval,
+		cmds.Render,
 		cmds.Synthesize,
 		cmds.Reconcile,
 		cmds.Approve,
@@ -116,6 +162,8 @@ func AddCommandsTo(root *cobra.Command, cfg *Config) {
 		cmds.Generate,
 		cmds.Sync,
 		cmds.Drift,
+		cmds.Watch,
+		cmds.Version,
 	)
 }
 
@@ -126,6 +174,7 @@ type CommandSet struct {
 	Lint       *cobra.Command
 	Status     *cobra.Command
 	Eval       *cobra.Command
+	Render     *cobra.Command
 	Synthesize *cobra.Command
 	Reconcile  *cobra.Command
 	Approve    *cobra.Command
@@ -140,6 +189,8 @@ type CommandSet struct {
 	Generate   *cobra.Command
 	Sync       *cobra.Command
 	Drift      *cobra.Command
+	Watch      *cobra.Command
+	Version    *cobra.Command
 }
 
 // Commands returns all visionspec commands.
@@ -155,6 +206,7 @@ func Commands(cfg *Config) *CommandSet {
 		Lint:       lintCmd(cfg),
 		Status:     statusCmd(cfg),
 		Eval:       evalCmd(cfg),
+		Render:     renderCmd(cfg),
 		Synthesize: synthesizeCmd(cfg),
 		Reconcile:  reconcileCmd(cfg),
 		Approve:    approveCmd(cfg),
@@ -169,5 +221,7 @@ func Commands(cfg *Config) *CommandSet {
 		Generate:   generateCmd(cfg),
 		Sync:       syncCmd(cfg),
 		Drift:      driftCmd(cfg),
+		Watch:      watchCmd(cfg),
+		Version:    versionCmd(cfg),
 	}
 }

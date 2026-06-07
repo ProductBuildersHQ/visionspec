@@ -12,6 +12,8 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/fsnotify/fsnotify"
+
 	"github.com/ProductBuildersHQ/visionspec/internal/mcp"
 	"github.com/ProductBuildersHQ/visionspec/pkg/config"
 	ctxpkg "github.com/ProductBuildersHQ/visionspec/pkg/context"
@@ -31,6 +33,7 @@ import (
 	"github.com/ProductBuildersHQ/visionspec/pkg/templates"
 	"github.com/ProductBuildersHQ/visionspec/pkg/testgen"
 	"github.com/ProductBuildersHQ/visionspec/pkg/types"
+	"github.com/ProductBuildersHQ/visionspec/pkg/version"
 	"github.com/plexusone/structured-evaluation/claims"
 	"github.com/plexusone/structured-evaluation/rubric"
 	"github.com/spf13/cobra"
@@ -759,6 +762,106 @@ func runEval(cmd *cobra.Command, args []string, cfg *Config) error {
 		if summaryData, err := json.MarshalIndent(summaryReport, "", "  "); err == nil {
 			if err := os.WriteFile(summaryPath, summaryData, 0600); err == nil {
 				fmt.Printf("✓ Generated summary report: %s\n", summaryPath)
+			}
+		}
+	}
+
+	return nil
+}
+
+// renderCmd creates the render command for rendering eval files to markdown.
+func renderCmd(cfg *Config) *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "render <eval-file>",
+		Short: "Render an evaluation file to markdown",
+		Long: `Render an existing evaluation JSON file to markdown format.
+
+This is useful for viewing evaluation results in a readable format
+or for generating documentation from past evaluations.
+
+Examples:
+  visionspec render eval/prd.eval.json              # Render PRD eval
+  visionspec render eval/prd.eval.json -o report.md # Output to file
+  visionspec render eval/*.eval.json                # Render all evals`,
+		Args: cobra.MinimumNArgs(1),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			return runRender(cmd, args, cfg)
+		},
+	}
+
+	cmd.Flags().StringP("output", "o", "", "Output file (default: stdout or <input>.md)")
+	cmd.Flags().Bool("evaluation", false, "Render structured evaluation report format")
+
+	return cmd
+}
+
+func runRender(cmd *cobra.Command, args []string, cfg *Config) error {
+	outputFlag, _ := cmd.Flags().GetString("output")
+	evaluationFlag, _ := cmd.Flags().GetBool("evaluation")
+
+	for _, inputPath := range args {
+		// Expand globs
+		matches, err := filepath.Glob(inputPath)
+		if err != nil {
+			return fmt.Errorf("invalid glob pattern: %w", err)
+		}
+		if len(matches) == 0 {
+			matches = []string{inputPath}
+		}
+
+		for _, evalPath := range matches {
+			// Read eval file
+			data, err := os.ReadFile(evalPath)
+			if err != nil {
+				fmt.Fprintf(os.Stderr, "Error reading %s: %v\n", evalPath, err)
+				continue
+			}
+
+			// Determine output destination
+			var output *os.File
+			if outputFlag != "" && len(args) == 1 && len(matches) == 1 {
+				output, err = os.Create(outputFlag)
+				if err != nil {
+					return fmt.Errorf("creating output file: %w", err)
+				}
+				defer output.Close()
+			} else if outputFlag == "" && len(args) == 1 && len(matches) == 1 {
+				output = os.Stdout
+			} else {
+				// Multiple files: output to .md files
+				mdPath := strings.TrimSuffix(evalPath, ".json") + ".md"
+				output, err = os.Create(mdPath)
+				if err != nil {
+					fmt.Fprintf(os.Stderr, "Error creating %s: %v\n", mdPath, err)
+					continue
+				}
+				defer output.Close()
+				fmt.Printf("Rendering %s -> %s\n", evalPath, mdPath)
+			}
+
+			if evaluationFlag {
+				// Render structured evaluation report
+				var report rubric.Rubric
+				if err := json.Unmarshal(data, &report); err != nil {
+					fmt.Fprintf(os.Stderr, "Error parsing %s as evaluation report: %v\n", evalPath, err)
+					continue
+				}
+				if err := eval.RenderEvaluationReportMarkdown(output, &report); err != nil {
+					fmt.Fprintf(os.Stderr, "Error rendering %s: %v\n", evalPath, err)
+					continue
+				}
+			} else {
+				// Render standard eval result
+				var result eval.Result
+				if err := json.Unmarshal(data, &result); err != nil {
+					fmt.Fprintf(os.Stderr, "Error parsing %s: %v\n", evalPath, err)
+					continue
+				}
+				renderer := eval.NewMarkdownRenderer()
+				if err := renderer.Render(output, &result); err != nil {
+					fmt.Fprintf(os.Stderr, "Error rendering %s: %v\n", evalPath, err)
+					continue
+				}
 			}
 		}
 	}
@@ -1568,6 +1671,9 @@ Usage:
 	cmd.AddCommand(profilesListCmd(cfg))
 	cmd.AddCommand(profilesShowCmd(cfg))
 	cmd.AddCommand(profilesExportCmd(cfg))
+	cmd.AddCommand(profilesCreateCmd(cfg))
+	cmd.AddCommand(profilesExtendCmd(cfg))
+	cmd.AddCommand(profilesValidateCmd(cfg))
 
 	return cmd
 }
@@ -1783,6 +1889,312 @@ Examples:
 			fmt.Println()
 			fmt.Println("To use this profile:")
 			fmt.Printf("  visionspec init my-project --profile-dir %s\n", outputDir)
+
+			return nil
+		},
+	}
+}
+
+// profilesCreateCmd creates the profiles create command.
+func profilesCreateCmd(cfg *Config) *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "create <name> <output-dir>",
+		Short: "Create a new profile from scratch",
+		Long: `Create a new profile directory with a blank profile.yaml.
+
+This creates a minimal profile that you can then customize:
+  - profile.yaml     Empty configuration file
+  - templates/       Empty templates directory
+  - rubrics/         Empty rubrics directory
+
+Examples:
+  visionspec profiles create my-team ./profiles/my-team
+  visionspec profiles create saas-startup ./profiles/saas-startup`,
+		Args: cobra.ExactArgs(2),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			profileName := args[0]
+			outputDir := args[1]
+
+			// Validate profile name
+			if !kebabCaseRegex.MatchString(profileName) {
+				return fmt.Errorf("profile name must be kebab-case (lowercase with hyphens): %s", profileName)
+			}
+
+			// Create output directory
+			if err := os.MkdirAll(outputDir, 0755); err != nil {
+				return fmt.Errorf("creating output directory: %w", err)
+			}
+
+			// Create subdirectories
+			templatesDir := filepath.Join(outputDir, "templates")
+			rubricsDir := filepath.Join(outputDir, "rubrics")
+			if err := os.MkdirAll(templatesDir, 0755); err != nil {
+				return fmt.Errorf("creating templates directory: %w", err)
+			}
+			if err := os.MkdirAll(rubricsDir, 0755); err != nil {
+				return fmt.Errorf("creating rubrics directory: %w", err)
+			}
+
+			// Create profile.yaml
+			profile := &profiles.Profile{
+				Name:        profileName,
+				Description: fmt.Sprintf("Custom profile: %s", profileName),
+				SpecConfig:  types.NewSpecConfig(),
+			}
+
+			profileYAML := profiles.ProfileToYAML(profile)
+			profilePath := filepath.Join(outputDir, "profile.yaml")
+			if err := profiles.WriteProfileYAML(profilePath, profileYAML); err != nil {
+				return fmt.Errorf("writing profile.yaml: %w", err)
+			}
+
+			fmt.Printf("Created profile %s at %s\n", profileName, outputDir)
+			fmt.Println()
+			fmt.Println("Directory structure:")
+			fmt.Printf("  %s/\n", outputDir)
+			fmt.Println("  ├── profile.yaml")
+			fmt.Println("  ├── templates/")
+			fmt.Println("  └── rubrics/")
+			fmt.Println()
+			fmt.Println("Next steps:")
+			fmt.Println("  1. Edit profile.yaml to configure required specs")
+			fmt.Println("  2. Add templates/*.md files for custom specs")
+			fmt.Println("  3. Add rubrics/*.rubric.yaml files for evaluations")
+			fmt.Printf("  4. Use with: visionspec init my-project --profile-dir %s\n", outputDir)
+
+			return nil
+		},
+	}
+
+	return cmd
+}
+
+// profilesExtendCmd creates the profiles extend command.
+func profilesExtendCmd(cfg *Config) *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "extend <base-profile> <name> <output-dir>",
+		Short: "Create a new profile that extends an existing one",
+		Long: `Create a new profile that extends a built-in or custom profile.
+
+The new profile inherits all templates, rubrics, and configuration from
+the base profile. You can then override specific settings.
+
+Examples:
+  visionspec profiles extend enterprise my-enterprise ./profiles/my-enterprise
+  visionspec profiles extend growth saas-growth ./profiles/saas-growth`,
+		Args: cobra.ExactArgs(3),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			baseProfileName := args[0]
+			newProfileName := args[1]
+			outputDir := args[2]
+
+			loader := cfg.ProfileLoader
+			if loader == nil {
+				loader = profiles.DefaultLoader()
+			}
+
+			// Verify base profile exists
+			baseProfile, err := loader.Load(baseProfileName)
+			if err != nil {
+				return fmt.Errorf("base profile %q not found: %w", baseProfileName, err)
+			}
+
+			// Validate new profile name
+			if !kebabCaseRegex.MatchString(newProfileName) {
+				return fmt.Errorf("profile name must be kebab-case: %s", newProfileName)
+			}
+
+			// Create output directory
+			if err := os.MkdirAll(outputDir, 0755); err != nil {
+				return fmt.Errorf("creating output directory: %w", err)
+			}
+
+			// Create subdirectories
+			templatesDir := filepath.Join(outputDir, "templates")
+			rubricsDir := filepath.Join(outputDir, "rubrics")
+			if err := os.MkdirAll(templatesDir, 0755); err != nil {
+				return fmt.Errorf("creating templates directory: %w", err)
+			}
+			if err := os.MkdirAll(rubricsDir, 0755); err != nil {
+				return fmt.Errorf("creating rubrics directory: %w", err)
+			}
+
+			// Create profile.yaml with extends
+			profile := &profiles.Profile{
+				Name:        newProfileName,
+				Description: fmt.Sprintf("Custom profile extending %s", baseProfileName),
+				Extends:     baseProfileName,
+				SpecConfig:  types.NewSpecConfig(), // Empty - inherits from base
+			}
+
+			profileYAML := profiles.ProfileToYAML(profile)
+			profilePath := filepath.Join(outputDir, "profile.yaml")
+			if err := profiles.WriteProfileYAML(profilePath, profileYAML); err != nil {
+				return fmt.Errorf("writing profile.yaml: %w", err)
+			}
+
+			fmt.Printf("Created profile %s extending %s at %s\n", newProfileName, baseProfileName, outputDir)
+			fmt.Println()
+			fmt.Println("Inherited from base profile:")
+			if baseProfile.SpecConfig != nil {
+				required := baseProfile.RequiredSpecs()
+				if len(required) > 0 {
+					fmt.Printf("  Required specs: %s\n", strings.Join(required, ", "))
+				}
+			}
+			fmt.Println()
+			fmt.Println("Next steps:")
+			fmt.Println("  1. Edit profile.yaml to override settings")
+			fmt.Println("  2. Add templates/*.md to override base templates")
+			fmt.Println("  3. Add rubrics/*.rubric.yaml to override base rubrics")
+			fmt.Printf("  4. Use with: visionspec init my-project --profile-dir %s\n", outputDir)
+
+			return nil
+		},
+	}
+
+	return cmd
+}
+
+// profilesValidateCmd creates the profiles validate command.
+func profilesValidateCmd(cfg *Config) *cobra.Command {
+	return &cobra.Command{
+		Use:   "validate <profile-dir>",
+		Short: "Validate a profile directory",
+		Long: `Validate a profile directory for correctness.
+
+Checks:
+  - profile.yaml exists and is valid YAML
+  - Extends references valid profiles
+  - Required specs have templates
+  - Required specs have rubrics
+  - Template files are valid markdown
+  - Rubric files are valid YAML
+
+Examples:
+  visionspec profiles validate ./profiles/my-team
+  visionspec profiles validate ./profiles/my-enterprise`,
+		Args: cobra.ExactArgs(1),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			profileDir := args[0]
+
+			errors := []string{}
+			warnings := []string{}
+
+			// Check profile.yaml exists
+			profilePath := filepath.Join(profileDir, "profile.yaml")
+			if _, err := os.Stat(profilePath); os.IsNotExist(err) {
+				errors = append(errors, "profile.yaml not found")
+			} else {
+				// Parse profile.yaml
+				data, err := os.ReadFile(profilePath)
+				if err != nil {
+					errors = append(errors, fmt.Sprintf("cannot read profile.yaml: %v", err))
+				} else {
+					var profileYAML profiles.ProfileYAML
+					if err := yaml.Unmarshal(data, &profileYAML); err != nil {
+						errors = append(errors, fmt.Sprintf("invalid profile.yaml: %v", err))
+					} else {
+						// Validate extends reference
+						if profileYAML.Extends != "" {
+							loader := cfg.ProfileLoader
+							if loader == nil {
+								loader = profiles.DefaultLoader()
+							}
+							if _, err := loader.Load(profileYAML.Extends); err != nil {
+								errors = append(errors, fmt.Sprintf("extends %q not found", profileYAML.Extends))
+							}
+						}
+
+						// Check required specs have templates
+						templatesDir := filepath.Join(profileDir, "templates")
+						rubricsDir := filepath.Join(profileDir, "rubrics")
+
+						if profileYAML.SpecConfig != nil {
+							for name, req := range profileYAML.SpecConfig {
+								if req.Required {
+									// Check template exists
+									templatePath := filepath.Join(templatesDir, name+".md")
+									if _, err := os.Stat(templatePath); os.IsNotExist(err) {
+										// Not an error if extends - may inherit
+										if profileYAML.Extends == "" {
+											warnings = append(warnings, fmt.Sprintf("required spec %q has no template", name))
+										}
+									}
+
+									// Check rubric exists
+									rubricPath := filepath.Join(rubricsDir, name+".rubric.yaml")
+									if _, err := os.Stat(rubricPath); os.IsNotExist(err) {
+										if profileYAML.Extends == "" {
+											warnings = append(warnings, fmt.Sprintf("required spec %q has no rubric", name))
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+
+			// Check templates directory
+			templatesDir := filepath.Join(profileDir, "templates")
+			if entries, err := os.ReadDir(templatesDir); err == nil {
+				for _, entry := range entries {
+					if strings.HasSuffix(entry.Name(), ".md") {
+						// Basic validation: can read the file
+						path := filepath.Join(templatesDir, entry.Name())
+						if _, err := os.ReadFile(path); err != nil {
+							errors = append(errors, fmt.Sprintf("cannot read template %s: %v", entry.Name(), err))
+						}
+					}
+				}
+			}
+
+			// Check rubrics directory
+			rubricsDir := filepath.Join(profileDir, "rubrics")
+			if entries, err := os.ReadDir(rubricsDir); err == nil {
+				for _, entry := range entries {
+					if strings.HasSuffix(entry.Name(), ".rubric.yaml") {
+						path := filepath.Join(rubricsDir, entry.Name())
+						data, err := os.ReadFile(path)
+						if err != nil {
+							errors = append(errors, fmt.Sprintf("cannot read rubric %s: %v", entry.Name(), err))
+							continue
+						}
+						// Validate YAML structure
+						var rubricYAML map[string]interface{}
+						if err := yaml.Unmarshal(data, &rubricYAML); err != nil {
+							errors = append(errors, fmt.Sprintf("invalid rubric YAML %s: %v", entry.Name(), err))
+						}
+					}
+				}
+			}
+
+			// Print results
+			fmt.Printf("Profile: %s\n\n", profileDir)
+
+			if len(errors) == 0 && len(warnings) == 0 {
+				fmt.Println("✓ Profile is valid")
+				return nil
+			}
+
+			if len(errors) > 0 {
+				fmt.Println("Errors:")
+				for _, e := range errors {
+					fmt.Printf("  ✗ %s\n", e)
+				}
+			}
+
+			if len(warnings) > 0 {
+				fmt.Println("\nWarnings:")
+				for _, w := range warnings {
+					fmt.Printf("  ⚠ %s\n", w)
+				}
+			}
+
+			if len(errors) > 0 {
+				return fmt.Errorf("profile validation failed with %d errors", len(errors))
+			}
 
 			return nil
 		},
@@ -2182,6 +2594,8 @@ Examples:
 
 	cmd.AddCommand(docsGenerateCmd(cfg))
 	cmd.AddCommand(docsProjectCmd(cfg))
+	cmd.AddCommand(docsNavCmd(cfg))
+	cmd.AddCommand(docsEvalCmd(cfg))
 
 	return cmd
 }
@@ -2362,6 +2776,170 @@ func runDocsProject(cmd *cobra.Command, args []string) error {
 	}
 
 	fmt.Printf("✓ Generated %s/index.md\n", project.Name)
+	return nil
+}
+
+func docsNavCmd(cfg *Config) *cobra.Command { //nolint:unparam // cfg reserved for future use
+	cmd := &cobra.Command{
+		Use:   "nav",
+		Short: "Generate MkDocs navigation YAML",
+		Long: `Generate a YAML fragment for the nav section of mkdocs.yml.
+
+Creates a navigation structure based on the specs directory,
+including all projects, specs, and evaluations.`,
+		RunE: runDocsNav,
+	}
+
+	cmd.Flags().StringP("output", "o", "", "Output file (default: stdout)")
+
+	return cmd
+}
+
+func runDocsNav(cmd *cobra.Command, args []string) error {
+	output, _ := cmd.Flags().GetString("output")
+
+	// Find specs directory
+	cwd, err := os.Getwd()
+	if err != nil {
+		return fmt.Errorf("getting working directory: %w", err)
+	}
+
+	specsDir, err := config.FindSpecsDir(cwd)
+	if err != nil {
+		return fmt.Errorf("not in a visionspec workspace (no docs/specs found)")
+	}
+
+	if output != "" {
+		if err := mkdocs.WriteNavigation(specsDir, output); err != nil {
+			return fmt.Errorf("writing navigation: %w", err)
+		}
+		fmt.Printf("✓ Generated navigation at %s\n", output)
+	} else {
+		// Write to stdout
+		nav, err := mkdocs.GenerateNavigation(specsDir)
+		if err != nil {
+			return fmt.Errorf("generating navigation: %w", err)
+		}
+
+		fmt.Println("nav:")
+		fmt.Println("  - Specs:")
+		for _, item := range nav {
+			if len(item.Children) == 0 {
+				fmt.Printf("    - %s: %s\n", item.Title, item.Path)
+			} else {
+				fmt.Printf("    - %s:\n", item.Title)
+				for _, child := range item.Children {
+					if len(child.Children) == 0 {
+						fmt.Printf("      - %s: %s\n", child.Title, child.Path)
+					} else {
+						fmt.Printf("      - %s:\n", child.Title)
+						for _, subchild := range child.Children {
+							fmt.Printf("        - %s: %s\n", subchild.Title, subchild.Path)
+						}
+					}
+				}
+			}
+		}
+	}
+
+	return nil
+}
+
+func docsEvalCmd(cfg *Config) *cobra.Command { //nolint:unparam // cfg reserved for future use
+	cmd := &cobra.Command{
+		Use:   "eval [project]",
+		Short: "Render evaluation JSON files to markdown",
+		Long: `Convert evaluation JSON files to markdown for MkDocs.
+
+Reads *.eval.json files and generates corresponding *.eval.md files
+that can be included in MkDocs documentation.`,
+		Args: cobra.MaximumNArgs(1),
+		RunE: runDocsEval,
+	}
+
+	cmd.Flags().Bool("all", false, "Process all projects")
+	cmd.Flags().Bool("evidence", false, "Include evidence in output")
+	cmd.Flags().Bool("judge-info", false, "Include judge metadata")
+
+	return cmd
+}
+
+func runDocsEval(cmd *cobra.Command, args []string) error {
+	all, _ := cmd.Flags().GetBool("all")
+	evidence, _ := cmd.Flags().GetBool("evidence")
+	judgeInfo, _ := cmd.Flags().GetBool("judge-info")
+
+	opts := mkdocs.RenderEvalOptions{
+		IncludeEvidence:      evidence,
+		IncludeJudgeMetadata: judgeInfo,
+	}
+
+	// Find project path
+	cwd, err := os.Getwd()
+	if err != nil {
+		return fmt.Errorf("getting working directory: %w", err)
+	}
+
+	if all {
+		// Process all projects
+		specsDir, err := config.FindSpecsDir(cwd)
+		if err != nil {
+			return fmt.Errorf("not in a visionspec workspace (no docs/specs found)")
+		}
+
+		entries, err := os.ReadDir(specsDir)
+		if err != nil {
+			return fmt.Errorf("reading specs directory: %w", err)
+		}
+
+		totalCount := 0
+		for _, entry := range entries {
+			if !entry.IsDir() || strings.HasPrefix(entry.Name(), ".") {
+				continue
+			}
+
+			projectPath := filepath.Join(specsDir, entry.Name())
+			configPath := filepath.Join(projectPath, config.ConfigFileName)
+			if _, err := os.Stat(configPath); os.IsNotExist(err) {
+				continue
+			}
+
+			count, err := mkdocs.RenderAllEvals(projectPath, opts)
+			if err != nil {
+				fmt.Printf("  ⚠ Error processing %s: %v\n", entry.Name(), err)
+				continue
+			}
+			if count > 0 {
+				fmt.Printf("  ✓ Rendered %d eval(s) for %s\n", count, entry.Name())
+				totalCount += count
+			}
+		}
+
+		fmt.Printf("\n✓ Rendered %d evaluation(s) to markdown\n", totalCount)
+		return nil
+	}
+
+	// Single project
+	var projectPath string
+	if len(args) > 0 {
+		specsDir, err := config.FindSpecsDir(cwd)
+		if err != nil {
+			return fmt.Errorf("not in a visionspec workspace (no docs/specs found)")
+		}
+		projectPath = filepath.Join(specsDir, args[0])
+	} else {
+		projectPath, err = config.FindProjectRoot(cwd)
+		if err != nil {
+			return fmt.Errorf("not in a visionspec project (no visionspec.yaml found)")
+		}
+	}
+
+	count, err := mkdocs.RenderAllEvals(projectPath, opts)
+	if err != nil {
+		return fmt.Errorf("rendering evals: %w", err)
+	}
+
+	fmt.Printf("✓ Rendered %d evaluation(s) to markdown\n", count)
 	return nil
 }
 
@@ -2873,6 +3451,551 @@ func runSync(cmd *cobra.Command, args []string) error {
 			fmt.Printf("  %s %s: %s\n", statusIcon, t.ID, t.Title)
 		}
 	}
+
+	return nil
+}
+
+func watchCmd(cfg *Config) *cobra.Command { //nolint:unparam // cfg reserved for future use
+	cmd := &cobra.Command{
+		Use:   "watch [project]",
+		Short: "Watch spec files and auto-run eval on changes",
+		Long: `Watch spec files for changes and automatically run evaluation.
+
+This command monitors the specs directory for file changes and triggers
+evaluation when spec files are modified. Useful during spec authoring.
+
+Features:
+  - Watches all .md files in the project's source directory
+  - Debounces rapid changes (500ms default)
+  - Runs lint and eval on changes
+  - Shows real-time status updates
+
+Examples:
+  visionspec watch                    # Watch current project
+  visionspec watch user-onboarding    # Watch specific project
+  visionspec watch --debounce 1s      # Custom debounce interval`,
+		Args: cobra.MaximumNArgs(1),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			return runWatch(cmd, args, cfg)
+		},
+	}
+
+	cmd.Flags().Duration("debounce", 500*time.Millisecond, "Debounce interval for file changes")
+	cmd.Flags().Bool("lint-only", false, "Only run lint, skip eval")
+	cmd.Flags().Bool("verbose", false, "Show detailed file change events")
+
+	return cmd
+}
+
+func runWatch(cmd *cobra.Command, args []string, cfg *Config) error {
+	debounce, _ := cmd.Flags().GetDuration("debounce")
+	lintOnly, _ := cmd.Flags().GetBool("lint-only")
+	verbose, _ := cmd.Flags().GetBool("verbose")
+
+	// Find project root
+	cwd, err := os.Getwd()
+	if err != nil {
+		return fmt.Errorf("getting working directory: %w", err)
+	}
+
+	var projectPath string
+	if len(args) > 0 {
+		// Find specs directory and project within
+		specsDir, err := config.FindSpecsDir(cwd)
+		if err != nil {
+			return fmt.Errorf("not in a visionspec repository")
+		}
+		projectPath = filepath.Join(specsDir, args[0])
+	} else {
+		// Use current project
+		projectPath, err = config.FindProjectRoot(cwd)
+		if err != nil {
+			return fmt.Errorf("not in a visionspec project (no visionspec.yaml found)")
+		}
+	}
+
+	// Verify project exists
+	if _, err := os.Stat(projectPath); os.IsNotExist(err) {
+		return fmt.Errorf("project not found: %s", projectPath)
+	}
+
+	// Load project config
+	project, err := config.Load(projectPath)
+	if err != nil {
+		return fmt.Errorf("loading project: %w", err)
+	}
+
+	// Create watcher
+	watcher, err := fsnotify.NewWatcher()
+	if err != nil {
+		return fmt.Errorf("creating file watcher: %w", err)
+	}
+	defer watcher.Close()
+
+	// Watch source directory
+	sourceDir := filepath.Join(projectPath, config.SourceDir)
+	if err := watchDirectory(watcher, sourceDir); err != nil {
+		return fmt.Errorf("watching source directory: %w", err)
+	}
+
+	fmt.Printf("Watching project: %s\n", project.Name)
+	fmt.Printf("Directory: %s\n", sourceDir)
+	fmt.Printf("Debounce: %s\n", debounce)
+	if lintOnly {
+		fmt.Println("Mode: lint only")
+	} else {
+		fmt.Println("Mode: lint + eval")
+	}
+	fmt.Print("\nPress Ctrl+C to stop watching...\n\n")
+
+	// Signal handling for graceful shutdown
+	sigChan := make(chan os.Signal, 1)
+	signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM)
+
+	// Debounce timer
+	var debounceTimer *time.Timer
+	var pendingFile string
+
+	runChecks := func(filePath string) {
+		relPath, _ := filepath.Rel(projectPath, filePath)
+		fmt.Printf("\n⚡ Change detected: %s\n", relPath)
+
+		// Run lint
+		fmt.Println("Running lint...")
+		linter := lint.NewWithConfig(projectPath, cfg.GetSpecConfig())
+		lintResult, err := linter.LintProject(project.Name, projectPath)
+		if err != nil {
+			fmt.Printf("  ❌ Lint error: %v\n", err)
+			return
+		}
+
+		if lintResult.Errors > 0 {
+			fmt.Printf("  ❌ %d lint error(s) found\n", lintResult.Errors)
+			for _, f := range lintResult.Findings {
+				if f.Severity == lint.SeverityError {
+					fmt.Printf("    • [%s] %s\n", f.Rule, f.Message)
+				}
+			}
+		} else if lintResult.Warnings > 0 {
+			fmt.Printf("  ⚠️  %d warning(s) (no errors)\n", lintResult.Warnings)
+		} else {
+			fmt.Println("  ✓ Lint passed")
+		}
+
+		// Run eval if not lint-only
+		if !lintOnly && lintResult.Errors == 0 {
+			// Get spec type from filename (e.g., "prd.md" -> "prd")
+			filename := filepath.Base(filePath)
+			specTypeName := strings.TrimSuffix(filename, ".md")
+			specType := types.SpecType(specTypeName)
+
+			if !specType.IsValid() {
+				fmt.Println("  ⚠️  Cannot determine spec type, skipping eval")
+				return
+			}
+
+			// Load rubric
+			rubricLoader := cfg.RubricLoader
+			if rubricLoader == nil {
+				rubricLoader = rubrics.DefaultLoader()
+			}
+			_, err := rubricLoader.Load(specType)
+			if err != nil {
+				fmt.Printf("  ⚠️  No rubric for %s, skipping eval\n", specType)
+				return
+			}
+
+			// Note: Full eval requires LLM configuration
+			// For watch mode, we just validate structure
+			fmt.Printf("  ℹ️  Run 'visionspec eval %s' for full LLM evaluation\n", specType)
+		}
+
+		fmt.Println("\nWaiting for changes...")
+	}
+
+	// Event loop
+	for {
+		select {
+		case event, ok := <-watcher.Events:
+			if !ok {
+				return nil
+			}
+
+			// Only handle write events on .md files
+			if event.Op&fsnotify.Write == 0 {
+				continue
+			}
+			if !strings.HasSuffix(event.Name, ".md") {
+				continue
+			}
+
+			if verbose {
+				fmt.Printf("File event: %s (%s)\n", event.Name, event.Op)
+			}
+
+			// Debounce
+			pendingFile = event.Name
+			if debounceTimer != nil {
+				debounceTimer.Stop()
+			}
+			debounceTimer = time.AfterFunc(debounce, func() {
+				runChecks(pendingFile)
+			})
+
+		case err, ok := <-watcher.Errors:
+			if !ok {
+				return nil
+			}
+			fmt.Printf("Watcher error: %v\n", err)
+
+		case <-sigChan:
+			fmt.Println("\nShutting down watcher...")
+			return nil
+		}
+	}
+}
+
+// watchDirectory recursively adds a directory and its subdirectories to the watcher.
+func watchDirectory(watcher *fsnotify.Watcher, dir string) error {
+	return filepath.WalkDir(dir, func(path string, d os.DirEntry, err error) error {
+		if err != nil {
+			return err
+		}
+		if d.IsDir() {
+			return watcher.Add(path)
+		}
+		return nil
+	})
+}
+
+// Version management commands
+
+func versionCmd(cfg *Config) *cobra.Command { //nolint:unparam // cfg reserved for future use
+	cmd := &cobra.Command{
+		Use:   "version",
+		Short: "Manage spec versions",
+		Long: `Manage spec version history.
+
+Commands:
+  create    Create a new version from current spec
+  list      List all versions for a spec
+  show      Show a specific version
+  diff      Compare versions
+  revert    Revert to a previous version`,
+	}
+
+	cmd.AddCommand(
+		versionCreateCmd(cfg),
+		versionListCmd(cfg),
+		versionShowCmd(cfg),
+		versionDiffCmd(cfg),
+		versionRevertCmd(cfg),
+	)
+
+	return cmd
+}
+
+func versionCreateCmd(cfg *Config) *cobra.Command { //nolint:unparam // cfg reserved for future use
+	cmd := &cobra.Command{
+		Use:   "create <spec-type>",
+		Short: "Create a new version from current spec",
+		Long: `Create a new version of a spec from its current content.
+
+This captures the current state of the spec file and stores it
+in the version history. Each version gets a unique number and hash.
+
+Examples:
+  visionspec version create mrd
+  visionspec version create prd -m "Added user stories"`,
+		Args: cobra.ExactArgs(1),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			return runVersionCreate(cmd, args)
+		},
+	}
+
+	cmd.Flags().StringP("message", "m", "", "Version message")
+	cmd.Flags().String("author", "", "Author name")
+
+	return cmd
+}
+
+func runVersionCreate(cmd *cobra.Command, args []string) error {
+	specType := types.SpecType(strings.ToLower(args[0]))
+	message, _ := cmd.Flags().GetString("message")
+	author, _ := cmd.Flags().GetString("author")
+
+	// Find project
+	cwd, err := os.Getwd()
+	if err != nil {
+		return err
+	}
+
+	projectPath, err := config.FindProjectRoot(cwd)
+	if err != nil {
+		return fmt.Errorf("not in a visionspec project")
+	}
+
+	v, err := version.CreateVersion(projectPath, specType, version.CreateOptions{
+		Author:  author,
+		Message: message,
+	})
+	if err != nil {
+		if err == version.ErrNoChanges {
+			fmt.Println("No changes since last version")
+			return nil
+		}
+		return err
+	}
+
+	fmt.Printf("Created version %d for %s\n", v.Number, specType)
+	fmt.Printf("  Hash: %s\n", v.Hash)
+	if v.Message != "" {
+		fmt.Printf("  Message: %s\n", v.Message)
+	}
+
+	return nil
+}
+
+func versionListCmd(cfg *Config) *cobra.Command { //nolint:unparam // cfg reserved for future use
+	cmd := &cobra.Command{
+		Use:     "list <spec-type>",
+		Aliases: []string{"ls", "history"},
+		Short:   "List all versions for a spec",
+		Long: `List all versions of a spec in reverse chronological order.
+
+Examples:
+  visionspec version list mrd
+  visionspec version history prd`,
+		Args: cobra.ExactArgs(1),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			return runVersionList(cmd, args)
+		},
+	}
+
+	return cmd
+}
+
+func runVersionList(cmd *cobra.Command, args []string) error {
+	specType := types.SpecType(strings.ToLower(args[0]))
+
+	// Find project
+	cwd, err := os.Getwd()
+	if err != nil {
+		return err
+	}
+
+	projectPath, err := config.FindProjectRoot(cwd)
+	if err != nil {
+		return fmt.Errorf("not in a visionspec project")
+	}
+
+	versions, err := version.ListVersions(projectPath, specType)
+	if err != nil {
+		return err
+	}
+
+	if len(versions) == 0 {
+		fmt.Printf("No versions found for %s\n", specType)
+		return nil
+	}
+
+	fmt.Printf("Version history for %s:\n\n", specType)
+	for _, v := range versions {
+		fmt.Printf("v%d  %s  %s\n", v.Number, v.Hash, v.Timestamp.Format("2006-01-02 15:04"))
+		if v.Message != "" {
+			fmt.Printf("    %s\n", v.Message)
+		}
+	}
+
+	return nil
+}
+
+func versionShowCmd(cfg *Config) *cobra.Command { //nolint:unparam // cfg reserved for future use
+	cmd := &cobra.Command{
+		Use:   "show <spec-type> <version>",
+		Short: "Show content of a specific version",
+		Long: `Show the content of a specific version.
+
+Examples:
+  visionspec version show mrd 1
+  visionspec version show prd 3`,
+		Args: cobra.ExactArgs(2),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			return runVersionShow(cmd, args)
+		},
+	}
+
+	return cmd
+}
+
+func runVersionShow(cmd *cobra.Command, args []string) error {
+	specType := types.SpecType(strings.ToLower(args[0]))
+
+	versionNum := 0
+	if _, err := fmt.Sscanf(args[1], "%d", &versionNum); err != nil {
+		return fmt.Errorf("invalid version number: %s", args[1])
+	}
+
+	// Find project
+	cwd, err := os.Getwd()
+	if err != nil {
+		return err
+	}
+
+	projectPath, err := config.FindProjectRoot(cwd)
+	if err != nil {
+		return fmt.Errorf("not in a visionspec project")
+	}
+
+	v, content, err := version.GetVersion(projectPath, specType, versionNum)
+	if err != nil {
+		return err
+	}
+
+	fmt.Printf("=== %s v%d (%s) ===\n", specType, v.Number, v.Hash)
+	if v.Message != "" {
+		fmt.Printf("Message: %s\n", v.Message)
+	}
+	fmt.Printf("Created: %s\n\n", v.Timestamp.Format("2006-01-02 15:04:05"))
+	fmt.Println(content)
+
+	return nil
+}
+
+func versionDiffCmd(cfg *Config) *cobra.Command { //nolint:unparam // cfg reserved for future use
+	cmd := &cobra.Command{
+		Use:   "diff <spec-type> [old-version] [new-version]",
+		Short: "Compare versions",
+		Long: `Compare two versions of a spec.
+
+If only one version is provided, compares that version with the current file.
+If no versions are provided, compares the latest version with the current file.
+
+Examples:
+  visionspec version diff mrd           # Latest vs current
+  visionspec version diff mrd 1         # v1 vs current
+  visionspec version diff mrd 1 2       # v1 vs v2`,
+		Args: cobra.RangeArgs(1, 3),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			return runVersionDiff(cmd, args)
+		},
+	}
+
+	cmd.Flags().Bool("compact", false, "Show only changed lines")
+
+	return cmd
+}
+
+func runVersionDiff(cmd *cobra.Command, args []string) error {
+	specType := types.SpecType(strings.ToLower(args[0]))
+	compact, _ := cmd.Flags().GetBool("compact")
+
+	// Find project
+	cwd, err := os.Getwd()
+	if err != nil {
+		return err
+	}
+
+	projectPath, err := config.FindProjectRoot(cwd)
+	if err != nil {
+		return fmt.Errorf("not in a visionspec project")
+	}
+
+	var oldVersion, newVersion int
+
+	switch len(args) {
+	case 1:
+		// Compare latest version with current
+		v, _, err := version.GetLatestVersion(projectPath, specType)
+		if err != nil {
+			if err == version.ErrNoVersions {
+				fmt.Printf("No versions exist for %s\n", specType)
+				return nil
+			}
+			return err
+		}
+		oldVersion = v.Number
+		newVersion = 0 // current file
+	case 2:
+		// Compare specified version with current
+		if _, err := fmt.Sscanf(args[1], "%d", &oldVersion); err != nil {
+			return fmt.Errorf("invalid version number: %s", args[1])
+		}
+		newVersion = 0 // current file
+	case 3:
+		// Compare two versions
+		if _, err := fmt.Sscanf(args[1], "%d", &oldVersion); err != nil {
+			return fmt.Errorf("invalid old version: %s", args[1])
+		}
+		if _, err := fmt.Sscanf(args[2], "%d", &newVersion); err != nil {
+			return fmt.Errorf("invalid new version: %s", args[2])
+		}
+	}
+
+	diff, err := version.Diff(projectPath, specType, oldVersion, newVersion)
+	if err != nil {
+		return err
+	}
+
+	if compact {
+		fmt.Print(diff.FormatCompact())
+	} else {
+		fmt.Print(diff.FormatDiff())
+	}
+
+	return nil
+}
+
+func versionRevertCmd(cfg *Config) *cobra.Command { //nolint:unparam // cfg reserved for future use
+	cmd := &cobra.Command{
+		Use:   "revert <spec-type> <version>",
+		Short: "Revert to a previous version",
+		Long: `Revert a spec to a previous version.
+
+This restores the content from the specified version and creates
+a new version to record the revert.
+
+Examples:
+  visionspec version revert mrd 1
+  visionspec version revert prd 2 -m "Reverting bad changes"`,
+		Args: cobra.ExactArgs(2),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			return runVersionRevert(cmd, args)
+		},
+	}
+
+	cmd.Flags().StringP("message", "m", "", "Revert message")
+
+	return cmd
+}
+
+func runVersionRevert(cmd *cobra.Command, args []string) error {
+	specType := types.SpecType(strings.ToLower(args[0]))
+	message, _ := cmd.Flags().GetString("message")
+
+	versionNum := 0
+	if _, err := fmt.Sscanf(args[1], "%d", &versionNum); err != nil {
+		return fmt.Errorf("invalid version number: %s", args[1])
+	}
+
+	// Find project
+	cwd, err := os.Getwd()
+	if err != nil {
+		return err
+	}
+
+	projectPath, err := config.FindProjectRoot(cwd)
+	if err != nil {
+		return fmt.Errorf("not in a visionspec project")
+	}
+
+	newVersion, err := version.Revert(projectPath, specType, versionNum, message)
+	if err != nil {
+		return err
+	}
+
+	fmt.Printf("Reverted %s to version %d\n", specType, versionNum)
+	fmt.Printf("Created version %d to record the revert\n", newVersion.Number)
 
 	return nil
 }
