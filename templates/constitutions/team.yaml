@@ -1,0 +1,48 @@
+# Team Constitution Template
+# Inherits from organization constitution, can override specific values.
+#
+# Usage:
+#   1. Copy this template to your team's config
+#   2. Set `inherits` to reference your organization constitution
+#   3. Only specify values that differ from org defaults
+
+apiVersion: visionspec/v1
+kind: Constitution
+metadata:
+  name: example-team
+  level: team
+  inherits: org/example-org  # REQUIRED: Reference parent constitution
+  version: "1.0"
+  description: "Team-specific overrides"
+
+# Only include sections you want to override
+# Omitted sections inherit from parent
+
+technical:
+  # Example: Team uses LLM observability, override traces backend
+  observability:
+    tracesSDK: opentelemetry-go
+    # Library, metricsSDK, loggingSDK inherited from org
+
+infrastructure:
+  # Example: Team has higher availability requirement
+  availability:
+    target: "99.99"
+    multiAZ: true
+    # RTO, RPO, drStrategy inherited from org
+
+  # Example: Team uses different cloud regions
+  cloud:
+    regions: [us-west-2, us-east-1]
+    # Provider inherited from org
+
+# Team-specific prompts supplement org prompts
+prompts:
+  languageChoice: |
+    This team specializes in LLM/AI workloads.
+
+    In addition to org guidance, consider:
+    - Python may be acceptable for ML prototyping
+    - Rust WASM modules for browser-based inference
+
+    Production services must still be Go unless approved.

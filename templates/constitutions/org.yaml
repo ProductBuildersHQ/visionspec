@@ -1,0 +1,150 @@
+# Organization Constitution Template
+# This is the root of the constitution hierarchy.
+# Team and project constitutions inherit from this.
+#
+# Usage:
+#   1. Copy this template to your organization's config repo
+#   2. Fill in your organization's defaults
+#   3. Team constitutions reference this via `inherits: org/<name>`
+
+apiVersion: visionspec/v1
+kind: Constitution
+metadata:
+  name: example-org
+  level: organization
+  version: "1.0"
+  description: "Organization-wide defaults for VisionSpec"
+
+# TRD-scoped defaults (code/implementation choices)
+technical:
+  languages:
+    backend:
+      primary: go
+      allowed: [go, rust]
+      exceptionsRequire: approval
+    frontend:
+      primary: typescript
+      allowed: [typescript]
+    wasm: rust  # When WASM modules needed
+
+  apis:
+    rest:
+      framework: huma-chi
+      specFormat: openapi-3.1
+      styleGuide: google-api-design-guide
+    grpc:
+      framework: connect-go
+
+  database:
+    relational: postgresql
+    cache: redis
+    multiTenancy: rls  # Row Level Security
+
+  tenancy:
+    model: multi-tenant
+    isolation: rls
+    tenantIdHeader: X-Tenant-ID
+    tenantIdClaim: tenant_id
+
+  observability:
+    library: github.com/plexusone/omniobserve
+    autoInstrument: true
+    metricsSDK: prometheus/client_golang
+    tracesSDK: opentelemetry-go
+    loggingSDK: slog
+
+# IRD-scoped defaults (infrastructure choices)
+infrastructure:
+  iac:
+    tool: pulumi
+    language: go
+    repoPath: infra/
+
+  observability:
+    metrics:
+      platform: prometheus
+      visualization: grafana
+    traces:
+      collector: opentelemetry-collector
+      backend: langfuse  # LLM observability
+      visualization: grafana
+    logging:
+      platform: loki
+      visualization: grafana
+
+  localDev:
+    priority:
+      - binaries    # P0: fastest iteration
+      - podman      # P1: container parity
+      - docker      # P2: fallback
+
+  cloud:
+    provider: aws
+    regions: [us-west-2]
+
+  availability:
+    target: "99.9"
+    rto: "1h"
+    rpo: "15m"
+    multiAZ: true
+    multiRegion: false
+    drStrategy: active-passive
+
+# Security defaults
+security:
+  secrets:
+    provider: aws-secrets-manager
+  encryption:
+    atRest: aes-256
+    inTransit: tls-1.3
+  auth:
+    provider: oidc
+    mfa: required
+    methods: [jwt, api-key]
+
+# LLM guidance prompts for decision-making
+prompts:
+  languageChoice: |
+    Go is the primary backend language for type safety, performance, and team expertise.
+
+    Consider Rust only for:
+    - CPU-intensive processing (video transcoding, ML inference)
+    - WASM modules requiring native performance
+    - Memory-critical embedded components
+
+    If proposing Rust, document:
+    1. Why Go is insufficient
+    2. Team Rust expertise
+    3. Maintenance implications
+
+  apiDesign: |
+    REST (Huma+Chi) is the default for:
+    - Public APIs
+    - Web client consumption
+    - Third-party integrations
+
+    gRPC (Connect-Go) preferred for:
+    - Internal service-to-service communication
+    - High-performance streaming
+    - Strong typing requirements
+
+    Note: Connect-Go provides both gRPC and REST from same definition.
+
+  tenancyChoice: |
+    Multi-tenant with PostgreSQL RLS is the default.
+
+    Consider single-tenant only for:
+    - Regulatory requirements (data residency)
+    - Customer-specific compliance (HIPAA, etc.)
+    - Extreme isolation requirements
+
+    Single-tenant significantly increases operational cost.
+
+  availabilityChoice: |
+    99.9% (8.76 hours/year downtime) is the default target.
+
+    Higher targets require:
+    - 99.99%: Multi-AZ mandatory, comprehensive failover testing
+    - 99.999%: Multi-region mandatory, active-active or hot standby
+
+    Each "9" roughly 10x the operational effort and cost.

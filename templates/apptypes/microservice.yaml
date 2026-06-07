@@ -1,0 +1,168 @@
+# Microservice App Type Specification
+# Defines constraints, defaults, and guidance for microservice projects.
+#
+# This spec is used to:
+# 1. Validate project constitutions against microservice requirements
+# 2. Determine which VisionSpec documents are required
+# 3. Provide LLM guidance for architectural decisions
+
+apiVersion: visionspec/v1
+kind: AppTypeSpec
+metadata:
+  name: microservice
+  version: "1.0"
+  description: "Backend service with single bounded context, independent deployment lifecycle"
+
+# What this app type produces
+artifacts:
+  required:
+    - binary           # Compiled executable
+    - container-image  # OCI image for deployment
+  optional:
+    - openapi-spec     # If REST API exposed
+    - proto-spec       # If gRPC API exposed
+    - helm-chart       # If Kubernetes deployment
+    - pulumi-module    # If infrastructure as code
+
+# Default configurations for microservices
+defaults:
+  technical:
+    apiStyles: [rest, grpc]
+    embeddedDb: false       # Use external database, not SQLite
+    statefulAllowed: false  # Microservices should be stateless
+
+  infrastructure:
+    containerized: true
+    orchestration: [kubernetes, ecs, standalone]
+    horizontalScaling: true
+    cdnRequired: false
+    minAvailabilityTarget: "99.9"
+
+# VisionSpec documents required for microservices
+specs:
+  required:
+    - mrd   # Market Requirements - why are we building this?
+    - prd   # Product Requirements - what are we building?
+    - trd   # Technical Requirements - how are we building it?
+    - ird   # Infrastructure Requirements - how do we deploy it?
+  optional:
+    - uxd   # Only if service has UI (admin dashboard, etc.)
+    - press # For major features or public launch
+    - faq   # Customer-facing documentation
+    - tpd   # Test Plan Document
+
+# Constraints for validation
+constraints:
+  tenancy:
+    allowed: [single-tenant, multi-tenant]
+    default: multi-tenant
+
+  availability:
+    minimum: "99.9"
+    maximumRTO: "1h"
+    maximumRPO: "15m"
+
+  scaling:
+    horizontalRequired: true
+    containerizationRequired: true
+
+  api:
+    specRequired: true
+    preferredFormat: openapi
+
+# LLM guidance prompts
+prompts:
+  whenToUse: |
+    Use microservice app type when:
+    - Service has single bounded context (one domain/responsibility)
+    - Independent deployment is required
+    - Team owns full lifecycle from code to production
+    - Service needs to scale independently of others
+    - Clear API contract with other services
+    - Separate data store from other services
+
+  whenNotToUse: |
+    Consider alternatives when:
+    - Early stage, domain boundaries unclear → start with modular monolith
+    - Small team, low complexity → monolith may be simpler
+    - Tight coupling with other services → may indicate wrong boundary
+    - Shared database required → consider bounded context within monolith
+    - High inter-service communication → may indicate distributed monolith
+
+  keyConsiderations: |
+    Key microservice considerations:
+
+    1. API Design
+       - REST (Huma+Chi) or gRPC (Connect-Go), rarely both
+       - Auto-generate OpenAPI/Proto specs
+       - Version APIs explicitly
+
+    2. Data Ownership
+       - Own data store, never share databases
+       - Accept eventual consistency
+       - Use events for cross-service data needs
+
+    3. Observability (Critical for Microservices)
+       - Distributed tracing mandatory (OpenTelemetry)
+       - Correlation IDs in all requests
+       - Structured logging with trace context
+       - Custom metrics for business KPIs
+
+    4. Resilience
+       - Circuit breakers for external calls
+       - Retries with exponential backoff
+       - Graceful degradation when dependencies fail
+       - Health checks for orchestrator
+
+    5. Testing
+       - Unit tests for business logic
+       - Contract tests (Pact) for API compatibility
+       - Integration tests against real dependencies
+       - Chaos testing for resilience validation
+
+    6. Deployment
+       - Blue/green or canary releases
+       - Feature flags for gradual rollout
+       - Automated rollback on metrics degradation
+       - Infrastructure as Code (no manual changes)
+
+  tenancyGuidance: |
+    Multi-tenant (RLS) is default for microservices:
+
+    Pros:
+    - Lower infrastructure cost
+    - Simpler operations
+    - Easier feature rollouts
+
+    Cons:
+    - Noisy neighbor risk
+    - Shared failure domain
+    - Compliance complexity
+
+    Use single-tenant only when:
+    - Regulatory requirement (data residency, HIPAA)
+    - Customer contractual requirement
+    - Extreme performance isolation needed
+
+  availabilityGuidance: |
+    Availability targets for microservices:
+
+    99% (3.65 days/year downtime):
+    - Internal tools
+    - Non-critical batch processing
+    - Development/staging environments
+
+    99.9% (8.76 hours/year downtime):
+    - Standard production services
+    - Business-critical but not revenue-impacting
+    - Default for most microservices
+
+    99.99% (52.6 minutes/year downtime):
+    - Revenue-critical services
+    - Customer-facing APIs
+    - Requires: Multi-AZ, automated failover, comprehensive monitoring
+
+    99.999% (5.26 minutes/year downtime):
+    - Core infrastructure (auth, payments)
+    - Requires: Multi-region, active-active, 24/7 on-call
+    - Rarely justified - 10x operational cost

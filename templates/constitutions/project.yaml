@@ -1,0 +1,66 @@
+# Project Constitution Template
+# Inherits from team (or org) constitution, declares project-specific choices.
+#
+# Usage:
+#   1. Copy this template to your project
+#   2. Set `inherits` to reference your team or org constitution
+#   3. Declare project-specific choices and any exceptions
+
+apiVersion: visionspec/v1
+kind: Constitution
+metadata:
+  name: example-project
+  level: project
+  inherits: team/example-team  # Or org/example-org if no team constitution
+  version: "1.0"
+  description: "Project-specific configuration"
+
+# Project declares actual choices within inherited constraints
+# Values here are what the project IS using, not just defaults
+
+technical:
+  # Project-specific API choice
+  apis:
+    rest:
+      # Using inherited framework (huma-chi)
+      specFormat: openapi-3.1
+    # Not using gRPC for this project
+
+  # Project-specific database needs
+  database:
+    relational: postgresql
+    cache: redis
+    search: elasticsearch  # Project-specific addition
+
+  tenancy:
+    model: multi-tenant
+    isolation: rls
+    tenantIdHeader: X-Tenant-ID
+
+infrastructure:
+  # Project-specific deployment targets
+  localDev:
+    priority:
+      - binaries
+      - podman
+      - docker
+      - localstack  # Project needs AWS service emulation
+
+  # Project-specific availability (may differ from team default)
+  availability:
+    target: "99.9"
+    rto: "30m"
+    rpo: "5m"
+
+# Exceptions from inherited constraints
+# These must be documented with justification
+exceptions:
+  - field: technical.languages.backend
+    value: rust
+    component: wasm-inference-engine
+    justification: |
+      WASM inference requires native performance for browser-based
+      LLM inference. Go WASM compilation produces larger bundles
+      and slower execution. Team has Rust expertise from prior projects.
+    approvedBy: tech-lead
+    approvedAt: "2026-05-15"
