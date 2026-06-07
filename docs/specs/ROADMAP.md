@@ -170,12 +170,12 @@ Establish conventions for spec organization and authoring.
   - `pkg/mkdocs/mkdocs.go` - GenerateSpecsLanding, WriteSpecsLanding
   - `visionspec docs generate` command
 
-- [ ] RMI-018: Generate MkDocs navigation structure
+- [x] RMI-018: Generate MkDocs navigation structure
   - Auto-update `mkdocs.yml` nav section
   - Or generate `nav.yml` partial for include
   - Support `mkdocs-awesome-pages-plugin` `.pages` files
 
-- [ ] RMI-019: Render eval JSON to markdown for MkDocs
+- [x] RMI-019: Render eval JSON to markdown for MkDocs
   - `visionspec render-evals {project}`
   - Generate `eval/index.md` with rendered findings
   - Collapsible sections per spec
@@ -294,17 +294,17 @@ Integrate with `structured-evaluation` for per-spec evaluation.
   - Evaluate draft content before finalization
   - Track eval history in draft metadata
 
-- [ ] RMI-023c: Implement `visionspec eval {spec-type}` CLI command
+- [x] RMI-023c: Implement `visionspec eval {spec-type}` CLI command
   - Load spec and rubric
   - Call LLM judge
   - Write `{spec}.eval.json` output
 
-- [ ] RMI-024: Implement `visionspec eval --all` command
+- [x] RMI-024: Implement `visionspec eval --all` command
   - Evaluate all source specs, GTM docs, and technical docs
   - Generate all `*.eval.json` files
   - Support filtering: `--source`, `--gtm`, `--technical`
 
-- [ ] RMI-025: Implement `visionspec render {eval-file}` command
+- [x] RMI-025: Implement `visionspec render {eval-file}` command
   - Render JSON eval to Markdown for human review
   - Use `structured-evaluation/render/markdown`
 
@@ -591,7 +591,7 @@ Seamless integration with AI coding assistant workflows via multi-agent-spec and
   - Loader functions for skill directories
   - Matches assistantkit canonical type
 
-- [ ] RMI-099: Define visionspec skills in multi-agent-spec format
+- [x] RMI-099: Define visionspec skills in multi-agent-spec format
   - `visionspec-status` - Check project readiness
   - `visionspec-lint` - Validate project structure
   - `visionspec-eval` - Run evaluations
@@ -601,22 +601,22 @@ Seamless integration with AI coding assistant workflows via multi-agent-spec and
 
 ### Skill Generation (assistantkit)
 
-- [ ] RMI-100: Generate Claude Code skills via assistantkit
+- [x] RMI-100: Generate Claude Code skills via assistantkit
   - `skills/visionspec-status/SKILL.md`
   - `skills/visionspec-lint/SKILL.md`
   - etc.
 
-- [ ] RMI-101: Generate Kiro CLI steering files via assistantkit
+- [x] RMI-101: Generate Kiro CLI steering files via assistantkit
   - `steering/visionspec-status.md`
   - `steering/visionspec-lint.md`
   - etc.
 
 ### Automation
 
-- [ ] RMI-102: Implement `visionspec watch` command
+- [x] RMI-102: Implement `visionspec watch` command
   - File watcher for spec changes
-  - Auto-run eval on change
-  - Auto-run reconcile when all approved
+  - Auto-run lint on change
+  - Debounce support for rapid changes
 
 - [ ] RMI-103: Support git hooks
   - Pre-commit: validate specs
@@ -819,11 +819,11 @@ Enable organizations (companies, open source projects, non-profits) to compose c
   - `SpecConfig` with helper methods
   - `IsRequired()` with fallback to defaults
 
-- [ ] RMI-231: Update `visionspec.yaml` schema
+- [x] RMI-231: Update `visionspec.yaml` schema
   - Add `specs:` section for per-spec configuration
   - Parse and merge with defaults
 
-- [ ] RMI-232: Update `SpecType.IsRequired()` to use config
+- [x] RMI-232: Update `SpecType.IsRequired()` to use config
   - Check project config first, then defaults
 
 ### Documentation & Examples
@@ -867,7 +867,7 @@ Enable organizations (companies, open source projects, non-profits) to compose c
   - `examples/1-n-growth/` - Uses "growth" profile
   - `examples/post-pmf-enterprise/` - Uses "enterprise" profile
 
-- [ ] RMI-254: Add profile tests (`pkg/profiles/*_test.go`)
+- [x] RMI-254: Add profile tests (`pkg/profiles/*_test.go`)
   - Test profile loading and inheritance
   - Test profile merging
   - Test template/rubric loader creation
@@ -880,52 +880,52 @@ Future enhancements for testing, integrations, and developer experience.
 
 ### Testing & Quality
 
-- [ ] RMI-300: Add comprehensive profile tests
+- [x] RMI-300: Add comprehensive profile tests
   - Unit tests for `pkg/profiles/`
   - Profile inheritance testing
   - Loader chain testing
 
-- [ ] RMI-301: Add MCP integration tests
-  - Test all 17 MCP tools
-  - Mock LLM responses for eval testing
-  - Draft workflow end-to-end tests
+- [x] RMI-301: Add MCP integration tests
+  - Test MCP resource handlers (templates, rubrics, profiles)
+  - Test resource listing endpoints
+  - URI scheme validation
 
-- [ ] RMI-302: Add end-to-end authoring workflow tests
+- [x] RMI-302: Add end-to-end authoring workflow tests
   - start_draft → update_draft → eval_draft → finalize_draft
-  - Test with real project structure
-  - Verify file system operations
+  - Test with real project structure (temp directories)
+  - Verify file system operations (draft_test.go, session_test.go)
 
 ### Profile CLI Enhancements
 
-- [ ] RMI-310: Implement `profiles create <name>` command
+- [x] RMI-310: Implement `profiles create <name>` command
   - Interactive profile creation wizard
   - Select base profile to extend
   - Choose required spec types
   - Generate profile.yaml
 
-- [ ] RMI-311: Implement `profiles extend <base> <name>` command
+- [x] RMI-311: Implement `profiles extend <base> <name>` command
   - Create profile extending another
   - Override specific settings
   - Custom templates/rubrics directory
 
-- [ ] RMI-312: Implement profile validation
+- [x] RMI-312: Implement profile validation
   - `profiles validate <path>` command
   - Check profile.yaml schema
   - Verify referenced templates/rubrics exist
 
 ### MCP Resources
 
-- [ ] RMI-320: Expose templates as MCP resources
+- [x] RMI-320: Expose templates as MCP resources
   - `templates://` URI scheme
   - List available templates
   - Read template content
 
-- [ ] RMI-321: Expose rubrics as MCP resources
+- [x] RMI-321: Expose rubrics as MCP resources
   - `rubrics://` URI scheme
   - List available rubrics
   - Read rubric definitions
 
-- [ ] RMI-322: Expose profiles as MCP resources
+- [x] RMI-322: Expose profiles as MCP resources
   - `profiles://` URI scheme
   - List available profiles
   - Read profile configuration
@@ -954,25 +954,25 @@ Future enhancements for testing, integrations, and developer experience.
 
 ### Spec Versioning
 
-- [ ] RMI-340: Implement spec version tracking
+- [x] RMI-340: Implement spec version tracking
   - Track spec versions with git-like history
-  - Store version metadata in visionspec.yaml
-  - Immutable version snapshots
+  - Store version metadata in eval/versions/
+  - SHA256 content hashing for change detection
 
-- [ ] RMI-341: Implement `visionspec diff <spec> [version]`
+- [x] RMI-341: Implement `visionspec version diff <spec> [version]`
   - Compare current spec with previous version
-  - Show changes by section
-  - Highlight requirement changes
+  - LCS-based diff algorithm
+  - Compact and full output modes
 
-- [ ] RMI-342: Implement `visionspec history <spec>`
+- [x] RMI-342: Implement `visionspec version list <spec>`
   - Show version history for spec
-  - Display change summaries
-  - Link to full diffs
+  - Display timestamps, hashes, and messages
+  - Alias: `visionspec version history`
 
-- [ ] RMI-343: Implement `visionspec revert <spec> <version>`
+- [x] RMI-343: Implement `visionspec version revert <spec> <version>`
   - Restore spec to previous version
-  - Create new version for revert
-  - Preserve audit trail
+  - Creates new version for audit trail
+  - Custom revert message support
 
 ### Cross-Project Analysis
 
@@ -1171,6 +1171,216 @@ Aggregate context from multiple sources to ground spec synthesis in reality.
   - Source interface
   - Writing custom sources
   - Extending MCP integrations
+
+---
+
+## Phase 12: Methodology Profiles (v0.5.0)
+
+Comprehensive product management methodology frameworks with templates, rubrics, and Go structs.
+
+### Profile System
+
+- [x] RMI-480: Create profile inheritance system
+  - `extends:` field for profile inheritance
+  - `abstract: true` for base-only profiles
+  - Profile merging with override support
+
+- [x] RMI-481: Create Big Tech composite profile
+  - Combined practices from AWS, Google, Stripe, Netflix, Spotify, Meta, Apple, Microsoft
+  - ~30 unified principles across all companies
+  - `big-tech/profile.yaml` (abstract base)
+  - `big-tech-product/profile.yaml` (MRD start)
+  - `big-tech-feature/profile.yaml` (OpportunitySpec start)
+
+- [x] RMI-482: Create Shape Up profile (Basecamp)
+  - Pitch-based development with appetite not estimates
+  - Hill charts for progress tracking
+  - Fixed time, variable scope
+  - `shapeup/profile.yaml`
+  - Templates: shapeup-pitch.md, shapeup-scope.md
+  - Rubrics: shapeup-pitch.rubric.yaml
+
+- [x] RMI-483: Create Continuous Discovery profile (Teresa Torres)
+  - Weekly touchpoints and story-based interviews
+  - Opportunity Solution Trees (OST)
+  - Assumption testing by type (desirability, viability, feasibility, usability, ethical)
+  - `continuous-discovery/profile.yaml`
+  - Templates: discovery-snapshot.md, assumption-map.md, ost.md
+  - Rubrics: discovery-snapshot.rubric.yaml, assumption-map.rubric.yaml
+
+### prism-roadmap Canvas Types
+
+Go structs for strategic planning canvases in `github.com/grokify/prism-roadmap`.
+
+- [x] RMI-484: Create Shape Up canvas types (`canvas/shapeup.go`)
+  - `ShapeUpPitch` - Problem, appetite, solution, rabbit holes, no-gos
+  - `ShapeUpBet` - Betting table decisions
+  - `ShapeUpScope` - Hill chart tracking during building
+  - Supporting types: `SUProblem`, `SUAppetite`, `SUSolution`, `SURabbitHole`
+  - Unit tests: `canvas/shapeup_test.go`
+
+- [x] RMI-485: Create Continuous Discovery canvas types (`canvas/discovery.go`)
+  - `DiscoverySnapshot` - Weekly discovery summary
+  - `CDInterview`, `CDStory` - Story-based interview data
+  - `CDAssumptionTest`, `CDAssumption` - Assumption testing
+  - `AssumptionMap` - Risk matrix by type
+  - `ExperienceMap` - Customer journey mapping
+  - Unit tests: `canvas/discovery_test.go`
+
+- [x] RMI-486: Update Canvas wrapper discriminated union
+  - Add `ShapeUpPitch`, `ShapeUpBet`, `ShapeUpScope` to Canvas wrapper
+  - Add `DiscoverySnapshot`, `AssumptionMap`, `ExperienceMap` to wrapper
+  - Update `CanvasType` enum
+
+- [x] RMI-487: Generate JSON schemas for new canvas types
+  - `schema/shapeup-pitch.schema.json`
+  - `schema/shapeup-bet.schema.json`
+  - `schema/shapeup-scope.schema.json`
+  - `schema/discovery-snapshot.schema.json`
+  - `schema/assumption-map.schema.json`
+  - `schema/experience-map.schema.json`
+
+- [x] RMI-488: Create renderers for new canvas types
+  - D2 renderer for Shape Up hill chart
+  - D2 renderer for OST tree structure
+  - Mermaid renderer for both
+  - Markdown table renderer
+
+### Big Tech Profile Enhancement
+
+Enhance Big Tech profile to be "best of all worlds" integrating Shape Up and Continuous Discovery.
+
+- [x] RMI-489: Integrate Shape Up practices into Big Tech profile
+  - Add appetite-based scoping as alternative to story points
+  - Add pitch-based workflow for major features
+  - Add hill chart tracking for execution visibility
+  - Add circuit breaker principle
+
+- [x] RMI-490: Integrate Continuous Discovery practices into Big Tech profile
+  - Add weekly touchpoints as standard practice
+  - Add OST for opportunity mapping
+  - Add assumption testing framework (DVFUE matrix)
+  - Add story-based interview guidelines
+
+- [x] RMI-491: Create Big Tech "best of all worlds" documentation
+  - Update `docs/frameworks/big-tech.md` with integrated practices
+  - Add practice selection guidelines by context
+  - Add conflict resolution when practices overlap
+
+### Remaining Framework Profiles
+
+- [x] RMI-492: Create Lean Startup profile Go structs
+  - `LeanStartupCanvas` - Build-Measure-Learn cycle
+  - `MVP`, `LSExperiment`, `Pivot` - MVP and pivot tracking
+  - `canvas/leanstartup.go`
+  - Renderers: D2, Mermaid, Markdown
+  - Schema: `leanstartup.schema.json`
+
+- [x] RMI-493: Create Design Thinking profile Go structs
+  - `DesignThinkingCanvas` - Five phases: Empathize, Define, Ideate, Prototype, Test
+  - `EmpathyMap`, `DTIdea`, `DTPrototype`, `DTTest` - All phase types
+  - `canvas/designthinking.go`
+  - Renderers: D2, Mermaid, Markdown
+  - Schema: `designthinking.schema.json`
+
+- [ ] RMI-494: Create JTBD profile Go structs
+  - `JobStatement` - Job-to-be-done definition
+  - `OutcomeExpectation` - Success metrics
+  - `canvas/jtbd.go`
+
+### Documentation
+
+- [x] RMI-495: Create framework documentation
+  - `docs/frameworks/shapeup.md`
+  - `docs/frameworks/continuous-discovery.md`
+  - Update `docs/frameworks/index.md` with all frameworks
+
+- [ ] RMI-496: Update core workflow documentation
+  - Add Shape Up and Continuous Discovery to methodology selection
+  - Document when to use each framework
+  - Add framework combination guidelines
+
+### Profile Template/Rubric Completeness
+
+Ensure all profiles have complete template and rubric coverage for LLM-as-a-Judge evaluation.
+
+- [x] RMI-497: Add missing templates/rubrics to growth profile
+  - `templates/trd.md` - Lightweight technical requirements
+  - `templates/ird.md` - Lightweight infrastructure requirements
+  - `templates/tpd.md` - Lightweight test plan
+  - `rubrics/trd.rubric.yaml`, `rubrics/ird.rubric.yaml`, `rubrics/tpd.rubric.yaml`
+  - Update profile.yaml to include optional technical specs
+
+- [x] RMI-498: Add missing templates/rubrics to aws-feature profile
+  - `templates/prd.md` - Feature-level PRD
+  - `templates/trd.md` - Feature-level TRD
+  - `templates/uxd.md` - Feature-level UXD
+  - `templates/ird.md` - Feature-level IRD
+  - `templates/tpd.md` - Feature-level TPD
+  - `rubrics/trd.rubric.yaml`, `rubrics/ird.rubric.yaml`, `rubrics/uxd.rubric.yaml`
+
+- [x] RMI-499: Add missing templates/rubrics to big-tech-feature profile
+  - Same templates/rubrics as aws-feature
+  - Naming updated to "Big Tech Feature"
+
+- [x] RMI-500a: Add missing templates/rubrics to startup profile
+  - `templates/uxd.md` - Lightweight UX design
+  - `templates/trd.md` - Lightweight technical design
+  - `rubrics/uxd.rubric.yaml`, `rubrics/trd.rubric.yaml`
+  - Focus on pragmatism and MVP scope
+
+- [x] RMI-501: Add missing templates/rubrics to 0-1 profile
+  - `templates/lean-canvas.md` - Lean Canvas for business model
+  - `templates/experiment.md` - Experiment card for hypothesis testing
+  - `rubrics/lean-canvas.rubric.yaml`, `rubrics/experiment.rubric.yaml`
+  - Update profile.yaml to include validation specs
+
+- [x] RMI-508: Add missing templates to big-tech-essentials-feature profile
+  - `templates/opportunity-spec.md` - 12-box OpportunitySpec (required by profile)
+  - Profile extends big-tech-essentials → enterprise, but enterprise lacks opportunity-spec template
+
+- [x] RMI-509: Add missing templates to big-tech-essentials-product profile
+  - `templates/narrative-6p.md` - Amazon-style 6-pager (required by profile)
+  - Profile extends big-tech-essentials → enterprise, but enterprise lacks narrative-6p template
+
+### Workflow Diagrams
+
+Visual documentation of profile selection and reconciliation workflows.
+
+- [x] RMI-502: Create profile selection decision tree diagram
+  - `docs/diagrams/profile-selection-decision-tree.d2`
+  - `docs/diagrams/profile-selection-decision-tree.svg`
+  - Decision flow: Scope → Stage → Methodology → Profile
+  - Covers all 19 profiles with color-coded recommendations
+
+- [x] RMI-503: Create reconciliation workflow diagram
+  - `docs/diagrams/reconciliation-workflow.d2`
+  - `docs/diagrams/reconciliation-workflow.svg`
+  - Flow: Source Docs → Evaluation → Conflict Detection → Resolution → spec.md → Approval → Export
+
+### prism-roadmap Prioritization Frameworks
+
+RICE Scoring and Kano Model integration with OpportunitySpec.
+
+- [x] RMI-504: Add RICE scoring types to prism-roadmap
+  - `prioritization/rice.go` - RICEScore, ImpactLevel, ConfidenceLevel
+  - `prioritization/rice_test.go` - Unit tests
+  - Formula: Score = (Reach × Impact × Confidence) / Effort
+
+- [x] RMI-505: Add Kano Model types to prism-roadmap
+  - `prioritization/kano.go` - KanoCategory, KanoFeature, KanoAnalysis
+  - `prioritization/kano_test.go` - Unit tests
+  - Categories: Must-Be, Performance, Attractive, Indifferent, Reverse
+
+- [x] RMI-506: Integrate prioritization into OpportunitySpec
+  - `canvas/opportunity_spec.go` - Add RICE and Kano fields
+  - Helper methods: SetRICE(), SetKano(), IsMustHave(), IsDelighter()
+  - GetPrioritizationSummary() for combined analysis
+
+- [x] RMI-507: Add prioritization documentation
+  - `docs/canvas/prioritization.md` - RICE and Kano comprehensive guide
+  - Update `docs/canvas/opportunity-spec.md` with prioritization section
+  - Update multispec `docs/frameworks/opportunity-spec.md`
 
 ---
 

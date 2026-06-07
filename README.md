@@ -267,12 +267,15 @@ For different organizational methodologies:
 
 | Profile | Methodology | Best For |
 |---------|-------------|----------|
-| `aws` | Working Backwards | Customer-centric products (PR/FAQ, 6-pager) |
+| `aws-product` | Working Backwards (MRD start) | New product lines (PR/FAQ, 6-pager) |
+| `aws-feature` | Working Backwards (OpportunitySpec start) | Features on existing products |
 | `google` | Design Docs + RFC | Engineering-heavy orgs (OKRs, experiments) |
 | `stripe` | API-First | Platform/API products (contract-first, DX) |
 | `lean-startup` | Build-Measure-Learn | Early validation (hypothesis, MVP) |
 | `design-thinking` | Stanford d.school | Human-centered design (empathy, prototyping) |
 | `jtbd` | Jobs to be Done | Customer motivations (job statements, outcomes) |
+
+The `aws-feature` profile uses **OpportunitySpec** from [prism-roadmap](https://github.com/grokify/prism-roadmap) as the starting document instead of MRD, providing a 12-box canvas that combines discovery (Patton) with business case rigor (Cagan).
 
 ### Using Profiles
 
@@ -296,36 +299,131 @@ visionspec profiles export enterprise ./my-profile
 visionspec init my-project --profile-dir ./my-profile
 ```
 
-## CLI as Library
+## Organization Customization
 
-Organizations can build custom CLI tools using visionspec as a library:
+VisionSpec is designed for organizations to build their own prescriptive CLI tools. The open source version provides flexibility and choices; organization versions enforce standards.
+
+### Open Source vs. Organization
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                     Organization CLI                             │
+│  (e.g., plexus-spec, acme-spec)                                  │
+│                                                                   │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐              │
+│  │ Org         │  │ Org         │  │ Org         │              │
+│  │ Templates   │  │ Rubrics     │  │ Constitutions│             │
+│  │ (prescriptive)│ │ (strict)    │  │ (defaults)  │              │
+│  └──────┬──────┘  └──────┬──────┘  └──────┬──────┘              │
+│         │                │                │                      │
+│         ▼                ▼                ▼                      │
+│  ┌─────────────────────────────────────────────────┐            │
+│  │              ChainLoader (fallback)              │            │
+│  └─────────────────────────────────────────────────┘            │
+└─────────┬────────────────┬────────────────┬─────────────────────┘
+          │                │                │
+          ▼                ▼                ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                    visionspec (open source)                      │
+│                                                                   │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐              │
+│  │ Default     │  │ Default     │  │ Built-in    │              │
+│  │ Templates   │  │ Rubrics     │  │ App Types   │              │
+│  │ (flexible)  │  │ (choices)   │  │ (generic)   │              │
+│  └─────────────┘  └─────────────┘  └─────────────┘              │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+| Aspect | Open Source | Organization |
+|--------|-------------|--------------|
+| **Templates** | Choices (fill in blanks) | Prescriptive (pre-filled) |
+| **Rubrics** | "Database choice documented" | "MUST use PostgreSQL with RLS" |
+| **Constitutions** | None (orgs provide) | Built-in org/team defaults |
+| **App Types** | Generic constraints | Stricter requirements |
+
+### Building an Organization CLI
+
+Organizations embed their resources and use `ChainLoader` to try org-specific first, falling back to visionspec defaults:
 
 ```go
 import (
+    "embed"
     "github.com/ProductBuildersHQ/visionspec/pkg/cli"
-    "github.com/ProductBuildersHQ/visionspec/pkg/profiles"
+    "github.com/ProductBuildersHQ/visionspec/pkg/constitution"
+    "github.com/ProductBuildersHQ/visionspec/pkg/templates"
 )
+
+//go:embed templates/*.md
+var orgTemplates embed.FS
+
+//go:embed constitutions/**/*.yaml
+var orgConstitutions embed.FS
 
 func main() {
     root := &cobra.Command{Use: "org-spec"}
+    cfg := cli.DefaultConfig()
 
-    // Load a profile
-    profile, _ := profiles.DefaultLoader().Load("enterprise")
-    cfg := cli.ConfigFromProfile(profile)
+    // Org templates first, fall back to visionspec defaults
+    cfg.TemplateLoader = templates.NewChainLoader(
+        templates.NewEmbedFSLoader(orgTemplates, "templates"),
+        templates.EmbeddedLoader(),
+    )
 
-    // Add visionspec commands
+    // Org constitutions define defaults projects inherit
+    cfg.ConstitutionLoader = constitution.NewEmbeddedLoader(
+        orgConstitutions, "constitutions",
+    )
+
     cli.AddCommandsTo(root, cfg)
-
     root.Execute()
 }
 ```
 
-See `examples/` for complete organization CLI examples.
+### Constitution Hierarchy
+
+Constitutions define organizational defaults that flow down through inheritance:
+
+```
+org/plexusone.yaml          # Organization defaults
+    ↓ inherits
+team/platform-team.yaml     # Team overrides
+    ↓ inherits
+project/agentos.yaml        # Project-specific + exceptions
+```
+
+Example organization constitution:
+
+```yaml
+apiVersion: visionspec/v1
+kind: Constitution
+metadata:
+  name: plexusone
+  level: organization
+
+technical:
+  languages:
+    backend:
+      primary: go
+      allowed: [go, rust]
+  tenancy:
+    model: multi-tenant
+    isolation: rls
+
+infrastructure:
+  iac:
+    tool: pulumi
+    language: go
+  availability:
+    target: "99.9"
+```
+
+See [Organization Customization Guide](https://productbuildershq.com/visionspec/guides/organization-customization/) and `examples/org-cli/` for complete examples.
 
 ## Dependencies
 
 - [structured-evaluation](https://github.com/plexusone/structured-evaluation) - Rubric and evaluation types
 - [graphize](https://github.com/plexusone/graphize) - Requirement graph extraction
+- [prism-roadmap](https://github.com/grokify/prism-roadmap) - Canvas types (OpportunitySpec, BMC, OST) and templates
 
 ## Development
 
