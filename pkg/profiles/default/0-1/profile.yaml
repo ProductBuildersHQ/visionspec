@@ -6,6 +6,19 @@ spec_config:
   hypothesis:
     required: true
     category: source
+    description: "Core hypothesis to validate"
+
+  # Lean Canvas for business model exploration
+  lean-canvas:
+    required: false
+    category: source
+    description: "Lean Canvas for business model hypothesis"
+
+  # Experiment cards for validation
+  experiment:
+    required: false
+    category: source
+    description: "Experiment card for hypothesis testing"
 
   # All standard specs optional
   prd:

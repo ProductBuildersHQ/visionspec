@@ -1,0 +1,73 @@
+# 0-1 Lean Canvas Evaluation Rubric
+
+spec_type: lean-canvas
+name: "0-1 Lean Canvas Rubric"
+description: "Lean Canvas evaluation for pre-PMF validation"
+version: "1.0"
+
+categories:
+  - id: problem_clarity
+    name: "Problem Clarity"
+    description: "Top problems are specific and validated"
+    weight: 0.25
+    required: true
+    criteria:
+      pass: "Problems are specific, painful, and validated with evidence"
+      partial: "Problems listed but vague or unvalidated"
+      fail: "No clear problem definition"
+
+  - id: customer_specificity
+    name: "Customer Specificity"
+    description: "Target customer and early adopters are specific"
+    weight: 0.20
+    required: true
+    criteria:
+      pass: "Specific customer segment with identifiable early adopters"
+      partial: "Customer mentioned but too broad"
+      fail: "No clear target customer"
+
+  - id: value_proposition
+    name: "Value Proposition"
+    description: "Clear, compelling unique value proposition"
+    weight: 0.20
+    required: true
+    criteria:
+      pass: "Clear one-liner that differentiates from alternatives"
+      partial: "Value proposition present but not compelling"
+      fail: "No clear value proposition"
+
+  - id: solution_focus
+    name: "Solution Focus"
+    description: "Solution is minimal and problem-focused"
+    weight: 0.15
+    required: true
+    criteria:
+      pass: "Minimum features directly addressing top problems"
+      partial: "Solution present but scope creep"
+      fail: "Solution doesn't address problems or too complex"
+
+  - id: riskiest_assumption
+    name: "Riskiest Assumption"
+    description: "Riskiest assumption identified with test approach"
+    weight: 0.15
+    required: true
+    criteria:
+      pass: "Riskiest assumption clearly identified with test plan"
+      partial: "Some assumptions listed but priority unclear"
+      fail: "No assumption identification"
+
+  - id: economics
+    name: "Unit Economics"
+    description: "Basic revenue/cost structure considered"
+    weight: 0.05
+    required: false
+    criteria:
+      pass: "Revenue model and cost structure estimated"
+      partial: "Basic economics mentioned"
+      fail: "No economic consideration"
+
+pass_criteria:
+  require_all_pass: false
+  max_critical: 0
+  max_high: 1
+  max_medium: 2
