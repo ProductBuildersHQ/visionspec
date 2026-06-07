@@ -60,11 +60,15 @@ nav:
   - Frameworks:
       - Overview: frameworks/index.md
       - AWS Working Backwards: frameworks/aws.md
+      - Big Tech Best Practices: frameworks/big-tech.md
       - Google Design Docs: frameworks/google.md
       - Stripe API-First: frameworks/stripe.md
       - Lean Startup: frameworks/lean-startup.md
       - Design Thinking: frameworks/design-thinking.md
       - Jobs to be Done: frameworks/jtbd.md
+      - Continuous Discovery: frameworks/continuous-discovery.md
+      - Shape Up: frameworks/shapeup.md
+      - Opportunity Spec: frameworks/opportunity-spec.md
   - CLI Reference:
       - Overview: cli/index.md
       - init: cli/init.md
@@ -80,6 +84,9 @@ nav:
       - profiles: cli/profiles.md
       - graph: cli/graph.md
       - context: cli/context.md
+      - generate: cli/generate.md
+      - sync: cli/sync.md
+      - drift: cli/drift.md
       - docs: cli/docs.md
       - serve: cli/serve.md
   - Guides:
