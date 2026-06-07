@@ -27,9 +27,46 @@
 | TRD | |
 | PRD | |
 
-## 2. Infrastructure Overview
+## 2. Required Declarations
 
-### 2.1 Architecture Diagram
+> **IMPORTANT:** The following declarations MUST be explicitly stated. VisionSpec does not provide defaults.
+> Organizations may define defaults in their constitution, but each IRD must state the choice explicitly.
+
+### 2.1 Infrastructure as Code (IaC) Declaration
+
+<!-- REQUIRED: You MUST explicitly choose ONE of the following options -->
+
+| Choice | Tool | Justification |
+|--------|------|---------------|
+| [ ] Pulumi | Language: | |
+| [ ] AWS CDK | Language: | |
+| [ ] Terraform | Version: | |
+| [ ] CloudFormation | | |
+| [ ] Other | Specify: | |
+| [ ] **No IaC** | | Reason: |
+
+**Selected IaC Approach:** <!-- REQUIRED: State your choice here -->
+
+**Repository Location:** <!-- If IaC selected, provide repo/path -->
+
+### 2.2 Observability Declaration
+
+<!-- REQUIRED: You MUST explicitly declare each observability pillar. State "None" if not implementing. -->
+
+| Pillar | Declaration | Tool/Platform | Justification |
+|--------|-------------|---------------|---------------|
+| **Metrics** | [ ] Implementing / [ ] None | | |
+| **Traces** | [ ] Implementing / [ ] None | | |
+| **Logging** | [ ] Implementing / [ ] None | | |
+
+**Observability Summary:**
+- **Metrics:** <!-- REQUIRED: State tool or "None - [reason]" -->
+- **Traces:** <!-- REQUIRED: State tool or "None - [reason]" -->
+- **Logging:** <!-- REQUIRED: State tool or "None - [reason]" -->
+
+## 3. Infrastructure Overview
+
+### 3.1 Architecture Diagram
 
 <!-- High-level infrastructure architecture diagram -->
 
@@ -46,7 +83,7 @@
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
-### 2.2 Environment Strategy
+### 3.2 Environment Strategy
 
 | Environment | Purpose | Parity with Prod |
 |-------------|---------|------------------|
@@ -54,9 +91,9 @@
 | Staging | Integration testing | High |
 | Production | Live traffic | - |
 
-## 3. Compute Requirements
+## 4. Compute Requirements
 
-### 3.1 Compute Resources
+### 4.1 Compute Resources
 
 | Component | Type | Size | Count | Scaling |
 |-----------|------|------|-------|---------|
@@ -64,7 +101,7 @@
 | Worker | Container/VM | | | Auto |
 | | | | | |
 
-### 3.2 Container Orchestration
+### 4.2 Container Orchestration
 
 <!-- Kubernetes, ECS, or other orchestration platform -->
 
@@ -72,43 +109,43 @@
 **Cluster Size:**
 **Node Configuration:**
 
-### 3.3 Serverless Functions
+### 4.3 Serverless Functions
 
 | Function | Runtime | Memory | Timeout | Triggers |
 |----------|---------|--------|---------|----------|
 | | | | | |
 
-## 4. Storage Requirements
+## 5. Storage Requirements
 
-### 4.1 Database
+### 5.1 Database
 
 | Database | Type | Engine | Size | Replication |
 |----------|------|--------|------|-------------|
 | Primary | SQL/NoSQL | | | |
 | Cache | In-memory | | | |
 
-### 4.2 Object Storage
+### 5.2 Object Storage
 
 | Bucket | Purpose | Size Estimate | Lifecycle |
 |--------|---------|---------------|-----------|
 | | | | |
 
-### 4.3 Block Storage
+### 5.3 Block Storage
 
 | Volume | Purpose | Size | IOPS | Type |
 |--------|---------|------|------|------|
 | | | | | |
 
-### 4.4 Backup Strategy
+### 5.4 Backup Strategy
 
 | Data | Frequency | Retention | Location |
 |------|-----------|-----------|----------|
 | Database | Daily | 30 days | |
 | Object Storage | | | |
 
-## 5. Networking
+## 6. Networking
 
-### 5.1 Network Architecture
+### 6.1 Network Architecture
 
 <!-- VPC, subnets, routing -->
 
@@ -119,19 +156,19 @@
 | Private Subnet | 10.0.2.0/24 | Application |
 | Data Subnet | 10.0.3.0/24 | Databases |
 
-### 5.2 Load Balancing
+### 6.2 Load Balancing
 
 | Load Balancer | Type | Targets | Health Check |
 |---------------|------|---------|--------------|
 | | | | |
 
-### 5.3 DNS
+### 6.3 DNS
 
 | Record | Type | Value | TTL |
 |--------|------|-------|-----|
 | | | | |
 
-### 5.4 CDN
+### 6.4 CDN
 
 <!-- Content delivery configuration -->
 
@@ -139,15 +176,15 @@
 **Origins:**
 **Caching Strategy:**
 
-### 5.5 Firewall / Security Groups
+### 6.5 Firewall / Security Groups
 
 | Rule | Source | Destination | Port | Protocol |
 |------|--------|-------------|------|----------|
 | | | | | |
 
-## 6. Security
+## 7. Security
 
-### 6.1 Identity and Access Management
+### 7.1 Identity and Access Management
 
 <!-- IAM roles, service accounts, permissions -->
 
@@ -155,7 +192,7 @@
 |--------------|---------|-------------|
 | | | |
 
-### 6.2 Secrets Management
+### 7.2 Secrets Management
 
 **Tool:**
 **Secrets:**
@@ -164,23 +201,29 @@
 |--------|---------|----------|
 | | | |
 
-### 6.3 Encryption
+### 7.3 Encryption
 
 | Data Type | At Rest | In Transit | Key Management |
 |-----------|---------|------------|----------------|
 | Database | AES-256 | TLS 1.3 | |
 | Object Storage | | | |
 
-### 6.4 Compliance Requirements
+### 7.4 Compliance Requirements
 
 <!-- SOC2, HIPAA, GDPR, etc. -->
 
 - [ ] Requirement 1
 - [ ] Requirement 2
 
-## 7. Observability
+## 8. Observability Implementation
 
-### 7.1 Logging
+> **Note:** This section implements the declarations made in Section 2.2.
+> Each subsection is REQUIRED if declared as "Implementing" in Section 2.2.
+> If declared as "None", state "N/A - see Section 2.2 declaration" and provide no further detail.
+
+### 8.1 Logging
+
+<!-- REQUIRED if Logging declared as "Implementing" in Section 2.2 -->
 
 **Platform:**
 **Retention:**
@@ -190,7 +233,9 @@
 |-----------|-----------------|-----------|
 | | | |
 
-### 7.2 Metrics
+### 8.2 Metrics
+
+<!-- REQUIRED if Metrics declared as "Implementing" in Section 2.2 -->
 
 **Platform:**
 **Dashboards:**
@@ -199,20 +244,22 @@
 |--------|--------|-----------------|
 | | | |
 
-### 7.3 Tracing
+### 8.3 Tracing
+
+<!-- REQUIRED if Traces declared as "Implementing" in Section 2.2 -->
 
 **Platform:**
 **Sampling Rate:**
 
-### 7.4 Alerting
+### 8.4 Alerting
 
 | Alert | Condition | Severity | Notification |
 |-------|-----------|----------|--------------|
 | | | | |
 
-## 8. Availability and Disaster Recovery
+## 9. Availability and Disaster Recovery
 
-### 8.1 Availability Targets
+### 9.1 Availability Targets
 
 | Metric | Target |
 |--------|--------|
@@ -220,21 +267,21 @@
 | RTO | 1 hour |
 | RPO | 15 minutes |
 
-### 8.2 Multi-Region Strategy
+### 9.2 Multi-Region Strategy
 
 <!-- Single region, multi-AZ, multi-region? -->
 
-### 8.3 Failover Process
+### 9.3 Failover Process
 
 <!-- How does failover work? -->
 
-### 8.4 Disaster Recovery Plan
+### 9.4 Disaster Recovery Plan
 
 <!-- DR procedures and runbooks -->
 
-## 9. Capacity Planning
+## 10. Capacity Planning
 
-### 9.1 Initial Capacity
+### 10.1 Initial Capacity
 
 | Resource | Initial | 6 Month | 12 Month |
 |----------|---------|---------|----------|
@@ -242,7 +289,7 @@
 | Storage | | | |
 | Database | | | |
 
-### 9.2 Scaling Triggers
+### 10.2 Scaling Triggers
 
 | Metric | Scale Up | Scale Down |
 |--------|----------|------------|
@@ -250,7 +297,7 @@
 | Memory | > 80% | < 40% |
 | | | |
 
-### 9.3 Cost Estimation
+### 10.3 Cost Estimation
 
 | Resource | Monthly Cost | Notes |
 |----------|--------------|-------|
@@ -259,55 +306,65 @@
 | Network | | |
 | **Total** | | |
 
-## 10. CI/CD Infrastructure
+## 11. CI/CD Infrastructure
 
-### 10.1 Pipeline Infrastructure
+> **Note:** This section implements the IaC choice declared in Section 2.1.
+
+### 11.1 IaC Implementation
+
+<!-- REQUIRED: Must align with Section 2.1 declaration -->
+
+**IaC Tool:** <!-- Must match Section 2.1 selection -->
+**Repository:**
+**Module Structure:**
+
+### 11.2 Pipeline Infrastructure
 
 <!-- Jenkins, GitHub Actions, etc. -->
 
 **Platform:**
 **Runners:**
 
-### 10.2 Artifact Storage
+### 11.3 Artifact Storage
 
 | Artifact Type | Registry | Retention |
 |---------------|----------|-----------|
 | Container Images | | |
 | Packages | | |
 
-## 11. Dependencies
+## 12. Dependencies
 
-### 11.1 External Services
+### 12.1 External Services
 
 | Service | Purpose | Criticality | Fallback |
 |---------|---------|-------------|----------|
 | | | | |
 
-### 11.2 Internal Dependencies
+### 12.2 Internal Dependencies
 
 | Dependency | Team | SLA |
 |------------|------|-----|
 | | | |
 
-## 12. Migration Plan
+## 13. Migration Plan
 
-### 12.1 Migration Strategy
+### 13.1 Migration Strategy
 
 <!-- If migrating from existing infrastructure -->
 
-### 12.2 Migration Timeline
+### 13.2 Migration Timeline
 
 | Phase | Description | Date |
 |-------|-------------|------|
 | | | |
 
-## 13. Risks and Mitigations
+## 14. Risks and Mitigations
 
 | Risk | Impact | Probability | Mitigation |
 |------|--------|-------------|------------|
 | | | | |
 
-## 14. Open Questions
+## 15. Open Questions
 
 | Question | Owner | Status |
 |----------|-------|--------|
@@ -315,7 +372,9 @@
 
 ## Appendix
 
-### A. Terraform/IaC Modules
+### A. IaC Modules
+
+<!-- Reference to IaC code based on Section 2.1 declaration -->
 
 ### B. Network Diagrams
 
