@@ -2,9 +2,26 @@
 
 Amazon's Working Backwards methodology starts with the customer and works backward to the solution. It emphasizes writing as thinking, with the PR/FAQ and 6-Pager as core artifacts.
 
+## Profile Variants
+
+VisionSpec provides two AWS profiles for different scopes:
+
+| Profile | Starting Document | Best For |
+|---------|-------------------|----------|
+| `aws-product` | MRD | New product lines, major initiatives |
+| `aws-feature` | OpportunitySpec | Features on existing products |
+
+For feature-level opportunities, see [OpportunitySpec Framework](opportunity-spec.md).
+
 ## The Flow
 
-![AWS Working Backwards Flow](../diagrams/aws-flow.svg)
+### AWS Product Flow (MRD Start)
+
+![AWS Product Flow](../diagrams/aws-product-flow.svg)
+
+### AWS Feature Flow (OpportunitySpec Start)
+
+![AWS Feature Flow](../diagrams/aws-feature-flow.svg)
 
 ## Key Principles
 
@@ -27,12 +44,12 @@ Amazon's Working Backwards methodology starts with the customer and works backwa
 | Test Plan | TPD | Test cases, automation, quality gates |
 | Ops Review | IRD | Infrastructure and operations |
 
-## Using the AWS Profile
+## Using the aws-product Profile
 
 ### Initialize a Project
 
 ```bash
-multispec init my-product --profile aws
+multispec init my-product --profile aws-product
 ```
 
 ### Create the MRD (Business Case)
@@ -109,7 +126,7 @@ The 6-Pager template follows Amazon's structure:
 
 ## Rubric Categories
 
-The AWS profile evaluates documents on:
+The AWS profiles evaluate documents on:
 
 | Category | Weight | Description |
 |----------|--------|-------------|
@@ -121,11 +138,11 @@ The AWS profile evaluates documents on:
 | Frugality | 10% | Resource efficiency |
 | Deep Dive | 5% | Data-driven analysis |
 
-## Example Workflow
+## Example Workflow (aws-product)
 
 ```bash
 # 1. Initialize project
-multispec init checkout-redesign --profile aws
+multispec init checkout-redesign --profile aws-product
 
 # 2. Draft MRD with business case
 multispec draft mrd -p checkout-redesign
@@ -165,3 +182,7 @@ For deeper understanding of AWS Working Backwards methodology, see:
 
 - [AWS Leadership Principles](https://www.amazon.jobs/en/principles)
 - *Working Backwards* by Colin Bryar and Bill Carr
+
+## See Also
+
+- [OpportunitySpec Framework](opportunity-spec.md) - For feature-level opportunities
