@@ -1,0 +1,73 @@
+# Shape Up Scope Tracker Evaluation Rubric
+
+spec_type: shapeup-scope
+name: "Shape Up Scope Rubric"
+description: "Scope tracker evaluation following Shape Up methodology"
+version: "1.0"
+
+categories:
+  - id: pitch_reference
+    name: "Pitch Reference"
+    description: "Clear link to the original shaped pitch"
+    weight: 0.10
+    required: true
+    criteria:
+      pass: "Pitch linked with cycle dates and team clearly identified"
+      partial: "Pitch referenced but missing team or dates"
+      fail: "No pitch reference"
+
+  - id: scope_discovery
+    name: "Scope Discovery"
+    description: "Whether scopes emerge naturally from building vs predefined"
+    weight: 0.20
+    required: true
+    criteria:
+      pass: "Scopes reflect discovered work slices, not upfront task breakdown"
+      partial: "Some discovered scopes but also predefined tasks"
+      fail: "Scopes are just a task list disguised as scopes"
+
+  - id: hill_tracking
+    name: "Hill Chart Tracking"
+    description: "Proper use of hill chart to track uncertainty vs execution"
+    weight: 0.25
+    required: true
+    criteria:
+      pass: "Each scope has hill position, scopes move up then down appropriately"
+      partial: "Hill positions tracked but movement not clear"
+      fail: "No hill chart usage"
+
+  - id: scope_independence
+    name: "Scope Independence"
+    description: "Whether scopes are independent, meaningful work slices"
+    weight: 0.15
+    required: true
+    criteria:
+      pass: "Each scope can be finished independently and delivers value"
+      partial: "Scopes somewhat independent but have dependencies"
+      fail: "Scopes are interdependent tasks, not independent slices"
+
+  - id: progress_visibility
+    name: "Progress Visibility"
+    description: "Clear summary of overall progress and remaining work"
+    weight: 0.15
+    required: true
+    criteria:
+      pass: "Summary shows scopes uphill/downhill/done with overall status"
+      partial: "Some progress tracking but incomplete summary"
+      fail: "No progress summary"
+
+  - id: circuit_breaker_awareness
+    name: "Circuit Breaker Awareness"
+    description: "Consideration of whether to continue, cut scope, or stop"
+    weight: 0.15
+    required: true
+    criteria:
+      pass: "Circuit breaker questions answered with honest assessment"
+      partial: "Circuit breaker section present but not thoughtfully filled"
+      fail: "No circuit breaker consideration"
+
+pass_criteria:
+  require_all_pass: false
+  max_critical: 0
+  max_high: 1
+  max_medium: 2

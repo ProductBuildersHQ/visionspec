@@ -1,0 +1,94 @@
+name: discovery-snapshot
+description: "Evaluation rubric for Continuous Discovery weekly snapshots"
+version: "1.0"
+methodology: "Continuous Discovery Habits (Teresa Torres)"
+reference: "https://www.producttalk.org/"
+
+thresholds:
+  pass: 80
+  partial: 60
+
+categories:
+  - name: weekly_touchpoints
+    weight: 25
+    description: "Are customer touchpoints happening weekly?"
+    criteria:
+      - id: interview_count
+        description: "At least one customer interview this week"
+        weight: 50
+      - id: participant_diversity
+        description: "Participants represent different segments or types"
+        weight: 25
+      - id: interview_quality
+        description: "Interviews are story-based, not opinion-gathering"
+        weight: 25
+
+  - name: story_capture
+    weight: 25
+    description: "Are stories captured with enough detail?"
+    criteria:
+      - id: situation_behavior_outcome
+        description: "Stories follow situation-behavior-outcome structure"
+        weight: 40
+      - id: emotions_pains
+        description: "Emotions and pain points are captured"
+        weight: 30
+      - id: verbatim_quotes
+        description: "Verbatim quotes are recorded"
+        weight: 15
+      - id: opportunity_connection
+        description: "Stories are connected to opportunities"
+        weight: 15
+
+  - name: opportunity_tracking
+    weight: 20
+    description: "Are opportunities being discovered and updated?"
+    criteria:
+      - id: opportunities_identified
+        description: "New opportunities discovered or existing ones updated"
+        weight: 50
+      - id: evidence_accumulated
+        description: "Evidence count is tracked for opportunities"
+        weight: 30
+      - id: priority_adjusted
+        description: "Priorities are adjusted based on evidence"
+        weight: 20
+
+  - name: assumption_testing
+    weight: 20
+    description: "Are assumptions being tested systematically?"
+    criteria:
+      - id: tests_running
+        description: "At least one assumption test is running or completed"
+        weight: 40
+      - id: hypothesis_clear
+        description: "Hypotheses follow if-then-because format"
+        weight: 30
+      - id: learnings_captured
+        description: "Learnings are captured from completed tests"
+        weight: 30
+
+  - name: decision_making
+    weight: 10
+    description: "Are decisions being made based on evidence?"
+    criteria:
+      - id: decisions_documented
+        description: "Decisions are documented with rationale"
+        weight: 50
+      - id: evidence_linked
+        description: "Decisions reference specific interviews or tests"
+        weight: 50
+
+scoring_guidance:
+  - score: 90-100
+    label: "Excellent"
+    description: "Strong discovery cadence. Multiple interviews, clear stories, assumptions being tested, decisions driven by evidence."
+  - score: 80-89
+    label: "Good"
+    description: "Solid discovery week. Weekly touchpoints happening, opportunities tracked, some testing."
+  - score: 60-79
+    label: "Needs Improvement"
+    description: "Discovery is happening but inconsistently. Missing interviews or incomplete story capture."
+  - score: 0-59
+    label: "Weak"
+    description: "Discovery not happening consistently. No interviews or superficial capture."

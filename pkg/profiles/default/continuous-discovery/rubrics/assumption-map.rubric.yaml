@@ -1,0 +1,103 @@
+name: assumption-map
+description: "Evaluation rubric for Continuous Discovery assumption maps"
+version: "1.0"
+methodology: "Continuous Discovery Habits (Teresa Torres)"
+reference: "https://www.producttalk.org/"
+
+thresholds:
+  pass: 80
+  partial: 60
+
+categories:
+  - name: assumption_coverage
+    weight: 25
+    description: "Are all assumption types considered?"
+    criteria:
+      - id: desirability
+        description: "Desirability assumptions are identified (will customers want this?)"
+        weight: 25
+      - id: viability
+        description: "Viability assumptions are identified (will it work for business?)"
+        weight: 25
+      - id: feasibility
+        description: "Feasibility assumptions are identified (can we build it?)"
+        weight: 25
+      - id: usability
+        description: "Usability assumptions are identified (can users figure it out?)"
+        weight: 15
+      - id: ethical
+        description: "Ethical assumptions are considered (should we build it?)"
+        weight: 10
+
+  - name: risk_assessment
+    weight: 25
+    description: "Are assumptions properly assessed for risk?"
+    criteria:
+      - id: importance_rated
+        description: "Each assumption has importance rating (high/med/low)"
+        weight: 35
+      - id: confidence_rated
+        description: "Each assumption has confidence rating (high/med/low)"
+        weight: 35
+      - id: riskiest_identified
+        description: "The riskiest assumption (high importance, low confidence) is identified"
+        weight: 30
+
+  - name: prioritization
+    weight: 20
+    description: "Are assumptions prioritized for testing?"
+    criteria:
+      - id: test_order
+        description: "Test order prioritizes high-importance, low-confidence assumptions"
+        weight: 50
+      - id: rationale_clear
+        description: "Prioritization rationale is explained"
+        weight: 25
+      - id: skip_identified
+        description: "Assumptions that can be skipped (high confidence) are identified"
+        weight: 25
+
+  - name: test_planning
+    weight: 20
+    description: "Are tests well-designed?"
+    criteria:
+      - id: method_appropriate
+        description: "Test methods are appropriate for assumption type"
+        weight: 30
+      - id: hypothesis_format
+        description: "Hypotheses follow if-then-because format"
+        weight: 25
+      - id: success_criteria
+        description: "Success criteria are pre-defined"
+        weight: 25
+      - id: timeline_realistic
+        description: "Timeline and sample size are realistic"
+        weight: 20
+
+  - name: document_quality
+    weight: 10
+    description: "Is the map well-organized and actionable?"
+    criteria:
+      - id: completeness
+        description: "All sections are filled in"
+        weight: 40
+      - id: clarity
+        description: "Assumptions are clearly stated"
+        weight: 30
+      - id: actionability
+        description: "Team knows what to test next"
+        weight: 30
+
+scoring_guidance:
+  - score: 90-100
+    label: "Excellent"
+    description: "Comprehensive assumption map. All types covered, risks assessed, clear test plan for riskiest assumptions."
+  - score: 80-89
+    label: "Good"
+    description: "Solid assumption map. Most types covered, priorities clear, tests planned."
+  - score: 60-79
+    label: "Needs Work"
+    description: "Assumption map has gaps. Missing assumption types or unclear prioritization."
+  - score: 0-59
+    label: "Incomplete"
+    description: "Assumption map is superficial. Key assumption types missing or no prioritization."

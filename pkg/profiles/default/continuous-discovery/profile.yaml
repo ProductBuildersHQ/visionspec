@@ -1,0 +1,109 @@
+name: continuous-discovery
+description: "Teresa Torres's Continuous Discovery Habits. Weekly customer touchpoints, opportunity solution trees, and assumption testing."
+extends: enterprise
+
+methodology:
+  name: "Continuous Discovery Habits"
+  creator: "Teresa Torres"
+  reference: "https://www.producttalk.org/"
+
+  principles:
+    - weekly_touchpoints: "Talk to customers every week, not just during research phases"
+    - outcome_driven: "Start with a clear, measurable outcome"
+    - opportunity_mapping: "Map customer needs, pain points, and desires"
+    - solution_trees: "Visualize the path from outcome to solutions"
+    - assumption_testing: "Test assumptions before building"
+    - small_experiments: "Run small, fast experiments to learn"
+    - story_based_interviews: "Collect stories (past behavior), not opinions"
+    - collaborative_discovery: "Product trio works together (PM, Design, Engineering)"
+    - compare_and_contrast: "Test multiple solutions in parallel"
+    - iterate_on_learning: "Let learnings drive the next experiment"
+
+  artifacts:
+    - ost: "Opportunity Solution Tree"
+    - discovery_snapshot: "Weekly discovery summary"
+    - assumption_map: "Assumptions by type with risk assessment"
+    - experience_map: "Customer journey across phases"
+    - interview: "Customer interview notes"
+
+spec_config:
+  # Opportunity Solution Tree is the core visualization
+  ost:
+    required: true
+    category: source
+    description: "Opportunity Solution Tree mapping outcome to solutions"
+
+  # Weekly discovery snapshots
+  discovery-snapshot:
+    required: true
+    category: source
+    description: "Weekly touchpoint and learning summary"
+
+  # Assumption mapping for systematic testing
+  assumption-map:
+    required: true
+    category: source
+    description: "Assumptions organized by type with test plan"
+
+  # Experience mapping (optional)
+  experience-map:
+    required: false
+    category: source
+    description: "Customer journey map"
+
+  # Traditional specs can be generated from discovery
+  mrd:
+    required: false
+    category: source
+    description: "Can be derived from OST and discovery snapshots"
+  prd:
+    required: false
+    category: source
+    description: "Can be derived from validated solutions"
+  uxd:
+    required: false
+    category: source
+    description: "Emerges from prototypes and usability testing"
+  trd:
+    required: false
+    category: technical
+
+# Synthesis from discovery artifacts
+synthesis:
+  mrd:
+    sources:
+      - ost
+      - discovery-snapshot
+    guidance: "Extract problem definition and market context from OST root outcome and discovery evidence"
+
+  prd:
+    sources:
+      - ost
+      - assumption-map
+    guidance: "Derive requirements from validated solutions in OST. Include only assumptions that passed testing."
+
+  uxd:
+    sources:
+      - ost
+      - experience-map
+      - assumption-map
+    guidance: "Synthesize UX from prototype learnings and usability assumption tests"
+
+# Discovery cadence
+cadence:
+  touchpoints_per_week: 1  # Minimum customer interviews per week
+  snapshot_frequency: weekly
+  assumption_test_duration: "1-2 weeks"
+
+# Evaluation thresholds
+evaluation:
+  pass_threshold: 80
+  partial_threshold: 60
+
+# Assumption types from Teresa Torres framework
+assumption_types:
+  - desirability: "Will customers want this?"
+  - viability: "Will this work for the business?"
+  - feasibility: "Can we build this?"
+  - usability: "Can users figure it out?"
+  - ethical: "Should we build this?"
