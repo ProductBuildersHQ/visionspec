@@ -28,13 +28,13 @@ const (
 
 // DiffResult contains the diff between two versions.
 type DiffResult struct {
-	SpecType    types.SpecType
-	OldVersion  int
-	NewVersion  int
-	Lines       []DiffLine
-	Additions   int
-	Deletions   int
-	Unchanged   int
+	SpecType   types.SpecType
+	OldVersion int
+	NewVersion int
+	Lines      []DiffLine
+	Additions  int
+	Deletions  int
+	Unchanged  int
 }
 
 // Diff compares two versions of a spec.

@@ -16,6 +16,7 @@ func makeReadResourceRequest(uri string) *mcp.ReadResourceRequest {
 	}
 }
 
+//nolint:dupl // Test structure intentionally similar to other resource tests
 func TestHandleTemplateResource(t *testing.T) {
 	s := &Server{}
 
@@ -88,6 +89,7 @@ func TestHandleTemplateResource(t *testing.T) {
 	}
 }
 
+//nolint:dupl // Test structure intentionally similar to other resource tests
 func TestHandleRubricResource(t *testing.T) {
 	s := &Server{}
 

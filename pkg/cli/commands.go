@@ -795,7 +795,7 @@ Examples:
 	return cmd
 }
 
-func runRender(cmd *cobra.Command, args []string, cfg *Config) error {
+func runRender(cmd *cobra.Command, args []string, _ *Config) error {
 	outputFlag, _ := cmd.Flags().GetString("output")
 	evaluationFlag, _ := cmd.Flags().GetBool("evaluation")
 
@@ -1896,7 +1896,7 @@ Examples:
 }
 
 // profilesCreateCmd creates the profiles create command.
-func profilesCreateCmd(cfg *Config) *cobra.Command {
+func profilesCreateCmd(_ *Config) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "create <name> <output-dir>",
 		Short: "Create a new profile from scratch",
@@ -3775,7 +3775,7 @@ Examples:
 	return cmd
 }
 
-func runVersionList(cmd *cobra.Command, args []string) error {
+func runVersionList(_ *cobra.Command, args []string) error {
 	specType := types.SpecType(strings.ToLower(args[0]))
 
 	// Find project
@@ -3828,7 +3828,7 @@ Examples:
 	return cmd
 }
 
-func runVersionShow(cmd *cobra.Command, args []string) error {
+func runVersionShow(_ *cobra.Command, args []string) error {
 	specType := types.SpecType(strings.ToLower(args[0]))
 
 	versionNum := 0

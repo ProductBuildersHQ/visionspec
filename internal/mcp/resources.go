@@ -176,31 +176,47 @@ func (s *Server) handleProfileResource(ctx context.Context, req *mcp.ReadResourc
 	}, nil
 }
 
+// resourceListItem represents an item in a resource list.
+type resourceListItem struct {
+	key   string // e.g., "spec_type" or "name"
+	value string
+	uri   string
+}
+
+// buildResourceListJSON builds a JSON list for resources.
+func buildResourceListJSON(listKey string, items []resourceListItem) string {
+	var sb strings.Builder
+	sb.WriteString("{\n")
+	sb.WriteString(fmt.Sprintf("  \"%s\": [\n", listKey))
+	for i, item := range items {
+		comma := ","
+		if i == len(items)-1 {
+			comma = ""
+		}
+		sb.WriteString(fmt.Sprintf("    {\"%s\": \"%s\", \"uri\": \"%s\"}%s\n", item.key, item.value, item.uri, comma))
+	}
+	sb.WriteString("  ],\n")
+	sb.WriteString(fmt.Sprintf("  \"count\": %d\n", len(items)))
+	sb.WriteString("}\n")
+	return sb.String()
+}
+
 // handleListTemplates returns a list of available templates.
 func (s *Server) handleListTemplates(ctx context.Context, req *mcp.ReadResourceRequest) (*mcp.ReadResourceResult, error) {
 	loader := templates.DefaultLoader()
 	available := loader.Available()
 
-	var sb strings.Builder
-	sb.WriteString("{\n")
-	sb.WriteString("  \"templates\": [\n")
+	items := make([]resourceListItem, len(available))
 	for i, specType := range available {
-		comma := ","
-		if i == len(available)-1 {
-			comma = ""
-		}
-		sb.WriteString(fmt.Sprintf("    {\"spec_type\": \"%s\", \"uri\": \"template://%s\"}%s\n", specType, specType, comma))
+		items[i] = resourceListItem{key: "spec_type", value: string(specType), uri: "template://" + string(specType)}
 	}
-	sb.WriteString("  ],\n")
-	sb.WriteString(fmt.Sprintf("  \"count\": %d\n", len(available)))
-	sb.WriteString("}\n")
 
 	return &mcp.ReadResourceResult{
 		Contents: []*mcp.ResourceContents{
 			{
 				URI:      req.Params.URI,
 				MIMEType: "application/json",
-				Text:     sb.String(),
+				Text:     buildResourceListJSON("templates", items),
 			},
 		},
 	}, nil
@@ -211,26 +227,17 @@ func (s *Server) handleListRubrics(ctx context.Context, req *mcp.ReadResourceReq
 	loader := rubrics.DefaultLoader()
 	available := loader.Available()
 
-	var sb strings.Builder
-	sb.WriteString("{\n")
-	sb.WriteString("  \"rubrics\": [\n")
+	items := make([]resourceListItem, len(available))
 	for i, specType := range available {
-		comma := ","
-		if i == len(available)-1 {
-			comma = ""
-		}
-		sb.WriteString(fmt.Sprintf("    {\"spec_type\": \"%s\", \"uri\": \"rubric://%s\"}%s\n", specType, specType, comma))
+		items[i] = resourceListItem{key: "spec_type", value: string(specType), uri: "rubric://" + string(specType)}
 	}
-	sb.WriteString("  ],\n")
-	sb.WriteString(fmt.Sprintf("  \"count\": %d\n", len(available)))
-	sb.WriteString("}\n")
 
 	return &mcp.ReadResourceResult{
 		Contents: []*mcp.ResourceContents{
 			{
 				URI:      req.Params.URI,
 				MIMEType: "application/json",
-				Text:     sb.String(),
+				Text:     buildResourceListJSON("rubrics", items),
 			},
 		},
 	}, nil
@@ -241,26 +248,17 @@ func (s *Server) handleListProfiles(ctx context.Context, req *mcp.ReadResourceRe
 	loader := profiles.DefaultLoader()
 	available := loader.Available()
 
-	var sb strings.Builder
-	sb.WriteString("{\n")
-	sb.WriteString("  \"profiles\": [\n")
+	items := make([]resourceListItem, len(available))
 	for i, name := range available {
-		comma := ","
-		if i == len(available)-1 {
-			comma = ""
-		}
-		sb.WriteString(fmt.Sprintf("    {\"name\": \"%s\", \"uri\": \"profile://%s\"}%s\n", name, name, comma))
+		items[i] = resourceListItem{key: "name", value: name, uri: "profile://" + name}
 	}
-	sb.WriteString("  ],\n")
-	sb.WriteString(fmt.Sprintf("  \"count\": %d\n", len(available)))
-	sb.WriteString("}\n")
 
 	return &mcp.ReadResourceResult{
 		Contents: []*mcp.ResourceContents{
 			{
 				URI:      req.Params.URI,
 				MIMEType: "application/json",
-				Text:     sb.String(),
+				Text:     buildResourceListJSON("profiles", items),
 			},
 		},
 	}, nil

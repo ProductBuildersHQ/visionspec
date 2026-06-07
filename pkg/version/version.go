@@ -17,12 +17,12 @@ import (
 
 // Version represents a specific version of a spec.
 type Version struct {
-	Number    int       `json:"number"`              // Sequential version number (1, 2, 3...)
-	Hash      string    `json:"hash"`                // SHA256 of content
-	Timestamp time.Time `json:"timestamp"`           // When version was created
-	Author    string    `json:"author,omitempty"`    // Who created this version
-	Message   string    `json:"message,omitempty"`   // Description of changes
-	Size      int       `json:"size"`                // Content size in bytes
+	Number    int       `json:"number"`            // Sequential version number (1, 2, 3...)
+	Hash      string    `json:"hash"`              // SHA256 of content
+	Timestamp time.Time `json:"timestamp"`         // When version was created
+	Author    string    `json:"author,omitempty"`  // Who created this version
+	Message   string    `json:"message,omitempty"` // Description of changes
+	Size      int       `json:"size"`              // Content size in bytes
 }
 
 // History tracks all versions of a spec.
@@ -142,6 +142,7 @@ func CreateVersion(projectPath string, specType types.SpecType, opts CreateOptio
 	if err := os.MkdirAll(filepath.Dir(vPath), 0755); err != nil {
 		return nil, fmt.Errorf("creating versions directory: %w", err)
 	}
+	//nolint:gosec // G703: Path constructed from validated project path and spec type
 	if err := os.WriteFile(vPath, content, 0600); err != nil {
 		return nil, fmt.Errorf("storing version: %w", err)
 	}

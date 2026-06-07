@@ -21,7 +21,7 @@ func NewIRDRubricSet() *RubricSet {
 				Description: "Explicit declarations for IaC approach and observability pillars (VisionSpec provides no defaults)",
 				Weight:      0.15,
 				Required:    true,
-				Criteria: CategoricalCriteria{
+				Criteria: CategoricalCriteria{ //nolint:gosec // G101: Rubric criteria text, not credentials
 					Pass:    "IaC approach explicitly declared (Pulumi/CDK/Terraform/CloudFormation/Other/None with justification). All three observability pillars (metrics, traces, logging) explicitly declared as Implementing or None with justification.",
 					Partial: "Some declarations present but incomplete (e.g., IaC stated but observability pillars missing, or vice versa)",
 					Fail:    "Required declarations missing. IaC approach not stated, or observability pillars not explicitly declared.",
