@@ -1,0 +1,118 @@
+# Big Tech Essentials - Feature Flow (OpportunitySpec Start)
+# Simplified: Amazon + Google + Stripe only
+# Layout: ELK
+
+direction: down
+
+title: {
+  label: Big Tech Essentials - Feature Flow
+  near: top-center
+  shape: text
+  style.font-size: 24
+  style.bold: true
+}
+
+subtitle: {
+  label: (Amazon + Google + Stripe)
+  near: top-center
+  shape: text
+  style.font-size: 14
+  style.italic: true
+}
+
+# Discovery Phase (Patton + Cagan + Google)
+opportunity-spec: {
+  label: OpportunitySpec + OKRs\n(Patton + Cagan + Google)
+  shape: rectangle
+  style.fill: "#e8f5e9"
+  style.stroke: "#2e7d32"
+}
+
+# Vision Phase (Amazon)
+press: {
+  label: Press Release\n(Amazon)
+  shape: rectangle
+  style.fill: "#fff8e1"
+  style.stroke: "#f9a825"
+}
+
+faq: {
+  label: FAQ + Dev FAQ\n(Amazon + Stripe)
+  shape: rectangle
+  style.fill: "#fff8e1"
+  style.stroke: "#f9a825"
+}
+
+# Requirements Phase (Google + Stripe)
+prd: {
+  label: PRD + API Contracts\n(Google + Stripe)
+  shape: rectangle
+  style.fill: "#fff3e0"
+  style.stroke: "#ef6c00"
+}
+
+# Experience Phase (Stripe)
+uxd: {
+  label: UXD + DX\n(Stripe)
+  shape: rectangle
+  style.fill: "#e8f5e9"
+  style.stroke: "#2e7d32"
+}
+
+# Technical Phase (Google)
+trd: {
+  label: Design Doc + Tradeoffs\n(Google)
+  shape: rectangle
+  style.fill: "#e3f2fd"
+  style.stroke: "#1565c0"
+}
+
+tpd: {
+  label: Test Plan\n(Google)
+  shape: rectangle
+  style.fill: "#e3f2fd"
+  style.stroke: "#1565c0"
+}
+
+# Flow
+opportunity-spec -> press: synthesize
+press -> faq: synthesize
+opportunity-spec -> faq
+
+faq -> prd: synthesize
+press -> prd
+opportunity-spec -> prd
+
+uxd -> trd
+prd -> trd: synthesize
+
+prd -> tpd
+trd -> tpd: synthesize
+
+# Legend
+legend: {
+  label: Company Contributions (Essentials)
+  near: bottom-center
+  grid-columns: 3
+
+  amz: {
+    label: "Amazon\nCustomer Obsession"
+    shape: rectangle
+    style.fill: "#fff8e1"
+    style.stroke: "#f9a825"
+  }
+
+  goog: {
+    label: "Google\nTradeoffs & OKRs"
+    shape: rectangle
+    style.fill: "#e3f2fd"
+    style.stroke: "#1565c0"
+  }
+
+  stripe: {
+    label: "Stripe\nAPI-First & DX"
+    shape: rectangle
+    style.fill: "#e8f5e9"
+    style.stroke: "#2e7d32"
+  }
+}

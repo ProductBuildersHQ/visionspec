@@ -1,0 +1,189 @@
+# Reconciliation Workflow
+# How multispec reconciles multiple specs into a unified execution spec
+
+direction: down
+
+title: {
+  label: "Reconciliation Workflow"
+  near: top-center
+  shape: text
+  style: {
+    font-size: 24
+    bold: true
+  }
+}
+
+# Source Documents
+sources: "Source Documents" {
+  style.fill: "#E3F2FD"
+  style.stroke: "#1976D2"
+  style.border-radius: 8
+
+  prd: "PRD\n(Requirements)" {
+    shape: document
+    style.fill: "#BBDEFB"
+  }
+  uxd: "UXD\n(User Experience)" {
+    shape: document
+    style.fill: "#BBDEFB"
+  }
+  trd: "TRD\n(Technical)" {
+    shape: document
+    style.fill: "#BBDEFB"
+  }
+}
+
+# Evaluation Gate
+eval_gate: "LLM Evaluation" {
+  shape: diamond
+  style.fill: "#FFF3E0"
+  style.stroke: "#F57C00"
+}
+
+sources.prd -> eval_gate
+sources.uxd -> eval_gate
+sources.trd -> eval_gate
+
+# Evaluation outcomes
+pass: "All Pass?" {
+  shape: diamond
+  style.fill: "#E8F5E9"
+}
+eval_gate -> pass
+
+fail_path: "Fix & Re-evaluate" {
+  shape: parallelogram
+  style.fill: "#FFCDD2"
+}
+pass -> fail_path: "No"
+fail_path -> eval_gate: "Iterate"
+
+# Conflict Detection
+conflict_detect: "Detect Conflicts" {
+  style.fill: "#F3E5F5"
+  style.stroke: "#7B1FA2"
+
+  requirement: "Requirement\nConflicts" {
+    shape: rectangle
+  }
+  timeline: "Timeline\nConflicts" {
+    shape: rectangle
+  }
+  scope: "Scope\nConflicts" {
+    shape: rectangle
+  }
+}
+
+pass -> conflict_detect: "Yes"
+
+# Conflict Resolution
+resolution: "Resolve Conflicts" {
+  style.fill: "#FCE4EC"
+  style.stroke: "#C2185B"
+
+  human_review: "Human Review\n(PM decision)" {
+    shape: person
+    style.fill: "#F8BBD9"
+  }
+  auto_resolve: "Auto-Resolve\n(Priority rules)" {
+    shape: cylinder
+    style.fill: "#F8BBD9"
+  }
+  escalate: "Escalate\n(Stakeholder input)" {
+    shape: hexagon
+    style.fill: "#F8BBD9"
+  }
+}
+
+conflict_detect -> resolution
+
+# Reconciliation Engine
+reconcile: "Reconciliation Engine\n\n1. PRD = source of truth\n2. UXD satisfies PRD stories\n3. TRD implements PRD features\n4. Conflicts escalate to PM" {
+  shape: rectangle
+  style.fill: "#E0F2F1"
+  style.stroke: "#00796B"
+  style.border-radius: 8
+}
+
+resolution -> reconcile
+
+# Output: Unified Spec
+output: "spec.md\n(Unified Execution Spec)" {
+  shape: document
+  style.fill: "#C8E6C9"
+  style.stroke: "#388E3C"
+  style.font-size: 16
+  style.bold: true
+}
+
+reconcile -> output
+
+# Traceability Matrix
+trace: "Traceability Matrix\n(PRD → UXD → TRD mapping)" {
+  shape: cylinder
+  style.fill: "#FFF8E1"
+  style.stroke: "#FFA000"
+}
+
+output -> trace: "generates"
+
+# Approval Gate
+approval: "Approval Gate" {
+  shape: diamond
+  style.fill: "#E1F5FE"
+  style.stroke: "#0288D1"
+}
+
+trace -> approval
+
+# Final Outputs
+approved: "Approved" {
+  shape: oval
+  style.fill: "#A5D6A7"
+}
+rejected: "Rejected\n(Back to sources)" {
+  shape: oval
+  style.fill: "#EF9A9A"
+}
+
+approval -> approved: "Approved"
+approval -> rejected: "Rejected"
+rejected -> sources: "Revise"
+
+# Export
+export: "Export Targets" {
+  style.fill: "#E8EAF6"
+  style.stroke: "#3F51B5"
+
+  speckit: "SpecKit" {
+    shape: rectangle
+  }
+  gsd: "GSD" {
+    shape: rectangle
+  }
+  gastown: "GasTown" {
+    shape: rectangle
+  }
+  jira: "Jira/Linear" {
+    shape: rectangle
+  }
+}
+
+approved -> export
+
+# Legend
+legend: "Legend" {
+  near: bottom-right
+  shape: rectangle
+  style.fill: "#FAFAFA"
+
+  doc_legend: "📄 = Spec" {
+    shape: text
+  }
+  diamond_legend: "◆ = Decision" {
+    shape: text
+  }
+  person_legend: "👤 = Human" {
+    shape: text
+  }
+}

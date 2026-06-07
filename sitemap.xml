@@ -2,194 +2,270 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://productbuildershq.com/visionspec/</loc>
-         <lastmod>2026-06-01</lastmod>
+         <lastmod>2026-06-07</lastmod>
     </url>
     <url>
          <loc>https://productbuildershq.com/visionspec/context-sources/</loc>
-         <lastmod>2026-06-01</lastmod>
+         <lastmod>2026-06-07</lastmod>
     </url>
     <url>
          <loc>https://productbuildershq.com/visionspec/cli/</loc>
-         <lastmod>2026-06-01</lastmod>
+         <lastmod>2026-06-07</lastmod>
     </url>
     <url>
          <loc>https://productbuildershq.com/visionspec/cli/approve/</loc>
-         <lastmod>2026-06-01</lastmod>
+         <lastmod>2026-06-07</lastmod>
     </url>
     <url>
          <loc>https://productbuildershq.com/visionspec/cli/context/</loc>
-         <lastmod>2026-06-01</lastmod>
+         <lastmod>2026-06-07</lastmod>
     </url>
     <url>
          <loc>https://productbuildershq.com/visionspec/cli/create/</loc>
-         <lastmod>2026-06-01</lastmod>
+         <lastmod>2026-06-07</lastmod>
     </url>
     <url>
          <loc>https://productbuildershq.com/visionspec/cli/docs/</loc>
-         <lastmod>2026-06-01</lastmod>
+         <lastmod>2026-06-07</lastmod>
     </url>
     <url>
          <loc>https://productbuildershq.com/visionspec/cli/eval/</loc>
-         <lastmod>2026-06-01</lastmod>
+         <lastmod>2026-06-07</lastmod>
     </url>
     <url>
          <loc>https://productbuildershq.com/visionspec/cli/export/</loc>
-         <lastmod>2026-06-01</lastmod>
+         <lastmod>2026-06-07</lastmod>
     </url>
     <url>
          <loc>https://productbuildershq.com/visionspec/cli/graph/</loc>
-         <lastmod>2026-06-01</lastmod>
+         <lastmod>2026-06-07</lastmod>
     </url>
     <url>
          <loc>https://productbuildershq.com/visionspec/cli/init/</loc>
-         <lastmod>2026-06-01</lastmod>
+         <lastmod>2026-06-07</lastmod>
     </url>
     <url>
          <loc>https://productbuildershq.com/visionspec/cli/lint/</loc>
-         <lastmod>2026-06-01</lastmod>
+         <lastmod>2026-06-07</lastmod>
     </url>
     <url>
          <loc>https://productbuildershq.com/visionspec/cli/profiles/</loc>
-         <lastmod>2026-06-01</lastmod>
+         <lastmod>2026-06-07</lastmod>
     </url>
     <url>
          <loc>https://productbuildershq.com/visionspec/cli/reconcile/</loc>
-         <lastmod>2026-06-01</lastmod>
+         <lastmod>2026-06-07</lastmod>
     </url>
     <url>
          <loc>https://productbuildershq.com/visionspec/cli/serve/</loc>
-         <lastmod>2026-06-01</lastmod>
+         <lastmod>2026-06-07</lastmod>
     </url>
     <url>
          <loc>https://productbuildershq.com/visionspec/cli/status/</loc>
-         <lastmod>2026-06-01</lastmod>
+         <lastmod>2026-06-07</lastmod>
     </url>
     <url>
          <loc>https://productbuildershq.com/visionspec/cli/synthesize/</loc>
-         <lastmod>2026-06-01</lastmod>
+         <lastmod>2026-06-07</lastmod>
     </url>
     <url>
          <loc>https://productbuildershq.com/visionspec/cli/targets/</loc>
-         <lastmod>2026-06-01</lastmod>
+         <lastmod>2026-06-07</lastmod>
     </url>
     <url>
          <loc>https://productbuildershq.com/visionspec/concepts/</loc>
-         <lastmod>2026-06-01</lastmod>
+         <lastmod>2026-06-07</lastmod>
     </url>
     <url>
          <loc>https://productbuildershq.com/visionspec/concepts/working-backwards/</loc>
-         <lastmod>2026-06-01</lastmod>
+         <lastmod>2026-06-07</lastmod>
     </url>
     <url>
          <loc>https://productbuildershq.com/visionspec/development/contributing/</loc>
-         <lastmod>2026-06-01</lastmod>
+         <lastmod>2026-06-07</lastmod>
+    </url>
+    <url>
+         <loc>https://productbuildershq.com/visionspec/examples/</loc>
+         <lastmod>2026-06-07</lastmod>
+    </url>
+    <url>
+         <loc>https://productbuildershq.com/visionspec/examples/example-status-1/</loc>
+         <lastmod>2026-06-07</lastmod>
+    </url>
+    <url>
+         <loc>https://productbuildershq.com/visionspec/examples/example-status-2/</loc>
+         <lastmod>2026-06-07</lastmod>
+    </url>
+    <url>
+         <loc>https://productbuildershq.com/visionspec/examples/petstore/</loc>
+         <lastmod>2026-06-07</lastmod>
+    </url>
+    <url>
+         <loc>https://productbuildershq.com/visionspec/examples/petstore/execution/</loc>
+         <lastmod>2026-06-07</lastmod>
+    </url>
+    <url>
+         <loc>https://productbuildershq.com/visionspec/examples/petstore/technical-spec/</loc>
+         <lastmod>2026-06-07</lastmod>
+    </url>
+    <url>
+         <loc>https://productbuildershq.com/visionspec/examples/petstore/working-backwards/</loc>
+         <lastmod>2026-06-07</lastmod>
+    </url>
+    <url>
+         <loc>https://productbuildershq.com/visionspec/execution-targets/</loc>
+         <lastmod>2026-06-07</lastmod>
+    </url>
+    <url>
+         <loc>https://productbuildershq.com/visionspec/execution-targets/aws-aidlc/</loc>
+         <lastmod>2026-06-07</lastmod>
+    </url>
+    <url>
+         <loc>https://productbuildershq.com/visionspec/execution-targets/choosing-a-target/</loc>
+         <lastmod>2026-06-07</lastmod>
+    </url>
+    <url>
+         <loc>https://productbuildershq.com/visionspec/execution-targets/gascity/</loc>
+         <lastmod>2026-06-07</lastmod>
+    </url>
+    <url>
+         <loc>https://productbuildershq.com/visionspec/execution-targets/gastown/</loc>
+         <lastmod>2026-06-07</lastmod>
+    </url>
+    <url>
+         <loc>https://productbuildershq.com/visionspec/execution-targets/gsd/</loc>
+         <lastmod>2026-06-07</lastmod>
+    </url>
+    <url>
+         <loc>https://productbuildershq.com/visionspec/execution-targets/speckit/</loc>
+         <lastmod>2026-06-07</lastmod>
     </url>
     <url>
          <loc>https://productbuildershq.com/visionspec/frameworks/</loc>
-         <lastmod>2026-06-01</lastmod>
+         <lastmod>2026-06-07</lastmod>
     </url>
     <url>
          <loc>https://productbuildershq.com/visionspec/frameworks/aws/</loc>
-         <lastmod>2026-06-01</lastmod>
+         <lastmod>2026-06-07</lastmod>
+    </url>
+    <url>
+         <loc>https://productbuildershq.com/visionspec/frameworks/big-tech/</loc>
+         <lastmod>2026-06-07</lastmod>
+    </url>
+    <url>
+         <loc>https://productbuildershq.com/visionspec/frameworks/continuous-discovery/</loc>
+         <lastmod>2026-06-07</lastmod>
     </url>
     <url>
          <loc>https://productbuildershq.com/visionspec/frameworks/design-thinking/</loc>
-         <lastmod>2026-06-01</lastmod>
+         <lastmod>2026-06-07</lastmod>
     </url>
     <url>
          <loc>https://productbuildershq.com/visionspec/frameworks/google/</loc>
-         <lastmod>2026-06-01</lastmod>
+         <lastmod>2026-06-07</lastmod>
     </url>
     <url>
          <loc>https://productbuildershq.com/visionspec/frameworks/jtbd/</loc>
-         <lastmod>2026-06-01</lastmod>
+         <lastmod>2026-06-07</lastmod>
     </url>
     <url>
          <loc>https://productbuildershq.com/visionspec/frameworks/lean-startup/</loc>
-         <lastmod>2026-06-01</lastmod>
+         <lastmod>2026-06-07</lastmod>
+    </url>
+    <url>
+         <loc>https://productbuildershq.com/visionspec/frameworks/opportunity-spec/</loc>
+         <lastmod>2026-06-07</lastmod>
+    </url>
+    <url>
+         <loc>https://productbuildershq.com/visionspec/frameworks/shapeup/</loc>
+         <lastmod>2026-06-07</lastmod>
     </url>
     <url>
          <loc>https://productbuildershq.com/visionspec/frameworks/stripe/</loc>
-         <lastmod>2026-06-01</lastmod>
+         <lastmod>2026-06-07</lastmod>
     </url>
     <url>
          <loc>https://productbuildershq.com/visionspec/getting-started/concepts/</loc>
-         <lastmod>2026-06-01</lastmod>
+         <lastmod>2026-06-07</lastmod>
     </url>
     <url>
          <loc>https://productbuildershq.com/visionspec/getting-started/installation/</loc>
-         <lastmod>2026-06-01</lastmod>
+         <lastmod>2026-06-07</lastmod>
     </url>
     <url>
          <loc>https://productbuildershq.com/visionspec/getting-started/quickstart/</loc>
-         <lastmod>2026-06-01</lastmod>
+         <lastmod>2026-06-07</lastmod>
     </url>
     <url>
          <loc>https://productbuildershq.com/visionspec/guides/</loc>
-         <lastmod>2026-06-01</lastmod>
+         <lastmod>2026-06-07</lastmod>
     </url>
     <url>
          <loc>https://productbuildershq.com/visionspec/guides/configuration/</loc>
-         <lastmod>2026-06-01</lastmod>
+         <lastmod>2026-06-07</lastmod>
     </url>
     <url>
          <loc>https://productbuildershq.com/visionspec/guides/custom-profiles/</loc>
-         <lastmod>2026-06-01</lastmod>
+         <lastmod>2026-06-07</lastmod>
+    </url>
+    <url>
+         <loc>https://productbuildershq.com/visionspec/guides/organization-customization/</loc>
+         <lastmod>2026-06-07</lastmod>
     </url>
     <url>
          <loc>https://productbuildershq.com/visionspec/mcp/</loc>
-         <lastmod>2026-06-01</lastmod>
+         <lastmod>2026-06-07</lastmod>
     </url>
     <url>
          <loc>https://productbuildershq.com/visionspec/mcp/tools/</loc>
-         <lastmod>2026-06-01</lastmod>
+         <lastmod>2026-06-07</lastmod>
     </url>
     <url>
          <loc>https://productbuildershq.com/visionspec/releases/v0.1.0/</loc>
-         <lastmod>2026-06-01</lastmod>
+         <lastmod>2026-06-07</lastmod>
     </url>
     <url>
          <loc>https://productbuildershq.com/visionspec/releases/v0.2.0/</loc>
-         <lastmod>2026-06-01</lastmod>
+         <lastmod>2026-06-07</lastmod>
     </url>
     <url>
          <loc>https://productbuildershq.com/visionspec/releases/v0.3.0/</loc>
-         <lastmod>2026-06-01</lastmod>
+         <lastmod>2026-06-07</lastmod>
     </url>
     <url>
          <loc>https://productbuildershq.com/visionspec/releases/v0.4.0/</loc>
-         <lastmod>2026-06-01</lastmod>
+         <lastmod>2026-06-07</lastmod>
     </url>
     <url>
          <loc>https://productbuildershq.com/visionspec/releases/v0.5.0/</loc>
-         <lastmod>2026-06-01</lastmod>
+         <lastmod>2026-06-07</lastmod>
     </url>
     <url>
          <loc>https://productbuildershq.com/visionspec/releases/v0.6.0/</loc>
-         <lastmod>2026-06-01</lastmod>
+         <lastmod>2026-06-07</lastmod>
     </url>
     <url>
          <loc>https://productbuildershq.com/visionspec/releases/v0.7.0/</loc>
-         <lastmod>2026-06-01</lastmod>
+         <lastmod>2026-06-07</lastmod>
     </url>
     <url>
          <loc>https://productbuildershq.com/visionspec/specs/ROADMAP/</loc>
-         <lastmod>2026-06-01</lastmod>
+         <lastmod>2026-06-07</lastmod>
     </url>
     <url>
          <loc>https://productbuildershq.com/visionspec/specs/composability/plan/</loc>
-         <lastmod>2026-06-01</lastmod>
+         <lastmod>2026-06-07</lastmod>
     </url>
     <url>
          <loc>https://productbuildershq.com/visionspec/specs/context-sources/source/mrd/</loc>
-         <lastmod>2026-06-01</lastmod>
+         <lastmod>2026-06-07</lastmod>
     </url>
     <url>
          <loc>https://productbuildershq.com/visionspec/specs/context-sources/source/prd/</loc>
-         <lastmod>2026-06-01</lastmod>
+         <lastmod>2026-06-07</lastmod>
     </url>
     <url>
          <loc>https://productbuildershq.com/visionspec/specs/context-sources/technical/trd/</loc>
-         <lastmod>2026-06-01</lastmod>
+         <lastmod>2026-06-07</lastmod>
     </url>
 </urlset>

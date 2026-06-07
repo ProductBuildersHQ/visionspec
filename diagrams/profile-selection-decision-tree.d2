@@ -1,0 +1,219 @@
+# Profile Selection Decision Tree
+# Use this diagram to select the right multispec profile for your project
+
+direction: down
+
+title: {
+  label: "Profile Selection Decision Tree"
+  near: top-center
+  shape: text
+  style: {
+    font-size: 24
+    bold: true
+  }
+}
+
+# Start
+start: "What are you building?" {
+  shape: oval
+  style.fill: "#E3F2FD"
+}
+
+# Level 1: Scope
+new_product: "New Product Line\n(New market, new customers)" {
+  style.fill: "#FFF3E0"
+}
+new_feature: "Feature on Existing Product\n(Same customers, new capability)" {
+  style.fill: "#FFF3E0"
+}
+
+start -> new_product: "New product"
+start -> new_feature: "Feature"
+
+# Level 2a: Product Stage
+product_stage: "What stage?" {
+  shape: diamond
+  style.fill: "#F3E5F5"
+}
+new_product -> product_stage
+
+stage_0_1: "0-1\n(Idea validation)" {
+  style.fill: "#FFEBEE"
+}
+stage_startup: "Pre-PMF\n(Building MVP)" {
+  style.fill: "#FFEBEE"
+}
+stage_growth: "Growth\n(Post-PMF, scaling)" {
+  style.fill: "#FFEBEE"
+}
+stage_enterprise: "Enterprise\n(Mature, regulated)" {
+  style.fill: "#FFEBEE"
+}
+
+product_stage -> stage_0_1: "Validating idea"
+product_stage -> stage_startup: "Building MVP"
+product_stage -> stage_growth: "Scaling"
+product_stage -> stage_enterprise: "Mature"
+
+# Level 2b: Feature methodology
+feature_method: "Preferred methodology?" {
+  shape: diamond
+  style.fill: "#F3E5F5"
+}
+new_feature -> feature_method
+
+# Feature profiles
+aws_feature: "Working Backwards\n(Customer-obsessed)" {
+  style.fill: "#E8F5E9"
+}
+bigtech_feature: "Big Tech Best Practices\n(Comprehensive)" {
+  style.fill: "#E8F5E9"
+}
+bigtech_essentials_feature: "Big Tech Essentials\n(Streamlined)" {
+  style.fill: "#E8F5E9"
+}
+
+feature_method -> aws_feature: "Amazon style"
+feature_method -> bigtech_feature: "Full rigor"
+feature_method -> bigtech_essentials_feature: "Simplified"
+
+# Level 3: Product methodology
+enterprise_method: "Preferred methodology?" {
+  shape: diamond
+  style.fill: "#F3E5F5"
+}
+stage_enterprise -> enterprise_method
+
+# Enterprise profiles
+aws_product: "aws-product\n(Working Backwards)" {
+  shape: hexagon
+  style.fill: "#4CAF50"
+  style.font-color: white
+}
+bigtech_product: "big-tech-product\n(10 methodologies)" {
+  shape: hexagon
+  style.fill: "#4CAF50"
+  style.font-color: white
+}
+bigtech_essentials_product: "big-tech-essentials-product\n(3 companies)" {
+  shape: hexagon
+  style.fill: "#4CAF50"
+  style.font-color: white
+}
+google_profile: "google\n(Design Docs + RFC)" {
+  shape: hexagon
+  style.fill: "#4CAF50"
+  style.font-color: white
+}
+stripe_profile: "stripe\n(API-first, DX)" {
+  shape: hexagon
+  style.fill: "#4CAF50"
+  style.font-color: white
+}
+enterprise_profile: "enterprise\n(Full spec suite)" {
+  shape: hexagon
+  style.fill: "#4CAF50"
+  style.font-color: white
+}
+
+enterprise_method -> aws_product: "Amazon"
+enterprise_method -> bigtech_product: "Multi-company"
+enterprise_method -> bigtech_essentials_product: "Streamlined"
+enterprise_method -> google_profile: "Google"
+enterprise_method -> stripe_profile: "Stripe/API"
+enterprise_method -> enterprise_profile: "Generic"
+
+# Stage profiles (final)
+profile_0_1: "0-1\n(hypothesis + lean-canvas)" {
+  shape: hexagon
+  style.fill: "#4CAF50"
+  style.font-color: white
+}
+profile_startup: "startup\n(PRD only)" {
+  shape: hexagon
+  style.fill: "#4CAF50"
+  style.font-color: white
+}
+profile_growth: "growth\n(PRD + UXD + FAQ)" {
+  shape: hexagon
+  style.fill: "#4CAF50"
+  style.font-color: white
+}
+
+stage_0_1 -> profile_0_1
+stage_startup -> profile_startup
+stage_growth -> profile_growth
+
+# Feature profiles (final)
+profile_aws_feature: "aws-feature\n(OpportunitySpec → PR/FAQ)" {
+  shape: hexagon
+  style.fill: "#4CAF50"
+  style.font-color: white
+}
+profile_bigtech_feature: "big-tech-feature\n(OpportunitySpec → Full)" {
+  shape: hexagon
+  style.fill: "#4CAF50"
+  style.font-color: white
+}
+profile_bigtech_essentials_feature: "big-tech-essentials-feature\n(OpportunitySpec → Lean)" {
+  shape: hexagon
+  style.fill: "#4CAF50"
+  style.font-color: white
+}
+
+aws_feature -> profile_aws_feature
+bigtech_feature -> profile_bigtech_feature
+bigtech_essentials_feature -> profile_bigtech_essentials_feature
+
+# Specialized methodology profiles
+specialized: "Specialized Methodology?" {
+  shape: diamond
+  style.fill: "#F3E5F5"
+}
+stage_growth -> specialized: "Need specific approach?"
+
+lean_startup: "lean-startup\n(Build-Measure-Learn)" {
+  shape: hexagon
+  style.fill: "#2196F3"
+  style.font-color: white
+}
+design_thinking: "design-thinking\n(d.school 5 stages)" {
+  shape: hexagon
+  style.fill: "#2196F3"
+  style.font-color: white
+}
+jtbd_profile: "jtbd\n(Jobs-to-be-Done)" {
+  shape: hexagon
+  style.fill: "#2196F3"
+  style.font-color: white
+}
+shapeup_profile: "shapeup\n(Basecamp)" {
+  shape: hexagon
+  style.fill: "#2196F3"
+  style.font-color: white
+}
+continuous_discovery: "continuous-discovery\n(Teresa Torres)" {
+  shape: hexagon
+  style.fill: "#2196F3"
+  style.font-color: white
+}
+
+specialized -> lean_startup: "Lean"
+specialized -> design_thinking: "Design"
+specialized -> jtbd_profile: "JTBD"
+specialized -> shapeup_profile: "Shape Up"
+specialized -> continuous_discovery: "Discovery"
+
+# Legend
+legend: {
+  near: bottom-right
+  shape: rectangle
+  style.fill: "#FAFAFA"
+
+  text: |md
+    **Legend**
+    - 🟢 Green hexagon = Profile to use
+    - 🔵 Blue hexagon = Specialized methodology
+    - ⬡ Diamond = Decision point
+  |
+}

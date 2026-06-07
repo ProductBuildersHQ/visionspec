@@ -1,0 +1,183 @@
+# Big Tech Best Practices - Product Flow (MRD Start)
+# Combines 10 company methodologies
+# Layout: ELK
+
+direction: down
+
+title: {
+  label: Big Tech Product Flow (10 Companies)
+  near: top-center
+  shape: text
+  style.font-size: 24
+  style.bold: true
+}
+
+# Phase labels
+discovery: {
+  label: "1. DISCOVERY"
+  shape: text
+  style.font-size: 16
+  style.bold: true
+  style.fill: transparent
+}
+
+vision: {
+  label: "2. VISION"
+  shape: text
+  style.font-size: 16
+  style.bold: true
+  style.fill: transparent
+}
+
+requirements: {
+  label: "3. REQUIREMENTS"
+  shape: text
+  style.font-size: 16
+  style.bold: true
+  style.fill: transparent
+}
+
+experience: {
+  label: "4. EXPERIENCE"
+  shape: text
+  style.font-size: 16
+  style.bold: true
+  style.fill: transparent
+}
+
+technical: {
+  label: "5. TECHNICAL"
+  shape: text
+  style.font-size: 16
+  style.bold: true
+  style.fill: transparent
+}
+
+# Discovery Phase (Amazon + Google)
+mrd: {
+  label: MRD + OKRs\n(Amazon + Google)
+  shape: rectangle
+  style.fill: "#e8f5e9"
+  style.stroke: "#2e7d32"
+}
+
+# Vision Phase (Amazon)
+press: {
+  label: Press Release\n(Amazon)
+  shape: rectangle
+  style.fill: "#e3f2fd"
+  style.stroke: "#1565c0"
+}
+
+faq: {
+  label: FAQ + Dev FAQ\n(Amazon + Stripe)
+  shape: rectangle
+  style.fill: "#e3f2fd"
+  style.stroke: "#1565c0"
+}
+
+narrative: {
+  label: 6-Pager\n(Amazon)
+  shape: rectangle
+  style.fill: "#fce4ec"
+  style.stroke: "#c2185b"
+}
+
+# Requirements Phase (Google + Stripe)
+prd: {
+  label: PRD + API Contracts\n(Google + Stripe)
+  shape: rectangle
+  style.fill: "#fff3e0"
+  style.stroke: "#ef6c00"
+}
+
+# Experience Phase (Stripe + Microsoft)
+uxd: {
+  label: UXD + DX + A11y\n(Stripe + Microsoft)
+  shape: rectangle
+  style.fill: "#e8f5e9"
+  style.stroke: "#2e7d32"
+}
+
+# Technical Phase (Google)
+trd: {
+  label: Design Doc + Tradeoffs\n(Google)
+  shape: rectangle
+  style.fill: "#e3f2fd"
+  style.stroke: "#1565c0"
+}
+
+tpd: {
+  label: Test Plan + Experiments\n(Google + Spotify)
+  shape: rectangle
+  style.fill: "#e3f2fd"
+  style.stroke: "#1565c0"
+}
+
+# Flow
+discovery -> mrd
+mrd -> press: synthesize
+press -> faq: synthesize
+mrd -> faq
+
+vision -> press
+press -> narrative
+
+faq -> prd: synthesize
+press -> prd
+mrd -> prd
+requirements -> prd
+
+experience -> uxd
+
+uxd -> trd
+prd -> trd: synthesize
+technical -> trd
+
+prd -> tpd
+trd -> tpd: synthesize
+
+mrd -> narrative: synthesize
+prd -> narrative
+
+# Legend
+legend: {
+  label: Company Contributions
+  near: bottom-center
+  grid-columns: 5
+
+  amz: {
+    label: "Amazon\nNarratives"
+    shape: rectangle
+    style.fill: "#fff8e1"
+    style.stroke: "#f9a825"
+  }
+
+  goog: {
+    label: "Google\nRigor"
+    shape: rectangle
+    style.fill: "#e3f2fd"
+    style.stroke: "#1565c0"
+  }
+
+  stripe: {
+    label: "Stripe\nAPI-First"
+    shape: rectangle
+    style.fill: "#e8f5e9"
+    style.stroke: "#2e7d32"
+  }
+
+  msft: {
+    label: "Microsoft\nA11y"
+    shape: rectangle
+    style.fill: "#f3e5f5"
+    style.stroke: "#7b1fa2"
+  }
+
+  spot: {
+    label: "Spotify\nBets"
+    shape: rectangle
+    style.fill: "#e0f2f1"
+    style.stroke: "#00796b"
+  }
+}
