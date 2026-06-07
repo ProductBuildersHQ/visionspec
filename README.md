@@ -169,6 +169,14 @@ Full documentation: [CLI Reference](https://productbuildershq.com/visionspec/cli
 | `docs <cmd>` | Generate MkDocs documentation |
 | `rules <cmd>` | Export workflow rules for AI assistants |
 
+### Execution Alignment (v0.7.0)
+
+| Command | Description |
+|---------|-------------|
+| `generate tests` | Generate test stubs from TPD |
+| `sync <target>` | Sync execution state with target system |
+| `drift` | Detect spec-to-code drift |
+
 ### Context & Traceability
 
 | Command | Description |
@@ -269,11 +277,16 @@ For different organizational methodologies:
 |---------|-------------|----------|
 | `aws-product` | Working Backwards (MRD start) | New product lines (PR/FAQ, 6-pager) |
 | `aws-feature` | Working Backwards (OpportunitySpec start) | Features on existing products |
+| `big-tech-product` | Multi-company best practices | Enterprise products (10 methodologies) |
+| `big-tech-feature` | Multi-company feature workflow | Enterprise features (comprehensive) |
+| `big-tech-essentials-product` | Streamlined best practices | Growing companies (3 core methodologies) |
 | `google` | Design Docs + RFC | Engineering-heavy orgs (OKRs, experiments) |
 | `stripe` | API-First | Platform/API products (contract-first, DX) |
 | `lean-startup` | Build-Measure-Learn | Early validation (hypothesis, MVP) |
 | `design-thinking` | Stanford d.school | Human-centered design (empathy, prototyping) |
 | `jtbd` | Jobs to be Done | Customer motivations (job statements, outcomes) |
+| `continuous-discovery` | Teresa Torres | Continuous learning (opportunity trees) |
+| `shapeup` | Basecamp | Fixed timelines (6-week cycles, pitches) |
 
 The `aws-feature` profile uses **OpportunitySpec** from [prism-roadmap](https://github.com/grokify/prism-roadmap) as the starting document instead of MRD, providing a 12-box canvas that combines discovery (Patton) with business case rigor (Cagan).
 
@@ -445,7 +458,7 @@ make install
 
 See [ROADMAP.md](docs/specs/ROADMAP.md) for detailed implementation status and [CHANGELOG.md](CHANGELOG.md) for release history.
 
-**Current Version:** v0.6.0
+**Current Version:** v0.7.0
 
 | Phase | Status |
 |-------|--------|
