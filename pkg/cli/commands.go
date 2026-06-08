@@ -71,6 +71,7 @@ Creates:
 	cmd.Flags().String("constitution", "", "Path to constitution file (relative or absolute)")
 	cmd.Flags().Bool("with-templates", false, "Create template spec files")
 	cmd.Flags().String("profile", "", "Configuration profile (0-1, startup, growth, enterprise)")
+	cmd.Flags().String("workflow", "", "Workflow methodology/level (e.g., aws-working-backwards/product)")
 
 	return cmd
 }
@@ -158,10 +159,29 @@ func runInit(cmd *cobra.Command, args []string, cfg *Config) error {
 		constitution = fmt.Sprintf("../%s", config.ConstitutionFile)
 	}
 
+	// Get workflow selection
+	workflowID, _ := cmd.Flags().GetString("workflow")
+	if workflowID != "" {
+		// Validate workflow exists in workflows repo (uses auto-discovery)
+		repo, err := cfg.GetWorkflowsRepo()
+		if err != nil {
+			return fmt.Errorf("failed to load workflows repo: %w", err)
+		}
+		if repo == nil {
+			return fmt.Errorf("--workflow requires a spec-workflows repository. Run 'visionspec workflows' to see search locations")
+		}
+		if _, err := repo.GetWorkflow(workflowID); err != nil {
+			available := repo.ListWorkflows()
+			return fmt.Errorf("workflow %q not found. Available workflows: %v", workflowID, available)
+		}
+		fmt.Printf("Using workflow: %s (from %s)\n\n", workflowID, repo.Path)
+	}
+
 	project := &types.Project{
 		Name:         projectName,
 		Path:         projectPath,
 		Constitution: constitution,
+		Workflow:     workflowID,
 		CreatedAt:    time.Now(),
 		UpdatedAt:    time.Now(),
 		Targets: types.TargetConfig{
@@ -189,7 +209,27 @@ func runInit(cmd *cobra.Command, args []string, cfg *Config) error {
 	// Create template files if requested
 	withTemplates, _ := cmd.Flags().GetBool("with-templates")
 	if withTemplates {
-		if err := createTemplateFiles(projectPath, cfg); err != nil {
+		// If a workflow is specified, use workflow-specific templates
+		effectiveCfg := cfg
+		if workflowID != "" {
+			// Extract methodology from workflow ID (e.g., "aws-working-backwards" from "aws-working-backwards/product")
+			methodology := workflowID
+			if idx := strings.Index(workflowID, "/"); idx > 0 {
+				methodology = workflowID[:idx]
+			}
+			effectiveCfg = &Config{
+				TemplateLoader:     cfg.GetTemplateLoaderForWorkflow(methodology),
+				RubricLoader:       cfg.GetRubricLoaderForWorkflow(methodology),
+				SpecConfig:         cfg.SpecConfig,
+				ProfileLoader:      cfg.ProfileLoader,
+				ConstitutionLoader: cfg.ConstitutionLoader,
+				AppTypeLoader:      cfg.AppTypeLoader,
+				DefaultProfile:     cfg.DefaultProfile,
+				WorkflowsRepoPath:  cfg.WorkflowsRepoPath,
+				Version:            cfg.Version,
+			}
+		}
+		if err := createTemplateFiles(projectPath, effectiveCfg); err != nil {
 			return fmt.Errorf("failed to create template files: %w", err)
 		}
 	}
@@ -3666,6 +3706,88 @@ func watchDirectory(watcher *fsnotify.Watcher, dir string) error {
 		}
 		return nil
 	})
+}
+
+// Workflows management commands
+
+func workflowsCmd(cfg *Config) *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "workflows",
+		Short: "List available workflows from spec-workflows repo",
+		Long: `List available workflows from a spec-workflows repository.
+
+Auto-discovers the repository using this search order:
+  1. --workflows-repo flag
+  2. VISIONSPEC_WORKFLOWS_REPO environment variable
+  3. spec-workflows/ or .spec-workflows/ in current or parent directories
+  4. ~/.config/visionspec/spec-workflows/
+
+Available workflows follow the format: <methodology>/<level>
+  - methodology: aws-working-backwards, big-tech, lean-startup
+  - level: product or feature
+
+Examples:
+  visionspec workflows
+  visionspec workflows --workflows-repo=/path/to/spec-workflows`,
+		RunE: func(cmd *cobra.Command, args []string) error {
+			return runListWorkflows(cfg)
+		},
+	}
+
+	return cmd
+}
+
+func runListWorkflows(cfg *Config) error {
+	// Use auto-discovery
+	repoPath := cfg.GetWorkflowsRepoPath()
+	if repoPath == "" {
+		fmt.Println("No spec-workflows repository found.")
+		fmt.Println()
+		fmt.Println("Search locations (in order):")
+		fmt.Println("  1. --workflows-repo flag")
+		fmt.Println("  2. VISIONSPEC_WORKFLOWS_REPO environment variable")
+		fmt.Println("  3. spec-workflows/ or .spec-workflows/ in current or parent directories")
+		fmt.Println("  4. ~/.config/visionspec/spec-workflows/")
+		fmt.Println()
+		fmt.Println("To get started:")
+		fmt.Println("  git clone https://github.com/ProductBuildersHQ/spec-workflows ~/.config/visionspec/spec-workflows")
+		return nil
+	}
+
+	repo, err := cfg.GetWorkflowsRepo()
+	if err != nil {
+		return fmt.Errorf("failed to load workflows repo: %w", err)
+	}
+
+	fmt.Printf("Repository: %s\n\n", repoPath)
+
+	workflowList := repo.ListWorkflows()
+	if len(workflowList) == 0 {
+		fmt.Println("No workflows found in repository.")
+		return nil
+	}
+
+	fmt.Printf("Available workflows (%d):\n\n", len(workflowList))
+
+	// Group by methodology
+	byMethodology := make(map[string][]string)
+	for _, id := range workflowList {
+		parts := strings.SplitN(id, "/", 2)
+		if len(parts) == 2 {
+			byMethodology[parts[0]] = append(byMethodology[parts[0]], parts[1])
+		}
+	}
+
+	for methodology, levels := range byMethodology {
+		fmt.Printf("  %s:\n", methodology)
+		for _, level := range levels {
+			fmt.Printf("    - %s/%s\n", methodology, level)
+		}
+		fmt.Println()
+	}
+
+	fmt.Println("Use with: visionspec init <project> --workflow=<workflow-id>")
+	return nil
 }
 
 // Version management commands
