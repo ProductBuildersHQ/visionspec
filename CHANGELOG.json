@@ -57,7 +57,7 @@
         { "description": "Execution target documentation (SpecKit, GSD, GasTown, GasCity, AWS AI-DLC)", "commit": "e68dff5" },
         { "description": "Workflow example documentation with PetStore API walkthrough", "commit": "a82d396" },
         { "description": "Organization customization guide for building custom CLIs", "commit": "9fa3eef" },
-        { "description": "CLI documentation for generate, sync, drift commands", "commit": "1e38fa9" },
+        { "description": "CLI documentation for generate, sync, drift, rules, render, watch, version commands", "commit": "1e38fa9" },
         { "description": "MkDocs navigation updated with new framework and CLI entries", "commit": "d55b404" },
         { "description": "Core workflow rules updated for AI assistant orchestration", "commit": "6c76d2a" },
         { "description": "README and ROADMAP updated for v0.7.0 and v0.8.0 features", "commit": "5e2f72a" }
