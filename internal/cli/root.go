@@ -41,10 +41,21 @@ It provides:
 	// Global flags
 	rootCmd.PersistentFlags().StringP("project", "p", "", "Project name or path")
 	rootCmd.PersistentFlags().BoolP("verbose", "v", false, "Enable verbose output")
+	rootCmd.PersistentFlags().String("workflows-repo", "", "Path to spec-workflows repository for templates and rubrics")
 
 	// Use pkg/cli for composable commands
 	cfg := pkgcli.DefaultConfig()
 	cfg.Version = Version
+
+	// Apply workflows-repo flag to config if provided
+	rootCmd.PersistentPreRunE = func(cmd *cobra.Command, args []string) error {
+		workflowsRepo, _ := cmd.Flags().GetString("workflows-repo")
+		if workflowsRepo != "" {
+			cfg.WorkflowsRepoPath = workflowsRepo
+		}
+		return nil
+	}
+
 	pkgcli.AddCommandsTo(rootCmd, cfg)
 }
 
