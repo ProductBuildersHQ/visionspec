@@ -7,6 +7,31 @@
   "maintainers": ["johncwang@gmail.com"],
   "releases": [
     {
+      "version": "v0.9.0",
+      "date": "2026-06-08",
+      "commit": "99581d4",
+      "highlights": [
+        { "description": "Spec-workflows repository integration for organization customization" },
+        { "description": "Auto-discovery of spec-workflows from current directory upward" },
+        { "description": "Workflows command to list available methodologies" },
+        { "description": "Workflow selection on project initialization" }
+      ],
+      "added": [
+        { "description": "Spec-workflows repository integration (`pkg/workflows`) with LoadRepo and DiscoverRepo", "commit": "eff5136" },
+        { "description": "Auto-discovery search order: flag, env var, upward walk, user config", "commit": "eff5136" },
+        { "description": "Workflow field in Project type for methodology tracking", "commit": "cb0d514" },
+        { "description": "WorkflowsRepoPath field and helper methods in CLI Config", "commit": "d6b4a60" },
+        { "description": "GetTemplateLoaderForWorkflow and GetRubricLoaderForWorkflow with methodology fallback", "commit": "d6b4a60" },
+        { "description": "CLI `workflows` command to list available workflows from spec-workflows repo", "commit": "7977b34" },
+        { "description": "CLI `init --workflow` flag for selecting methodology/level", "commit": "7977b34" },
+        { "description": "CLI `--workflows-repo` global flag for explicit repo path", "commit": "99581d4" },
+        { "description": "VISIONSPEC_WORKFLOWS_REPO environment variable support", "commit": "eff5136" }
+      ],
+      "documentation": [
+        { "description": "v0.9.0 release notes with spec-workflows integration guide" }
+      ]
+    },
+    {
       "version": "v0.8.0",
       "date": "2026-06-07",
       "commit": "ac7f789",
