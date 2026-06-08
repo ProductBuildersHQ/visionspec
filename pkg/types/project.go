@@ -37,6 +37,9 @@ type Project struct {
 	// Rubrics configures custom rubric loading.
 	Rubrics *RubricsConfig `json:"rubrics,omitempty" yaml:"rubrics,omitempty"`
 
+	// Workflow specifies the workflow methodology and level (e.g., "aws-working-backwards/product").
+	Workflow string `json:"workflow,omitempty" yaml:"workflow,omitempty"`
+
 	// Execution tracks the state of exported execution targets.
 	Execution *ExecutionState `json:"execution,omitempty" yaml:"execution,omitempty"`
 
