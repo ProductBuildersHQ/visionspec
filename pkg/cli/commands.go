@@ -495,7 +495,10 @@ func statusCmd(cfg *Config) *cobra.Command {
 		Long: `Show the status of all specs, evaluations, and approvals for a project.
 
 Displays readiness gates and indicates whether the project is ready
-for AI-assisted development.`,
+for AI-assisted development.
+
+Output includes pipeline visualization with box-drawing tables optimized
+for AI agents. Use --basic for simplified legacy output.`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			return runStatus(cmd, args, cfg)
 		},
@@ -503,6 +506,7 @@ for AI-assisted development.`,
 
 	cmd.Flags().String("format", "text", "Output format: text, json, html, markdown")
 	cmd.Flags().Bool("ci", false, "CI mode: exit non-zero if not ready")
+	cmd.Flags().Bool("basic", false, "Basic output without pipeline visualization")
 
 	return cmd
 }
@@ -530,18 +534,35 @@ func runStatus(cmd *cobra.Command, _ []string, cfg *Config) error {
 	}
 
 	format, _ := cmd.Flags().GetString("format")
+	basic, _ := cmd.Flags().GetBool("basic")
 
+	// Basic output mode (legacy)
+	if basic {
+		switch format {
+		case "json":
+			enc := json.NewEncoder(os.Stdout)
+			enc.SetIndent("", "  ")
+			return enc.Encode(report)
+		case "html":
+			return status.RenderHTML(os.Stdout, report)
+		case "markdown":
+			return status.RenderMarkdown(os.Stdout, report)
+		default:
+			return status.RenderText(os.Stdout, report)
+		}
+	}
+
+	// Rich output (default) - optimized for AI agents
+	richReport := status.NewRichReport(report)
 	switch format {
 	case "json":
 		enc := json.NewEncoder(os.Stdout)
 		enc.SetIndent("", "  ")
-		return enc.Encode(report)
-	case "html":
-		return status.RenderHTML(os.Stdout, report)
+		return enc.Encode(richReport)
 	case "markdown":
-		return status.RenderMarkdown(os.Stdout, report)
+		return status.RenderRichMarkdown(os.Stdout, richReport)
 	default:
-		return status.RenderText(os.Stdout, report)
+		return status.RenderRichText(os.Stdout, richReport)
 	}
 }
 
