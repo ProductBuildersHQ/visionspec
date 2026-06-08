@@ -51,7 +51,7 @@ All synthesized documents are committed to git and can be reviewed, edited, and 
 ## Installation
 
 ```bash
-go install github.com/ProductBuildersHQ/visionspec/cmd/visionspec@v0.8.0
+go install github.com/ProductBuildersHQ/visionspec/cmd/visionspec@v0.9.0
 ```
 
 ## Quick Start
@@ -59,6 +59,9 @@ go install github.com/ProductBuildersHQ/visionspec/cmd/visionspec@v0.8.0
 ```bash
 # Initialize a new project
 visionspec init user-onboarding
+
+# Or with a specific workflow methodology
+visionspec init user-onboarding --workflow=aws-working-backwards/product
 
 # Validate project structure
 visionspec lint
@@ -68,6 +71,24 @@ visionspec status
 visionspec status --format json
 visionspec status --format html > status.html
 ```
+
+## Spec-Workflows Integration
+
+VisionSpec can load workflows, templates, and rubrics from external [spec-workflows](https://github.com/ProductBuildersHQ/spec-workflows) repositories. This enables organizations to fork and customize methodologies.
+
+```bash
+# Clone spec-workflows (auto-discovered from ~/.config/visionspec/)
+git clone https://github.com/ProductBuildersHQ/spec-workflows ~/.config/visionspec/spec-workflows
+
+# List available workflows
+visionspec workflows
+
+# Initialize with a specific methodology
+visionspec init my-product --workflow=aws-working-backwards/product
+visionspec init my-feature --workflow=lean-startup/feature
+```
+
+Auto-discovery searches: `--workflows-repo` flag → `VISIONSPEC_WORKFLOWS_REPO` env → upward directory walk → `~/.config/visionspec/spec-workflows/`
 
 ## Directory Structure
 
