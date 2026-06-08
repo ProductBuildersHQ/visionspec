@@ -28,9 +28,12 @@ VisionSpec provides a command-line interface for managing specifications.
 | Command | Description |
 |---------|-------------|
 | [eval](eval.md) | Evaluate specs using LLM judges |
+| [render](render.md) | Render evaluation files to markdown |
 | [synthesize](synthesize.md) | Generate GTM/technical specs from sources |
 | [reconcile](reconcile.md) | Generate unified execution spec |
 | [approve](approve.md) | Approve a spec for reconciliation |
+| [watch](watch.md) | Watch spec files and auto-run eval |
+| [version](version.md) | Manage spec version history |
 
 ### Export & Integration
 
@@ -40,6 +43,15 @@ VisionSpec provides a command-line interface for managing specifications.
 | [targets](targets.md) | List available export targets |
 | [serve](serve.md) | Start MCP server |
 | [docs](docs.md) | Generate MkDocs documentation |
+| [rules](rules.md) | Manage workflow rules for AI assistants |
+
+### Execution Integration
+
+| Command | Description |
+|---------|-------------|
+| [generate](generate.md) | Generate test stubs from TPD |
+| [sync](sync.md) | Sync status with execution targets |
+| [drift](drift.md) | Detect spec-to-code drift |
 
 ### Context & Traceability
 

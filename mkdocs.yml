@@ -89,6 +89,10 @@ nav:
       - drift: cli/drift.md
       - docs: cli/docs.md
       - serve: cli/serve.md
+      - rules: cli/rules.md
+      - render: cli/render.md
+      - watch: cli/watch.md
+      - version: cli/version.md
   - Guides:
       - Overview: guides/index.md
       - Configuration: guides/configuration.md
