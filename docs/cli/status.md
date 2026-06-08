@@ -12,34 +12,37 @@ visionspec status [flags]
 
 Displays the current status of a VisionSpec project, including:
 
+- Pipeline progress visualization
 - Spec existence and status
-- Evaluation results
-- Approval status
+- Category breakdown and findings
 - Readiness gates
 - Overall readiness summary
+
+The default output is optimized for AI agents with pipeline visualization and box-drawing tables.
 
 ## Flags
 
 | Flag | Short | Default | Description |
 |------|-------|---------|-------------|
 | `--project` | `-p` | | Project name (required) |
-| `--format` | | `text` | Output format: `text`, `json`, `html`, `markdown` |
+| `--format` | | `text` | Output format: `text`, `json`, `markdown` |
+| `--basic` | | `false` | Basic output without pipeline visualization |
 | `--ci` | | `false` | Exit non-zero if not ready |
 
 ## Examples
 
 ```bash
-# Terminal output
+# Rich terminal output (default, optimized for AI agents)
 visionspec status -p user-onboarding
 
 # JSON for programmatic use
 visionspec status -p user-onboarding --format json
 
-# HTML report
-visionspec status -p user-onboarding --format html > status.html
-
-# Markdown for embedding
+# Markdown with pipeline visualization
 visionspec status -p user-onboarding --format markdown
+
+# Basic output (legacy format)
+visionspec status -p user-onboarding --basic
 
 # CI mode
 visionspec status -p user-onboarding --ci
@@ -47,7 +50,42 @@ visionspec status -p user-onboarding --ci
 
 ## Output Formats
 
-### Text Format
+### Text Format (Rich - Default)
+
+The default rich output includes pipeline visualization with status icons and box-drawing tables:
+
+```
+⏺ VisionSpec Status
+
+  Pipeline Progress
+
+  MRD → Press → FAQ → PRD → UXD → TRD → TPD → IRD → spec.md
+   ✅     ✅     ✅    ✅    ✅    ✅    ✅    ❌      ❌
+
+  Summary
+  ┌─────────┬────────────┬───────────────────┬─────────────────┐
+  │  Spec   │   Status   │    Categories     │    Findings     │
+  ├─────────┼────────────┼───────────────────┼─────────────────┤
+  │ MRD     │ ✅ Pass    │ 6/6 pass          │ 2 info          │
+  ├─────────┼────────────┼───────────────────┼─────────────────┤
+  │ PRD     │ ✅ Pass    │ 6 pass, 1 partial │ 1 low, 1 info   │
+  ├─────────┼────────────┼───────────────────┼─────────────────┤
+  │ IRD     │ ❌ Missing │ -                 │ -               │
+  └─────────┴────────────┴───────────────────┴─────────────────┘
+  Overall: 7/9 specs complete (78%)
+
+  Aggregate: 41 pass, 5 partial, 0 fail across 46 categories
+```
+
+Status icons:
+
+- ✅ Complete (evaluated and passing, or approved)
+- 🔄 Pending (draft, needs evaluation)
+- ❌ Missing (file does not exist)
+
+### Text Format (Basic)
+
+Use `--basic` for simplified legacy output:
 
 ```
 Project: user-onboarding
@@ -65,18 +103,20 @@ Readiness Gates:
 Specifications:
   TYPE         CATEGORY   EXISTS   EVAL       APPROVED
   ----         --------   ------   ----       --------
-  mrd          source     yes      -          -*
-  prd          source     yes      -          -*
+  mrd          source     yes      pass       yes*
+  prd          source     yes      pass       yes*
   uxd          source     yes      -          -
   trd          technical  -        -          -*
 
   * = required
 
 Summary:
-  Total: 10, Present: 3, Evaluated: 0, Approved: 0
+  Total: 10, Present: 3, Evaluated: 2, Approved: 2
 ```
 
 ### JSON Format
+
+The JSON format includes the full rich report structure with pipeline data:
 
 ```json
 {
@@ -86,39 +126,49 @@ Summary:
   "readiness": {
     "ready": false,
     "summary": "Not ready: 2 blockers",
-    "gates": [
-      {"name": "Required specs present", "passed": true, "message": "All required specs exist"},
-      {"name": "Evaluations passing", "passed": true, "message": "No blocking eval findings"},
-      {"name": "Approvals obtained", "passed": false, "message": "Pending approvals"},
-      {"name": "Execution spec generated", "passed": false, "message": "spec.md not generated"}
-    ]
+    "gates": [...]
   },
   "specs": [...],
-  "summary": {
-    "total_specs": 10,
-    "present_specs": 3,
-    "evaluated_specs": 0,
-    "approved_specs": 0
-  }
+  "summary": {...},
+  "pipeline": [
+    {"type": "mrd", "status": "complete", "label": "MRD"},
+    {"type": "prd", "status": "complete", "label": "PRD"},
+    {"type": "ird", "status": "missing", "label": "IRD"}
+  ],
+  "aggregate_categories": {
+    "pass": 41,
+    "partial": 5,
+    "fail": 0,
+    "total": 46
+  },
+  "completion_percent": 78
 }
 ```
 
-### HTML Format
-
-Generates a self-contained HTML page with:
-
-- Traffic light status indicator (green/red)
-- Styled readiness gates
-- Spec status table
-- Summary statistics
-
 ### Markdown Format
 
-Generates GitHub-flavored markdown with:
+Generates GitHub-flavored markdown with pipeline visualization:
 
-- Emoji status indicators (:white_check_mark:, :x:)
-- Formatted tables
-- Suitable for embedding in README or docs
+```markdown
+# VisionSpec Status: user-onboarding
+
+## Pipeline Progress
+
+\`\`\`
+MRD → Press → FAQ → PRD → UXD → TRD → TPD → IRD → spec.md
+ ✅     ✅     ✅    ✅    ✅    ✅    ✅    ❌      ❌
+\`\`\`
+
+**Completion:** 7/9 specs (78%)
+
+## Summary
+
+| Spec | Status | Categories | Findings |
+|------|--------|------------|----------|
+| MRD | :white_check_mark: Pass | 6/6 pass | 2 info |
+| PRD | :white_check_mark: Pass | 6p/1pt | 1 low, 1 info |
+| IRD | :x: Missing | - | - |
+```
 
 ## Readiness Gates
 
