@@ -26,6 +26,7 @@ import (
 	"github.com/ProductBuildersHQ/visionspec/pkg/rubrics"
 	"github.com/ProductBuildersHQ/visionspec/pkg/templates"
 	"github.com/ProductBuildersHQ/visionspec/pkg/types"
+	"github.com/ProductBuildersHQ/visionspec/pkg/workflows"
 	"github.com/spf13/cobra"
 )
 
@@ -70,6 +71,10 @@ type Config struct {
 	// DefaultProfile is the profile to use when none is specified.
 	// If empty, uses no profile (default visionspec behavior).
 	DefaultProfile string
+
+	// WorkflowsRepoPath is the path to a spec-workflows repository.
+	// If set, templates and rubrics are loaded from this repo.
+	WorkflowsRepoPath string
 
 	// Version is the CLI version string.
 	Version string
@@ -128,6 +133,101 @@ func (c *Config) GetAppTypeLoader() apptypes.Loader {
 	return c.AppTypeLoader
 }
 
+// GetWorkflowsRepo loads and returns the spec-workflows repository.
+// Uses auto-discovery if no explicit path is configured.
+// Returns nil, nil if no repository is found (not an error for optional usage).
+func (c *Config) GetWorkflowsRepo() (*workflows.Repo, error) {
+	if c == nil {
+		return nil, nil
+	}
+	// Use discovery with explicit path (empty string triggers auto-discovery)
+	repo, err := workflows.DiscoverRepo(c.WorkflowsRepoPath)
+	if err != nil {
+		// If discovery fails and no explicit path was set, return nil (optional)
+		if c.WorkflowsRepoPath == "" {
+			return nil, nil
+		}
+		return nil, err
+	}
+	return repo, nil
+}
+
+// GetWorkflowsRepoPath returns the path to the spec-workflows repository.
+// Uses auto-discovery if no explicit path is configured.
+// Returns empty string if no repository is found.
+func (c *Config) GetWorkflowsRepoPath() string {
+	if c == nil {
+		return ""
+	}
+	return workflows.DiscoverRepoPath(c.WorkflowsRepoPath)
+}
+
+// GetTemplateLoaderForWorkflow returns a template loader for a specific workflow.
+// If a workflows repo is found (explicit or auto-discovered), it creates a chain
+// loader that prioritizes the workflow's methodology-specific templates, then
+// falls back to defaults.
+func (c *Config) GetTemplateLoaderForWorkflow(methodology string) templates.Loader {
+	if c == nil {
+		return templates.DefaultLoader()
+	}
+
+	// Try to get workflows repo (uses auto-discovery)
+	repo, err := c.GetWorkflowsRepo()
+	if err == nil && repo != nil {
+		workflowLoader := repo.TemplateLoader(methodology)
+		if c.TemplateLoader != nil {
+			return templates.NewChainLoader(workflowLoader, c.TemplateLoader)
+		}
+		return workflowLoader
+	}
+
+	// Fall back to configured loader or defaults
+	if c.TemplateLoader != nil {
+		return c.TemplateLoader
+	}
+	return templates.DefaultLoader()
+}
+
+// GetRubricLoaderForWorkflow returns a rubric loader for a specific workflow.
+// If a workflows repo is found (explicit or auto-discovered), it creates a chain
+// loader that prioritizes the workflow's methodology-specific rubrics, then
+// falls back to defaults.
+func (c *Config) GetRubricLoaderForWorkflow(methodology string) rubrics.Loader {
+	if c == nil {
+		return rubrics.DefaultLoader()
+	}
+
+	// Try to get workflows repo (uses auto-discovery)
+	repo, err := c.GetWorkflowsRepo()
+	if err == nil && repo != nil {
+		workflowLoader := repo.RubricLoader(methodology)
+		if c.RubricLoader != nil {
+			return rubrics.NewChainLoader(workflowLoader, c.RubricLoader)
+		}
+		return workflowLoader
+	}
+
+	// Fall back to configured loader or defaults
+	if c.RubricLoader != nil {
+		return c.RubricLoader
+	}
+	return rubrics.DefaultLoader()
+}
+
+// ListAvailableWorkflows returns all available workflow IDs from the workflows repo.
+// Uses auto-discovery if no explicit path is configured.
+// Returns nil if no workflows repo is found.
+func (c *Config) ListAvailableWorkflows() []string {
+	if c == nil {
+		return nil
+	}
+	repo, err := c.GetWorkflowsRepo()
+	if err != nil || repo == nil {
+		return nil
+	}
+	return repo.ListWorkflows()
+}
+
 // AddCommandsTo adds all visionspec commands to a root command.
 func AddCommandsTo(root *cobra.Command, cfg *Config) {
 	if cfg == nil {
@@ -163,6 +263,7 @@ func AddCommandsTo(root *cobra.Command, cfg *Config) {
 		cmds.Sync,
 		cmds.Drift,
 		cmds.Watch,
+		cmds.Workflows,
 		cmds.Version,
 	)
 }
@@ -190,6 +291,7 @@ type CommandSet struct {
 	Sync       *cobra.Command
 	Drift      *cobra.Command
 	Watch      *cobra.Command
+	Workflows  *cobra.Command
 	Version    *cobra.Command
 }
 
@@ -222,6 +324,7 @@ func Commands(cfg *Config) *CommandSet {
 		Sync:       syncCmd(cfg),
 		Drift:      driftCmd(cfg),
 		Watch:      watchCmd(cfg),
+		Workflows:  workflowsCmd(cfg),
 		Version:    versionCmd(cfg),
 	}
 }
