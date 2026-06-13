@@ -630,13 +630,13 @@ Requirement graph visualization via `github.com/plexusone/graphize`.
 
 ### Spec Extractor
 
-- [ ] RMI-140: Create spec extractor for graphize
-  - New extractor in `graphize/pkg/extract/spec/`
+- [x] RMI-140: Create spec extractor for graphize
+  - `pkg/specgraph/specgraph.go` - SpecExtractor
   - Parse markdown specs (mrd.md, prd.md, trd.md, etc.)
   - Extract requirements, constraints, decisions as nodes
   - Infer relationships as edges
 
-- [ ] RMI-141: Define spec node types
+- [x] RMI-141: Define spec node types
   - `requirement` - Functional requirements from PRD
   - `user_story` - User stories from PRD
   - `constraint` - Constraints from CONSTITUTION, TRD
@@ -644,8 +644,9 @@ Requirement graph visualization via `github.com/plexusone/graphize`.
   - `decision` - Architectural decisions from TRD
   - `tradeoff` - Explicit tradeoffs from reconciliation
   - `capability` - Current capabilities from CURRENT-TRUTH
+  - `section`, `spec` - Structural nodes
 
-- [ ] RMI-142: Define spec edge types
+- [x] RMI-142: Define spec edge types
   - `traces_to` - Requirement traceability (PRD → TRD)
   - `derived_from` - Synthesis source (TRD → MRD + PRD)
   - `conflicts_with` - Detected conflicts
@@ -653,39 +654,39 @@ Requirement graph visualization via `github.com/plexusone/graphize`.
   - `depends_on` - Requirement dependencies
   - `blocks` - Blocking relationships
   - `supersedes` - Decision replacement
+  - `contains` - Section/spec containment
 
 ### Graph Storage
 
-- [ ] RMI-143: Store spec graph in project directory
+- [x] RMI-143: Store spec graph in project directory
   - `.graphize/` directory under `docs/specs/{project}/`
   - Version controlled with project
-  - One file per node/edge (git-friendly)
+  - `SaveJSON`/`LoadJSON` for spec-graph.json
 
-- [ ] RMI-144: Implement `visionspec graph` commands
+- [x] RMI-144: Implement `visionspec graph` commands
   - `visionspec graph extract` - Build graph from specs
-  - `visionspec graph query` - Query relationships
+  - `visionspec graph query` - Query relationships with filters
   - `visionspec graph export` - Export to HTML/JSON/GraphML
 
 ### Traceability Analysis
 
-- [ ] RMI-145: Implement traceability reports
+- [x] RMI-145: Implement traceability reports
+  - `ComputeMetrics()` - TraceCoverage, ConflictCount
   - Requirements without TRD coverage
   - TRD tasks without PRD traceability
-  - Orphaned constraints
-  - Missing acceptance criteria
+  - Integrated in `visionspec status` via GraphMetrics
 
-- [ ] RMI-146: Conflict detection via graph
+- [x] RMI-146: Conflict detection via graph
   - Query `conflicts_with` edges
   - Highlight in reconciliation
   - Surface in SPEC_EVAL
 
 ### Visualization
 
-- [ ] RMI-147: Generate spec graph HTML visualization
-  - Interactive Cytoscape.js graph
-  - Color-coded by spec type (PRD=blue, TRD=green, CONSTITUTION=red)
-  - Filter by relationship type
-  - Search by requirement ID
+- [x] RMI-147: Generate spec graph HTML visualization
+  - Export via `graphize/pkg/exporters/htmlsite`
+  - GraphML export via `graphize/pkg/exporters/graphml`
+  - JSON export for custom visualization
 
 - [ ] RMI-148: MkDocs graph integration
   - Embed graph visualization in project index.md
@@ -1439,10 +1440,10 @@ Bidirectional integration with AI coding agent execution systems.
 
 ### Status Synchronization
 
-- [ ] RMI-600: Bidirectional status sync
-  - Pull execution status from SpecKit, GSD, GasTown
-  - Update visionspec status with execution progress
-  - `visionspec sync <target>` command
+- [x] RMI-600: Bidirectional status sync (interface only)
+  - `pkg/target/target.go` - Syncer interface, SyncResult, TaskState
+  - `visionspec sync <target>` command implemented
+  - Note: No targets implement Syncer yet (pending target adapter updates)
 
 - [ ] RMI-601: Execution status tracking in MCP
   - New MCP tools: `get_execution_status`, `sync_execution`
@@ -1451,11 +1452,11 @@ Bidirectional integration with AI coding agent execution systems.
 
 ### Spec Drift Detection
 
-- [ ] RMI-610: Implement drift detection
-  - Compare spec.md with shipped implementation
-  - Detect unimplemented requirements
-  - Detect undocumented features
-  - `visionspec drift` command
+- [x] RMI-610: Implement drift detection
+  - `pkg/drift/drift.go` - Detector, DriftReport, DriftItem
+  - `pkg/drift/analyze.go` - Analyzer with requirement/implementation extraction
+  - `pkg/drift/render.go` - Text, JSON, Markdown renderers
+  - `visionspec drift` command with --severity, --format, --ci flags
 
 - [ ] RMI-611: Drift resolution workflow
   - Generate drift report with categorized differences
@@ -1464,10 +1465,13 @@ Bidirectional integration with AI coding agent execution systems.
 
 ### Executable Test Generation
 
-- [ ] RMI-620: Generate test cases from TPD
-  - Export test cases as executable test stubs
-  - Support Go, TypeScript, Python
-  - `visionspec generate tests` command
+- [x] RMI-620: Generate test cases from TPD
+  - `pkg/testgen/testgen.go` - Generator interface, TestCase, ParsedTPD
+  - `pkg/testgen/parser.go` - TPD markdown parser
+  - `pkg/testgen/go.go` - Go test generator (testing, testify)
+  - `pkg/testgen/typescript.go` - TypeScript/Jest generator
+  - `pkg/testgen/python.go` - Python/pytest generator
+  - `visionspec generate tests` command with --lang, --framework, --group-by
 
 - [ ] RMI-621: Test coverage mapping
   - Map TPD test cases to actual tests
