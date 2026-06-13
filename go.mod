@@ -7,7 +7,7 @@ require (
 	github.com/fsnotify/fsnotify v1.10.1
 	github.com/modelcontextprotocol/go-sdk v1.6.1
 	github.com/plexusone/graphfs v0.2.0
-	github.com/plexusone/graphize v0.3.0
+	github.com/plexusone/graphize v0.4.0
 	github.com/plexusone/omnillm-core v0.16.0
 	github.com/plexusone/structured-evaluation v0.7.0
 	github.com/spf13/cobra v1.10.2
@@ -25,5 +25,5 @@ require (
 	github.com/yaricom/goGraphML v1.4.3 // indirect
 	github.com/yosida95/uritemplate/v3 v3.0.2 // indirect
 	golang.org/x/oauth2 v0.36.0 // indirect
-	golang.org/x/sys v0.45.0 // indirect
+	golang.org/x/sys v0.46.0 // indirect
 )
