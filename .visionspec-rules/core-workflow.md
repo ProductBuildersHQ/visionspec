@@ -241,6 +241,88 @@ IRD
 spec.md
 ```
 
+### Shape Up (Basecamp)
+
+Fixed time, variable scope. Bet on pitches, build in 6-week cycles.
+
+```
+Pitch (problem + appetite + solution shape)
+    ↓
+Betting Table (evaluate and bet on pitches)
+    ↓
+Scope Mapping (break pitch into scopes)
+    ↓
+Hill Chart Tracking (uphill = figuring out, downhill = execution)
+    ↓
+PRD (distilled requirements from pitch)
+    ↓
+UXD (scope-level wireframes)
+    ↓
+TRD (technical approach per scope)
+    ↓
+spec.md → Build → Ship (within 6-week cycle)
+```
+
+Key principles:
+- **Appetite over estimates**: Set time budget first, shape work to fit
+- **Pitches not backlogs**: Evaluate opportunities fresh each cycle
+- **Hill charts**: Track work as "figuring out" vs "making it happen"
+- **Circuit breaker**: If not done by deadline, it gets cut (no overruns)
+- **Cool-down**: 2 weeks after each 6-week cycle for cleanup and exploration
+
+### Continuous Discovery (Teresa Torres)
+
+Weekly touchpoints, Opportunity Solution Trees, assumption testing.
+
+```
+Weekly Customer Touchpoints (interviews, observations)
+    ↓
+Opportunity Solution Tree (OST) (outcomes → opportunities → solutions)
+    ↓
+Discovery Snapshot (weekly summary of learnings)
+    ↓
+Assumption Mapping (identify and prioritize assumptions)
+    ↓
+Assumption Testing (experiments to validate/invalidate)
+    ↓
+PRD (validated requirements from tested assumptions)
+    ↓
+UXD (experience map, user flows)
+    ↓
+TRD (technical approach)
+    ↓
+spec.md → Build → Continuous learning
+```
+
+Key principles:
+- **Weekly touchpoints**: Talk to customers every week, not just at project start
+- **Story-based interviews**: Ask about recent experiences, not hypotheticals
+- **Opportunity Solution Trees**: Map outcomes to opportunities to solutions
+- **Assumption testing by type**: Test desirability, viability, feasibility, usability, ethical
+- **Integrate with delivery**: Discovery happens continuously, not as a phase
+
+### Combining Shape Up + Continuous Discovery
+
+These frameworks complement each other:
+- Use **Continuous Discovery** for ongoing opportunity identification
+- Use **Shape Up** for execution cycles on validated opportunities
+
+```
+Weekly Customer Touchpoints (Continuous Discovery)
+    ↓
+Opportunity Solution Tree (Continuous Discovery)
+    ↓
+Pitch (Shape Up - shape validated opportunities)
+    ↓
+Betting Table (Shape Up - bet on top opportunities)
+    ↓
+6-Week Cycle (Shape Up - build with hill chart tracking)
+    ↓
+Weekly Touchpoints continue during build
+    ↓
+Ship → Measure → Feed back to OST
+```
+
 ## Detecting Existing Framework
 
 If the project already exists, check which framework is configured:
