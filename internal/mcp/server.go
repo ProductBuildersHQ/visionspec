@@ -220,6 +220,21 @@ func (s *Server) registerTools() {
 		Name:        "get_execution_context",
 		Description: "Get execution context for AI agents including spec summary, requirements, and implementation guidance.",
 	}, s.handleGetExecutionContext)
+
+	// Tool: get_execution_status
+	mcp.AddTool(s.server, &mcp.Tool{
+		Name:        "get_execution_status",
+		Description: "Get execution status tracking for a project - which requirements are implemented, in progress, or pending.",
+	}, s.handleGetExecutionStatus)
+
+	// Tool: track_requirement
+	mcp.AddTool(s.server, &mcp.Tool{
+		Name:        "track_requirement",
+		Description: "Track implementation progress for a specific requirement. Updates status and records evidence.",
+	}, s.handleTrackRequirement)
+
+	// Register execution prompts
+	s.registerPrompts()
 }
 
 // Tool handlers
@@ -1413,4 +1428,434 @@ func (s *Server) handleGetExecutionContext(ctx context.Context, req *mcp.CallToo
 			&mcp.TextContent{Text: string(data)},
 		},
 	}, nil, nil
+}
+
+// ExecutionStatusArgs contains arguments for get_execution_status.
+type ExecutionStatusArgs struct {
+	Project string `json:"project" jsonschema:"description=Project name"`
+}
+
+func (s *Server) handleGetExecutionStatus(ctx context.Context, req *mcp.CallToolRequest, args ExecutionStatusArgs) (*mcp.CallToolResult, any, error) {
+	// Get project path
+	projectPath, err := getProjectPath(args.Project)
+	if err != nil {
+		return errorResult("failed to find project: " + err.Error())
+	}
+
+	// Load execution status file
+	statusPath := filepath.Join(projectPath, ".visionspec", "execution-status.json")
+	var execStatus ExecutionStatus
+	if statusData, err := os.ReadFile(statusPath); err == nil {
+		_ = json.Unmarshal(statusData, &execStatus)
+	} else {
+		// Initialize with defaults
+		execStatus = ExecutionStatus{
+			Project:      args.Project,
+			Requirements: make(map[string]RequirementStatus),
+		}
+	}
+
+	// Load spec.md to extract requirements if not tracked
+	specPath := filepath.Join(projectPath, "spec.md")
+	if specContent, err := os.ReadFile(specPath); err == nil {
+		reqs := extractRequirementsFromSpec(string(specContent))
+		for _, reqID := range reqs {
+			if _, exists := execStatus.Requirements[reqID]; !exists {
+				execStatus.Requirements[reqID] = RequirementStatus{
+					ID:     reqID,
+					Status: "pending",
+				}
+			}
+		}
+	}
+
+	// Calculate summary
+	summary := ExecutionSummary{}
+	for _, req := range execStatus.Requirements {
+		switch req.Status {
+		case "implemented":
+			summary.Implemented++
+		case "in_progress":
+			summary.InProgress++
+		case "blocked":
+			summary.Blocked++
+		default:
+			summary.Pending++
+		}
+	}
+	summary.Total = len(execStatus.Requirements)
+	if summary.Total > 0 {
+		summary.Progress = float64(summary.Implemented) / float64(summary.Total) * 100
+	}
+
+	result := map[string]any{
+		"project":      args.Project,
+		"updated_at":   execStatus.UpdatedAt.Format(time.RFC3339),
+		"summary":      summary,
+		"requirements": execStatus.Requirements,
+	}
+
+	data, _ := json.Marshal(result)
+	return &mcp.CallToolResult{
+		Content: []mcp.Content{
+			&mcp.TextContent{Text: string(data)},
+		},
+	}, nil, nil
+}
+
+// TrackRequirementArgs contains arguments for track_requirement.
+type TrackRequirementArgs struct {
+	Project       string `json:"project" jsonschema:"description=Project name"`
+	RequirementID string `json:"requirement_id" jsonschema:"description=Requirement identifier (e.g., REQ-001)"`
+	Status        string `json:"status" jsonschema:"description=New status: pending, in_progress, implemented, blocked"`
+	Evidence      string `json:"evidence,omitempty" jsonschema:"description=Implementation evidence (file paths, commit refs)"`
+	Notes         string `json:"notes,omitempty" jsonschema:"description=Implementation notes"`
+}
+
+func (s *Server) handleTrackRequirement(ctx context.Context, req *mcp.CallToolRequest, args TrackRequirementArgs) (*mcp.CallToolResult, any, error) {
+	// Validate status
+	validStatuses := map[string]bool{"pending": true, "in_progress": true, "implemented": true, "blocked": true}
+	if !validStatuses[args.Status] {
+		return errorResult("invalid status: must be pending, in_progress, implemented, or blocked")
+	}
+
+	// Get project path
+	projectPath, err := getProjectPath(args.Project)
+	if err != nil {
+		return errorResult("failed to find project: " + err.Error())
+	}
+
+	// Load or create execution status
+	statusPath := filepath.Join(projectPath, ".visionspec", "execution-status.json")
+	var execStatus ExecutionStatus
+	if statusData, err := os.ReadFile(statusPath); err == nil {
+		_ = json.Unmarshal(statusData, &execStatus)
+	} else {
+		execStatus = ExecutionStatus{
+			Project:      args.Project,
+			Requirements: make(map[string]RequirementStatus),
+		}
+	}
+
+	// Update requirement status
+	reqStatus := execStatus.Requirements[args.RequirementID]
+	reqStatus.ID = args.RequirementID
+	reqStatus.Status = args.Status
+	reqStatus.UpdatedAt = time.Now()
+	if args.Evidence != "" {
+		reqStatus.Evidence = append(reqStatus.Evidence, args.Evidence)
+	}
+	if args.Notes != "" {
+		reqStatus.Notes = args.Notes
+	}
+	execStatus.Requirements[args.RequirementID] = reqStatus
+	execStatus.UpdatedAt = time.Now()
+
+	// Ensure directory exists
+	if err := os.MkdirAll(filepath.Dir(statusPath), 0755); err != nil {
+		return errorResult("failed to create status directory: " + err.Error())
+	}
+
+	// Save status
+	statusData, _ := json.MarshalIndent(execStatus, "", "  ")
+	if err := os.WriteFile(statusPath, statusData, 0644); err != nil {
+		return errorResult("failed to save execution status: " + err.Error())
+	}
+
+	result := map[string]any{
+		"project":        args.Project,
+		"requirement_id": args.RequirementID,
+		"status":         args.Status,
+		"updated_at":     reqStatus.UpdatedAt.Format(time.RFC3339),
+		"message":        "Requirement status updated successfully",
+	}
+
+	data, _ := json.Marshal(result)
+	return &mcp.CallToolResult{
+		Content: []mcp.Content{
+			&mcp.TextContent{Text: string(data)},
+		},
+	}, nil, nil
+}
+
+// ExecutionStatus tracks implementation progress.
+type ExecutionStatus struct {
+	Project      string                       `json:"project"`
+	UpdatedAt    time.Time                    `json:"updated_at"`
+	Requirements map[string]RequirementStatus `json:"requirements"`
+}
+
+// RequirementStatus tracks a single requirement's implementation status.
+type RequirementStatus struct {
+	ID        string    `json:"id"`
+	Status    string    `json:"status"` // pending, in_progress, implemented, blocked
+	UpdatedAt time.Time `json:"updated_at"`
+	Evidence  []string  `json:"evidence,omitempty"`
+	Notes     string    `json:"notes,omitempty"`
+}
+
+// ExecutionSummary provides aggregate execution statistics.
+type ExecutionSummary struct {
+	Total       int     `json:"total"`
+	Implemented int     `json:"implemented"`
+	InProgress  int     `json:"in_progress"`
+	Blocked     int     `json:"blocked"`
+	Pending     int     `json:"pending"`
+	Progress    float64 `json:"progress_pct"`
+}
+
+// extractRequirementsFromSpec extracts requirement IDs from spec content.
+func extractRequirementsFromSpec(content string) []string {
+	var reqs []string
+	seen := make(map[string]bool)
+
+	// Look for REQ-XXX patterns
+	lines := strings.Split(content, "\n")
+	for _, line := range lines {
+		// Extract REQ-XXX identifiers
+		for i := 0; i < len(line); i++ {
+			if i+4 < len(line) && line[i:i+4] == "REQ-" {
+				// Find the end of the ID
+				end := i + 4
+				for end < len(line) && (line[end] >= '0' && line[end] <= '9' || line[end] == '-' || (line[end] >= 'A' && line[end] <= 'Z')) {
+					end++
+				}
+				if end > i+4 {
+					reqID := line[i:end]
+					if !seen[reqID] {
+						seen[reqID] = true
+						reqs = append(reqs, reqID)
+					}
+				}
+			}
+		}
+	}
+	return reqs
+}
+
+// registerPrompts registers MCP prompts for guided implementation.
+func (s *Server) registerPrompts() {
+	// Prompt: implement_requirement
+	s.server.AddPrompt(&mcp.Prompt{
+		Name:        "implement_requirement",
+		Description: "Guide implementation of a specific requirement from the spec",
+		Arguments: []*mcp.PromptArgument{
+			{Name: "project", Description: "Project name", Required: true},
+			{Name: "requirement_id", Description: "Requirement ID (e.g., REQ-001)", Required: true},
+		},
+	}, s.handleImplementRequirementPrompt)
+
+	// Prompt: verify_acceptance
+	s.server.AddPrompt(&mcp.Prompt{
+		Name:        "verify_acceptance",
+		Description: "Guide verification of acceptance criteria for a requirement",
+		Arguments: []*mcp.PromptArgument{
+			{Name: "project", Description: "Project name", Required: true},
+			{Name: "requirement_id", Description: "Requirement ID to verify", Required: true},
+		},
+	}, s.handleVerifyAcceptancePrompt)
+
+	// Prompt: resolve_drift
+	s.server.AddPrompt(&mcp.Prompt{
+		Name:        "resolve_drift",
+		Description: "Guide resolution of detected drift between spec and implementation",
+		Arguments: []*mcp.PromptArgument{
+			{Name: "project", Description: "Project name", Required: true},
+			{Name: "category", Description: "Drift category: missing_feature, undocumented_code, or diverged", Required: false},
+		},
+	}, s.handleResolveDriftPrompt)
+}
+
+func (s *Server) handleImplementRequirementPrompt(ctx context.Context, req *mcp.GetPromptRequest) (*mcp.GetPromptResult, error) {
+	project := req.Params.Arguments["project"]
+	reqID := req.Params.Arguments["requirement_id"]
+
+	// Get project path
+	projectPath, err := getProjectPath(project)
+	if err != nil {
+		return nil, fmt.Errorf("failed to find project: %w", err)
+	}
+
+	// Load spec.md
+	specPath := filepath.Join(projectPath, "spec.md")
+	specContent, err := os.ReadFile(specPath)
+	if err != nil {
+		return nil, fmt.Errorf("failed to read spec: %w", err)
+	}
+
+	// Load TRD for technical details
+	trdPath := config.SpecPath(projectPath, types.SpecTypeTRD)
+	trdContent, _ := os.ReadFile(trdPath)
+
+	promptContent := fmt.Sprintf(`# Implement Requirement: %s
+
+## Context
+You are implementing requirement %s from the visionspec project "%s".
+
+## Specification
+%s
+
+## Technical Requirements
+%s
+
+## Implementation Guidance
+
+1. **Understand the Requirement**: Review the specification section for %s
+2. **Check Technical Details**: Review the TRD for implementation approach
+3. **Implement Incrementally**: Break down into small, testable changes
+4. **Track Progress**: Use 'track_requirement' tool to update status
+5. **Verify Acceptance**: Ensure all acceptance criteria are met
+
+## Next Steps
+- Mark requirement as 'in_progress' when you start
+- Implement the feature following TRD architecture
+- Write tests to verify acceptance criteria
+- Mark requirement as 'implemented' when done
+
+Please proceed with implementing %s.`,
+		reqID, reqID, project,
+		string(specContent),
+		string(trdContent),
+		reqID, reqID)
+
+	return &mcp.GetPromptResult{
+		Description: fmt.Sprintf("Implementation guide for %s in %s", reqID, project),
+		Messages: []*mcp.PromptMessage{
+			{
+				Role:    "user",
+				Content: &mcp.TextContent{Text: promptContent},
+			},
+		},
+	}, nil
+}
+
+func (s *Server) handleVerifyAcceptancePrompt(ctx context.Context, req *mcp.GetPromptRequest) (*mcp.GetPromptResult, error) {
+	project := req.Params.Arguments["project"]
+	reqID := req.Params.Arguments["requirement_id"]
+
+	// Get project path
+	projectPath, err := getProjectPath(project)
+	if err != nil {
+		return nil, fmt.Errorf("failed to find project: %w", err)
+	}
+
+	// Load spec.md
+	specPath := filepath.Join(projectPath, "spec.md")
+	specContent, err := os.ReadFile(specPath)
+	if err != nil {
+		return nil, fmt.Errorf("failed to read spec: %w", err)
+	}
+
+	promptContent := fmt.Sprintf(`# Verify Acceptance Criteria: %s
+
+## Context
+You are verifying that requirement %s has been correctly implemented in project "%s".
+
+## Specification
+%s
+
+## Verification Steps
+
+1. **Locate Acceptance Criteria**: Find the acceptance criteria for %s in the spec
+2. **Check Implementation**: Verify each criterion is implemented
+3. **Run Tests**: Ensure tests pass for this requirement
+4. **Document Evidence**: Record implementation evidence
+
+## Verification Checklist
+- [ ] All acceptance criteria identified
+- [ ] Implementation matches each criterion
+- [ ] Tests exist and pass
+- [ ] Edge cases handled
+- [ ] Documentation updated
+
+## Recording Results
+Use 'track_requirement' to update status to 'implemented' with evidence of completion.
+
+Please verify the implementation of %s.`,
+		reqID, reqID, project,
+		string(specContent),
+		reqID, reqID)
+
+	return &mcp.GetPromptResult{
+		Description: fmt.Sprintf("Acceptance verification guide for %s in %s", reqID, project),
+		Messages: []*mcp.PromptMessage{
+			{
+				Role:    "user",
+				Content: &mcp.TextContent{Text: promptContent},
+			},
+		},
+	}, nil
+}
+
+func (s *Server) handleResolveDriftPrompt(ctx context.Context, req *mcp.GetPromptRequest) (*mcp.GetPromptResult, error) {
+	project := req.Params.Arguments["project"]
+	category := req.Params.Arguments["category"]
+	if category == "" {
+		category = "all"
+	}
+
+	// Get project path
+	projectPath, err := getProjectPath(project)
+	if err != nil {
+		return nil, fmt.Errorf("failed to find project: %w", err)
+	}
+
+	// Load spec.md
+	specPath := filepath.Join(projectPath, "spec.md")
+	specContent, err := os.ReadFile(specPath)
+	if err != nil {
+		return nil, fmt.Errorf("failed to read spec: %w", err)
+	}
+
+	promptContent := fmt.Sprintf(`# Resolve Specification Drift
+
+## Context
+You are resolving drift between the specification and implementation in project "%s".
+Focus category: %s
+
+## Current Specification
+%s
+
+## Drift Resolution Strategy
+
+### For Missing Features (spec exists, implementation doesn't)
+1. Evaluate if feature is still needed
+2. If yes: implement the feature
+3. If no: update spec to remove requirement
+
+### For Undocumented Code (implementation exists, not in spec)
+1. Evaluate if code is needed
+2. If yes: add to specification
+3. If no: remove the code
+
+### For Diverged (both exist but differ)
+1. Determine correct behavior
+2. Update implementation OR spec to match
+3. Document the decision
+
+## Tools Available
+- 'align' - Check current alignment status
+- 'get_resolution_plan' - Get prioritized resolution actions
+- 'track_requirement' - Update requirement status
+
+## Next Steps
+1. Run 'align' to get current discrepancies
+2. Run 'get_resolution_plan' for prioritized actions
+3. Resolve each discrepancy following the strategy above
+4. Re-run 'align' to verify resolution
+
+Please analyze and resolve drift in project "%s".`,
+		project, category,
+		string(specContent),
+		project)
+
+	return &mcp.GetPromptResult{
+		Description: fmt.Sprintf("Drift resolution guide for %s", project),
+		Messages: []*mcp.PromptMessage{
+			{
+				Role:    "user",
+				Content: &mcp.TextContent{Text: promptContent},
+			},
+		},
+	}, nil
 }
