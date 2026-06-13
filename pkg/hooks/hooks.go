@@ -12,6 +12,8 @@ import (
 	"os/exec"
 	"path/filepath"
 	"strings"
+
+	"github.com/grokify/oscompat/fs"
 )
 
 // HookType represents a Git hook type.
@@ -222,9 +224,9 @@ func (m *Manager) Status() (*StatusResult, error) {
 			status.IsVisionSpec = strings.Contains(string(content), "visionspec")
 
 			// Check if executable
-			info, err := os.Stat(hookPath)
+			isExec, err := fs.IsExecutable(hookPath)
 			if err == nil {
-				status.Executable = info.Mode()&0111 != 0
+				status.Executable = isExec
 			}
 		}
 

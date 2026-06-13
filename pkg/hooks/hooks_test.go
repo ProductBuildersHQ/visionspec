@@ -4,6 +4,8 @@ import (
 	"os"
 	"path/filepath"
 	"testing"
+
+	"github.com/grokify/oscompat/fs"
 )
 
 func TestDefaultConfig(t *testing.T) {
@@ -97,13 +99,16 @@ func TestManager_Install(t *testing.T) {
 
 	// Verify the hook file exists
 	hookPath := filepath.Join(gitDir, "pre-commit")
-	info, err := os.Stat(hookPath)
-	if err != nil {
+	if _, err := os.Stat(hookPath); err != nil {
 		t.Fatalf("Hook file should exist: %v", err)
 	}
 
-	// Verify it's executable
-	if info.Mode()&0111 == 0 {
+	// Verify it's executable (cross-platform check)
+	isExec, err := fs.IsExecutable(hookPath)
+	if err != nil {
+		t.Fatalf("IsExecutable check failed: %v", err)
+	}
+	if !isExec {
 		t.Error("Hook should be executable")
 	}
 
