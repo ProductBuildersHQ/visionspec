@@ -697,10 +697,11 @@ Requirement graph visualization via `github.com/plexusone/graphize`.
   - GraphML export via `graphize/pkg/exporters/graphml`
   - JSON export for custom visualization
 
-- [ ] RMI-148: MkDocs graph integration
+- [x] RMI-148: MkDocs graph integration
   - Embed graphize visualization in project index.md
   - Or link to standalone HTML export from graphize
   - Uses graphize pkg/exporters/htmlsite for visualization
+  - `pkg/mkdocs/mkdocs.go` - DetectGraphizeOutput, GenerateProjectIndexWithGraph, EmbedGraphizeInIndex
 
 ---
 
@@ -996,23 +997,26 @@ Future enhancements for testing, integrations, and developer experience.
 
 Note: These features use graphize (`github.com/plexusone/graphize`) which provides the underlying graph-based search, reuse, and pattern detection capabilities.
 
-- [ ] RMI-350: Implement `visionspec search <query>`
+- [x] RMI-350: Implement `visionspec search <query>`
   - Full-text search across all projects
   - Filter by spec type, project, date
   - Return ranked results
-  - Integrates with `graphize/pkg/search`
+  - `pkg/search/search.go` - Searcher, SearchResult, SearchOutput
+  - `visionspec search` command with --project, --type, --limit, --regex flags
 
-- [ ] RMI-351: Implement requirements reuse tracking
+- [x] RMI-351: Implement requirements reuse tracking
   - Detect similar requirements across projects
   - Suggest reuse opportunities
   - Track requirement lineage
-  - Integrates with `graphize/pkg/reuse`
+  - `pkg/reuse/reuse.go` - Tracker, ReuseReport, DuplicateGroup, SimilarGroup
+  - `visionspec reuse` command
 
-- [ ] RMI-352: Implement pattern detection
+- [x] RMI-352: Implement pattern detection
   - Identify common patterns across specs
   - Suggest templates from patterns
   - Generate pattern reports
-  - Integrates with `graphize/pkg/patterns`
+  - `pkg/patterns/patterns.go` - Detector, PatternReport, StructuralPattern, ContentPattern, AntiPattern
+  - `visionspec patterns` command
 
 ### Real-time Collaboration
 
@@ -1320,10 +1324,11 @@ Enhance Big Tech profile to be "best of all worlds" integrating Shape Up and Con
   - `docs/frameworks/continuous-discovery.md`
   - Update `docs/frameworks/index.md` with all frameworks
 
-- [ ] RMI-496: Update core workflow documentation
-  - Add Shape Up and Continuous Discovery to methodology selection
-  - Document when to use each framework
-  - Add framework combination guidelines
+- [x] RMI-496: Update core workflow documentation
+  - Added Shape Up flow (pitch → betting → scope → hill chart → build)
+  - Added Continuous Discovery flow (touchpoints → OST → assumptions → testing)
+  - Added combined Shape Up + Continuous Discovery workflow
+  - `.visionspec-rules/core-workflow.md` - Framework-Specific Flows section
 
 ### Profile Template/Rubric Completeness
 
@@ -1469,10 +1474,11 @@ Bidirectional integration with AI coding agent execution systems.
   - `visionspec sync <target>` command implemented
   - Note: No targets implement Syncer yet (pending target adapter updates)
 
-- [ ] RMI-601: Execution status tracking in MCP
-  - New MCP tools: `get_execution_status`, `sync_execution`
-  - Status webhooks for real-time updates
-  - Execution timeline view
+- [x] RMI-601: Execution status tracking in MCP
+  - MCP tools: `get_execution_status`, `track_requirement`
+  - Execution status persistence in `.visionspec/execution-status.json`
+  - Requirement progress tracking (pending, in_progress, implemented, blocked)
+  - `internal/mcp/server.go` - ExecutionStatus, RequirementStatus types
 
 ### Spec Drift Detection
 
@@ -1482,10 +1488,11 @@ Bidirectional integration with AI coding agent execution systems.
   - `pkg/drift/render.go` - Text, JSON, Markdown renderers
   - `visionspec drift` command with --severity, --format, --ci flags
 
-- [ ] RMI-611: Drift resolution workflow
-  - Generate drift report with categorized differences
-  - Suggest spec updates or implementation changes
-  - Track drift over time
+- [x] RMI-611: Drift resolution workflow
+  - MCP tool: `get_resolution_plan` generates prioritized resolution actions
+  - MCP prompt: `resolve_drift` for guided drift resolution
+  - Categorized resolution strategies (missing_feature, undocumented_code, diverged)
+  - `pkg/align/resolution.go` - ResolutionEngine, ResolutionPlan types
 
 ### Executable Test Generation
 
@@ -1521,12 +1528,13 @@ Bidirectional integration with AI coding agent execution systems.
 
 ### MCP Execution Tracking
 
-- [ ] RMI-640: MCP execution context
-  - Track which spec requirements are being implemented
-  - Real-time progress updates
-  - Requirement completion notifications
+- [x] RMI-640: MCP execution context
+  - MCP tool: `get_execution_context` provides spec summary, requirements, guidance
+  - Includes project status, spec content, TRD, and codebase context
+  - `internal/mcp/server.go` - handleGetExecutionContext
 
-- [ ] RMI-641: Execution prompts
-  - MCP prompts for guided implementation
-  - Requirement-aware code generation hints
-  - Acceptance criteria verification
+- [x] RMI-641: Execution prompts
+  - MCP prompt: `implement_requirement` - Guides implementation of specific requirement
+  - MCP prompt: `verify_acceptance` - Guides acceptance criteria verification
+  - MCP prompt: `resolve_drift` - Guides drift resolution
+  - `internal/mcp/server.go` - registerPrompts, handleImplementRequirementPrompt, etc.
