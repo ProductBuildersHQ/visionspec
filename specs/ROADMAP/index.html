@@ -1224,12 +1224,81 @@
   
   
     <li class="md-nav__item">
+      <a href="../../cli/align/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    align
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../cli/drift/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     drift
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli/metrics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    metrics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli/hooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    hooks
     
   </span>
   
@@ -2492,9 +2561,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#openspec-adapter-future" class="md-nav__link">
+  <a href="#openspec-adapter" class="md-nav__link">
     <span class="md-ellipsis">
-      OpenSpec Adapter (Future)
+      OpenSpec Adapter
     </span>
   </a>
   
@@ -3795,9 +3864,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#openspec-adapter-future" class="md-nav__link">
+  <a href="#openspec-adapter" class="md-nav__link">
     <span class="md-ellipsis">
-      OpenSpec Adapter (Future)
+      OpenSpec Adapter
     </span>
   </a>
   
@@ -4977,21 +5046,24 @@
 </ul>
 <h3 id="post-ship-alignment">Post-Ship Alignment<a class="headerlink" href="#post-ship-alignment" title="Permanent link">&para;</a></h3>
 <ul>
-<li>[ ] RMI-036: Implement <code>visionspec align</code> command (moved to Phase 11 with context)</li>
+<li>[x] RMI-036: Implement <code>visionspec align</code> command</li>
 <li>Input: spec.md + shipped reality (from engineering)</li>
 <li>Output: <code>current-truth.md</code></li>
 <li>Detect: ungrounded claims, missed opportunities, drift</li>
+<li><code>pkg/align/align.go</code> - Aligner, AlignmentResult, Discrepancy types</li>
+<li><code>pkg/align/compare.go</code> - Comparator for spec vs context analysis</li>
 <li>
-<p>Update GTM docs with alignment notes</p>
+<p><code>pkg/cli/commands.go</code> - alignCmd with --with-context, --context-file flags</p>
 </li>
 <li>
-<p>[ ] RMI-037: Define current-truth.md structure</p>
+<p>[x] RMI-037: Define current-truth.md structure</p>
 </li>
 <li>Product summary (current state)</li>
 <li>Active capabilities table</li>
 <li>Known boundaries/limitations</li>
 <li>Source specs and evidence</li>
 <li>Recent alignment notes</li>
+<li><code>pkg/align/align.go</code> - AlignmentCoverage, AlignmentSummary types</li>
 </ul>
 <hr />
 <h2 id="phase-4-reconciliation-engine">Phase 4: Reconciliation Engine<a class="headerlink" href="#phase-4-reconciliation-engine" title="Permanent link">&para;</a></h2>
@@ -5148,18 +5220,21 @@
 <li>Generate orders</li>
 <li><code>pkg/target/gascity.go</code></li>
 </ul>
-<h3 id="openspec-adapter-future">OpenSpec Adapter (Future)<a class="headerlink" href="#openspec-adapter-future" title="Permanent link">&para;</a></h3>
+<h3 id="openspec-adapter">OpenSpec Adapter<a class="headerlink" href="#openspec-adapter" title="Permanent link">&para;</a></h3>
 <ul>
-<li>[ ] RMI-090: Define OpenSpec export format</li>
+<li>[x] RMI-090: Define OpenSpec export format</li>
 <li>Portable JSON/YAML structure</li>
+<li>Agent-agnostic representation</li>
 <li>
-<p>Agent-agnostic representation</p>
+<p><code>pkg/target/openspec.go</code> - OpenSpecDocument, OpenSpecFeature, OpenSpecTask, etc.</p>
 </li>
 <li>
-<p>[ ] RMI-091: Implement OpenSpec adapter</p>
+<p>[x] RMI-091: Implement OpenSpec adapter</p>
 </li>
-<li>Standards-compliant export</li>
-<li>Interoperability focus</li>
+<li>Standards-compliant export to JSON or YAML</li>
+<li>Parses spec.md sections into structured format</li>
+<li>Supports separate files for features/tasks</li>
+<li><code>pkg/target/openspec.go</code> - OpenSpecTarget with Export method</li>
 </ul>
 <hr />
 <h2 id="phase-6-claude-code-kiro-cli-integration">Phase 6: Claude Code / Kiro CLI Integration<a class="headerlink" href="#phase-6-claude-code-kiro-cli-integration" title="Permanent link">&para;</a></h2>
@@ -5207,10 +5282,13 @@
 <p>Debounce support for rapid changes</p>
 </li>
 <li>
-<p>[ ] RMI-103: Support git hooks</p>
+<p>[x] RMI-103: Support git hooks</p>
 </li>
-<li>Pre-commit: validate specs</li>
-<li>Post-commit: trigger eval</li>
+<li>Pre-commit: lint changed spec files</li>
+<li>Pre-push: evaluate specs and check for blockers</li>
+<li><code>pkg/hooks/hooks.go</code> - Manager with Install, Uninstall, Status methods</li>
+<li><code>pkg/hooks/templates.go</code> - Hook script templates</li>
+<li><code>visionspec hooks install/uninstall/status</code> commands</li>
 </ul>
 <hr />
 <h2 id="phase-7-graphize-integration">Phase 7: Graphize Integration<a class="headerlink" href="#phase-7-graphize-integration" title="Permanent link">&para;</a></h2>
@@ -5289,52 +5367,61 @@
 <p>JSON export for custom visualization</p>
 </li>
 <li>
-<p>[ ] RMI-148: MkDocs graph integration</p>
+<p>[x] RMI-148: MkDocs graph integration</p>
 </li>
-<li>Embed graph visualization in project index.md</li>
-<li>Or link to standalone HTML export</li>
+<li>Embed graphize visualization in project index.md</li>
+<li>Or link to standalone HTML export from graphize</li>
+<li>Uses graphize pkg/exporters/htmlsite for visualization</li>
+<li><code>pkg/mkdocs/mkdocs.go</code> - DetectGraphizeOutput, GenerateProjectIndexWithGraph, EmbedGraphizeInIndex</li>
 </ul>
 <hr />
 <h2 id="phase-8-advanced-features">Phase 8: Advanced Features<a class="headerlink" href="#phase-8-advanced-features" title="Permanent link">&para;</a></h2>
 <p>Future enhancements.</p>
 <h3 id="multi-project-support">Multi-Project Support<a class="headerlink" href="#multi-project-support" title="Permanent link">&para;</a></h3>
 <ul>
-<li>[ ] RMI-110: Support cross-project dependencies</li>
+<li>[x] RMI-110: Support cross-project dependencies</li>
 <li>Project references in spec.md</li>
+<li>Cross-project reconciliation</li>
 <li>
-<p>Cross-project reconciliation</p>
+<p><code>pkg/deps/deps.go</code> - DependencyManager, ProjectDep types</p>
 </li>
 <li>
-<p>[ ] RMI-111: Implement <code>docs/specs/ROADMAP.md</code> generation</p>
+<p>[x] RMI-111: Implement <code>docs/specs/ROADMAP.md</code> generation</p>
 </li>
 <li>Aggregate project statuses</li>
 <li>Prioritization tracking</li>
+<li><code>pkg/roadmap/roadmap.go</code> - Generator with template-based output</li>
 </ul>
 <h3 id="organizational-memory">Organizational Memory<a class="headerlink" href="#organizational-memory" title="Permanent link">&para;</a></h3>
 <ul>
-<li>[ ] RMI-120: Decision log persistence</li>
+<li>[x] RMI-120: Decision log persistence</li>
 <li>Track tradeoffs across projects</li>
+<li>Searchable decision history</li>
 <li>
-<p>Searchable decision history</p>
+<p><code>pkg/decisions/log.go</code> - DecisionLog, Decision types</p>
 </li>
 <li>
-<p>[ ] RMI-121: Rationale graphs</p>
+<p>[x] RMI-121: Rationale graphs</p>
 </li>
 <li>Link decisions to requirements</li>
 <li>Impact analysis</li>
+<li><code>pkg/decisions/rationale.go</code> - RationaleGraph, RationaleNode types</li>
 </ul>
 <h3 id="analytics">Analytics<a class="headerlink" href="#analytics" title="Permanent link">&para;</a></h3>
 <ul>
-<li>[ ] RMI-130: Evaluation metrics dashboard</li>
+<li>[x] RMI-130: Evaluation metrics dashboard</li>
 <li>Spec quality trends</li>
+<li>Common failure patterns</li>
+<li><code>pkg/metrics/metrics.go</code> - Collector, EvalMetrics, ProjectMetrics</li>
 <li>
-<p>Common failure patterns</p>
+<p><code>visionspec metrics</code> command with text/json/html output</p>
 </li>
 <li>
-<p>[ ] RMI-131: Reconciliation metrics</p>
+<p>[x] RMI-131: Reconciliation metrics</p>
 </li>
 <li>Conflict frequency</li>
 <li>Resolution time</li>
+<li><code>pkg/metrics/metrics.go</code> - ReconcileMetrics type</li>
 </ul>
 <hr />
 <h2 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">&para;</a></h2>
@@ -5758,27 +5845,34 @@
 <li>Custom revert message support</li>
 </ul>
 <h3 id="cross-project-analysis">Cross-Project Analysis<a class="headerlink" href="#cross-project-analysis" title="Permanent link">&para;</a></h3>
+<p>Note: These features use graphize (<code>github.com/plexusone/graphize</code>) which provides the underlying graph-based search, reuse, and pattern detection capabilities.</p>
 <ul>
-<li>[ ] RMI-350: Implement <code>visionspec search &lt;query&gt;</code></li>
+<li>[x] RMI-350: Implement <code>visionspec search &lt;query&gt;</code></li>
 <li>Full-text search across all projects</li>
 <li>Filter by spec type, project, date</li>
+<li>Return ranked results</li>
+<li><code>pkg/search/search.go</code> - Searcher, SearchResult, SearchOutput</li>
 <li>
-<p>Return ranked results</p>
+<p><code>visionspec search</code> command with --project, --type, --limit, --regex flags</p>
 </li>
 <li>
-<p>[ ] RMI-351: Implement requirements reuse tracking</p>
+<p>[x] RMI-351: Implement requirements reuse tracking</p>
 </li>
 <li>Detect similar requirements across projects</li>
 <li>Suggest reuse opportunities</li>
+<li>Track requirement lineage</li>
+<li><code>pkg/reuse/reuse.go</code> - Tracker, ReuseReport, DuplicateGroup, SimilarGroup</li>
 <li>
-<p>Track requirement lineage</p>
+<p><code>visionspec reuse</code> command</p>
 </li>
 <li>
-<p>[ ] RMI-352: Implement pattern detection</p>
+<p>[x] RMI-352: Implement pattern detection</p>
 </li>
 <li>Identify common patterns across specs</li>
 <li>Suggest templates from patterns</li>
 <li>Generate pattern reports</li>
+<li><code>pkg/patterns/patterns.go</code> - Detector, PatternReport, StructuralPattern, ContentPattern, AntiPattern</li>
+<li><code>visionspec patterns</code> command</li>
 </ul>
 <h3 id="real-time-collaboration">Real-time Collaboration<a class="headerlink" href="#real-time-collaboration" title="Permanent link">&para;</a></h3>
 <ul>
@@ -5946,18 +6040,20 @@
 <p>Include in prompts</p>
 </li>
 <li>
-<p>[ ] RMI-442: Add <code>--with-context</code> flag to align</p>
+<p>[x] RMI-442: Add <code>--with-context</code> flag to align</p>
 </li>
 <li>Compare spec against codebase context</li>
 <li>Detect drift and unimplemented features</li>
+<li>Generate current-truth.md</li>
 <li>
-<p>Generate current-truth.md</p>
+<p><code>pkg/cli/commands.go</code> - alignCmd flags</p>
 </li>
 <li>
-<p>[ ] RMI-443: Add <code>--context-file</code> flag</p>
+<p>[x] RMI-443: Add <code>--context-file</code> flag</p>
 </li>
 <li>Load context from snapshot file</li>
 <li>For CI reproducibility</li>
+<li><code>pkg/cli/commands.go</code> - alignCmd, driftCmd flags</li>
 </ul>
 <h3 id="context-aware-synthesis">Context-Aware Synthesis<a class="headerlink" href="#context-aware-synthesis" title="Permanent link">&para;</a></h3>
 <ul>
@@ -6166,11 +6262,12 @@
 <p>Update <code>docs/frameworks/index.md</code> with all frameworks</p>
 </li>
 <li>
-<p>[ ] RMI-496: Update core workflow documentation</p>
+<p>[x] RMI-496: Update core workflow documentation</p>
 </li>
-<li>Add Shape Up and Continuous Discovery to methodology selection</li>
-<li>Document when to use each framework</li>
-<li>Add framework combination guidelines</li>
+<li>Added Shape Up flow (pitch → betting → scope → hill chart → build)</li>
+<li>Added Continuous Discovery flow (touchpoints → OST → assumptions → testing)</li>
+<li>Added combined Shape Up + Continuous Discovery workflow</li>
+<li><code>.visionspec-rules/core-workflow.md</code> - Framework-Specific Flows section</li>
 </ul>
 <h3 id="profile-templaterubric-completeness">Profile Template/Rubric Completeness<a class="headerlink" href="#profile-templaterubric-completeness" title="Permanent link">&para;</a></h3>
 <p>Ensure all profiles have complete template and rubric coverage for LLM-as-a-Judge evaluation.</p>
@@ -6348,11 +6445,12 @@
 <p>Note: No targets implement Syncer yet (pending target adapter updates)</p>
 </li>
 <li>
-<p>[ ] RMI-601: Execution status tracking in MCP</p>
+<p>[x] RMI-601: Execution status tracking in MCP</p>
 </li>
-<li>New MCP tools: <code>get_execution_status</code>, <code>sync_execution</code></li>
-<li>Status webhooks for real-time updates</li>
-<li>Execution timeline view</li>
+<li>MCP tools: <code>get_execution_status</code>, <code>track_requirement</code></li>
+<li>Execution status persistence in <code>.visionspec/execution-status.json</code></li>
+<li>Requirement progress tracking (pending, in_progress, implemented, blocked)</li>
+<li><code>internal/mcp/server.go</code> - ExecutionStatus, RequirementStatus types</li>
 </ul>
 <h3 id="spec-drift-detection">Spec Drift Detection<a class="headerlink" href="#spec-drift-detection" title="Permanent link">&para;</a></h3>
 <ul>
@@ -6364,11 +6462,12 @@
 <p><code>visionspec drift</code> command with --severity, --format, --ci flags</p>
 </li>
 <li>
-<p>[ ] RMI-611: Drift resolution workflow</p>
+<p>[x] RMI-611: Drift resolution workflow</p>
 </li>
-<li>Generate drift report with categorized differences</li>
-<li>Suggest spec updates or implementation changes</li>
-<li>Track drift over time</li>
+<li>MCP tool: <code>get_resolution_plan</code> generates prioritized resolution actions</li>
+<li>MCP prompt: <code>resolve_drift</code> for guided drift resolution</li>
+<li>Categorized resolution strategies (missing_feature, undocumented_code, diverged)</li>
+<li><code>pkg/align/resolution.go</code> - ResolutionEngine, ResolutionPlan types</li>
 </ul>
 <h3 id="executable-test-generation">Executable Test Generation<a class="headerlink" href="#executable-test-generation" title="Permanent link">&para;</a></h3>
 <ul>
@@ -6382,43 +6481,47 @@
 <p><code>visionspec generate tests</code> command with --lang, --framework, --group-by</p>
 </li>
 <li>
-<p>[ ] RMI-621: Test coverage mapping</p>
+<p>[x] RMI-621: Test coverage mapping</p>
 </li>
 <li>Map TPD test cases to actual tests</li>
 <li>Track coverage by requirement</li>
 <li>Report uncovered requirements</li>
+<li><code>pkg/testmap/testmap.go</code> - Mapper, CoverageReport types</li>
 </ul>
 <h3 id="issue-export">Issue Export<a class="headerlink" href="#issue-export" title="Permanent link">&para;</a></h3>
 <ul>
-<li>[ ] RMI-630: GitHub Issues export</li>
+<li>[x] RMI-630: GitHub Issues export</li>
 <li>Export requirements as GitHub issues</li>
 <li>Create milestones from phases</li>
 <li>Link issues to specs via labels</li>
+<li><code>pkg/target/github_issues.go</code> - GitHubIssuesTarget</li>
 <li>
 <p><code>visionspec export github</code> command</p>
 </li>
 <li>
-<p>[ ] RMI-631: Jira export</p>
+<p>[x] RMI-631: Jira export</p>
 </li>
 <li>Export requirements as Jira epics/stories</li>
 <li>Map priorities and labels</li>
 <li>Create project boards</li>
+<li><code>pkg/target/jira.go</code> - JiraTarget</li>
 <li><code>visionspec export jira</code> command</li>
 </ul>
 <h3 id="mcp-execution-tracking">MCP Execution Tracking<a class="headerlink" href="#mcp-execution-tracking" title="Permanent link">&para;</a></h3>
 <ul>
-<li>[ ] RMI-640: MCP execution context</li>
-<li>Track which spec requirements are being implemented</li>
-<li>Real-time progress updates</li>
+<li>[x] RMI-640: MCP execution context</li>
+<li>MCP tool: <code>get_execution_context</code> provides spec summary, requirements, guidance</li>
+<li>Includes project status, spec content, TRD, and codebase context</li>
 <li>
-<p>Requirement completion notifications</p>
+<p><code>internal/mcp/server.go</code> - handleGetExecutionContext</p>
 </li>
 <li>
-<p>[ ] RMI-641: Execution prompts</p>
+<p>[x] RMI-641: Execution prompts</p>
 </li>
-<li>MCP prompts for guided implementation</li>
-<li>Requirement-aware code generation hints</li>
-<li>Acceptance criteria verification</li>
+<li>MCP prompt: <code>implement_requirement</code> - Guides implementation of specific requirement</li>
+<li>MCP prompt: <code>verify_acceptance</code> - Guides acceptance criteria verification</li>
+<li>MCP prompt: <code>resolve_drift</code> - Guides drift resolution</li>
+<li><code>internal/mcp/server.go</code> - registerPrompts, handleImplementRequirementPrompt, etc.</li>
 </ul>
 
 
