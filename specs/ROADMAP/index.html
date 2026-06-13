@@ -5217,15 +5217,15 @@
 <p>Requirement graph visualization via <code>github.com/plexusone/graphize</code>.</p>
 <h3 id="spec-extractor">Spec Extractor<a class="headerlink" href="#spec-extractor" title="Permanent link">&para;</a></h3>
 <ul>
-<li>[ ] RMI-140: Create spec extractor for graphize</li>
-<li>New extractor in <code>graphize/pkg/extract/spec/</code></li>
+<li>[x] RMI-140: Create spec extractor for graphize</li>
+<li><code>pkg/specgraph/specgraph.go</code> - SpecExtractor</li>
 <li>Parse markdown specs (mrd.md, prd.md, trd.md, etc.)</li>
 <li>Extract requirements, constraints, decisions as nodes</li>
 <li>
 <p>Infer relationships as edges</p>
 </li>
 <li>
-<p>[ ] RMI-141: Define spec node types</p>
+<p>[x] RMI-141: Define spec node types</p>
 </li>
 <li><code>requirement</code> - Functional requirements from PRD</li>
 <li><code>user_story</code> - User stories from PRD</li>
@@ -5233,11 +5233,12 @@
 <li><code>acceptance_criteria</code> - Testable criteria</li>
 <li><code>decision</code> - Architectural decisions from TRD</li>
 <li><code>tradeoff</code> - Explicit tradeoffs from reconciliation</li>
+<li><code>capability</code> - Current capabilities from CURRENT-TRUTH</li>
 <li>
-<p><code>capability</code> - Current capabilities from CURRENT-TRUTH</p>
+<p><code>section</code>, <code>spec</code> - Structural nodes</p>
 </li>
 <li>
-<p>[ ] RMI-142: Define spec edge types</p>
+<p>[x] RMI-142: Define spec edge types</p>
 </li>
 <li><code>traces_to</code> - Requirement traceability (PRD → TRD)</li>
 <li><code>derived_from</code> - Synthesis source (TRD → MRD + PRD)</li>
@@ -5246,33 +5247,34 @@
 <li><code>depends_on</code> - Requirement dependencies</li>
 <li><code>blocks</code> - Blocking relationships</li>
 <li><code>supersedes</code> - Decision replacement</li>
+<li><code>contains</code> - Section/spec containment</li>
 </ul>
 <h3 id="graph-storage">Graph Storage<a class="headerlink" href="#graph-storage" title="Permanent link">&para;</a></h3>
 <ul>
-<li>[ ] RMI-143: Store spec graph in project directory</li>
+<li>[x] RMI-143: Store spec graph in project directory</li>
 <li><code>.graphize/</code> directory under <code>docs/specs/{project}/</code></li>
 <li>Version controlled with project</li>
 <li>
-<p>One file per node/edge (git-friendly)</p>
+<p><code>SaveJSON</code>/<code>LoadJSON</code> for spec-graph.json</p>
 </li>
 <li>
-<p>[ ] RMI-144: Implement <code>visionspec graph</code> commands</p>
+<p>[x] RMI-144: Implement <code>visionspec graph</code> commands</p>
 </li>
 <li><code>visionspec graph extract</code> - Build graph from specs</li>
-<li><code>visionspec graph query</code> - Query relationships</li>
+<li><code>visionspec graph query</code> - Query relationships with filters</li>
 <li><code>visionspec graph export</code> - Export to HTML/JSON/GraphML</li>
 </ul>
 <h3 id="traceability-analysis">Traceability Analysis<a class="headerlink" href="#traceability-analysis" title="Permanent link">&para;</a></h3>
 <ul>
-<li>[ ] RMI-145: Implement traceability reports</li>
+<li>[x] RMI-145: Implement traceability reports</li>
+<li><code>ComputeMetrics()</code> - TraceCoverage, ConflictCount</li>
 <li>Requirements without TRD coverage</li>
 <li>TRD tasks without PRD traceability</li>
-<li>Orphaned constraints</li>
 <li>
-<p>Missing acceptance criteria</p>
+<p>Integrated in <code>visionspec status</code> via GraphMetrics</p>
 </li>
 <li>
-<p>[ ] RMI-146: Conflict detection via graph</p>
+<p>[x] RMI-146: Conflict detection via graph</p>
 </li>
 <li>Query <code>conflicts_with</code> edges</li>
 <li>Highlight in reconciliation</li>
@@ -5280,12 +5282,11 @@
 </ul>
 <h3 id="visualization">Visualization<a class="headerlink" href="#visualization" title="Permanent link">&para;</a></h3>
 <ul>
-<li>[ ] RMI-147: Generate spec graph HTML visualization</li>
-<li>Interactive Cytoscape.js graph</li>
-<li>Color-coded by spec type (PRD=blue, TRD=green, CONSTITUTION=red)</li>
-<li>Filter by relationship type</li>
+<li>[x] RMI-147: Generate spec graph HTML visualization</li>
+<li>Export via <code>graphize/pkg/exporters/htmlsite</code></li>
+<li>GraphML export via <code>graphize/pkg/exporters/graphml</code></li>
 <li>
-<p>Search by requirement ID</p>
+<p>JSON export for custom visualization</p>
 </li>
 <li>
 <p>[ ] RMI-148: MkDocs graph integration</p>
@@ -6340,11 +6341,11 @@
 <p>Bidirectional integration with AI coding agent execution systems.</p>
 <h3 id="status-synchronization">Status Synchronization<a class="headerlink" href="#status-synchronization" title="Permanent link">&para;</a></h3>
 <ul>
-<li>[ ] RMI-600: Bidirectional status sync</li>
-<li>Pull execution status from SpecKit, GSD, GasTown</li>
-<li>Update visionspec status with execution progress</li>
+<li>[x] RMI-600: Bidirectional status sync (interface only)</li>
+<li><code>pkg/target/target.go</code> - Syncer interface, SyncResult, TaskState</li>
+<li><code>visionspec sync &lt;target&gt;</code> command implemented</li>
 <li>
-<p><code>visionspec sync &lt;target&gt;</code> command</p>
+<p>Note: No targets implement Syncer yet (pending target adapter updates)</p>
 </li>
 <li>
 <p>[ ] RMI-601: Execution status tracking in MCP</p>
@@ -6355,12 +6356,12 @@
 </ul>
 <h3 id="spec-drift-detection">Spec Drift Detection<a class="headerlink" href="#spec-drift-detection" title="Permanent link">&para;</a></h3>
 <ul>
-<li>[ ] RMI-610: Implement drift detection</li>
-<li>Compare spec.md with shipped implementation</li>
-<li>Detect unimplemented requirements</li>
-<li>Detect undocumented features</li>
+<li>[x] RMI-610: Implement drift detection</li>
+<li><code>pkg/drift/drift.go</code> - Detector, DriftReport, DriftItem</li>
+<li><code>pkg/drift/analyze.go</code> - Analyzer with requirement/implementation extraction</li>
+<li><code>pkg/drift/render.go</code> - Text, JSON, Markdown renderers</li>
 <li>
-<p><code>visionspec drift</code> command</p>
+<p><code>visionspec drift</code> command with --severity, --format, --ci flags</p>
 </li>
 <li>
 <p>[ ] RMI-611: Drift resolution workflow</p>
@@ -6371,11 +6372,14 @@
 </ul>
 <h3 id="executable-test-generation">Executable Test Generation<a class="headerlink" href="#executable-test-generation" title="Permanent link">&para;</a></h3>
 <ul>
-<li>[ ] RMI-620: Generate test cases from TPD</li>
-<li>Export test cases as executable test stubs</li>
-<li>Support Go, TypeScript, Python</li>
+<li>[x] RMI-620: Generate test cases from TPD</li>
+<li><code>pkg/testgen/testgen.go</code> - Generator interface, TestCase, ParsedTPD</li>
+<li><code>pkg/testgen/parser.go</code> - TPD markdown parser</li>
+<li><code>pkg/testgen/go.go</code> - Go test generator (testing, testify)</li>
+<li><code>pkg/testgen/typescript.go</code> - TypeScript/Jest generator</li>
+<li><code>pkg/testgen/python.go</code> - Python/pytest generator</li>
 <li>
-<p><code>visionspec generate tests</code> command</p>
+<p><code>visionspec generate tests</code> command with --lang, --framework, --group-by</p>
 </li>
 <li>
 <p>[ ] RMI-621: Test coverage mapping</p>
