@@ -11,7 +11,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/ProductBuildersHQ/visionspec/pkg/align"
 	"github.com/ProductBuildersHQ/visionspec/pkg/config"
+	ctxpkg "github.com/ProductBuildersHQ/visionspec/pkg/context"
 	"github.com/ProductBuildersHQ/visionspec/pkg/draft"
 	"github.com/ProductBuildersHQ/visionspec/pkg/eval"
 	"github.com/ProductBuildersHQ/visionspec/pkg/reconcile"
@@ -19,6 +21,7 @@ import (
 	"github.com/ProductBuildersHQ/visionspec/pkg/synth"
 	"github.com/ProductBuildersHQ/visionspec/pkg/target"
 	"github.com/ProductBuildersHQ/visionspec/pkg/templates"
+	"github.com/ProductBuildersHQ/visionspec/pkg/testmap"
 	"github.com/ProductBuildersHQ/visionspec/pkg/types"
 	"github.com/modelcontextprotocol/go-sdk/mcp"
 )
@@ -193,6 +196,30 @@ func (s *Server) registerTools() {
 		Name:        "list_drafts",
 		Description: "List all drafts in a project",
 	}, s.handleListDrafts)
+
+	// Tool: align
+	mcp.AddTool(s.server, &mcp.Tool{
+		Name:        "align",
+		Description: "Check alignment between spec.md and implementation. Returns discrepancies, alignment score, and coverage metrics.",
+	}, s.handleAlign)
+
+	// Tool: get_resolution_plan
+	mcp.AddTool(s.server, &mcp.Tool{
+		Name:        "get_resolution_plan",
+		Description: "Generate a resolution plan for alignment discrepancies. Returns prioritized actions and strategies.",
+	}, s.handleGetResolutionPlan)
+
+	// Tool: get_test_coverage
+	mcp.AddTool(s.server, &mcp.Tool{
+		Name:        "get_test_coverage",
+		Description: "Get test coverage mapping between requirements and tests.",
+	}, s.handleGetTestCoverage)
+
+	// Tool: get_execution_context
+	mcp.AddTool(s.server, &mcp.Tool{
+		Name:        "get_execution_context",
+		Description: "Get execution context for AI agents including spec summary, requirements, and implementation guidance.",
+	}, s.handleGetExecutionContext)
 }
 
 // Tool handlers
@@ -1073,6 +1100,314 @@ func (s *Server) handleListDrafts(ctx context.Context, req *mcp.CallToolRequest,
 		"count":   len(draftList),
 	}
 	data, _ := json.Marshal(result)
+	return &mcp.CallToolResult{
+		Content: []mcp.Content{
+			&mcp.TextContent{Text: string(data)},
+		},
+	}, nil, nil
+}
+
+// AlignArgs contains align command arguments.
+type AlignArgs struct {
+	Project       string `json:"project" jsonschema:"description=Project name"`
+	GenerateTruth bool   `json:"generate_truth,omitempty" jsonschema:"description=Generate current-truth.md document"`
+}
+
+func (s *Server) handleAlign(ctx context.Context, req *mcp.CallToolRequest, args AlignArgs) (*mcp.CallToolResult, any, error) {
+	// Get project path
+	projectPath, err := getProjectPath(args.Project)
+	if err != nil {
+		return errorResult("failed to find project: " + err.Error())
+	}
+
+	// Load project config
+	project, err := config.Load(projectPath)
+	if err != nil {
+		return errorResult("failed to load project config: " + err.Error())
+	}
+
+	// Read spec.md
+	specPath := filepath.Join(projectPath, "spec.md")
+	specContent, err := os.ReadFile(specPath)
+	if err != nil {
+		if os.IsNotExist(err) {
+			return errorResult("spec.md not found - run reconcile first")
+		}
+		return errorResult("failed to read spec.md: " + err.Error())
+	}
+
+	// Load context from cache if available
+	var aggregatedCtx *ctxpkg.AggregatedContext
+	contextCachePath := filepath.Join(projectPath, ".visionspec", "context-cache.json")
+	if contextData, err := os.ReadFile(contextCachePath); err == nil {
+		var ctxData ctxpkg.AggregatedContext
+		if json.Unmarshal(contextData, &ctxData) == nil {
+			aggregatedCtx = &ctxData
+		}
+	}
+
+	if aggregatedCtx == nil {
+		aggregatedCtx = &ctxpkg.AggregatedContext{
+			Project: project.Name,
+		}
+	}
+
+	// Run alignment check
+	aligner := align.NewAligner()
+	opts := align.AlignOptions{
+		MinSeverity:     align.SeverityLow,
+		IncludeEvidence: true,
+	}
+
+	alignResult, err := aligner.Align(string(specContent), aggregatedCtx, opts)
+	if err != nil {
+		return errorResult("alignment check failed: " + err.Error())
+	}
+
+	// Build result
+	result := map[string]any{
+		"project":         args.Project,
+		"generated_at":    alignResult.GeneratedAt.Format(time.RFC3339),
+		"alignment_score": alignResult.Summary.AlignmentScore,
+		"is_aligned":      alignResult.Summary.IsAligned,
+		"summary": map[string]any{
+			"total_discrepancies": alignResult.Summary.TotalDiscrepancies,
+			"critical_count":      alignResult.Summary.CriticalCount,
+			"high_count":          alignResult.Summary.HighCount,
+		},
+		"coverage": map[string]any{
+			"total_requirements":  alignResult.Coverage.TotalRequirements,
+			"implemented":         alignResult.Coverage.ImplementedCount,
+			"partial":             alignResult.Coverage.PartialCount,
+			"missing":             alignResult.Coverage.MissingCount,
+			"coverage_percentage": alignResult.Coverage.CoveragePercentage,
+		},
+		"discrepancies": alignResult.Discrepancies,
+	}
+
+	// Generate current-truth.md if requested
+	if args.GenerateTruth {
+		truth := align.GenerateCurrentTruth(alignResult)
+		truthContent, err := truth.RenderMarkdown()
+		if err != nil {
+			return errorResult("failed to render current-truth: " + err.Error())
+		}
+
+		truthPath := filepath.Join(projectPath, "current-truth.md")
+		if err := os.WriteFile(truthPath, []byte(truthContent), 0600); err != nil { //nolint:gosec // G703: projectPath is from config, not user input
+			return errorResult("failed to write current-truth.md: " + err.Error())
+		}
+		result["truth_path"] = truthPath
+	}
+
+	data, _ := json.Marshal(result)
+	return &mcp.CallToolResult{
+		Content: []mcp.Content{
+			&mcp.TextContent{Text: string(data)},
+		},
+	}, nil, nil
+}
+
+func (s *Server) handleGetResolutionPlan(ctx context.Context, req *mcp.CallToolRequest, args AlignArgs) (*mcp.CallToolResult, any, error) {
+	// Get project path
+	projectPath, err := getProjectPath(args.Project)
+	if err != nil {
+		return errorResult("failed to find project: " + err.Error())
+	}
+
+	// Load project config
+	project, err := config.Load(projectPath)
+	if err != nil {
+		return errorResult("failed to load project config: " + err.Error())
+	}
+
+	// Read spec.md
+	specPath := filepath.Join(projectPath, "spec.md")
+	specContent, err := os.ReadFile(specPath)
+	if err != nil {
+		if os.IsNotExist(err) {
+			return errorResult("spec.md not found - run reconcile first")
+		}
+		return errorResult("failed to read spec.md: " + err.Error())
+	}
+
+	// Load context from cache if available
+	var aggregatedCtx *ctxpkg.AggregatedContext
+	contextCachePath := filepath.Join(projectPath, ".visionspec", "context-cache.json")
+	if contextData, err := os.ReadFile(contextCachePath); err == nil {
+		var ctxData ctxpkg.AggregatedContext
+		if json.Unmarshal(contextData, &ctxData) == nil {
+			aggregatedCtx = &ctxData
+		}
+	}
+
+	if aggregatedCtx == nil {
+		aggregatedCtx = &ctxpkg.AggregatedContext{
+			Project: project.Name,
+		}
+	}
+
+	// Run alignment check
+	aligner := align.NewAligner()
+	opts := align.AlignOptions{
+		MinSeverity:     align.SeverityLow,
+		IncludeEvidence: true,
+	}
+
+	alignResult, err := aligner.Align(string(specContent), aggregatedCtx, opts)
+	if err != nil {
+		return errorResult("alignment check failed: " + err.Error())
+	}
+
+	// Generate resolution plan
+	engine := align.NewResolutionEngine()
+	plan := engine.GeneratePlan(alignResult)
+
+	result := map[string]any{
+		"project":      args.Project,
+		"generated_at": plan.GeneratedAt.Format(time.RFC3339),
+		"summary": map[string]any{
+			"total":       plan.Summary.TotalDiscrepancies,
+			"update_spec": plan.Summary.UpdateSpec,
+			"update_code": plan.Summary.UpdateCode,
+			"add_spec":    plan.Summary.AddSpec,
+			"deferred":    plan.Summary.Deferred,
+		},
+		"priorities":  plan.Priorities,
+		"resolutions": plan.Resolutions,
+		"progress":    plan.GetProgress(),
+	}
+
+	data, _ := json.Marshal(result)
+	return &mcp.CallToolResult{
+		Content: []mcp.Content{
+			&mcp.TextContent{Text: string(data)},
+		},
+	}, nil, nil
+}
+
+func (s *Server) handleGetTestCoverage(ctx context.Context, req *mcp.CallToolRequest, args ProjectArgs) (*mcp.CallToolResult, any, error) {
+	// Get project path
+	projectPath, err := getProjectPath(args.Project)
+	if err != nil {
+		return errorResult("failed to find project: " + err.Error())
+	}
+
+	// Find the repository root (one level up from specs dir usually)
+	repoRoot := filepath.Dir(filepath.Dir(projectPath))
+
+	// Create test mapper
+	mapper := testmap.NewMapper(repoRoot)
+	mapping, err := mapper.Map()
+	if err != nil {
+		return errorResult("failed to generate test coverage: " + err.Error())
+	}
+
+	result := map[string]any{
+		"project":      args.Project,
+		"generated_at": mapping.GeneratedAt.Format(time.RFC3339),
+		"summary": map[string]any{
+			"total_requirements":   mapping.Summary.TotalRequirements,
+			"covered":              mapping.Summary.CoveredRequirements,
+			"partial":              mapping.Summary.PartialRequirements,
+			"uncovered":            mapping.Summary.UncoveredRequirements,
+			"overall_coverage_pct": mapping.Summary.OverallCoverage,
+			"total_tests":          mapping.Summary.TotalTests,
+			"mapped_tests":         mapping.Summary.MappedTests,
+		},
+		"requirements": mapping.Requirements,
+		"unmapped": map[string]any{
+			"requirements": mapping.Unmapped.Requirements,
+			"tests":        mapping.Unmapped.Tests,
+		},
+	}
+
+	data, _ := json.Marshal(result)
+	return &mcp.CallToolResult{
+		Content: []mcp.Content{
+			&mcp.TextContent{Text: string(data)},
+		},
+	}, nil, nil
+}
+
+// ExecutionContextArgs contains arguments for get_execution_context.
+type ExecutionContextArgs struct {
+	Project     string `json:"project" jsonschema:"description=Project name"`
+	IncludeSpec bool   `json:"include_spec,omitempty" jsonschema:"description=Include full spec content"`
+	IncludeTRD  bool   `json:"include_trd,omitempty" jsonschema:"description=Include technical requirements"`
+}
+
+func (s *Server) handleGetExecutionContext(ctx context.Context, req *mcp.CallToolRequest, args ExecutionContextArgs) (*mcp.CallToolResult, any, error) {
+	// Get project path
+	projectPath, err := getProjectPath(args.Project)
+	if err != nil {
+		return errorResult("failed to find project: " + err.Error())
+	}
+
+	// Load project config
+	project, err := config.Load(projectPath)
+	if err != nil {
+		return errorResult("failed to load project config: " + err.Error())
+	}
+
+	// Build execution context
+	execContext := map[string]any{
+		"project": project.Name,
+	}
+
+	// Get project status
+	projectStatus, err := status.Generate(project)
+	if err == nil {
+		execContext["status"] = map[string]any{
+			"readiness": projectStatus.Readiness,
+			"summary": map[string]any{
+				"total":     projectStatus.Summary.TotalSpecs,
+				"present":   projectStatus.Summary.PresentSpecs,
+				"approved":  projectStatus.Summary.ApprovedSpecs,
+				"evaluated": projectStatus.Summary.EvaluatedSpecs,
+			},
+		}
+	}
+
+	// Load spec.md if requested
+	if args.IncludeSpec {
+		specPath := filepath.Join(projectPath, "spec.md")
+		if specContent, err := os.ReadFile(specPath); err == nil {
+			execContext["spec"] = string(specContent)
+		}
+	}
+
+	// Load TRD if requested
+	if args.IncludeTRD {
+		trdPath := config.SpecPath(projectPath, types.SpecTypeTRD)
+		if trdContent, err := os.ReadFile(trdPath); err == nil {
+			execContext["trd"] = string(trdContent)
+		}
+	}
+
+	// Load cached context snapshot if available
+	contextCachePath := filepath.Join(projectPath, ".visionspec", "context-cache.json")
+	if contextData, err := os.ReadFile(contextCachePath); err == nil {
+		var ctxData ctxpkg.AggregatedContext
+		if json.Unmarshal(contextData, &ctxData) == nil {
+			execContext["codebase"] = map[string]any{
+				"has_code":  ctxData.HasCode,
+				"has_graph": ctxData.HasGraph,
+				"summary":   ctxData.Summary,
+			}
+		}
+	}
+
+	// Generate execution guidance
+	guidance := []string{
+		"1. Review the spec.md for complete requirements",
+		"2. Check TRD for technical implementation details",
+		"3. Use 'align' tool to check implementation status",
+		"4. Use 'get_resolution_plan' for prioritized actions",
+	}
+	execContext["guidance"] = guidance
+
+	data, _ := json.Marshal(execContext)
 	return &mcp.CallToolResult{
 		Content: []mcp.Content{
 			&mcp.TextContent{Text: string(data)},
