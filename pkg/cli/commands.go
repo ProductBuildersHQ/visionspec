@@ -25,10 +25,13 @@ import (
 	"github.com/ProductBuildersHQ/visionspec/pkg/lint"
 	"github.com/ProductBuildersHQ/visionspec/pkg/metrics"
 	"github.com/ProductBuildersHQ/visionspec/pkg/mkdocs"
+	"github.com/ProductBuildersHQ/visionspec/pkg/patterns"
 	"github.com/ProductBuildersHQ/visionspec/pkg/profiles"
 	"github.com/ProductBuildersHQ/visionspec/pkg/reconcile"
+	"github.com/ProductBuildersHQ/visionspec/pkg/reuse"
 	"github.com/ProductBuildersHQ/visionspec/pkg/rubrics"
 	"github.com/ProductBuildersHQ/visionspec/pkg/rules"
+	"github.com/ProductBuildersHQ/visionspec/pkg/search"
 	"github.com/ProductBuildersHQ/visionspec/pkg/specgraph"
 	"github.com/ProductBuildersHQ/visionspec/pkg/status"
 	"github.com/ProductBuildersHQ/visionspec/pkg/synth"
@@ -4694,4 +4697,322 @@ func runMetrics(cmd *cobra.Command, args []string) error {
 	}
 
 	return nil
+}
+
+// searchCmd creates the search command.
+func searchCmd(cfg *Config) *cobra.Command { //nolint:unparam // cfg reserved for future use
+	cmd := &cobra.Command{
+		Use:   "search <query>",
+		Short: "Search specification files",
+		Long: `Search across all specification files for matching content.
+
+The search command provides full-text search across MRD, PRD, UXD, TRD, and
+other specification files. Results are ranked by relevance and can be filtered
+by project or spec type.
+
+Examples:
+  visionspec search "authentication"       # Search all specs
+  visionspec search "user login" --project myapp
+  visionspec search "API endpoint" --type trd
+  visionspec search "login.*redirect" --regex
+  visionspec search "error" --limit 50`,
+		Args: cobra.ExactArgs(1),
+		RunE: runSearch,
+	}
+
+	cmd.Flags().StringP("project", "p", "", "Filter by project name")
+	cmd.Flags().StringSlice("type", nil, "Filter by spec types (mrd, prd, trd, etc.)")
+	cmd.Flags().Int("limit", 20, "Maximum results to return")
+	cmd.Flags().Bool("regex", false, "Treat query as regular expression")
+	cmd.Flags().BoolP("case-sensitive", "c", false, "Case sensitive search")
+	cmd.Flags().Int("context", 1, "Lines of context around matches")
+	cmd.Flags().String("format", "terminal", "Output format: terminal, json")
+
+	return cmd
+}
+
+func runSearch(cmd *cobra.Command, args []string) error {
+	query := args[0]
+	project, _ := cmd.Flags().GetString("project")
+	specTypes, _ := cmd.Flags().GetStringSlice("type")
+	limit, _ := cmd.Flags().GetInt("limit")
+	useRegex, _ := cmd.Flags().GetBool("regex")
+	caseSensitive, _ := cmd.Flags().GetBool("case-sensitive")
+	contextLines, _ := cmd.Flags().GetInt("context")
+	formatStr, _ := cmd.Flags().GetString("format")
+
+	// Find specs directory
+	specsDir, err := findSpecsDir()
+	if err != nil {
+		return err
+	}
+
+	// Build search options
+	opts := search.SearchOptions{
+		Limit:         limit,
+		Regex:         useRegex,
+		CaseSensitive: caseSensitive,
+		ContextLines:  contextLines,
+		SpecTypes:     specTypes,
+	}
+	if project != "" {
+		opts.Projects = []string{project}
+	}
+
+	// Run search
+	searcher := search.NewSearcher(specsDir)
+	results, err := searcher.Search(query, opts)
+	if err != nil {
+		return fmt.Errorf("search failed: %w", err)
+	}
+
+	// Output results
+	if formatStr == "json" {
+		enc := json.NewEncoder(os.Stdout)
+		enc.SetIndent("", "  ")
+		return enc.Encode(results)
+	}
+
+	// Terminal output
+	fmt.Printf("Search: %q (%d results in %s)\n", query, results.TotalHits, results.Took)
+	fmt.Println(strings.Repeat("─", 60))
+
+	for _, r := range results.Results {
+		fmt.Printf("\n%s/%s:%d (score: %.0f)\n", r.Project, r.SpecType, r.Line, r.Score)
+		fmt.Printf("  %s\n", truncateText(r.Snippet, 80))
+	}
+
+	if results.Truncated {
+		fmt.Printf("\n... showing %d of %d results (use --limit to see more)\n", len(results.Results), results.TotalHits)
+	}
+
+	// Show facets
+	if len(results.ByProject) > 1 {
+		fmt.Printf("\nBy project: ")
+		for proj, count := range results.ByProject {
+			fmt.Printf("%s(%d) ", proj, count)
+		}
+		fmt.Println()
+	}
+
+	return nil
+}
+
+// reuseCmd creates the reuse command.
+func reuseCmd(cfg *Config) *cobra.Command { //nolint:unparam // cfg reserved for future use
+	cmd := &cobra.Command{
+		Use:   "reuse",
+		Short: "Analyze requirement reuse across projects",
+		Long: `Analyze specifications to identify reusable requirements.
+
+The reuse command scans all specification files to find:
+  - Duplicate requirements across projects
+  - Similar requirements that could be consolidated
+  - Candidates for extraction to shared libraries
+
+This helps maintain consistency and reduce duplication across
+multiple projects in the specs directory.
+
+Examples:
+  visionspec reuse                         # Analyze all projects
+  visionspec reuse --format json           # JSON output
+  visionspec reuse --min-similarity 0.5    # Lower similarity threshold`,
+		RunE: runReuse,
+	}
+
+	cmd.Flags().String("format", "terminal", "Output format: terminal, json")
+	cmd.Flags().Float64("min-similarity", 0.3, "Minimum similarity score for matches")
+
+	return cmd
+}
+
+func runReuse(cmd *cobra.Command, args []string) error {
+	formatStr, _ := cmd.Flags().GetString("format")
+
+	// Find specs directory
+	specsDir, err := findSpecsDir()
+	if err != nil {
+		return err
+	}
+
+	// Run analysis
+	tracker := reuse.NewTracker(specsDir)
+	report, err := tracker.Analyze()
+	if err != nil {
+		return fmt.Errorf("reuse analysis failed: %w", err)
+	}
+
+	// Output results
+	if formatStr == "json" {
+		enc := json.NewEncoder(os.Stdout)
+		enc.SetIndent("", "  ")
+		return enc.Encode(report)
+	}
+
+	// Terminal output
+	fmt.Println("Requirements Reuse Analysis")
+	fmt.Println(strings.Repeat("═", 60))
+	fmt.Printf("\nProjects analyzed: %d\n", report.Summary.ProjectsAnalyzed)
+	fmt.Printf("Total requirements: %d\n", report.Summary.TotalRequirements)
+	fmt.Printf("Duplicate patterns: %d\n", report.Summary.DuplicateCount)
+	fmt.Printf("Reuse candidates: %d\n", report.Summary.ReuseCandidateCount)
+
+	if len(report.DuplicatePatterns) > 0 {
+		fmt.Println("\n─ Duplicates ─────────────────────────────────────────────")
+		for _, dup := range report.DuplicatePatterns {
+			fmt.Printf("\n[%dx across %s]\n", dup.Count, strings.Join(dup.Projects, ", "))
+			fmt.Printf("  %s\n", truncateText(dup.Text, 70))
+		}
+	}
+
+	if len(report.ReuseCandidates) > 0 {
+		fmt.Println("\n─ Reuse Candidates ───────────────────────────────────────")
+		for _, cand := range report.ReuseCandidates {
+			fmt.Printf("\n[%s] %s\n", cand.Priority, cand.Type)
+			fmt.Printf("  %s\n", cand.Description)
+			fmt.Printf("  → %s\n", cand.Suggestion)
+		}
+	}
+
+	return nil
+}
+
+// patternsCmd creates the patterns command.
+func patternsCmd(cfg *Config) *cobra.Command { //nolint:unparam // cfg reserved for future use
+	cmd := &cobra.Command{
+		Use:   "patterns",
+		Short: "Detect specification patterns and anti-patterns",
+		Long: `Detect common patterns and anti-patterns in specifications.
+
+The patterns command analyzes specification files to identify:
+  - Structural patterns (common section layouts)
+  - Content patterns (user stories, acceptance criteria, etc.)
+  - Anti-patterns (vague requirements, empty sections, etc.)
+
+This helps improve specification quality by highlighting both
+good practices and areas needing attention.
+
+Examples:
+  visionspec patterns                      # Analyze all specs
+  visionspec patterns --format json        # JSON output for processing
+  visionspec patterns --anti-patterns-only # Show only issues`,
+		RunE: runPatterns,
+	}
+
+	cmd.Flags().String("format", "terminal", "Output format: terminal, json")
+	cmd.Flags().Bool("anti-patterns-only", false, "Show only anti-patterns")
+
+	return cmd
+}
+
+func runPatterns(cmd *cobra.Command, args []string) error {
+	formatStr, _ := cmd.Flags().GetString("format")
+	antiPatternsOnly, _ := cmd.Flags().GetBool("anti-patterns-only")
+
+	// Find specs directory
+	specsDir, err := findSpecsDir()
+	if err != nil {
+		return err
+	}
+
+	// Run detection
+	detector := patterns.NewDetector(specsDir)
+	report, err := detector.Detect()
+	if err != nil {
+		return fmt.Errorf("pattern detection failed: %w", err)
+	}
+
+	// Output results
+	if formatStr == "json" {
+		enc := json.NewEncoder(os.Stdout)
+		enc.SetIndent("", "  ")
+		return enc.Encode(report)
+	}
+
+	// Terminal output
+	fmt.Println("Specification Pattern Analysis")
+	fmt.Println(strings.Repeat("═", 60))
+	fmt.Printf("\nSpecs analyzed: %d\n", report.Summary.TotalSpecs)
+	fmt.Printf("Quality score: %.1f/100\n", report.Summary.QualityScore)
+
+	if !antiPatternsOnly {
+		if len(report.StructuralPatterns) > 0 {
+			fmt.Println("\n─ Structural Patterns ────────────────────────────────────")
+			for _, p := range report.StructuralPatterns[:min(5, len(report.StructuralPatterns))] {
+				fmt.Printf("  %-30s (%d occurrences)\n", p.Name, p.Occurrences)
+			}
+		}
+
+		if len(report.ContentPatterns) > 0 {
+			fmt.Println("\n─ Content Patterns ───────────────────────────────────────")
+			for _, p := range report.ContentPatterns {
+				fmt.Printf("  %-30s (%d found)\n", p.Type, p.Occurrences)
+			}
+		}
+	}
+
+	if len(report.AntiPatterns) > 0 {
+		fmt.Println("\n─ Anti-Patterns ──────────────────────────────────────────")
+		for _, ap := range report.AntiPatterns {
+			severityIcon := "○"
+			switch ap.Severity {
+			case "high":
+				severityIcon = "●"
+			case "medium":
+				severityIcon = "◐"
+			}
+			fmt.Printf("\n%s [%s] %s\n", severityIcon, ap.Severity, ap.Type)
+			fmt.Printf("  %s\n", ap.Description)
+			fmt.Printf("  → %s\n", ap.Suggestion)
+			if len(ap.Instances) > 0 {
+				fmt.Printf("  Found in: %d locations\n", len(ap.Instances))
+			}
+		}
+	}
+
+	// Common sections
+	if !antiPatternsOnly && len(report.Summary.CommonSections) > 0 {
+		fmt.Println("\n─ Most Common Sections ───────────────────────────────────")
+		for i, section := range report.Summary.CommonSections {
+			if i >= 5 {
+				break
+			}
+			fmt.Printf("  %d. %s\n", i+1, section)
+		}
+	}
+
+	return nil
+}
+
+// truncateText truncates text to maxLen with ellipsis.
+func truncateText(s string, maxLen int) string {
+	if len(s) <= maxLen {
+		return s
+	}
+	return s[:maxLen-3] + "..."
+}
+
+// findSpecsDir locates the specs directory.
+func findSpecsDir() (string, error) {
+	cwd, err := os.Getwd()
+	if err != nil {
+		return "", fmt.Errorf("getting working directory: %w", err)
+	}
+
+	// Check for docs/specs in current directory
+	specsDir := filepath.Join(cwd, "docs", "specs")
+	if _, err := os.Stat(specsDir); err == nil {
+		return specsDir, nil
+	}
+
+	// Check if we're in a project with visionspec.yaml
+	projectPath, err := config.FindProjectRoot(cwd)
+	if err == nil {
+		specsDir = filepath.Join(projectPath, "docs", "specs")
+		if _, err := os.Stat(specsDir); err == nil {
+			return specsDir, nil
+		}
+	}
+
+	return "", fmt.Errorf("specs directory not found (looked for docs/specs)")
 }

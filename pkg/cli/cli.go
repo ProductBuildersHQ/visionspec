@@ -267,6 +267,9 @@ func AddCommandsTo(root *cobra.Command, cfg *Config) {
 		cmds.Watch,
 		cmds.Workflows,
 		cmds.Metrics,
+		cmds.Search,
+		cmds.Reuse,
+		cmds.Patterns,
 		cmds.Version,
 	)
 }
@@ -298,6 +301,9 @@ type CommandSet struct {
 	Watch      *cobra.Command
 	Workflows  *cobra.Command
 	Metrics    *cobra.Command
+	Search     *cobra.Command
+	Reuse      *cobra.Command
+	Patterns   *cobra.Command
 	Version    *cobra.Command
 }
 
@@ -334,6 +340,9 @@ func Commands(cfg *Config) *CommandSet {
 		Watch:      watchCmd(cfg),
 		Workflows:  workflowsCmd(cfg),
 		Metrics:    metricsCmd(cfg),
+		Search:     searchCmd(cfg),
+		Reuse:      reuseCmd(cfg),
+		Patterns:   patternsCmd(cfg),
 		Version:    versionCmd(cfg),
 	}
 }
