@@ -457,6 +457,326 @@ func WriteNavigation(specsDir string, outputPath string) error {
 	return nil
 }
 
+// GraphEmbedOptions configures graph embedding in documentation.
+type GraphEmbedOptions struct {
+	// Format is the graph output format: "mermaid", "iframe", "svg"
+	Format string
+	// Width is the iframe/svg width (e.g., "100%", "800px")
+	Width string
+	// Height is the iframe/svg height (e.g., "600px")
+	Height string
+	// GraphURL is the URL to the graph HTML file for iframe embedding
+	GraphURL string
+	// GraphPath is the local path to the graph file
+	GraphPath string
+	// Title is the optional title for the graph section
+	Title string
+	// Description is the optional description
+	Description string
+}
+
+// DefaultGraphEmbedOptions returns default graph embed options.
+func DefaultGraphEmbedOptions() GraphEmbedOptions {
+	return GraphEmbedOptions{
+		Format: "mermaid",
+		Width:  "100%",
+		Height: "600px",
+		Title:  "Specification Graph",
+	}
+}
+
+// GenerateGraphEmbed generates markdown for embedding a graph visualization.
+func GenerateGraphEmbed(w io.Writer, nodes []GraphNode, edges []GraphEdge, opts GraphEmbedOptions) error {
+	if opts.Title != "" {
+		fmt.Fprintf(w, "## %s\n\n", opts.Title)
+	}
+	if opts.Description != "" {
+		fmt.Fprintf(w, "%s\n\n", opts.Description)
+	}
+
+	switch opts.Format {
+	case "iframe":
+		return generateIframeEmbed(w, opts)
+	case "svg":
+		return generateSVGEmbed(w, opts)
+	default:
+		return generateMermaidEmbed(w, nodes, edges)
+	}
+}
+
+// GraphNode represents a node in the spec graph.
+type GraphNode struct {
+	ID       string `json:"id"`
+	Label    string `json:"label"`
+	Type     string `json:"type"` // requirement, feature, task, acceptance
+	Status   string `json:"status,omitempty"`
+	Category string `json:"category,omitempty"`
+}
+
+// GraphEdge represents an edge in the spec graph.
+type GraphEdge struct {
+	From     string `json:"from"`
+	To       string `json:"to"`
+	Relation string `json:"relation"` // implements, depends_on, traces_to, validates
+}
+
+// generateMermaidEmbed generates a Mermaid diagram.
+func generateMermaidEmbed(w io.Writer, nodes []GraphNode, edges []GraphEdge) error {
+	fmt.Fprintf(w, "```mermaid\ngraph TD\n")
+
+	// Group nodes by type for styling
+	nodesByType := make(map[string][]GraphNode)
+	for _, node := range nodes {
+		nodesByType[node.Type] = append(nodesByType[node.Type], node)
+	}
+
+	// Write nodes
+	for _, node := range nodes {
+		shape := getNodeShape(node.Type)
+		label := escapeLabel(node.Label)
+		fmt.Fprintf(w, "    %s%s%s%s\n", node.ID, shape[0], label, shape[1])
+	}
+
+	fmt.Fprintf(w, "\n")
+
+	// Write edges
+	for _, edge := range edges {
+		arrow := getArrowStyle(edge.Relation)
+		fmt.Fprintf(w, "    %s %s %s\n", edge.From, arrow, edge.To)
+	}
+
+	// Add styles
+	fmt.Fprintf(w, "\n")
+	fmt.Fprintf(w, "    classDef requirement fill:#e1f5fe,stroke:#01579b\n")
+	fmt.Fprintf(w, "    classDef feature fill:#e8f5e9,stroke:#2e7d32\n")
+	fmt.Fprintf(w, "    classDef task fill:#fff3e0,stroke:#ef6c00\n")
+	fmt.Fprintf(w, "    classDef acceptance fill:#f3e5f5,stroke:#7b1fa2\n")
+
+	// Apply classes
+	for nodeType, typeNodes := range nodesByType {
+		if len(typeNodes) > 0 {
+			ids := make([]string, len(typeNodes))
+			for i, n := range typeNodes {
+				ids[i] = n.ID
+			}
+			fmt.Fprintf(w, "    class %s %s\n", strings.Join(ids, ","), nodeType)
+		}
+	}
+
+	fmt.Fprintf(w, "```\n\n")
+	return nil
+}
+
+// getNodeShape returns Mermaid shape delimiters based on node type.
+func getNodeShape(nodeType string) [2]string {
+	switch nodeType {
+	case "requirement":
+		return [2]string{"[[", "]]"} // Stadium-shaped
+	case "feature":
+		return [2]string{"[", "]"} // Rectangle
+	case "task":
+		return [2]string{"((", "))"} // Circle
+	case "acceptance":
+		return [2]string{"{", "}"} // Diamond
+	default:
+		return [2]string{"[", "]"}
+	}
+}
+
+// getArrowStyle returns Mermaid arrow style based on relation type.
+func getArrowStyle(relation string) string {
+	switch relation {
+	case "implements":
+		return "==>"
+	case "depends_on":
+		return "-->"
+	case "traces_to":
+		return "-.->"
+	case "validates":
+		return "--o"
+	default:
+		return "-->"
+	}
+}
+
+// escapeLabel escapes special characters for Mermaid labels.
+func escapeLabel(label string) string {
+	// Escape quotes and special characters
+	label = strings.ReplaceAll(label, "\"", "'")
+	label = strings.ReplaceAll(label, "[", "(")
+	label = strings.ReplaceAll(label, "]", ")")
+	label = strings.ReplaceAll(label, "{", "(")
+	label = strings.ReplaceAll(label, "}", ")")
+	// Truncate long labels
+	if len(label) > 40 {
+		label = label[:37] + "..."
+	}
+	return "\"" + label + "\""
+}
+
+// generateIframeEmbed generates an iframe embed for external graph.
+func generateIframeEmbed(w io.Writer, opts GraphEmbedOptions) error {
+	if opts.GraphURL == "" && opts.GraphPath != "" {
+		opts.GraphURL = opts.GraphPath
+	}
+	if opts.GraphURL == "" {
+		return fmt.Errorf("GraphURL or GraphPath required for iframe embed")
+	}
+
+	fmt.Fprintf(w, "<iframe src=\"%s\" width=\"%s\" height=\"%s\" frameborder=\"0\"></iframe>\n\n",
+		opts.GraphURL, opts.Width, opts.Height)
+	return nil
+}
+
+// generateSVGEmbed generates an embedded SVG or link to SVG.
+func generateSVGEmbed(w io.Writer, opts GraphEmbedOptions) error {
+	if opts.GraphPath == "" {
+		return fmt.Errorf("GraphPath required for SVG embed")
+	}
+
+	// Check if file exists and read content
+	content, err := os.ReadFile(opts.GraphPath)
+	if err != nil {
+		// Fall back to image link
+		fmt.Fprintf(w, "![%s](%s)\n\n", opts.Title, opts.GraphPath)
+		return nil
+	}
+
+	// Embed SVG directly
+	fmt.Fprintf(w, "%s\n\n", string(content))
+	return nil
+}
+
+// ExtractGraphFromSpec extracts graph nodes and edges from spec content.
+// This is a simplified extraction - a full implementation would use
+// more sophisticated NLP/parsing.
+func ExtractGraphFromSpec(specContent string, projectName string) ([]GraphNode, []GraphEdge) {
+	var nodes []GraphNode
+	var edges []GraphEdge
+
+	lines := strings.Split(specContent, "\n")
+	currentSection := ""
+	nodeNum := 0
+
+	for _, line := range lines {
+		trimmed := strings.TrimSpace(line)
+
+		// Track section
+		if strings.HasPrefix(trimmed, "## ") {
+			currentSection = strings.TrimPrefix(trimmed, "## ")
+			continue
+		}
+
+		// Extract requirements from bullet points
+		if strings.HasPrefix(trimmed, "- ") || strings.HasPrefix(trimmed, "* ") {
+			content := strings.TrimPrefix(strings.TrimPrefix(trimmed, "- "), "* ")
+
+			nodeNum++
+			nodeType := inferNodeType(currentSection, content)
+			node := GraphNode{
+				ID:       fmt.Sprintf("%s_%03d", strings.ToLower(nodeType[:3]), nodeNum),
+				Label:    content,
+				Type:     nodeType,
+				Category: currentSection,
+			}
+			nodes = append(nodes, node)
+		}
+	}
+
+	// Generate some basic edges (in a real implementation, this would
+	// use dependency analysis)
+	for i := 1; i < len(nodes); i++ {
+		if nodes[i-1].Type == "requirement" && nodes[i].Type == "feature" {
+			edges = append(edges, GraphEdge{
+				From:     nodes[i-1].ID,
+				To:       nodes[i].ID,
+				Relation: "implements",
+			})
+		} else if nodes[i].Type == "task" && i > 0 {
+			edges = append(edges, GraphEdge{
+				From:     nodes[i-1].ID,
+				To:       nodes[i].ID,
+				Relation: "depends_on",
+			})
+		}
+	}
+
+	return nodes, edges
+}
+
+// inferNodeType infers the node type from section and content.
+func inferNodeType(section, content string) string {
+	sectionLower := strings.ToLower(section)
+	contentLower := strings.ToLower(content)
+
+	switch {
+	case strings.Contains(sectionLower, "requirement") || strings.Contains(contentLower, "must") || strings.Contains(contentLower, "shall"):
+		return "requirement"
+	case strings.Contains(sectionLower, "feature") || strings.Contains(sectionLower, "capability"):
+		return "feature"
+	case strings.Contains(sectionLower, "task") || strings.Contains(sectionLower, "work") || strings.HasPrefix(content, "[ ]"):
+		return "task"
+	case strings.Contains(sectionLower, "acceptance") || strings.Contains(sectionLower, "criteria") || strings.Contains(contentLower, "given"):
+		return "acceptance"
+	default:
+		return "feature"
+	}
+}
+
+// WriteGraphPage generates a dedicated graph visualization page.
+func WriteGraphPage(projectPath string, specContent string, opts GraphEmbedOptions) error {
+	projectName := filepath.Base(projectPath)
+	nodes, edges := ExtractGraphFromSpec(specContent, projectName)
+
+	graphPath := filepath.Join(projectPath, "graph.md")
+	f, err := os.Create(graphPath)
+	if err != nil {
+		return fmt.Errorf("creating graph.md: %w", err)
+	}
+	defer f.Close()
+
+	fmt.Fprintf(f, "# %s Specification Graph\n\n", projectName)
+	fmt.Fprintf(f, "This graph shows the relationships between requirements, features, tasks, and acceptance criteria.\n\n")
+
+	// Legend
+	fmt.Fprintf(f, "## Legend\n\n")
+	fmt.Fprintf(f, "- **Stadium shapes**: Requirements\n")
+	fmt.Fprintf(f, "- **Rectangles**: Features\n")
+	fmt.Fprintf(f, "- **Circles**: Tasks\n")
+	fmt.Fprintf(f, "- **Diamonds**: Acceptance Criteria\n\n")
+
+	// Generate graph
+	opts.Title = "Traceability Graph"
+	opts.Description = ""
+	if err := GenerateGraphEmbed(f, nodes, edges, opts); err != nil {
+		return err
+	}
+
+	// Summary
+	fmt.Fprintf(f, "## Summary\n\n")
+	fmt.Fprintf(f, "- **Total Nodes:** %d\n", len(nodes))
+	fmt.Fprintf(f, "- **Total Edges:** %d\n", len(edges))
+
+	// Count by type
+	byType := make(map[string]int)
+	for _, node := range nodes {
+		byType[node.Type]++
+	}
+	for nodeType, count := range byType {
+		// Capitalize first letter
+		title := nodeType
+		if len(title) > 0 {
+			title = strings.ToUpper(string(title[0])) + title[1:]
+		}
+		fmt.Fprintf(f, "- **%s:** %d\n", title, count)
+	}
+
+	fmt.Fprintf(f, "\n---\n")
+	fmt.Fprintf(f, "*Generated by VisionSpec*\n")
+
+	return nil
+}
+
 // WriteSpecsLanding writes the main specs/index.md file.
 func WriteSpecsLanding(specsDir string, opts SpecsLandingOptions) error {
 	// Check for global resources
