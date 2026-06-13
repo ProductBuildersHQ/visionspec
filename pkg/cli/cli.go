@@ -262,8 +262,11 @@ func AddCommandsTo(root *cobra.Command, cfg *Config) {
 		cmds.Generate,
 		cmds.Sync,
 		cmds.Drift,
+		cmds.Align,
+		cmds.Hooks,
 		cmds.Watch,
 		cmds.Workflows,
+		cmds.Metrics,
 		cmds.Version,
 	)
 }
@@ -290,8 +293,11 @@ type CommandSet struct {
 	Generate   *cobra.Command
 	Sync       *cobra.Command
 	Drift      *cobra.Command
+	Align      *cobra.Command
+	Hooks      *cobra.Command
 	Watch      *cobra.Command
 	Workflows  *cobra.Command
+	Metrics    *cobra.Command
 	Version    *cobra.Command
 }
 
@@ -323,8 +329,11 @@ func Commands(cfg *Config) *CommandSet {
 		Generate:   generateCmd(cfg),
 		Sync:       syncCmd(cfg),
 		Drift:      driftCmd(cfg),
+		Align:      alignCmd(cfg),
+		Hooks:      hooksCmd(cfg),
 		Watch:      watchCmd(cfg),
 		Workflows:  workflowsCmd(cfg),
+		Metrics:    metricsCmd(cfg),
 		Version:    versionCmd(cfg),
 	}
 }

@@ -15,12 +15,15 @@ import (
 	"github.com/fsnotify/fsnotify"
 
 	"github.com/ProductBuildersHQ/visionspec/internal/mcp"
+	"github.com/ProductBuildersHQ/visionspec/pkg/align"
 	"github.com/ProductBuildersHQ/visionspec/pkg/config"
 	ctxpkg "github.com/ProductBuildersHQ/visionspec/pkg/context"
 	"github.com/ProductBuildersHQ/visionspec/pkg/context/sources"
 	"github.com/ProductBuildersHQ/visionspec/pkg/drift"
 	"github.com/ProductBuildersHQ/visionspec/pkg/eval"
+	"github.com/ProductBuildersHQ/visionspec/pkg/hooks"
 	"github.com/ProductBuildersHQ/visionspec/pkg/lint"
+	"github.com/ProductBuildersHQ/visionspec/pkg/metrics"
 	"github.com/ProductBuildersHQ/visionspec/pkg/mkdocs"
 	"github.com/ProductBuildersHQ/visionspec/pkg/profiles"
 	"github.com/ProductBuildersHQ/visionspec/pkg/reconcile"
@@ -3270,6 +3273,8 @@ Examples:
 	cmd.Flags().String("format", "text", "Output format: text, json, markdown")
 	cmd.Flags().String("severity", "low", "Minimum severity: low, medium, high, critical")
 	cmd.Flags().Bool("ci", false, "CI mode: exit non-zero if drift detected")
+	cmd.Flags().Bool("with-context", false, "Include context gathering (slower but more accurate)")
+	cmd.Flags().String("context-file", "", "Load context from a specific file instead of cache")
 
 	return cmd
 }
@@ -3278,6 +3283,8 @@ func runDrift(cmd *cobra.Command, args []string) error {
 	formatStr, _ := cmd.Flags().GetString("format")
 	severityStr, _ := cmd.Flags().GetString("severity")
 	ciMode, _ := cmd.Flags().GetBool("ci")
+	withContext, _ := cmd.Flags().GetBool("with-context")
+	contextFile, _ := cmd.Flags().GetString("context-file")
 
 	// Parse format
 	var format drift.RenderFormat
@@ -3330,13 +3337,43 @@ func runDrift(cmd *cobra.Command, args []string) error {
 		return fmt.Errorf("reading spec.md: %w", err)
 	}
 
-	// Load context (if available)
+	// Load context
 	var aggregatedCtx *ctxpkg.AggregatedContext
-	contextCachePath := filepath.Join(projectPath, ".visionspec", "context-cache.json")
-	if contextData, err := os.ReadFile(contextCachePath); err == nil {
+
+	if contextFile != "" {
+		// Load from specific file
+		contextData, err := os.ReadFile(contextFile)
+		if err != nil {
+			return fmt.Errorf("reading context file: %w", err)
+		}
 		var ctx ctxpkg.AggregatedContext
-		if json.Unmarshal(contextData, &ctx) == nil {
-			aggregatedCtx = &ctx
+		if err := json.Unmarshal(contextData, &ctx); err != nil {
+			return fmt.Errorf("parsing context file: %w", err)
+		}
+		aggregatedCtx = &ctx
+	} else if withContext {
+		// Gather fresh context
+		fmt.Println("Gathering context...")
+		ctxCfg := getContextConfig(project, projectPath)
+		agg, err := sources.BuildAggregator(project.Name, ctxCfg)
+		if err != nil {
+			return fmt.Errorf("building aggregator: %w", err)
+		}
+		gatherCtx, cancel := context.WithTimeout(context.Background(), 2*time.Minute)
+		defer cancel()
+		ac, err := agg.Gather(gatherCtx)
+		if err != nil {
+			return fmt.Errorf("gathering context: %w", err)
+		}
+		aggregatedCtx = ac
+	} else {
+		// Load from cache
+		contextCachePath := filepath.Join(projectPath, ".visionspec", "context-cache.json")
+		if contextData, err := os.ReadFile(contextCachePath); err == nil {
+			var ctx ctxpkg.AggregatedContext
+			if json.Unmarshal(contextData, &ctx) == nil {
+				aggregatedCtx = &ctx
+			}
 		}
 	}
 
@@ -3370,6 +3407,209 @@ func runDrift(cmd *cobra.Command, args []string) error {
 			return fmt.Errorf("drift detected with blockers (critical/high severity)")
 		}
 		return fmt.Errorf("drift detected")
+	}
+
+	return nil
+}
+
+// alignCmd creates the align command.
+func alignCmd(cfg *Config) *cobra.Command { //nolint:unparam // cfg reserved for future use
+	cmd := &cobra.Command{
+		Use:   "align",
+		Short: "Check alignment between spec and implementation",
+		Long: `Check alignment between the reconciled spec.md and the actual implementation.
+
+Alignment checking compares what was specified against what was built to identify:
+  - Missing features: Requirements in spec not found in code
+  - Undocumented code: Code that exists without spec coverage
+  - Diverged: Spec and code exist but have diverged
+  - Partial implementations: Features that are partially complete
+  - Behavior mismatches: Implementation differs from specified behavior
+
+The command uses context sources configured in visionspec.yaml to analyze
+the codebase. Run 'visionspec context gather' first to populate context.
+
+Output:
+  - Alignment score (0-100%)
+  - Coverage metrics
+  - List of discrepancies by severity
+  - Optional current-truth.md document
+
+Examples:
+  visionspec align                         # Full alignment report
+  visionspec align --severity high         # Only high/critical items
+  visionspec align --format json           # JSON output
+  visionspec align --truth                 # Generate current-truth.md
+  visionspec align --ci                    # Exit non-zero if misaligned`,
+		RunE: runAlign,
+	}
+
+	cmd.Flags().String("format", "text", "Output format: text, json, markdown")
+	cmd.Flags().String("severity", "low", "Minimum severity: low, medium, high, critical")
+	cmd.Flags().Bool("ci", false, "CI mode: exit non-zero if misaligned")
+	cmd.Flags().Bool("truth", false, "Generate current-truth.md document")
+	cmd.Flags().Bool("with-context", false, "Include context gathering (slower but more accurate)")
+	cmd.Flags().String("context-file", "", "Load context from a specific file instead of cache")
+
+	return cmd
+}
+
+func runAlign(cmd *cobra.Command, args []string) error {
+	formatStr, _ := cmd.Flags().GetString("format")
+	severityStr, _ := cmd.Flags().GetString("severity")
+	ciMode, _ := cmd.Flags().GetBool("ci")
+	generateTruth, _ := cmd.Flags().GetBool("truth")
+	withContext, _ := cmd.Flags().GetBool("with-context")
+	contextFile, _ := cmd.Flags().GetString("context-file")
+
+	// Parse format
+	var format align.OutputFormat
+	switch formatStr {
+	case "json":
+		format = align.OutputFormatJSON
+	case "markdown", "md":
+		format = align.OutputFormatMarkdown
+	default:
+		format = align.OutputFormatText
+	}
+
+	// Parse severity
+	var minSeverity align.Severity
+	switch severityStr {
+	case "critical":
+		minSeverity = align.SeverityCritical
+	case "high":
+		minSeverity = align.SeverityHigh
+	case "medium":
+		minSeverity = align.SeverityMedium
+	default:
+		minSeverity = align.SeverityLow
+	}
+
+	// Find project root
+	cwd, err := os.Getwd()
+	if err != nil {
+		return fmt.Errorf("getting working directory: %w", err)
+	}
+
+	projectPath, err := config.FindProjectRoot(cwd)
+	if err != nil {
+		return fmt.Errorf("not in a visionspec project (no visionspec.yaml found)")
+	}
+
+	// Load project
+	project, err := config.Load(projectPath)
+	if err != nil {
+		return fmt.Errorf("loading project: %w", err)
+	}
+
+	// Load spec.md
+	specPath := filepath.Join(projectPath, "spec.md")
+	specContent, err := os.ReadFile(specPath)
+	if err != nil {
+		if os.IsNotExist(err) {
+			return fmt.Errorf("spec.md not found - run 'visionspec reconcile' first")
+		}
+		return fmt.Errorf("reading spec.md: %w", err)
+	}
+
+	// Load context
+	var aggregatedCtx *ctxpkg.AggregatedContext
+
+	if contextFile != "" {
+		// Load from specific file
+		contextData, err := os.ReadFile(contextFile)
+		if err != nil {
+			return fmt.Errorf("reading context file: %w", err)
+		}
+		var ctx ctxpkg.AggregatedContext
+		if err := json.Unmarshal(contextData, &ctx); err != nil {
+			return fmt.Errorf("parsing context file: %w", err)
+		}
+		aggregatedCtx = &ctx
+	} else if withContext {
+		// Gather fresh context
+		fmt.Println("Gathering context...")
+		ctxCfg := getContextConfig(project, projectPath)
+		agg, err := sources.BuildAggregator(project.Name, ctxCfg)
+		if err != nil {
+			return fmt.Errorf("building aggregator: %w", err)
+		}
+		gatherCtx, cancel := context.WithTimeout(context.Background(), 2*time.Minute)
+		defer cancel()
+		ac, err := agg.Gather(gatherCtx)
+		if err != nil {
+			return fmt.Errorf("gathering context: %w", err)
+		}
+		aggregatedCtx = ac
+	} else {
+		// Try to load from cache
+		contextCachePath := filepath.Join(projectPath, ".visionspec", "context-cache.json")
+		if contextData, err := os.ReadFile(contextCachePath); err == nil {
+			var ctx ctxpkg.AggregatedContext
+			if json.Unmarshal(contextData, &ctx) == nil {
+				aggregatedCtx = &ctx
+			}
+		}
+	}
+
+	if aggregatedCtx == nil {
+		// Create minimal context
+		aggregatedCtx = &ctxpkg.AggregatedContext{
+			Project: project.Name,
+		}
+	}
+
+	// Run alignment check
+	aligner := align.NewAligner()
+	opts := align.AlignOptions{
+		MinSeverity:     minSeverity,
+		IncludeEvidence: true,
+	}
+
+	result, err := aligner.Align(string(specContent), aggregatedCtx, opts)
+	if err != nil {
+		return fmt.Errorf("alignment check failed: %w", err)
+	}
+
+	// Add metadata
+	result.SpecPath = specPath
+	if contextFile != "" {
+		result.ContextSource = contextFile
+	} else if withContext {
+		result.ContextSource = "fresh"
+	} else {
+		result.ContextSource = "cache"
+	}
+
+	// Render report
+	output, err := align.RenderResult(result, format)
+	if err != nil {
+		return fmt.Errorf("rendering report: %w", err)
+	}
+	fmt.Print(output)
+
+	// Generate current-truth.md if requested
+	if generateTruth {
+		truth := align.GenerateCurrentTruth(result)
+		truthContent, err := truth.RenderMarkdown()
+		if err != nil {
+			return fmt.Errorf("rendering current-truth: %w", err)
+		}
+
+		truthPath := filepath.Join(projectPath, "current-truth.md")
+		if err := os.WriteFile(truthPath, []byte(truthContent), 0644); err != nil {
+			return fmt.Errorf("writing current-truth.md: %w", err)
+		}
+		fmt.Printf("\nGenerated: %s\n", truthPath)
+	}
+
+	// CI mode: exit with error if misaligned
+	if ciMode && result.HasDiscrepancies() {
+		if result.HasBlockers() {
+			return fmt.Errorf("misalignment detected with blockers (critical/high severity)")
+		}
+		return fmt.Errorf("misalignment detected")
 	}
 
 	return nil
@@ -3727,6 +3967,222 @@ func watchDirectory(watcher *fsnotify.Watcher, dir string) error {
 		}
 		return nil
 	})
+}
+
+// Hooks management commands
+
+func hooksCmd(cfg *Config) *cobra.Command { //nolint:unparam // cfg reserved for future use
+	cmd := &cobra.Command{
+		Use:   "hooks",
+		Short: "Manage visionspec Git hooks",
+		Long: `Manage visionspec Git hooks for automatic spec validation.
+
+Available hooks:
+  pre-commit    Lint changed spec files before commit
+  pre-push      Validate specs before push
+
+Examples:
+  visionspec hooks install             # Install all hooks
+  visionspec hooks install pre-commit  # Install specific hook
+  visionspec hooks uninstall           # Remove all hooks
+  visionspec hooks status              # Show hook status`,
+	}
+
+	cmd.AddCommand(
+		hooksInstallCmd(cfg),
+		hooksUninstallCmd(cfg),
+		hooksStatusCmd(cfg),
+	)
+
+	return cmd
+}
+
+func hooksInstallCmd(cfg *Config) *cobra.Command { //nolint:unparam // cfg reserved for future use
+	cmd := &cobra.Command{
+		Use:   "install [hook-types...]",
+		Short: "Install Git hooks",
+		Long: `Install visionspec Git hooks.
+
+If no hook types are specified, installs all supported hooks.
+
+Examples:
+  visionspec hooks install              # Install all hooks
+  visionspec hooks install pre-commit   # Install pre-commit only
+  visionspec hooks install pre-push     # Install pre-push only`,
+		RunE: runHooksInstall,
+	}
+
+	cmd.Flags().Bool("force", false, "Overwrite existing hooks without backup")
+
+	return cmd
+}
+
+func runHooksInstall(cmd *cobra.Command, args []string) error {
+	// Find repo root
+	cwd, err := os.Getwd()
+	if err != nil {
+		return fmt.Errorf("getting working directory: %w", err)
+	}
+
+	repoRoot, err := hooks.FindRepoRoot(cwd)
+	if err != nil {
+		return err
+	}
+
+	// Determine which hooks to install
+	var hookTypes []hooks.HookType
+	if len(args) == 0 {
+		hookTypes = hooks.AllHookTypes()
+	} else {
+		for _, arg := range args {
+			hookTypes = append(hookTypes, hooks.HookType(arg))
+		}
+	}
+
+	// Install hooks
+	manager := hooks.NewManager(repoRoot, hooks.DefaultConfig())
+	result, err := manager.Install(hookTypes)
+	if err != nil {
+		return err
+	}
+
+	// Print results
+	if len(result.Installed) > 0 {
+		fmt.Printf("Installed hooks: %s\n", strings.Join(result.Installed, ", "))
+	}
+	if len(result.BackedUp) > 0 {
+		fmt.Printf("Backed up existing hooks: %s\n", strings.Join(result.BackedUp, ", "))
+	}
+	if len(result.Errors) > 0 {
+		fmt.Println("Errors:")
+		for _, err := range result.Errors {
+			fmt.Printf("  - %s\n", err)
+		}
+	}
+
+	fmt.Printf("Hooks directory: %s\n", result.HooksDir)
+
+	return nil
+}
+
+func hooksUninstallCmd(cfg *Config) *cobra.Command { //nolint:unparam // cfg reserved for future use
+	cmd := &cobra.Command{
+		Use:   "uninstall [hook-types...]",
+		Short: "Uninstall Git hooks",
+		Long: `Uninstall visionspec Git hooks.
+
+Only removes hooks that were installed by visionspec.
+Restores backup if one exists.
+
+Examples:
+  visionspec hooks uninstall              # Uninstall all hooks
+  visionspec hooks uninstall pre-commit   # Uninstall pre-commit only`,
+		RunE: runHooksUninstall,
+	}
+
+	return cmd
+}
+
+func runHooksUninstall(cmd *cobra.Command, args []string) error {
+	// Find repo root
+	cwd, err := os.Getwd()
+	if err != nil {
+		return fmt.Errorf("getting working directory: %w", err)
+	}
+
+	repoRoot, err := hooks.FindRepoRoot(cwd)
+	if err != nil {
+		return err
+	}
+
+	// Determine which hooks to uninstall
+	var hookTypes []hooks.HookType
+	if len(args) == 0 {
+		hookTypes = hooks.AllHookTypes()
+	} else {
+		for _, arg := range args {
+			hookTypes = append(hookTypes, hooks.HookType(arg))
+		}
+	}
+
+	// Uninstall hooks
+	manager := hooks.NewManager(repoRoot, hooks.DefaultConfig())
+	result, err := manager.Uninstall(hookTypes)
+	if err != nil {
+		return err
+	}
+
+	// Print results
+	if len(result.Removed) > 0 {
+		fmt.Printf("Removed hooks: %s\n", strings.Join(result.Removed, ", "))
+	}
+	if len(result.Restored) > 0 {
+		fmt.Printf("Restored from backup: %s\n", strings.Join(result.Restored, ", "))
+	}
+	if len(result.Skipped) > 0 {
+		fmt.Printf("Skipped (not visionspec hooks): %s\n", strings.Join(result.Skipped, ", "))
+	}
+	if len(result.Errors) > 0 {
+		fmt.Println("Errors:")
+		for _, err := range result.Errors {
+			fmt.Printf("  - %s\n", err)
+		}
+	}
+
+	return nil
+}
+
+func hooksStatusCmd(cfg *Config) *cobra.Command { //nolint:unparam // cfg reserved for future use
+	return &cobra.Command{
+		Use:   "status",
+		Short: "Show Git hooks status",
+		RunE:  runHooksStatus,
+	}
+}
+
+func runHooksStatus(cmd *cobra.Command, args []string) error {
+	// Find repo root
+	cwd, err := os.Getwd()
+	if err != nil {
+		return fmt.Errorf("getting working directory: %w", err)
+	}
+
+	repoRoot, err := hooks.FindRepoRoot(cwd)
+	if err != nil {
+		return err
+	}
+
+	// Get status
+	manager := hooks.NewManager(repoRoot, hooks.DefaultConfig())
+	result, err := manager.Status()
+	if err != nil {
+		return err
+	}
+
+	fmt.Printf("Hooks directory: %s\n\n", result.HooksDir)
+	fmt.Println("Hook Status:")
+	fmt.Println()
+
+	for hookType, status := range result.Hooks {
+		var statusStr string
+		if status.Error != "" {
+			statusStr = "error: " + status.Error
+		} else if !status.Installed {
+			statusStr = "not installed"
+		} else if status.IsVisionSpec {
+			if status.Executable {
+				statusStr = "installed (visionspec)"
+			} else {
+				statusStr = "installed (not executable!)"
+			}
+		} else {
+			statusStr = "installed (custom)"
+		}
+
+		fmt.Printf("  %s: %s\n", hookType, statusStr)
+	}
+
+	return nil
 }
 
 // Workflows management commands
@@ -4139,6 +4595,137 @@ func runVersionRevert(cmd *cobra.Command, args []string) error {
 
 	fmt.Printf("Reverted %s to version %d\n", specType, versionNum)
 	fmt.Printf("Created version %d to record the revert\n", newVersion.Number)
+
+	return nil
+}
+
+// metricsCmd creates the metrics command.
+func metricsCmd(cfg *Config) *cobra.Command { //nolint:unparam // cfg reserved for future use
+	cmd := &cobra.Command{
+		Use:   "metrics",
+		Short: "Display project metrics dashboard",
+		Long: `Display evaluation, reconciliation, and alignment metrics for the project.
+
+The metrics dashboard aggregates data from:
+  - Evaluation results (scores, findings, pass/fail rates)
+  - Reconciliation history (specs included, tasks generated)
+  - Alignment checks (discrepancies, coverage)
+  - Drift detection (trend direction, severity counts)
+
+Output Formats:
+  --format terminal   ASCII dashboard (default)
+  --format json       Machine-readable JSON
+  --format html       Interactive HTML dashboard
+  --format markdown   Markdown tables
+
+Health Score:
+  The health score (0-100) indicates overall project health based on:
+  - Evaluation pass rates
+  - Finding severity counts
+  - Alignment score
+  - Drift status
+
+Examples:
+  visionspec metrics                    # Terminal dashboard
+  visionspec metrics --format json      # JSON output for CI
+  visionspec metrics --format html > dashboard.html
+  visionspec metrics --save             # Save to .visionspec/metrics.json`,
+		RunE: runMetrics,
+	}
+
+	cmd.Flags().String("format", "terminal", "Output format: terminal, json, html, markdown")
+	cmd.Flags().Bool("save", false, "Save metrics to history file")
+	cmd.Flags().Bool("history", false, "Show metrics trend over time")
+
+	return cmd
+}
+
+func runMetrics(cmd *cobra.Command, args []string) error {
+	formatStr, _ := cmd.Flags().GetString("format")
+	save, _ := cmd.Flags().GetBool("save")
+	showHistory, _ := cmd.Flags().GetBool("history")
+
+	// Parse format
+	var format metrics.OutputFormat
+	switch formatStr {
+	case "json":
+		format = metrics.FormatJSON
+	case "html":
+		format = metrics.FormatHTML
+	case "markdown", "md":
+		format = metrics.FormatMarkdown
+	default:
+		format = metrics.FormatTerminal
+	}
+
+	// Find project root
+	cwd, err := os.Getwd()
+	if err != nil {
+		return fmt.Errorf("getting working directory: %w", err)
+	}
+
+	projectPath, err := config.FindProjectRoot(cwd)
+	if err != nil {
+		return fmt.Errorf("not in a visionspec project (no visionspec.yaml found)")
+	}
+
+	// Create collector and collect metrics
+	collector, err := metrics.NewCollector(projectPath)
+	if err != nil {
+		return fmt.Errorf("initializing metrics collector: %w", err)
+	}
+	projectMetrics, err := collector.Collect()
+	if err != nil {
+		return fmt.Errorf("collecting metrics: %w", err)
+	}
+
+	// Show history if requested
+	if showHistory {
+		history := collector.History()
+		if history != nil {
+			recent := history.Recent(10)
+			if len(recent) > 0 {
+				fmt.Println("Metrics History (last 10 entries):")
+				fmt.Println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+				for _, entry := range recent {
+					fmt.Printf("  %s  Health: %5.1f  Eval: %5.1f\n",
+						entry.Timestamp.Format("2006-01-02 15:04"),
+						entry.HealthScore,
+						entry.EvalScore)
+				}
+				fmt.Printf("\nTrend: %s\n\n", history.Trend())
+			}
+		}
+	}
+
+	// Render dashboard
+	dashboard := metrics.NewDashboard(projectMetrics)
+	if err := dashboard.Render(os.Stdout, format); err != nil {
+		return fmt.Errorf("rendering dashboard: %w", err)
+	}
+
+	// Save metrics if requested
+	if save {
+		history := collector.History()
+		if history != nil {
+			entry := metrics.MetricsHistoryEntry{
+				Timestamp:   projectMetrics.GeneratedAt,
+				HealthScore: projectMetrics.HealthScore,
+			}
+			if projectMetrics.Eval != nil {
+				entry.EvalScore = projectMetrics.Eval.AverageScore
+			}
+			if projectMetrics.Align != nil {
+				entry.AlignScore = projectMetrics.Align.AlignmentScore
+			}
+			history.Add(entry)
+			if err := history.Save(); err != nil {
+				fmt.Fprintf(os.Stderr, "Warning: failed to save metrics history: %v\n", err)
+			} else {
+				fmt.Println("\nMetrics saved to history.")
+			}
+		}
+	}
 
 	return nil
 }
