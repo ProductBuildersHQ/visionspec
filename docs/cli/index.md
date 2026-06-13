@@ -49,9 +49,12 @@ VisionSpec provides a command-line interface for managing specifications.
 
 | Command | Description |
 |---------|-------------|
+| [align](align.md) | Check spec-to-reality alignment |
+| [drift](drift.md) | Detect spec-to-code drift |
 | [generate](generate.md) | Generate test stubs from TPD |
 | [sync](sync.md) | Sync status with execution targets |
-| [drift](drift.md) | Detect spec-to-code drift |
+| [metrics](metrics.md) | View evaluation metrics dashboard |
+| [hooks](hooks.md) | Manage Git hooks (install, uninstall, status) |
 
 ### Context & Traceability
 

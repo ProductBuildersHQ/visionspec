@@ -86,7 +86,10 @@ nav:
       - context: cli/context.md
       - generate: cli/generate.md
       - sync: cli/sync.md
+      - align: cli/align.md
       - drift: cli/drift.md
+      - metrics: cli/metrics.md
+      - hooks: cli/hooks.md
       - docs: cli/docs.md
       - serve: cli/serve.md
       - rules: cli/rules.md
