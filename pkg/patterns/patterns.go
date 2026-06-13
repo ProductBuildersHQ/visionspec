@@ -65,13 +65,13 @@ type AntiPattern struct {
 
 // PatternSummary provides aggregate statistics.
 type PatternSummary struct {
-	TotalSpecs        int            `json:"total_specs"`
-	StructuralCount   int            `json:"structural_pattern_count"`
-	ContentCount      int            `json:"content_pattern_count"`
-	AntiPatternCount  int            `json:"anti_pattern_count"`
-	CommonSections    []string       `json:"common_sections"`
-	PatternsByType    map[string]int `json:"patterns_by_type"`
-	QualityScore      float64        `json:"quality_score"` // 0-100
+	TotalSpecs       int            `json:"total_specs"`
+	StructuralCount  int            `json:"structural_pattern_count"`
+	ContentCount     int            `json:"content_pattern_count"`
+	AntiPatternCount int            `json:"anti_pattern_count"`
+	CommonSections   []string       `json:"common_sections"`
+	PatternsByType   map[string]int `json:"patterns_by_type"`
+	QualityScore     float64        `json:"quality_score"` // 0-100
 }
 
 // SpecInfo holds extracted information about a spec file.
@@ -132,7 +132,7 @@ func (d *Detector) loadSpecs() ([]SpecInfo, error) {
 			return nil
 		}
 
-		content, err := os.ReadFile(path)
+		content, err := os.ReadFile(path) //nolint:gosec // G122: User-provided specs directory for internal analysis
 		if err != nil {
 			return nil
 		}
@@ -172,7 +172,7 @@ func (d *Detector) detectStructuralPatterns(specs []SpecInfo) []StructuralPatter
 	var patterns []StructuralPattern
 
 	// Count section occurrences across specs
-	sectionCounts := make(map[string][]string) // section -> projects
+	sectionCounts := make(map[string][]string)          // section -> projects
 	specTypeSections := make(map[string]map[string]int) // specType -> section -> count
 
 	for _, spec := range specs {
@@ -235,9 +235,9 @@ func (d *Detector) detectContentPatterns(specs []SpecInfo) []ContentPattern {
 
 	// Pattern definitions
 	patternDefs := []struct {
-		name    string
-		regex   *regexp.Regexp
-		desc    string
+		name  string
+		regex *regexp.Regexp
+		desc  string
 	}{
 		{"user_story", regexp.MustCompile(`(?i)^[-*]\s*As an? .+, I want .+, so that`), "User story format (As a... I want... So that...)"},
 		{"acceptance_criteria", regexp.MustCompile(`(?i)^[-*]\s*Given .+, when .+, then`), "Gherkin-style acceptance criteria"},

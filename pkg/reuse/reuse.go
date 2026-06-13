@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 	"regexp"
 	"sort"
+	"strconv"
 	"strings"
 )
 
@@ -21,18 +22,18 @@ func NewTracker(specsDir string) *Tracker {
 
 // ReuseReport contains the analysis results.
 type ReuseReport struct {
-	SimilarRequirements []SimilarGroup    `json:"similar_requirements"`
-	DuplicatePatterns   []DuplicateGroup  `json:"duplicate_patterns"`
-	ReuseCandidates     []ReuseCandidate  `json:"reuse_candidates"`
-	Summary             ReuseSummary      `json:"summary"`
+	SimilarRequirements []SimilarGroup   `json:"similar_requirements"`
+	DuplicatePatterns   []DuplicateGroup `json:"duplicate_patterns"`
+	ReuseCandidates     []ReuseCandidate `json:"reuse_candidates"`
+	Summary             ReuseSummary     `json:"summary"`
 }
 
 // SimilarGroup represents requirements with similar wording.
 type SimilarGroup struct {
-	Pattern     string            `json:"pattern"`
-	Description string            `json:"description"`
-	Items       []RequirementRef  `json:"items"`
-	Similarity  float64           `json:"similarity"`
+	Pattern     string           `json:"pattern"`
+	Description string           `json:"description"`
+	Items       []RequirementRef `json:"items"`
+	Similarity  float64          `json:"similarity"`
 }
 
 // RequirementRef references a specific requirement in a spec.
@@ -145,7 +146,7 @@ func (t *Tracker) extractRequirements() ([]Requirement, error) {
 		project := parts[0]
 		specType := strings.TrimSuffix(info.Name(), ".md")
 
-		content, err := os.ReadFile(path)
+		content, err := os.ReadFile(path) //nolint:gosec // G122: User-provided specs directory for internal analysis
 		if err != nil {
 			return nil
 		}
@@ -372,7 +373,7 @@ func pairKey(i, j int) string {
 	if i > j {
 		i, j = j, i
 	}
-	return string(rune(i)) + "|" + string(rune(j))
+	return strconv.Itoa(i) + "|" + strconv.Itoa(j)
 }
 
 func commonKeywords(a, b []string) []string {

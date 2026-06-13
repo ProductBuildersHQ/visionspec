@@ -1558,7 +1558,7 @@ func (s *Server) handleTrackRequirement(ctx context.Context, req *mcp.CallToolRe
 
 	// Save status
 	statusData, _ := json.MarshalIndent(execStatus, "", "  ")
-	if err := os.WriteFile(statusPath, statusData, 0644); err != nil {
+	if err := os.WriteFile(statusPath, statusData, 0o600); err != nil {
 		return errorResult("failed to save execution status: " + err.Error())
 	}
 

@@ -34,23 +34,23 @@ type SearchResult struct {
 
 // SearchOutput contains the full search response.
 type SearchOutput struct {
-	Query       string          `json:"query"`
-	TotalHits   int             `json:"total_hits"`
-	Results     []*SearchResult `json:"results"`
-	Took        string          `json:"took"`
-	ByProject   map[string]int  `json:"by_project,omitempty"`
-	BySpecType  map[string]int  `json:"by_spec_type,omitempty"`
-	Truncated   bool            `json:"truncated,omitempty"`
+	Query      string          `json:"query"`
+	TotalHits  int             `json:"total_hits"`
+	Results    []*SearchResult `json:"results"`
+	Took       string          `json:"took"`
+	ByProject  map[string]int  `json:"by_project,omitempty"`
+	BySpecType map[string]int  `json:"by_spec_type,omitempty"`
+	Truncated  bool            `json:"truncated,omitempty"`
 }
 
 // SearchOptions configures search behavior.
 type SearchOptions struct {
-	Limit       int      // Maximum results to return (default 20)
-	Projects    []string // Filter by project names (empty = all)
-	SpecTypes   []string // Filter by spec types (mrd, prd, trd, etc.)
-	CaseSensitive bool   // Case sensitive matching
-	Regex       bool     // Treat query as regex
-	ContextLines int     // Lines of context around match (default 1)
+	Limit         int      // Maximum results to return (default 20)
+	Projects      []string // Filter by project names (empty = all)
+	SpecTypes     []string // Filter by spec types (mrd, prd, trd, etc.)
+	CaseSensitive bool     // Case sensitive matching
+	Regex         bool     // Treat query as regex
+	ContextLines  int      // Lines of context around match (default 1)
 }
 
 // DefaultSearchOptions returns sensible defaults.
@@ -125,7 +125,7 @@ func (s *Searcher) Search(query string, opts SearchOptions) (*SearchOutput, erro
 		}
 
 		// Read file content
-		content, err := os.ReadFile(path)
+		content, err := os.ReadFile(path) //nolint:gosec // G122: User-provided specs directory for internal analysis
 		if err != nil {
 			return nil
 		}
