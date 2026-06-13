@@ -429,18 +429,21 @@ LLM-generated documents from source specs + constitution.
 
 ### Post-Ship Alignment
 
-- [ ] RMI-036: Implement `visionspec align` command (moved to Phase 11 with context)
+- [x] RMI-036: Implement `visionspec align` command
   - Input: spec.md + shipped reality (from engineering)
   - Output: `current-truth.md`
   - Detect: ungrounded claims, missed opportunities, drift
-  - Update GTM docs with alignment notes
+  - `pkg/align/align.go` - Aligner, AlignmentResult, Discrepancy types
+  - `pkg/align/compare.go` - Comparator for spec vs context analysis
+  - `pkg/cli/commands.go` - alignCmd with --with-context, --context-file flags
 
-- [ ] RMI-037: Define current-truth.md structure
+- [x] RMI-037: Define current-truth.md structure
   - Product summary (current state)
   - Active capabilities table
   - Known boundaries/limitations
   - Source specs and evidence
   - Recent alignment notes
+  - `pkg/align/align.go` - AlignmentCoverage, AlignmentSummary types
 
 ---
 
@@ -567,15 +570,18 @@ Export reconciled specs to downstream execution systems.
   - Generate orders
   - `pkg/target/gascity.go`
 
-### OpenSpec Adapter (Future)
+### OpenSpec Adapter
 
-- [ ] RMI-090: Define OpenSpec export format
+- [x] RMI-090: Define OpenSpec export format
   - Portable JSON/YAML structure
   - Agent-agnostic representation
+  - `pkg/target/openspec.go` - OpenSpecDocument, OpenSpecFeature, OpenSpecTask, etc.
 
-- [ ] RMI-091: Implement OpenSpec adapter
-  - Standards-compliant export
-  - Interoperability focus
+- [x] RMI-091: Implement OpenSpec adapter
+  - Standards-compliant export to JSON or YAML
+  - Parses spec.md sections into structured format
+  - Supports separate files for features/tasks
+  - `pkg/target/openspec.go` - OpenSpecTarget with Export method
 
 ---
 
@@ -618,9 +624,12 @@ Seamless integration with AI coding assistant workflows via multi-agent-spec and
   - Auto-run lint on change
   - Debounce support for rapid changes
 
-- [ ] RMI-103: Support git hooks
-  - Pre-commit: validate specs
-  - Post-commit: trigger eval
+- [x] RMI-103: Support git hooks
+  - Pre-commit: lint changed spec files
+  - Pre-push: evaluate specs and check for blockers
+  - `pkg/hooks/hooks.go` - Manager with Install, Uninstall, Status methods
+  - `pkg/hooks/templates.go` - Hook script templates
+  - `visionspec hooks install/uninstall/status` commands
 
 ---
 
@@ -689,8 +698,9 @@ Requirement graph visualization via `github.com/plexusone/graphize`.
   - JSON export for custom visualization
 
 - [ ] RMI-148: MkDocs graph integration
-  - Embed graph visualization in project index.md
-  - Or link to standalone HTML export
+  - Embed graphize visualization in project index.md
+  - Or link to standalone HTML export from graphize
+  - Uses graphize pkg/exporters/htmlsite for visualization
 
 ---
 
@@ -700,33 +710,40 @@ Future enhancements.
 
 ### Multi-Project Support
 
-- [ ] RMI-110: Support cross-project dependencies
+- [x] RMI-110: Support cross-project dependencies
   - Project references in spec.md
   - Cross-project reconciliation
+  - `pkg/deps/deps.go` - DependencyManager, ProjectDep types
 
-- [ ] RMI-111: Implement `docs/specs/ROADMAP.md` generation
+- [x] RMI-111: Implement `docs/specs/ROADMAP.md` generation
   - Aggregate project statuses
   - Prioritization tracking
+  - `pkg/roadmap/roadmap.go` - Generator with template-based output
 
 ### Organizational Memory
 
-- [ ] RMI-120: Decision log persistence
+- [x] RMI-120: Decision log persistence
   - Track tradeoffs across projects
   - Searchable decision history
+  - `pkg/decisions/log.go` - DecisionLog, Decision types
 
-- [ ] RMI-121: Rationale graphs
+- [x] RMI-121: Rationale graphs
   - Link decisions to requirements
   - Impact analysis
+  - `pkg/decisions/rationale.go` - RationaleGraph, RationaleNode types
 
 ### Analytics
 
-- [ ] RMI-130: Evaluation metrics dashboard
+- [x] RMI-130: Evaluation metrics dashboard
   - Spec quality trends
   - Common failure patterns
+  - `pkg/metrics/metrics.go` - Collector, EvalMetrics, ProjectMetrics
+  - `visionspec metrics` command with text/json/html output
 
-- [ ] RMI-131: Reconciliation metrics
+- [x] RMI-131: Reconciliation metrics
   - Conflict frequency
   - Resolution time
+  - `pkg/metrics/metrics.go` - ReconcileMetrics type
 
 ---
 
@@ -977,20 +994,25 @@ Future enhancements for testing, integrations, and developer experience.
 
 ### Cross-Project Analysis
 
+Note: These features use graphize (`github.com/plexusone/graphize`) which provides the underlying graph-based search, reuse, and pattern detection capabilities.
+
 - [ ] RMI-350: Implement `visionspec search <query>`
   - Full-text search across all projects
   - Filter by spec type, project, date
   - Return ranked results
+  - Integrates with `graphize/pkg/search`
 
 - [ ] RMI-351: Implement requirements reuse tracking
   - Detect similar requirements across projects
   - Suggest reuse opportunities
   - Track requirement lineage
+  - Integrates with `graphize/pkg/reuse`
 
 - [ ] RMI-352: Implement pattern detection
   - Identify common patterns across specs
   - Suggest templates from patterns
   - Generate pattern reports
+  - Integrates with `graphize/pkg/patterns`
 
 ### Real-time Collaboration
 
@@ -1122,14 +1144,16 @@ Aggregate context from multiple sources to ground spec synthesis in reality.
   - Pass to Synthesizer
   - Include in prompts
 
-- [ ] RMI-442: Add `--with-context` flag to align
+- [x] RMI-442: Add `--with-context` flag to align
   - Compare spec against codebase context
   - Detect drift and unimplemented features
   - Generate current-truth.md
+  - `pkg/cli/commands.go` - alignCmd flags
 
-- [ ] RMI-443: Add `--context-file` flag
+- [x] RMI-443: Add `--context-file` flag
   - Load context from snapshot file
   - For CI reproducibility
+  - `pkg/cli/commands.go` - alignCmd, driftCmd flags
 
 ### Context-Aware Synthesis
 
@@ -1473,23 +1497,26 @@ Bidirectional integration with AI coding agent execution systems.
   - `pkg/testgen/python.go` - Python/pytest generator
   - `visionspec generate tests` command with --lang, --framework, --group-by
 
-- [ ] RMI-621: Test coverage mapping
+- [x] RMI-621: Test coverage mapping
   - Map TPD test cases to actual tests
   - Track coverage by requirement
   - Report uncovered requirements
+  - `pkg/testmap/testmap.go` - Mapper, CoverageReport types
 
 ### Issue Export
 
-- [ ] RMI-630: GitHub Issues export
+- [x] RMI-630: GitHub Issues export
   - Export requirements as GitHub issues
   - Create milestones from phases
   - Link issues to specs via labels
+  - `pkg/target/github_issues.go` - GitHubIssuesTarget
   - `visionspec export github` command
 
-- [ ] RMI-631: Jira export
+- [x] RMI-631: Jira export
   - Export requirements as Jira epics/stories
   - Map priorities and labels
   - Create project boards
+  - `pkg/target/jira.go` - JiraTarget
   - `visionspec export jira` command
 
 ### MCP Execution Tracking
