@@ -190,13 +190,16 @@ Full documentation: [CLI Reference](https://productbuildershq.com/visionspec/cli
 | `docs <cmd>` | Generate MkDocs documentation |
 | `rules <cmd>` | Export workflow rules for AI assistants |
 
-### Execution Alignment (v0.7.0)
+### Execution Alignment
 
 | Command | Description |
 |---------|-------------|
+| `align` | Check spec-to-reality alignment |
+| `drift` | Detect spec-to-code drift |
 | `generate tests` | Generate test stubs from TPD |
 | `sync <target>` | Sync execution state with target system |
-| `drift` | Detect spec-to-code drift |
+| `metrics` | View evaluation metrics dashboard |
+| `hooks <cmd>` | Manage Git hooks (install, uninstall, status) |
 
 ### Context & Traceability
 
@@ -246,23 +249,29 @@ visionspec-mcp
 
 ### MCP Tools
 
-| Tool | Status | Description |
-|------|--------|-------------|
-| `list_projects` | Implemented | List all visionspec projects |
-| `get_project_status` | Implemented | Get project readiness status |
-| `start_draft` | Implemented | Initialize a new draft |
-| `update_draft` | Implemented | Save draft content |
-| `eval_draft` | Implemented | Evaluate draft against rubric |
-| `finalize_draft` | Implemented | Promote draft to final spec |
-| `get_draft` | Implemented | Retrieve current draft |
-| `discard_draft` | Implemented | Delete a draft |
-| `get_spec` | Implemented | Get specification content |
-| `get_eval` | Implemented | Get evaluation results |
-| `run_eval` | Implemented | Run evaluation against rubric |
-| `synthesize` | Implemented | Generate a spec |
-| `reconcile` | Implemented | Generate execution spec |
-| `approve` | Implemented | Approve a specification |
-| `export` | Implemented | Export to target system |
+| Tool | Description |
+|------|-------------|
+| `list_projects` | List all visionspec projects |
+| `get_project_status` | Get project readiness status |
+| `start_draft` | Initialize a new draft |
+| `update_draft` | Save draft content |
+| `eval_draft` | Evaluate draft against rubric |
+| `finalize_draft` | Promote draft to final spec |
+| `get_draft` | Retrieve current draft |
+| `discard_draft` | Delete a draft |
+| `get_spec` | Get specification content |
+| `get_eval` | Get evaluation results |
+| `run_eval` | Run evaluation against rubric |
+| `synthesize` | Generate a spec |
+| `reconcile` | Generate execution spec |
+| `approve` | Approve a specification |
+| `export` | Export to target system |
+| `align_spec` | Run alignment checking |
+| `get_alignment_status` | Get alignment status |
+| `track_resolution` | Track discrepancy resolution |
+| `get_metrics` | Get evaluation metrics |
+| `install_hooks` | Install git hooks |
+| `get_hooks_status` | Get hooks status |
 
 ## Export Targets
 
@@ -273,7 +282,9 @@ visionspec-mcp
 | `gastown` | GasTown formulas and beads |
 | `gascity` | GasCity city.toml configuration |
 | `aidlc` | AWS AI-DLC Workflows (vision-document.md, technical-environment.md) |
-| `openspec` | OpenSpec portable format (future) |
+| `openspec` | OpenSpec portable JSON/YAML format |
+| `github` | GitHub Issues (milestones, labels) |
+| `jira` | Jira epics/stories |
 
 ## Configuration Profiles
 
@@ -479,7 +490,7 @@ make install
 
 See [ROADMAP.md](docs/specs/ROADMAP.md) for detailed implementation status and [CHANGELOG.md](CHANGELOG.md) for release history.
 
-**Current Version:** v0.8.0
+**Current Version:** v0.9.0
 
 | Phase | Status |
 |-------|--------|
@@ -491,12 +502,13 @@ See [ROADMAP.md](docs/specs/ROADMAP.md) for detailed implementation status and [
 | Phase 5: Target Adapters | Complete |
 | Phase 6: Claude Code Integration | Complete |
 | Phase 7: Graphize Integration | Complete |
-| Phase 8: Advanced Features | Not Started |
+| Phase 8: Advanced Features | Complete |
 | Phase 9: Composability | Complete |
 | Phase 10: Platform Enhancements | In Progress |
 | Phase 11: Context Sources | Complete |
 | Phase 12: Methodology Profiles | Complete |
 | Phase 13: AI Workflow Orchestration | Complete |
+| Phase 14: Execution Integration | Complete |
 
 ## License
 
