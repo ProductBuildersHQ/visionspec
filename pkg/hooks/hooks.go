@@ -126,8 +126,8 @@ func (m *Manager) Install(hookTypes []HookType) (*InstallResult, error) {
 			result.BackedUp = append(result.BackedUp, string(hookType))
 		}
 
-		// Write hook
-		if err := os.WriteFile(hookPath, []byte(template), 0755); err != nil {
+		// Write hook (must be executable)
+		if err := os.WriteFile(hookPath, []byte(template), 0755); err != nil { //nolint:gosec // G306: Git hooks must be executable
 			result.Errors = append(result.Errors, fmt.Sprintf("failed to install %s: %v", hookType, err))
 			continue
 		}
@@ -253,7 +253,7 @@ type UninstallResult struct {
 
 // StatusResult contains the status of hooks.
 type StatusResult struct {
-	HooksDir string                `json:"hooks_dir"`
+	HooksDir string                  `json:"hooks_dir"`
 	Hooks    map[HookType]HookStatus `json:"hooks"`
 }
 

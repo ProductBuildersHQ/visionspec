@@ -2640,6 +2640,54 @@ func getContextConfig(project *types.Project, projectPath string) *ctxpkg.Config
 	return cfg
 }
 
+// loadContextForCommand loads aggregated context based on command flags.
+// This is used by commands that need context (drift, align, etc.).
+func loadContextForCommand(project *types.Project, projectPath, contextFile string, withContext bool) (*ctxpkg.AggregatedContext, error) {
+	if contextFile != "" {
+		// Load from specific file
+		contextData, err := os.ReadFile(contextFile)
+		if err != nil {
+			return nil, fmt.Errorf("reading context file: %w", err)
+		}
+		var ctx ctxpkg.AggregatedContext
+		if err := json.Unmarshal(contextData, &ctx); err != nil {
+			return nil, fmt.Errorf("parsing context file: %w", err)
+		}
+		return &ctx, nil
+	}
+
+	if withContext {
+		// Gather fresh context
+		fmt.Println("Gathering context...")
+		ctxCfg := getContextConfig(project, projectPath)
+		agg, err := sources.BuildAggregator(project.Name, ctxCfg)
+		if err != nil {
+			return nil, fmt.Errorf("building aggregator: %w", err)
+		}
+		gatherCtx, cancel := context.WithTimeout(context.Background(), 2*time.Minute)
+		defer cancel()
+		ac, err := agg.Gather(gatherCtx)
+		if err != nil {
+			return nil, fmt.Errorf("gathering context: %w", err)
+		}
+		return ac, nil
+	}
+
+	// Try to load from cache
+	contextCachePath := filepath.Join(projectPath, ".visionspec", "context-cache.json")
+	if contextData, err := os.ReadFile(contextCachePath); err == nil {
+		var ctx ctxpkg.AggregatedContext
+		if json.Unmarshal(contextData, &ctx) == nil {
+			return &ctx, nil
+		}
+	}
+
+	// Return minimal context if nothing available
+	return &ctxpkg.AggregatedContext{
+		Project: project.Name,
+	}, nil
+}
+
 // docsCmd creates the docs command for MkDocs generation.
 func docsCmd(cfg *Config) *cobra.Command { //nolint:unparam // cfg reserved for future use
 	cmd := &cobra.Command{
@@ -3338,50 +3386,9 @@ func runDrift(cmd *cobra.Command, args []string) error {
 	}
 
 	// Load context
-	var aggregatedCtx *ctxpkg.AggregatedContext
-
-	if contextFile != "" {
-		// Load from specific file
-		contextData, err := os.ReadFile(contextFile)
-		if err != nil {
-			return fmt.Errorf("reading context file: %w", err)
-		}
-		var ctx ctxpkg.AggregatedContext
-		if err := json.Unmarshal(contextData, &ctx); err != nil {
-			return fmt.Errorf("parsing context file: %w", err)
-		}
-		aggregatedCtx = &ctx
-	} else if withContext {
-		// Gather fresh context
-		fmt.Println("Gathering context...")
-		ctxCfg := getContextConfig(project, projectPath)
-		agg, err := sources.BuildAggregator(project.Name, ctxCfg)
-		if err != nil {
-			return fmt.Errorf("building aggregator: %w", err)
-		}
-		gatherCtx, cancel := context.WithTimeout(context.Background(), 2*time.Minute)
-		defer cancel()
-		ac, err := agg.Gather(gatherCtx)
-		if err != nil {
-			return fmt.Errorf("gathering context: %w", err)
-		}
-		aggregatedCtx = ac
-	} else {
-		// Load from cache
-		contextCachePath := filepath.Join(projectPath, ".visionspec", "context-cache.json")
-		if contextData, err := os.ReadFile(contextCachePath); err == nil {
-			var ctx ctxpkg.AggregatedContext
-			if json.Unmarshal(contextData, &ctx) == nil {
-				aggregatedCtx = &ctx
-			}
-		}
-	}
-
-	if aggregatedCtx == nil {
-		// Create minimal context
-		aggregatedCtx = &ctxpkg.AggregatedContext{
-			Project: project.Name,
-		}
+	aggregatedCtx, err := loadContextForCommand(project, projectPath, contextFile, withContext)
+	if err != nil {
+		return err
 	}
 
 	// Run drift detection
@@ -3514,50 +3521,9 @@ func runAlign(cmd *cobra.Command, args []string) error {
 	}
 
 	// Load context
-	var aggregatedCtx *ctxpkg.AggregatedContext
-
-	if contextFile != "" {
-		// Load from specific file
-		contextData, err := os.ReadFile(contextFile)
-		if err != nil {
-			return fmt.Errorf("reading context file: %w", err)
-		}
-		var ctx ctxpkg.AggregatedContext
-		if err := json.Unmarshal(contextData, &ctx); err != nil {
-			return fmt.Errorf("parsing context file: %w", err)
-		}
-		aggregatedCtx = &ctx
-	} else if withContext {
-		// Gather fresh context
-		fmt.Println("Gathering context...")
-		ctxCfg := getContextConfig(project, projectPath)
-		agg, err := sources.BuildAggregator(project.Name, ctxCfg)
-		if err != nil {
-			return fmt.Errorf("building aggregator: %w", err)
-		}
-		gatherCtx, cancel := context.WithTimeout(context.Background(), 2*time.Minute)
-		defer cancel()
-		ac, err := agg.Gather(gatherCtx)
-		if err != nil {
-			return fmt.Errorf("gathering context: %w", err)
-		}
-		aggregatedCtx = ac
-	} else {
-		// Try to load from cache
-		contextCachePath := filepath.Join(projectPath, ".visionspec", "context-cache.json")
-		if contextData, err := os.ReadFile(contextCachePath); err == nil {
-			var ctx ctxpkg.AggregatedContext
-			if json.Unmarshal(contextData, &ctx) == nil {
-				aggregatedCtx = &ctx
-			}
-		}
-	}
-
-	if aggregatedCtx == nil {
-		// Create minimal context
-		aggregatedCtx = &ctxpkg.AggregatedContext{
-			Project: project.Name,
-		}
+	aggregatedCtx, err := loadContextForCommand(project, projectPath, contextFile, withContext)
+	if err != nil {
+		return err
 	}
 
 	// Run alignment check
@@ -3598,7 +3564,7 @@ func runAlign(cmd *cobra.Command, args []string) error {
 		}
 
 		truthPath := filepath.Join(projectPath, "current-truth.md")
-		if err := os.WriteFile(truthPath, []byte(truthContent), 0644); err != nil {
+		if err := os.WriteFile(truthPath, []byte(truthContent), 0644); err != nil { //nolint:gosec // G306: Documentation file needs to be readable
 			return fmt.Errorf("writing current-truth.md: %w", err)
 		}
 		fmt.Printf("\nGenerated: %s\n", truthPath)
