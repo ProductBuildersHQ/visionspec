@@ -7,6 +7,61 @@
   "maintainers": ["johncwang@gmail.com"],
   "releases": [
     {
+      "version": "v0.10.0",
+      "date": "2026-06-13",
+      "commit": "b865371",
+      "highlights": [
+        { "description": "Post-ship alignment checking with spec-to-reality comparison" },
+        { "description": "OpenSpec portable JSON/YAML export format for cross-tool compatibility" },
+        { "description": "Git hooks for automated spec validation (pre-commit, pre-push)" },
+        { "description": "Full-text search, pattern detection, and requirement reuse tracking" },
+        { "description": "Evaluation metrics dashboard with quality trends and conflict analysis" },
+        { "description": "MCP execution tracking tools and guided implementation prompts" }
+      ],
+      "added": [
+        { "description": "Post-ship alignment checking (`pkg/align`) with discrepancy detection and current-truth.md generation", "commit": "b07268a" },
+        { "description": "OpenSpec target adapter for portable JSON/YAML export with standardized schema", "commit": "b646735" },
+        { "description": "Git hooks support (`pkg/hooks`) with pre-commit, pre-push, commit-msg, post-commit templates", "commit": "1443f4b" },
+        { "description": "MkDocs graphize visualization embedding with iframe and link options", "commit": "1443f4b" },
+        { "description": "Cross-project dependencies (`pkg/deps`) with dependency graph and cycle detection", "commit": "62956a3" },
+        { "description": "ROADMAP.md generation (`pkg/roadmap`) with aggregate project statuses and milestones", "commit": "62956a3" },
+        { "description": "Decision log persistence (`pkg/decisions`) with tradeoff tracking and impact analysis", "commit": "62956a3" },
+        { "description": "Rationale graphs for linking decisions to requirements", "commit": "62956a3" },
+        { "description": "Evaluation metrics dashboard (`pkg/metrics`) with HTML, JSON, and terminal renderers", "commit": "110bce3" },
+        { "description": "GitHub Issues export (`pkg/target/github_issues.go`) with milestones and labels", "commit": "9fd56cf" },
+        { "description": "Jira export (`pkg/target/jira.go`) as epics/stories with priority mapping", "commit": "9fd56cf" },
+        { "description": "Test coverage mapping (`pkg/testmap`) for TPD test cases to actual tests", "commit": "9fd56cf" },
+        { "description": "Full-text search (`pkg/search`) across spec files with filters and ranking", "commit": "fcb04a6" },
+        { "description": "Requirement reuse tracking (`pkg/reuse`) with duplicate detection and consolidation suggestions", "commit": "5a7753a" },
+        { "description": "Pattern detection (`pkg/patterns`) for structural, content, and anti-patterns", "commit": "98d0053" },
+        { "description": "CLI commands: align, metrics, hooks, search, reuse, patterns", "commit": "ebca742" },
+        { "description": "Context flags (--with-context, --context-file) on align and drift commands", "commit": "ebca742" },
+        { "description": "MCP tools: align_spec, get_alignment_status, track_resolution, get_metrics, install_hooks, get_hooks_status", "commit": "9a1ca33" },
+        { "description": "MCP execution tracking tools: get_execution_status, track_requirement", "commit": "b0e68c4" },
+        { "description": "MCP prompts for guided implementation: implement_requirement, verify_acceptance, resolve_drift", "commit": "b0e68c4" },
+        { "description": "Rich status output with pipeline visualization and box-drawing tables", "commit": "901ca7b" },
+        { "description": "Shape Up and Continuous Discovery workflow documentation", "commit": "412610e" }
+      ],
+      "fixed": [
+        { "description": "Cross-platform executable detection using oscompat for Windows support", "commit": "e2e5acd" },
+        { "description": "gosec G115 integer overflow in pairKey function", "commit": "b865371" },
+        { "description": "gosec G306 file permissions (use 0o600 for sensitive files)", "commit": "b865371" },
+        { "description": "Lint issues in cli and hooks packages", "commit": "d67dbb2" }
+      ],
+      "documentation": [
+        { "description": "CLI documentation for align, metrics, and hooks commands", "commit": "d99bfc9" },
+        { "description": "Status command documentation for rich output format", "commit": "988c694" },
+        { "description": "README updated with new commands and export targets", "commit": "2716a32" },
+        { "description": "ROADMAP updated with completed implementation items", "commit": "212aff4" }
+      ],
+      "tests": [
+        { "description": "Rich report tests for status package", "commit": "e34c103" }
+      ],
+      "dependencies": [
+        { "description": "Update oscompat to v0.4.0 for cross-platform executable detection", "commit": "aa45775" }
+      ]
+    },
+    {
       "version": "v0.9.0",
       "date": "2026-06-08",
       "commit": "99581d4",

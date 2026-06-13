@@ -51,7 +51,7 @@ All synthesized documents are committed to git and can be reviewed, edited, and 
 ## Installation
 
 ```bash
-go install github.com/ProductBuildersHQ/visionspec/cmd/visionspec@v0.9.0
+go install github.com/ProductBuildersHQ/visionspec/cmd/visionspec@v0.10.0
 ```
 
 ## Quick Start
@@ -490,7 +490,7 @@ make install
 
 See [ROADMAP.md](docs/specs/ROADMAP.md) for detailed implementation status and [CHANGELOG.md](CHANGELOG.md) for release history.
 
-**Current Version:** v0.9.0
+**Current Version:** v0.10.0
 
 | Phase | Status |
 |-------|--------|
