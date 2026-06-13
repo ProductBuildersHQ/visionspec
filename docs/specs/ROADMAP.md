@@ -1312,10 +1312,11 @@ Enhance Big Tech profile to be "best of all worlds" integrating Shape Up and Con
   - Renderers: D2, Mermaid, Markdown
   - Schema: `designthinking.schema.json`
 
-- [ ] RMI-494: Create JTBD profile Go structs
+- [x] RMI-494: Create JTBD profile Go structs
   - `JobStatement` - Job-to-be-done definition
   - `OutcomeExpectation` - Success metrics
-  - `canvas/jtbd.go`
+  - `canvas/jtbd.go` with full JTBD methodology types
+  - `canvas/jtbd_test.go` with comprehensive unit tests
 
 ### Documentation
 
