@@ -22,7 +22,7 @@
  [docs-mkdoc-svg]: https://img.shields.io/badge/Go-dev%20guide-blue.svg
  [docs-mkdoc-url]: https://productbuildershq.com/visionspec
  [viz-svg]: https://img.shields.io/badge/Go-visualizaton-blue.svg
- [viz-url]: https://mango-dune-07a8b7110.1.azurestaticapps.net/?repo=plexusone%2Fvisionspec
+ [viz-url]: https://mango-dune-07a8b7110.1.azurestaticapps.net/?repo=ProductBuildersHQ%2Fvisionspec
  [loc-svg]: https://tokei.rs/b1/github/ProductBuildersHQ/visionspec
  [repo-url]: https://github.com/ProductBuildersHQ/visionspec
  [license-svg]: https://img.shields.io/badge/license-MIT-blue.svg
@@ -201,12 +201,21 @@ Full documentation: [CLI Reference](https://productbuildershq.com/visionspec/cli
 | `metrics` | View evaluation metrics dashboard |
 | `hooks <cmd>` | Manage Git hooks (install, uninstall, status) |
 
+### Cross-Project Analysis
+
+| Command | Description |
+|---------|-------------|
+| `search <query>` | Full-text search across spec files |
+| `reuse` | Analyze requirement reuse opportunities |
+| `patterns` | Detect patterns and anti-patterns |
+
 ### Context & Traceability
 
 | Command | Description |
 |---------|-------------|
 | `context <cmd>` | Gather codebase context |
 | `graph <cmd>` | Manage requirement graphs |
+| `workflows` | List available workflows from spec-workflows repo |
 
 ## Status Command
 
@@ -272,6 +281,8 @@ visionspec-mcp
 | `get_metrics` | Get evaluation metrics |
 | `install_hooks` | Install git hooks |
 | `get_hooks_status` | Get hooks status |
+| `get_execution_status` | Track requirement implementation progress |
+| `track_requirement` | Update requirement status with evidence |
 
 ## Export Targets
 
