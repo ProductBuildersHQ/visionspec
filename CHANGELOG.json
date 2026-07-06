@@ -7,6 +7,33 @@
   "maintainers": ["johncwang@gmail.com"],
   "releases": [
     {
+      "version": "v0.12.0",
+      "date": "2026-07-06",
+      "commit": "e02eb5c",
+      "highlights": [
+        { "description": "True AWS Working Backwards workflow order based on synthesis dependencies" },
+        { "description": "6-Pager positioned as leadership approval gate before PRD/UXD" },
+        { "description": "Infrastructure Design (IRD) added as required spec in big-tech-product" },
+        { "description": "Workflow follows actual dependency chain rather than category grouping" }
+      ],
+      "added": [
+        { "description": "Infrastructure Design (IRD) as required spec with synthesis from TRD and PRD", "commit": "e302419" },
+        { "description": "IRD synthesis guidance covering deployment, scaling, monitoring, security, and cost", "commit": "e302419" }
+      ],
+      "changed": [
+        { "description": "Workflow order now follows AWS Working Backwards: MRD → Press → FAQ → 6-Pager → PRD → UXD → TRD → IRD → TPD → Spec", "commit": "8ea9fc3" },
+        { "description": "6-Pager (narrative-6p) moved before PRD/UXD as leadership approval gate", "commit": "e02eb5c" },
+        { "description": "PRD synthesis now includes narrative-6p as source for alignment", "commit": "e02eb5c" },
+        { "description": "TPD synthesis now includes IRD for infrastructure testing coverage", "commit": "e302419" }
+      ],
+      "fixed": [
+        { "description": "Spec ordering now uses synthesis dependencies rather than arbitrary category grouping", "commit": "8ea9fc3" }
+      ],
+      "documentation": [
+        { "description": "Updated mkdocs.yml navigation", "commit": "e0da8b1" }
+      ]
+    },
+    {
       "version": "v0.11.0",
       "date": "2026-07-06",
       "commit": "cf9e522",
