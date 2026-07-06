@@ -61,9 +61,9 @@ spec_config:
     description: "Test plan with experiment design and hypothesis validation"
 
   ird:
-    required: false
+    required: true
     category: technical
-    description: "Infrastructure requirements"
+    description: "Infrastructure design - deployment, scaling, operations, and cloud architecture"
 
   # Business Model Canvas: synthesized from MRD
   bmc:
@@ -109,8 +109,15 @@ synthesis:
       - uxd
     guidance: "Google design doc format. Include alternatives considered, explicit tradeoffs, reversibility assessment (two-way vs one-way door), and scalability (10x thinking)."
 
+  ird:
+    sources:
+      - trd
+      - prd
+    guidance: "Infrastructure design covering deployment architecture, scaling strategy, cloud services, monitoring, security, and operational runbooks. Include cost estimates and capacity planning."
+
   tpd:
     sources:
       - prd
       - trd
-    guidance: "Include experiment design with hypothesis and success criteria (Google/Spotify). Define what 'fail fast' looks like."
+      - ird
+    guidance: "Include experiment design with hypothesis and success criteria (Google/Spotify). Define what 'fail fast' looks like. Cover infrastructure testing requirements."
