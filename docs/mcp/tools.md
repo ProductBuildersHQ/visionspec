@@ -57,6 +57,55 @@ Get the status and readiness of a specific project.
 }
 ```
 
+### get_workflow
+
+Get the workflow DAG for a project, showing spec dependencies, phases, and progress.
+
+**Arguments:**
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `project` | string | Yes | Project name |
+| `include_mermaid` | boolean | No | Include Mermaid diagram in response |
+| `format` | string | No | Output format: `json` (default), `mermaid`, `dot` |
+
+**Returns:**
+
+```json
+{
+  "name": "big-tech-product",
+  "description": "Big Tech methodology for products",
+  "phases": [
+    {"id": "discovery", "name": "Discovery", "order": 1, "nodes": ["mrd"]},
+    {"id": "vision", "name": "Vision", "order": 2, "nodes": ["press", "faq"]}
+  ],
+  "nodes": {
+    "mrd": {
+      "id": "mrd",
+      "name": "Market Requirements",
+      "phase": "discovery",
+      "status": "completed",
+      "depends_on": [],
+      "automated": false
+    },
+    "press": {
+      "id": "press",
+      "name": "Press Release",
+      "phase": "vision",
+      "status": "in_progress",
+      "depends_on": ["mrd"],
+      "automated": true
+    }
+  },
+  "progress": {
+    "completed": 3,
+    "total": 10,
+    "percent": 30.0
+  },
+  "mermaid": "graph TD\n    mrd[Market Requirements]\n    ..."
+}
+```
+
 ## Spec Tools
 
 ### get_spec

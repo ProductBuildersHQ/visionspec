@@ -95,6 +95,7 @@ nav:
       - rules: cli/rules.md
       - render: cli/render.md
       - watch: cli/watch.md
+      - workflow: cli/workflow.md
       - workflows: cli/workflows.md
       - version: cli/version.md
   - Guides:

@@ -168,6 +168,7 @@ Full documentation: [CLI Reference](https://productbuildershq.com/visionspec/cli
 | `create <type>` | Scaffold a new spec from template |
 | `lint [project]` | Validate directory structure |
 | `status` | Show project status and readiness |
+| `workflow` | Display workflow DAG with dependencies |
 | `profiles <cmd>` | Manage configuration profiles |
 
 ### Spec Workflow
