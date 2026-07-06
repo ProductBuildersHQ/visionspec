@@ -7,6 +7,43 @@
   "maintainers": ["johncwang@gmail.com"],
   "releases": [
     {
+      "version": "v0.11.0",
+      "date": "2026-07-06",
+      "commit": "cf9e522",
+      "highlights": [
+        { "description": "Generic workflow IR package for DAG-based spec pipeline modeling" },
+        { "description": "specworkflow adapter for generating workflows from visionspec profiles" },
+        { "description": "CLI workflow command and MCP get_workflow tool for visualization" },
+        { "description": "Mermaid diagram rendering for workflow pipelines" },
+        { "description": "Fixed spec ordering to maintain consistent PR-FAQ and category order" }
+      ],
+      "added": [
+        { "description": "Workflow IR package (`pkg/workflow`) for DAG modeling with phases, nodes, and dependencies", "commit": "a678d96" },
+        { "description": "Workflow builder pattern for fluent workflow construction", "commit": "a678d96" },
+        { "description": "Topological sort and cycle detection for workflow validation", "commit": "a678d96" },
+        { "description": "Mermaid diagram renderer for workflow visualization", "commit": "a678d96" },
+        { "description": "specworkflow adapter (`pkg/workflow/specworkflow`) for profile-to-workflow generation", "commit": "2933cc6" },
+        { "description": "UpdateFromProject function to sync workflow status from project state", "commit": "2933cc6" },
+        { "description": "CLI `workflow` command with mermaid, json, and dot output formats", "commit": "ba46de4" },
+        { "description": "MCP `get_workflow` tool for AI assistant workflow queries", "commit": "ba46de4" },
+        { "description": "petstore-ai-agent example project with specs in various states", "commit": "c28c2ec" }
+      ],
+      "fixed": [
+        { "description": "Spec ordering now consistent by category (source → gtm → technical → output) and workflow position", "commit": "d9ab9a0" },
+        { "description": "Press Release now appears before FAQ in GTM category (PR-FAQ order)", "commit": "d9ab9a0" },
+        { "description": "Lint errors in workflow tests using proper error handling helpers", "commit": "cf9e522" },
+        { "description": "gofmt formatting in MCP server imports", "commit": "cf9e522" }
+      ],
+      "documentation": [
+        { "description": "README updated with hero image and links", "commit": "309ca86" },
+        { "description": "petstore-ai-agent example with eval results demonstrating pass/conditional/fail states", "commit": "c28c2ec" }
+      ],
+      "dependencies": [
+        { "description": "Bump github.com/plexusone/omnillm-core to latest", "commit": "7a6a250" },
+        { "description": "Bump github.com/plexusone/structured-evaluation to v0.8.0", "commit": "51318bd" }
+      ]
+    },
+    {
       "version": "v0.10.0",
       "date": "2026-06-13",
       "commit": "b865371",
