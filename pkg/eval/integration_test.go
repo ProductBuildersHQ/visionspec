@@ -68,7 +68,8 @@ func TestMarkdownRenderer(t *testing.T) {
 	if !bytes.Contains([]byte(output), []byte("# PRD Evaluation Report")) {
 		t.Error("Missing header")
 	}
-	if !bytes.Contains([]byte(output), []byte("✅ PASS")) {
+	// v2 format uses "PASS" without emoji
+	if !bytes.Contains([]byte(output), []byte("PASS")) {
 		t.Error("Missing PASS decision")
 	}
 	if !bytes.Contains([]byte(output), []byte("Completeness")) {
@@ -91,8 +92,8 @@ func TestTerminalRenderer(t *testing.T) {
 
 	output := buf.String()
 
-	// Check for expected content
-	if !bytes.Contains([]byte(output), []byte("prd")) {
+	// Check for expected content (v2 format uses uppercase spec type)
+	if !bytes.Contains([]byte(output), []byte("PRD")) {
 		t.Error("Missing spec type")
 	}
 	if !bytes.Contains([]byte(output), []byte("PASS")) {
