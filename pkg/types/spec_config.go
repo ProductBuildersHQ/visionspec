@@ -1,6 +1,8 @@
 // Package types defines the core data structures for visionspec.
 package types
 
+import "sort"
+
 // SpecRequirement defines requirements for a spec type.
 type SpecRequirement struct {
 	// Required indicates whether this spec is mandatory for the project.
@@ -155,6 +157,57 @@ func (sc *SpecConfig) AllSpecs() []string {
 	for name := range specs {
 		result = append(result, name)
 	}
+
+	// Sort by category order (source, gtm, technical, output) then by workflow order within category
+	categoryOrder := map[SpecCategory]int{
+		CategorySource:    0,
+		CategoryGTM:       1,
+		CategoryTechnical: 2,
+		CategoryOutput:    3,
+		"":                4, // Unknown categories last
+	}
+
+	// Workflow order within each category (lower = earlier in workflow)
+	// This ensures PR-FAQ order (press before faq) and logical flow
+	workflowOrder := map[string]int{
+		// Source specs
+		"opportunity-spec": 0,
+		"mrd":              1,
+		"prd":              2,
+		"uxd":              3,
+		// GTM specs (PR-FAQ order)
+		"press":        0,
+		"faq":          1,
+		"narrative-6p": 2,
+		"narrative-1p": 3,
+		"bmc":          4,
+		// Technical specs
+		"trd": 0,
+		"tpd": 1,
+		"ird": 2,
+		// Output specs
+		"spec":          0,
+		"current-truth": 1,
+	}
+
+	sort.Slice(result, func(i, j int) bool {
+		catI := sc.GetCategory(result[i])
+		catJ := sc.GetCategory(result[j])
+		catOrderI := categoryOrder[catI]
+		catOrderJ := categoryOrder[catJ]
+		if catOrderI != catOrderJ {
+			return catOrderI < catOrderJ
+		}
+		// Within same category, use workflow order
+		wfOrderI, okI := workflowOrder[result[i]]
+		wfOrderJ, okJ := workflowOrder[result[j]]
+		if okI && okJ {
+			return wfOrderI < wfOrderJ
+		}
+		// Fall back to alphabetical for unknown specs
+		return result[i] < result[j]
+	})
+
 	return result
 }
 
