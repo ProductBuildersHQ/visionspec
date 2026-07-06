@@ -1,0 +1,26 @@
+{
+  "score": 5.8,
+  "decision": "fail",
+  "findings": [
+    {
+      "category": "accessibility",
+      "severity": "high",
+      "message": "Missing ARIA labels specification for chat widget components"
+    },
+    {
+      "category": "error-handling",
+      "severity": "high",
+      "message": "Error state designs incomplete - missing recovery flows for network failures"
+    },
+    {
+      "category": "mobile",
+      "severity": "medium",
+      "message": "Mobile breakpoint behaviors not fully specified"
+    },
+    {
+      "category": "analytics",
+      "severity": "low",
+      "message": "Consider adding funnel conversion events between recommendation and purchase"
+    }
+  ]
+}

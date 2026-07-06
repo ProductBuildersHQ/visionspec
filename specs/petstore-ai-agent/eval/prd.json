@@ -1,0 +1,21 @@
+{
+  "score": 7.2,
+  "decision": "conditional",
+  "findings": [
+    {
+      "category": "requirements",
+      "severity": "medium",
+      "message": "FR-2.3 lacks specific acceptance criteria for 'explain match reasoning'"
+    },
+    {
+      "category": "metrics",
+      "severity": "medium",
+      "message": "Success metrics missing baseline measurement methodology"
+    },
+    {
+      "category": "dependencies",
+      "severity": "low",
+      "message": "LLM API quota dependency status should be resolved before development"
+    }
+  ]
+}

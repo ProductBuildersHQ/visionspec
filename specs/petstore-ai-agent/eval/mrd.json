@@ -1,0 +1,11 @@
+{
+  "score": 8.8,
+  "decision": "pass",
+  "findings": [
+    {
+      "category": "market-analysis",
+      "severity": "low",
+      "message": "Consider adding international market expansion timeline"
+    }
+  ]
+}

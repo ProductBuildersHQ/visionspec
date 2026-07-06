@@ -273,6 +273,10 @@
          <lastmod>2026-07-06</lastmod>
     </url>
     <url>
+         <loc>https://productbuildershq.com/visionspec/releases/v0.11.0/</loc>
+         <lastmod>2026-07-06</lastmod>
+    </url>
+    <url>
          <loc>https://productbuildershq.com/visionspec/releases/v0.2.0/</loc>
          <lastmod>2026-07-06</lastmod>
     </url>
@@ -322,6 +326,22 @@
     </url>
     <url>
          <loc>https://productbuildershq.com/visionspec/specs/context-sources/technical/trd/</loc>
+         <lastmod>2026-07-06</lastmod>
+    </url>
+    <url>
+         <loc>https://productbuildershq.com/visionspec/specs/petstore-ai-agent/source/mrd/</loc>
+         <lastmod>2026-07-06</lastmod>
+    </url>
+    <url>
+         <loc>https://productbuildershq.com/visionspec/specs/petstore-ai-agent/source/opportunity-spec/</loc>
+         <lastmod>2026-07-06</lastmod>
+    </url>
+    <url>
+         <loc>https://productbuildershq.com/visionspec/specs/petstore-ai-agent/source/prd/</loc>
+         <lastmod>2026-07-06</lastmod>
+    </url>
+    <url>
+         <loc>https://productbuildershq.com/visionspec/specs/petstore-ai-agent/source/uxd/</loc>
          <lastmod>2026-07-06</lastmod>
     </url>
 </urlset>
