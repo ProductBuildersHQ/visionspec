@@ -158,51 +158,41 @@ func (sc *SpecConfig) AllSpecs() []string {
 		result = append(result, name)
 	}
 
-	// Sort by category order (source, gtm, technical, output) then by workflow order within category
-	categoryOrder := map[SpecCategory]int{
-		CategorySource:    0,
-		CategoryGTM:       1,
-		CategoryTechnical: 2,
-		CategoryOutput:    3,
-		"":                4, // Unknown categories last
-	}
-
-	// Workflow order within each category (lower = earlier in workflow)
-	// This ensures PR-FAQ order (press before faq) and logical flow
+	// Sort by true workflow order (AWS Working Backwards flow)
+	// This follows the actual dependency/synthesis order:
+	// Discovery → Vision (PR/FAQ) → Product (PRD/UXD) → Narrative → Technical → Output
 	workflowOrder := map[string]int{
-		// Source specs
+		// Discovery phase
 		"opportunity-spec": 0,
 		"mrd":              1,
-		"prd":              2,
-		"uxd":              3,
-		// GTM specs (PR-FAQ order)
-		"press":        0,
-		"faq":          1,
-		"narrative-6p": 2,
-		"narrative-1p": 3,
-		"bmc":          4,
-		// Technical specs
-		"trd": 0,
-		"tpd": 1,
-		"ird": 2,
-		// Output specs
-		"spec":          0,
-		"current-truth": 1,
+		// Vision phase (Working Backwards - write press release first)
+		"press": 2,
+		"faq":   3,
+		// Product phase (requirements informed by PR/FAQ)
+		"prd": 4,
+		"uxd": 5,
+		// Narrative phase (stakeholder alignment after product definition)
+		"narrative-6p": 6,
+		"narrative-1p": 7,
+		"bmc":          8,
+		// Technical phase
+		"trd": 9,
+		"ird": 10,
+		"tpd": 11,
+		// Output phase
+		"spec":          12,
+		"current-truth": 13,
 	}
 
 	sort.Slice(result, func(i, j int) bool {
-		catI := sc.GetCategory(result[i])
-		catJ := sc.GetCategory(result[j])
-		catOrderI := categoryOrder[catI]
-		catOrderJ := categoryOrder[catJ]
-		if catOrderI != catOrderJ {
-			return catOrderI < catOrderJ
-		}
-		// Within same category, use workflow order
 		wfOrderI, okI := workflowOrder[result[i]]
 		wfOrderJ, okJ := workflowOrder[result[j]]
 		if okI && okJ {
 			return wfOrderI < wfOrderJ
+		}
+		// Known specs come before unknown
+		if okI != okJ {
+			return okI
 		}
 		// Fall back to alphabetical for unknown specs
 		return result[i] < result[j]
