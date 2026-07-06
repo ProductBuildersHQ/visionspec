@@ -1,21 +1,94 @@
 {
+  "schemaVersion": "v2",
   "score": 7.2,
+  "scoreV2": 4,
   "decision": "conditional",
+  "pass": false,
+  "confidence": 0.78,
+  "dimensions": [
+    {
+      "id": "requirements",
+      "name": "Requirements Clarity",
+      "score": 3,
+      "severity": "minor",
+      "confidence": 0.75,
+      "reasonCodes": ["REQ-NO_CRITERIA"],
+      "findings": [
+        {
+          "category": "requirements",
+          "severity": "medium",
+          "code": "REQ-NO_CRITERIA",
+          "message": "FR-2.3 lacks specific acceptance criteria for 'explain match reasoning'",
+          "location": "FR-2.3"
+        }
+      ]
+    },
+    {
+      "id": "metrics",
+      "name": "Success Metrics",
+      "score": 3,
+      "severity": "minor",
+      "confidence": 0.72,
+      "reasonCodes": ["METRIC-UNMEASURABLE"],
+      "findings": [
+        {
+          "category": "metrics",
+          "severity": "medium",
+          "code": "METRIC-UNMEASURABLE",
+          "message": "Success metrics missing baseline measurement methodology",
+          "location": "Section 4: Success Metrics"
+        }
+      ]
+    },
+    {
+      "id": "dependencies",
+      "name": "Dependencies",
+      "score": 4,
+      "severity": "minor",
+      "confidence": 0.85,
+      "reasonCodes": ["ARCH-MISSING_DEP"],
+      "findings": [
+        {
+          "category": "dependencies",
+          "severity": "low",
+          "code": "ARCH-MISSING_DEP",
+          "message": "LLM API quota dependency status should be resolved before development",
+          "location": "Section 6: Dependencies"
+        }
+      ]
+    },
+    {
+      "id": "user-stories",
+      "name": "User Stories",
+      "score": 4,
+      "severity": "none",
+      "confidence": 0.88,
+      "reasonCodes": [],
+      "findings": []
+    }
+  ],
+  "blocking": ["REQ-NO_CRITERIA", "METRIC-UNMEASURABLE"],
   "findings": [
     {
       "category": "requirements",
       "severity": "medium",
-      "message": "FR-2.3 lacks specific acceptance criteria for 'explain match reasoning'"
+      "code": "REQ-NO_CRITERIA",
+      "message": "FR-2.3 lacks specific acceptance criteria for 'explain match reasoning'",
+      "location": "FR-2.3"
     },
     {
       "category": "metrics",
       "severity": "medium",
-      "message": "Success metrics missing baseline measurement methodology"
+      "code": "METRIC-UNMEASURABLE",
+      "message": "Success metrics missing baseline measurement methodology",
+      "location": "Section 4: Success Metrics"
     },
     {
       "category": "dependencies",
       "severity": "low",
-      "message": "LLM API quota dependency status should be resolved before development"
+      "code": "ARCH-MISSING_DEP",
+      "message": "LLM API quota dependency status should be resolved before development",
+      "location": "Section 6: Dependencies"
     }
   ]
 }

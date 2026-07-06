@@ -1,11 +1,64 @@
 {
+  "schemaVersion": "v2",
   "score": 8.5,
+  "scoreV2": 4,
   "decision": "pass",
+  "pass": true,
+  "confidence": 0.85,
+  "dimensions": [
+    {
+      "id": "problem-statement",
+      "name": "Problem Statement",
+      "score": 5,
+      "severity": "none",
+      "confidence": 0.92,
+      "reasonCodes": [],
+      "findings": []
+    },
+    {
+      "id": "opportunity-size",
+      "name": "Opportunity Size",
+      "score": 4,
+      "severity": "none",
+      "confidence": 0.88,
+      "reasonCodes": [],
+      "findings": []
+    },
+    {
+      "id": "competitive-landscape",
+      "name": "Competitive Landscape",
+      "score": 4,
+      "severity": "minor",
+      "confidence": 0.78,
+      "reasonCodes": ["METRIC-UNMEASURABLE"],
+      "findings": [
+        {
+          "category": "completeness",
+          "severity": "low",
+          "code": "METRIC-UNMEASURABLE",
+          "message": "Consider adding competitive differentiation metrics",
+          "location": "Section 3: Competitive Analysis"
+        }
+      ]
+    },
+    {
+      "id": "solution-fit",
+      "name": "Solution Fit",
+      "score": 4,
+      "severity": "none",
+      "confidence": 0.85,
+      "reasonCodes": [],
+      "findings": []
+    }
+  ],
+  "blocking": [],
   "findings": [
     {
       "category": "completeness",
       "severity": "low",
-      "message": "Consider adding competitive differentiation metrics"
+      "code": "METRIC-UNMEASURABLE",
+      "message": "Consider adding competitive differentiation metrics",
+      "location": "Section 3: Competitive Analysis"
     }
   ]
 }
