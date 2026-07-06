@@ -57,6 +57,7 @@ nav:
   - Concepts:
       - Overview: concepts/index.md
       - Working Backwards: concepts/working-backwards.md
+      - Reason Codes: concepts/reason-codes.md
   - Frameworks:
       - Overview: frameworks/index.md
       - AWS Working Backwards: frameworks/aws.md
