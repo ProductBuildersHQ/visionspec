@@ -40,6 +40,8 @@ import (
 	"github.com/ProductBuildersHQ/visionspec/pkg/testgen"
 	"github.com/ProductBuildersHQ/visionspec/pkg/types"
 	"github.com/ProductBuildersHQ/visionspec/pkg/version"
+	"github.com/ProductBuildersHQ/visionspec/pkg/workflow"
+	"github.com/ProductBuildersHQ/visionspec/pkg/workflow/specworkflow"
 	"github.com/plexusone/structured-evaluation/claims"
 	"github.com/plexusone/structured-evaluation/rubric"
 	"github.com/spf13/cobra"
@@ -612,6 +614,153 @@ func resolveProjectPath(cmd *cobra.Command) (string, error) {
 	}
 
 	return projectPath, nil
+}
+
+// workflowCmd creates the workflow command for showing project workflow DAG.
+func workflowCmd(cfg *Config) *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "workflow",
+		Short: "Show project workflow DAG and progress",
+		Long: `Display the workflow directed acyclic graph (DAG) for a project.
+
+Shows the spec dependency graph, current progress, and ready nodes.
+This helps AI agents understand what specs to work on next.
+
+Output formats:
+  - text: Human-readable summary (default)
+  - mermaid: Mermaid flowchart diagram
+  - dot: Graphviz DOT diagram
+  - json: Structured workflow data
+
+Examples:
+  visionspec workflow                  # Show workflow summary
+  visionspec workflow --format=mermaid # Output Mermaid diagram
+  visionspec workflow --format=json    # Full JSON workflow data`,
+		RunE: func(cmd *cobra.Command, args []string) error {
+			return runWorkflow(cmd, args, cfg)
+		},
+	}
+
+	cmd.Flags().String("format", "text", "Output format: text, mermaid, dot, json")
+
+	return cmd
+}
+
+func runWorkflow(cmd *cobra.Command, _ []string, cfg *Config) error {
+	projectPath, err := resolveProjectPath(cmd)
+	if err != nil {
+		return err
+	}
+
+	project, err := config.Load(projectPath)
+	if err != nil {
+		return fmt.Errorf("failed to load project: %w", err)
+	}
+
+	// Determine profile name
+	profileName := project.Workflow
+	if profileName == "" {
+		profileName = "startup"
+	}
+
+	// Load profile
+	loader := cfg.ProfileLoader
+	if loader == nil {
+		loader = profiles.DefaultLoader()
+	}
+
+	profile, err := loader.Load(profileName)
+	if err != nil {
+		return fmt.Errorf("failed to load profile %q: %w", profileName, err)
+	}
+
+	// Generate workflow from profile
+	wf, err := specworkflow.FromProfile(profile)
+	if err != nil {
+		return fmt.Errorf("failed to generate workflow: %w", err)
+	}
+
+	// Update workflow statuses from project state
+	specworkflow.UpdateFromProject(wf, project)
+
+	format, _ := cmd.Flags().GetString("format")
+
+	switch format {
+	case "mermaid":
+		renderer := workflow.NewMermaidRenderer()
+		fmt.Println(renderer.Render(wf))
+
+	case "dot":
+		renderer := workflow.NewDOTRenderer()
+		fmt.Println(renderer.Render(wf))
+
+	case "json":
+		renderer := &workflow.JSONRenderer{Indent: true}
+		fmt.Println(renderer.Render(wf))
+
+	default: // text
+		fmt.Printf("Workflow: %s\n", wf.Name)
+		if wf.Description != "" {
+			fmt.Printf("  %s\n", wf.Description)
+		}
+		fmt.Println()
+
+		// Show progress
+		completed, total, percent := wf.Progress()
+		fmt.Printf("Progress: %d/%d (%.0f%%)\n\n", completed, total, percent)
+
+		// Show phases with nodes
+		for _, phase := range wf.Phases {
+			fmt.Printf("Phase: %s", phase.Name)
+			if phase.Description != "" {
+				fmt.Printf(" - %s", phase.Description)
+			}
+			fmt.Println()
+
+			for _, nodeID := range phase.Nodes {
+				node, ok := wf.Nodes[nodeID]
+				if !ok {
+					continue
+				}
+
+				statusIcon := getStatusIcon(node.Status)
+				fmt.Printf("  %s %s", statusIcon, node.Name)
+				if node.Automated {
+					fmt.Print(" [auto]")
+				}
+				fmt.Println()
+			}
+			fmt.Println()
+		}
+
+		// Show ready nodes
+		readyNodes := wf.ReadyNodes()
+		if len(readyNodes) > 0 {
+			fmt.Println("Ready to work on:")
+			for _, node := range readyNodes {
+				fmt.Printf("  - %s: %s\n", node.ID, node.Name)
+			}
+		}
+	}
+
+	return nil
+}
+
+func getStatusIcon(status workflow.Status) string {
+	switch status {
+	case workflow.StatusCompleted:
+		return "✓"
+	case workflow.StatusInProgress:
+		return "◐"
+	case workflow.StatusReady:
+		return "○"
+	case workflow.StatusBlocked:
+		return "✗"
+	case workflow.StatusSkipped:
+		return "⊘"
+	default:
+		return "·"
+	}
 }
 
 // evalCmd creates the eval command.

@@ -13,6 +13,9 @@ import (
 
 	"github.com/ProductBuildersHQ/visionspec/pkg/align"
 	"github.com/ProductBuildersHQ/visionspec/pkg/config"
+	"github.com/ProductBuildersHQ/visionspec/pkg/profiles"
+	"github.com/ProductBuildersHQ/visionspec/pkg/workflow"
+	"github.com/ProductBuildersHQ/visionspec/pkg/workflow/specworkflow"
 	ctxpkg "github.com/ProductBuildersHQ/visionspec/pkg/context"
 	"github.com/ProductBuildersHQ/visionspec/pkg/draft"
 	"github.com/ProductBuildersHQ/visionspec/pkg/eval"
@@ -232,6 +235,12 @@ func (s *Server) registerTools() {
 		Name:        "track_requirement",
 		Description: "Track implementation progress for a specific requirement. Updates status and records evidence.",
 	}, s.handleTrackRequirement)
+
+	// Tool: get_workflow
+	mcp.AddTool(s.server, &mcp.Tool{
+		Name:        "get_workflow",
+		Description: "Get the workflow DAG for a project. Returns nodes, dependencies, phases, and progress. Optionally includes Mermaid diagram.",
+	}, s.handleGetWorkflow)
 
 	// Register execution prompts
 	s.registerPrompts()
@@ -1576,6 +1585,146 @@ func (s *Server) handleTrackRequirement(ctx context.Context, req *mcp.CallToolRe
 			&mcp.TextContent{Text: string(data)},
 		},
 	}, nil, nil
+}
+
+// GetWorkflowArgs contains arguments for get_workflow.
+type GetWorkflowArgs struct {
+	Project        string `json:"project" jsonschema:"description=Project name"`
+	IncludeMermaid bool   `json:"include_mermaid,omitempty" jsonschema:"description=Include Mermaid diagram in response"`
+	Format         string `json:"format,omitempty" jsonschema:"description=Output format: json (default), mermaid, or dot"`
+}
+
+func (s *Server) handleGetWorkflow(ctx context.Context, req *mcp.CallToolRequest, args GetWorkflowArgs) (*mcp.CallToolResult, any, error) {
+	// Get project path
+	projectPath, err := getProjectPath(args.Project)
+	if err != nil {
+		return errorResult("failed to find project: " + err.Error())
+	}
+
+	// Load project config
+	project, err := config.Load(projectPath)
+	if err != nil {
+		return errorResult("failed to load project config: " + err.Error())
+	}
+
+	// Determine profile name from project
+	profileName := project.Workflow
+	if profileName == "" {
+		profileName = "startup" // default
+	}
+
+	// Load profile
+	loader := profiles.DefaultLoader()
+	profile, err := loader.Load(profileName)
+	if err != nil {
+		return errorResult("failed to load profile: " + err.Error())
+	}
+
+	// Generate workflow from profile
+	wf, err := specworkflow.FromProfile(profile)
+	if err != nil {
+		return errorResult("failed to generate workflow: " + err.Error())
+	}
+
+	// Update workflow statuses from project specs
+	specworkflow.UpdateFromProject(wf, project)
+
+	// Handle different output formats
+	format := args.Format
+	if format == "" {
+		format = "json"
+	}
+
+	switch format {
+	case "mermaid":
+		renderer := workflow.NewMermaidRenderer()
+		mermaid := renderer.Render(wf)
+		return &mcp.CallToolResult{
+			Content: []mcp.Content{
+				&mcp.TextContent{Text: mermaid},
+			},
+		}, nil, nil
+
+	case "dot":
+		renderer := workflow.NewDOTRenderer()
+		dot := renderer.Render(wf)
+		return &mcp.CallToolResult{
+			Content: []mcp.Content{
+				&mcp.TextContent{Text: dot},
+			},
+		}, nil, nil
+
+	default: // json
+		// Build response
+		completed, total, percent := wf.Progress()
+
+		result := map[string]any{
+			"project":     args.Project,
+			"profile":     profileName,
+			"name":        wf.Name,
+			"description": wf.Description,
+			"progress": map[string]any{
+				"completed": completed,
+				"total":     total,
+				"percent":   percent,
+			},
+		}
+
+		// Include phases with nodes
+		phases := make([]map[string]any, 0, len(wf.Phases))
+		for _, phase := range wf.Phases {
+			phaseData := map[string]any{
+				"id":          phase.ID,
+				"name":        phase.Name,
+				"description": phase.Description,
+				"order":       phase.Order,
+				"nodes":       phase.Nodes,
+			}
+			phases = append(phases, phaseData)
+		}
+		result["phases"] = phases
+
+		// Include nodes with status
+		nodes := make(map[string]map[string]any)
+		for id, node := range wf.Nodes {
+			nodeData := map[string]any{
+				"id":          node.ID,
+				"name":        node.Name,
+				"description": node.Description,
+				"type":        string(node.Type),
+				"phase":       node.Phase,
+				"status":      string(node.Status),
+				"depends_on":  node.DependsOn,
+				"automated":   node.Automated,
+			}
+			if len(node.Metadata) > 0 {
+				nodeData["metadata"] = node.Metadata
+			}
+			nodes[id] = nodeData
+		}
+		result["nodes"] = nodes
+
+		// Include ready nodes for guidance
+		readyNodes := wf.ReadyNodes()
+		readyIDs := make([]string, 0, len(readyNodes))
+		for _, n := range readyNodes {
+			readyIDs = append(readyIDs, n.ID)
+		}
+		result["ready_nodes"] = readyIDs
+
+		// Optionally include Mermaid diagram
+		if args.IncludeMermaid {
+			renderer := workflow.NewMermaidRenderer()
+			result["mermaid"] = renderer.Render(wf)
+		}
+
+		data, _ := json.Marshal(result)
+		return &mcp.CallToolResult{
+			Content: []mcp.Content{
+				&mcp.TextContent{Text: string(data)},
+			},
+		}, nil, nil
+	}
 }
 
 // ExecutionStatus tracks implementation progress.
