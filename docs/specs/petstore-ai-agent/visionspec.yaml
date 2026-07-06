@@ -1,0 +1,32 @@
+name: petstore-ai-agent
+description: |
+  AI-powered pet recommendation agent for the Swagger Petstore API.
+  Helps customers find suitable pets based on their preferences, lifestyle,
+  and living situation.
+
+version: 0.1.0
+status: draft
+
+created_at: 2026-07-06
+updated_at: 2026-07-06
+
+maintainers:
+  - team@petstore.example.com
+
+tags:
+  - ai-agent
+  - petstore
+  - recommendations
+  - conversational-ai
+
+profile: big-tech-feature
+
+llm:
+  provider: anthropic
+  model: claude-sonnet-4-20250514
+
+context:
+  repositories:
+    - url: https://github.com/swagger-api/swagger-petstore
+      include: ["**/*.java", "**/*.yaml"]
+      analyze: [structure, api_schemas]

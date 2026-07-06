@@ -1,0 +1,11 @@
+{
+  "score": 8.5,
+  "decision": "pass",
+  "findings": [
+    {
+      "category": "completeness",
+      "severity": "low",
+      "message": "Consider adding competitive differentiation metrics"
+    }
+  ]
+}
