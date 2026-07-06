@@ -101,7 +101,8 @@ synthesis:
       - mrd
       - press
       - faq
-    guidance: "Include API contracts (Stripe), non-goals (Google), alternatives considered (Google), and success metrics (OKRs)."
+      - narrative-6p
+    guidance: "Include API contracts (Stripe), non-goals (Google), alternatives considered (Google), and success metrics (OKRs). Align with approved 6-Pager narrative."
 
   trd:
     sources:

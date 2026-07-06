@@ -159,22 +159,21 @@ func (sc *SpecConfig) AllSpecs() []string {
 	}
 
 	// Sort by true workflow order (AWS Working Backwards flow)
-	// This follows the actual dependency/synthesis order:
-	// Discovery → Vision (PR/FAQ) → Product (PRD/UXD) → Narrative → Technical → Output
+	// Discovery → Vision (PR/FAQ/Narrative) → Product (PRD/UXD) → Technical → Output
+	// The 6-Pager is the leadership approval gate BEFORE detailed PRD/UXD work
 	workflowOrder := map[string]int{
 		// Discovery phase
 		"opportunity-spec": 0,
 		"mrd":              1,
-		// Vision phase (Working Backwards - write press release first)
-		"press": 2,
-		"faq":   3,
-		// Product phase (requirements informed by PR/FAQ)
-		"prd": 4,
-		"uxd": 5,
-		// Narrative phase (stakeholder alignment after product definition)
-		"narrative-6p": 6,
-		"narrative-1p": 7,
-		"bmc":          8,
+		// Vision phase (Working Backwards - PR/FAQ then 6-Pager for approval)
+		"press":        2,
+		"faq":          3,
+		"narrative-6p": 4, // Leadership approval gate
+		"narrative-1p": 5, // Executive summary (optional)
+		"bmc":          6, // Business model (optional)
+		// Product phase (detailed work after approval)
+		"prd": 7,
+		"uxd": 8,
 		// Technical phase
 		"trd": 9,
 		"ird": 10,
