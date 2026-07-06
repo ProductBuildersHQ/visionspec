@@ -13,12 +13,10 @@ import (
 
 	"github.com/ProductBuildersHQ/visionspec/pkg/align"
 	"github.com/ProductBuildersHQ/visionspec/pkg/config"
-	"github.com/ProductBuildersHQ/visionspec/pkg/profiles"
-	"github.com/ProductBuildersHQ/visionspec/pkg/workflow"
-	"github.com/ProductBuildersHQ/visionspec/pkg/workflow/specworkflow"
 	ctxpkg "github.com/ProductBuildersHQ/visionspec/pkg/context"
 	"github.com/ProductBuildersHQ/visionspec/pkg/draft"
 	"github.com/ProductBuildersHQ/visionspec/pkg/eval"
+	"github.com/ProductBuildersHQ/visionspec/pkg/profiles"
 	"github.com/ProductBuildersHQ/visionspec/pkg/reconcile"
 	"github.com/ProductBuildersHQ/visionspec/pkg/status"
 	"github.com/ProductBuildersHQ/visionspec/pkg/synth"
@@ -26,6 +24,8 @@ import (
 	"github.com/ProductBuildersHQ/visionspec/pkg/templates"
 	"github.com/ProductBuildersHQ/visionspec/pkg/testmap"
 	"github.com/ProductBuildersHQ/visionspec/pkg/types"
+	"github.com/ProductBuildersHQ/visionspec/pkg/workflow"
+	"github.com/ProductBuildersHQ/visionspec/pkg/workflow/specworkflow"
 	"github.com/modelcontextprotocol/go-sdk/mcp"
 )
 

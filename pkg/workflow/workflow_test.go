@@ -4,6 +4,22 @@ import (
 	"testing"
 )
 
+// mustAddNode adds a node and fails the test if there's an error
+func mustAddNode(t *testing.T, w *Workflow, node *Node) {
+	t.Helper()
+	if err := w.AddNode(node); err != nil {
+		t.Fatalf("failed to add node %q: %v", node.ID, err)
+	}
+}
+
+// mustUpdateStatus updates status and fails the test if there's an error
+func mustUpdateStatus(t *testing.T, w *Workflow, nodeID string, status Status) {
+	t.Helper()
+	if err := w.UpdateStatus(nodeID, status); err != nil {
+		t.Fatalf("failed to update status for %q: %v", nodeID, err)
+	}
+}
+
 func TestNewWorkflow(t *testing.T) {
 	w := New("test-workflow")
 	if w.Name != "test-workflow" {
@@ -56,9 +72,9 @@ func TestDependencies(t *testing.T) {
 	w := New("test")
 	w.AddPhase("p1", "Phase 1", 1)
 
-	w.AddNode(&Node{ID: "a", Name: "A", Phase: "p1"})
-	w.AddNode(&Node{ID: "b", Name: "B", Phase: "p1", DependsOn: []string{"a"}})
-	w.AddNode(&Node{ID: "c", Name: "C", Phase: "p1", DependsOn: []string{"a", "b"}})
+	mustAddNode(t, w, &Node{ID: "a", Name: "A", Phase: "p1"})
+	mustAddNode(t, w, &Node{ID: "b", Name: "B", Phase: "p1", DependsOn: []string{"a"}})
+	mustAddNode(t, w, &Node{ID: "c", Name: "C", Phase: "p1", DependsOn: []string{"a", "b"}})
 
 	deps := w.Dependencies("c")
 	if len(deps) != 2 {
@@ -75,8 +91,8 @@ func TestIsReady(t *testing.T) {
 	w := New("test")
 	w.AddPhase("p1", "Phase 1", 1)
 
-	w.AddNode(&Node{ID: "a", Name: "A", Phase: "p1"})
-	w.AddNode(&Node{ID: "b", Name: "B", Phase: "p1", DependsOn: []string{"a"}})
+	mustAddNode(t, w, &Node{ID: "a", Name: "A", Phase: "p1"})
+	mustAddNode(t, w, &Node{ID: "b", Name: "B", Phase: "p1", DependsOn: []string{"a"}})
 
 	// Initially, a is ready (no deps), b is not
 	if !w.IsReady("a") {
@@ -87,7 +103,7 @@ func TestIsReady(t *testing.T) {
 	}
 
 	// Complete a, then b should be ready
-	w.UpdateStatus("a", StatusCompleted)
+	mustUpdateStatus(t, w, "a", StatusCompleted)
 	if !w.IsReady("b") {
 		t.Error("expected node b to be ready after a completed")
 	}
@@ -97,9 +113,9 @@ func TestReadyNodes(t *testing.T) {
 	w := New("test")
 	w.AddPhase("p1", "Phase 1", 1)
 
-	w.AddNode(&Node{ID: "a", Name: "A", Phase: "p1"})
-	w.AddNode(&Node{ID: "b", Name: "B", Phase: "p1"})
-	w.AddNode(&Node{ID: "c", Name: "C", Phase: "p1", DependsOn: []string{"a"}})
+	mustAddNode(t, w, &Node{ID: "a", Name: "A", Phase: "p1"})
+	mustAddNode(t, w, &Node{ID: "b", Name: "B", Phase: "p1"})
+	mustAddNode(t, w, &Node{ID: "c", Name: "C", Phase: "p1", DependsOn: []string{"a"}})
 
 	ready := w.ReadyNodes()
 	if len(ready) != 2 {
@@ -111,9 +127,9 @@ func TestTopologicalSort(t *testing.T) {
 	w := New("test")
 	w.AddPhase("p1", "Phase 1", 1)
 
-	w.AddNode(&Node{ID: "a", Name: "A", Phase: "p1"})
-	w.AddNode(&Node{ID: "b", Name: "B", Phase: "p1", DependsOn: []string{"a"}})
-	w.AddNode(&Node{ID: "c", Name: "C", Phase: "p1", DependsOn: []string{"b"}})
+	mustAddNode(t, w, &Node{ID: "a", Name: "A", Phase: "p1"})
+	mustAddNode(t, w, &Node{ID: "b", Name: "B", Phase: "p1", DependsOn: []string{"a"}})
+	mustAddNode(t, w, &Node{ID: "c", Name: "C", Phase: "p1", DependsOn: []string{"b"}})
 
 	sorted, err := w.TopologicalSort()
 	if err != nil {
@@ -135,9 +151,9 @@ func TestCycleDetection(t *testing.T) {
 	w := New("test")
 	w.AddPhase("p1", "Phase 1", 1)
 
-	w.AddNode(&Node{ID: "a", Name: "A", Phase: "p1", DependsOn: []string{"c"}})
-	w.AddNode(&Node{ID: "b", Name: "B", Phase: "p1", DependsOn: []string{"a"}})
-	w.AddNode(&Node{ID: "c", Name: "C", Phase: "p1", DependsOn: []string{"b"}})
+	mustAddNode(t, w, &Node{ID: "a", Name: "A", Phase: "p1", DependsOn: []string{"c"}})
+	mustAddNode(t, w, &Node{ID: "b", Name: "B", Phase: "p1", DependsOn: []string{"a"}})
+	mustAddNode(t, w, &Node{ID: "c", Name: "C", Phase: "p1", DependsOn: []string{"b"}})
 
 	_, err := w.TopologicalSort()
 	if err == nil {
@@ -149,18 +165,18 @@ func TestProgress(t *testing.T) {
 	w := New("test")
 	w.AddPhase("p1", "Phase 1", 1)
 
-	w.AddNode(&Node{ID: "a", Name: "A", Phase: "p1"})
-	w.AddNode(&Node{ID: "b", Name: "B", Phase: "p1"})
-	w.AddNode(&Node{ID: "c", Name: "C", Phase: "p1"})
-	w.AddNode(&Node{ID: "d", Name: "D", Phase: "p1"})
+	mustAddNode(t, w, &Node{ID: "a", Name: "A", Phase: "p1"})
+	mustAddNode(t, w, &Node{ID: "b", Name: "B", Phase: "p1"})
+	mustAddNode(t, w, &Node{ID: "c", Name: "C", Phase: "p1"})
+	mustAddNode(t, w, &Node{ID: "d", Name: "D", Phase: "p1"})
 
 	completed, total, percent := w.Progress()
 	if completed != 0 || total != 4 || percent != 0 {
 		t.Errorf("expected 0/4 (0%%), got %d/%d (%.1f%%)", completed, total, percent)
 	}
 
-	w.UpdateStatus("a", StatusCompleted)
-	w.UpdateStatus("b", StatusSkipped)
+	mustUpdateStatus(t, w, "a", StatusCompleted)
+	mustUpdateStatus(t, w, "b", StatusSkipped)
 
 	completed, total, percent = w.Progress()
 	if completed != 2 || total != 4 || percent != 50 {
@@ -172,8 +188,8 @@ func TestValidate(t *testing.T) {
 	w := New("test")
 	w.AddPhase("p1", "Phase 1", 1)
 
-	w.AddNode(&Node{ID: "a", Name: "A", Phase: "p1"})
-	w.AddNode(&Node{ID: "b", Name: "B", Phase: "p1", DependsOn: []string{"nonexistent"}})
+	mustAddNode(t, w, &Node{ID: "a", Name: "A", Phase: "p1"})
+	mustAddNode(t, w, &Node{ID: "b", Name: "B", Phase: "p1", DependsOn: []string{"nonexistent"}})
 
 	err := w.Validate()
 	if err == nil {
