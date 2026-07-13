@@ -10,7 +10,7 @@ require (
 	github.com/plexusone/graphfs v0.2.0
 	github.com/plexusone/graphize v0.4.0
 	github.com/plexusone/omnillm-core v0.18.0
-	github.com/plexusone/structured-evaluation v0.8.0
+	github.com/plexusone/structured-evaluation v0.9.0
 	github.com/spf13/cobra v1.10.2
 	gopkg.in/yaml.v3 v3.0.1
 )
