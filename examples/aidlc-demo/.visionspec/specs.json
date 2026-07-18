@@ -1,0 +1,109 @@
+{
+  "project": "task-management-api",
+  "version": "1.0",
+  "synced_at": "2024-01-25T14:30:00Z",
+  "specs": [
+    {
+      "type": "vision_document",
+      "phase": "inception",
+      "path": "aidlc-docs/inception/vision_document.md",
+      "title": "Task Management API - Vision Document",
+      "status": "approved",
+      "score": {
+        "rating": "EXCELLENT",
+        "score": 0.92,
+        "evaluated_at": "2024-01-16T10:00:00Z",
+        "dimensions": {
+          "clarity": {"score": 0.95, "weight": 0.25},
+          "completeness": {"score": 0.90, "weight": 0.25},
+          "alignment": {"score": 0.92, "weight": 0.25},
+          "feasibility": {"score": 0.91, "weight": 0.25}
+        }
+      },
+      "checksum": "a1b2c3d4e5f6"
+    },
+    {
+      "type": "requirements_spec",
+      "phase": "inception",
+      "path": "aidlc-docs/inception/requirements_spec.md",
+      "title": "Task Management API - Requirements Specification",
+      "status": "approved",
+      "score": {
+        "rating": "GOOD",
+        "score": 0.88,
+        "evaluated_at": "2024-01-19T15:00:00Z",
+        "dimensions": {
+          "testability": {"score": 0.85, "weight": 0.30},
+          "traceability": {"score": 0.82, "weight": 0.25},
+          "clarity": {"score": 0.92, "weight": 0.25},
+          "completeness": {"score": 0.90, "weight": 0.20}
+        }
+      },
+      "checksum": "b2c3d4e5f6a7"
+    },
+    {
+      "type": "technical_spec",
+      "phase": "inception",
+      "path": "aidlc-docs/inception/technical_spec.md",
+      "title": "Task Management API - Technical Specification",
+      "status": "draft",
+      "score": {
+        "rating": "GOOD",
+        "score": 0.75,
+        "evaluated_at": "2024-01-20T11:00:00Z",
+        "dimensions": {
+          "architecture": {"score": 0.80, "weight": 0.30},
+          "api_design": {"score": 0.78, "weight": 0.25},
+          "security": {"score": 0.70, "weight": 0.25},
+          "scalability": {"score": 0.72, "weight": 0.20}
+        }
+      },
+      "checksum": "c3d4e5f6a7b8"
+    },
+    {
+      "type": "implementation_plan",
+      "phase": "construction",
+      "path": "aidlc-docs/construction/implementation_plan.md",
+      "title": "Task Management API - Implementation Plan",
+      "status": "in_progress",
+      "score": {
+        "rating": "NEEDS_IMPROVEMENT",
+        "score": 0.65,
+        "evaluated_at": "2024-01-22T09:00:00Z",
+        "dimensions": {
+          "completeness": {"score": 0.60, "weight": 0.30},
+          "feasibility": {"score": 0.70, "weight": 0.25},
+          "clarity": {"score": 0.68, "weight": 0.25},
+          "risk_coverage": {"score": 0.62, "weight": 0.20}
+        },
+        "issues": [
+          {
+            "severity": "medium",
+            "category": "completeness",
+            "code": "IMPL-SCOPE-001",
+            "message": "Implementation plan lacks resource estimates",
+            "location": "Section 3: Work Breakdown",
+            "suggestion": "Add effort estimates per task"
+          }
+        ]
+      },
+      "checksum": "d4e5f6a7b8c9"
+    }
+  ],
+  "workflow": {
+    "current_phase": "construction",
+    "phases": {
+      "inception": {
+        "status": "completed",
+        "completed_at": "2024-01-21T16:00:00Z"
+      },
+      "construction": {
+        "status": "in_progress",
+        "started_at": "2024-01-21T16:00:00Z"
+      },
+      "operations": {
+        "status": "pending"
+      }
+    }
+  }
+}

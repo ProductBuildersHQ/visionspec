@@ -1,0 +1,59 @@
+# VisionSpec Configuration for AIDLC Demo Project
+name: task-management-api
+description: A sample Task Management API demonstrating AIDLC workflow integration
+
+# Project metadata
+metadata:
+  team: Platform Engineering
+  owner: demo@example.com
+  created: "2024-01-15"
+
+# Profile configuration
+profile: enterprise
+
+# AIDLC-specific configuration
+aidlc:
+  enabled: true
+  docs_dir: aidlc-docs
+  auto_sync: true
+
+  # Phase requirements
+  phases:
+    inception:
+      required_docs:
+        - vision_document
+        - requirements_spec
+        - technical_spec
+      min_score: 0.7
+
+    construction:
+      required_docs:
+        - implementation_plan
+        - test_plan
+        - security_review
+      min_score: 0.7
+      require_approval: true
+
+    operations:
+      required_docs:
+        - runbook
+        - monitoring_plan
+        - slo_document
+      min_score: 0.8
+
+# Evaluation configuration
+eval:
+  model: claude-3-5-sonnet-20241022
+  rubric_overrides:
+    vision_document:
+      min_score: 0.75
+    security_review:
+      min_score: 0.85
+
+# Sync configuration
+sync:
+  direction: bidirectional
+  conflict_resolution: prefer_newer
+  exclude_patterns:
+    - "*.draft.md"
+    - "*.backup"
