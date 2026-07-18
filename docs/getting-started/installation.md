@@ -4,7 +4,7 @@
 
 ### Prerequisites
 
-- Go 1.21 or later
+- Go 1.26.1 or later
 
 ### Install via `go install`
 

@@ -38,10 +38,12 @@ VisionSpec bridges the gap between organizational intent and executable specific
 **Key Capabilities:**
 
 - 📣 **Working Backwards flow** - Start with vision (Press Release), derive requirements (PRD)
-- 🎯 **Methodology profiles** - AWS, Google, Stripe, Lean Startup, Design Thinking, JTBD
+- 🎯 **Dual-methodology system** - Separate requirements (WHAT) from implementation (HOW) methodologies
+- 🔄 **AIDLC workflow** - Full AWS AI-DLC integration with 12 document types across 3 phases
+- 📋 **V2MOM strategic planning** - Company, department, and team-level strategic alignment
 - ✍️ **Domain-specific authoring** - Separate specs for PM, UX, Engineering
 - ⚙️ **LLM synthesis** - Generate Press, FAQ, PRD, TRD, TPD, IRD from source specs
-- 📊 **Structured evaluation** - Per-domain LLM judges with customizable rubrics
+- 📊 **Structured evaluation** - Per-domain LLM judges with 1-5 numeric scoring
 - 🔄 **Reconciliation** - Conflict detection and tradeoff resolution
 - 📦 **Target adapters** - Export to SpecKit, GSD, GasTown, GasCity, AWS AI-DLC, OpenSpec
 
@@ -50,7 +52,7 @@ All synthesized documents are committed to git and can be reviewed, edited, and 
 ## Installation
 
 ```bash
-go install github.com/ProductBuildersHQ/visionspec/cmd/visionspec@v0.10.0
+go install github.com/ProductBuildersHQ/visionspec/cmd/visionspec@v0.13.0
 ```
 
 ## Quick Start
