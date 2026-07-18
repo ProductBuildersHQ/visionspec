@@ -3591,11 +3591,14 @@
 <h2 id="what-is-visionspec">What is VisionSpec?<a class="headerlink" href="#what-is-visionspec" title="Permanent link">&para;</a></h2>
 <p>VisionSpec bridges the gap between organizational intent (MRD, PRD, UXD) and executable specifications for AI coding agents. It provides a structured workflow for:</p>
 <ul>
+<li><strong>Dual-methodology system</strong> - Separate requirements (WHAT) from implementation (HOW) methodologies</li>
 <li><strong>Methodology profiles</strong> - AWS, Google, Stripe, Lean Startup, Design Thinking, JTBD</li>
+<li><strong>AIDLC workflow</strong> - Full AWS AI-DLC integration with 12 document types across 3 phases</li>
+<li><strong>V2MOM strategic planning</strong> - Company, department, and team-level strategic alignment</li>
 <li><strong>Domain-specific authoring</strong> - Separate specs for PM, UX, Engineering</li>
 <li><strong>GTM synthesis</strong> - LLM-generated press releases, FAQs, narratives (Working Backwards)</li>
 <li><strong>Technical synthesis</strong> - LLM-generated TRD, TPD, IRD from source specs</li>
-<li><strong>Structured evaluation</strong> - Per-domain LLM judges with customizable rubrics</li>
+<li><strong>Structured evaluation</strong> - Per-domain LLM judges with 1-5 numeric scoring</li>
 <li><strong>Reconciliation</strong> - Conflict detection and tradeoff resolution</li>
 <li><strong>Target adapters</strong> - Export to SpecKit, GSD, GasTown, GasCity, AWS AI-DLC, OpenSpec</li>
 </ul>
@@ -3631,7 +3634,7 @@
 <p>See the <a href="concepts/working-backwards/">Working Backwards Guide</a> for the full methodology.</p>
 <h2 id="quick-start">Quick Start<a class="headerlink" href="#quick-start" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Install</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>go<span class="w"> </span>install<span class="w"> </span>github.com/ProductBuildersHQ/visionspec/cmd/visionspec@v0.6.0
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>go<span class="w"> </span>install<span class="w"> </span>github.com/ProductBuildersHQ/visionspec/cmd/visionspec@v0.13.0
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># Initialize a new project</span>
 <a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>visionspec<span class="w"> </span>init<span class="w"> </span>user-onboarding
@@ -3778,8 +3781,8 @@
 </code></pre></div>
 <p>Organizations can create custom profiles with their own templates and rubrics. See the <a href="guides/custom-profiles/">Custom Profiles Guide</a> for details.</p>
 <h2 id="project-status">Project Status<a class="headerlink" href="#project-status" title="Permanent link">&para;</a></h2>
-<p>See the <a href="specs/ROADMAP/">ROADMAP</a> for detailed implementation status and <a href="releases/v0.6.0/">Release Notes</a> for the latest release.</p>
-<p><strong>Current Version:</strong> v0.6.0</p>
+<p>See the <a href="specs/ROADMAP/">ROADMAP</a> for detailed implementation status and <a href="releases/v0.13.0/">Release Notes</a> for the latest release.</p>
+<p><strong>Current Version:</strong> v0.13.0</p>
 <table>
 <thead>
 <tr>
@@ -3797,7 +3800,7 @@
 <td>Complete</td>
 </tr>
 <tr>
-<td>Evaluation Engine</td>
+<td>Evaluation Engine (v2 schema with 1-5 scoring)</td>
 <td>Complete</td>
 </tr>
 <tr>
@@ -3826,6 +3829,18 @@
 </tr>
 <tr>
 <td>AI Workflow Orchestration (rules)</td>
+<td>Complete</td>
+</tr>
+<tr>
+<td>AIDLC Workflow Package (pkg/aidlc/)</td>
+<td>Complete</td>
+</tr>
+<tr>
+<td>Dual-Methodology System</td>
+<td>Complete</td>
+</tr>
+<tr>
+<td>V2MOM Strategic Planning Profiles</td>
 <td>Complete</td>
 </tr>
 </tbody>
