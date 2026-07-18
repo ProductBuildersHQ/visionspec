@@ -26,6 +26,33 @@ const (
 	// Output specs
 	SpecTypeSpec         SpecType = "spec"          // Reconciled execution spec
 	SpecTypeCurrentTruth SpecType = "current-truth" // Post-ship state
+
+	// V2MOM specs (strategic planning)
+	SpecTypeV2MOMVision    SpecType = "v2mom-vision"    // Vision statement
+	SpecTypeV2MOMValues    SpecType = "v2mom-values"    // Ranked values
+	SpecTypeV2MOMMethods   SpecType = "v2mom-methods"   // Strategic initiatives
+	SpecTypeV2MOMObstacles SpecType = "v2mom-obstacles" // Blockers and risks
+	SpecTypeV2MOMMeasures  SpecType = "v2mom-measures"  // Success metrics
+	SpecTypeV2MOMAlignment SpecType = "v2mom-alignment" // Cascade alignment doc
+	SpecTypeV2MOMSummary   SpecType = "v2mom-summary"   // Unified V2MOM view
+
+	// AIDLC specs - Inception phase
+	SpecTypeAIDLCVision       SpecType = "aidlc-vision"       // AIDLC Vision Document
+	SpecTypeAIDLCRequirements SpecType = "aidlc-requirements" // AIDLC Requirements Spec
+	SpecTypeAIDLCTechnical    SpecType = "aidlc-technical"    // AIDLC Technical Spec
+	SpecTypeAIDLCArchitecture SpecType = "aidlc-architecture" // AIDLC Architecture Spec
+
+	// AIDLC specs - Construction phase
+	SpecTypeAIDLCImplementation SpecType = "aidlc-implementation" // AIDLC Implementation Plan
+	SpecTypeAIDLCTestPlan       SpecType = "aidlc-testplan"       // AIDLC Test Plan
+	SpecTypeAIDLCIntegration    SpecType = "aidlc-integration"    // AIDLC Integration Plan
+	SpecTypeAIDLCSecurity       SpecType = "aidlc-security"       // AIDLC Security Review
+
+	// AIDLC specs - Operations phase
+	SpecTypeAIDLCRunbook    SpecType = "aidlc-runbook"    // AIDLC Runbook
+	SpecTypeAIDLCMonitoring SpecType = "aidlc-monitoring" // AIDLC Monitoring Plan
+	SpecTypeAIDLCDisaster   SpecType = "aidlc-disaster"   // AIDLC Disaster Recovery
+	SpecTypeAIDLCSLO        SpecType = "aidlc-slo"        // AIDLC SLO Document
 )
 
 // SpecCategory groups spec types by their category.
@@ -36,6 +63,8 @@ const (
 	CategoryGTM       SpecCategory = "gtm"
 	CategoryTechnical SpecCategory = "technical"
 	CategoryOutput    SpecCategory = "output"
+	CategoryStrategic SpecCategory = "strategic" // V2MOM strategic planning
+	CategoryAIDLC     SpecCategory = "aidlc"     // AWS AI DLC workflow
 )
 
 // Category returns the category for a spec type.
@@ -49,6 +78,15 @@ func (s SpecType) Category() SpecCategory {
 		return CategoryTechnical
 	case SpecTypeSpec, SpecTypeCurrentTruth:
 		return CategoryOutput
+	case SpecTypeV2MOMVision, SpecTypeV2MOMValues, SpecTypeV2MOMMethods,
+		SpecTypeV2MOMObstacles, SpecTypeV2MOMMeasures, SpecTypeV2MOMAlignment,
+		SpecTypeV2MOMSummary:
+		return CategoryStrategic
+	case SpecTypeAIDLCVision, SpecTypeAIDLCRequirements, SpecTypeAIDLCTechnical,
+		SpecTypeAIDLCArchitecture, SpecTypeAIDLCImplementation, SpecTypeAIDLCTestPlan,
+		SpecTypeAIDLCIntegration, SpecTypeAIDLCSecurity, SpecTypeAIDLCRunbook,
+		SpecTypeAIDLCMonitoring, SpecTypeAIDLCDisaster, SpecTypeAIDLCSLO:
+		return CategoryAIDLC
 	default:
 		return ""
 	}
@@ -83,6 +121,10 @@ func (s SpecType) Dir() string {
 		return "gtm"
 	case CategoryTechnical:
 		return "technical"
+	case CategoryStrategic:
+		return "v2mom"
+	case CategoryAIDLC:
+		return "aidlc-docs"
 	case CategoryOutput:
 		return "" // root of project
 	default:
@@ -151,4 +193,79 @@ func GTMSpecTypes() []SpecType {
 // TechnicalSpecTypes returns technical spec types.
 func TechnicalSpecTypes() []SpecType {
 	return []SpecType{SpecTypeTRD, SpecTypeTPD, SpecTypeIRD}
+}
+
+// V2MOMSpecTypes returns V2MOM strategic planning spec types.
+func V2MOMSpecTypes() []SpecType {
+	return []SpecType{
+		SpecTypeV2MOMVision,
+		SpecTypeV2MOMValues,
+		SpecTypeV2MOMMethods,
+		SpecTypeV2MOMObstacles,
+		SpecTypeV2MOMMeasures,
+		SpecTypeV2MOMAlignment,
+		SpecTypeV2MOMSummary,
+	}
+}
+
+// V2MOMCoreSpecTypes returns the five core V2MOM elements (excluding alignment and summary).
+func V2MOMCoreSpecTypes() []SpecType {
+	return []SpecType{
+		SpecTypeV2MOMVision,
+		SpecTypeV2MOMValues,
+		SpecTypeV2MOMMethods,
+		SpecTypeV2MOMObstacles,
+		SpecTypeV2MOMMeasures,
+	}
+}
+
+// AIDLCSpecTypes returns all AIDLC spec types in workflow order.
+func AIDLCSpecTypes() []SpecType {
+	return []SpecType{
+		// Inception
+		SpecTypeAIDLCVision,
+		SpecTypeAIDLCRequirements,
+		SpecTypeAIDLCTechnical,
+		SpecTypeAIDLCArchitecture,
+		// Construction
+		SpecTypeAIDLCImplementation,
+		SpecTypeAIDLCTestPlan,
+		SpecTypeAIDLCIntegration,
+		SpecTypeAIDLCSecurity,
+		// Operations
+		SpecTypeAIDLCRunbook,
+		SpecTypeAIDLCMonitoring,
+		SpecTypeAIDLCDisaster,
+		SpecTypeAIDLCSLO,
+	}
+}
+
+// AIDLCInceptionSpecTypes returns AIDLC inception phase spec types.
+func AIDLCInceptionSpecTypes() []SpecType {
+	return []SpecType{
+		SpecTypeAIDLCVision,
+		SpecTypeAIDLCRequirements,
+		SpecTypeAIDLCTechnical,
+		SpecTypeAIDLCArchitecture,
+	}
+}
+
+// AIDLCConstructionSpecTypes returns AIDLC construction phase spec types.
+func AIDLCConstructionSpecTypes() []SpecType {
+	return []SpecType{
+		SpecTypeAIDLCImplementation,
+		SpecTypeAIDLCTestPlan,
+		SpecTypeAIDLCIntegration,
+		SpecTypeAIDLCSecurity,
+	}
+}
+
+// AIDLCOperationsSpecTypes returns AIDLC operations phase spec types.
+func AIDLCOperationsSpecTypes() []SpecType {
+	return []SpecType{
+		SpecTypeAIDLCRunbook,
+		SpecTypeAIDLCMonitoring,
+		SpecTypeAIDLCDisaster,
+		SpecTypeAIDLCSLO,
+	}
 }
