@@ -7,6 +7,52 @@
   "maintainers": ["johncwang@gmail.com"],
   "releases": [
     {
+      "version": "v0.13.0",
+      "date": "2026-07-18",
+      "commit": "ea8e6c0",
+      "highlights": [
+        { "description": "Full AIDLC workflow package with 12 document types across 3 phases" },
+        { "description": "Dual-methodology system separating requirements (WHAT) from implementation (HOW)" },
+        { "description": "V2MOM strategic planning profiles for company, department, and team levels" },
+        { "description": "V2 evaluation schema with 1-5 numeric scoring" },
+        { "description": "PIDL protocol export for workflow visualization" }
+      ],
+      "added": [
+        { "description": "AIDLC workflow package (`pkg/aidlc/`) with types, workflow DAG, sync, state, eval, transition, and templates", "commit": "9310a48" },
+        { "description": "Methodology types (`pkg/types/methodology.go`) for dual-methodology system", "commit": "18a18c7" },
+        { "description": "RequirementsMethodology and ImplementationMethodology fields in Project struct", "commit": "1407eca" },
+        { "description": "V2MOM and AIDLC spec types (19 new spec types)", "commit": "24ba932" },
+        { "description": "V2MOM strategic planning profiles: v2mom, v2mom-company, v2mom-department, v2mom-team", "commit": "f4c6fcc" },
+        { "description": "AIDLC evaluation rubrics for all 12 document types", "commit": "398795a" },
+        { "description": "AIDLC demo project in `examples/aidlc-demo/`", "commit": "3baf7fc" },
+        { "description": "V2 evaluation schema with 1-5 numeric scoring replacing categorical scoring", "commit": "d75feab" },
+        { "description": "PIDL protocol export (`WorkflowToPIDL`) for workflow visualization", "commit": "9310a48" }
+      ],
+      "changed": [
+        { "description": "Project struct deprecated Workflow field in favor of RequirementsMethodology", "commit": "1407eca" },
+        { "description": "Evaluation output now uses numeric scores (1-5) instead of categorical (pass/partial/fail)", "commit": "d75feab" },
+        { "description": "petstore example eval files updated to v2 format", "commit": "cf41481" }
+      ],
+      "documentation": [
+        { "description": "AIDLC integration guide (`docs/guides/aidlc-integration.md`)", "commit": "b6f626d" },
+        { "description": "Updated ROADMAP with AIDLC integration phase (Phase 15)", "commit": "c1004e5" },
+        { "description": "Updated eval command documentation for v2 format", "commit": "27d56a7" },
+        { "description": "Added reason codes reference documentation", "commit": "1e32b1e" },
+        { "description": "Fixed README diagram alignment", "commit": "f4abd3c" }
+      ],
+      "tests": [
+        { "description": "Integration tests updated for v2 evaluation schema", "commit": "83401c6" },
+        { "description": "Unit tests for pkg/aidlc/ (types, templates, transitions, PIDL integration)", "commit": "9310a48" }
+      ],
+      "dependencies": [
+        { "description": "Add github.com/grokify/pidl v0.5.0 for PIDL protocol export", "commit": "ea8e6c0" },
+        { "description": "Update Go version from 1.26.0 to 1.26.1", "commit": "ea8e6c0" },
+        { "description": "Update golang.org/x/sys from v0.46.0 to v0.47.0", "commit": "ea8e6c0" },
+        { "description": "Bump github.com/plexusone/structured-evaluation to v0.9.0", "commit": "3436cb5" },
+        { "description": "Bump github.com/grokify/oscompat from 0.4.0 to 0.5.0", "commit": "e818172" }
+      ]
+    },
+    {
       "version": "v0.12.0",
       "date": "2026-07-06",
       "commit": "e02eb5c",

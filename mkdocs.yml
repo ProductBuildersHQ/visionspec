@@ -104,6 +104,7 @@ nav:
       - Configuration: guides/configuration.md
       - Custom Profiles: guides/custom-profiles.md
       - Organization Customization: guides/organization-customization.md
+      - AIDLC Integration: guides/aidlc-integration.md
   - Execution Targets:
       - Overview: execution-targets/index.md
       - AWS AI-DLC: execution-targets/aws-aidlc.md
@@ -125,6 +126,7 @@ nav:
   - Specifications:
       - ROADMAP: specs/ROADMAP.md
   - Releases:
+      - v0.13.0: releases/v0.13.0.md
       - v0.12.0: releases/v0.12.0.md
       - v0.11.0: releases/v0.11.0.md
       - v0.10.0: releases/v0.10.0.md
