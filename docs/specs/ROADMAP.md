@@ -1539,3 +1539,218 @@ Bidirectional integration with AI coding agent execution systems.
   - MCP prompt: `verify_acceptance` - Guides acceptance criteria verification
   - MCP prompt: `resolve_drift` - Guides drift resolution
   - `internal/mcp/server.go` - registerPrompts, handleImplementRequirementPrompt, etc.
+
+---
+
+## Phase 15: AIDLC Workflow Integration (v0.8.0)
+
+Full integration of AWS AI-DLC workflows with VisionStudio for bidirectional sync, visualization, and LLM-as-judge evaluation.
+
+### AIDLC Core Types (pkg/aidlc/)
+
+- [x] RMI-700: Define AIDLC types (`pkg/aidlc/types.go`)
+  - Phase enum: inception, construction, operations
+  - DocType enum: 12 document types across 3 phases
+  - Document struct with content, status, score, metadata
+  - QualityScore, QualityRating, Issue types
+  - Helper functions: AllPhases(), AllDocTypes(), DocTypesByPhase()
+
+- [x] RMI-701: Implement workflow DAG (`pkg/aidlc/workflow.go`)
+  - Workflow struct with phases, nodes, edges
+  - WorkflowNode with status, dependencies, quality scores
+  - WorkflowEdge for document dependencies
+  - NewDefaultWorkflow() with standard AIDLC structure
+  - UpdateNodeStatus() for state transitions
+
+- [x] RMI-702: Implement bidirectional sync (`pkg/aidlc/sync.go`)
+  - SyncEngine with VisionSpec and AIDLC directory paths
+  - ExportToAIDLC() - convert VisionSpec to AIDLC markdown
+  - ImportFromAIDLC() - parse AIDLC markdown to VisionSpec
+  - DiffState() - detect changes between directories
+  - Sync() - bidirectional merge with conflict detection
+
+- [x] RMI-703: Implement AIDLC state parser (`pkg/aidlc/state.go`)
+  - Parse aidlc-state.md markdown format
+  - Extract phase status, document completion
+  - Quality scores from evaluation results
+  - State serialization/deserialization
+
+### AIDLC Evaluation
+
+- [x] RMI-710: Implement evaluation integration (`pkg/aidlc/eval.go`)
+  - Judge interface for LLM-based evaluation
+  - Evaluator struct with rubric loading
+  - EvaluationResult with dimension scores and findings
+  - Integration with structured-evaluation library
+  - BuildCategoryPrompt() for LLM judge prompts
+
+- [x] RMI-711: Create AIDLC rubrics (`pkg/rubrics/`)
+  - Vision document rubric: clarity, completeness, alignment, feasibility
+  - Requirements spec rubric: testability, traceability, ambiguity
+  - Technical spec rubric: architecture, scalability, security
+  - Test plan rubric: coverage, edge cases, automation
+  - Security review rubric: threat model, controls, compliance
+  - Runbook rubric: step clarity, rollback, monitoring
+  - SLO document rubric: SLI definitions, targets, alerting
+
+### Phase Transition Logic
+
+- [x] RMI-720: Implement phase transitions (`pkg/aidlc/transition.go`)
+  - PhaseStatus enum: pending, in_progress, completed, blocked
+  - TransitionRule with required docs and minimum scores
+  - TransitionResult with blocking docs and issues
+  - CurrentPhase() - determine workflow phase from node status
+  - CanTransitionTo() - validate transition prerequisites
+  - TransitionTo() - execute phase transition
+  - TransitionLog for audit trail
+
+- [x] RMI-721: Implement phase requirements
+  - GetPhaseRequirements() - required docs per phase
+  - ValidatePhaseTransition() - comprehensive validation
+  - AllPhaseRequirements() - cross-phase analysis
+
+### Workflow Progress Tracking
+
+- [x] RMI-730: Implement execution context (`pkg/aidlc/pidl_integration.go`)
+  - WorkflowExecutionContext with timing metrics
+  - StepExecutionStatus: pending, ready, blocked, in_progress, completed, failed, skipped
+  - StepTiming for per-step duration tracking
+  - ExecutionMetrics with completion percentage
+  - PhaseMetrics for per-phase progress
+
+- [x] RMI-731: Implement dependency analysis
+  - Topological sort for execution order
+  - GetReadySteps() - steps with satisfied dependencies
+  - GetBlockedSteps() - steps with blocking reasons
+  - GetCriticalPath() - longest execution path
+  - IsComplete() - workflow completion check
+
+- [x] RMI-732: Implement PIDL protocol export
+  - WorkflowToPIDL() - convert workflow to pidl.Protocol
+  - Entity mapping for workflow nodes
+  - Flow mapping for dependencies
+  - Phase mapping for workflow phases
+
+### Document Templates
+
+- [x] RMI-740: Create document templates (`pkg/aidlc/templates.go`)
+  - Template struct with content and section definitions
+  - TemplateData for rendering variables
+  - GetTemplate() - retrieve template by DocType
+  - RenderTemplate() - execute template with data
+
+- [x] RMI-741: Inception phase templates
+  - Vision Document template: executive summary, problem, goals, scope
+  - Requirements Spec template: functional/non-functional, user stories
+  - Technical Spec template: APIs, data models, algorithms
+  - Architecture Spec template: ADRs, components, security
+
+- [x] RMI-742: Construction phase templates
+  - Implementation Plan template: milestones, tasks, resources, risks
+  - Test Plan template: strategy, cases, coverage, performance
+  - Integration Plan template: systems, contracts, migration
+  - Security Review template: threat model, controls, compliance
+
+- [x] RMI-743: Operations phase templates
+  - Runbook template: deployment, operations, incident response
+  - Monitoring Plan template: metrics, logs, alerts, SLOs
+  - Disaster Recovery template: RTO/RPO, procedures, testing
+  - SLO Document template: SLIs, targets, error budgets
+
+### Sample Project & Testing
+
+- [x] RMI-750: Create sample AIDLC project
+  - Sample project in `examples/aidlc-demo/`
+  - Pre-populated inception phase documents (vision, requirements, technical)
+  - Construction phase document (implementation plan in progress)
+  - Workflow state file (aidlc-state.md) with progress
+  - VisionSpec sync data (.visionspec/specs.json)
+
+- [x] RMI-751: Unit tests for pkg/aidlc/
+  - `pkg/aidlc/types_test.go` - type methods (100% coverage)
+  - `pkg/aidlc/templates_test.go` - template rendering
+  - `pkg/aidlc/transition_test.go` - phase transitions
+  - `pkg/aidlc/pidl_integration_test.go` - execution tracking
+  - Overall coverage: 39.2%
+
+### Daemon API Integration
+
+- [x] RMI-760: Wire evaluation to daemon API
+  - `POST /api/projects/{project}/aidlc/evaluate/{docId}` - evaluate document
+  - Return EvaluationResult with scores and findings
+  - Store results in workflow state
+
+- [x] RMI-761: Wire transitions to daemon API
+  - `GET /api/projects/{project}/aidlc/phase/requirements` - get phase requirements
+  - `POST /api/projects/{project}/aidlc/phase/transition` - attempt transition
+  - Return TransitionResult with blocking issues
+
+- [x] RMI-762: Wire templates to daemon API
+  - `GET /api/projects/{project}/aidlc/templates` - list available templates
+  - `GET /api/projects/{project}/aidlc/templates/{docType}` - get template
+  - `POST /api/projects/{project}/aidlc/documents/create` - create from template
+
+### Frontend Components
+
+- [x] RMI-770: Evaluation results display
+  - EvaluationResultsPanel component
+  - Dimension score visualization (bar charts)
+  - Findings list with severity badges
+  - Compact and full view modes
+
+- [x] RMI-771: Phase transition UI
+  - PhaseRequirementsPanel showing blocking docs
+  - TransitionButton with validation state
+  - Phase progress cards with completion tracking
+
+- [x] RMI-772: Template selection UI
+  - TemplateSelector modal for new documents
+  - Template preview with section outline
+  - CreateFromTemplate action with form fields
+
+### Documentation
+
+- [x] RMI-780: AIDLC integration guide
+  - `docs/guides/aidlc-integration.md`
+  - Setup and configuration
+  - Workflow phases explanation
+  - API reference and code examples
+
+- [x] RMI-781: AIDLC API reference
+  - `visionapp/docs/guide/aidlc-api.md`
+  - REST API endpoints
+  - Request/response schemas
+  - Example workflows
+
+### Code Quality
+
+- [x] RMI-790: Run golangci-lint on pkg/aidlc/
+  - Fixed duplicate code in state.go (extracted parseScanner helper)
+  - Fixed gofmt issues in workflow.go
+  - Added nolint comments for intentional gosec warnings
+
+- [~] RMI-791: Add test coverage
+  - Current coverage: 40.5% (target was 80%)
+  - Core functionality tested
+  - Additional tests needed for helper functions
+
+---
+
+## Next Steps
+
+Potential follow-up work for AIDLC integration:
+
+- [ ] RMI-792: Increase test coverage to 80%
+  - Add tests for ToMermaid(), UpdateFromState(), Progress()
+  - Add integration tests for sync operations
+  - Add benchmark tests
+
+- [ ] RMI-793: Publish visionspec with pkg/aidlc
+  - Tag new version (v0.13.0)
+  - Remove local replace directive from visionapp go.mod
+  - Update visionapp to use published version
+
+- [ ] RMI-794: End-to-end testing
+  - Test AIDLC workflow with sample project
+  - Verify sync between .visionspec and aidlc-docs
+  - Test phase transitions in VisionStudio UI
