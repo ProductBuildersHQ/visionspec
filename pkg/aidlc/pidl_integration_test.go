@@ -140,8 +140,10 @@ func TestWorkflowExecutionContext_CompleteStep(t *testing.T) {
 	if timing.EndTime.IsZero() {
 		t.Error("End time should be set")
 	}
-	if timing.Duration <= 0 {
-		t.Error("Duration should be positive")
+	// On Windows, timer resolution is ~15.6ms, so Duration can be 0
+	// for fast operations. We just verify it's not negative.
+	if timing.Duration < 0 {
+		t.Error("Duration should not be negative")
 	}
 
 	// Check workflow node was updated
@@ -229,8 +231,10 @@ func TestWorkflowExecutionContext_GetMetrics(t *testing.T) {
 	if metrics.CompletedSteps != 2 {
 		t.Errorf("CompletedSteps = %d, want 2", metrics.CompletedSteps)
 	}
-	if metrics.ElapsedTime <= 0 {
-		t.Error("ElapsedTime should be positive")
+	// On Windows, timer resolution is ~15.6ms, so ElapsedTime can be 0
+	// for fast operations. We just verify it's not negative.
+	if metrics.ElapsedTime < 0 {
+		t.Error("ElapsedTime should not be negative")
 	}
 	if metrics.ProgressPercent <= 0 {
 		t.Error("ProgressPercent should be positive")
