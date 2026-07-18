@@ -38,7 +38,18 @@ type Project struct {
 	Rubrics *RubricsConfig `json:"rubrics,omitempty" yaml:"rubrics,omitempty"`
 
 	// Workflow specifies the workflow methodology and level (e.g., "aws-working-backwards/product").
+	// Deprecated: Use RequirementsMethodology instead.
 	Workflow string `json:"workflow,omitempty" yaml:"workflow,omitempty"`
+
+	// RequirementsMethodology specifies the requirements methodology
+	// (e.g., "aws-working-backwards/product", "big-tech-product", "lean-startup").
+	// This defines WHAT to build.
+	RequirementsMethodology string `json:"requirements_methodology,omitempty" yaml:"requirements_methodology,omitempty"`
+
+	// ImplementationMethodology specifies the implementation methodology
+	// (e.g., "aidlc", "speckit", "none").
+	// This defines HOW to build.
+	ImplementationMethodology ImplementationMethodology `json:"implementation_methodology,omitempty" yaml:"implementation_methodology,omitempty"`
 
 	// Execution tracks the state of exported execution targets.
 	Execution *ExecutionState `json:"execution,omitempty" yaml:"execution,omitempty"`
