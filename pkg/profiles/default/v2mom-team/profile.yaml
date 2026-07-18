@@ -1,0 +1,80 @@
+name: v2mom-team
+description: "Team-level V2MOM. Aligns to Department V2MOM methods. Most tactical level with direct links to capabilities and projects."
+extends: v2mom
+
+v2mom:
+  level: team
+  cascading:
+    parent_level: department
+    grandparent_level: company  # For context
+    children: []  # Can extend to individual if needed
+
+  # Team methods are the most tactical - directly linked to work
+  methods:
+    scope: "specific projects, features, and initiatives"
+    typical_count: 5-10
+    time_horizon: "sprint to quarterly"
+    alignment_required: true
+    productcontext_required: true  # Must link to capabilities/projects
+
+  measures:
+    scope: "operational metrics the team directly controls"
+    examples:
+      - "Sprint velocity"
+      - "Bug resolution time"
+      - "Feature completion rate"
+      - "Code quality metrics"
+
+# Alignment document required
+spec_config:
+  v2mom-alignment:
+    required: true
+    category: gtm
+    description: "Shows how team vision and methods support department V2MOM methods."
+
+# ProductContext integration is emphasized at team level
+productcontext:
+  methods:
+    required_links:
+      - capability  # Each method should link to a capability
+      - project     # Each method should be a project or part of one
+    validation: strict
+
+  measures:
+    required_links:
+      - kpi
+    validation: strict
+
+  obstacles:
+    suggested_links:
+      - decision
+      - customer_request
+
+synthesis:
+  v2mom-alignment:
+    sources:
+      - v2mom-vision
+      - v2mom-methods
+      - parent:v2mom-methods
+      - parent:v2mom-measures
+      - grandparent:v2mom-vision  # Company vision for context
+    guidance: |
+      Create an alignment document showing:
+      1. Which department methods this team advances
+      2. How team methods map to department methods
+      3. How this contributes to company vision (grandparent context)
+      4. ProductContext entity links for each method
+      5. Cross-team dependencies
+
+  v2mom-methods:
+    sources:
+      - v2mom-vision
+      - v2mom-values
+      - parent:v2mom-methods
+    guidance: |
+      Define tactical initiatives that:
+      1. Directly support parent (department) methods
+      2. Link to ProductContext capabilities
+      3. Have clear project definitions
+      4. Include sprint/milestone planning
+      5. Define done criteria

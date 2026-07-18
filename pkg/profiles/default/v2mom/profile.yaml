@@ -1,0 +1,239 @@
+name: v2mom
+description: "V2MOM strategic planning framework (Vision, Values, Methods, Obstacles, Measures). Supports cascading alignment from Company → Department → Team → Individual levels."
+
+# V2MOM spec configuration
+# Each V2MOM document follows the 5-section Salesforce framework
+spec_config:
+  # Vision: The compelling future state we're working toward
+  v2mom-vision:
+    required: true
+    category: source
+    description: "The north star - what we want to achieve. Should be inspiring, clear, and memorable."
+
+  # Values: The principles that guide how we achieve the vision
+  v2mom-values:
+    required: true
+    category: source
+    description: "Ranked list of beliefs and priorities. Higher-ranked values take precedence in trade-offs."
+
+  # Methods: The specific initiatives and projects to achieve the vision
+  v2mom-methods:
+    required: true
+    category: source
+    description: "Actions and initiatives. Each method should map to capabilities in ProductContext."
+
+  # Obstacles: Challenges that could prevent success
+  v2mom-obstacles:
+    required: true
+    category: source
+    description: "Known blockers and risks. Each obstacle should have mitigation strategies."
+
+  # Measures: How we track progress and success
+  v2mom-measures:
+    required: true
+    category: source
+    description: "Quantifiable metrics. Each measure should map to KPIs in ProductContext."
+
+  # Synthesized alignment document (for cascading)
+  v2mom-alignment:
+    required: false
+    category: gtm
+    description: "Synthesized document showing alignment to parent V2MOM methods."
+
+  # Reconciled V2MOM summary
+  v2mom-summary:
+    required: false
+    category: output
+    description: "Unified V2MOM document combining all sections with cross-references."
+
+# Synthesis rules for V2MOM
+synthesis:
+  # Values derive from Vision
+  v2mom-values:
+    sources:
+      - v2mom-vision
+    guidance: |
+      Extract the core beliefs and principles that will guide achieving the vision.
+      Values should be:
+      - Ranked in priority order (1 = highest)
+      - Actionable trade-off guides ("customer success over short-term revenue")
+      - Consistent with organizational values
+
+  # Methods derive from Vision + Values
+  v2mom-methods:
+    sources:
+      - v2mom-vision
+      - v2mom-values
+    guidance: |
+      Define specific initiatives that advance the vision while honoring the values.
+      For each method:
+      - Link to ProductContext capabilities when applicable
+      - Include clear ownership
+      - Define success criteria
+      - Estimate effort/timeline
+
+  # Obstacles derive from Methods
+  v2mom-obstacles:
+    sources:
+      - v2mom-vision
+      - v2mom-methods
+    guidance: |
+      Identify challenges that could block methods from succeeding.
+      For each obstacle:
+      - Categorize: technical, organizational, market, resource
+      - Define mitigation strategies
+      - Assign owner for resolution
+      - Link to related decisions in ProductContext
+
+  # Measures derive from Methods
+  v2mom-measures:
+    sources:
+      - v2mom-methods
+    guidance: |
+      Define quantifiable metrics for each method.
+      For each measure:
+      - Be specific and measurable (SMART)
+      - Include baseline, target, and stretch goals
+      - Define measurement frequency
+      - Link to KPIs in ProductContext
+
+  # Alignment synthesis (for child V2MOMs)
+  v2mom-alignment:
+    sources:
+      - v2mom-vision
+      - parent:v2mom-methods
+    guidance: |
+      Show how this V2MOM's vision supports the parent's methods.
+      Include:
+      - Which parent methods this V2MOM advances
+      - Contribution to parent metrics
+      - Dependencies on sibling V2MOMs
+
+  # Summary synthesis
+  v2mom-summary:
+    sources:
+      - v2mom-vision
+      - v2mom-values
+      - v2mom-methods
+      - v2mom-obstacles
+      - v2mom-measures
+    guidance: |
+      Create a unified V2MOM document with:
+      - Executive summary
+      - All five sections with cross-references
+      - ProductContext entity links
+      - Parent V2MOM alignment (if applicable)
+
+# V2MOM-specific configuration
+v2mom:
+  # Cascading configuration
+  cascading:
+    enabled: true
+    levels:
+      - company
+      - department
+      - team
+      - individual
+
+    # How parent methods cascade to child
+    cascade_rule: "Parent Methods → Child Vision alignment"
+
+  # ProductContext integration
+  productcontext:
+    # Methods link to capabilities and projects
+    methods:
+      link_to:
+        - capability
+        - project
+        - initiative
+
+    # Measures link to KPIs
+    measures:
+      link_to:
+        - kpi
+        - outcome
+
+    # Obstacles link to decisions
+    obstacles:
+      link_to:
+        - decision
+        - customer_request
+
+# Evaluation rubric for V2MOM
+evaluation:
+  v2mom-vision:
+    criteria:
+      - name: clarity
+        description: "Vision is clear, concise, and memorable"
+        weight: 0.3
+      - name: inspiration
+        description: "Vision inspires action and commitment"
+        weight: 0.3
+      - name: achievability
+        description: "Vision is ambitious but achievable"
+        weight: 0.2
+      - name: alignment
+        description: "Vision aligns with organizational strategy"
+        weight: 0.2
+    pass_threshold: 7.0
+
+  v2mom-values:
+    criteria:
+      - name: ranked
+        description: "Values are clearly prioritized"
+        weight: 0.3
+      - name: actionable
+        description: "Values provide clear trade-off guidance"
+        weight: 0.4
+      - name: consistent
+        description: "Values are internally consistent"
+        weight: 0.3
+    pass_threshold: 7.0
+
+  v2mom-methods:
+    criteria:
+      - name: specific
+        description: "Methods are concrete and actionable"
+        weight: 0.3
+      - name: linked
+        description: "Methods link to capabilities/projects"
+        weight: 0.2
+      - name: owned
+        description: "Each method has clear ownership"
+        weight: 0.2
+      - name: measurable
+        description: "Methods have success criteria"
+        weight: 0.3
+    pass_threshold: 7.0
+
+  v2mom-obstacles:
+    criteria:
+      - name: comprehensive
+        description: "Key obstacles are identified"
+        weight: 0.3
+      - name: categorized
+        description: "Obstacles are properly categorized"
+        weight: 0.2
+      - name: mitigated
+        description: "Each obstacle has mitigation plan"
+        weight: 0.3
+      - name: owned
+        description: "Each obstacle has an owner"
+        weight: 0.2
+    pass_threshold: 7.0
+
+  v2mom-measures:
+    criteria:
+      - name: smart
+        description: "Measures are SMART (Specific, Measurable, etc.)"
+        weight: 0.4
+      - name: linked
+        description: "Measures link to methods"
+        weight: 0.2
+      - name: tracked
+        description: "Measurement cadence is defined"
+        weight: 0.2
+      - name: kpi_linked
+        description: "Measures link to ProductContext KPIs"
+        weight: 0.2
+    pass_threshold: 7.0

@@ -1,0 +1,46 @@
+name: v2mom-department
+description: "Department-level V2MOM. Aligns to Company V2MOM methods and cascades down to teams."
+extends: v2mom
+
+v2mom:
+  level: department
+  cascading:
+    parent_level: company
+    children:
+      - v2mom-team
+
+  # Department methods support company methods
+  methods:
+    scope: "department-wide initiatives that support company methods"
+    typical_count: 5-7
+    time_horizon: "quarterly to annual"
+    alignment_required: true  # Must link to parent methods
+
+  measures:
+    scope: "department KPIs that roll up to company metrics"
+    examples:
+      - "Feature delivery velocity"
+      - "Customer retention in segment"
+      - "Team productivity metrics"
+
+# Alignment document is required for departments
+spec_config:
+  v2mom-alignment:
+    required: true
+    category: gtm
+    description: "Shows how department vision and methods support company V2MOM methods."
+
+synthesis:
+  v2mom-alignment:
+    sources:
+      - v2mom-vision
+      - v2mom-methods
+      - parent:v2mom-methods
+      - parent:v2mom-measures
+    guidance: |
+      Create an alignment document showing:
+      1. Which company methods this department advances
+      2. How department methods map to company methods
+      3. Expected contribution to company measures
+      4. Dependencies on other departments
+      5. Resource requirements and constraints
