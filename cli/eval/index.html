@@ -542,6 +542,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/reason-codes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reason Codes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1217,10 +1245,49 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#evaluation-results" class="md-nav__link">
+  <a href="#score-scale-1-5" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Evaluation Results
+        Score Scale (1-5)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#evaluation-results-v2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evaluation Results (v2)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Evaluation Results (v2)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Fields
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reason-codes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reason Codes
       
     </span>
   </a>
@@ -1243,6 +1310,17 @@
     <span class="md-ellipsis">
       
         Pass Criteria
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#confidence-values" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Confidence Values
       
     </span>
   </a>
@@ -2097,6 +2175,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/aidlc-integration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AIDLC Integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -2888,6 +2994,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../releases/v0.13.0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.13.0
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../releases/v0.12.0/" class="md-nav__link">
         
   
@@ -3406,10 +3540,49 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#evaluation-results" class="md-nav__link">
+  <a href="#score-scale-1-5" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Evaluation Results
+        Score Scale (1-5)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#evaluation-results-v2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evaluation Results (v2)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Evaluation Results (v2)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Fields
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reason-codes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reason Codes
       
     </span>
   </a>
@@ -3432,6 +3605,17 @@
     <span class="md-ellipsis">
       
         Pass Criteria
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#confidence-values" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Confidence Values
       
     </span>
   </a>
@@ -3487,12 +3671,12 @@
 </code></pre></div>
 <h2 id="description">Description<a class="headerlink" href="#description" title="Permanent link">&para;</a></h2>
 <p>The <code>eval</code> command evaluates specification documents against rubrics using an LLM judge. It checks for quality, completeness, and adherence to best practices.</p>
-<p>Evaluation results are saved to <code>eval/{spec-type}.eval.json</code> and include:</p>
+<p>Evaluation results are saved to <code>eval/{spec-type}.json</code> and include:</p>
 <ul>
-<li>Overall score (0-10)</li>
-<li>Pass/fail decision</li>
-<li>Findings with severity levels</li>
-<li>Category scores</li>
+<li>Overall score (1-5 integer scale)</li>
+<li>Pass/fail decision with blocking reason codes</li>
+<li>Per-dimension scores with confidence values</li>
+<li>Findings with <a href="../../concepts/reason-codes/">reason codes</a> for automated repair</li>
 </ul>
 <h2 id="arguments">Arguments<a class="headerlink" href="#arguments" title="Permanent link">&para;</a></h2>
 <table>
@@ -3565,31 +3749,149 @@
 <h2 id="output">Output<a class="headerlink" href="#output" title="Permanent link">&para;</a></h2>
 <p>The command prints evaluation status for each spec:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>⋯ Evaluating prd...
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>✓ prd: 8.5/10 PASS (3 findings)
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>✓ prd: 4/5 (Good) PASS [conf: 88%]
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
 <a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>⋯ Evaluating trd...
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>✗ trd: 5.2/10 FAIL (7 findings)
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>✗ trd: 2/5 (Major Revisions) FAIL [conf: 75%]
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>  Blocking: SEC-NO_AUTH, ARCH-NO_API
 </code></pre></div>
-<h2 id="evaluation-results">Evaluation Results<a class="headerlink" href="#evaluation-results" title="Permanent link">&para;</a></h2>
-<p>Results are saved to <code>eval/{spec-type}.eval.json</code>:</p>
+<h2 id="score-scale-1-5">Score Scale (1-5)<a class="headerlink" href="#score-scale-1-5" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Score</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>5</td>
+<td>Excellent</td>
+<td>Exceeds expectations</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Good</td>
+<td>Meets expectations well</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Acceptable</td>
+<td>Meets minimum requirements</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Major Revisions</td>
+<td>Significant work needed</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Unacceptable</td>
+<td>Does not meet requirements</td>
+</tr>
+</tbody>
+</table>
+<h2 id="evaluation-results-v2">Evaluation Results (v2)<a class="headerlink" href="#evaluation-results-v2" title="Permanent link">&para;</a></h2>
+<p>Results are saved to <code>eval/{spec-type}.json</code> in v2 format:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">{</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="nt">&quot;spec_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;prd&quot;</span><span class="p">,</span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="nt">&quot;score&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">8.5</span><span class="p">,</span>
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span><span class="nt">&quot;passed&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">  </span><span class="nt">&quot;findings&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">    </span><span class="p">{</span>
-<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">      </span><span class="nt">&quot;category&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;user_stories&quot;</span><span class="p">,</span>
-<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">      </span><span class="nt">&quot;severity&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;medium&quot;</span><span class="p">,</span>
-<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">      </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;User story US-3 missing acceptance criteria&quot;</span>
-<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">    </span><span class="p">}</span>
-<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">  </span><span class="p">],</span>
-<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="w">  </span><span class="nt">&quot;category_scores&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="w">    </span><span class="nt">&quot;problem_definition&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">9.0</span><span class="p">,</span>
-<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="w">    </span><span class="nt">&quot;user_stories&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">7.5</span><span class="p">,</span>
-<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="w">    </span><span class="nt">&quot;requirements&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">8.5</span>
-<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="w">  </span><span class="p">}</span>
-<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="p">}</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="nt">&quot;schemaVersion&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;v2&quot;</span><span class="p">,</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="nt">&quot;scoreV2&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span><span class="nt">&quot;decision&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;conditional&quot;</span><span class="p">,</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">  </span><span class="nt">&quot;pass&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">  </span><span class="nt">&quot;confidence&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.78</span><span class="p">,</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">  </span><span class="nt">&quot;blocking&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;REQ-NO_CRITERIA&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;METRIC-UNMEASURABLE&quot;</span><span class="p">],</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">  </span><span class="nt">&quot;dimensions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">      </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;requirements&quot;</span><span class="p">,</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Requirements Clarity&quot;</span><span class="p">,</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="w">      </span><span class="nt">&quot;score&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="w">      </span><span class="nt">&quot;severity&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;minor&quot;</span><span class="p">,</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="w">      </span><span class="nt">&quot;confidence&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.75</span><span class="p">,</span>
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="w">      </span><span class="nt">&quot;reasonCodes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;REQ-NO_CRITERIA&quot;</span><span class="p">],</span>
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="w">      </span><span class="nt">&quot;findings&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="w">        </span><span class="p">{</span>
+<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="w">          </span><span class="nt">&quot;category&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;requirements&quot;</span><span class="p">,</span>
+<a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="w">          </span><span class="nt">&quot;severity&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;medium&quot;</span><span class="p">,</span>
+<a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a><span class="w">          </span><span class="nt">&quot;code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;REQ-NO_CRITERIA&quot;</span><span class="p">,</span>
+<a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a><span class="w">          </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;FR-2.3 lacks acceptance criteria&quot;</span><span class="p">,</span>
+<a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a><span class="w">          </span><span class="nt">&quot;location&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;FR-2.3&quot;</span>
+<a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a><span class="w">      </span><span class="p">]</span>
+<a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a><span class="w">  </span><span class="p">],</span>
+<a id="__codelineno-3-27" name="__codelineno-3-27" href="#__codelineno-3-27"></a><span class="w">  </span><span class="nt">&quot;findings&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="err">...</span><span class="p">]</span>
+<a id="__codelineno-3-28" name="__codelineno-3-28" href="#__codelineno-3-28"></a><span class="p">}</span>
 </code></pre></div>
+<h3 id="key-fields">Key Fields<a class="headerlink" href="#key-fields" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>schemaVersion</code></td>
+<td>Format version ("v2")</td>
+</tr>
+<tr>
+<td><code>scoreV2</code></td>
+<td>Overall score (1-5 integer)</td>
+</tr>
+<tr>
+<td><code>pass</code></td>
+<td>Boolean pass/fail gate</td>
+</tr>
+<tr>
+<td><code>confidence</code></td>
+<td>Evaluation confidence (0.0-1.0)</td>
+</tr>
+<tr>
+<td><code>blocking</code></td>
+<td>Reason codes that caused failure</td>
+</tr>
+<tr>
+<td><code>dimensions</code></td>
+<td>Per-dimension breakdown with scores</td>
+</tr>
+</tbody>
+</table>
+<h2 id="reason-codes">Reason Codes<a class="headerlink" href="#reason-codes" title="Permanent link">&para;</a></h2>
+<p>Findings include standardized <a href="../../concepts/reason-codes/">reason codes</a> that enable automated repair:</p>
+<table>
+<thead>
+<tr>
+<th>Prefix</th>
+<th>Domain</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>REQ-</code></td>
+<td>Requirements</td>
+<td><code>REQ-AMBIGUOUS</code>, <code>REQ-NO_CRITERIA</code></td>
+</tr>
+<tr>
+<td><code>SEC-</code></td>
+<td>Security</td>
+<td><code>SEC-NO_AUTH</code>, <code>SEC-PRIVACY</code></td>
+</tr>
+<tr>
+<td><code>UX-</code></td>
+<td>UX/Accessibility</td>
+<td><code>UX-NO_ARIA</code>, <code>UX-NO_ERROR_STATE</code></td>
+</tr>
+<tr>
+<td><code>ARCH-</code></td>
+<td>Architecture</td>
+<td><code>ARCH-NO_API</code>, <code>ARCH-GAP</code></td>
+</tr>
+</tbody>
+</table>
+<p>See <a href="../../concepts/reason-codes/">Reason Codes Reference</a> for the complete list.</p>
 <h2 id="severity-levels">Severity Levels<a class="headerlink" href="#severity-levels" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -3603,12 +3905,12 @@
 <tr>
 <td><code>critical</code></td>
 <td>Spec cannot be used</td>
-<td>Automatic fail</td>
+<td>Automatic fail, added to <code>blocking</code></td>
 </tr>
 <tr>
 <td><code>high</code></td>
 <td>Major issues</td>
-<td>Likely fail</td>
+<td>Likely fail, added to <code>blocking</code></td>
 </tr>
 <tr>
 <td><code>medium</code></td>
@@ -3620,15 +3922,50 @@
 <td>Minor improvements</td>
 <td>Informational</td>
 </tr>
+<tr>
+<td><code>info</code></td>
+<td>Observations</td>
+<td>No impact on score</td>
+</tr>
 </tbody>
 </table>
 <h2 id="pass-criteria">Pass Criteria<a class="headerlink" href="#pass-criteria" title="Permanent link">&para;</a></h2>
 <p>A spec passes evaluation when:</p>
 <ul>
-<li>Score &gt;= 7.0</li>
+<li>Score &gt;= 3 (Acceptable)</li>
 <li>No critical findings</li>
-<li>No more than 2 high findings</li>
+<li>No high-severity findings (or within threshold)</li>
+<li>No blocking reason codes</li>
 </ul>
+<h2 id="confidence-values">Confidence Values<a class="headerlink" href="#confidence-values" title="Permanent link">&para;</a></h2>
+<p>The evaluation includes confidence scores (0.0-1.0):</p>
+<table>
+<thead>
+<tr>
+<th>Confidence</th>
+<th>Interpretation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0.9+</td>
+<td>Very confident in assessment</td>
+</tr>
+<tr>
+<td>0.7-0.9</td>
+<td>Confident</td>
+</tr>
+<tr>
+<td>0.5-0.7</td>
+<td>Somewhat confident, consider review</td>
+</tr>
+<tr>
+<td>&lt; 0.5</td>
+<td>Low confidence, needs human review</td>
+</tr>
+</tbody>
+</table>
+<p>Low confidence evaluations are flagged with "Needs Review" in VisionStudio.</p>
 <h2 id="llm-configuration">LLM Configuration<a class="headerlink" href="#llm-configuration" title="Permanent link">&para;</a></h2>
 <p>The LLM used for evaluation is configured in <code>visionspec.yaml</code>:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nt">llm</span><span class="p">:</span>
@@ -3638,6 +3975,7 @@
 </code></pre></div>
 <h2 id="see-also">See Also<a class="headerlink" href="#see-also" title="Permanent link">&para;</a></h2>
 <ul>
+<li><a href="../../concepts/reason-codes/">Reason Codes Reference</a> - Complete reason code documentation</li>
 <li><a href="../synthesize/">synthesize</a> - Generate specs with optional evaluation</li>
 <li><a href="../approve/">approve</a> - Approve specs that pass evaluation</li>
 </ul>

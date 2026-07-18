@@ -1,11 +1,64 @@
 {
+  "schemaVersion": "v2",
   "score": 8.8,
+  "scoreV2": 4,
   "decision": "pass",
+  "pass": true,
+  "confidence": 0.88,
+  "dimensions": [
+    {
+      "id": "market-analysis",
+      "name": "Market Analysis",
+      "score": 5,
+      "severity": "none",
+      "confidence": 0.92,
+      "reasonCodes": [],
+      "findings": []
+    },
+    {
+      "id": "problem-definition",
+      "name": "Problem Definition",
+      "score": 4,
+      "severity": "none",
+      "confidence": 0.90,
+      "reasonCodes": [],
+      "findings": []
+    },
+    {
+      "id": "target-audience",
+      "name": "Target Audience",
+      "score": 4,
+      "severity": "none",
+      "confidence": 0.85,
+      "reasonCodes": [],
+      "findings": []
+    },
+    {
+      "id": "business-goals",
+      "name": "Business Goals",
+      "score": 4,
+      "severity": "minor",
+      "confidence": 0.82,
+      "reasonCodes": ["SCOPE-NO_TIMELINE"],
+      "findings": [
+        {
+          "category": "market-analysis",
+          "severity": "low",
+          "code": "SCOPE-NO_TIMELINE",
+          "message": "Consider adding international market expansion timeline",
+          "location": "Section 5: Go-to-Market"
+        }
+      ]
+    }
+  ],
+  "blocking": [],
   "findings": [
     {
       "category": "market-analysis",
       "severity": "low",
-      "message": "Consider adding international market expansion timeline"
+      "code": "SCOPE-NO_TIMELINE",
+      "message": "Consider adding international market expansion timeline",
+      "location": "Section 5: Go-to-Market"
     }
   ]
 }

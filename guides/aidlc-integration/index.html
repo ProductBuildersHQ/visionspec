@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://productbuildershq.com/visionspec/frameworks/stripe/">
+        <link rel="canonical" href="https://productbuildershq.com/visionspec/guides/aidlc-integration/">
       
       
-        <link rel="prev" href="../google/">
+        <link rel="prev" href="../organization-customization/">
       
       
-        <link rel="next" href="../lean-startup/">
+        <link rel="next" href="../../execution-targets/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>Stripe API-First - VisionSpec</title>
+        <title>AIDLC Integration - VisionSpec</title>
       
     
     
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#stripe-api-first" class="md-skip">
+        <a href="#aidlc-workflow-integration-guide" class="md-skip">
           Skip to content
         </a>
       
@@ -120,7 +120,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Stripe API-First
+              AIDLC Integration
             
           </span>
         </div>
@@ -581,8 +581,6 @@
       
   
   
-    
-  
   
   
     
@@ -595,11 +593,13 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
         
           
           <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
@@ -620,7 +620,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             
@@ -638,7 +638,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../" class="md-nav__link">
+      <a href="../../frameworks/" class="md-nav__link">
         
   
   
@@ -666,7 +666,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../aws/" class="md-nav__link">
+      <a href="../../frameworks/aws/" class="md-nav__link">
         
   
   
@@ -694,7 +694,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../big-tech/" class="md-nav__link">
+      <a href="../../frameworks/big-tech/" class="md-nav__link">
         
   
   
@@ -722,7 +722,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../google/" class="md-nav__link">
+      <a href="../../frameworks/google/" class="md-nav__link">
         
   
   
@@ -747,37 +747,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Stripe API-First
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../frameworks/stripe/" class="md-nav__link">
         
   
   
@@ -793,275 +766,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#the-flow" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        The Flow
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#key-principles" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Key Principles
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#visionspec-mapping" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        VisionSpec Mapping
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#using-the-stripe-profile" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Using the Stripe Profile
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Using the Stripe Profile">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#initialize-a-project" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Initialize a Project
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#create-platform-strategy-mrd" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Create Platform Strategy (MRD)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#create-api-prd" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Create API PRD
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#synthesize-api-specification-trd" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Synthesize API Specification (TRD)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#create-developer-experience-spec-uxd" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Create Developer Experience Spec (UXD)
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#rubric-categories" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Rubric Categories
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Rubric Categories">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#platform-strategy-evaluation-mrd" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Platform Strategy Evaluation (MRD)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#api-prd-evaluation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        API PRD Evaluation
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#api-specification-evaluation-trd" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        API Specification Evaluation (TRD)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#dx-spec-evaluation-uxd" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        DX Spec Evaluation (UXD)
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#example-workflow" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Example Workflow
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#api-design-patterns" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        API Design Patterns
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="API Design Patterns">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#human-readable-ids" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Human-Readable IDs
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#idempotency-keys" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Idempotency Keys
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#expandable-objects" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Expandable Objects
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#consistent-error-format" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Consistent Error Format
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#reference-materials" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Reference Materials
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1074,7 +778,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../lean-startup/" class="md-nav__link">
+      <a href="../../frameworks/lean-startup/" class="md-nav__link">
         
   
   
@@ -1102,7 +806,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../design-thinking/" class="md-nav__link">
+      <a href="../../frameworks/design-thinking/" class="md-nav__link">
         
   
   
@@ -1130,7 +834,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../jtbd/" class="md-nav__link">
+      <a href="../../frameworks/jtbd/" class="md-nav__link">
         
   
   
@@ -1158,7 +862,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../continuous-discovery/" class="md-nav__link">
+      <a href="../../frameworks/continuous-discovery/" class="md-nav__link">
         
   
   
@@ -1186,7 +890,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../shapeup/" class="md-nav__link">
+      <a href="../../frameworks/shapeup/" class="md-nav__link">
         
   
   
@@ -1214,7 +918,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../opportunity-spec/" class="md-nav__link">
+      <a href="../../frameworks/opportunity-spec/" class="md-nav__link">
         
   
   
@@ -2091,8 +1795,10 @@
       
   
   
+    
   
   
+  
     
     
     
@@ -2103,13 +1809,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
         
           
           <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
@@ -2130,7 +1834,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
             
@@ -2148,7 +1852,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guides/" class="md-nav__link">
+      <a href="../" class="md-nav__link">
         
   
   
@@ -2176,7 +1880,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guides/configuration/" class="md-nav__link">
+      <a href="../configuration/" class="md-nav__link">
         
   
   
@@ -2204,7 +1908,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guides/custom-profiles/" class="md-nav__link">
+      <a href="../custom-profiles/" class="md-nav__link">
         
   
   
@@ -2232,7 +1936,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guides/organization-customization/" class="md-nav__link">
+      <a href="../organization-customization/" class="md-nav__link">
         
   
   
@@ -2257,10 +1961,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../guides/aidlc-integration/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AIDLC Integration
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -2276,6 +2007,392 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-started" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Getting Started
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Getting Started">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#directory-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Directory Structure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#document-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Document Types
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Document Types">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#inception-phase" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Inception Phase
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#construction-phase" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Construction Phase
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#operations-phase" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Operations Phase
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-the-go-package" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using the Go Package
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Using the Go Package">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Types
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#workflow-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Workflow Management
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sync-engine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sync Engine
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-transitions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase Transitions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#document-templates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Document Templates
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API Reference
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="API Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#state-and-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        State and Workflow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#documents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Documents
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sync" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sync
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase Management
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#templates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Templates
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quality-evaluation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quality Evaluation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Quality Evaluation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ratings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ratings
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#evaluation-dimensions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evaluation Dimensions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#issue-severities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Issue Severities
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#frontend-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Frontend Components
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Best Practices
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sync-conflicts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sync Conflicts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-transition-blocked" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase Transition Blocked
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#missing-templates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Missing Templates
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -3552,10 +3669,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#the-flow" class="md-nav__link">
+  <a href="#overview" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The Flow
+        Overview
       
     </span>
   </a>
@@ -3563,44 +3680,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#key-principles" class="md-nav__link">
+  <a href="#getting-started" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Key Principles
+        Getting Started
       
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#visionspec-mapping" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        VisionSpec Mapping
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#using-the-stripe-profile" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Using the Stripe Profile
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Using the Stripe Profile">
+    <nav class="md-nav" aria-label="Getting Started">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#initialize-a-project" class="md-nav__link">
+  <a href="#directory-structure" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Initialize a Project
+        Directory Structure
       
     </span>
   </a>
@@ -3608,43 +3703,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#create-platform-strategy-mrd" class="md-nav__link">
+  <a href="#configuration" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Create Platform Strategy (MRD)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#create-api-prd" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Create API PRD
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#synthesize-api-specification-trd" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Synthesize API Specification (TRD)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#create-developer-experience-spec-uxd" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Create Developer Experience Spec (UXD)
+        Configuration
       
     </span>
   </a>
@@ -3657,22 +3719,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#rubric-categories" class="md-nav__link">
+  <a href="#document-types" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Rubric Categories
+        Document Types
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Rubric Categories">
+    <nav class="md-nav" aria-label="Document Types">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#platform-strategy-evaluation-mrd" class="md-nav__link">
+  <a href="#inception-phase" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Platform Strategy Evaluation (MRD)
+        Inception Phase
       
     </span>
   </a>
@@ -3680,10 +3742,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#api-prd-evaluation" class="md-nav__link">
+  <a href="#construction-phase" class="md-nav__link">
     <span class="md-ellipsis">
       
-        API PRD Evaluation
+        Construction Phase
       
     </span>
   </a>
@@ -3691,21 +3753,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#api-specification-evaluation-trd" class="md-nav__link">
+  <a href="#operations-phase" class="md-nav__link">
     <span class="md-ellipsis">
       
-        API Specification Evaluation (TRD)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#dx-spec-evaluation-uxd" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        DX Spec Evaluation (UXD)
+        Operations Phase
       
     </span>
   </a>
@@ -3718,33 +3769,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#example-workflow" class="md-nav__link">
+  <a href="#using-the-go-package" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Example Workflow
+        Using the Go Package
       
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#api-design-patterns" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        API Design Patterns
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="API Design Patterns">
+    <nav class="md-nav" aria-label="Using the Go Package">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#human-readable-ids" class="md-nav__link">
+  <a href="#types" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Human-Readable IDs
+        Types
       
     </span>
   </a>
@@ -3752,10 +3792,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#idempotency-keys" class="md-nav__link">
+  <a href="#workflow-management" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Idempotency Keys
+        Workflow Management
       
     </span>
   </a>
@@ -3763,10 +3803,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#expandable-objects" class="md-nav__link">
+  <a href="#sync-engine" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Expandable Objects
+        Sync Engine
       
     </span>
   </a>
@@ -3774,10 +3814,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#consistent-error-format" class="md-nav__link">
+  <a href="#phase-transitions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Consistent Error Format
+        Phase Transitions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#document-templates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Document Templates
       
     </span>
   </a>
@@ -3790,13 +3841,196 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#reference-materials" class="md-nav__link">
+  <a href="#api-reference" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Reference Materials
+        API Reference
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="API Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#state-and-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        State and Workflow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#documents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Documents
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sync" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sync
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase Management
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#templates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Templates
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quality-evaluation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quality Evaluation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Quality Evaluation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ratings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ratings
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#evaluation-dimensions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evaluation Dimensions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#issue-severities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Issue Severities
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#frontend-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Frontend Components
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Best Practices
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sync-conflicts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sync Conflicts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-transition-blocked" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase Transition Blocked
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#missing-templates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Missing Templates
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -3820,358 +4054,476 @@
   
 
 
-<h1 id="stripe-api-first">Stripe API-First<a class="headerlink" href="#stripe-api-first" title="Permanent link">&para;</a></h1>
-<p>Stripe's methodology treats APIs as products and documentation as a first-class deliverable. This approach emphasizes contract-first design, developer empathy, and precision in specifications.</p>
-<h2 id="the-flow">The Flow<a class="headerlink" href="#the-flow" title="Permanent link">&para;</a></h2>
-<p><img alt="Stripe API-First Flow" src="../../diagrams/stripe-flow.svg" /></p>
-<h2 id="key-principles">Key Principles<a class="headerlink" href="#key-principles" title="Permanent link">&para;</a></h2>
+<h1 id="aidlc-workflow-integration-guide">AIDLC Workflow Integration Guide<a class="headerlink" href="#aidlc-workflow-integration-guide" title="Permanent link">&para;</a></h1>
+<p>This guide covers integrating AWS AI DLC (AI Development Lifecycle) workflows with VisionSpec and VisionStudio.</p>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>AIDLC provides a structured approach to AI/ML development with three main phases:</p>
 <ol>
-<li><strong>Contract-First</strong>: API design precedes implementation</li>
-<li><strong>Docs as Product</strong>: Documentation is a first-class product</li>
-<li><strong>Developer Empathy</strong>: Specs from the API consumer's perspective</li>
-<li><strong>Precision</strong>: No ambiguity in inputs, outputs, errors</li>
-<li><strong>Consistency</strong>: Predictable patterns across the API surface</li>
-<li><strong>Externally Legible</strong>: Readable by external developers</li>
+<li><strong>Inception</strong> - Requirements gathering, vision documents, technical specs</li>
+<li><strong>Construction</strong> - Implementation plans, test plans, architecture</li>
+<li><strong>Operations</strong> - Runbooks, monitoring, maintenance</li>
 </ol>
-<h2 id="visionspec-mapping">VisionSpec Mapping<a class="headerlink" href="#visionspec-mapping" title="Permanent link">&para;</a></h2>
+<p>VisionSpec provides Go types and sync utilities for working with AIDLC workflows, while VisionStudio offers visual management and LLM-based evaluation.</p>
+<h2 id="getting-started">Getting Started<a class="headerlink" href="#getting-started" title="Permanent link">&para;</a></h2>
+<h3 id="directory-structure">Directory Structure<a class="headerlink" href="#directory-structure" title="Permanent link">&para;</a></h3>
+<p>AIDLC projects use two synchronized directories:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>your-project/
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>├── .visionspec/           # VisionSpec managed specs
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>│   └── specs.json         # Spec metadata and sync state
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>├── aidlc-docs/            # AIDLC workflow documents
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>│   ├── inception/
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>│   │   ├── vision_document.md
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>│   │   ├── requirements_spec.md
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>│   │   └── technical_spec.md
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>│   ├── construction/
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>│   │   ├── implementation_plan.md
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>│   │   └── test_plan.md
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>│   ├── operations/
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>│   │   ├── runbook.md
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>│   │   └── monitoring_plan.md
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>│   └── aidlc-state.md     # Workflow state tracking
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>└── visionspec.yaml        # Project configuration
+</code></pre></div>
+<h3 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h3>
+<p>Add AIDLC to your <code>visionspec.yaml</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-project</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nt">profile</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aidlc</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="nt">aidlc</span><span class="p">:</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">  </span><span class="nt">sync</span><span class="p">:</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="nt">direction</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bidirectional</span><span class="w">  </span><span class="c1"># bidirectional, to_aidlc, from_aidlc</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">    </span><span class="nt">auto_sync</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</code></pre></div>
+<h2 id="document-types">Document Types<a class="headerlink" href="#document-types" title="Permanent link">&para;</a></h2>
+<h3 id="inception-phase">Inception Phase<a class="headerlink" href="#inception-phase" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
-<th>Stripe Artifact</th>
-<th>VisionSpec Type</th>
-<th>Purpose</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Platform Strategy</td>
-<td>MRD</td>
-<td>Developer market and ecosystem</td>
-</tr>
-<tr>
-<td>API Product Requirements</td>
-<td>PRD</td>
-<td>Developer journeys and use cases</td>
-</tr>
-<tr>
-<td>API Specification</td>
-<td>TRD</td>
-<td>Contract definition (OpenAPI-style)</td>
-</tr>
-<tr>
-<td>Developer Experience Spec</td>
-<td>UXD</td>
-<td>Onboarding, SDKs, documentation</td>
-</tr>
-</tbody>
-</table>
-<h2 id="using-the-stripe-profile">Using the Stripe Profile<a class="headerlink" href="#using-the-stripe-profile" title="Permanent link">&para;</a></h2>
-<h3 id="initialize-a-project">Initialize a Project<a class="headerlink" href="#initialize-a-project" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>multispec<span class="w"> </span>init<span class="w"> </span>payments-api<span class="w"> </span>--profile<span class="w"> </span>stripe
-</code></pre></div>
-<h3 id="create-platform-strategy-mrd">Create Platform Strategy (MRD)<a class="headerlink" href="#create-platform-strategy-mrd" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>multispec<span class="w"> </span>draft<span class="w"> </span>mrd<span class="w"> </span>-p<span class="w"> </span>payments-api
-</code></pre></div>
-<p>The Platform Strategy template includes:</p>
-<ul>
-<li>Developer market sizing (TAM/SAM/SOM)</li>
-<li>Developer personas and segments</li>
-<li>Competitive landscape</li>
-<li>Business model and monetization</li>
-<li>Go-to-market strategy</li>
-</ul>
-<h3 id="create-api-prd">Create API PRD<a class="headerlink" href="#create-api-prd" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>multispec<span class="w"> </span>draft<span class="w"> </span>prd<span class="w"> </span>-p<span class="w"> </span>payments-api
-</code></pre></div>
-<p>The API PRD template includes:</p>
-<ul>
-<li>Developer personas and priorities</li>
-<li>Developer journeys (Time to Hello World)</li>
-<li>Functional requirements</li>
-<li>Integration patterns</li>
-<li>Error handling requirements</li>
-<li>SDK requirements</li>
-<li>Success metrics</li>
-</ul>
-<h3 id="synthesize-api-specification-trd">Synthesize API Specification (TRD)<a class="headerlink" href="#synthesize-api-specification-trd" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>multispec<span class="w"> </span>synthesize<span class="w"> </span>trd<span class="w"> </span>-p<span class="w"> </span>payments-api
-</code></pre></div>
-<p>The API Specification template includes:</p>
-<ul>
-<li>Resource definitions</li>
-<li>Endpoint documentation</li>
-<li>Request/response schemas</li>
-<li>Error codes with remediation</li>
-<li>Pagination</li>
-<li>Idempotency</li>
-<li>Versioning strategy</li>
-<li>Webhook events</li>
-</ul>
-<h3 id="create-developer-experience-spec-uxd">Create Developer Experience Spec (UXD)<a class="headerlink" href="#create-developer-experience-spec-uxd" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>multispec<span class="w"> </span>draft<span class="w"> </span>uxd<span class="w"> </span>-p<span class="w"> </span>payments-api
-</code></pre></div>
-<p>The DX Spec template includes:</p>
-<ul>
-<li>Onboarding journey (&lt; 15 min to first call)</li>
-<li>Documentation architecture</li>
-<li>SDK design principles</li>
-<li>Error experience quality</li>
-<li>Interactive tools (API explorer, webhook tester)</li>
-<li>DX metrics</li>
-</ul>
-<h2 id="rubric-categories">Rubric Categories<a class="headerlink" href="#rubric-categories" title="Permanent link">&para;</a></h2>
-<h3 id="platform-strategy-evaluation-mrd">Platform Strategy Evaluation (MRD)<a class="headerlink" href="#platform-strategy-evaluation-mrd" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Category</th>
-<th>Weight</th>
+<th>Document Type</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Developer Market</td>
-<td>20%</td>
-<td>Market clearly defined and sized</td>
+<td><code>vision_document</code></td>
+<td>Project vision, goals, success criteria</td>
 </tr>
 <tr>
-<td>Competitive Position</td>
-<td>15%</td>
-<td>Differentiation clear and defensible</td>
+<td><code>requirements_spec</code></td>
+<td>Functional and non-functional requirements</td>
 </tr>
 <tr>
-<td>Platform Strategy</td>
-<td>20%</td>
-<td>Ecosystem thinking present</td>
+<td><code>technical_spec</code></td>
+<td>Technical architecture and design</td>
 </tr>
 <tr>
-<td>Business Model</td>
-<td>15%</td>
-<td>Monetization and unit economics</td>
+<td><code>architecture_spec</code></td>
+<td>System architecture decisions</td>
 </tr>
 <tr>
-<td>Go-to-Market</td>
-<td>15%</td>
-<td>Developer acquisition strategy</td>
+<td><code>api_contract</code></td>
+<td>API definitions and contracts</td>
 </tr>
 <tr>
-<td>Success Metrics</td>
-<td>10%</td>
-<td>Platform success measurable</td>
-</tr>
-<tr>
-<td>Roadmap/Investment</td>
-<td>5%</td>
-<td>Phased approach justified</td>
+<td><code>data_model</code></td>
+<td>Data models and schemas</td>
 </tr>
 </tbody>
 </table>
-<h3 id="api-prd-evaluation">API PRD Evaluation<a class="headerlink" href="#api-prd-evaluation" title="Permanent link">&para;</a></h3>
+<h3 id="construction-phase">Construction Phase<a class="headerlink" href="#construction-phase" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
-<th>Category</th>
-<th>Weight</th>
+<th>Document Type</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Developer Personas</td>
-<td>15%</td>
-<td>Audience clearly segmented</td>
+<td><code>implementation_plan</code></td>
+<td>Implementation tasks and timeline</td>
 </tr>
 <tr>
-<td>Developer Journeys</td>
-<td>20%</td>
-<td>Integration paths mapped</td>
+<td><code>test_plan</code></td>
+<td>Testing strategy and test cases</td>
 </tr>
 <tr>
-<td>Use Case Clarity</td>
-<td>20%</td>
-<td>Specific and prioritized</td>
+<td><code>security_review</code></td>
+<td>Security analysis and mitigations</td>
 </tr>
 <tr>
-<td>Integration Patterns</td>
-<td>15%</td>
-<td>Sync, async, webhook defined</td>
+<td><code>performance_plan</code></td>
+<td>Performance requirements and benchmarks</td>
 </tr>
 <tr>
-<td>Error Experience</td>
-<td>15%</td>
-<td>Error handling from dev perspective</td>
-</tr>
-<tr>
-<td>SDK Requirements</td>
-<td>10%</td>
-<td>Languages and features defined</td>
-</tr>
-<tr>
-<td>Success Metrics</td>
-<td>5%</td>
-<td>Developer success measurable</td>
+<td><code>deployment_plan</code></td>
+<td>Deployment procedures</td>
 </tr>
 </tbody>
 </table>
-<h3 id="api-specification-evaluation-trd">API Specification Evaluation (TRD)<a class="headerlink" href="#api-specification-evaluation-trd" title="Permanent link">&para;</a></h3>
+<h3 id="operations-phase">Operations Phase<a class="headerlink" href="#operations-phase" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
-<th>Category</th>
-<th>Weight</th>
+<th>Document Type</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Contract Clarity</td>
-<td>25%</td>
-<td>Precise, unambiguous contracts</td>
+<td><code>runbook</code></td>
+<td>Operational procedures</td>
 </tr>
 <tr>
-<td>Consistency</td>
-<td>20%</td>
-<td>Predictable patterns throughout</td>
+<td><code>monitoring_plan</code></td>
+<td>Metrics, alerts, SLOs</td>
 </tr>
 <tr>
-<td>Error Documentation</td>
-<td>20%</td>
-<td>Every error with remediation</td>
+<td><code>incident_response</code></td>
+<td>Incident handling procedures</td>
 </tr>
 <tr>
-<td>Resource Modeling</td>
-<td>15%</td>
-<td>Clear relationships</td>
-</tr>
-<tr>
-<td>Versioning Strategy</td>
-<td>10%</td>
-<td>Breaking change policy</td>
-</tr>
-<tr>
-<td>Idempotency/Safety</td>
-<td>5%</td>
-<td>Safe retry behavior</td>
-</tr>
-<tr>
-<td>Rate Limiting</td>
-<td>5%</td>
-<td>Limits documented</td>
+<td><code>maintenance_guide</code></td>
+<td>Maintenance and updates</td>
 </tr>
 </tbody>
 </table>
-<h3 id="dx-spec-evaluation-uxd">DX Spec Evaluation (UXD)<a class="headerlink" href="#dx-spec-evaluation-uxd" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Category</th>
-<th>Weight</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Onboarding Journey</td>
-<td>25%</td>
-<td>&lt; 15 min to first call</td>
-</tr>
-<tr>
-<td>Documentation Architecture</td>
-<td>20%</td>
-<td>Well-structured information</td>
-</tr>
-<tr>
-<td>Documentation Standards</td>
-<td>20%</td>
-<td>Quality requirements defined</td>
-</tr>
-<tr>
-<td>SDK Design</td>
-<td>15%</td>
-<td>Principles and coverage</td>
-</tr>
-<tr>
-<td>Error Experience</td>
-<td>10%</td>
-<td>Errors help developers succeed</td>
-</tr>
-<tr>
-<td>Interactive Tools</td>
-<td>5%</td>
-<td>API explorer, webhook tester</td>
-</tr>
-<tr>
-<td>DX Metrics</td>
-<td>5%</td>
-<td>Experience measurable</td>
-</tr>
-</tbody>
-</table>
-<h2 id="example-workflow">Example Workflow<a class="headerlink" href="#example-workflow" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># 1. Initialize project</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>multispec<span class="w"> </span>init<span class="w"> </span>billing-api<span class="w"> </span>--profile<span class="w"> </span>stripe
+<h2 id="using-the-go-package">Using the Go Package<a class="headerlink" href="#using-the-go-package" title="Permanent link">&para;</a></h2>
+<h3 id="types">Types<a class="headerlink" href="#types" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">import</span><span class="w"> </span><span class="s">&quot;github.com/ProductBuildersHQ/visionspec/pkg/aidlc&quot;</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="c1">// Check document type</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="nx">docType</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">aidlc</span><span class="p">.</span><span class="nx">DocVisionDocument</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">docType</span><span class="p">.</span><span class="nx">Phase</span><span class="p">())</span><span class="w">       </span><span class="c1">// inception</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">docType</span><span class="p">.</span><span class="nx">DisplayName</span><span class="p">())</span><span class="w"> </span><span class="c1">// Vision Document</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="c1">// Quality ratings</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="nx">rating</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">aidlc</span><span class="p">.</span><span class="nx">RatingGood</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">rating</span><span class="p">.</span><span class="nx">Score</span><span class="p">())</span><span class="w"> </span><span class="c1">// 0.75</span>
+</code></pre></div>
+<h3 id="workflow-management">Workflow Management<a class="headerlink" href="#workflow-management" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1">// Create default workflow</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nx">workflow</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">aidlc</span><span class="p">.</span><span class="nx">DefaultWorkflow</span><span class="p">()</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1">// Check current phase</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="nx">phase</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">workflow</span><span class="p">.</span><span class="nx">CurrentPhase</span><span class="p">()</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="c1">// Get phase requirements</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="nx">reqs</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">workflow</span><span class="p">.</span><span class="nx">GetPhaseRequirements</span><span class="p">(</span><span class="nx">aidlc</span><span class="p">.</span><span class="nx">PhaseConstruction</span><span class="p">)</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;Progress: %.0f%%\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">reqs</span><span class="p">.</span><span class="nx">ProgressPercent</span><span class="p">)</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;Can advance: %v\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">reqs</span><span class="p">.</span><span class="nx">CanAdvance</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="sync-engine">Sync Engine<a class="headerlink" href="#sync-engine" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nx">engine</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">aidlc</span><span class="p">.</span><span class="nx">NewSyncEngine</span><span class="p">(</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">    </span><span class="s">&quot;.visionspec&quot;</span><span class="p">,</span><span class="w">      </span><span class="c1">// VisionSpec directory</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="s">&quot;aidlc-docs&quot;</span><span class="p">,</span><span class="w">       </span><span class="c1">// AIDLC docs directory</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="p">)</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="c1">// Check for differences</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="nx">ctx</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Background</span><span class="p">()</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="nx">diff</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">engine</span><span class="p">.</span><span class="nx">DiffState</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="c1">// Sync changes</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="nx">result</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">engine</span><span class="p">.</span><span class="nx">Sync</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="phase-transitions">Phase Transitions<a class="headerlink" href="#phase-transitions" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nx">workflow</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">aidlc</span><span class="p">.</span><span class="nx">DefaultWorkflow</span><span class="p">()</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="nx">rules</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">aidlc</span><span class="p">.</span><span class="nx">DefaultTransitionRules</span><span class="p">()</span>
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># 2. Define Platform Strategy</span>
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>multispec<span class="w"> </span>draft<span class="w"> </span>mrd<span class="w"> </span>-p<span class="w"> </span>billing-api
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>multispec<span class="w"> </span><span class="nb">eval</span><span class="w"> </span>mrd<span class="w"> </span>-p<span class="w"> </span>billing-api
-<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>multispec<span class="w"> </span>approve<span class="w"> </span>mrd<span class="w"> </span>-p<span class="w"> </span>billing-api
-<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>
-<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="c1"># 3. Define API Product Requirements</span>
-<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>multispec<span class="w"> </span>draft<span class="w"> </span>prd<span class="w"> </span>-p<span class="w"> </span>billing-api
-<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>multispec<span class="w"> </span><span class="nb">eval</span><span class="w"> </span>prd<span class="w"> </span>-p<span class="w"> </span>billing-api
-<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>multispec<span class="w"> </span>approve<span class="w"> </span>prd<span class="w"> </span>-p<span class="w"> </span>billing-api
-<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>
-<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="c1"># 4. Synthesize API Specification</span>
-<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>multispec<span class="w"> </span>synthesize<span class="w"> </span>trd<span class="w"> </span>-p<span class="w"> </span>billing-api
-<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>multispec<span class="w"> </span><span class="nb">eval</span><span class="w"> </span>trd<span class="w"> </span>-p<span class="w"> </span>billing-api
-<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a>multispec<span class="w"> </span>approve<span class="w"> </span>trd<span class="w"> </span>-p<span class="w"> </span>billing-api
-<a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a>
-<a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a><span class="c1"># 5. Define Developer Experience</span>
-<a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a>multispec<span class="w"> </span>draft<span class="w"> </span>uxd<span class="w"> </span>-p<span class="w"> </span>billing-api
-<a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a>multispec<span class="w"> </span><span class="nb">eval</span><span class="w"> </span>uxd<span class="w"> </span>-p<span class="w"> </span>billing-api
-<a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a>multispec<span class="w"> </span>approve<span class="w"> </span>uxd<span class="w"> </span>-p<span class="w"> </span>billing-api
-<a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a>
-<a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a><span class="c1"># 6. Check status</span>
-<a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a>multispec<span class="w"> </span>status<span class="w"> </span>-p<span class="w"> </span>billing-api
-<a id="__codelineno-5-26" name="__codelineno-5-26" href="#__codelineno-5-26"></a>
-<a id="__codelineno-5-27" name="__codelineno-5-27" href="#__codelineno-5-27"></a><span class="c1"># 7. Export for implementation</span>
-<a id="__codelineno-5-28" name="__codelineno-5-28" href="#__codelineno-5-28"></a>multispec<span class="w"> </span><span class="nb">export</span><span class="w"> </span>speckit<span class="w"> </span>-p<span class="w"> </span>billing-api
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1">// Check if transition is possible</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="nx">result</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">workflow</span><span class="p">.</span><span class="nx">CanTransitionTo</span><span class="p">(</span><span class="nx">aidlc</span><span class="p">.</span><span class="nx">PhaseConstruction</span><span class="p">,</span><span class="w"> </span><span class="nx">rules</span><span class="p">)</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="k">if</span><span class="w"> </span><span class="p">!</span><span class="nx">result</span><span class="p">.</span><span class="nx">Success</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Blocked by:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">result</span><span class="p">.</span><span class="nx">BlockingIssues</span><span class="p">)</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="p">}</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="c1">// Perform transition</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="nx">result</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">workflow</span><span class="p">.</span><span class="nx">TransitionTo</span><span class="p">(</span><span class="nx">aidlc</span><span class="p">.</span><span class="nx">PhaseConstruction</span><span class="p">,</span><span class="w"> </span><span class="nx">rules</span><span class="p">)</span>
 </code></pre></div>
-<h2 id="api-design-patterns">API Design Patterns<a class="headerlink" href="#api-design-patterns" title="Permanent link">&para;</a></h2>
-<p>The Stripe profile encourages these patterns:</p>
-<h3 id="human-readable-ids">Human-Readable IDs<a class="headerlink" href="#human-readable-ids" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>ch_1234567890   (charge)
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>cus_abcdefghij  (customer)
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>pi_xyz123       (payment intent)
+<h3 id="document-templates">Document Templates<a class="headerlink" href="#document-templates" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1">// Get template</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="nx">template</span><span class="p">,</span><span class="w"> </span><span class="nx">ok</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">aidlc</span><span class="p">.</span><span class="nx">GetTemplate</span><span class="p">(</span><span class="nx">aidlc</span><span class="p">.</span><span class="nx">DocVisionDocument</span><span class="p">)</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1">// Render with data</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="nx">data</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">aidlc</span><span class="p">.</span><span class="nx">TemplateData</span><span class="p">{</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">    </span><span class="nx">ProjectName</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;My Project&quot;</span><span class="p">,</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="w">    </span><span class="nx">Title</span><span class="p">:</span><span class="w">       </span><span class="s">&quot;Vision Document&quot;</span><span class="p">,</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="w">    </span><span class="nx">Author</span><span class="p">:</span><span class="w">      </span><span class="s">&quot;Team Lead&quot;</span><span class="p">,</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="p">}</span>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="nx">content</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">aidlc</span><span class="p">.</span><span class="nx">RenderTemplate</span><span class="p">(</span><span class="nx">aidlc</span><span class="p">.</span><span class="nx">DocVisionDocument</span><span class="p">,</span><span class="w"> </span><span class="nx">data</span><span class="p">)</span>
 </code></pre></div>
-<h3 id="idempotency-keys">Idempotency Keys<a class="headerlink" href="#idempotency-keys" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>curl<span class="w"> </span>https://api.example.com/v1/charges<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Idempotency-Key: unique-key-12345&quot;</span>
-</code></pre></div>
-<h3 id="expandable-objects">Expandable Objects<a class="headerlink" href="#expandable-objects" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>curl<span class="w"> </span>https://api.example.com/v1/charges/ch_xxx<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span>-d<span class="w"> </span><span class="s2">&quot;expand[]&quot;</span><span class="o">=</span>customer
-</code></pre></div>
-<h3 id="consistent-error-format">Consistent Error Format<a class="headerlink" href="#consistent-error-format" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="p">{</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span><span class="nt">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">    </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;invalid_request_error&quot;</span><span class="p">,</span>
-<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">    </span><span class="nt">&quot;code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;parameter_missing&quot;</span><span class="p">,</span>
-<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">    </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Required parameter &#39;amount&#39; is missing&quot;</span><span class="p">,</span>
-<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">    </span><span class="nt">&quot;param&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;amount&quot;</span><span class="p">,</span>
-<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="w">    </span><span class="nt">&quot;doc_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://docs.example.com/errors#parameter_missing&quot;</span>
-<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">  </span><span class="p">}</span>
-<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="p">}</span>
-</code></pre></div>
-<h2 id="reference-materials">Reference Materials<a class="headerlink" href="#reference-materials" title="Permanent link">&para;</a></h2>
-<p>For deeper understanding of Stripe's API-first approach, see:</p>
+<h2 id="api-reference">API Reference<a class="headerlink" href="#api-reference" title="Permanent link">&para;</a></h2>
+<p>VisionStudio exposes REST endpoints for AIDLC workflow management:</p>
+<h3 id="state-and-workflow">State and Workflow<a class="headerlink" href="#state-and-workflow" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Endpoint</th>
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/api/projects/{project}/aidlc/state</code></td>
+<td>GET</td>
+<td>Get workflow state</td>
+</tr>
+<tr>
+<td><code>/api/projects/{project}/aidlc/workflow</code></td>
+<td>GET</td>
+<td>Get workflow DAG</td>
+</tr>
+</tbody>
+</table>
+<h3 id="documents">Documents<a class="headerlink" href="#documents" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Endpoint</th>
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/api/projects/{project}/aidlc/documents</code></td>
+<td>GET</td>
+<td>List documents</td>
+</tr>
+<tr>
+<td><code>/api/projects/{project}/aidlc/documents/{docId}</code></td>
+<td>GET</td>
+<td>Get document</td>
+</tr>
+<tr>
+<td><code>/api/projects/{project}/aidlc/documents/create</code></td>
+<td>POST</td>
+<td>Create from template</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sync">Sync<a class="headerlink" href="#sync" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Endpoint</th>
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/api/projects/{project}/aidlc/sync/diff</code></td>
+<td>GET</td>
+<td>Get sync diff</td>
+</tr>
+<tr>
+<td><code>/api/projects/{project}/aidlc/sync</code></td>
+<td>POST</td>
+<td>Trigger sync</td>
+</tr>
+</tbody>
+</table>
+<h3 id="phase-management">Phase Management<a class="headerlink" href="#phase-management" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Endpoint</th>
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/api/projects/{project}/aidlc/phase/requirements</code></td>
+<td>GET</td>
+<td>Get phase requirements</td>
+</tr>
+<tr>
+<td><code>/api/projects/{project}/aidlc/phase/transition</code></td>
+<td>POST</td>
+<td>Transition phase</td>
+</tr>
+</tbody>
+</table>
+<h3 id="templates">Templates<a class="headerlink" href="#templates" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Endpoint</th>
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/api/projects/{project}/aidlc/templates</code></td>
+<td>GET</td>
+<td>List templates</td>
+</tr>
+<tr>
+<td><code>/api/projects/{project}/aidlc/templates/{docType}</code></td>
+<td>GET</td>
+<td>Get template</td>
+</tr>
+</tbody>
+</table>
+<h2 id="quality-evaluation">Quality Evaluation<a class="headerlink" href="#quality-evaluation" title="Permanent link">&para;</a></h2>
+<p>AIDLC documents are evaluated using LLM-based quality scoring:</p>
+<h3 id="ratings">Ratings<a class="headerlink" href="#ratings" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Rating</th>
+<th>Score Range</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EXCELLENT</td>
+<td>0.90+</td>
+<td>Exceeds requirements</td>
+</tr>
+<tr>
+<td>GOOD</td>
+<td>0.70-0.89</td>
+<td>Meets requirements</td>
+</tr>
+<tr>
+<td>NEEDS_IMPROVEMENT</td>
+<td>0.50-0.69</td>
+<td>Partial compliance</td>
+</tr>
+<tr>
+<td>POOR</td>
+<td>Below 0.50</td>
+<td>Significant issues</td>
+</tr>
+</tbody>
+</table>
+<h3 id="evaluation-dimensions">Evaluation Dimensions<a class="headerlink" href="#evaluation-dimensions" title="Permanent link">&para;</a></h3>
+<p>Documents are scored across multiple dimensions:</p>
 <ul>
-<li><a href="https://docs.stripe.com/api">Stripe API Reference</a></li>
-<li><a href="https://stripe.dev/blog/payment-api-design">Stripe's payments APIs: The first 10 years</a></li>
-<li><a href="https://newsletter.pragmaticengineer.com/p/stripe-part-2">Inside Stripe's Engineering Culture</a></li>
-<li>Internal reference: <code>frameworks-internal/stripe-api-first/</code></li>
+<li><strong>Clarity</strong> - Writing quality and understandability</li>
+<li><strong>Completeness</strong> - Coverage of required sections</li>
+<li><strong>Consistency</strong> - Alignment with other documents</li>
+<li><strong>Feasibility</strong> - Technical and business viability</li>
+<li><strong>Testability</strong> - Can requirements be verified?</li>
 </ul>
+<h3 id="issue-severities">Issue Severities<a class="headerlink" href="#issue-severities" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Severity</th>
+<th>Weight</th>
+<th>Action Required</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Critical</td>
+<td>1.0</td>
+<td>Must fix before proceeding</td>
+</tr>
+<tr>
+<td>High</td>
+<td>0.8</td>
+<td>Should fix before proceeding</td>
+</tr>
+<tr>
+<td>Medium</td>
+<td>0.5</td>
+<td>Should address in next iteration</td>
+</tr>
+<tr>
+<td>Low</td>
+<td>0.3</td>
+<td>Nice to have</td>
+</tr>
+<tr>
+<td>Info</td>
+<td>0.1</td>
+<td>Informational only</td>
+</tr>
+</tbody>
+</table>
+<h2 id="frontend-components">Frontend Components<a class="headerlink" href="#frontend-components" title="Permanent link">&para;</a></h2>
+<p>VisionStudio provides React components for AIDLC visualization:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">import</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span><span class="nx">AIDLCWorkflowView</span><span class="p">,</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span><span class="nx">AIDLCDocumentView</span><span class="p">,</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">  </span><span class="nx">AIDLCSyncPanel</span><span class="p">,</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">  </span><span class="nx">PhaseRequirementsPanel</span><span class="p">,</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">  </span><span class="nx">TransitionButton</span><span class="p">,</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">  </span><span class="nx">TemplateSelector</span><span class="p">,</span>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="w">  </span><span class="nx">EvaluationResultsPanel</span><span class="p">,</span>
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;./components/aidlc&#39;</span>
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="c1">// Workflow visualization</span>
+<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="p">&lt;</span><span class="nt">AIDLCWorkflowView</span>
+<a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="w">  </span><span class="na">projectName</span><span class="o">=</span><span class="s">&quot;my-project&quot;</span>
+<a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="w">  </span><span class="na">onNodeClick</span><span class="o">=</span><span class="p">{(</span><span class="nx">nodeId</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">nodeId</span><span class="p">)}</span>
+<a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="p">/&gt;</span>
+<a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a>
+<a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a><span class="c1">// Phase requirements with progress</span>
+<a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a><span class="p">&lt;</span><span class="nt">PhaseRequirementsPanel</span>
+<a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a><span class="w">  </span><span class="na">projectName</span><span class="o">=</span><span class="s">&quot;my-project&quot;</span>
+<a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a><span class="w">  </span><span class="na">onDocumentClick</span><span class="o">=</span><span class="p">{(</span><span class="nx">docType</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">docType</span><span class="p">)}</span>
+<a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a><span class="p">/&gt;</span>
+<a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a>
+<a id="__codelineno-7-23" name="__codelineno-7-23" href="#__codelineno-7-23"></a><span class="c1">// Phase transition controls</span>
+<a id="__codelineno-7-24" name="__codelineno-7-24" href="#__codelineno-7-24"></a><span class="p">&lt;</span><span class="nt">TransitionButton</span>
+<a id="__codelineno-7-25" name="__codelineno-7-25" href="#__codelineno-7-25"></a><span class="w">  </span><span class="na">projectName</span><span class="o">=</span><span class="s">&quot;my-project&quot;</span>
+<a id="__codelineno-7-26" name="__codelineno-7-26" href="#__codelineno-7-26"></a><span class="w">  </span><span class="na">currentPhase</span><span class="o">=</span><span class="s">&quot;inception&quot;</span>
+<a id="__codelineno-7-27" name="__codelineno-7-27" href="#__codelineno-7-27"></a><span class="w">  </span><span class="na">targetPhase</span><span class="o">=</span><span class="s">&quot;construction&quot;</span>
+<a id="__codelineno-7-28" name="__codelineno-7-28" href="#__codelineno-7-28"></a><span class="w">  </span><span class="na">canAdvance</span><span class="o">=</span><span class="p">{</span><span class="kc">true</span><span class="p">}</span>
+<a id="__codelineno-7-29" name="__codelineno-7-29" href="#__codelineno-7-29"></a><span class="w">  </span><span class="na">onTransitionComplete</span><span class="o">=</span><span class="p">{(</span><span class="nx">result</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">result</span><span class="p">)}</span>
+<a id="__codelineno-7-30" name="__codelineno-7-30" href="#__codelineno-7-30"></a><span class="p">/&gt;</span>
+<a id="__codelineno-7-31" name="__codelineno-7-31" href="#__codelineno-7-31"></a>
+<a id="__codelineno-7-32" name="__codelineno-7-32" href="#__codelineno-7-32"></a><span class="c1">// Template selection modal</span>
+<a id="__codelineno-7-33" name="__codelineno-7-33" href="#__codelineno-7-33"></a><span class="p">&lt;</span><span class="nt">TemplateSelector</span>
+<a id="__codelineno-7-34" name="__codelineno-7-34" href="#__codelineno-7-34"></a><span class="w">  </span><span class="na">projectName</span><span class="o">=</span><span class="s">&quot;my-project&quot;</span>
+<a id="__codelineno-7-35" name="__codelineno-7-35" href="#__codelineno-7-35"></a><span class="w">  </span><span class="na">isOpen</span><span class="o">=</span><span class="p">{</span><span class="kc">true</span><span class="p">}</span>
+<a id="__codelineno-7-36" name="__codelineno-7-36" href="#__codelineno-7-36"></a><span class="w">  </span><span class="na">onClose</span><span class="o">=</span><span class="p">{()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{}}</span>
+<a id="__codelineno-7-37" name="__codelineno-7-37" href="#__codelineno-7-37"></a><span class="w">  </span><span class="na">onDocumentCreated</span><span class="o">=</span><span class="p">{(</span><span class="nx">doc</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">doc</span><span class="p">)}</span>
+<a id="__codelineno-7-38" name="__codelineno-7-38" href="#__codelineno-7-38"></a><span class="p">/&gt;</span>
+<a id="__codelineno-7-39" name="__codelineno-7-39" href="#__codelineno-7-39"></a>
+<a id="__codelineno-7-40" name="__codelineno-7-40" href="#__codelineno-7-40"></a><span class="c1">// Evaluation results display</span>
+<a id="__codelineno-7-41" name="__codelineno-7-41" href="#__codelineno-7-41"></a><span class="p">&lt;</span><span class="nt">EvaluationResultsPanel</span><span class="w"> </span><span class="na">score</span><span class="o">=</span><span class="p">{</span><span class="nx">qualityScore</span><span class="p">}</span><span class="w"> </span><span class="na">compact</span><span class="o">=</span><span class="p">{</span><span class="kc">false</span><span class="p">}</span><span class="w"> </span><span class="p">/&gt;</span>
+</code></pre></div>
+<h2 id="best-practices">Best Practices<a class="headerlink" href="#best-practices" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Complete phases sequentially</strong> - Don't skip ahead; each phase builds on the previous</li>
+<li><strong>Maintain document quality</strong> - Address evaluation issues before advancing phases</li>
+<li><strong>Use bidirectional sync</strong> - Keep VisionSpec and AIDLC directories in sync</li>
+<li><strong>Track state</strong> - Use <code>aidlc-state.md</code> to monitor workflow progress</li>
+<li><strong>Review transitions</strong> - Document reasons for phase transitions in the transition log</li>
+</ol>
+<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
+<h3 id="sync-conflicts">Sync Conflicts<a class="headerlink" href="#sync-conflicts" title="Permanent link">&para;</a></h3>
+<p>If you encounter sync conflicts:</p>
+<ol>
+<li>Check <code>aidlc-state.md</code> for current state</li>
+<li>Run diff to see pending changes: <code>GET /api/projects/{project}/aidlc/sync/diff</code></li>
+<li>Resolve conflicts manually or use force sync</li>
+</ol>
+<h3 id="phase-transition-blocked">Phase Transition Blocked<a class="headerlink" href="#phase-transition-blocked" title="Permanent link">&para;</a></h3>
+<p>If phase transition is blocked:</p>
+<ol>
+<li>Check blocking documents: view transition result's <code>blocking_docs</code></li>
+<li>Complete required documents</li>
+<li>Ensure minimum quality scores are met</li>
+<li>Review blocking issues for guidance</li>
+</ol>
+<h3 id="missing-templates">Missing Templates<a class="headerlink" href="#missing-templates" title="Permanent link">&para;</a></h3>
+<p>If templates aren't loading:</p>
+<ol>
+<li>Verify daemon is running</li>
+<li>Check API connection</li>
+<li>Ensure visionspec package is up to date</li>
+</ol>
 
 
 
