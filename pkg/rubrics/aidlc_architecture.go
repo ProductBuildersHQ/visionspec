@@ -21,7 +21,7 @@ func NewAIDLCArchitectureRubricSet() *RubricSet {
 				Description: "Overall system architecture and component breakdown",
 				Weight:      0.25,
 				Required:    true,
-				Criteria: CategoricalCriteria{
+				Criteria: CategoricalCriteria{ //nolint:gosec // G101: Rubric criteria text, not credentials
 					Pass:    "Clear system decomposition with well-defined boundaries, responsibilities, and interaction patterns",
 					Partial: "System design exists but component boundaries unclear",
 					Fail:    "No clear system design or architecture",
@@ -33,7 +33,7 @@ func NewAIDLCArchitectureRubricSet() *RubricSet {
 				Description: "Data flow, storage, and consistency approach",
 				Weight:      0.20,
 				Required:    true,
-				Criteria: CategoricalCriteria{
+				Criteria: CategoricalCriteria{ //nolint:gosec // G101: Rubric criteria text, not credentials
 					Pass:    "Data models, storage strategies, consistency requirements, and data flow patterns clearly documented",
 					Partial: "Some data architecture present but incomplete",
 					Fail:    "Data architecture not addressed",
@@ -45,7 +45,7 @@ func NewAIDLCArchitectureRubricSet() *RubricSet {
 				Description: "API design and service integration approach",
 				Weight:      0.20,
 				Required:    true,
-				Criteria: CategoricalCriteria{
+				Criteria: CategoricalCriteria{ //nolint:gosec // G101: Rubric criteria text, not credentials
 					Pass:    "Integration patterns documented with API contracts, protocols, and error handling strategies",
 					Partial: "Integration approach mentioned but lacks detail",
 					Fail:    "No integration patterns defined",
@@ -57,7 +57,7 @@ func NewAIDLCArchitectureRubricSet() *RubricSet {
 				Description: "Infrastructure and deployment architecture",
 				Weight:      0.20,
 				Required:    true,
-				Criteria: CategoricalCriteria{
+				Criteria: CategoricalCriteria{ //nolint:gosec // G101: Rubric criteria text, not credentials
 					Pass:    "Deployment topology clearly documented with infrastructure requirements, networking, and scaling approach",
 					Partial: "Basic deployment info present but gaps exist",
 					Fail:    "Deployment topology not addressed",
@@ -69,7 +69,7 @@ func NewAIDLCArchitectureRubricSet() *RubricSet {
 				Description: "Visual representations of the architecture",
 				Weight:      0.15,
 				Required:    false,
-				Criteria: CategoricalCriteria{
+				Criteria: CategoricalCriteria{ //nolint:gosec // G101: Rubric criteria text, not credentials
 					Pass:    "Clear architecture diagrams (C4, sequence, etc.) that accurately represent the system",
 					Partial: "Some diagrams present but incomplete or unclear",
 					Fail:    "No architecture diagrams included",

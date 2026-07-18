@@ -21,7 +21,7 @@ func NewAIDLCTechnicalRubricSet() *RubricSet {
 				Description: "Technical architecture is well-designed and appropriate",
 				Weight:      0.25,
 				Required:    true,
-				Criteria: CategoricalCriteria{
+				Criteria: CategoricalCriteria{ //nolint:gosec // G101: Rubric criteria text, not credentials
 					Pass:    "Architecture follows established patterns, addresses scalability, and includes clear component interactions",
 					Partial: "Architecture exists but has gaps in design or scalability considerations",
 					Fail:    "Architecture is missing or fundamentally flawed",
@@ -33,7 +33,7 @@ func NewAIDLCTechnicalRubricSet() *RubricSet {
 				Description: "Design addresses growth and scale requirements",
 				Weight:      0.20,
 				Required:    true,
-				Criteria: CategoricalCriteria{
+				Criteria: CategoricalCriteria{ //nolint:gosec // G101: Rubric criteria text, not credentials
 					Pass:    "Scalability explicitly addressed with capacity planning, bottleneck analysis, and growth strategies",
 					Partial: "Some scalability considerations present but incomplete",
 					Fail:    "No scalability considerations in design",
@@ -45,7 +45,7 @@ func NewAIDLCTechnicalRubricSet() *RubricSet {
 				Description: "Technical details sufficient for implementation",
 				Weight:      0.20,
 				Required:    true,
-				Criteria: CategoricalCriteria{
+				Criteria: CategoricalCriteria{ //nolint:gosec // G101: Rubric criteria text, not credentials
 					Pass:    "APIs, data models, and interfaces clearly defined with sufficient detail for implementation",
 					Partial: "Some technical details present but gaps exist",
 					Fail:    "Insufficient detail for implementation",
@@ -57,7 +57,7 @@ func NewAIDLCTechnicalRubricSet() *RubricSet {
 				Description: "Technology selections are justified and appropriate",
 				Weight:      0.20,
 				Required:    true,
-				Criteria: CategoricalCriteria{
+				Criteria: CategoricalCriteria{ //nolint:gosec // G101: Rubric criteria text, not credentials
 					Pass:    "Technology choices documented with clear rationale, alternatives considered, and trade-offs explained",
 					Partial: "Technologies mentioned but rationale incomplete",
 					Fail:    "Technology choices not justified or inappropriate",
@@ -69,7 +69,7 @@ func NewAIDLCTechnicalRubricSet() *RubricSet {
 				Description: "External and internal dependencies identified",
 				Weight:      0.15,
 				Required:    false,
-				Criteria: CategoricalCriteria{
+				Criteria: CategoricalCriteria{ //nolint:gosec // G101: Rubric criteria text, not credentials
 					Pass:    "All dependencies documented with version requirements, fallback strategies, and integration points",
 					Partial: "Dependencies listed but incomplete information",
 					Fail:    "Dependencies not identified",

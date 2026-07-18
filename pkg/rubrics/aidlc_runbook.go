@@ -21,7 +21,7 @@ func NewAIDLCRunbookRubricSet() *RubricSet {
 				Description: "Operational procedures are clear and unambiguous",
 				Weight:      0.25,
 				Required:    true,
-				Criteria: CategoricalCriteria{
+				Criteria: CategoricalCriteria{ //nolint:gosec // G101: Rubric criteria text, not credentials
 					Pass:    "Step-by-step procedures with clear commands, expected outputs, and decision points",
 					Partial: "Procedures exist but some steps unclear",
 					Fail:    "Procedures missing or too vague to follow",
@@ -33,7 +33,7 @@ func NewAIDLCRunbookRubricSet() *RubricSet {
 				Description: "Ability to revert changes safely",
 				Weight:      0.25,
 				Required:    true,
-				Criteria: CategoricalCriteria{
+				Criteria: CategoricalCriteria{ //nolint:gosec // G101: Rubric criteria text, not credentials
 					Pass:    "Complete rollback procedures for each operation with verification steps",
 					Partial: "Some rollback info present but incomplete",
 					Fail:    "Rollback procedures not documented",
@@ -45,7 +45,7 @@ func NewAIDLCRunbookRubricSet() *RubricSet {
 				Description: "Guidance for common issues and errors",
 				Weight:      0.20,
 				Required:    true,
-				Criteria: CategoricalCriteria{
+				Criteria: CategoricalCriteria{ //nolint:gosec // G101: Rubric criteria text, not credentials
 					Pass:    "Troubleshooting guide with common errors, diagnostic steps, and resolution procedures",
 					Partial: "Some troubleshooting info present",
 					Fail:    "No troubleshooting guidance",
@@ -57,7 +57,7 @@ func NewAIDLCRunbookRubricSet() *RubricSet {
 				Description: "Required access, tools, and preparation",
 				Weight:      0.15,
 				Required:    true,
-				Criteria: CategoricalCriteria{
+				Criteria: CategoricalCriteria{ //nolint:gosec // G101: Rubric criteria text, not credentials
 					Pass:    "Prerequisites clearly listed with access requirements, tool versions, and preparation checklist",
 					Partial: "Some prerequisites mentioned",
 					Fail:    "Prerequisites not documented",
@@ -69,7 +69,7 @@ func NewAIDLCRunbookRubricSet() *RubricSet {
 				Description: "Contact information for escalation",
 				Weight:      0.15,
 				Required:    false,
-				Criteria: CategoricalCriteria{
+				Criteria: CategoricalCriteria{ //nolint:gosec // G101: Rubric criteria text, not credentials
 					Pass:    "Escalation path with contacts, on-call schedules, and severity guidelines",
 					Partial: "Some contact info present",
 					Fail:    "Escalation contacts not documented",

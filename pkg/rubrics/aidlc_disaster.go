@@ -21,7 +21,7 @@ func NewAIDLCDisasterRubricSet() *RubricSet {
 				Description: "Recovery time and point objectives",
 				Weight:      0.25,
 				Required:    true,
-				Criteria: CategoricalCriteria{
+				Criteria: CategoricalCriteria{ //nolint:gosec // G101: Rubric criteria text, not credentials
 					Pass:    "RTO and RPO clearly defined per service tier with business justification",
 					Partial: "RTO/RPO mentioned but not per service or lacking justification",
 					Fail:    "RTO/RPO not defined",
@@ -33,7 +33,7 @@ func NewAIDLCDisasterRubricSet() *RubricSet {
 				Description: "Data backup and replication approach",
 				Weight:      0.25,
 				Required:    true,
-				Criteria: CategoricalCriteria{
+				Criteria: CategoricalCriteria{ //nolint:gosec // G101: Rubric criteria text, not credentials
 					Pass:    "Backup schedule, retention policy, geographic distribution, and encryption documented",
 					Partial: "Basic backup info present but incomplete",
 					Fail:    "Backup strategy not documented",
@@ -45,7 +45,7 @@ func NewAIDLCDisasterRubricSet() *RubricSet {
 				Description: "Step-by-step recovery process",
 				Weight:      0.25,
 				Required:    true,
-				Criteria: CategoricalCriteria{
+				Criteria: CategoricalCriteria{ //nolint:gosec // G101: Rubric criteria text, not credentials
 					Pass:    "Detailed recovery procedures with verification steps, dependencies, and communication plan",
 					Partial: "Recovery procedures exist but lack detail",
 					Fail:    "Recovery procedures not documented",
@@ -57,7 +57,7 @@ func NewAIDLCDisasterRubricSet() *RubricSet {
 				Description: "Disaster recovery testing plan",
 				Weight:      0.15,
 				Required:    true,
-				Criteria: CategoricalCriteria{
+				Criteria: CategoricalCriteria{ //nolint:gosec // G101: Rubric criteria text, not credentials
 					Pass:    "Regular DR testing schedule with test scenarios, success criteria, and improvement process",
 					Partial: "DR testing mentioned but no schedule or criteria",
 					Fail:    "DR testing not addressed",
@@ -69,7 +69,7 @@ func NewAIDLCDisasterRubricSet() *RubricSet {
 				Description: "Multi-region and failover design",
 				Weight:      0.10,
 				Required:    false,
-				Criteria: CategoricalCriteria{
+				Criteria: CategoricalCriteria{ //nolint:gosec // G101: Rubric criteria text, not credentials
 					Pass:    "Failover architecture documented with automatic/manual triggers and health checks",
 					Partial: "Basic failover info present",
 					Fail:    "Failover architecture not addressed",

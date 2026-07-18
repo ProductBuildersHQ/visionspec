@@ -21,7 +21,7 @@ func NewAIDLCSecurityRubricSet() *RubricSet {
 				Description: "Identification and analysis of security threats",
 				Weight:      0.25,
 				Required:    true,
-				Criteria: CategoricalCriteria{
+				Criteria: CategoricalCriteria{ //nolint:gosec // G101: Rubric criteria text, not credentials
 					Pass:    "Comprehensive threat model (STRIDE or similar) with attack vectors, risk ratings, and mitigations",
 					Partial: "Some threats identified but analysis incomplete",
 					Fail:    "No threat modeling performed",
@@ -33,7 +33,7 @@ func NewAIDLCSecurityRubricSet() *RubricSet {
 				Description: "Authentication and authorization design",
 				Weight:      0.25,
 				Required:    true,
-				Criteria: CategoricalCriteria{
+				Criteria: CategoricalCriteria{ //nolint:gosec // G101: Rubric criteria text, not credentials
 					Pass:    "Authentication/authorization mechanisms documented with least privilege, role-based access, and audit trails",
 					Partial: "Access control mentioned but incomplete design",
 					Fail:    "Access control not addressed",
@@ -45,7 +45,7 @@ func NewAIDLCSecurityRubricSet() *RubricSet {
 				Description: "Encryption and sensitive data handling",
 				Weight:      0.20,
 				Required:    true,
-				Criteria: CategoricalCriteria{
+				Criteria: CategoricalCriteria{ //nolint:gosec // G101: Rubric criteria text, not credentials
 					Pass:    "Data classification, encryption at rest/transit, and key management documented",
 					Partial: "Some data protection measures mentioned",
 					Fail:    "Data protection not addressed",
@@ -57,7 +57,7 @@ func NewAIDLCSecurityRubricSet() *RubricSet {
 				Description: "Regulatory and compliance requirements",
 				Weight:      0.15,
 				Required:    true,
-				Criteria: CategoricalCriteria{
+				Criteria: CategoricalCriteria{ //nolint:gosec // G101: Rubric criteria text, not credentials
 					Pass:    "Applicable compliance requirements identified (GDPR, SOC2, etc.) with controls mapped",
 					Partial: "Compliance mentioned but controls not mapped",
 					Fail:    "Compliance requirements not addressed",
@@ -69,7 +69,7 @@ func NewAIDLCSecurityRubricSet() *RubricSet {
 				Description: "Security incident handling procedures",
 				Weight:      0.15,
 				Required:    false,
-				Criteria: CategoricalCriteria{
+				Criteria: CategoricalCriteria{ //nolint:gosec // G101: Rubric criteria text, not credentials
 					Pass:    "Incident response plan with detection, escalation, and remediation procedures",
 					Partial: "Basic incident response considerations",
 					Fail:    "Incident response not addressed",

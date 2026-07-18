@@ -21,7 +21,7 @@ func NewAIDLCMonitoringRubricSet() *RubricSet {
 				Description: "Key metrics and their collection approach",
 				Weight:      0.25,
 				Required:    true,
-				Criteria: CategoricalCriteria{
+				Criteria: CategoricalCriteria{ //nolint:gosec // G101: Rubric criteria text, not credentials
 					Pass:    "Key metrics defined (RED/USE) with collection method, retention policy, and dashboards",
 					Partial: "Some metrics defined but incomplete coverage",
 					Fail:    "Metrics not defined",
@@ -33,7 +33,7 @@ func NewAIDLCMonitoringRubricSet() *RubricSet {
 				Description: "Alert rules and notification channels",
 				Weight:      0.25,
 				Required:    true,
-				Criteria: CategoricalCriteria{
+				Criteria: CategoricalCriteria{ //nolint:gosec // G101: Rubric criteria text, not credentials
 					Pass:    "Alert rules with thresholds, severity levels, and notification channels defined",
 					Partial: "Some alerts defined but incomplete strategy",
 					Fail:    "Alerting not addressed",
@@ -45,7 +45,7 @@ func NewAIDLCMonitoringRubricSet() *RubricSet {
 				Description: "SLO definitions and tracking",
 				Weight:      0.20,
 				Required:    true,
-				Criteria: CategoricalCriteria{
+				Criteria: CategoricalCriteria{ //nolint:gosec // G101: Rubric criteria text, not credentials
 					Pass:    "SLOs defined with targets, error budgets, and burn rate alerting",
 					Partial: "Some SLOs mentioned but incomplete",
 					Fail:    "SLOs not defined",
@@ -57,7 +57,7 @@ func NewAIDLCMonitoringRubricSet() *RubricSet {
 				Description: "Log collection and analysis approach",
 				Weight:      0.15,
 				Required:    true,
-				Criteria: CategoricalCriteria{
+				Criteria: CategoricalCriteria{ //nolint:gosec // G101: Rubric criteria text, not credentials
 					Pass:    "Logging strategy with log levels, structured logging, and centralized aggregation",
 					Partial: "Basic logging mentioned",
 					Fail:    "Logging strategy not addressed",
@@ -69,7 +69,7 @@ func NewAIDLCMonitoringRubricSet() *RubricSet {
 				Description: "Request tracing and correlation",
 				Weight:      0.15,
 				Required:    false,
-				Criteria: CategoricalCriteria{
+				Criteria: CategoricalCriteria{ //nolint:gosec // G101: Rubric criteria text, not credentials
 					Pass:    "Distributed tracing implemented with correlation IDs and trace visualization",
 					Partial: "Tracing mentioned but incomplete",
 					Fail:    "Distributed tracing not addressed",

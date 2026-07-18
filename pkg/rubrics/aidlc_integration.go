@@ -21,7 +21,7 @@ func NewAIDLCIntegrationRubricSet() *RubricSet {
 				Description: "Identification and documentation of all integration points",
 				Weight:      0.25,
 				Required:    true,
-				Criteria: CategoricalCriteria{
+				Criteria: CategoricalCriteria{ //nolint:gosec // G101: Rubric criteria text, not credentials
 					Pass:    "All integration points documented with protocols, data formats, and error handling",
 					Partial: "Integration points listed but incomplete details",
 					Fail:    "Integration points not identified",
@@ -33,7 +33,7 @@ func NewAIDLCIntegrationRubricSet() *RubricSet {
 				Description: "Data consistency and synchronization approach",
 				Weight:      0.20,
 				Required:    true,
-				Criteria: CategoricalCriteria{
+				Criteria: CategoricalCriteria{ //nolint:gosec // G101: Rubric criteria text, not credentials
 					Pass:    "Data sync strategy defined with consistency requirements, conflict resolution, and rollback procedures",
 					Partial: "Some data sync considerations present",
 					Fail:    "Data synchronization not addressed",
@@ -45,7 +45,7 @@ func NewAIDLCIntegrationRubricSet() *RubricSet {
 				Description: "Phased rollout and migration approach",
 				Weight:      0.20,
 				Required:    true,
-				Criteria: CategoricalCriteria{
+				Criteria: CategoricalCriteria{ //nolint:gosec // G101: Rubric criteria text, not credentials
 					Pass:    "Clear rollout phases with feature flags, canary deployment, and rollback triggers",
 					Partial: "Basic rollout plan exists but lacks detail",
 					Fail:    "No rollout strategy defined",
@@ -57,7 +57,7 @@ func NewAIDLCIntegrationRubricSet() *RubricSet {
 				Description: "API versioning and compatibility handling",
 				Weight:      0.20,
 				Required:    true,
-				Criteria: CategoricalCriteria{
+				Criteria: CategoricalCriteria{ //nolint:gosec // G101: Rubric criteria text, not credentials
 					Pass:    "API versioning strategy with deprecation timeline and migration guides",
 					Partial: "Compatibility mentioned but incomplete strategy",
 					Fail:    "Backwards compatibility not addressed",
@@ -69,7 +69,7 @@ func NewAIDLCIntegrationRubricSet() *RubricSet {
 				Description: "Monitoring for integration health",
 				Weight:      0.15,
 				Required:    false,
-				Criteria: CategoricalCriteria{
+				Criteria: CategoricalCriteria{ //nolint:gosec // G101: Rubric criteria text, not credentials
 					Pass:    "Integration monitoring defined with health checks, alerts, and dashboards",
 					Partial: "Some monitoring considerations present",
 					Fail:    "Integration monitoring not addressed",

@@ -21,7 +21,7 @@ func NewAIDLCSLORubricSet() *RubricSet {
 				Description: "Service Level Indicator specifications",
 				Weight:      0.25,
 				Required:    true,
-				Criteria: CategoricalCriteria{
+				Criteria: CategoricalCriteria{ //nolint:gosec // G101: Rubric criteria text, not credentials
 					Pass:    "SLIs clearly defined with measurement method, data source, and calculation formula",
 					Partial: "SLIs defined but measurement approach unclear",
 					Fail:    "SLIs not defined",
@@ -33,7 +33,7 @@ func NewAIDLCSLORubricSet() *RubricSet {
 				Description: "Service Level Objective targets",
 				Weight:      0.25,
 				Required:    true,
-				Criteria: CategoricalCriteria{
+				Criteria: CategoricalCriteria{ //nolint:gosec // G101: Rubric criteria text, not credentials
 					Pass:    "SLO targets defined with specific percentages, time windows, and business rationale",
 					Partial: "SLO targets exist but lack rationale or specificity",
 					Fail:    "SLO targets not defined",
@@ -45,7 +45,7 @@ func NewAIDLCSLORubricSet() *RubricSet {
 				Description: "Error budget definition and policies",
 				Weight:      0.20,
 				Required:    true,
-				Criteria: CategoricalCriteria{
+				Criteria: CategoricalCriteria{ //nolint:gosec // G101: Rubric criteria text, not credentials
 					Pass:    "Error budgets defined with burn rate alerts, exhaustion policies, and reset procedures",
 					Partial: "Error budgets mentioned but policies incomplete",
 					Fail:    "Error budgets not defined",
@@ -57,7 +57,7 @@ func NewAIDLCSLORubricSet() *RubricSet {
 				Description: "Agreement between teams on objectives",
 				Weight:      0.15,
 				Required:    true,
-				Criteria: CategoricalCriteria{
+				Criteria: CategoricalCriteria{ //nolint:gosec // G101: Rubric criteria text, not credentials
 					Pass:    "Stakeholder sign-off documented with escalation procedures and review cadence",
 					Partial: "Some stakeholder info present",
 					Fail:    "Stakeholder alignment not documented",
@@ -69,7 +69,7 @@ func NewAIDLCSLORubricSet() *RubricSet {
 				Description: "Regular SLO status reporting",
 				Weight:      0.15,
 				Required:    false,
-				Criteria: CategoricalCriteria{
+				Criteria: CategoricalCriteria{ //nolint:gosec // G101: Rubric criteria text, not credentials
 					Pass:    "Reporting cadence, dashboard links, and review meeting schedule defined",
 					Partial: "Basic reporting mentioned",
 					Fail:    "SLO reporting not addressed",

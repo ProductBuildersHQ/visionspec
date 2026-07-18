@@ -21,7 +21,7 @@ func NewAIDLCImplementationRubricSet() *RubricSet {
 				Description: "Granularity and clarity of implementation tasks",
 				Weight:      0.25,
 				Required:    true,
-				Criteria: CategoricalCriteria{
+				Criteria: CategoricalCriteria{ //nolint:gosec // G101: Rubric criteria text, not credentials
 					Pass:    "Tasks broken down to actionable units with clear scope, deliverables, and completion criteria",
 					Partial: "Tasks exist but some are too large or unclear",
 					Fail:    "Task breakdown missing or too high-level",
@@ -33,7 +33,7 @@ func NewAIDLCImplementationRubricSet() *RubricSet {
 				Description: "Task dependencies and critical path identification",
 				Weight:      0.20,
 				Required:    true,
-				Criteria: CategoricalCriteria{
+				Criteria: CategoricalCriteria{ //nolint:gosec // G101: Rubric criteria text, not credentials
 					Pass:    "Dependencies clearly mapped with critical path identified and blocking relationships documented",
 					Partial: "Some dependencies noted but incomplete mapping",
 					Fail:    "Dependencies not identified",
@@ -45,7 +45,7 @@ func NewAIDLCImplementationRubricSet() *RubricSet {
 				Description: "Identification and mitigation of implementation risks",
 				Weight:      0.20,
 				Required:    true,
-				Criteria: CategoricalCriteria{
+				Criteria: CategoricalCriteria{ //nolint:gosec // G101: Rubric criteria text, not credentials
 					Pass:    "Risks identified with probability, impact assessment, and concrete mitigation strategies",
 					Partial: "Some risks noted but mitigation incomplete",
 					Fail:    "No risk assessment included",
@@ -57,7 +57,7 @@ func NewAIDLCImplementationRubricSet() *RubricSet {
 				Description: "Team and resource assignment to tasks",
 				Weight:      0.15,
 				Required:    false,
-				Criteria: CategoricalCriteria{
+				Criteria: CategoricalCriteria{ //nolint:gosec // G101: Rubric criteria text, not credentials
 					Pass:    "Resources assigned with skills mapping and capacity planning",
 					Partial: "Some resource allocation present",
 					Fail:    "No resource allocation defined",
@@ -69,7 +69,7 @@ func NewAIDLCImplementationRubricSet() *RubricSet {
 				Description: "Key milestones and checkpoints defined",
 				Weight:      0.20,
 				Required:    true,
-				Criteria: CategoricalCriteria{
+				Criteria: CategoricalCriteria{ //nolint:gosec // G101: Rubric criteria text, not credentials
 					Pass:    "Clear milestones with measurable success criteria and review gates",
 					Partial: "Milestones exist but lack clear criteria",
 					Fail:    "No milestones defined",

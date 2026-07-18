@@ -21,7 +21,7 @@ func NewAIDLCVisionRubricSet() *RubricSet {
 				Description: "Clarity and specificity of the vision statement",
 				Weight:      0.25,
 				Required:    true,
-				Criteria: CategoricalCriteria{
+				Criteria: CategoricalCriteria{ //nolint:gosec // G101: Rubric criteria text, not credentials
 					Pass:    "Vision is clear, inspiring, and articulates a specific future state with measurable outcomes",
 					Partial: "Vision exists but lacks specificity or measurable outcomes",
 					Fail:    "Vision is missing, vague, or generic without clear direction",
@@ -33,7 +33,7 @@ func NewAIDLCVisionRubricSet() *RubricSet {
 				Description: "Coverage of all required vision components",
 				Weight:      0.25,
 				Required:    true,
-				Criteria: CategoricalCriteria{
+				Criteria: CategoricalCriteria{ //nolint:gosec // G101: Rubric criteria text, not credentials
 					Pass:    "Document covers problem statement, target users, value proposition, and success criteria comprehensively",
 					Partial: "Some required components present but gaps exist",
 					Fail:    "Major components missing or incomplete",
@@ -45,7 +45,7 @@ func NewAIDLCVisionRubricSet() *RubricSet {
 				Description: "Evidence of stakeholder input and alignment",
 				Weight:      0.25,
 				Required:    true,
-				Criteria: CategoricalCriteria{
+				Criteria: CategoricalCriteria{ //nolint:gosec // G101: Rubric criteria text, not credentials
 					Pass:    "Clear stakeholder identification, documented input, and explicit alignment with organizational goals",
 					Partial: "Stakeholders identified but limited evidence of alignment",
 					Fail:    "No stakeholder alignment documented",
@@ -57,7 +57,7 @@ func NewAIDLCVisionRubricSet() *RubricSet {
 				Description: "Realistic assessment of technical and business feasibility",
 				Weight:      0.25,
 				Required:    false,
-				Criteria: CategoricalCriteria{
+				Criteria: CategoricalCriteria{ //nolint:gosec // G101: Rubric criteria text, not credentials
 					Pass:    "Feasibility addressed with clear constraints, risks, and mitigation strategies",
 					Partial: "Basic feasibility mentioned but lacks depth",
 					Fail:    "No feasibility assessment included",
