@@ -63,8 +63,8 @@ func TestMustGet(t *testing.T) {
 
 func TestAvailable(t *testing.T) {
 	available := Available()
-	if len(available) != 9 {
-		t.Errorf("Available() returned %d types, expected 9", len(available))
+	if len(available) != 10 {
+		t.Errorf("Available() returned %d types, expected 10", len(available))
 	}
 
 	expected := map[types.SpecType]bool{
@@ -76,6 +76,7 @@ func TestAvailable(t *testing.T) {
 		types.SpecTypeNarrative1P: true,
 		types.SpecTypeNarrative6P: true,
 		types.SpecTypeTRD:         true,
+		types.SpecTypeTPD:         true,
 		types.SpecTypeIRD:         true,
 	}
 

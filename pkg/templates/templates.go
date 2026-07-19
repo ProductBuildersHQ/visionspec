@@ -10,7 +10,7 @@ import (
 	"github.com/ProductBuildersHQ/visionspec/pkg/types"
 )
 
-//go:embed mrd.md prd.md uxd.md narrative-1p.md narrative-6p.md press.md faq.md trd.md ird.md
+//go:embed mrd.md prd.md uxd.md narrative-1p.md narrative-6p.md press.md faq.md trd.md tpd.md ird.md
 var templateFS embed.FS
 
 // Template represents a loaded template with metadata.
@@ -56,6 +56,7 @@ func Available() []types.SpecType {
 		types.SpecTypeNarrative6P,
 		// Technical specs
 		types.SpecTypeTRD,
+		types.SpecTypeTPD,
 		types.SpecTypeIRD,
 	}
 }
