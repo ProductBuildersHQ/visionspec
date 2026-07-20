@@ -5,6 +5,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"strings"
 	"time"
 
 	"github.com/plexusone/structured-evaluation/rubric"
@@ -135,7 +136,8 @@ func (e *Evaluator) Evaluate(ctx context.Context, specType types.SpecType, conte
 
 // buildEvalPrompt constructs the evaluation prompt for the LLM.
 func buildEvalPrompt(rubricSet *rubric.RubricSet, content string) string {
-	prompt := fmt.Sprintf(`You are an expert document evaluator. Evaluate the following %s against the provided rubric.
+	var sb strings.Builder
+	fmt.Fprintf(&sb, `You are an expert document evaluator. Evaluate the following %s against the provided rubric.
 
 ## Rubric
 
@@ -148,11 +150,15 @@ Evaluate each category on a scale of 1-5:
 
 `, rubricSet.Name)
 
-	for _, cat := range rubricSet.Categories {
-		prompt += fmt.Sprintf("### %s (Weight: %.0f%%)\n%s\n\n", cat.Name, cat.Weight*100, cat.Description)
+	var totalWeight float64
+	for i := range rubricSet.Categories {
+		totalWeight += rubricSet.Categories[i].Weight
+	}
+	for i := range rubricSet.Categories {
+		writeCategoryRubric(&sb, &rubricSet.Categories[i], totalWeight)
 	}
 
-	prompt += fmt.Sprintf(`## Document to Evaluate
+	fmt.Fprintf(&sb, `## Document to Evaluate
 
 %s
 
@@ -216,7 +222,59 @@ Provide your evaluation in the following JSON format:
 
 Respond with ONLY the JSON, no additional text.`, content)
 
-	return prompt
+	return sb.String()
+}
+
+// writeCategoryRubric renders one category's scoring guidance into the prompt:
+// its relative weight, description, and either the categorical pass/partial/fail
+// criteria (flat rubrics) or the weighted sub-criteria with indicators (rich
+// rubrics). This gives the judge the actual criteria text, not just the name.
+func writeCategoryRubric(sb *strings.Builder, cat *rubric.Category, totalWeight float64) {
+	rel := cat.Weight
+	if totalWeight > 0 {
+		rel = cat.Weight / totalWeight * 100
+	}
+	fmt.Fprintf(sb, "### %s (Weight: %.0f%%)\n%s\n", cat.Name, rel, cat.Description)
+
+	if len(cat.Criteria) > 0 {
+		sb.WriteString("Weighted criteria:\n")
+		for i := range cat.Criteria {
+			cr := &cat.Criteria[i]
+			name := cr.Name
+			if name == "" {
+				name = cr.ID
+			}
+			fmt.Fprintf(sb, "- **%s** (weight %g)", name, cr.Weight)
+			if cr.Pass.Description != "" {
+				fmt.Fprintf(sb, ": %s", cr.Pass.Description)
+			}
+			sb.WriteString("\n")
+			for _, ind := range cr.Pass.Indicators {
+				fmt.Fprintf(sb, "  - pass signal: %s\n", ind)
+			}
+			if cr.Fail.Description != "" {
+				fmt.Fprintf(sb, "  - fail: %s\n", cr.Fail.Description)
+			}
+		}
+		sb.WriteString("\n")
+		return
+	}
+
+	if len(cat.Scale.Options) > 0 {
+		sb.WriteString("Scoring guidance:\n")
+		for _, opt := range cat.Scale.Options {
+			label := opt.Label
+			if label == "" {
+				label = opt.Value
+			}
+			if len(opt.Criteria) > 0 {
+				fmt.Fprintf(sb, "- %s: %s\n", label, strings.Join(opt.Criteria, "; "))
+			}
+		}
+		sb.WriteString("\n")
+		return
+	}
+	sb.WriteString("\n")
 }
 
 // evalResponse is the expected JSON structure from the LLM (v2).
