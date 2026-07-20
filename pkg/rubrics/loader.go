@@ -89,6 +89,38 @@ func (l *fileLoader) Available() []types.SpecType {
 	return result
 }
 
+// overrideLoader loads specific rubric files mapped per spec type.
+type overrideLoader struct {
+	files map[types.SpecType]string
+}
+
+// NewOverrideLoader creates a loader that maps spec types to specific rubric
+// file paths (e.g. a project's visionspec.yaml `rubrics.overrides`). Paths must
+// already be resolved (absolute or relative to the working directory).
+func NewOverrideLoader(files map[types.SpecType]string) Loader {
+	return &overrideLoader{files: files}
+}
+
+func (l *overrideLoader) Load(specType types.SpecType) (*rubric.RubricSet, error) {
+	path, ok := l.files[specType]
+	if !ok {
+		return nil, fmt.Errorf("no rubric override for spec type %q", specType)
+	}
+	content, err := os.ReadFile(path) //nolint:gosec // path from project rubrics config
+	if err != nil {
+		return nil, fmt.Errorf("reading rubric override %s: %w", path, err)
+	}
+	return parseRubricYAML(content, path)
+}
+
+func (l *overrideLoader) Available() []types.SpecType {
+	result := make([]types.SpecType, 0, len(l.files))
+	for st := range l.files {
+		result = append(result, st)
+	}
+	return result
+}
+
 // embedFSLoader loads rubrics from an embedded filesystem.
 // This allows organizations to compile their rubrics into a single binary.
 type embedFSLoader struct {
