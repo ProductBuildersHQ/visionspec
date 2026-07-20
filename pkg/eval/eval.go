@@ -5,6 +5,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"path/filepath"
 	"strings"
 	"time"
 
@@ -91,6 +92,8 @@ type JudgeMetadata struct {
 type Evaluator struct {
 	llm          *LLMClient
 	rubricLoader rubrics.Loader
+	passCriteria *rubric.RubricPassCriteria // optional override (e.g. project rubrics config)
+	strictMode   bool                       // require every category to reach at least Acceptable
 }
 
 // NewEvaluator creates a new evaluator with the given LLM client.
@@ -105,6 +108,75 @@ func NewEvaluator(llm *LLMClient) *Evaluator {
 func (e *Evaluator) SetRubricLoader(loader rubrics.Loader) {
 	if loader != nil {
 		e.rubricLoader = loader
+	}
+}
+
+// RubricLoader returns the evaluator's current rubric loader.
+func (e *Evaluator) RubricLoader() rubrics.Loader {
+	return e.rubricLoader
+}
+
+// SetPassCriteria overrides the rubric's own pass criteria for evaluation —
+// for example, from a project's visionspec.yaml `rubrics` config. Pass nil to
+// use each rubric's built-in criteria.
+func (e *Evaluator) SetPassCriteria(pc *rubric.RubricPassCriteria) {
+	e.passCriteria = pc
+}
+
+// SetStrictMode, when true, requires every category to reach at least an
+// Acceptable score for the spec to pass.
+func (e *Evaluator) SetStrictMode(strict bool) {
+	e.strictMode = strict
+}
+
+// ApplyProjectRubrics wires a project's visionspec.yaml `rubrics` config into
+// the evaluator: custom rubric files (overrides then directory, both resolved
+// relative to projectPath) are chained ahead of base, and finding-limit /
+// strict-mode policy is applied. base is the loader to fall back to (nil uses
+// the default). It sets the resulting loader on the evaluator.
+func (e *Evaluator) ApplyProjectRubrics(rc *types.RubricsConfig, projectPath string, base rubrics.Loader) {
+	if base == nil {
+		base = rubrics.DefaultLoader()
+	}
+	if rc == nil {
+		e.SetRubricLoader(base)
+		return
+	}
+
+	var loaders []rubrics.Loader
+	if len(rc.Overrides) > 0 {
+		resolved := make(map[types.SpecType]string, len(rc.Overrides))
+		for st, p := range rc.Overrides {
+			if !filepath.IsAbs(p) {
+				p = filepath.Join(projectPath, p)
+			}
+			resolved[st] = p
+		}
+		loaders = append(loaders, rubrics.NewOverrideLoader(resolved))
+	}
+	if rc.Directory != "" {
+		dir := rc.Directory
+		if !filepath.IsAbs(dir) {
+			dir = filepath.Join(projectPath, dir)
+		}
+		loaders = append(loaders, rubrics.NewFileLoader(dir))
+	}
+	loaders = append(loaders, base)
+	e.SetRubricLoader(rubrics.NewChainLoader(loaders...))
+
+	if rc.StrictMode {
+		e.SetStrictMode(true)
+	}
+	// Override finding limits only when the project configures them.
+	if rc.MaxCritical != 0 || rc.MaxHigh != 0 || rc.MaxMedium != 0 {
+		e.SetPassCriteria(&rubric.RubricPassCriteria{
+			MaxFindings: &rubric.FindingLimits{
+				Critical: rc.MaxCritical,
+				High:     rc.MaxHigh,
+				Medium:   rc.MaxMedium,
+				Low:      -1,
+			},
+		})
 	}
 }
 
@@ -125,8 +197,12 @@ func (e *Evaluator) Evaluate(ctx context.Context, specType types.SpecType, conte
 		return nil, fmt.Errorf("LLM evaluation failed: %w", err)
 	}
 
-	// Parse response
-	result, err := parseEvalResponse(specType, rubricSet, response, metadata)
+	// Parse response, applying any project-level pass-criteria override.
+	pc := rubricSet.PassCriteria
+	if e.passCriteria != nil {
+		pc = *e.passCriteria
+	}
+	result, err := parseEvalResponse(specType, rubricSet, response, metadata, pc, e.strictMode)
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse evaluation response: %w", err)
 	}
@@ -302,7 +378,7 @@ type evalResponse struct {
 }
 
 // parseEvalResponse parses the LLM response into a Result.
-func parseEvalResponse(specType types.SpecType, rubricSet *rubric.RubricSet, response string, metadata JudgeMetadata) (*Result, error) {
+func parseEvalResponse(specType types.SpecType, rubricSet *rubric.RubricSet, response string, metadata JudgeMetadata, passCriteria rubric.RubricPassCriteria, strictMode bool) (*Result, error) {
 	var resp evalResponse
 	if err := json.Unmarshal([]byte(response), &resp); err != nil {
 		return nil, fmt.Errorf("invalid JSON response: %w", err)
@@ -393,7 +469,7 @@ func parseEvalResponse(specType types.SpecType, rubricSet *rubric.RubricSet, res
 	}
 
 	// Determine pass/fail using v2 criteria
-	passed, blocking := evaluatePassCriteriaV2(finalIntScore, findings, rubricSet.PassCriteria)
+	passed, blocking := evaluatePassCriteriaV2(finalIntScore, categories, findings, passCriteria, strictMode)
 
 	// Determine decision
 	decision := "fail"
@@ -451,12 +527,21 @@ func intScoreToLegacy(score rubric.IntegerScore) float64 {
 }
 
 // evaluatePassCriteriaV2 checks pass criteria using integer scores and returns blocking codes.
-func evaluatePassCriteriaV2(score rubric.IntegerScore, findings []Finding, criteria rubric.RubricPassCriteria) (bool, []rubric.ReasonCode) {
+func evaluatePassCriteriaV2(score rubric.IntegerScore, categories []CategoryResult, findings []Finding, criteria rubric.RubricPassCriteria, strictMode bool) (bool, []rubric.ReasonCode) {
 	var blocking []rubric.ReasonCode
 
 	// Score must be at least 3 (Acceptable) to pass
 	if score < rubric.ScoreAcceptable {
 		return false, blocking
+	}
+
+	// Strict mode: every category must reach at least an Acceptable score.
+	if strictMode {
+		for _, c := range categories {
+			if c.IntScore < rubric.ScoreAcceptable {
+				return false, append(blocking, rubric.ReasonCode("CATEGORY_BELOW_THRESHOLD"))
+			}
+		}
 	}
 
 	// Finding limits by severity; a nil limit set blocks any critical/high.

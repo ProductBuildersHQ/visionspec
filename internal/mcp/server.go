@@ -453,6 +453,7 @@ func (s *Server) handleRunEval(ctx context.Context, req *mcp.CallToolRequest, ar
 
 	// Run evaluation
 	evaluator := eval.NewEvaluator(llmClient)
+	evaluator.ApplyProjectRubrics(project.Rubrics, projectPath, nil)
 	evalResult, err := evaluator.Evaluate(ctx, specType, string(content))
 	if err != nil {
 		return errorResult("evaluation failed: " + err.Error())
@@ -981,6 +982,7 @@ func (s *Server) handleEvalDraft(ctx context.Context, req *mcp.CallToolRequest, 
 
 	// Run evaluation
 	evaluator := eval.NewEvaluator(llmClient)
+	evaluator.ApplyProjectRubrics(project.Rubrics, projectPath, nil)
 	evalResult, err := evaluator.Evaluate(ctx, specType, d.Content)
 	if err != nil {
 		return errorResult("evaluation failed: " + err.Error())

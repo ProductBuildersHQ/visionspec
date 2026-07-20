@@ -874,13 +874,10 @@ func runEval(cmd *cobra.Command, args []string, cfg *Config) error {
 	}
 	defer func() { _ = llmClient.Close() }()
 
-	// Create evaluator with optional custom rubric loader
+	// Create evaluator, applying the project's visionspec.yaml `rubrics` config
+	// (custom rubric files and pass-criteria policy) over the profile loader.
 	evaluator := eval.NewEvaluator(llmClient)
-	rubricLoader := cfg.RubricLoader
-	if rubricLoader == nil {
-		rubricLoader = rubrics.DefaultLoader()
-	}
-	evaluator.SetRubricLoader(rubricLoader)
+	evaluator.ApplyProjectRubrics(project.Rubrics, projectPath, cfg.RubricLoader)
 
 	ctx := context.Background()
 
@@ -924,7 +921,7 @@ func runEval(cmd *cobra.Command, args []string, cfg *Config) error {
 		}
 
 		// Generate structured evaluation report
-		rubricSet, _ := rubricLoader.Load(specType)
+		rubricSet, _ := evaluator.RubricLoader().Load(specType)
 		var evalReport *rubric.Rubric
 		if rubricSet != nil {
 			evalReport = result.ToEvaluationReport(rubricSet)
@@ -1234,6 +1231,7 @@ func runSynthesize(cmd *cobra.Command, args []string) error {
 	if evalFlag {
 		fmt.Printf("⋯ Evaluating %s...\n", specType)
 		evaluator := eval.NewEvaluator(llmClient)
+		evaluator.ApplyProjectRubrics(project.Rubrics, projectPath, nil)
 		evalResult, err := evaluator.Evaluate(ctx, specType, result.Content)
 		if err != nil {
 			fmt.Printf("✗ Evaluation failed: %v\n", err)
