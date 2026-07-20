@@ -1,73 +1,132 @@
-# Acme Corp IRD Evaluation Rubric
-
-spec_type: ird
-name: "Acme IRD Rubric"
-description: "Infrastructure Requirements Document evaluation with Acme operational standards"
+id: ird-rubric
+name: Acme IRD Rubric
 version: "1.0"
-
+description: Infrastructure Requirements Document evaluation with Acme operational standards
+evaluationType: analytic
+passCriteria:
+    minCategoriesPassing: all_required
+    maxFindingsSeverity:
+        critical: 0
+        high: 0
+        medium: 2
+        low: -1
 categories:
-  - id: architecture_completeness
-    name: "Architecture Completeness"
-    description: "Whether all infrastructure components are documented"
-    weight: 0.20
-    required: true
-    criteria:
-      pass: "Complete infrastructure diagram with all components and connections"
-      partial: "Basic infrastructure documented but gaps exist"
-      fail: "No clear infrastructure architecture"
-
-  - id: security_design
-    name: "Security Design"
-    description: "Coverage of security controls, IAM, encryption, and compliance"
-    weight: 0.20
-    required: true
-    criteria:
-      pass: "Comprehensive security design with IAM, encryption, secrets, and compliance"
-      partial: "Basic security present but incomplete"
-      fail: "No security design"
-
-  - id: availability_dr
-    name: "Availability and DR"
-    description: "Coverage of availability targets, failover, and disaster recovery"
-    weight: 0.15
-    required: true
-    criteria:
-      pass: "Clear SLAs, multi-region strategy, and DR procedures"
-      partial: "Basic availability documented"
-      fail: "No availability or DR planning"
-
-  - id: observability
-    name: "Observability"
-    description: "Coverage of logging, metrics, tracing, and alerting"
-    weight: 0.15
-    required: true
-    criteria:
-      pass: "Complete observability stack with dashboards and alert definitions"
-      partial: "Basic observability present"
-      fail: "No observability planning"
-
-  - id: capacity_cost
-    name: "Capacity and Cost"
-    description: "Capacity planning and cost estimation"
-    weight: 0.15
-    required: false
-    criteria:
-      pass: "Detailed capacity projections with cost breakdown and scaling strategy"
-      partial: "Basic capacity and cost present"
-      fail: "No capacity or cost planning"
-
-  - id: operability
-    name: "Operability"
-    description: "Whether infrastructure can be operated and maintained"
-    weight: 0.15
-    required: true
-    criteria:
-      pass: "Clear IaC approach, CI/CD infrastructure, and runbooks"
-      partial: "Basic operational procedures"
-      fail: "Cannot be operated from this document"
-
-pass_criteria:
-  require_all_pass: false
-  max_critical: 0
-  max_high: 0
-  max_medium: 2
+    - id: architecture_completeness
+      name: Architecture Completeness
+      description: Whether all infrastructure components are documented
+      weight: 0.2
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Complete infrastructure diagram with all components and connections
+            - value: partial
+              label: Partial
+              criteria:
+                - Basic infrastructure documented but gaps exist
+            - value: fail
+              label: Fail
+              criteria:
+                - No clear infrastructure architecture
+    - id: security_design
+      name: Security Design
+      description: Coverage of security controls, IAM, encryption, and compliance
+      weight: 0.2
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Comprehensive security design with IAM, encryption, secrets, and compliance
+            - value: partial
+              label: Partial
+              criteria:
+                - Basic security present but incomplete
+            - value: fail
+              label: Fail
+              criteria:
+                - No security design
+    - id: availability_dr
+      name: Availability and DR
+      description: Coverage of availability targets, failover, and disaster recovery
+      weight: 0.15
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Clear SLAs, multi-region strategy, and DR procedures
+            - value: partial
+              label: Partial
+              criteria:
+                - Basic availability documented
+            - value: fail
+              label: Fail
+              criteria:
+                - No availability or DR planning
+    - id: observability
+      name: Observability
+      description: Coverage of logging, metrics, tracing, and alerting
+      weight: 0.15
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Complete observability stack with dashboards and alert definitions
+            - value: partial
+              label: Partial
+              criteria:
+                - Basic observability present
+            - value: fail
+              label: Fail
+              criteria:
+                - No observability planning
+    - id: capacity_cost
+      name: Capacity and Cost
+      description: Capacity planning and cost estimation
+      weight: 0.15
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Detailed capacity projections with cost breakdown and scaling strategy
+            - value: partial
+              label: Partial
+              criteria:
+                - Basic capacity and cost present
+            - value: fail
+              label: Fail
+              criteria:
+                - No capacity or cost planning
+    - id: operability
+      name: Operability
+      description: Whether infrastructure can be operated and maintained
+      weight: 0.15
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Clear IaC approach, CI/CD infrastructure, and runbooks
+            - value: partial
+              label: Partial
+              criteria:
+                - Basic operational procedures
+            - value: fail
+              label: Fail
+              criteria:
+                - Cannot be operated from this document

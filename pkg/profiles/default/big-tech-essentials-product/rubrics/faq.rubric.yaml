@@ -1,47 +1,92 @@
-name: "FAQ Evaluation (Essentials)"
-description: "Simplified evaluation of FAQ documents. Core criteria only - focuses on assumption challenging and developer questions."
-pass_criteria:
-  min_score: 6.5
-  max_critical: 0
-  max_high: 1
-
+id: faq-rubric
+name: FAQ Evaluation (Essentials)
+version: "1.0"
+description: Simplified evaluation of FAQ documents. Core criteria only - focuses on assumption challenging and developer questions.
+evaluationType: analytic
+passCriteria:
+    minCategoriesPassing: all_required
+    maxFindingsSeverity:
+        critical: 0
+        high: 1
+        medium: 0
+        low: -1
 categories:
-  - id: customer_questions
-    name: "Customer Questions"
-    description: "Quality of customer-facing questions and answers"
-    weight: 0.30
-    required: true
-    criteria:
-      pass: "Addresses real customer concerns with clear, helpful answers"
-      partial: "Questions exist but some answers are weak"
-      fail: "Customer questions missing or superficial"
-
-  - id: internal_questions
-    name: "Internal Questions"
-    description: "Quality of internal stakeholder questions"
-    weight: 0.25
-    required: true
-    criteria:
-      pass: "Addresses key stakeholder concerns with evidence-based answers"
-      partial: "Some internal questions but missing key concerns"
-      fail: "No internal questions addressed"
-
-  - id: developer_questions
-    name: "Developer Questions"
-    description: "Quality of API and developer experience questions (Stripe practice)"
-    weight: 0.20
-    required: false
-    criteria:
-      pass: "Addresses developer concerns about API, integration, and error handling"
-      partial: "Some developer questions but not comprehensive"
-      fail: "No developer questions"
-
-  - id: assumption_challenge
-    name: "Assumption Challenge"
-    description: "Whether the FAQ challenges key assumptions"
-    weight: 0.25
-    required: true
-    criteria:
-      pass: "Questions probe risky assumptions with honest answers"
-      partial: "Some challenging questions but mostly softballs"
-      fail: "No assumption challenging; FAQ is marketing fluff"
+    - id: customer_questions
+      name: Customer Questions
+      description: Quality of customer-facing questions and answers
+      weight: 0.3
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Addresses real customer concerns with clear, helpful answers
+            - value: partial
+              label: Partial
+              criteria:
+                - Questions exist but some answers are weak
+            - value: fail
+              label: Fail
+              criteria:
+                - Customer questions missing or superficial
+    - id: internal_questions
+      name: Internal Questions
+      description: Quality of internal stakeholder questions
+      weight: 0.25
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Addresses key stakeholder concerns with evidence-based answers
+            - value: partial
+              label: Partial
+              criteria:
+                - Some internal questions but missing key concerns
+            - value: fail
+              label: Fail
+              criteria:
+                - No internal questions addressed
+    - id: developer_questions
+      name: Developer Questions
+      description: Quality of API and developer experience questions (Stripe practice)
+      weight: 0.2
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Addresses developer concerns about API, integration, and error handling
+            - value: partial
+              label: Partial
+              criteria:
+                - Some developer questions but not comprehensive
+            - value: fail
+              label: Fail
+              criteria:
+                - No developer questions
+    - id: assumption_challenge
+      name: Assumption Challenge
+      description: Whether the FAQ challenges key assumptions
+      weight: 0.25
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Questions probe risky assumptions with honest answers
+            - value: partial
+              label: Partial
+              criteria:
+                - Some challenging questions but mostly softballs
+            - value: fail
+              label: Fail
+              criteria:
+                - No assumption challenging; FAQ is marketing fluff

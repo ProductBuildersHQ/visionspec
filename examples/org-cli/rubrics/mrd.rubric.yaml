@@ -1,73 +1,132 @@
-# Acme Corp MRD Evaluation Rubric
-
-spec_type: mrd
-name: "Acme MRD Rubric"
-description: "Market Requirements Document evaluation with Acme business requirements"
+id: mrd-rubric
+name: Acme MRD Rubric
 version: "1.0"
-
+description: Market Requirements Document evaluation with Acme business requirements
+evaluationType: analytic
+passCriteria:
+    minCategoriesPassing: all_required
+    maxFindingsSeverity:
+        critical: 0
+        high: 0
+        medium: 2
+        low: -1
 categories:
-  - id: problem_statement
-    name: "Problem Statement"
-    description: "Clarity and relevance of the market problem being addressed"
-    weight: 0.20
-    required: true
-    criteria:
-      pass: "Problem is clearly articulated with quantified impact, timing justification, and cost of inaction"
-      partial: "Problem is stated but lacks depth or supporting evidence"
-      fail: "Problem statement is missing or unclear"
-
-  - id: target_market
-    name: "Target Market"
-    description: "Definition and sizing of target market segments"
-    weight: 0.20
-    required: true
-    criteria:
-      pass: "Clear TAM/SAM/SOM with detailed segment profiles and sizing methodology"
-      partial: "Basic market definition present but incomplete"
-      fail: "Market definition missing or completely inadequate"
-
-  - id: competitive_analysis
-    name: "Competitive Analysis"
-    description: "Understanding of competitive landscape and differentiation"
-    weight: 0.15
-    required: true
-    criteria:
-      pass: "Comprehensive analysis of direct/indirect competitors with clear differentiation strategy"
-      partial: "Basic competitor list but limited analysis"
-      fail: "Competitive analysis missing"
-
-  - id: requirements_clarity
-    name: "Requirements Clarity"
-    description: "Clarity and prioritization of market requirements"
-    weight: 0.20
-    required: true
-    criteria:
-      pass: "Requirements are prioritized (MoSCoW), traceable, and well-rationalized"
-      partial: "Requirements listed but prioritization is weak"
-      fail: "Requirements section is inadequate"
-
-  - id: business_alignment
-    name: "Business Alignment"
-    description: "Alignment with business goals and measurable success metrics"
-    weight: 0.15
-    required: true
-    criteria:
-      pass: "Clear strategic alignment with quantified success metrics and timelines"
-      partial: "Business alignment stated but metrics are weak"
-      fail: "No clear business alignment"
-
-  - id: risk_assessment
-    name: "Risk Assessment"
-    description: "Identification of constraints, assumptions, and risks"
-    weight: 0.10
-    required: false
-    criteria:
-      pass: "Comprehensive risk matrix with impact, probability, and mitigation strategies"
-      partial: "Risks listed but mitigation is incomplete"
-      fail: "Risk assessment missing"
-
-pass_criteria:
-  require_all_pass: false
-  max_critical: 0
-  max_high: 0
-  max_medium: 2
+    - id: problem_statement
+      name: Problem Statement
+      description: Clarity and relevance of the market problem being addressed
+      weight: 0.2
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Problem is clearly articulated with quantified impact, timing justification, and cost of inaction
+            - value: partial
+              label: Partial
+              criteria:
+                - Problem is stated but lacks depth or supporting evidence
+            - value: fail
+              label: Fail
+              criteria:
+                - Problem statement is missing or unclear
+    - id: target_market
+      name: Target Market
+      description: Definition and sizing of target market segments
+      weight: 0.2
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Clear TAM/SAM/SOM with detailed segment profiles and sizing methodology
+            - value: partial
+              label: Partial
+              criteria:
+                - Basic market definition present but incomplete
+            - value: fail
+              label: Fail
+              criteria:
+                - Market definition missing or completely inadequate
+    - id: competitive_analysis
+      name: Competitive Analysis
+      description: Understanding of competitive landscape and differentiation
+      weight: 0.15
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Comprehensive analysis of direct/indirect competitors with clear differentiation strategy
+            - value: partial
+              label: Partial
+              criteria:
+                - Basic competitor list but limited analysis
+            - value: fail
+              label: Fail
+              criteria:
+                - Competitive analysis missing
+    - id: requirements_clarity
+      name: Requirements Clarity
+      description: Clarity and prioritization of market requirements
+      weight: 0.2
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Requirements are prioritized (MoSCoW), traceable, and well-rationalized
+            - value: partial
+              label: Partial
+              criteria:
+                - Requirements listed but prioritization is weak
+            - value: fail
+              label: Fail
+              criteria:
+                - Requirements section is inadequate
+    - id: business_alignment
+      name: Business Alignment
+      description: Alignment with business goals and measurable success metrics
+      weight: 0.15
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Clear strategic alignment with quantified success metrics and timelines
+            - value: partial
+              label: Partial
+              criteria:
+                - Business alignment stated but metrics are weak
+            - value: fail
+              label: Fail
+              criteria:
+                - No clear business alignment
+    - id: risk_assessment
+      name: Risk Assessment
+      description: Identification of constraints, assumptions, and risks
+      weight: 0.1
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Comprehensive risk matrix with impact, probability, and mitigation strategies
+            - value: partial
+              label: Partial
+              criteria:
+                - Risks listed but mitigation is incomplete
+            - value: fail
+              label: Fail
+              criteria:
+                - Risk assessment missing

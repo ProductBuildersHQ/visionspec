@@ -1,67 +1,132 @@
-name: "PRD Evaluation (Essentials)"
-description: "Simplified evaluation of Product Requirements Documents. Core criteria only - focuses on problem, requirements, and API contracts."
-pass_criteria:
-  min_score: 6.5
-  max_critical: 0
-  max_high: 1
-
+id: prd-rubric
+name: PRD Evaluation (Essentials)
+version: "1.0"
+description: Simplified evaluation of Product Requirements Documents. Core criteria only - focuses on problem, requirements, and API contracts.
+evaluationType: analytic
+passCriteria:
+    minCategoriesPassing: all_required
+    maxFindingsSeverity:
+        critical: 0
+        high: 1
+        medium: 0
+        low: -1
 categories:
-  - id: problem_definition
-    name: "Problem Definition"
-    description: "Clarity of the problem statement"
-    weight: 0.20
-    required: true
-    criteria:
-      pass: "Problem is specific and clearly impacts users"
-      partial: "Problem exists but lacks specificity"
-      fail: "No clear problem statement"
-
-  - id: goals_scope
-    name: "Goals and Scope"
-    description: "Clarity of goals and explicit non-goals"
-    weight: 0.15
-    required: true
-    criteria:
-      pass: "Goals are measurable, non-goals explicitly stated"
-      partial: "Goals present but scope unclear"
-      fail: "Goals and scope missing"
-
-  - id: user_stories
-    name: "User Stories"
-    description: "Quality of user stories"
-    weight: 0.20
-    required: true
-    criteria:
-      pass: "Stories follow standard format with acceptance criteria"
-      partial: "Stories exist but some lack acceptance criteria"
-      fail: "User stories missing or inadequate"
-
-  - id: functional_requirements
-    name: "Functional Requirements"
-    description: "Completeness of functional requirements"
-    weight: 0.20
-    required: true
-    criteria:
-      pass: "Requirements are complete and testable"
-      partial: "Requirements exist but some are vague"
-      fail: "Functional requirements missing"
-
-  - id: api_contract
-    name: "API Contract"
-    description: "Whether API interfaces are defined (Stripe practice)"
-    weight: 0.15
-    required: false
-    criteria:
-      pass: "API interfaces clearly defined before implementation details"
-      partial: "Some API description but not comprehensive"
-      fail: "No API contract; implementation-first thinking"
-
-  - id: success_metrics
-    name: "Success Metrics"
-    description: "Definition of measurable success criteria"
-    weight: 0.10
-    required: true
-    criteria:
-      pass: "Clear metrics with baselines and targets"
-      partial: "Some metrics but lacking specificity"
-      fail: "Success metrics missing"
+    - id: problem_definition
+      name: Problem Definition
+      description: Clarity of the problem statement
+      weight: 0.2
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Problem is specific and clearly impacts users
+            - value: partial
+              label: Partial
+              criteria:
+                - Problem exists but lacks specificity
+            - value: fail
+              label: Fail
+              criteria:
+                - No clear problem statement
+    - id: goals_scope
+      name: Goals and Scope
+      description: Clarity of goals and explicit non-goals
+      weight: 0.15
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Goals are measurable, non-goals explicitly stated
+            - value: partial
+              label: Partial
+              criteria:
+                - Goals present but scope unclear
+            - value: fail
+              label: Fail
+              criteria:
+                - Goals and scope missing
+    - id: user_stories
+      name: User Stories
+      description: Quality of user stories
+      weight: 0.2
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Stories follow standard format with acceptance criteria
+            - value: partial
+              label: Partial
+              criteria:
+                - Stories exist but some lack acceptance criteria
+            - value: fail
+              label: Fail
+              criteria:
+                - User stories missing or inadequate
+    - id: functional_requirements
+      name: Functional Requirements
+      description: Completeness of functional requirements
+      weight: 0.2
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Requirements are complete and testable
+            - value: partial
+              label: Partial
+              criteria:
+                - Requirements exist but some are vague
+            - value: fail
+              label: Fail
+              criteria:
+                - Functional requirements missing
+    - id: api_contract
+      name: API Contract
+      description: Whether API interfaces are defined (Stripe practice)
+      weight: 0.15
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - API interfaces clearly defined before implementation details
+            - value: partial
+              label: Partial
+              criteria:
+                - Some API description but not comprehensive
+            - value: fail
+              label: Fail
+              criteria:
+                - No API contract; implementation-first thinking
+    - id: success_metrics
+      name: Success Metrics
+      description: Definition of measurable success criteria
+      weight: 0.1
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Clear metrics with baselines and targets
+            - value: partial
+              label: Partial
+              criteria:
+                - Some metrics but lacking specificity
+            - value: fail
+              label: Fail
+              criteria:
+                - Success metrics missing

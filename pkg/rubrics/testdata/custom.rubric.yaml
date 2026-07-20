@@ -1,21 +1,33 @@
-spec_type: custom
-name: "Custom Test Rubric"
-description: "Test rubric for EmbedFSLoader testing"
+id: custom-rubric
+name: Custom Test Rubric
 version: "1.0"
-
+description: Test rubric for EmbedFSLoader testing
+evaluationType: analytic
+passCriteria:
+    minCategoriesPassing: all_required
+    maxFindingsSeverity:
+        critical: 0
+        high: 1
+        medium: 3
+        low: -1
 categories:
-  - id: test-category
-    name: "Test Category"
-    description: "A test category"
-    weight: 1.0
-    required: true
-    criteria:
-      pass: "Test passes"
-      partial: "Test partial"
-      fail: "Test fails"
-
-pass_criteria:
-  require_all_pass: false
-  max_critical: 0
-  max_high: 1
-  max_medium: 3
+    - id: test-category
+      name: Test Category
+      description: A test category
+      weight: 1
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Test passes
+            - value: partial
+              label: Partial
+              criteria:
+                - Test partial
+            - value: fail
+              label: Fail
+              criteria:
+                - Test fails

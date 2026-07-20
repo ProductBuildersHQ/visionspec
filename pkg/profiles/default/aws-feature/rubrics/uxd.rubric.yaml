@@ -1,83 +1,153 @@
-# AWS Feature UXD Evaluation Rubric
-
-spec_type: uxd
-name: "AWS Feature UXD Rubric"
-description: "User Experience Design evaluation for feature-level implementations"
+id: uxd-rubric
+name: AWS Feature UXD Rubric
 version: "1.0"
-
+description: User Experience Design evaluation for feature-level implementations
+evaluationType: analytic
+passCriteria:
+    minCategoriesPassing: all_required
+    maxFindingsSeverity:
+        critical: 0
+        high: 1
+        medium: 2
+        low: -1
 categories:
-  - id: user_understanding
-    name: "User Understanding"
-    description: "Clear understanding of target users and their needs"
-    weight: 0.20
-    required: true
-    criteria:
-      pass: "Target users identified with key insights from research"
-      partial: "Users mentioned but insights thin"
-      fail: "No user understanding demonstrated"
-
-  - id: user_journey
-    name: "User Journey"
-    description: "Current and future state user journeys"
-    weight: 0.15
-    required: true
-    criteria:
-      pass: "Clear current vs future state with pain points addressed"
-      partial: "Journey described but gaps in reasoning"
-      fail: "No user journey"
-
-  - id: information_architecture
-    name: "Information Architecture"
-    description: "Feature location and navigation"
-    weight: 0.10
-    required: true
-    criteria:
-      pass: "Clear placement in product with navigation flow"
-      partial: "Location mentioned but navigation unclear"
-      fail: "No IA consideration"
-
-  - id: wireframes
-    name: "Wireframes"
-    description: "Visual representations of screens"
-    weight: 0.20
-    required: true
-    criteria:
-      pass: "Wireframes for all key screens with interactions noted"
-      partial: "Some wireframes but incomplete coverage"
-      fail: "No wireframes"
-
-  - id: interaction_design
-    name: "Interaction Design"
-    description: "Interactions, errors, and loading states"
-    weight: 0.15
-    required: true
-    criteria:
-      pass: "All interactions, error states, and loading states defined"
-      partial: "Happy path interactions only"
-      fail: "No interaction design"
-
-  - id: content
-    name: "Content"
-    description: "Copy and microcopy defined"
-    weight: 0.10
-    required: true
-    criteria:
-      pass: "All UI copy defined with voice/tone guidance"
-      partial: "Some copy defined"
-      fail: "No content design"
-
-  - id: accessibility
-    name: "Accessibility"
-    description: "Accessibility considerations"
-    weight: 0.10
-    required: true
-    criteria:
-      pass: "WCAG compliance with specific considerations noted"
-      partial: "Basic accessibility mentioned"
-      fail: "No accessibility consideration"
-
-pass_criteria:
-  require_all_pass: false
-  max_critical: 0
-  max_high: 1
-  max_medium: 2
+    - id: user_understanding
+      name: User Understanding
+      description: Clear understanding of target users and their needs
+      weight: 0.2
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Target users identified with key insights from research
+            - value: partial
+              label: Partial
+              criteria:
+                - Users mentioned but insights thin
+            - value: fail
+              label: Fail
+              criteria:
+                - No user understanding demonstrated
+    - id: user_journey
+      name: User Journey
+      description: Current and future state user journeys
+      weight: 0.15
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Clear current vs future state with pain points addressed
+            - value: partial
+              label: Partial
+              criteria:
+                - Journey described but gaps in reasoning
+            - value: fail
+              label: Fail
+              criteria:
+                - No user journey
+    - id: information_architecture
+      name: Information Architecture
+      description: Feature location and navigation
+      weight: 0.1
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Clear placement in product with navigation flow
+            - value: partial
+              label: Partial
+              criteria:
+                - Location mentioned but navigation unclear
+            - value: fail
+              label: Fail
+              criteria:
+                - No IA consideration
+    - id: wireframes
+      name: Wireframes
+      description: Visual representations of screens
+      weight: 0.2
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Wireframes for all key screens with interactions noted
+            - value: partial
+              label: Partial
+              criteria:
+                - Some wireframes but incomplete coverage
+            - value: fail
+              label: Fail
+              criteria:
+                - No wireframes
+    - id: interaction_design
+      name: Interaction Design
+      description: Interactions, errors, and loading states
+      weight: 0.15
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - All interactions, error states, and loading states defined
+            - value: partial
+              label: Partial
+              criteria:
+                - Happy path interactions only
+            - value: fail
+              label: Fail
+              criteria:
+                - No interaction design
+    - id: content
+      name: Content
+      description: Copy and microcopy defined
+      weight: 0.1
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - All UI copy defined with voice/tone guidance
+            - value: partial
+              label: Partial
+              criteria:
+                - Some copy defined
+            - value: fail
+              label: Fail
+              criteria:
+                - No content design
+    - id: accessibility
+      name: Accessibility
+      description: Accessibility considerations
+      weight: 0.1
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - WCAG compliance with specific considerations noted
+            - value: partial
+              label: Partial
+              criteria:
+                - Basic accessibility mentioned
+            - value: fail
+              label: Fail
+              criteria:
+                - No accessibility consideration

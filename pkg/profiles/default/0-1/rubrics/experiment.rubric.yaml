@@ -1,73 +1,132 @@
-# 0-1 Experiment Evaluation Rubric
-
-spec_type: experiment
-name: "0-1 Experiment Rubric"
-description: "Experiment card evaluation for hypothesis validation"
+id: experiment-rubric
+name: 0-1 Experiment Rubric
 version: "1.0"
-
+description: Experiment card evaluation for hypothesis validation
+evaluationType: analytic
+passCriteria:
+    minCategoriesPassing: all_required
+    maxFindingsSeverity:
+        critical: 0
+        high: 1
+        medium: 2
+        low: -1
 categories:
-  - id: hypothesis_clarity
-    name: "Hypothesis Clarity"
-    description: "Hypothesis is clear, specific, and testable"
-    weight: 0.25
-    required: true
-    criteria:
-      pass: "Clear hypothesis with measurable success criteria"
-      partial: "Hypothesis present but vague or unmeasurable"
-      fail: "No clear hypothesis"
-
-  - id: assumption_focus
-    name: "Assumption Focus"
-    description: "Experiment tests a critical assumption"
-    weight: 0.20
-    required: true
-    criteria:
-      pass: "Tests riskiest or critical path assumption"
-      partial: "Tests an assumption but not the riskiest"
-      fail: "Unclear what assumption is being tested"
-
-  - id: experiment_design
-    name: "Experiment Design"
-    description: "Method is appropriate and executable"
-    weight: 0.20
-    required: true
-    criteria:
-      pass: "Clear method with sample size and timeline"
-      partial: "Method described but missing details"
-      fail: "No clear method"
-
-  - id: success_criteria
-    name: "Success Criteria"
-    description: "Clear pass/fail criteria defined upfront"
-    weight: 0.20
-    required: true
-    criteria:
-      pass: "Specific numeric criteria for pass/fail"
-      partial: "Criteria present but subjective"
-      fail: "No success criteria"
-
-  - id: learning_orientation
-    name: "Learning Orientation"
-    description: "Focused on learning, not just validation"
-    weight: 0.10
-    required: true
-    criteria:
-      pass: "Learning goals defined beyond just pass/fail"
-      partial: "Some learning orientation"
-      fail: "Only focused on proving hypothesis right"
-
-  - id: resource_efficiency
-    name: "Resource Efficiency"
-    description: "Experiment is appropriately scoped"
-    weight: 0.05
-    required: false
-    criteria:
-      pass: "Minimum viable experiment to get signal"
-      partial: "Somewhat over-scoped"
-      fail: "Over-engineered for the question"
-
-pass_criteria:
-  require_all_pass: false
-  max_critical: 0
-  max_high: 1
-  max_medium: 2
+    - id: hypothesis_clarity
+      name: Hypothesis Clarity
+      description: Hypothesis is clear, specific, and testable
+      weight: 0.25
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Clear hypothesis with measurable success criteria
+            - value: partial
+              label: Partial
+              criteria:
+                - Hypothesis present but vague or unmeasurable
+            - value: fail
+              label: Fail
+              criteria:
+                - No clear hypothesis
+    - id: assumption_focus
+      name: Assumption Focus
+      description: Experiment tests a critical assumption
+      weight: 0.2
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Tests riskiest or critical path assumption
+            - value: partial
+              label: Partial
+              criteria:
+                - Tests an assumption but not the riskiest
+            - value: fail
+              label: Fail
+              criteria:
+                - Unclear what assumption is being tested
+    - id: experiment_design
+      name: Experiment Design
+      description: Method is appropriate and executable
+      weight: 0.2
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Clear method with sample size and timeline
+            - value: partial
+              label: Partial
+              criteria:
+                - Method described but missing details
+            - value: fail
+              label: Fail
+              criteria:
+                - No clear method
+    - id: success_criteria
+      name: Success Criteria
+      description: Clear pass/fail criteria defined upfront
+      weight: 0.2
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Specific numeric criteria for pass/fail
+            - value: partial
+              label: Partial
+              criteria:
+                - Criteria present but subjective
+            - value: fail
+              label: Fail
+              criteria:
+                - No success criteria
+    - id: learning_orientation
+      name: Learning Orientation
+      description: Focused on learning, not just validation
+      weight: 0.1
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Learning goals defined beyond just pass/fail
+            - value: partial
+              label: Partial
+              criteria:
+                - Some learning orientation
+            - value: fail
+              label: Fail
+              criteria:
+                - Only focused on proving hypothesis right
+    - id: resource_efficiency
+      name: Resource Efficiency
+      description: Experiment is appropriately scoped
+      weight: 0.05
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Minimum viable experiment to get signal
+            - value: partial
+              label: Partial
+              criteria:
+                - Somewhat over-scoped
+            - value: fail
+              label: Fail
+              criteria:
+                - Over-engineered for the question

@@ -1,91 +1,172 @@
-spec_type: prd
-name: "Enterprise PRD Rubric"
-description: "Comprehensive PRD evaluation for enterprise SaaS products with security and compliance requirements."
+id: prd-rubric
+name: Enterprise PRD Rubric
 version: "1.0"
-
+description: Comprehensive PRD evaluation for enterprise SaaS products with security and compliance requirements.
+evaluationType: analytic
+passCriteria:
+    minCategoriesPassing: all_required
+    maxFindingsSeverity:
+        critical: 0
+        high: 0
+        medium: 2
+        low: -1
 categories:
-  - id: problem-definition
-    name: "Problem Definition"
-    description: "Is the business and user problem clearly defined with supporting data?"
-    weight: 2.0
-    required: true
-    criteria:
-      pass: "Business and user problems clearly stated with metrics and research data"
-      partial: "Problems stated but missing supporting data or metrics"
-      fail: "No clear problem definition or missing business/user perspective"
-
-  - id: requirements-coverage
-    name: "Requirements Coverage"
-    description: "Are functional and non-functional requirements comprehensive?"
-    weight: 2.0
-    required: true
-    criteria:
-      pass: "Complete FR/NFR coverage with priorities, rationale, and dependencies"
-      partial: "Requirements present but missing priorities or dependencies"
-      fail: "Incomplete requirements or missing entire categories"
-
-  - id: user-stories
-    name: "User Stories & Acceptance"
-    description: "Are user stories complete with testable acceptance criteria?"
-    weight: 1.5
-    required: true
-    criteria:
-      pass: "All user stories follow format with specific, testable acceptance criteria"
-      partial: "User stories present but acceptance criteria vague or incomplete"
-      fail: "Missing user stories or no acceptance criteria"
-
-  - id: security-requirements
-    name: "Security Requirements"
-    description: "Are security requirements explicitly defined?"
-    weight: 2.0
-    required: true
-    criteria:
-      pass: "Complete security section covering auth, authz, data protection, and audit"
-      partial: "Security mentioned but missing key areas (auth, data protection, or audit)"
-      fail: "No security requirements or only generic statements"
-
-  - id: platform-requirements
-    name: "Platform & Integration"
-    description: "Are platform requirements and integrations documented?"
-    weight: 1.5
-    required: true
-    criteria:
-      pass: "Web, mobile, and API requirements with version support and integrations documented"
-      partial: "Platform requirements present but incomplete or missing integrations"
-      fail: "No platform requirements or integration documentation"
-
-  - id: scope-definition
-    name: "Scope Definition"
-    description: "Is scope clearly bounded with explicit in/out items?"
-    weight: 1.5
-    required: true
-    criteria:
-      pass: "Clear in-scope, out-of-scope, and future considerations sections"
-      partial: "Scope defined but boundaries unclear or missing explicit exclusions"
-      fail: "No scope definition or scope is unbounded"
-
-  - id: success-metrics
-    name: "Success Metrics"
-    description: "Are measurable success metrics defined?"
-    weight: 1.0
-    required: true
-    criteria:
-      pass: "Specific, measurable metrics with baselines, targets, and measurement methods"
-      partial: "Metrics defined but missing baselines or measurement methods"
-      fail: "No success metrics or only vague goals"
-
-  - id: rollout-plan
-    name: "Rollout Plan"
-    description: "Is there a phased rollout plan with success criteria?"
-    weight: 1.0
-    required: false
-    criteria:
-      pass: "Phased rollout with feature flags, monitoring, and rollback criteria"
-      partial: "Rollout plan present but missing monitoring or rollback criteria"
-      fail: "No rollout plan"
-
-pass_criteria:
-  require_all_pass: false
-  max_critical: 0
-  max_high: 0
-  max_medium: 2
+    - id: problem-definition
+      name: Problem Definition
+      description: Is the business and user problem clearly defined with supporting data?
+      weight: 2
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Business and user problems clearly stated with metrics and research data
+            - value: partial
+              label: Partial
+              criteria:
+                - Problems stated but missing supporting data or metrics
+            - value: fail
+              label: Fail
+              criteria:
+                - No clear problem definition or missing business/user perspective
+    - id: requirements-coverage
+      name: Requirements Coverage
+      description: Are functional and non-functional requirements comprehensive?
+      weight: 2
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Complete FR/NFR coverage with priorities, rationale, and dependencies
+            - value: partial
+              label: Partial
+              criteria:
+                - Requirements present but missing priorities or dependencies
+            - value: fail
+              label: Fail
+              criteria:
+                - Incomplete requirements or missing entire categories
+    - id: user-stories
+      name: User Stories & Acceptance
+      description: Are user stories complete with testable acceptance criteria?
+      weight: 1.5
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - All user stories follow format with specific, testable acceptance criteria
+            - value: partial
+              label: Partial
+              criteria:
+                - User stories present but acceptance criteria vague or incomplete
+            - value: fail
+              label: Fail
+              criteria:
+                - Missing user stories or no acceptance criteria
+    - id: security-requirements
+      name: Security Requirements
+      description: Are security requirements explicitly defined?
+      weight: 2
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Complete security section covering auth, authz, data protection, and audit
+            - value: partial
+              label: Partial
+              criteria:
+                - Security mentioned but missing key areas (auth, data protection, or audit)
+            - value: fail
+              label: Fail
+              criteria:
+                - No security requirements or only generic statements
+    - id: platform-requirements
+      name: Platform & Integration
+      description: Are platform requirements and integrations documented?
+      weight: 1.5
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Web, mobile, and API requirements with version support and integrations documented
+            - value: partial
+              label: Partial
+              criteria:
+                - Platform requirements present but incomplete or missing integrations
+            - value: fail
+              label: Fail
+              criteria:
+                - No platform requirements or integration documentation
+    - id: scope-definition
+      name: Scope Definition
+      description: Is scope clearly bounded with explicit in/out items?
+      weight: 1.5
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Clear in-scope, out-of-scope, and future considerations sections
+            - value: partial
+              label: Partial
+              criteria:
+                - Scope defined but boundaries unclear or missing explicit exclusions
+            - value: fail
+              label: Fail
+              criteria:
+                - No scope definition or scope is unbounded
+    - id: success-metrics
+      name: Success Metrics
+      description: Are measurable success metrics defined?
+      weight: 1
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Specific, measurable metrics with baselines, targets, and measurement methods
+            - value: partial
+              label: Partial
+              criteria:
+                - Metrics defined but missing baselines or measurement methods
+            - value: fail
+              label: Fail
+              criteria:
+                - No success metrics or only vague goals
+    - id: rollout-plan
+      name: Rollout Plan
+      description: Is there a phased rollout plan with success criteria?
+      weight: 1
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Phased rollout with feature flags, monitoring, and rollback criteria
+            - value: partial
+              label: Partial
+              criteria:
+                - Rollout plan present but missing monitoring or rollback criteria
+            - value: fail
+              label: Fail
+              criteria:
+                - No rollout plan

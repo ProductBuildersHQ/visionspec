@@ -1,67 +1,132 @@
-name: "JTBD Job Definition Evaluation"
-description: "Evaluates MRD documents for job clarity, outcome focus, and forces of progress understanding"
-pass_criteria:
-  min_score: 7.0
-  max_critical: 0
-  max_high: 0
-
+id: mrd-rubric
+name: JTBD Job Definition Evaluation
+version: "1.0"
+description: Evaluates MRD documents for job clarity, outcome focus, and forces of progress understanding
+evaluationType: analytic
+passCriteria:
+    minCategoriesPassing: all_required
+    maxFindingsSeverity:
+        critical: 0
+        high: 0
+        medium: 0
+        low: -1
 categories:
-  - id: job_clarity
-    name: "Job Clarity"
-    description: "Whether the job is clearly defined in circumstance-based terms"
-    weight: 0.25
-    required: true
-    criteria:
-      pass: "Job stated in When/I want to/So I can format; circumstance-specific; stable over time"
-      partial: "Job described but circumstance unclear or too broad"
-      fail: "No clear job; describes product features not customer progress"
-
-  - id: job_dimensions
-    name: "Job Dimensions"
-    description: "Whether functional, emotional, and social dimensions are addressed"
-    weight: 0.15
-    required: true
-    criteria:
-      pass: "All three dimensions (functional, emotional, social) clearly articulated"
-      partial: "Functional covered but emotional/social weak"
-      fail: "Only functional dimension; ignores emotional/social drivers"
-
-  - id: struggling_moments
-    name: "Struggling Moments"
-    description: "Whether current struggles and workarounds are identified"
-    weight: 0.20
-    required: true
-    criteria:
-      pass: "Specific struggles identified with evidence; workarounds documented with insights"
-      partial: "Some struggles mentioned but not specific or evidenced"
-      fail: "No struggle analysis; assumes job is unmet without evidence"
-
-  - id: forces_of_progress
-    name: "Forces of Progress"
-    description: "Whether push, pull, anxiety, and habit forces are understood"
-    weight: 0.15
-    required: true
-    criteria:
-      pass: "All four forces clearly articulated with evidence for each"
-      partial: "Some forces covered but not all; analysis feels incomplete"
-      fail: "Forces not analyzed; doesn't understand switching dynamics"
-
-  - id: outcomes_specificity
-    name: "Outcomes Specificity"
-    description: "Whether outcomes are specific and measurable"
-    weight: 0.15
-    required: true
-    criteria:
-      pass: "Outcomes in proper format (direction + metric + object); importance/satisfaction rated"
-      partial: "Outcomes listed but not in measurable format"
-      fail: "No outcomes; focuses on features not outcomes"
-
-  - id: market_by_job
-    name: "Market by Job"
-    description: "Whether market is sized by job rather than demographics"
-    weight: 0.10
-    required: false
-    criteria:
-      pass: "Market sized by job frequency and value; job executors defined by circumstance"
-      partial: "Some job-based sizing but falls back to demographics"
-      fail: "Traditional demographic segmentation; no job-based analysis"
+    - id: job_clarity
+      name: Job Clarity
+      description: Whether the job is clearly defined in circumstance-based terms
+      weight: 0.25
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Job stated in When/I want to/So I can format; circumstance-specific; stable over time
+            - value: partial
+              label: Partial
+              criteria:
+                - Job described but circumstance unclear or too broad
+            - value: fail
+              label: Fail
+              criteria:
+                - No clear job; describes product features not customer progress
+    - id: job_dimensions
+      name: Job Dimensions
+      description: Whether functional, emotional, and social dimensions are addressed
+      weight: 0.15
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - All three dimensions (functional, emotional, social) clearly articulated
+            - value: partial
+              label: Partial
+              criteria:
+                - Functional covered but emotional/social weak
+            - value: fail
+              label: Fail
+              criteria:
+                - Only functional dimension; ignores emotional/social drivers
+    - id: struggling_moments
+      name: Struggling Moments
+      description: Whether current struggles and workarounds are identified
+      weight: 0.2
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Specific struggles identified with evidence; workarounds documented with insights
+            - value: partial
+              label: Partial
+              criteria:
+                - Some struggles mentioned but not specific or evidenced
+            - value: fail
+              label: Fail
+              criteria:
+                - No struggle analysis; assumes job is unmet without evidence
+    - id: forces_of_progress
+      name: Forces of Progress
+      description: Whether push, pull, anxiety, and habit forces are understood
+      weight: 0.15
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - All four forces clearly articulated with evidence for each
+            - value: partial
+              label: Partial
+              criteria:
+                - Some forces covered but not all; analysis feels incomplete
+            - value: fail
+              label: Fail
+              criteria:
+                - Forces not analyzed; doesn't understand switching dynamics
+    - id: outcomes_specificity
+      name: Outcomes Specificity
+      description: Whether outcomes are specific and measurable
+      weight: 0.15
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Outcomes in proper format (direction + metric + object); importance/satisfaction rated
+            - value: partial
+              label: Partial
+              criteria:
+                - Outcomes listed but not in measurable format
+            - value: fail
+              label: Fail
+              criteria:
+                - No outcomes; focuses on features not outcomes
+    - id: market_by_job
+      name: Market by Job
+      description: Whether market is sized by job rather than demographics
+      weight: 0.1
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Market sized by job frequency and value; job executors defined by circumstance
+            - value: partial
+              label: Partial
+              criteria:
+                - Some job-based sizing but falls back to demographics
+            - value: fail
+              label: Fail
+              criteria:
+                - Traditional demographic segmentation; no job-based analysis

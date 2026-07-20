@@ -1,83 +1,152 @@
-# AWS Feature IRD Evaluation Rubric
-
-spec_type: ird
-name: "AWS Feature IRD Rubric"
-description: "Infrastructure Requirements Document evaluation for feature-level implementations"
+id: ird-rubric
+name: AWS Feature IRD Rubric
 version: "1.0"
-
+description: Infrastructure Requirements Document evaluation for feature-level implementations
+evaluationType: analytic
+passCriteria:
+    minCategoriesPassing: all_required
+    maxFindingsSeverity:
+        critical: 0
+        high: 1
+        medium: 2
+        low: -1
 categories:
-  - id: change_scope
-    name: "Change Scope"
-    description: "Clear identification of infrastructure changes"
-    weight: 0.25
-    required: true
-    criteria:
-      pass: "New, modified, and unchanged resources clearly identified"
-      partial: "Some changes listed but incomplete"
-      fail: "Scope of changes unclear"
-
-  - id: trd_alignment
-    name: "TRD Alignment"
-    description: "Infrastructure supports technical requirements"
-    weight: 0.20
-    required: true
-    criteria:
-      pass: "Infrastructure changes directly support TRD architecture"
-      partial: "Some alignment but gaps exist"
-      fail: "Infrastructure doesn't support requirements"
-
-  - id: scaling_impact
-    name: "Scaling Impact"
-    description: "Load impact and scaling considerations"
-    weight: 0.15
-    required: true
-    criteria:
-      pass: "Expected load quantified with scaling approach"
-      partial: "Load mentioned but scaling unclear"
-      fail: "No scaling considerations"
-
-  - id: security
-    name: "Security"
-    description: "Security changes for the feature"
-    weight: 0.15
-    required: true
-    criteria:
-      pass: "Network, access, and data security changes documented"
-      partial: "Some security considerations"
-      fail: "Security not addressed"
-
-  - id: monitoring
-    name: "Monitoring"
-    description: "New metrics and alerts for the feature"
-    weight: 0.10
-    required: true
-    criteria:
-      pass: "New metrics, dashboards, and alerts defined"
-      partial: "Basic monitoring mentioned"
-      fail: "No monitoring changes"
-
-  - id: cost_impact
-    name: "Cost Impact"
-    description: "Cost estimation for changes"
-    weight: 0.10
-    required: false
-    criteria:
-      pass: "Cost impact estimated with optimization notes"
-      partial: "Basic cost estimate"
-      fail: "No cost analysis"
-
-  - id: rollback
-    name: "Rollback Plan"
-    description: "Infrastructure rollback approach"
-    weight: 0.05
-    required: true
-    criteria:
-      pass: "Clear rollback plan for infrastructure changes"
-      partial: "Rollback mentioned"
-      fail: "No rollback plan"
-
-pass_criteria:
-  require_all_pass: false
-  max_critical: 0
-  max_high: 1
-  max_medium: 2
+    - id: change_scope
+      name: Change Scope
+      description: Clear identification of infrastructure changes
+      weight: 0.25
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - New, modified, and unchanged resources clearly identified
+            - value: partial
+              label: Partial
+              criteria:
+                - Some changes listed but incomplete
+            - value: fail
+              label: Fail
+              criteria:
+                - Scope of changes unclear
+    - id: trd_alignment
+      name: TRD Alignment
+      description: Infrastructure supports technical requirements
+      weight: 0.2
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Infrastructure changes directly support TRD architecture
+            - value: partial
+              label: Partial
+              criteria:
+                - Some alignment but gaps exist
+            - value: fail
+              label: Fail
+              criteria:
+                - Infrastructure doesn't support requirements
+    - id: scaling_impact
+      name: Scaling Impact
+      description: Load impact and scaling considerations
+      weight: 0.15
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Expected load quantified with scaling approach
+            - value: partial
+              label: Partial
+              criteria:
+                - Load mentioned but scaling unclear
+            - value: fail
+              label: Fail
+              criteria:
+                - No scaling considerations
+    - id: security
+      name: Security
+      description: Security changes for the feature
+      weight: 0.15
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Network, access, and data security changes documented
+            - value: partial
+              label: Partial
+              criteria:
+                - Some security considerations
+            - value: fail
+              label: Fail
+              criteria:
+                - Security not addressed
+    - id: monitoring
+      name: Monitoring
+      description: New metrics and alerts for the feature
+      weight: 0.1
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - New metrics, dashboards, and alerts defined
+            - value: partial
+              label: Partial
+              criteria:
+                - Basic monitoring mentioned
+            - value: fail
+              label: Fail
+              criteria:
+                - No monitoring changes
+    - id: cost_impact
+      name: Cost Impact
+      description: Cost estimation for changes
+      weight: 0.1
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Cost impact estimated with optimization notes
+            - value: partial
+              label: Partial
+              criteria:
+                - Basic cost estimate
+            - value: fail
+              label: Fail
+              criteria:
+                - No cost analysis
+    - id: rollback
+      name: Rollback Plan
+      description: Infrastructure rollback approach
+      weight: 0.05
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Clear rollback plan for infrastructure changes
+            - value: partial
+              label: Partial
+              criteria:
+                - Rollback mentioned
+            - value: fail
+              label: Fail
+              criteria:
+                - No rollback plan

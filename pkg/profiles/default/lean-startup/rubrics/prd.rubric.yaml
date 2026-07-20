@@ -1,77 +1,153 @@
-name: "Lean Startup MVP Requirements Evaluation"
-description: "Evaluates PRD/MVP documents for validated learning focus, minimal scope, and Build-Measure-Learn readiness"
-pass_criteria:
-  min_score: 7.0
-  max_critical: 0
-  max_high: 0
-
+id: prd-rubric
+name: Lean Startup MVP Requirements Evaluation
+version: "1.0"
+description: Evaluates PRD/MVP documents for validated learning focus, minimal scope, and Build-Measure-Learn readiness
+evaluationType: analytic
+passCriteria:
+    minCategoriesPassing: all_required
+    maxFindingsSeverity:
+        critical: 0
+        high: 0
+        medium: 0
+        low: -1
 categories:
-  - id: mvp_minimalism
-    name: "MVP Minimalism"
-    description: "Whether the scope is truly minimal for learning"
-    weight: 0.20
-    required: true
-    criteria:
-      pass: "Ruthlessly minimal; every feature tied to hypothesis testing; explicit 'what's out' list"
-      partial: "Mostly minimal but some scope creep; 'nice to haves' sneaking in"
-      fail: "Full product disguised as MVP; no learning focus"
-
-  - id: learning_orientation
-    name: "Learning Orientation"
-    description: "Whether requirements are oriented toward validated learning"
-    weight: 0.20
-    required: true
-    criteria:
-      pass: "Each feature explicitly linked to hypothesis testing; clear learning goals"
-      partial: "Some learning goals but features feel product-oriented not learning-oriented"
-      fail: "No learning orientation; traditional feature requirements"
-
-  - id: customer_evidence
-    name: "Customer Evidence"
-    description: "Whether requirements are grounded in customer research"
-    weight: 0.15
-    required: true
-    criteria:
-      pass: "Customer interviews cited; direct quotes included; problem validated"
-      partial: "Some customer input but mostly assumptions"
-      fail: "No customer evidence; building on assumptions"
-
-  - id: experiment_design
-    name: "Experiment Design"
-    description: "Whether Build-Measure-Learn cycle is well designed"
-    weight: 0.15
-    required: true
-    criteria:
-      pass: "Clear build/measure/learn phases with timeline, success criteria, and decision points"
-      partial: "Phases mentioned but criteria vague"
-      fail: "No experiment design; plan is 'build and hope'"
-
-  - id: actionable_metrics
-    name: "Actionable Metrics"
-    description: "Whether success metrics drive decisions"
-    weight: 0.15
-    required: true
-    criteria:
-      pass: "Metrics are actionable with specific targets; vanity metrics identified and avoided"
-      partial: "Some actionable metrics but targets vague"
-      fail: "Vanity metrics only; wouldn't drive pivot/persevere decision"
-
-  - id: time_boxing
-    name: "Time Boxing"
-    description: "Whether the cycle is appropriately time-constrained"
-    weight: 0.10
-    required: true
-    criteria:
-      pass: "Clear time box with rationale; prevents over-building"
-      partial: "Timeline present but no hard constraint"
-      fail: "No time constraint; open-ended development"
-
-  - id: riskiest_assumption
-    name: "Riskiest Assumption"
-    description: "Whether the riskiest assumption is identified and prioritized"
-    weight: 0.05
-    required: true
-    criteria:
-      pass: "Single riskiest assumption identified and being tested first"
-      partial: "Multiple risks identified but not prioritized"
-      fail: "Risk not considered; testing easy assumptions first"
+    - id: mvp_minimalism
+      name: MVP Minimalism
+      description: Whether the scope is truly minimal for learning
+      weight: 0.2
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Ruthlessly minimal; every feature tied to hypothesis testing; explicit 'what's out' list
+            - value: partial
+              label: Partial
+              criteria:
+                - Mostly minimal but some scope creep; 'nice to haves' sneaking in
+            - value: fail
+              label: Fail
+              criteria:
+                - Full product disguised as MVP; no learning focus
+    - id: learning_orientation
+      name: Learning Orientation
+      description: Whether requirements are oriented toward validated learning
+      weight: 0.2
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Each feature explicitly linked to hypothesis testing; clear learning goals
+            - value: partial
+              label: Partial
+              criteria:
+                - Some learning goals but features feel product-oriented not learning-oriented
+            - value: fail
+              label: Fail
+              criteria:
+                - No learning orientation; traditional feature requirements
+    - id: customer_evidence
+      name: Customer Evidence
+      description: Whether requirements are grounded in customer research
+      weight: 0.15
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Customer interviews cited; direct quotes included; problem validated
+            - value: partial
+              label: Partial
+              criteria:
+                - Some customer input but mostly assumptions
+            - value: fail
+              label: Fail
+              criteria:
+                - No customer evidence; building on assumptions
+    - id: experiment_design
+      name: Experiment Design
+      description: Whether Build-Measure-Learn cycle is well designed
+      weight: 0.15
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Clear build/measure/learn phases with timeline, success criteria, and decision points
+            - value: partial
+              label: Partial
+              criteria:
+                - Phases mentioned but criteria vague
+            - value: fail
+              label: Fail
+              criteria:
+                - No experiment design; plan is 'build and hope'
+    - id: actionable_metrics
+      name: Actionable Metrics
+      description: Whether success metrics drive decisions
+      weight: 0.15
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Metrics are actionable with specific targets; vanity metrics identified and avoided
+            - value: partial
+              label: Partial
+              criteria:
+                - Some actionable metrics but targets vague
+            - value: fail
+              label: Fail
+              criteria:
+                - Vanity metrics only; wouldn't drive pivot/persevere decision
+    - id: time_boxing
+      name: Time Boxing
+      description: Whether the cycle is appropriately time-constrained
+      weight: 0.1
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Clear time box with rationale; prevents over-building
+            - value: partial
+              label: Partial
+              criteria:
+                - Timeline present but no hard constraint
+            - value: fail
+              label: Fail
+              criteria:
+                - No time constraint; open-ended development
+    - id: riskiest_assumption
+      name: Riskiest Assumption
+      description: Whether the riskiest assumption is identified and prioritized
+      weight: 0.05
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Single riskiest assumption identified and being tested first
+            - value: partial
+              label: Partial
+              criteria:
+                - Multiple risks identified but not prioritized
+            - value: fail
+              label: Fail
+              criteria:
+                - Risk not considered; testing easy assumptions first

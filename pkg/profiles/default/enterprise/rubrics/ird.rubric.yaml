@@ -1,93 +1,171 @@
-# Enterprise IRD Evaluation Rubric
-
-spec_type: ird
-name: "Enterprise IRD Rubric"
-description: "Infrastructure Requirements Document evaluation for enterprise implementations"
+id: ird-rubric
+name: Enterprise IRD Rubric
 version: "1.0"
-
+description: Infrastructure Requirements Document evaluation for enterprise implementations
+evaluationType: analytic
+passCriteria:
+    minCategoriesPassing: all_required
+    maxFindingsSeverity:
+        critical: 0
+        high: 0
+        medium: 2
+        low: -1
 categories:
-  - id: architecture_completeness
-    name: "Architecture Completeness"
-    description: "Whether infrastructure architecture covers all required components"
-    weight: 0.18
-    required: true
-    criteria:
-      pass: "Complete architecture with compute, storage, networking, and security components"
-      partial: "Basic architecture but missing some components"
-      fail: "Incomplete or unclear architecture"
-
-  - id: trd_alignment
-    name: "TRD Alignment"
-    description: "Whether infrastructure design aligns with technical requirements"
-    weight: 0.15
-    required: true
-    criteria:
-      pass: "Infrastructure fully supports TRD architecture and NFRs"
-      partial: "Some alignment but gaps exist"
-      fail: "Infrastructure does not support technical requirements"
-
-  - id: scalability_design
-    name: "Scalability Design"
-    description: "Whether infrastructure can scale to meet growth requirements"
-    weight: 0.12
-    required: true
-    criteria:
-      pass: "Clear auto-scaling policies with defined thresholds and limits"
-      partial: "Basic scaling capability but unclear triggers"
-      fail: "No scalability considerations"
-
-  - id: security_controls
-    name: "Security Controls"
-    description: "Enterprise security controls and compliance requirements"
-    weight: 0.18
-    required: true
-    criteria:
-      pass: "Comprehensive security with IAM, encryption, network isolation, and compliance mapping"
-      partial: "Basic security but missing enterprise controls"
-      fail: "Security design inadequate"
-
-  - id: availability_design
-    name: "Availability Design"
-    description: "High availability and disaster recovery planning"
-    weight: 0.15
-    required: true
-    criteria:
-      pass: "Multi-AZ/region with defined RTO/RPO, tested DR procedures"
-      partial: "Basic redundancy but incomplete DR planning"
-      fail: "Single point of failure or no DR plan"
-
-  - id: observability
-    name: "Observability"
-    description: "Logging, monitoring, alerting, and tracing coverage"
-    weight: 0.10
-    required: true
-    criteria:
-      pass: "Complete observability stack with dashboards and alert runbooks"
-      partial: "Basic monitoring but gaps in coverage"
-      fail: "Insufficient observability"
-
-  - id: cost_analysis
-    name: "Cost Analysis"
-    description: "Cost estimation and optimization planning"
-    weight: 0.07
-    required: false
-    criteria:
-      pass: "Detailed cost breakdown with optimization opportunities identified"
-      partial: "Basic cost estimate but no optimization plan"
-      fail: "No cost analysis"
-
-  - id: automation
-    name: "Infrastructure as Code"
-    description: "Provisioning automation and repeatability"
-    weight: 0.05
-    required: false
-    criteria:
-      pass: "Full IaC coverage with version control and CI/CD integration"
-      partial: "Partial automation"
-      fail: "Manual provisioning only"
-
-pass_criteria:
-  require_all_pass: false
-  max_critical: 0
-  max_high: 0
-  max_medium: 2
+    - id: architecture_completeness
+      name: Architecture Completeness
+      description: Whether infrastructure architecture covers all required components
+      weight: 0.18
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Complete architecture with compute, storage, networking, and security components
+            - value: partial
+              label: Partial
+              criteria:
+                - Basic architecture but missing some components
+            - value: fail
+              label: Fail
+              criteria:
+                - Incomplete or unclear architecture
+    - id: trd_alignment
+      name: TRD Alignment
+      description: Whether infrastructure design aligns with technical requirements
+      weight: 0.15
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Infrastructure fully supports TRD architecture and NFRs
+            - value: partial
+              label: Partial
+              criteria:
+                - Some alignment but gaps exist
+            - value: fail
+              label: Fail
+              criteria:
+                - Infrastructure does not support technical requirements
+    - id: scalability_design
+      name: Scalability Design
+      description: Whether infrastructure can scale to meet growth requirements
+      weight: 0.12
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Clear auto-scaling policies with defined thresholds and limits
+            - value: partial
+              label: Partial
+              criteria:
+                - Basic scaling capability but unclear triggers
+            - value: fail
+              label: Fail
+              criteria:
+                - No scalability considerations
+    - id: security_controls
+      name: Security Controls
+      description: Enterprise security controls and compliance requirements
+      weight: 0.18
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Comprehensive security with IAM, encryption, network isolation, and compliance mapping
+            - value: partial
+              label: Partial
+              criteria:
+                - Basic security but missing enterprise controls
+            - value: fail
+              label: Fail
+              criteria:
+                - Security design inadequate
+    - id: availability_design
+      name: Availability Design
+      description: High availability and disaster recovery planning
+      weight: 0.15
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Multi-AZ/region with defined RTO/RPO, tested DR procedures
+            - value: partial
+              label: Partial
+              criteria:
+                - Basic redundancy but incomplete DR planning
+            - value: fail
+              label: Fail
+              criteria:
+                - Single point of failure or no DR plan
+    - id: observability
+      name: Observability
+      description: Logging, monitoring, alerting, and tracing coverage
+      weight: 0.1
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Complete observability stack with dashboards and alert runbooks
+            - value: partial
+              label: Partial
+              criteria:
+                - Basic monitoring but gaps in coverage
+            - value: fail
+              label: Fail
+              criteria:
+                - Insufficient observability
+    - id: cost_analysis
+      name: Cost Analysis
+      description: Cost estimation and optimization planning
+      weight: 0.07
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Detailed cost breakdown with optimization opportunities identified
+            - value: partial
+              label: Partial
+              criteria:
+                - Basic cost estimate but no optimization plan
+            - value: fail
+              label: Fail
+              criteria:
+                - No cost analysis
+    - id: automation
+      name: Infrastructure as Code
+      description: Provisioning automation and repeatability
+      weight: 0.05
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Full IaC coverage with version control and CI/CD integration
+            - value: partial
+              label: Partial
+              criteria:
+                - Partial automation
+            - value: fail
+              label: Fail
+              criteria:
+                - Manual provisioning only

@@ -1,83 +1,152 @@
-# Enterprise FAQ Evaluation Rubric
-
-spec_type: faq
-name: "Enterprise FAQ Rubric"
-description: "FAQ evaluation for enterprise product documentation"
+id: faq-rubric
+name: Enterprise FAQ Rubric
 version: "1.0"
-
+description: FAQ evaluation for enterprise product documentation
+evaluationType: analytic
+passCriteria:
+    minCategoriesPassing: all_required
+    maxFindingsSeverity:
+        critical: 0
+        high: 1
+        medium: 2
+        low: -1
 categories:
-  - id: question_coverage
-    name: "Question Coverage"
-    description: "Whether the FAQ anticipates the questions customers will actually ask"
-    weight: 0.20
-    required: true
-    criteria:
-      pass: "Comprehensive coverage of likely questions across all topics"
-      partial: "Basic questions covered but gaps exist"
-      fail: "Inadequate question coverage"
-
-  - id: answer_clarity
-    name: "Answer Clarity"
-    description: "How clearly and directly questions are answered"
-    weight: 0.20
-    required: true
-    criteria:
-      pass: "Direct, clear answers with no ambiguity"
-      partial: "Answers present but could be clearer"
-      fail: "Answers don't address questions"
-
-  - id: customer_language
-    name: "Customer Language"
-    description: "Whether questions and answers use customer language, not internal jargon"
-    weight: 0.15
-    required: true
-    criteria:
-      pass: "Questions phrased as customers would ask, answers in plain language"
-      partial: "Some jargon but generally accessible"
-      fail: "Written for internal audience, not customers"
-
-  - id: pricing_transparency
-    name: "Pricing Transparency"
-    description: "Clarity of pricing and cost-related information"
-    weight: 0.15
-    required: true
-    criteria:
-      pass: "Clear pricing with examples and cost estimation guidance"
-      partial: "Basic pricing present but lacks detail"
-      fail: "No pricing information"
-
-  - id: security_compliance
-    name: "Security and Compliance"
-    description: "Enterprise security and compliance questions addressed"
-    weight: 0.15
-    required: true
-    criteria:
-      pass: "Security certifications, compliance, and data handling clearly addressed"
-      partial: "Basic security info but enterprise concerns not fully addressed"
-      fail: "Security and compliance not addressed"
-
-  - id: getting_started
-    name: "Getting Started Clarity"
-    description: "How well the path to adoption is explained"
-    weight: 0.10
-    required: true
-    criteria:
-      pass: "Clear step-by-step path from interest to success"
-      partial: "Basic getting started info present"
-      fail: "No getting started guidance"
-
-  - id: objection_handling
-    name: "Objection Handling"
-    description: "Whether the FAQ addresses likely concerns and objections"
-    weight: 0.05
-    required: false
-    criteria:
-      pass: "Proactively addresses concerns with honest, confident responses"
-      partial: "Some objections covered"
-      fail: "No objection handling"
-
-pass_criteria:
-  require_all_pass: false
-  max_critical: 0
-  max_high: 1
-  max_medium: 2
+    - id: question_coverage
+      name: Question Coverage
+      description: Whether the FAQ anticipates the questions customers will actually ask
+      weight: 0.2
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Comprehensive coverage of likely questions across all topics
+            - value: partial
+              label: Partial
+              criteria:
+                - Basic questions covered but gaps exist
+            - value: fail
+              label: Fail
+              criteria:
+                - Inadequate question coverage
+    - id: answer_clarity
+      name: Answer Clarity
+      description: How clearly and directly questions are answered
+      weight: 0.2
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Direct, clear answers with no ambiguity
+            - value: partial
+              label: Partial
+              criteria:
+                - Answers present but could be clearer
+            - value: fail
+              label: Fail
+              criteria:
+                - Answers don't address questions
+    - id: customer_language
+      name: Customer Language
+      description: Whether questions and answers use customer language, not internal jargon
+      weight: 0.15
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Questions phrased as customers would ask, answers in plain language
+            - value: partial
+              label: Partial
+              criteria:
+                - Some jargon but generally accessible
+            - value: fail
+              label: Fail
+              criteria:
+                - Written for internal audience, not customers
+    - id: pricing_transparency
+      name: Pricing Transparency
+      description: Clarity of pricing and cost-related information
+      weight: 0.15
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Clear pricing with examples and cost estimation guidance
+            - value: partial
+              label: Partial
+              criteria:
+                - Basic pricing present but lacks detail
+            - value: fail
+              label: Fail
+              criteria:
+                - No pricing information
+    - id: security_compliance
+      name: Security and Compliance
+      description: Enterprise security and compliance questions addressed
+      weight: 0.15
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Security certifications, compliance, and data handling clearly addressed
+            - value: partial
+              label: Partial
+              criteria:
+                - Basic security info but enterprise concerns not fully addressed
+            - value: fail
+              label: Fail
+              criteria:
+                - Security and compliance not addressed
+    - id: getting_started
+      name: Getting Started Clarity
+      description: How well the path to adoption is explained
+      weight: 0.1
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Clear step-by-step path from interest to success
+            - value: partial
+              label: Partial
+              criteria:
+                - Basic getting started info present
+            - value: fail
+              label: Fail
+              criteria:
+                - No getting started guidance
+    - id: objection_handling
+      name: Objection Handling
+      description: Whether the FAQ addresses likely concerns and objections
+      weight: 0.05
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Proactively addresses concerns with honest, confident responses
+            - value: partial
+              label: Partial
+              criteria:
+                - Some objections covered
+            - value: fail
+              label: Fail
+              criteria:
+                - No objection handling

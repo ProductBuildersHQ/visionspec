@@ -1,83 +1,153 @@
-# Big Tech Feature TRD Evaluation Rubric
-
-spec_type: trd
-name: "Big Tech Feature TRD Rubric"
-description: "Technical Requirements Document evaluation for feature-level implementations"
+id: trd-rubric
+name: Big Tech Feature TRD Rubric
 version: "1.0"
-
+description: Technical Requirements Document evaluation for feature-level implementations
+evaluationType: analytic
+passCriteria:
+    minCategoriesPassing: all_required
+    maxFindingsSeverity:
+        critical: 0
+        high: 1
+        medium: 2
+        low: -1
 categories:
-  - id: system_context
-    name: "System Context"
-    description: "How the feature fits into the existing system"
-    weight: 0.20
-    required: true
-    criteria:
-      pass: "Clear context diagram showing integration with existing components"
-      partial: "Context mentioned but integration points unclear"
-      fail: "No system context provided"
-
-  - id: prd_traceability
-    name: "PRD Traceability"
-    description: "Technical design traces back to PRD requirements"
-    weight: 0.15
-    required: true
-    criteria:
-      pass: "Every PRD requirement has corresponding technical approach"
-      partial: "Some traceability but gaps exist"
-      fail: "No traceability to requirements"
-
-  - id: api_changes
-    name: "API Changes"
-    description: "API additions and modifications clearly defined"
-    weight: 0.20
-    required: true
-    criteria:
-      pass: "Complete API spec with backward compatibility assessment"
-      partial: "Basic API changes listed"
-      fail: "No API changes documented"
-
-  - id: data_changes
-    name: "Data Changes"
-    description: "Schema changes and migration approach"
-    weight: 0.15
-    required: true
-    criteria:
-      pass: "Schema changes with migration plan and rollback strategy"
-      partial: "Schema changes listed but migration unclear"
-      fail: "No data design"
-
-  - id: rollout_plan
-    name: "Rollout Plan"
-    description: "Feature flags and phased rollout strategy"
-    weight: 0.15
-    required: true
-    criteria:
-      pass: "Phased rollout with feature flags and rollback plan"
-      partial: "Basic rollout mentioned"
-      fail: "No rollout plan"
-
-  - id: testing_strategy
-    name: "Testing Strategy"
-    description: "Testing approach for the feature"
-    weight: 0.10
-    required: true
-    criteria:
-      pass: "Unit, integration, and E2E testing approach defined"
-      partial: "Some testing mentioned"
-      fail: "No testing strategy"
-
-  - id: implementability
-    name: "Implementability"
-    description: "Whether design is actionable"
-    weight: 0.05
-    required: true
-    criteria:
-      pass: "Engineer can implement from this document"
-      partial: "Needs clarification before implementation"
-      fail: "Cannot implement from this document"
-
-pass_criteria:
-  require_all_pass: false
-  max_critical: 0
-  max_high: 1
-  max_medium: 2
+    - id: system_context
+      name: System Context
+      description: How the feature fits into the existing system
+      weight: 0.2
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Clear context diagram showing integration with existing components
+            - value: partial
+              label: Partial
+              criteria:
+                - Context mentioned but integration points unclear
+            - value: fail
+              label: Fail
+              criteria:
+                - No system context provided
+    - id: prd_traceability
+      name: PRD Traceability
+      description: Technical design traces back to PRD requirements
+      weight: 0.15
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Every PRD requirement has corresponding technical approach
+            - value: partial
+              label: Partial
+              criteria:
+                - Some traceability but gaps exist
+            - value: fail
+              label: Fail
+              criteria:
+                - No traceability to requirements
+    - id: api_changes
+      name: API Changes
+      description: API additions and modifications clearly defined
+      weight: 0.2
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Complete API spec with backward compatibility assessment
+            - value: partial
+              label: Partial
+              criteria:
+                - Basic API changes listed
+            - value: fail
+              label: Fail
+              criteria:
+                - No API changes documented
+    - id: data_changes
+      name: Data Changes
+      description: Schema changes and migration approach
+      weight: 0.15
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Schema changes with migration plan and rollback strategy
+            - value: partial
+              label: Partial
+              criteria:
+                - Schema changes listed but migration unclear
+            - value: fail
+              label: Fail
+              criteria:
+                - No data design
+    - id: rollout_plan
+      name: Rollout Plan
+      description: Feature flags and phased rollout strategy
+      weight: 0.15
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Phased rollout with feature flags and rollback plan
+            - value: partial
+              label: Partial
+              criteria:
+                - Basic rollout mentioned
+            - value: fail
+              label: Fail
+              criteria:
+                - No rollout plan
+    - id: testing_strategy
+      name: Testing Strategy
+      description: Testing approach for the feature
+      weight: 0.1
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Unit, integration, and E2E testing approach defined
+            - value: partial
+              label: Partial
+              criteria:
+                - Some testing mentioned
+            - value: fail
+              label: Fail
+              criteria:
+                - No testing strategy
+    - id: implementability
+      name: Implementability
+      description: Whether design is actionable
+      weight: 0.05
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Engineer can implement from this document
+            - value: partial
+              label: Partial
+              criteria:
+                - Needs clarification before implementation
+            - value: fail
+              label: Fail
+              criteria:
+                - Cannot implement from this document

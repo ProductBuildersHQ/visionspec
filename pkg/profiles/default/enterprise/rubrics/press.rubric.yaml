@@ -1,73 +1,132 @@
-# Enterprise Press Release Evaluation Rubric
-
-spec_type: press
-name: "Enterprise Press Release Rubric"
-description: "Press Release evaluation for enterprise product launches"
+id: press-rubric
+name: Enterprise Press Release Rubric
 version: "1.0"
-
+description: Press Release evaluation for enterprise product launches
+evaluationType: analytic
+passCriteria:
+    minCategoriesPassing: all_required
+    maxFindingsSeverity:
+        critical: 0
+        high: 1
+        medium: 2
+        low: -1
 categories:
-  - id: headline_impact
-    name: "Headline Impact"
-    description: "Whether the headline clearly communicates the primary customer benefit"
-    weight: 0.20
-    required: true
-    criteria:
-      pass: "Compelling headline with clear customer benefit and urgency"
-      partial: "Headline present but benefit unclear"
-      fail: "No clear headline or irrelevant"
-
-  - id: customer_problem
-    name: "Customer Problem"
-    description: "How well the customer problem is articulated with authentic voice"
-    weight: 0.20
-    required: true
-    criteria:
-      pass: "Vivid problem description with authentic customer quotes"
-      partial: "Problem stated but lacks customer voice"
-      fail: "No clear customer problem"
-
-  - id: solution_clarity
-    name: "Solution Clarity"
-    description: "Whether the solution and benefits are clearly explained"
-    weight: 0.20
-    required: true
-    criteria:
-      pass: "Crystal clear solution with concrete, measurable benefits"
-      partial: "Solution described but benefits vague"
-      fail: "No clear solution articulated"
-
-  - id: customer_validation
-    name: "Customer Validation"
-    description: "Quality of customer quotes and validation"
-    weight: 0.15
-    required: true
-    criteria:
-      pass: "Authentic customer quotes with specific success stories"
-      partial: "Generic quotes without specificity"
-      fail: "No customer validation"
-
-  - id: call_to_action
-    name: "Call to Action"
-    description: "Clarity of availability, pricing, and next steps"
-    weight: 0.15
-    required: true
-    criteria:
-      pass: "Clear availability, pricing, and specific action steps"
-      partial: "CTA present but vague"
-      fail: "No call to action"
-
-  - id: readability
-    name: "Readability"
-    description: "Whether the press release is written in plain, accessible language"
-    weight: 0.10
-    required: false
-    criteria:
-      pass: "Clear, jargon-free prose accessible to general audience"
-      partial: "Somewhat technical but understandable"
-      fail: "Incomprehensible to target audience"
-
-pass_criteria:
-  require_all_pass: false
-  max_critical: 0
-  max_high: 1
-  max_medium: 2
+    - id: headline_impact
+      name: Headline Impact
+      description: Whether the headline clearly communicates the primary customer benefit
+      weight: 0.2
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Compelling headline with clear customer benefit and urgency
+            - value: partial
+              label: Partial
+              criteria:
+                - Headline present but benefit unclear
+            - value: fail
+              label: Fail
+              criteria:
+                - No clear headline or irrelevant
+    - id: customer_problem
+      name: Customer Problem
+      description: How well the customer problem is articulated with authentic voice
+      weight: 0.2
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Vivid problem description with authentic customer quotes
+            - value: partial
+              label: Partial
+              criteria:
+                - Problem stated but lacks customer voice
+            - value: fail
+              label: Fail
+              criteria:
+                - No clear customer problem
+    - id: solution_clarity
+      name: Solution Clarity
+      description: Whether the solution and benefits are clearly explained
+      weight: 0.2
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Crystal clear solution with concrete, measurable benefits
+            - value: partial
+              label: Partial
+              criteria:
+                - Solution described but benefits vague
+            - value: fail
+              label: Fail
+              criteria:
+                - No clear solution articulated
+    - id: customer_validation
+      name: Customer Validation
+      description: Quality of customer quotes and validation
+      weight: 0.15
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Authentic customer quotes with specific success stories
+            - value: partial
+              label: Partial
+              criteria:
+                - Generic quotes without specificity
+            - value: fail
+              label: Fail
+              criteria:
+                - No customer validation
+    - id: call_to_action
+      name: Call to Action
+      description: Clarity of availability, pricing, and next steps
+      weight: 0.15
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Clear availability, pricing, and specific action steps
+            - value: partial
+              label: Partial
+              criteria:
+                - CTA present but vague
+            - value: fail
+              label: Fail
+              criteria:
+                - No call to action
+    - id: readability
+      name: Readability
+      description: Whether the press release is written in plain, accessible language
+      weight: 0.1
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Clear, jargon-free prose accessible to general audience
+            - value: partial
+              label: Partial
+              criteria:
+                - Somewhat technical but understandable
+            - value: fail
+              label: Fail
+              criteria:
+                - Incomprehensible to target audience

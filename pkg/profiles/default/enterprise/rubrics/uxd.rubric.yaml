@@ -1,101 +1,192 @@
-spec_type: uxd
-name: "Enterprise UXD Rubric"
-description: "Comprehensive UXD evaluation for enterprise products with WCAG 2.1 AA accessibility requirements."
+id: uxd-rubric
+name: Enterprise UXD Rubric
 version: "1.0"
-
+description: Comprehensive UXD evaluation for enterprise products with WCAG 2.1 AA accessibility requirements.
+evaluationType: analytic
+passCriteria:
+    minCategoriesPassing: all_required
+    maxFindingsSeverity:
+        critical: 0
+        high: 0
+        medium: 2
+        low: -1
 categories:
-  - id: user-research
-    name: "User Research"
-    description: "Is the design grounded in user research?"
-    weight: 1.5
-    required: true
-    criteria:
-      pass: "Research methods documented with key insights driving design decisions"
-      partial: "Research mentioned but insights not clearly connected to design"
-      fail: "No user research documented"
-
-  - id: user-journeys
-    name: "User Journeys"
-    description: "Are user journeys comprehensive and goal-oriented?"
-    weight: 2.0
-    required: true
-    criteria:
-      pass: "Complete journeys with personas, steps, system responses, and success criteria"
-      partial: "Journeys present but missing emotional states or success criteria"
-      fail: "No user journeys or journeys incomplete"
-
-  - id: information-architecture
-    name: "Information Architecture"
-    description: "Is the IA clear and logical?"
-    weight: 1.5
-    required: true
-    criteria:
-      pass: "Clear navigation structure and content hierarchy documented"
-      partial: "IA described but structure unclear or incomplete"
-      fail: "No IA documentation"
-
-  - id: accessibility-perceivable
-    name: "Accessibility: Perceivable"
-    description: "Are WCAG 2.1 AA perceivable requirements addressed?"
-    weight: 2.0
-    required: true
-    criteria:
-      pass: "Text alternatives, color contrast (4.5:1), and adaptable content documented"
-      partial: "Some perceivable requirements addressed but gaps exist"
-      fail: "Perceivable requirements not addressed"
-
-  - id: accessibility-operable
-    name: "Accessibility: Operable"
-    description: "Are WCAG 2.1 AA operable requirements addressed?"
-    weight: 2.0
-    required: true
-    criteria:
-      pass: "Keyboard accessibility, focus management, and timing documented"
-      partial: "Some operable requirements addressed but gaps exist"
-      fail: "Operable requirements not addressed"
-
-  - id: accessibility-understandable
-    name: "Accessibility: Understandable"
-    description: "Are WCAG 2.1 AA understandable requirements addressed?"
-    weight: 1.5
-    required: true
-    criteria:
-      pass: "Language, predictability, and input assistance documented"
-      partial: "Some understandable requirements addressed but gaps exist"
-      fail: "Understandable requirements not addressed"
-
-  - id: responsive-design
-    name: "Responsive Design"
-    description: "Are responsive breakpoints and behaviors documented?"
-    weight: 1.5
-    required: true
-    criteria:
-      pass: "Breakpoints defined with component behavior across all viewports"
-      partial: "Breakpoints defined but component behavior incomplete"
-      fail: "No responsive design documentation"
-
-  - id: error-states
-    name: "Error & Empty States"
-    description: "Are error, loading, and empty states documented?"
-    weight: 1.0
-    required: true
-    criteria:
-      pass: "Error messages, loading states, and empty states with recovery actions"
-      partial: "Some states documented but missing recovery actions"
-      fail: "No state documentation"
-
-  - id: internationalization
-    name: "Internationalization"
-    description: "Are i18n requirements documented?"
-    weight: 1.0
-    required: false
-    criteria:
-      pass: "RTL support, language list, date/time/number formats documented"
-      partial: "i18n mentioned but incomplete requirements"
-      fail: "No i18n documentation"
-
-pass_criteria:
-  require_all_pass: false
-  max_critical: 0
-  max_high: 0
-  max_medium: 2
+    - id: user-research
+      name: User Research
+      description: Is the design grounded in user research?
+      weight: 1.5
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Research methods documented with key insights driving design decisions
+            - value: partial
+              label: Partial
+              criteria:
+                - Research mentioned but insights not clearly connected to design
+            - value: fail
+              label: Fail
+              criteria:
+                - No user research documented
+    - id: user-journeys
+      name: User Journeys
+      description: Are user journeys comprehensive and goal-oriented?
+      weight: 2
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Complete journeys with personas, steps, system responses, and success criteria
+            - value: partial
+              label: Partial
+              criteria:
+                - Journeys present but missing emotional states or success criteria
+            - value: fail
+              label: Fail
+              criteria:
+                - No user journeys or journeys incomplete
+    - id: information-architecture
+      name: Information Architecture
+      description: Is the IA clear and logical?
+      weight: 1.5
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Clear navigation structure and content hierarchy documented
+            - value: partial
+              label: Partial
+              criteria:
+                - IA described but structure unclear or incomplete
+            - value: fail
+              label: Fail
+              criteria:
+                - No IA documentation
+    - id: accessibility-perceivable
+      name: 'Accessibility: Perceivable'
+      description: Are WCAG 2.1 AA perceivable requirements addressed?
+      weight: 2
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Text alternatives, color contrast (4.5:1), and adaptable content documented
+            - value: partial
+              label: Partial
+              criteria:
+                - Some perceivable requirements addressed but gaps exist
+            - value: fail
+              label: Fail
+              criteria:
+                - Perceivable requirements not addressed
+    - id: accessibility-operable
+      name: 'Accessibility: Operable'
+      description: Are WCAG 2.1 AA operable requirements addressed?
+      weight: 2
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Keyboard accessibility, focus management, and timing documented
+            - value: partial
+              label: Partial
+              criteria:
+                - Some operable requirements addressed but gaps exist
+            - value: fail
+              label: Fail
+              criteria:
+                - Operable requirements not addressed
+    - id: accessibility-understandable
+      name: 'Accessibility: Understandable'
+      description: Are WCAG 2.1 AA understandable requirements addressed?
+      weight: 1.5
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Language, predictability, and input assistance documented
+            - value: partial
+              label: Partial
+              criteria:
+                - Some understandable requirements addressed but gaps exist
+            - value: fail
+              label: Fail
+              criteria:
+                - Understandable requirements not addressed
+    - id: responsive-design
+      name: Responsive Design
+      description: Are responsive breakpoints and behaviors documented?
+      weight: 1.5
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Breakpoints defined with component behavior across all viewports
+            - value: partial
+              label: Partial
+              criteria:
+                - Breakpoints defined but component behavior incomplete
+            - value: fail
+              label: Fail
+              criteria:
+                - No responsive design documentation
+    - id: error-states
+      name: Error & Empty States
+      description: Are error, loading, and empty states documented?
+      weight: 1
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Error messages, loading states, and empty states with recovery actions
+            - value: partial
+              label: Partial
+              criteria:
+                - Some states documented but missing recovery actions
+            - value: fail
+              label: Fail
+              criteria:
+                - No state documentation
+    - id: internationalization
+      name: Internationalization
+      description: Are i18n requirements documented?
+      weight: 1
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - RTL support, language list, date/time/number formats documented
+            - value: partial
+              label: Partial
+              criteria:
+                - i18n mentioned but incomplete requirements
+            - value: fail
+              label: Fail
+              criteria:
+                - No i18n documentation

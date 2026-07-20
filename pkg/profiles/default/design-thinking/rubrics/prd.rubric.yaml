@@ -1,77 +1,152 @@
-name: "Design Thinking PRD Evaluation"
-description: "Evaluates PRD documents for human-centeredness, prototype focus, and iteration readiness"
-pass_criteria:
-  min_score: 7.0
-  max_critical: 0
-  max_high: 0
-
+id: prd-rubric
+name: Design Thinking PRD Evaluation
+version: "1.0"
+description: Evaluates PRD documents for human-centeredness, prototype focus, and iteration readiness
+evaluationType: analytic
+passCriteria:
+    minCategoriesPassing: all_required
+    maxFindingsSeverity:
+        critical: 0
+        high: 0
+        medium: 0
+        low: -1
 categories:
-  - id: empathy_connection
-    name: "Empathy Connection"
-    description: "Whether requirements trace back to user research"
-    weight: 0.20
-    required: true
-    criteria:
-      pass: "Every feature explicitly connected to empathy insights; user quotes referenced"
-      partial: "Some connection to user needs but feels post-hoc"
-      fail: "Requirements not grounded in user research"
-
-  - id: hmw_alignment
-    name: "HMW Alignment"
-    description: "Whether solution addresses the How Might We questions"
-    weight: 0.15
-    required: true
-    criteria:
-      pass: "Solution clearly responds to HMW questions from UXD; design challenge framed well"
-      partial: "HMW referenced but solution doesn't fully address it"
-      fail: "No connection to HMW; solution searching for problem"
-
-  - id: ideation_rigor
-    name: "Ideation Rigor"
-    description: "Whether solution emerged from proper ideation process"
-    weight: 0.15
-    required: true
-    criteria:
-      pass: "Multiple ideas generated; selection criteria clear; chosen direction justified"
-      partial: "Some ideation documented but feels like first idea was chosen"
-      fail: "No ideation process; solution predetermined"
-
-  - id: prototype_strategy
-    name: "Prototype Strategy"
-    description: "Whether prototyping is purposeful and appropriately scoped"
-    weight: 0.20
-    required: true
-    criteria:
-      pass: "Clear prototype plan with specific test objectives; fidelity appropriate to questions"
-      partial: "Prototype mentioned but purpose unclear"
-      fail: "No prototyping plan; jumping straight to full build"
-
-  - id: test_plan
-    name: "Test Plan"
-    description: "Whether testing with users is well-designed"
-    weight: 0.15
-    required: true
-    criteria:
-      pass: "Clear test protocol with participant criteria, tasks, and success indicators"
-      partial: "Testing mentioned but not well-designed"
-      fail: "No test plan; would launch without user validation"
-
-  - id: iteration_mindset
-    name: "Iteration Mindset"
-    description: "Whether the document embraces iteration vs perfection"
-    weight: 0.10
-    required: true
-    criteria:
-      pass: "Explicit pivot triggers; feedback synthesis planned; multiple cycles expected"
-      partial: "Some iteration language but feels like one-shot planning"
-      fail: "Waterfall mindset; no iteration planned"
-
-  - id: design_principles_alignment
-    name: "Design Principles Alignment"
-    description: "Whether solution honors the design principles from empathy work"
-    weight: 0.05
-    required: false
-    criteria:
-      pass: "Each design principle explicitly addressed in solution"
-      partial: "Principles mentioned but not systematically checked"
-      fail: "Design principles ignored"
+    - id: empathy_connection
+      name: Empathy Connection
+      description: Whether requirements trace back to user research
+      weight: 0.2
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Every feature explicitly connected to empathy insights; user quotes referenced
+            - value: partial
+              label: Partial
+              criteria:
+                - Some connection to user needs but feels post-hoc
+            - value: fail
+              label: Fail
+              criteria:
+                - Requirements not grounded in user research
+    - id: hmw_alignment
+      name: HMW Alignment
+      description: Whether solution addresses the How Might We questions
+      weight: 0.15
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Solution clearly responds to HMW questions from UXD; design challenge framed well
+            - value: partial
+              label: Partial
+              criteria:
+                - HMW referenced but solution doesn't fully address it
+            - value: fail
+              label: Fail
+              criteria:
+                - No connection to HMW; solution searching for problem
+    - id: ideation_rigor
+      name: Ideation Rigor
+      description: Whether solution emerged from proper ideation process
+      weight: 0.15
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Multiple ideas generated; selection criteria clear; chosen direction justified
+            - value: partial
+              label: Partial
+              criteria:
+                - Some ideation documented but feels like first idea was chosen
+            - value: fail
+              label: Fail
+              criteria:
+                - No ideation process; solution predetermined
+    - id: prototype_strategy
+      name: Prototype Strategy
+      description: Whether prototyping is purposeful and appropriately scoped
+      weight: 0.2
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Clear prototype plan with specific test objectives; fidelity appropriate to questions
+            - value: partial
+              label: Partial
+              criteria:
+                - Prototype mentioned but purpose unclear
+            - value: fail
+              label: Fail
+              criteria:
+                - No prototyping plan; jumping straight to full build
+    - id: test_plan
+      name: Test Plan
+      description: Whether testing with users is well-designed
+      weight: 0.15
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Clear test protocol with participant criteria, tasks, and success indicators
+            - value: partial
+              label: Partial
+              criteria:
+                - Testing mentioned but not well-designed
+            - value: fail
+              label: Fail
+              criteria:
+                - No test plan; would launch without user validation
+    - id: iteration_mindset
+      name: Iteration Mindset
+      description: Whether the document embraces iteration vs perfection
+      weight: 0.1
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Explicit pivot triggers; feedback synthesis planned; multiple cycles expected
+            - value: partial
+              label: Partial
+              criteria:
+                - Some iteration language but feels like one-shot planning
+            - value: fail
+              label: Fail
+              criteria:
+                - Waterfall mindset; no iteration planned
+    - id: design_principles_alignment
+      name: Design Principles Alignment
+      description: Whether solution honors the design principles from empathy work
+      weight: 0.05
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Each design principle explicitly addressed in solution
+            - value: partial
+              label: Partial
+              criteria:
+                - Principles mentioned but not systematically checked
+            - value: fail
+              label: Fail
+              criteria:
+                - Design principles ignored

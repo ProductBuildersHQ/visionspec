@@ -1,83 +1,153 @@
-# Google Design Docs TPD Evaluation Rubric
-
-spec_type: tpd
-name: "Google TPD Rubric"
-description: "Test Plan Document evaluation for Google Design Docs methodology"
+id: tpd-rubric
+name: Google TPD Rubric
 version: "1.0"
-
+description: Test Plan Document evaluation for Google Design Docs methodology
+evaluationType: analytic
+passCriteria:
+    minCategoriesPassing: all_required
+    maxFindingsSeverity:
+        critical: 0
+        high: 0
+        medium: 2
+        low: -1
 categories:
-  - id: experiment_validation
-    name: "Experiment Validation"
-    description: "Tests support A/B testing and experiment validation"
-    weight: 0.18
-    required: true
-    criteria:
-      pass: "Test plan includes experiment metrics, statistical significance, and guardrails"
-      partial: "Some experiment support but missing rigor"
-      fail: "No experiment validation approach"
-
-  - id: design_doc_coverage
-    name: "Design Doc Coverage"
-    description: "Tests validate Design Doc technical decisions"
-    weight: 0.15
-    required: true
-    criteria:
-      pass: "All Design Doc decisions have corresponding validation tests"
-      partial: "Major decisions covered but gaps exist"
-      fail: "No mapping to Design Doc"
-
-  - id: alternatives_validation
-    name: "Alternatives Validation"
-    description: "Tests validate chosen approach vs rejected alternatives"
-    weight: 0.12
-    required: true
-    criteria:
-      pass: "Tests demonstrate why chosen approach succeeds where alternatives would fail"
-      partial: "Some comparative testing"
-      fail: "No validation of chosen vs alternative approaches"
-
-  - id: data_driven
-    name: "Data-Driven Testing"
-    description: "Test plan uses data and metrics for decision making"
-    weight: 0.15
-    required: true
-    criteria:
-      pass: "Clear metrics, baselines, and success criteria with statistical rigor"
-      partial: "Some metrics but lacking rigor"
-      fail: "No data-driven approach"
-
-  - id: peer_review_ready
-    name: "Peer Review Readiness"
-    description: "Test plan is ready for peer review"
-    weight: 0.10
-    required: true
-    criteria:
-      pass: "Comprehensive, well-documented, and reviewable"
-      partial: "Mostly complete but needs polish"
-      fail: "Not ready for peer review"
-
-  - id: scale_testing
-    name: "Scale Testing"
-    description: "Tests validate behavior at Google scale"
-    weight: 0.15
-    required: true
-    criteria:
-      pass: "Load, stress, and chaos testing at realistic scale with clear targets"
-      partial: "Some scale testing but insufficient for production"
-      fail: "No scale testing"
-
-  - id: canary_integration
-    name: "Canary and Rollout Testing"
-    description: "Tests support safe canary deployments"
-    weight: 0.15
-    required: true
-    criteria:
-      pass: "Canary testing, progressive rollout validation, and rollback testing"
-      partial: "Basic rollout testing"
-      fail: "No canary/rollout testing"
-
-pass_criteria:
-  require_all_pass: false
-  max_critical: 0
-  max_high: 0
-  max_medium: 2
+    - id: experiment_validation
+      name: Experiment Validation
+      description: Tests support A/B testing and experiment validation
+      weight: 0.18
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Test plan includes experiment metrics, statistical significance, and guardrails
+            - value: partial
+              label: Partial
+              criteria:
+                - Some experiment support but missing rigor
+            - value: fail
+              label: Fail
+              criteria:
+                - No experiment validation approach
+    - id: design_doc_coverage
+      name: Design Doc Coverage
+      description: Tests validate Design Doc technical decisions
+      weight: 0.15
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - All Design Doc decisions have corresponding validation tests
+            - value: partial
+              label: Partial
+              criteria:
+                - Major decisions covered but gaps exist
+            - value: fail
+              label: Fail
+              criteria:
+                - No mapping to Design Doc
+    - id: alternatives_validation
+      name: Alternatives Validation
+      description: Tests validate chosen approach vs rejected alternatives
+      weight: 0.12
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Tests demonstrate why chosen approach succeeds where alternatives would fail
+            - value: partial
+              label: Partial
+              criteria:
+                - Some comparative testing
+            - value: fail
+              label: Fail
+              criteria:
+                - No validation of chosen vs alternative approaches
+    - id: data_driven
+      name: Data-Driven Testing
+      description: Test plan uses data and metrics for decision making
+      weight: 0.15
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Clear metrics, baselines, and success criteria with statistical rigor
+            - value: partial
+              label: Partial
+              criteria:
+                - Some metrics but lacking rigor
+            - value: fail
+              label: Fail
+              criteria:
+                - No data-driven approach
+    - id: peer_review_ready
+      name: Peer Review Readiness
+      description: Test plan is ready for peer review
+      weight: 0.1
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Comprehensive, well-documented, and reviewable
+            - value: partial
+              label: Partial
+              criteria:
+                - Mostly complete but needs polish
+            - value: fail
+              label: Fail
+              criteria:
+                - Not ready for peer review
+    - id: scale_testing
+      name: Scale Testing
+      description: Tests validate behavior at Google scale
+      weight: 0.15
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Load, stress, and chaos testing at realistic scale with clear targets
+            - value: partial
+              label: Partial
+              criteria:
+                - Some scale testing but insufficient for production
+            - value: fail
+              label: Fail
+              criteria:
+                - No scale testing
+    - id: canary_integration
+      name: Canary and Rollout Testing
+      description: Tests support safe canary deployments
+      weight: 0.15
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Canary testing, progressive rollout validation, and rollback testing
+            - value: partial
+              label: Partial
+              criteria:
+                - Basic rollout testing
+            - value: fail
+              label: Fail
+              criteria:
+                - No canary/rollout testing

@@ -1,73 +1,132 @@
-# 0-1 Lean Canvas Evaluation Rubric
-
-spec_type: lean-canvas
-name: "0-1 Lean Canvas Rubric"
-description: "Lean Canvas evaluation for pre-PMF validation"
+id: lean-canvas-rubric
+name: 0-1 Lean Canvas Rubric
 version: "1.0"
-
+description: Lean Canvas evaluation for pre-PMF validation
+evaluationType: analytic
+passCriteria:
+    minCategoriesPassing: all_required
+    maxFindingsSeverity:
+        critical: 0
+        high: 1
+        medium: 2
+        low: -1
 categories:
-  - id: problem_clarity
-    name: "Problem Clarity"
-    description: "Top problems are specific and validated"
-    weight: 0.25
-    required: true
-    criteria:
-      pass: "Problems are specific, painful, and validated with evidence"
-      partial: "Problems listed but vague or unvalidated"
-      fail: "No clear problem definition"
-
-  - id: customer_specificity
-    name: "Customer Specificity"
-    description: "Target customer and early adopters are specific"
-    weight: 0.20
-    required: true
-    criteria:
-      pass: "Specific customer segment with identifiable early adopters"
-      partial: "Customer mentioned but too broad"
-      fail: "No clear target customer"
-
-  - id: value_proposition
-    name: "Value Proposition"
-    description: "Clear, compelling unique value proposition"
-    weight: 0.20
-    required: true
-    criteria:
-      pass: "Clear one-liner that differentiates from alternatives"
-      partial: "Value proposition present but not compelling"
-      fail: "No clear value proposition"
-
-  - id: solution_focus
-    name: "Solution Focus"
-    description: "Solution is minimal and problem-focused"
-    weight: 0.15
-    required: true
-    criteria:
-      pass: "Minimum features directly addressing top problems"
-      partial: "Solution present but scope creep"
-      fail: "Solution doesn't address problems or too complex"
-
-  - id: riskiest_assumption
-    name: "Riskiest Assumption"
-    description: "Riskiest assumption identified with test approach"
-    weight: 0.15
-    required: true
-    criteria:
-      pass: "Riskiest assumption clearly identified with test plan"
-      partial: "Some assumptions listed but priority unclear"
-      fail: "No assumption identification"
-
-  - id: economics
-    name: "Unit Economics"
-    description: "Basic revenue/cost structure considered"
-    weight: 0.05
-    required: false
-    criteria:
-      pass: "Revenue model and cost structure estimated"
-      partial: "Basic economics mentioned"
-      fail: "No economic consideration"
-
-pass_criteria:
-  require_all_pass: false
-  max_critical: 0
-  max_high: 1
-  max_medium: 2
+    - id: problem_clarity
+      name: Problem Clarity
+      description: Top problems are specific and validated
+      weight: 0.25
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Problems are specific, painful, and validated with evidence
+            - value: partial
+              label: Partial
+              criteria:
+                - Problems listed but vague or unvalidated
+            - value: fail
+              label: Fail
+              criteria:
+                - No clear problem definition
+    - id: customer_specificity
+      name: Customer Specificity
+      description: Target customer and early adopters are specific
+      weight: 0.2
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Specific customer segment with identifiable early adopters
+            - value: partial
+              label: Partial
+              criteria:
+                - Customer mentioned but too broad
+            - value: fail
+              label: Fail
+              criteria:
+                - No clear target customer
+    - id: value_proposition
+      name: Value Proposition
+      description: Clear, compelling unique value proposition
+      weight: 0.2
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Clear one-liner that differentiates from alternatives
+            - value: partial
+              label: Partial
+              criteria:
+                - Value proposition present but not compelling
+            - value: fail
+              label: Fail
+              criteria:
+                - No clear value proposition
+    - id: solution_focus
+      name: Solution Focus
+      description: Solution is minimal and problem-focused
+      weight: 0.15
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Minimum features directly addressing top problems
+            - value: partial
+              label: Partial
+              criteria:
+                - Solution present but scope creep
+            - value: fail
+              label: Fail
+              criteria:
+                - Solution doesn't address problems or too complex
+    - id: riskiest_assumption
+      name: Riskiest Assumption
+      description: Riskiest assumption identified with test approach
+      weight: 0.15
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Riskiest assumption clearly identified with test plan
+            - value: partial
+              label: Partial
+              criteria:
+                - Some assumptions listed but priority unclear
+            - value: fail
+              label: Fail
+              criteria:
+                - No assumption identification
+    - id: economics
+      name: Unit Economics
+      description: Basic revenue/cost structure considered
+      weight: 0.05
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Revenue model and cost structure estimated
+            - value: partial
+              label: Partial
+              criteria:
+                - Basic economics mentioned
+            - value: fail
+              label: Fail
+              criteria:
+                - No economic consideration

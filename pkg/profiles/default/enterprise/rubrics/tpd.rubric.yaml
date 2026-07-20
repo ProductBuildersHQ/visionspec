@@ -1,103 +1,192 @@
-# Enterprise TPD Evaluation Rubric
-
-spec_type: tpd
-name: "Enterprise TPD Rubric"
-description: "Test Plan Document evaluation for enterprise implementations"
+id: tpd-rubric
+name: Enterprise TPD Rubric
 version: "1.0"
-
+description: Test Plan Document evaluation for enterprise implementations
+evaluationType: analytic
+passCriteria:
+    minCategoriesPassing: all_required
+    maxFindingsSeverity:
+        critical: 0
+        high: 0
+        medium: 2
+        low: -1
 categories:
-  - id: prd_coverage
-    name: "PRD Coverage"
-    description: "Whether all PRD acceptance criteria have corresponding test cases"
-    weight: 0.18
-    required: true
-    criteria:
-      pass: "Every PRD requirement has mapped test cases with clear traceability"
-      partial: "Most requirements covered but some gaps exist"
-      fail: "No systematic mapping from requirements to tests"
-
-  - id: trd_coverage
-    name: "TRD Coverage"
-    description: "Technical components and APIs have adequate test coverage"
-    weight: 0.15
-    required: true
-    criteria:
-      pass: "All APIs, integrations, and data models have test scenarios"
-      partial: "Major components covered but edge cases missing"
-      fail: "Technical testing inadequate"
-
-  - id: uxd_coverage
-    name: "UXD Coverage"
-    description: "User journeys have corresponding E2E and UAT tests"
-    weight: 0.12
-    required: true
-    criteria:
-      pass: "All critical user journeys have E2E tests and UAT scenarios"
-      partial: "Happy paths covered but alternative flows missing"
-      fail: "No user journey testing defined"
-
-  - id: test_automation
-    name: "Test Automation Strategy"
-    description: "Clear automation strategy with appropriate coverage targets"
-    weight: 0.12
-    required: true
-    criteria:
-      pass: "Comprehensive automation strategy with framework selection and coverage targets"
-      partial: "Basic automation plan but missing details"
-      fail: "No automation strategy"
-
-  - id: nft_coverage
-    name: "Non-Functional Testing"
-    description: "Coverage of performance, security, and reliability testing"
-    weight: 0.15
-    required: true
-    criteria:
-      pass: "Complete NFT plan including performance, security, chaos, and accessibility"
-      partial: "Some NFT coverage but gaps in critical areas"
-      fail: "No non-functional testing defined"
-
-  - id: test_environment
-    name: "Test Environment"
-    description: "Test environment and infrastructure clearly defined"
-    weight: 0.08
-    required: true
-    criteria:
-      pass: "Complete environment specs with setup instructions and parity requirements"
-      partial: "Basic environment defined but missing details"
-      fail: "No test environment defined"
-
-  - id: test_data
-    name: "Test Data Strategy"
-    description: "Test data requirements and management approach"
-    weight: 0.08
-    required: true
-    criteria:
-      pass: "Complete data strategy including generation, anonymization, and cleanup"
-      partial: "Basic data approach but missing privacy or management details"
-      fail: "No test data strategy"
-
-  - id: ci_integration
-    name: "CI/CD Integration"
-    description: "Tests integrated into CI/CD pipeline with appropriate gates"
-    weight: 0.07
-    required: true
-    criteria:
-      pass: "Clear CI/CD integration with test stages and blocking criteria"
-      partial: "Some CI integration but incomplete pipeline coverage"
-      fail: "No CI/CD integration defined"
-
-  - id: sign_off
-    name: "Sign-Off Criteria"
-    description: "Clear exit criteria and sign-off process"
-    weight: 0.05
-    required: false
-    criteria:
-      pass: "Clear sign-off criteria with stakeholder responsibilities"
-      partial: "Some criteria defined but vague"
-      fail: "No sign-off process"
-
-pass_criteria:
-  require_all_pass: false
-  max_critical: 0
-  max_high: 0
-  max_medium: 2
+    - id: prd_coverage
+      name: PRD Coverage
+      description: Whether all PRD acceptance criteria have corresponding test cases
+      weight: 0.18
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Every PRD requirement has mapped test cases with clear traceability
+            - value: partial
+              label: Partial
+              criteria:
+                - Most requirements covered but some gaps exist
+            - value: fail
+              label: Fail
+              criteria:
+                - No systematic mapping from requirements to tests
+    - id: trd_coverage
+      name: TRD Coverage
+      description: Technical components and APIs have adequate test coverage
+      weight: 0.15
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - All APIs, integrations, and data models have test scenarios
+            - value: partial
+              label: Partial
+              criteria:
+                - Major components covered but edge cases missing
+            - value: fail
+              label: Fail
+              criteria:
+                - Technical testing inadequate
+    - id: uxd_coverage
+      name: UXD Coverage
+      description: User journeys have corresponding E2E and UAT tests
+      weight: 0.12
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - All critical user journeys have E2E tests and UAT scenarios
+            - value: partial
+              label: Partial
+              criteria:
+                - Happy paths covered but alternative flows missing
+            - value: fail
+              label: Fail
+              criteria:
+                - No user journey testing defined
+    - id: test_automation
+      name: Test Automation Strategy
+      description: Clear automation strategy with appropriate coverage targets
+      weight: 0.12
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Comprehensive automation strategy with framework selection and coverage targets
+            - value: partial
+              label: Partial
+              criteria:
+                - Basic automation plan but missing details
+            - value: fail
+              label: Fail
+              criteria:
+                - No automation strategy
+    - id: nft_coverage
+      name: Non-Functional Testing
+      description: Coverage of performance, security, and reliability testing
+      weight: 0.15
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Complete NFT plan including performance, security, chaos, and accessibility
+            - value: partial
+              label: Partial
+              criteria:
+                - Some NFT coverage but gaps in critical areas
+            - value: fail
+              label: Fail
+              criteria:
+                - No non-functional testing defined
+    - id: test_environment
+      name: Test Environment
+      description: Test environment and infrastructure clearly defined
+      weight: 0.08
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Complete environment specs with setup instructions and parity requirements
+            - value: partial
+              label: Partial
+              criteria:
+                - Basic environment defined but missing details
+            - value: fail
+              label: Fail
+              criteria:
+                - No test environment defined
+    - id: test_data
+      name: Test Data Strategy
+      description: Test data requirements and management approach
+      weight: 0.08
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Complete data strategy including generation, anonymization, and cleanup
+            - value: partial
+              label: Partial
+              criteria:
+                - Basic data approach but missing privacy or management details
+            - value: fail
+              label: Fail
+              criteria:
+                - No test data strategy
+    - id: ci_integration
+      name: CI/CD Integration
+      description: Tests integrated into CI/CD pipeline with appropriate gates
+      weight: 0.07
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Clear CI/CD integration with test stages and blocking criteria
+            - value: partial
+              label: Partial
+              criteria:
+                - Some CI integration but incomplete pipeline coverage
+            - value: fail
+              label: Fail
+              criteria:
+                - No CI/CD integration defined
+    - id: sign_off
+      name: Sign-Off Criteria
+      description: Clear exit criteria and sign-off process
+      weight: 0.05
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Clear sign-off criteria with stakeholder responsibilities
+            - value: partial
+              label: Partial
+              criteria:
+                - Some criteria defined but vague
+            - value: fail
+              label: Fail
+              criteria:
+                - No sign-off process

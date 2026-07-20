@@ -1,123 +1,233 @@
-# Enterprise MRD Evaluation Rubric
-
-spec_type: mrd
-name: "Enterprise MRD Rubric"
-description: "Market Requirements Document evaluation with embedded Business Model Canvas"
+id: mrd-rubric
+name: Enterprise MRD Rubric
 version: "2.0"
-
+description: Market Requirements Document evaluation with embedded Business Model Canvas
+evaluationType: analytic
+passCriteria:
+    minCategoriesPassing: all_required
+    maxFindingsSeverity:
+        critical: 0
+        high: 1
+        medium: 2
+        low: -1
 categories:
-  - id: problem_statement
-    name: "Problem Statement"
-    description: "Clarity and relevance of the market problem being addressed"
-    weight: 0.12
-    required: true
-    criteria:
-      pass: "Problem is clearly articulated with quantified impact, timing justification, and cost of inaction"
-      partial: "Problem is stated but lacks depth or supporting evidence"
-      fail: "Problem statement is missing or unclear"
-
-  - id: customer_segments
-    name: "Customer Segments (BMC)"
-    description: "Definition of target customer segments with needs and sizing"
-    weight: 0.12
-    required: true
-    criteria:
-      pass: "Segments defined with TAM/SAM/SOM, needs, pain points, and buyer personas"
-      partial: "Basic segments defined but incomplete sizing or needs"
-      fail: "Customer segments not defined"
-
-  - id: value_propositions
-    name: "Value Propositions (BMC)"
-    description: "Clarity of value delivered to each customer segment"
-    weight: 0.12
-    required: true
-    criteria:
-      pass: "Pain relievers and gain creators mapped to specific segments with differentiation"
-      partial: "Value proposition stated but weak connection to customer pains/gains"
-      fail: "No clear value proposition"
-
-  - id: competitive_analysis
-    name: "Competitive Analysis"
-    description: "Understanding of competitive landscape and differentiation"
-    weight: 0.10
-    required: true
-    criteria:
-      pass: "Comprehensive analysis of direct/indirect competitors with clear differentiation strategy"
-      partial: "Basic competitor list but limited analysis"
-      fail: "Competitive analysis missing"
-
-  - id: channels_relationships
-    name: "Channels & Relationships (BMC)"
-    description: "How we reach customers and relationship strategy"
-    weight: 0.08
-    required: true
-    criteria:
-      pass: "All 5 channel phases covered with appropriate relationship types per segment"
-      partial: "Some channels defined but gaps in customer journey"
-      fail: "Channel strategy missing"
-
-  - id: revenue_model
-    name: "Revenue Streams (BMC)"
-    description: "Viability and clarity of revenue model"
-    weight: 0.10
-    required: true
-    criteria:
-      pass: "Revenue types, pricing tiers, and projections clearly defined"
-      partial: "Revenue model stated but pricing unclear"
-      fail: "No revenue model"
-
-  - id: resources_activities
-    name: "Resources & Activities (BMC)"
-    description: "Key resources and activities required"
-    weight: 0.08
-    required: true
-    criteria:
-      pass: "Critical resources and core activities identified with clear rationale"
-      partial: "Some resources/activities listed but incomplete"
-      fail: "Resources and activities not analyzed"
-
-  - id: partnerships_costs
-    name: "Partnerships & Costs (BMC)"
-    description: "Partnership strategy and cost structure"
-    weight: 0.08
-    required: true
-    criteria:
-      pass: "Key partnerships with motivations identified; cost structure analyzed"
-      partial: "Basic partnership/cost info but incomplete"
-      fail: "Partnership and cost analysis missing"
-
-  - id: requirements_clarity
-    name: "Market Requirements"
-    description: "Clarity and prioritization of market requirements"
-    weight: 0.10
-    required: true
-    criteria:
-      pass: "Requirements prioritized (MoSCoW), traceable to segments, and well-rationalized"
-      partial: "Requirements listed but prioritization is weak"
-      fail: "Requirements section is inadequate"
-
-  - id: business_alignment
-    name: "Business Alignment & OKRs"
-    description: "Alignment with business goals and measurable success metrics"
-    weight: 0.06
-    required: true
-    criteria:
-      pass: "Clear OKRs with strategic alignment and quantified success metrics"
-      partial: "Business alignment stated but metrics are weak"
-      fail: "No clear business alignment"
-
-  - id: risk_assessment
-    name: "Risk Assessment"
-    description: "Identification of constraints, assumptions, and risks"
-    weight: 0.04
-    required: true
-    criteria:
-      pass: "Risk matrix with impact, probability, and mitigation; assumptions validated"
-      partial: "Risks listed but mitigation incomplete"
-      fail: "Risk assessment missing"
-
-pass_criteria:
-  require_all_pass: false
-  max_critical: 0
-  max_high: 1
-  max_medium: 2
+    - id: problem_statement
+      name: Problem Statement
+      description: Clarity and relevance of the market problem being addressed
+      weight: 0.12
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Problem is clearly articulated with quantified impact, timing justification, and cost of inaction
+            - value: partial
+              label: Partial
+              criteria:
+                - Problem is stated but lacks depth or supporting evidence
+            - value: fail
+              label: Fail
+              criteria:
+                - Problem statement is missing or unclear
+    - id: customer_segments
+      name: Customer Segments (BMC)
+      description: Definition of target customer segments with needs and sizing
+      weight: 0.12
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Segments defined with TAM/SAM/SOM, needs, pain points, and buyer personas
+            - value: partial
+              label: Partial
+              criteria:
+                - Basic segments defined but incomplete sizing or needs
+            - value: fail
+              label: Fail
+              criteria:
+                - Customer segments not defined
+    - id: value_propositions
+      name: Value Propositions (BMC)
+      description: Clarity of value delivered to each customer segment
+      weight: 0.12
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Pain relievers and gain creators mapped to specific segments with differentiation
+            - value: partial
+              label: Partial
+              criteria:
+                - Value proposition stated but weak connection to customer pains/gains
+            - value: fail
+              label: Fail
+              criteria:
+                - No clear value proposition
+    - id: competitive_analysis
+      name: Competitive Analysis
+      description: Understanding of competitive landscape and differentiation
+      weight: 0.1
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Comprehensive analysis of direct/indirect competitors with clear differentiation strategy
+            - value: partial
+              label: Partial
+              criteria:
+                - Basic competitor list but limited analysis
+            - value: fail
+              label: Fail
+              criteria:
+                - Competitive analysis missing
+    - id: channels_relationships
+      name: Channels & Relationships (BMC)
+      description: How we reach customers and relationship strategy
+      weight: 0.08
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - All 5 channel phases covered with appropriate relationship types per segment
+            - value: partial
+              label: Partial
+              criteria:
+                - Some channels defined but gaps in customer journey
+            - value: fail
+              label: Fail
+              criteria:
+                - Channel strategy missing
+    - id: revenue_model
+      name: Revenue Streams (BMC)
+      description: Viability and clarity of revenue model
+      weight: 0.1
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Revenue types, pricing tiers, and projections clearly defined
+            - value: partial
+              label: Partial
+              criteria:
+                - Revenue model stated but pricing unclear
+            - value: fail
+              label: Fail
+              criteria:
+                - No revenue model
+    - id: resources_activities
+      name: Resources & Activities (BMC)
+      description: Key resources and activities required
+      weight: 0.08
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Critical resources and core activities identified with clear rationale
+            - value: partial
+              label: Partial
+              criteria:
+                - Some resources/activities listed but incomplete
+            - value: fail
+              label: Fail
+              criteria:
+                - Resources and activities not analyzed
+    - id: partnerships_costs
+      name: Partnerships & Costs (BMC)
+      description: Partnership strategy and cost structure
+      weight: 0.08
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Key partnerships with motivations identified; cost structure analyzed
+            - value: partial
+              label: Partial
+              criteria:
+                - Basic partnership/cost info but incomplete
+            - value: fail
+              label: Fail
+              criteria:
+                - Partnership and cost analysis missing
+    - id: requirements_clarity
+      name: Market Requirements
+      description: Clarity and prioritization of market requirements
+      weight: 0.1
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Requirements prioritized (MoSCoW), traceable to segments, and well-rationalized
+            - value: partial
+              label: Partial
+              criteria:
+                - Requirements listed but prioritization is weak
+            - value: fail
+              label: Fail
+              criteria:
+                - Requirements section is inadequate
+    - id: business_alignment
+      name: Business Alignment & OKRs
+      description: Alignment with business goals and measurable success metrics
+      weight: 0.06
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Clear OKRs with strategic alignment and quantified success metrics
+            - value: partial
+              label: Partial
+              criteria:
+                - Business alignment stated but metrics are weak
+            - value: fail
+              label: Fail
+              criteria:
+                - No clear business alignment
+    - id: risk_assessment
+      name: Risk Assessment
+      description: Identification of constraints, assumptions, and risks
+      weight: 0.04
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Risk matrix with impact, probability, and mitigation; assumptions validated
+            - value: partial
+              label: Partial
+              criteria:
+                - Risks listed but mitigation incomplete
+            - value: fail
+              label: Fail
+              criteria:
+                - Risk assessment missing

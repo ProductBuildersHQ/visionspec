@@ -1,87 +1,172 @@
-name: "AWS FAQ Evaluation"
-description: "Evaluates FAQ documents using Amazon Working Backwards methodology with emphasis on vetting and truth-seeking"
-pass_criteria:
-  min_score: 7.0
-  max_critical: 0
-  max_high: 0
-
+id: faq-rubric
+name: AWS FAQ Evaluation
+version: "1.0"
+description: Evaluates FAQ documents using Amazon Working Backwards methodology with emphasis on vetting and truth-seeking
+evaluationType: analytic
+passCriteria:
+    minCategoriesPassing: all_required
+    maxFindingsSeverity:
+        critical: 0
+        high: 0
+        medium: 0
+        low: -1
 categories:
-  - id: working_backwards_fidelity
-    name: "Working Backwards Fidelity"
-    description: "Whether the FAQ genuinely vets the product idea rather than just marketing it"
-    weight: 0.15
-    required: true
-    criteria:
-      pass: "FAQ challenges the Press Release; surfaces real concerns; feels like honest vetting"
-      partial: "Some critical questions but mostly softball questions"
-      fail: "FAQ reads like marketing material; no genuine vetting of the idea"
-
-  - id: question_coverage
-    name: "Question Coverage"
-    description: "Whether the FAQ anticipates the questions customers will actually ask"
-    weight: 0.20
-    required: true
-    criteria:
-      pass: "Comprehensive coverage including tough questions customers and stakeholders will ask"
-      partial: "Basic questions covered but gaps in difficult areas"
-      fail: "Inadequate question coverage; avoids hard questions"
-
-  - id: answer_clarity
-    name: "Answer Clarity"
-    description: "How clearly and directly questions are answered"
-    weight: 0.15
-    required: true
-    criteria:
-      pass: "Direct, clear answers with no evasion; honest about limitations"
-      partial: "Answers present but could be clearer or more direct"
-      fail: "Answers don't address questions or are evasive"
-
-  - id: self_critical_honesty
-    name: "Self-Critical Honesty"
-    description: "Whether the document is vocally self-critical about limitations and risks"
-    weight: 0.15
-    required: true
-    criteria:
-      pass: "Honest about what the product can't do; acknowledges risks and limitations; earns trust"
-      partial: "Some limitations mentioned but feels defensive"
-      fail: "No acknowledgment of limitations; feels like sales pitch"
-
-  - id: objection_handling
-    name: "Objection Handling"
-    description: "Whether the FAQ addresses likely concerns with honest, substantive responses"
-    weight: 0.15
-    required: true
-    criteria:
-      pass: "Proactively addresses concerns with honest, confident responses; disagree-and-commit spirit"
-      partial: "Some objections covered but responses feel defensive"
-      fail: "No objection handling or dismissive of concerns"
-
-  - id: customer_language
-    name: "Customer Language"
-    description: "Whether questions and answers use customer language, not internal jargon"
-    weight: 0.10
-    required: true
-    criteria:
-      pass: "Questions phrased as customers would ask; answers in plain language"
-      partial: "Some jargon but generally accessible"
-      fail: "Written for internal audience, not customers"
-
-  - id: pricing_transparency
-    name: "Pricing Transparency"
-    description: "Clarity of pricing and cost-related information"
-    weight: 0.05
-    required: false
-    criteria:
-      pass: "Clear pricing with examples and cost estimation guidance"
-      partial: "Basic pricing present but lacks detail"
-      fail: "No pricing information or deliberately vague"
-
-  - id: getting_started
-    name: "Getting Started Clarity"
-    description: "How well the path to adoption is explained"
-    weight: 0.05
-    required: true
-    criteria:
-      pass: "Clear step-by-step path from interest to success; bias for action"
-      partial: "Basic getting started info present"
-      fail: "No getting started guidance"
+    - id: working_backwards_fidelity
+      name: Working Backwards Fidelity
+      description: Whether the FAQ genuinely vets the product idea rather than just marketing it
+      weight: 0.15
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - FAQ challenges the Press Release; surfaces real concerns; feels like honest vetting
+            - value: partial
+              label: Partial
+              criteria:
+                - Some critical questions but mostly softball questions
+            - value: fail
+              label: Fail
+              criteria:
+                - FAQ reads like marketing material; no genuine vetting of the idea
+    - id: question_coverage
+      name: Question Coverage
+      description: Whether the FAQ anticipates the questions customers will actually ask
+      weight: 0.2
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Comprehensive coverage including tough questions customers and stakeholders will ask
+            - value: partial
+              label: Partial
+              criteria:
+                - Basic questions covered but gaps in difficult areas
+            - value: fail
+              label: Fail
+              criteria:
+                - Inadequate question coverage; avoids hard questions
+    - id: answer_clarity
+      name: Answer Clarity
+      description: How clearly and directly questions are answered
+      weight: 0.15
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Direct, clear answers with no evasion; honest about limitations
+            - value: partial
+              label: Partial
+              criteria:
+                - Answers present but could be clearer or more direct
+            - value: fail
+              label: Fail
+              criteria:
+                - Answers don't address questions or are evasive
+    - id: self_critical_honesty
+      name: Self-Critical Honesty
+      description: Whether the document is vocally self-critical about limitations and risks
+      weight: 0.15
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Honest about what the product can't do; acknowledges risks and limitations; earns trust
+            - value: partial
+              label: Partial
+              criteria:
+                - Some limitations mentioned but feels defensive
+            - value: fail
+              label: Fail
+              criteria:
+                - No acknowledgment of limitations; feels like sales pitch
+    - id: objection_handling
+      name: Objection Handling
+      description: Whether the FAQ addresses likely concerns with honest, substantive responses
+      weight: 0.15
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Proactively addresses concerns with honest, confident responses; disagree-and-commit spirit
+            - value: partial
+              label: Partial
+              criteria:
+                - Some objections covered but responses feel defensive
+            - value: fail
+              label: Fail
+              criteria:
+                - No objection handling or dismissive of concerns
+    - id: customer_language
+      name: Customer Language
+      description: Whether questions and answers use customer language, not internal jargon
+      weight: 0.1
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Questions phrased as customers would ask; answers in plain language
+            - value: partial
+              label: Partial
+              criteria:
+                - Some jargon but generally accessible
+            - value: fail
+              label: Fail
+              criteria:
+                - Written for internal audience, not customers
+    - id: pricing_transparency
+      name: Pricing Transparency
+      description: Clarity of pricing and cost-related information
+      weight: 0.05
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Clear pricing with examples and cost estimation guidance
+            - value: partial
+              label: Partial
+              criteria:
+                - Basic pricing present but lacks detail
+            - value: fail
+              label: Fail
+              criteria:
+                - No pricing information or deliberately vague
+    - id: getting_started
+      name: Getting Started Clarity
+      description: How well the path to adoption is explained
+      weight: 0.05
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Clear step-by-step path from interest to success; bias for action
+            - value: partial
+              label: Partial
+              criteria:
+                - Basic getting started info present
+            - value: fail
+              label: Fail
+              criteria:
+                - No getting started guidance

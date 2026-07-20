@@ -1,77 +1,151 @@
-name: "Stripe API Specification Evaluation"
-description: "Evaluates API specifications for contract clarity, consistency, and developer usability"
-pass_criteria:
-  min_score: 7.0
-  max_critical: 0
-  max_high: 0
-
+id: trd-rubric
+name: Stripe API Specification Evaluation
+version: "1.0"
+description: Evaluates API specifications for contract clarity, consistency, and developer usability
+evaluationType: analytic
+passCriteria:
+    minCategoriesPassing: all_required
+    maxFindingsSeverity:
+        critical: 0
+        high: 0
+        medium: 0
+        low: -1
 categories:
-  - id: contract_clarity
-    name: "Contract Clarity"
-    description: "Whether API contracts are precise and unambiguous"
-    weight: 0.25
-    required: true
-    criteria:
-      pass: "Every endpoint has explicit inputs, outputs, and behavior; no ambiguity in types or semantics"
-      partial: "Most endpoints clear but some edge cases undefined"
-      fail: "Contracts are vague; would require guessing to implement"
-
-  - id: consistency
-    name: "API Consistency"
-    description: "Whether patterns are predictable across the API surface"
-    weight: 0.20
-    required: true
-    criteria:
-      pass: "Consistent naming, response formats, error structures, and pagination across all endpoints"
-      partial: "Mostly consistent but some exceptions"
-      fail: "Inconsistent patterns; each endpoint feels different"
-
-  - id: error_documentation
-    name: "Error Documentation"
-    description: "Whether errors are fully documented with remediation"
-    weight: 0.20
-    required: true
-    criteria:
-      pass: "Every error code documented with cause, meaning, and remediation steps"
-      partial: "Errors listed but remediation unclear"
-      fail: "Errors not documented; developers would be guessing"
-
-  - id: resource_modeling
-    name: "Resource Modeling"
-    description: "Whether resources are well-designed with clear relationships"
-    weight: 0.15
-    required: true
-    criteria:
-      pass: "Resources are coherent entities; relationships explicit; CRUD operations appropriate"
-      partial: "Resources defined but relationships unclear"
-      fail: "Poor resource modeling; would be confusing to use"
-
-  - id: versioning_strategy
-    name: "Versioning Strategy"
-    description: "Whether versioning and breaking changes are handled"
-    weight: 0.10
-    required: true
-    criteria:
-      pass: "Clear versioning scheme; breaking change policy defined; migration paths explicit"
-      partial: "Versioning mentioned but policy unclear"
-      fail: "No versioning strategy; breaking changes would surprise developers"
-
-  - id: idempotency_safety
-    name: "Idempotency and Safety"
-    description: "Whether safe retry behavior is documented"
-    weight: 0.05
-    required: false
-    criteria:
-      pass: "Idempotency support documented; safe retry guidance provided"
-      partial: "Some idempotency awareness"
-      fail: "No idempotency consideration"
-
-  - id: rate_limiting
-    name: "Rate Limiting"
-    description: "Whether rate limits are documented with handling guidance"
-    weight: 0.05
-    required: false
-    criteria:
-      pass: "Rate limits explicit; headers documented; retry guidance provided"
-      partial: "Rate limits mentioned but incomplete"
-      fail: "Rate limits not addressed"
+    - id: contract_clarity
+      name: Contract Clarity
+      description: Whether API contracts are precise and unambiguous
+      weight: 0.25
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Every endpoint has explicit inputs, outputs, and behavior; no ambiguity in types or semantics
+            - value: partial
+              label: Partial
+              criteria:
+                - Most endpoints clear but some edge cases undefined
+            - value: fail
+              label: Fail
+              criteria:
+                - Contracts are vague; would require guessing to implement
+    - id: consistency
+      name: API Consistency
+      description: Whether patterns are predictable across the API surface
+      weight: 0.2
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Consistent naming, response formats, error structures, and pagination across all endpoints
+            - value: partial
+              label: Partial
+              criteria:
+                - Mostly consistent but some exceptions
+            - value: fail
+              label: Fail
+              criteria:
+                - Inconsistent patterns; each endpoint feels different
+    - id: error_documentation
+      name: Error Documentation
+      description: Whether errors are fully documented with remediation
+      weight: 0.2
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Every error code documented with cause, meaning, and remediation steps
+            - value: partial
+              label: Partial
+              criteria:
+                - Errors listed but remediation unclear
+            - value: fail
+              label: Fail
+              criteria:
+                - Errors not documented; developers would be guessing
+    - id: resource_modeling
+      name: Resource Modeling
+      description: Whether resources are well-designed with clear relationships
+      weight: 0.15
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Resources are coherent entities; relationships explicit; CRUD operations appropriate
+            - value: partial
+              label: Partial
+              criteria:
+                - Resources defined but relationships unclear
+            - value: fail
+              label: Fail
+              criteria:
+                - Poor resource modeling; would be confusing to use
+    - id: versioning_strategy
+      name: Versioning Strategy
+      description: Whether versioning and breaking changes are handled
+      weight: 0.1
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Clear versioning scheme; breaking change policy defined; migration paths explicit
+            - value: partial
+              label: Partial
+              criteria:
+                - Versioning mentioned but policy unclear
+            - value: fail
+              label: Fail
+              criteria:
+                - No versioning strategy; breaking changes would surprise developers
+    - id: idempotency_safety
+      name: Idempotency and Safety
+      description: Whether safe retry behavior is documented
+      weight: 0.05
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Idempotency support documented; safe retry guidance provided
+            - value: partial
+              label: Partial
+              criteria:
+                - Some idempotency awareness
+            - value: fail
+              label: Fail
+              criteria:
+                - No idempotency consideration
+    - id: rate_limiting
+      name: Rate Limiting
+      description: Whether rate limits are documented with handling guidance
+      weight: 0.05
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Rate limits explicit; headers documented; retry guidance provided
+            - value: partial
+              label: Partial
+              criteria:
+                - Rate limits mentioned but incomplete
+            - value: fail
+              label: Fail
+              criteria:
+                - Rate limits not addressed

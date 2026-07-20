@@ -1,83 +1,153 @@
-# Enterprise Narrative 1-Pager Evaluation Rubric
-
-spec_type: narrative-1p
-name: "Enterprise 1-Pager Rubric"
-description: "Executive summary document evaluation for enterprise stakeholder alignment"
+id: narrative-1p-rubric
+name: Enterprise 1-Pager Rubric
 version: "1.0"
-
+description: Executive summary document evaluation for enterprise stakeholder alignment
+evaluationType: analytic
+passCriteria:
+    minCategoriesPassing: all_required
+    maxFindingsSeverity:
+        critical: 0
+        high: 1
+        medium: 2
+        low: -1
 categories:
-  - id: problem_clarity
-    name: "Problem Clarity"
-    description: "How clearly the customer problem is articulated"
-    weight: 0.20
-    required: true
-    criteria:
-      pass: "Specific, measurable customer problem with clear impact"
-      partial: "Problem stated but vague or generic"
-      fail: "Problem unclear or missing"
-
-  - id: solution_fit
-    name: "Solution Fit"
-    description: "Whether the solution clearly addresses the stated problem"
-    weight: 0.18
-    required: true
-    criteria:
-      pass: "Clear connection between problem and proposed solution"
-      partial: "Some connection but gaps in logic"
-      fail: "Solution does not address the problem"
-
-  - id: metrics_quality
-    name: "Success Metrics"
-    description: "Quality and measurability of success metrics"
-    weight: 0.18
-    required: true
-    criteria:
-      pass: "Specific, measurable metrics with targets and timelines"
-      partial: "Metrics present but not specific or measurable"
-      fail: "No success metrics defined"
-
-  - id: scope_clarity
-    name: "Scope Clarity"
-    description: "Clear definition of what is in and out of scope"
-    weight: 0.15
-    required: true
-    criteria:
-      pass: "Explicit in-scope and out-of-scope with rationale"
-      partial: "Scope defined but boundaries unclear"
-      fail: "Scope not defined"
-
-  - id: risk_awareness
-    name: "Risk Awareness"
-    description: "Identification and mitigation of key risks"
-    weight: 0.12
-    required: true
-    criteria:
-      pass: "Top risks identified with concrete mitigations"
-      partial: "Risks mentioned but mitigations unclear"
-      fail: "No risk analysis"
-
-  - id: resource_planning
-    name: "Resource Planning"
-    description: "Team, budget, and dependency identification"
-    weight: 0.10
-    required: true
-    criteria:
-      pass: "Clear resource requirements with timeline alignment"
-      partial: "Resources mentioned but not specific"
-      fail: "No resource planning"
-
-  - id: conciseness
-    name: "Conciseness"
-    description: "Whether document fits on one page and is scannable"
-    weight: 0.07
-    required: true
-    criteria:
-      pass: "Fits on one page, easy to scan, executive-friendly"
-      partial: "Slightly over one page or hard to scan"
-      fail: "Too long or not scannable"
-
-pass_criteria:
-  require_all_pass: false
-  max_critical: 0
-  max_high: 1
-  max_medium: 2
+    - id: problem_clarity
+      name: Problem Clarity
+      description: How clearly the customer problem is articulated
+      weight: 0.2
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Specific, measurable customer problem with clear impact
+            - value: partial
+              label: Partial
+              criteria:
+                - Problem stated but vague or generic
+            - value: fail
+              label: Fail
+              criteria:
+                - Problem unclear or missing
+    - id: solution_fit
+      name: Solution Fit
+      description: Whether the solution clearly addresses the stated problem
+      weight: 0.18
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Clear connection between problem and proposed solution
+            - value: partial
+              label: Partial
+              criteria:
+                - Some connection but gaps in logic
+            - value: fail
+              label: Fail
+              criteria:
+                - Solution does not address the problem
+    - id: metrics_quality
+      name: Success Metrics
+      description: Quality and measurability of success metrics
+      weight: 0.18
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Specific, measurable metrics with targets and timelines
+            - value: partial
+              label: Partial
+              criteria:
+                - Metrics present but not specific or measurable
+            - value: fail
+              label: Fail
+              criteria:
+                - No success metrics defined
+    - id: scope_clarity
+      name: Scope Clarity
+      description: Clear definition of what is in and out of scope
+      weight: 0.15
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Explicit in-scope and out-of-scope with rationale
+            - value: partial
+              label: Partial
+              criteria:
+                - Scope defined but boundaries unclear
+            - value: fail
+              label: Fail
+              criteria:
+                - Scope not defined
+    - id: risk_awareness
+      name: Risk Awareness
+      description: Identification and mitigation of key risks
+      weight: 0.12
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Top risks identified with concrete mitigations
+            - value: partial
+              label: Partial
+              criteria:
+                - Risks mentioned but mitigations unclear
+            - value: fail
+              label: Fail
+              criteria:
+                - No risk analysis
+    - id: resource_planning
+      name: Resource Planning
+      description: Team, budget, and dependency identification
+      weight: 0.1
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Clear resource requirements with timeline alignment
+            - value: partial
+              label: Partial
+              criteria:
+                - Resources mentioned but not specific
+            - value: fail
+              label: Fail
+              criteria:
+                - No resource planning
+    - id: conciseness
+      name: Conciseness
+      description: Whether document fits on one page and is scannable
+      weight: 0.07
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Fits on one page, easy to scan, executive-friendly
+            - value: partial
+              label: Partial
+              criteria:
+                - Slightly over one page or hard to scan
+            - value: fail
+              label: Fail
+              criteria:
+                - Too long or not scannable

@@ -1,77 +1,151 @@
-name: "Stripe Developer Experience Evaluation"
-description: "Evaluates DX specs for onboarding quality, documentation standards, and developer success"
-pass_criteria:
-  min_score: 7.0
-  max_critical: 0
-  max_high: 0
-
+id: uxd-rubric
+name: Stripe Developer Experience Evaluation
+version: "1.0"
+description: Evaluates DX specs for onboarding quality, documentation standards, and developer success
+evaluationType: analytic
+passCriteria:
+    minCategoriesPassing: all_required
+    maxFindingsSeverity:
+        critical: 0
+        high: 0
+        medium: 0
+        low: -1
 categories:
-  - id: onboarding_journey
-    name: "Onboarding Journey"
-    description: "Whether onboarding is mapped with quality bars"
-    weight: 0.25
-    required: true
-    criteria:
-      pass: "Clear journey from discovery to first call with quality bars at each step; < 15 min target"
-      partial: "Some onboarding thinking but gaps in journey"
-      fail: "No onboarding journey defined"
-
-  - id: documentation_architecture
-    name: "Documentation Architecture"
-    description: "Whether documentation is well-structured"
-    weight: 0.20
-    required: true
-    criteria:
-      pass: "Clear information hierarchy; quickstart, guides, reference, SDKs organized logically"
-      partial: "Some structure but navigation unclear"
-      fail: "Unstructured documentation plan"
-
-  - id: documentation_standards
-    name: "Documentation Standards"
-    description: "Whether documentation quality is specified"
-    weight: 0.20
-    required: true
-    criteria:
-      pass: "Every endpoint has required elements (params, examples, errors); code samples are working and complete"
-      partial: "Some standards but not comprehensive"
-      fail: "No documentation standards"
-
-  - id: sdk_design
-    name: "SDK Design"
-    description: "Whether SDK principles and coverage are defined"
-    weight: 0.15
-    required: true
-    criteria:
-      pass: "SDK principles explicit; language coverage prioritized; feature matrix defined"
-      partial: "SDK mentioned but design unclear"
-      fail: "No SDK design thinking"
-
-  - id: error_experience
-    name: "Error Experience"
-    description: "Whether errors help developers succeed"
-    weight: 0.10
-    required: true
-    criteria:
-      pass: "Error message quality checklist defined; examples of good vs bad errors"
-      partial: "Some error thinking but not systematic"
-      fail: "Errors not considered as DX element"
-
-  - id: interactive_tools
-    name: "Interactive Tools"
-    description: "Whether developer tools are planned"
-    weight: 0.05
-    required: false
-    criteria:
-      pass: "API explorer, webhook tester, request log specified with requirements"
-      partial: "Some tools mentioned"
-      fail: "No interactive tooling planned"
-
-  - id: dx_metrics
-    name: "DX Metrics"
-    description: "Whether developer experience is measurable"
-    weight: 0.05
-    required: false
-    criteria:
-      pass: "Clear metrics for onboarding success; ongoing monitoring defined"
-      partial: "Some metrics but not comprehensive"
-      fail: "No DX metrics"
+    - id: onboarding_journey
+      name: Onboarding Journey
+      description: Whether onboarding is mapped with quality bars
+      weight: 0.25
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Clear journey from discovery to first call with quality bars at each step; < 15 min target
+            - value: partial
+              label: Partial
+              criteria:
+                - Some onboarding thinking but gaps in journey
+            - value: fail
+              label: Fail
+              criteria:
+                - No onboarding journey defined
+    - id: documentation_architecture
+      name: Documentation Architecture
+      description: Whether documentation is well-structured
+      weight: 0.2
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Clear information hierarchy; quickstart, guides, reference, SDKs organized logically
+            - value: partial
+              label: Partial
+              criteria:
+                - Some structure but navigation unclear
+            - value: fail
+              label: Fail
+              criteria:
+                - Unstructured documentation plan
+    - id: documentation_standards
+      name: Documentation Standards
+      description: Whether documentation quality is specified
+      weight: 0.2
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Every endpoint has required elements (params, examples, errors); code samples are working and complete
+            - value: partial
+              label: Partial
+              criteria:
+                - Some standards but not comprehensive
+            - value: fail
+              label: Fail
+              criteria:
+                - No documentation standards
+    - id: sdk_design
+      name: SDK Design
+      description: Whether SDK principles and coverage are defined
+      weight: 0.15
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - SDK principles explicit; language coverage prioritized; feature matrix defined
+            - value: partial
+              label: Partial
+              criteria:
+                - SDK mentioned but design unclear
+            - value: fail
+              label: Fail
+              criteria:
+                - No SDK design thinking
+    - id: error_experience
+      name: Error Experience
+      description: Whether errors help developers succeed
+      weight: 0.1
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Error message quality checklist defined; examples of good vs bad errors
+            - value: partial
+              label: Partial
+              criteria:
+                - Some error thinking but not systematic
+            - value: fail
+              label: Fail
+              criteria:
+                - Errors not considered as DX element
+    - id: interactive_tools
+      name: Interactive Tools
+      description: Whether developer tools are planned
+      weight: 0.05
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - API explorer, webhook tester, request log specified with requirements
+            - value: partial
+              label: Partial
+              criteria:
+                - Some tools mentioned
+            - value: fail
+              label: Fail
+              criteria:
+                - No interactive tooling planned
+    - id: dx_metrics
+      name: DX Metrics
+      description: Whether developer experience is measurable
+      weight: 0.05
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Clear metrics for onboarding success; ongoing monitoring defined
+            - value: partial
+              label: Partial
+              criteria:
+                - Some metrics but not comprehensive
+            - value: fail
+              label: Fail
+              criteria:
+                - No DX metrics

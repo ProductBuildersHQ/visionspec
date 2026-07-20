@@ -1,77 +1,152 @@
-name: "Stripe Platform Strategy Evaluation"
-description: "Evaluates platform/API strategy for market clarity, ecosystem thinking, and business model"
-pass_criteria:
-  min_score: 7.0
-  max_critical: 0
-  max_high: 0
-
+id: mrd-rubric
+name: Stripe Platform Strategy Evaluation
+version: "1.0"
+description: Evaluates platform/API strategy for market clarity, ecosystem thinking, and business model
+evaluationType: analytic
+passCriteria:
+    minCategoriesPassing: all_required
+    maxFindingsSeverity:
+        critical: 0
+        high: 0
+        medium: 0
+        low: -1
 categories:
-  - id: developer_market
-    name: "Developer Market Definition"
-    description: "Whether the developer market is clearly defined and sized"
-    weight: 0.20
-    required: true
-    criteria:
-      pass: "Clear TAM/SAM/SOM for developer audience; segments defined with needs and value"
-      partial: "Market mentioned but not quantified or segmented"
-      fail: "No market definition; unclear who would use this"
-
-  - id: competitive_position
-    name: "Competitive Position"
-    description: "Whether competitive landscape is understood"
-    weight: 0.15
-    required: true
-    criteria:
-      pass: "Competitors analyzed with strengths/weaknesses; differentiation clear and defensible"
-      partial: "Competitors mentioned but analysis superficial"
-      fail: "Competition not considered"
-
-  - id: platform_strategy
-    name: "Platform Strategy"
-    description: "Whether platform/ecosystem thinking is present"
-    weight: 0.20
-    required: true
-    criteria:
-      pass: "Clear platform principles; build/buy/partner decisions; ecosystem strategy defined"
-      partial: "Some platform thinking but not systematic"
-      fail: "Thinking of API as feature, not platform"
-
-  - id: business_model
-    name: "Business Model"
-    description: "Whether monetization and unit economics are defined"
-    weight: 0.15
-    required: true
-    criteria:
-      pass: "Clear monetization model; pricing philosophy explicit; unit economics understood"
-      partial: "Monetization mentioned but economics unclear"
-      fail: "No business model thinking"
-
-  - id: go_to_market
-    name: "Go-to-Market"
-    description: "Whether developer GTM is planned"
-    weight: 0.15
-    required: true
-    criteria:
-      pass: "Clear developer acquisition, activation, and success strategy with metrics"
-      partial: "Some GTM thinking but incomplete"
-      fail: "No GTM plan for developers"
-
-  - id: success_metrics
-    name: "Success Metrics"
-    description: "Whether platform success is measurable"
-    weight: 0.10
-    required: true
-    criteria:
-      pass: "North star metric defined; supporting metrics cover acquisition to revenue"
-      partial: "Some metrics but not comprehensive"
-      fail: "No success metrics"
-
-  - id: roadmap_investment
-    name: "Roadmap and Investment"
-    description: "Whether investment is justified with phased approach"
-    weight: 0.05
-    required: false
-    criteria:
-      pass: "Phased roadmap with clear milestones; investment justified by market opportunity"
-      partial: "Some roadmap but investment unclear"
-      fail: "No roadmap or investment justification"
+    - id: developer_market
+      name: Developer Market Definition
+      description: Whether the developer market is clearly defined and sized
+      weight: 0.2
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Clear TAM/SAM/SOM for developer audience; segments defined with needs and value
+            - value: partial
+              label: Partial
+              criteria:
+                - Market mentioned but not quantified or segmented
+            - value: fail
+              label: Fail
+              criteria:
+                - No market definition; unclear who would use this
+    - id: competitive_position
+      name: Competitive Position
+      description: Whether competitive landscape is understood
+      weight: 0.15
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Competitors analyzed with strengths/weaknesses; differentiation clear and defensible
+            - value: partial
+              label: Partial
+              criteria:
+                - Competitors mentioned but analysis superficial
+            - value: fail
+              label: Fail
+              criteria:
+                - Competition not considered
+    - id: platform_strategy
+      name: Platform Strategy
+      description: Whether platform/ecosystem thinking is present
+      weight: 0.2
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Clear platform principles; build/buy/partner decisions; ecosystem strategy defined
+            - value: partial
+              label: Partial
+              criteria:
+                - Some platform thinking but not systematic
+            - value: fail
+              label: Fail
+              criteria:
+                - Thinking of API as feature, not platform
+    - id: business_model
+      name: Business Model
+      description: Whether monetization and unit economics are defined
+      weight: 0.15
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Clear monetization model; pricing philosophy explicit; unit economics understood
+            - value: partial
+              label: Partial
+              criteria:
+                - Monetization mentioned but economics unclear
+            - value: fail
+              label: Fail
+              criteria:
+                - No business model thinking
+    - id: go_to_market
+      name: Go-to-Market
+      description: Whether developer GTM is planned
+      weight: 0.15
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Clear developer acquisition, activation, and success strategy with metrics
+            - value: partial
+              label: Partial
+              criteria:
+                - Some GTM thinking but incomplete
+            - value: fail
+              label: Fail
+              criteria:
+                - No GTM plan for developers
+    - id: success_metrics
+      name: Success Metrics
+      description: Whether platform success is measurable
+      weight: 0.1
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - North star metric defined; supporting metrics cover acquisition to revenue
+            - value: partial
+              label: Partial
+              criteria:
+                - Some metrics but not comprehensive
+            - value: fail
+              label: Fail
+              criteria:
+                - No success metrics
+    - id: roadmap_investment
+      name: Roadmap and Investment
+      description: Whether investment is justified with phased approach
+      weight: 0.05
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Phased roadmap with clear milestones; investment justified by market opportunity
+            - value: partial
+              label: Partial
+              criteria:
+                - Some roadmap but investment unclear
+            - value: fail
+              label: Fail
+              criteria:
+                - No roadmap or investment justification

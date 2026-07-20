@@ -1,51 +1,92 @@
-spec_type: hypothesis
-name: "Hypothesis Rubric"
-description: "Minimal evaluation for 0-1 hypothesis documents. Focus: Is this testable?"
+id: hypothesis-rubric
+name: Hypothesis Rubric
 version: "1.0"
-
+description: 'Minimal evaluation for 0-1 hypothesis documents. Focus: Is this testable?'
+evaluationType: analytic
+passCriteria:
+    minCategoriesPassing: all_required
+    maxFindingsSeverity:
+        critical: 0
+        high: 1
+        medium: 2
+        low: -1
 categories:
-  - id: specificity
-    name: "Specificity"
-    description: "Are target users and problem specific enough to test?"
-    weight: 2.0
-    required: true
-    criteria:
-      pass: "Target users described in one sentence, problem is concrete and observable"
-      partial: "Users or problem defined but too broad to test effectively"
-      fail: "Vague users ('everyone') or abstract problem"
-
-  - id: testability
-    name: "Testability"
-    description: "Can this hypothesis be tested quickly?"
-    weight: 2.0
-    required: true
-    criteria:
-      pass: "Clear experiment plan with timeline under 2 weeks"
-      partial: "Experiment described but timeline unclear or too long"
-      fail: "No experiment plan or requires months to test"
-
-  - id: measurability
-    name: "Measurability"
-    description: "Is there a clear, measurable success metric?"
-    weight: 2.0
-    required: true
-    criteria:
-      pass: "Single success metric with specific target number and timeframe"
-      partial: "Metric exists but target vague or no timeframe"
-      fail: "No success metric or unmeasurable goals ('users will love it')"
-
-  - id: exit-criteria
-    name: "Exit Criteria"
-    description: "Do you know when to proceed, pivot, or kill?"
-    weight: 1.0
-    required: false
-    criteria:
-      pass: "Clear proceed/pivot/kill criteria defined"
-      partial: "Some exit criteria but incomplete"
-      fail: "No exit criteria"
-
-pass_criteria:
-  require_all_pass: false
-  max_critical: 0
-  max_high: 1
-  max_medium: 2
+    - id: specificity
+      name: Specificity
+      description: Are target users and problem specific enough to test?
+      weight: 2
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Target users described in one sentence, problem is concrete and observable
+            - value: partial
+              label: Partial
+              criteria:
+                - Users or problem defined but too broad to test effectively
+            - value: fail
+              label: Fail
+              criteria:
+                - Vague users ('everyone') or abstract problem
+    - id: testability
+      name: Testability
+      description: Can this hypothesis be tested quickly?
+      weight: 2
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Clear experiment plan with timeline under 2 weeks
+            - value: partial
+              label: Partial
+              criteria:
+                - Experiment described but timeline unclear or too long
+            - value: fail
+              label: Fail
+              criteria:
+                - No experiment plan or requires months to test
+    - id: measurability
+      name: Measurability
+      description: Is there a clear, measurable success metric?
+      weight: 2
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Single success metric with specific target number and timeframe
+            - value: partial
+              label: Partial
+              criteria:
+                - Metric exists but target vague or no timeframe
+            - value: fail
+              label: Fail
+              criteria:
+                - No success metric or unmeasurable goals ('users will love it')
+    - id: exit-criteria
+      name: Exit Criteria
+      description: Do you know when to proceed, pivot, or kill?
+      weight: 1
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Clear proceed/pivot/kill criteria defined
+            - value: partial
+              label: Partial
+              criteria:
+                - Some exit criteria but incomplete
+            - value: fail
+              label: Fail
+              criteria:
+                - No exit criteria

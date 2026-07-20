@@ -1,73 +1,133 @@
-# Growth TRD Evaluation Rubric
-
-spec_type: trd
-name: "Growth TRD Rubric"
-description: "Technical Requirements Document evaluation for growth-stage implementations"
+id: trd-rubric
+name: Growth TRD Rubric
 version: "1.0"
-
+description: Technical Requirements Document evaluation for growth-stage implementations
+evaluationType: analytic
+passCriteria:
+    minCategoriesPassing: all_required
+    maxFindingsSeverity:
+        critical: 0
+        high: 1
+        medium: 2
+        low: -1
 categories:
-  - id: architecture_clarity
-    name: "Architecture Clarity"
-    description: "Whether the system architecture is clear enough to implement"
-    weight: 0.25
-    required: true
-    criteria:
-      pass: "Clear architecture diagram with component descriptions"
-      partial: "Architecture present but lacks detail"
-      fail: "No clear architecture described"
-
-  - id: prd_alignment
-    name: "PRD Alignment"
-    description: "Whether technical design addresses PRD requirements"
-    weight: 0.20
-    required: true
-    criteria:
-      pass: "Technical approach clearly maps to PRD requirements"
-      partial: "Some alignment but gaps exist"
-      fail: "No connection to requirements"
-
-  - id: api_design
-    name: "API Design"
-    description: "Quality of API definitions"
-    weight: 0.20
-    required: true
-    criteria:
-      pass: "API endpoints defined with authentication approach"
-      partial: "Basic API structure present"
-      fail: "No API design"
-
-  - id: scalability
-    name: "Scalability Consideration"
-    description: "Whether growth scaling is considered"
-    weight: 0.15
-    required: true
-    criteria:
-      pass: "Clear scaling approach for user growth"
-      partial: "Scaling mentioned but unclear"
-      fail: "No scalability considerations"
-
-  - id: security_basics
-    name: "Security Basics"
-    description: "Basic security requirements addressed"
-    weight: 0.10
-    required: true
-    criteria:
-      pass: "Authentication, authorization, and data protection addressed"
-      partial: "Some security considerations"
-      fail: "No security design"
-
-  - id: implementability
-    name: "Implementability"
-    description: "Whether design is actionable"
-    weight: 0.10
-    required: true
-    criteria:
-      pass: "Engineer can implement from this document"
-      partial: "Needs some clarification"
-      fail: "Cannot implement from this document"
-
-pass_criteria:
-  require_all_pass: false
-  max_critical: 0
-  max_high: 1
-  max_medium: 2
+    - id: architecture_clarity
+      name: Architecture Clarity
+      description: Whether the system architecture is clear enough to implement
+      weight: 0.25
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Clear architecture diagram with component descriptions
+            - value: partial
+              label: Partial
+              criteria:
+                - Architecture present but lacks detail
+            - value: fail
+              label: Fail
+              criteria:
+                - No clear architecture described
+    - id: prd_alignment
+      name: PRD Alignment
+      description: Whether technical design addresses PRD requirements
+      weight: 0.2
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Technical approach clearly maps to PRD requirements
+            - value: partial
+              label: Partial
+              criteria:
+                - Some alignment but gaps exist
+            - value: fail
+              label: Fail
+              criteria:
+                - No connection to requirements
+    - id: api_design
+      name: API Design
+      description: Quality of API definitions
+      weight: 0.2
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - API endpoints defined with authentication approach
+            - value: partial
+              label: Partial
+              criteria:
+                - Basic API structure present
+            - value: fail
+              label: Fail
+              criteria:
+                - No API design
+    - id: scalability
+      name: Scalability Consideration
+      description: Whether growth scaling is considered
+      weight: 0.15
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Clear scaling approach for user growth
+            - value: partial
+              label: Partial
+              criteria:
+                - Scaling mentioned but unclear
+            - value: fail
+              label: Fail
+              criteria:
+                - No scalability considerations
+    - id: security_basics
+      name: Security Basics
+      description: Basic security requirements addressed
+      weight: 0.1
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Authentication, authorization, and data protection addressed
+            - value: partial
+              label: Partial
+              criteria:
+                - Some security considerations
+            - value: fail
+              label: Fail
+              criteria:
+                - No security design
+    - id: implementability
+      name: Implementability
+      description: Whether design is actionable
+      weight: 0.1
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Engineer can implement from this document
+            - value: partial
+              label: Partial
+              criteria:
+                - Needs some clarification
+            - value: fail
+              label: Fail
+              criteria:
+                - Cannot implement from this document

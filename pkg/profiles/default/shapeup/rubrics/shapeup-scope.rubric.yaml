@@ -1,73 +1,133 @@
-# Shape Up Scope Tracker Evaluation Rubric
-
-spec_type: shapeup-scope
-name: "Shape Up Scope Rubric"
-description: "Scope tracker evaluation following Shape Up methodology"
+id: shapeup-scope-rubric
+name: Shape Up Scope Rubric
 version: "1.0"
-
+description: Scope tracker evaluation following Shape Up methodology
+evaluationType: analytic
+passCriteria:
+    minCategoriesPassing: all_required
+    maxFindingsSeverity:
+        critical: 0
+        high: 1
+        medium: 2
+        low: -1
 categories:
-  - id: pitch_reference
-    name: "Pitch Reference"
-    description: "Clear link to the original shaped pitch"
-    weight: 0.10
-    required: true
-    criteria:
-      pass: "Pitch linked with cycle dates and team clearly identified"
-      partial: "Pitch referenced but missing team or dates"
-      fail: "No pitch reference"
-
-  - id: scope_discovery
-    name: "Scope Discovery"
-    description: "Whether scopes emerge naturally from building vs predefined"
-    weight: 0.20
-    required: true
-    criteria:
-      pass: "Scopes reflect discovered work slices, not upfront task breakdown"
-      partial: "Some discovered scopes but also predefined tasks"
-      fail: "Scopes are just a task list disguised as scopes"
-
-  - id: hill_tracking
-    name: "Hill Chart Tracking"
-    description: "Proper use of hill chart to track uncertainty vs execution"
-    weight: 0.25
-    required: true
-    criteria:
-      pass: "Each scope has hill position, scopes move up then down appropriately"
-      partial: "Hill positions tracked but movement not clear"
-      fail: "No hill chart usage"
-
-  - id: scope_independence
-    name: "Scope Independence"
-    description: "Whether scopes are independent, meaningful work slices"
-    weight: 0.15
-    required: true
-    criteria:
-      pass: "Each scope can be finished independently and delivers value"
-      partial: "Scopes somewhat independent but have dependencies"
-      fail: "Scopes are interdependent tasks, not independent slices"
-
-  - id: progress_visibility
-    name: "Progress Visibility"
-    description: "Clear summary of overall progress and remaining work"
-    weight: 0.15
-    required: true
-    criteria:
-      pass: "Summary shows scopes uphill/downhill/done with overall status"
-      partial: "Some progress tracking but incomplete summary"
-      fail: "No progress summary"
-
-  - id: circuit_breaker_awareness
-    name: "Circuit Breaker Awareness"
-    description: "Consideration of whether to continue, cut scope, or stop"
-    weight: 0.15
-    required: true
-    criteria:
-      pass: "Circuit breaker questions answered with honest assessment"
-      partial: "Circuit breaker section present but not thoughtfully filled"
-      fail: "No circuit breaker consideration"
-
-pass_criteria:
-  require_all_pass: false
-  max_critical: 0
-  max_high: 1
-  max_medium: 2
+    - id: pitch_reference
+      name: Pitch Reference
+      description: Clear link to the original shaped pitch
+      weight: 0.1
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Pitch linked with cycle dates and team clearly identified
+            - value: partial
+              label: Partial
+              criteria:
+                - Pitch referenced but missing team or dates
+            - value: fail
+              label: Fail
+              criteria:
+                - No pitch reference
+    - id: scope_discovery
+      name: Scope Discovery
+      description: Whether scopes emerge naturally from building vs predefined
+      weight: 0.2
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Scopes reflect discovered work slices, not upfront task breakdown
+            - value: partial
+              label: Partial
+              criteria:
+                - Some discovered scopes but also predefined tasks
+            - value: fail
+              label: Fail
+              criteria:
+                - Scopes are just a task list disguised as scopes
+    - id: hill_tracking
+      name: Hill Chart Tracking
+      description: Proper use of hill chart to track uncertainty vs execution
+      weight: 0.25
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Each scope has hill position, scopes move up then down appropriately
+            - value: partial
+              label: Partial
+              criteria:
+                - Hill positions tracked but movement not clear
+            - value: fail
+              label: Fail
+              criteria:
+                - No hill chart usage
+    - id: scope_independence
+      name: Scope Independence
+      description: Whether scopes are independent, meaningful work slices
+      weight: 0.15
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Each scope can be finished independently and delivers value
+            - value: partial
+              label: Partial
+              criteria:
+                - Scopes somewhat independent but have dependencies
+            - value: fail
+              label: Fail
+              criteria:
+                - Scopes are interdependent tasks, not independent slices
+    - id: progress_visibility
+      name: Progress Visibility
+      description: Clear summary of overall progress and remaining work
+      weight: 0.15
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Summary shows scopes uphill/downhill/done with overall status
+            - value: partial
+              label: Partial
+              criteria:
+                - Some progress tracking but incomplete summary
+            - value: fail
+              label: Fail
+              criteria:
+                - No progress summary
+    - id: circuit_breaker_awareness
+      name: Circuit Breaker Awareness
+      description: Consideration of whether to continue, cut scope, or stop
+      weight: 0.15
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Circuit breaker questions answered with honest assessment
+            - value: partial
+              label: Partial
+              criteria:
+                - Circuit breaker section present but not thoughtfully filled
+            - value: fail
+              label: Fail
+              criteria:
+                - No circuit breaker consideration

@@ -43,27 +43,25 @@ func TestFileRubricLoader(t *testing.T) {
 
 	// Write a custom rubric
 	rubricContent := `
-spec_type: security
+id: security-rubric
 name: "Security Rubric"
 description: "Custom security rubric"
 version: "1.0"
-
+passCriteria:
+  minCategoriesPassing: all_required
+  maxFindingsSeverity: {critical: 0, high: 0, medium: 3, low: -1}
 categories:
   - id: threat-modeling
     name: "Threat Modeling"
     description: "Are threats identified?"
     weight: 2.0
     required: true
-    criteria:
-      pass: "Comprehensive threat model"
-      partial: "Basic threats identified"
-      fail: "No threat analysis"
-
-pass_criteria:
-  require_all_pass: false
-  max_critical: 0
-  max_high: 0
-  max_medium: 3
+    scale:
+      type: categorical
+      options:
+        - {value: pass, label: Pass, criteria: ["Comprehensive threat model"]}
+        - {value: partial, label: Partial, criteria: ["Basic threats identified"]}
+        - {value: fail, label: Fail, criteria: ["No threat analysis"]}
 `
 	err := os.WriteFile(filepath.Join(tmpDir, "security.rubric.yaml"), []byte(rubricContent), 0600)
 	if err != nil {
@@ -109,27 +107,25 @@ func TestChainRubricLoader(t *testing.T) {
 
 	// Write a custom PRD rubric that overrides the embedded one
 	rubricContent := `
-spec_type: prd
+id: prd-rubric
 name: "Custom PRD Rubric"
 description: "Overrides the default"
 version: "2.0"
-
+passCriteria:
+  minCategoriesPassing: all_required
+  maxFindingsSeverity: {critical: 0, high: 0, medium: 5, low: -1}
 categories:
   - id: custom-category
     name: "Custom Category"
     description: "A custom category"
     weight: 1.0
     required: true
-    criteria:
-      pass: "Custom pass"
-      partial: "Custom partial"
-      fail: "Custom fail"
-
-pass_criteria:
-  require_all_pass: false
-  max_critical: 0
-  max_high: 0
-  max_medium: 5
+    scale:
+      type: categorical
+      options:
+        - {value: pass, label: Pass, criteria: ["Custom pass"]}
+        - {value: partial, label: Partial, criteria: ["Custom partial"]}
+        - {value: fail, label: Fail, criteria: ["Custom fail"]}
 `
 	err := os.WriteFile(filepath.Join(tmpDir, "prd.rubric.yaml"), []byte(rubricContent), 0600)
 	if err != nil {
@@ -169,79 +165,45 @@ pass_criteria:
 	}
 }
 
-func TestRubricYAMLValidation(t *testing.T) {
+func TestParseRubricYAMLValidation(t *testing.T) {
 	tests := []struct {
 		name        string
-		yaml        RubricYAML
+		yaml        string
 		expectError bool
 	}{
 		{
 			name: "valid rubric",
-			yaml: RubricYAML{
-				SpecType: "test",
-				Name:     "Test Rubric",
-				Categories: []CategoryYAML{
-					{ID: "cat1", Name: "Category 1"},
-				},
-			},
+			yaml: `
+id: test-rubric
+name: Test Rubric
+categories:
+  - id: cat1
+    name: Category 1
+    scale:
+      type: categorical
+      options:
+        - {value: pass, criteria: ["ok"]}
+`,
 			expectError: false,
 		},
 		{
-			name: "missing spec_type",
-			yaml: RubricYAML{
-				Name: "Test Rubric",
-				Categories: []CategoryYAML{
-					{ID: "cat1", Name: "Category 1"},
-				},
-			},
-			expectError: true,
-		},
-		{
-			name: "missing name",
-			yaml: RubricYAML{
-				SpecType: "test",
-				Categories: []CategoryYAML{
-					{ID: "cat1", Name: "Category 1"},
-				},
-			},
-			expectError: true,
-		},
-		{
 			name: "no categories",
-			yaml: RubricYAML{
-				SpecType:   "test",
-				Name:       "Test Rubric",
-				Categories: []CategoryYAML{},
-			},
+			yaml: `
+id: test-rubric
+name: Test Rubric
+`,
 			expectError: true,
 		},
 		{
-			name: "category missing id",
-			yaml: RubricYAML{
-				SpecType: "test",
-				Name:     "Test Rubric",
-				Categories: []CategoryYAML{
-					{Name: "Category 1"},
-				},
-			},
-			expectError: true,
-		},
-		{
-			name: "category missing name",
-			yaml: RubricYAML{
-				SpecType: "test",
-				Name:     "Test Rubric",
-				Categories: []CategoryYAML{
-					{ID: "cat1"},
-				},
-			},
+			name:        "not yaml",
+			yaml:        "\t: : not: valid",
 			expectError: true,
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			_, err := tt.yaml.ToRubricSet()
+			_, err := parseRubricYAML([]byte(tt.yaml), tt.name)
 			if tt.expectError && err == nil {
 				t.Error("Expected error, got nil")
 			}

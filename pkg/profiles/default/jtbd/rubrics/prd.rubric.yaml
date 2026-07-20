@@ -1,77 +1,152 @@
-name: "JTBD PRD Evaluation"
-description: "Evaluates PRD documents for outcome-driven requirements and job alignment"
-pass_criteria:
-  min_score: 7.0
-  max_critical: 0
-  max_high: 0
-
+id: prd-rubric
+name: JTBD PRD Evaluation
+version: "1.0"
+description: Evaluates PRD documents for outcome-driven requirements and job alignment
+evaluationType: analytic
+passCriteria:
+    minCategoriesPassing: all_required
+    maxFindingsSeverity:
+        critical: 0
+        high: 0
+        medium: 0
+        low: -1
 categories:
-  - id: job_alignment
-    name: "Job Alignment"
-    description: "Whether requirements clearly align with the job to be done"
-    weight: 0.20
-    required: true
-    criteria:
-      pass: "Every requirement traces to job outcomes; forces of progress addressed"
-      partial: "Some job connection but requirements feel feature-driven"
-      fail: "No job alignment; traditional feature requirements"
-
-  - id: outcome_framing
-    name: "Outcome Framing"
-    description: "Whether requirements are framed as outcomes not features"
-    weight: 0.20
-    required: true
-    criteria:
-      pass: "Requirements in outcome format (minimize/increase + metric); measurable improvement targets"
-      partial: "Some outcome language but many feature-style requirements"
-      fail: "Pure feature list; no outcome connection"
-
-  - id: emotional_social
-    name: "Emotional/Social Requirements"
-    description: "Whether emotional and social job dimensions are addressed"
-    weight: 0.15
-    required: true
-    criteria:
-      pass: "Emotional and social requirements explicit; feelings and perceptions designed for"
-      partial: "Some mention of emotions but not systematically addressed"
-      fail: "Only functional requirements; ignores how users feel"
-
-  - id: hiring_criteria
-    name: "Hiring Criteria"
-    description: "Whether hiring and firing triggers are defined"
-    weight: 0.15
-    required: true
-    criteria:
-      pass: "Clear minimum hiring bar; repeat hire criteria; firing triggers identified with prevention"
-      partial: "Some hiring criteria but not comprehensive"
-      fail: "No hiring criteria; doesn't understand why customers would switch"
-
-  - id: switching_experience
-    name: "Switching Experience"
-    description: "Whether switching from current solutions is considered"
-    weight: 0.10
-    required: true
-    criteria:
-      pass: "Barriers to switching identified and addressed; 'doing nothing' competitor considered"
-      partial: "Some switching consideration but not thorough"
-      fail: "Switching not considered; assumes customers will just adopt"
-
-  - id: job_stories
-    name: "Job Stories"
-    description: "Whether stories are in job format with context and motivation"
-    weight: 0.10
-    required: true
-    criteria:
-      pass: "Stories in When/I want to/So I can format with emotional context"
-      partial: "Some job stories but mixed with traditional user stories"
-      fail: "Traditional user stories; no job context"
-
-  - id: non_requirements
-    name: "Non-Requirements"
-    description: "Whether scope is bounded by job boundaries"
-    weight: 0.10
-    required: false
-    criteria:
-      pass: "Explicit non-requirements with job-based rationale; adjacent jobs identified"
-      partial: "Some scope boundaries but not job-framed"
-      fail: "No scope boundaries; kitchen sink approach"
+    - id: job_alignment
+      name: Job Alignment
+      description: Whether requirements clearly align with the job to be done
+      weight: 0.2
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Every requirement traces to job outcomes; forces of progress addressed
+            - value: partial
+              label: Partial
+              criteria:
+                - Some job connection but requirements feel feature-driven
+            - value: fail
+              label: Fail
+              criteria:
+                - No job alignment; traditional feature requirements
+    - id: outcome_framing
+      name: Outcome Framing
+      description: Whether requirements are framed as outcomes not features
+      weight: 0.2
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Requirements in outcome format (minimize/increase + metric); measurable improvement targets
+            - value: partial
+              label: Partial
+              criteria:
+                - Some outcome language but many feature-style requirements
+            - value: fail
+              label: Fail
+              criteria:
+                - Pure feature list; no outcome connection
+    - id: emotional_social
+      name: Emotional/Social Requirements
+      description: Whether emotional and social job dimensions are addressed
+      weight: 0.15
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Emotional and social requirements explicit; feelings and perceptions designed for
+            - value: partial
+              label: Partial
+              criteria:
+                - Some mention of emotions but not systematically addressed
+            - value: fail
+              label: Fail
+              criteria:
+                - Only functional requirements; ignores how users feel
+    - id: hiring_criteria
+      name: Hiring Criteria
+      description: Whether hiring and firing triggers are defined
+      weight: 0.15
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Clear minimum hiring bar; repeat hire criteria; firing triggers identified with prevention
+            - value: partial
+              label: Partial
+              criteria:
+                - Some hiring criteria but not comprehensive
+            - value: fail
+              label: Fail
+              criteria:
+                - No hiring criteria; doesn't understand why customers would switch
+    - id: switching_experience
+      name: Switching Experience
+      description: Whether switching from current solutions is considered
+      weight: 0.1
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Barriers to switching identified and addressed; 'doing nothing' competitor considered
+            - value: partial
+              label: Partial
+              criteria:
+                - Some switching consideration but not thorough
+            - value: fail
+              label: Fail
+              criteria:
+                - Switching not considered; assumes customers will just adopt
+    - id: job_stories
+      name: Job Stories
+      description: Whether stories are in job format with context and motivation
+      weight: 0.1
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Stories in When/I want to/So I can format with emotional context
+            - value: partial
+              label: Partial
+              criteria:
+                - Some job stories but mixed with traditional user stories
+            - value: fail
+              label: Fail
+              criteria:
+                - Traditional user stories; no job context
+    - id: non_requirements
+      name: Non-Requirements
+      description: Whether scope is bounded by job boundaries
+      weight: 0.1
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Explicit non-requirements with job-based rationale; adjacent jobs identified
+            - value: partial
+              label: Partial
+              criteria:
+                - Some scope boundaries but not job-framed
+            - value: fail
+              label: Fail
+              criteria:
+                - No scope boundaries; kitchen sink approach

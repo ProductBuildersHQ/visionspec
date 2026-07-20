@@ -1,81 +1,152 @@
-spec_type: prd
-name: "Growth PRD Rubric"
-description: "PRD evaluation for 1-N growth phase. Focus: metrics-driven development."
+id: prd-rubric
+name: Growth PRD Rubric
 version: "1.0"
-
+description: 'PRD evaluation for 1-N growth phase. Focus: metrics-driven development.'
+evaluationType: analytic
+passCriteria:
+    minCategoriesPassing: all_required
+    maxFindingsSeverity:
+        critical: 0
+        high: 1
+        medium: 2
+        low: -1
 categories:
-  - id: growth-context
-    name: "Growth Context"
-    description: "Is the growth opportunity clearly defined?"
-    weight: 2.0
-    required: true
-    criteria:
-      pass: "Current metrics, targets, and opportunity size documented"
-      partial: "Some metrics present but gaps unclear"
-      fail: "No growth context or metrics"
-
-  - id: hypothesis
-    name: "Hypothesis"
-    description: "Is there a clear, testable hypothesis?"
-    weight: 2.0
-    required: true
-    criteria:
-      pass: "Clear hypothesis with specific metric, expected change, and rationale"
-      partial: "Hypothesis present but vague metrics or reasoning"
-      fail: "No hypothesis or not testable"
-
-  - id: funnel-mapping
-    name: "Funnel Mapping"
-    description: "Are features mapped to funnel stages?"
-    weight: 1.5
-    required: true
-    criteria:
-      pass: "Each user story tagged with funnel stage (AARRR)"
-      partial: "Some funnel awareness but incomplete mapping"
-      fail: "No funnel context"
-
-  - id: experiment-design
-    name: "Experiment Design"
-    description: "Is the experiment properly designed?"
-    weight: 1.5
-    required: false
-    criteria:
-      pass: "Control/variant, sample size, duration, and success criteria defined"
-      partial: "Some experiment details but missing sample size or duration"
-      fail: "No experiment design or not an A/B test"
-
-  - id: analytics
-    name: "Analytics Requirements"
-    description: "Are tracking and measurement planned?"
-    weight: 1.5
-    required: true
-    criteria:
-      pass: "Events to track, properties, and dashboard needs documented"
-      partial: "Some tracking mentioned but incomplete"
-      fail: "No analytics requirements"
-
-  - id: guardrails
-    name: "Guardrail Metrics"
-    description: "Are guardrail metrics defined to prevent regressions?"
-    weight: 1.5
-    required: true
-    criteria:
-      pass: "Guardrail metrics with thresholds and breach actions"
-      partial: "Guardrails mentioned but no thresholds"
-      fail: "No guardrail metrics"
-
-  - id: rollout-plan
-    name: "Rollout Plan"
-    description: "Is there a phased rollout plan?"
-    weight: 1.0
-    required: true
-    criteria:
-      pass: "Phased rollout with feature flags and ramp schedule"
-      partial: "Rollout mentioned but no phases or monitoring plan"
-      fail: "No rollout plan"
-
-pass_criteria:
-  require_all_pass: false
-  max_critical: 0
-  max_high: 1
-  max_medium: 2
+    - id: growth-context
+      name: Growth Context
+      description: Is the growth opportunity clearly defined?
+      weight: 2
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Current metrics, targets, and opportunity size documented
+            - value: partial
+              label: Partial
+              criteria:
+                - Some metrics present but gaps unclear
+            - value: fail
+              label: Fail
+              criteria:
+                - No growth context or metrics
+    - id: hypothesis
+      name: Hypothesis
+      description: Is there a clear, testable hypothesis?
+      weight: 2
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Clear hypothesis with specific metric, expected change, and rationale
+            - value: partial
+              label: Partial
+              criteria:
+                - Hypothesis present but vague metrics or reasoning
+            - value: fail
+              label: Fail
+              criteria:
+                - No hypothesis or not testable
+    - id: funnel-mapping
+      name: Funnel Mapping
+      description: Are features mapped to funnel stages?
+      weight: 1.5
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Each user story tagged with funnel stage (AARRR)
+            - value: partial
+              label: Partial
+              criteria:
+                - Some funnel awareness but incomplete mapping
+            - value: fail
+              label: Fail
+              criteria:
+                - No funnel context
+    - id: experiment-design
+      name: Experiment Design
+      description: Is the experiment properly designed?
+      weight: 1.5
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Control/variant, sample size, duration, and success criteria defined
+            - value: partial
+              label: Partial
+              criteria:
+                - Some experiment details but missing sample size or duration
+            - value: fail
+              label: Fail
+              criteria:
+                - No experiment design or not an A/B test
+    - id: analytics
+      name: Analytics Requirements
+      description: Are tracking and measurement planned?
+      weight: 1.5
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Events to track, properties, and dashboard needs documented
+            - value: partial
+              label: Partial
+              criteria:
+                - Some tracking mentioned but incomplete
+            - value: fail
+              label: Fail
+              criteria:
+                - No analytics requirements
+    - id: guardrails
+      name: Guardrail Metrics
+      description: Are guardrail metrics defined to prevent regressions?
+      weight: 1.5
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Guardrail metrics with thresholds and breach actions
+            - value: partial
+              label: Partial
+              criteria:
+                - Guardrails mentioned but no thresholds
+            - value: fail
+              label: Fail
+              criteria:
+                - No guardrail metrics
+    - id: rollout-plan
+      name: Rollout Plan
+      description: Is there a phased rollout plan?
+      weight: 1
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Phased rollout with feature flags and ramp schedule
+            - value: partial
+              label: Partial
+              criteria:
+                - Rollout mentioned but no phases or monitoring plan
+            - value: fail
+              label: Fail
+              criteria:
+                - No rollout plan

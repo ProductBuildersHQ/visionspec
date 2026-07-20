@@ -1,73 +1,132 @@
-# Growth TPD Evaluation Rubric
-
-spec_type: tpd
-name: "Growth TPD Rubric"
-description: "Test Plan Document evaluation for growth-stage implementations"
+id: tpd-rubric
+name: Growth TPD Rubric
 version: "1.0"
-
+description: Test Plan Document evaluation for growth-stage implementations
+evaluationType: analytic
+passCriteria:
+    minCategoriesPassing: all_required
+    maxFindingsSeverity:
+        critical: 0
+        high: 1
+        medium: 2
+        low: -1
 categories:
-  - id: prd_coverage
-    name: "PRD Coverage"
-    description: "Whether PRD requirements have test cases"
-    weight: 0.25
-    required: true
-    criteria:
-      pass: "All requirements have mapped test cases"
-      partial: "Most requirements covered"
-      fail: "No systematic test mapping"
-
-  - id: test_types
-    name: "Test Types"
-    description: "Coverage of different testing types"
-    weight: 0.20
-    required: true
-    criteria:
-      pass: "Unit, integration, and E2E testing defined"
-      partial: "Some test types present"
-      fail: "Only one type of testing"
-
-  - id: automation
-    name: "Automation Strategy"
-    description: "Test automation approach"
-    weight: 0.20
-    required: true
-    criteria:
-      pass: "Clear automation strategy with coverage targets"
-      partial: "Basic automation plan"
-      fail: "No automation strategy"
-
-  - id: ci_integration
-    name: "CI/CD Integration"
-    description: "Tests integrated into pipeline"
-    weight: 0.15
-    required: true
-    criteria:
-      pass: "Tests run automatically with quality gates"
-      partial: "Some CI integration"
-      fail: "No CI integration"
-
-  - id: test_environment
-    name: "Test Environment"
-    description: "Test environments defined"
-    weight: 0.10
-    required: true
-    criteria:
-      pass: "Clear environment setup with test data strategy"
-      partial: "Basic environment defined"
-      fail: "No test environment"
-
-  - id: exit_criteria
-    name: "Exit Criteria"
-    description: "Clear sign-off criteria"
-    weight: 0.10
-    required: false
-    criteria:
-      pass: "Clear exit criteria with approvers"
-      partial: "Some criteria defined"
-      fail: "No exit criteria"
-
-pass_criteria:
-  require_all_pass: false
-  max_critical: 0
-  max_high: 1
-  max_medium: 2
+    - id: prd_coverage
+      name: PRD Coverage
+      description: Whether PRD requirements have test cases
+      weight: 0.25
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - All requirements have mapped test cases
+            - value: partial
+              label: Partial
+              criteria:
+                - Most requirements covered
+            - value: fail
+              label: Fail
+              criteria:
+                - No systematic test mapping
+    - id: test_types
+      name: Test Types
+      description: Coverage of different testing types
+      weight: 0.2
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Unit, integration, and E2E testing defined
+            - value: partial
+              label: Partial
+              criteria:
+                - Some test types present
+            - value: fail
+              label: Fail
+              criteria:
+                - Only one type of testing
+    - id: automation
+      name: Automation Strategy
+      description: Test automation approach
+      weight: 0.2
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Clear automation strategy with coverage targets
+            - value: partial
+              label: Partial
+              criteria:
+                - Basic automation plan
+            - value: fail
+              label: Fail
+              criteria:
+                - No automation strategy
+    - id: ci_integration
+      name: CI/CD Integration
+      description: Tests integrated into pipeline
+      weight: 0.15
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Tests run automatically with quality gates
+            - value: partial
+              label: Partial
+              criteria:
+                - Some CI integration
+            - value: fail
+              label: Fail
+              criteria:
+                - No CI integration
+    - id: test_environment
+      name: Test Environment
+      description: Test environments defined
+      weight: 0.1
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Clear environment setup with test data strategy
+            - value: partial
+              label: Partial
+              criteria:
+                - Basic environment defined
+            - value: fail
+              label: Fail
+              criteria:
+                - No test environment
+    - id: exit_criteria
+      name: Exit Criteria
+      description: Clear sign-off criteria
+      weight: 0.1
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Clear exit criteria with approvers
+            - value: partial
+              label: Partial
+              criteria:
+                - Some criteria defined
+            - value: fail
+              label: Fail
+              criteria:
+                - No exit criteria

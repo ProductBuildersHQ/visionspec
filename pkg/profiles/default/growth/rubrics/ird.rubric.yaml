@@ -1,73 +1,132 @@
-# Growth IRD Evaluation Rubric
-
-spec_type: ird
-name: "Growth IRD Rubric"
-description: "Infrastructure Requirements Document evaluation for growth-stage implementations"
+id: ird-rubric
+name: Growth IRD Rubric
 version: "1.0"
-
+description: Infrastructure Requirements Document evaluation for growth-stage implementations
+evaluationType: analytic
+passCriteria:
+    minCategoriesPassing: all_required
+    maxFindingsSeverity:
+        critical: 0
+        high: 1
+        medium: 2
+        low: -1
 categories:
-  - id: architecture_completeness
-    name: "Architecture Completeness"
-    description: "Whether infrastructure covers required components"
-    weight: 0.25
-    required: true
-    criteria:
-      pass: "Complete infrastructure with compute, storage, and networking"
-      partial: "Basic infrastructure but missing components"
-      fail: "Incomplete infrastructure"
-
-  - id: trd_alignment
-    name: "TRD Alignment"
-    description: "Whether infrastructure supports technical requirements"
-    weight: 0.20
-    required: true
-    criteria:
-      pass: "Infrastructure clearly supports TRD architecture"
-      partial: "Some alignment but gaps exist"
-      fail: "Infrastructure doesn't support requirements"
-
-  - id: scalability
-    name: "Scalability Design"
-    description: "Whether infrastructure can scale with growth"
-    weight: 0.20
-    required: true
-    criteria:
-      pass: "Auto-scaling configured with clear triggers"
-      partial: "Basic scaling capability"
-      fail: "No scalability planning"
-
-  - id: security
-    name: "Security Controls"
-    description: "Basic security controls defined"
-    weight: 0.15
-    required: true
-    criteria:
-      pass: "Network isolation, IAM, and encryption configured"
-      partial: "Some security controls"
-      fail: "Inadequate security"
-
-  - id: monitoring
-    name: "Monitoring"
-    description: "Observability and alerting"
-    weight: 0.10
-    required: true
-    criteria:
-      pass: "Metrics, logs, and alerts configured"
-      partial: "Basic monitoring"
-      fail: "No monitoring"
-
-  - id: cost_awareness
-    name: "Cost Awareness"
-    description: "Cost estimation present"
-    weight: 0.10
-    required: false
-    criteria:
-      pass: "Cost estimate with optimization considerations"
-      partial: "Basic cost estimate"
-      fail: "No cost analysis"
-
-pass_criteria:
-  require_all_pass: false
-  max_critical: 0
-  max_high: 1
-  max_medium: 2
+    - id: architecture_completeness
+      name: Architecture Completeness
+      description: Whether infrastructure covers required components
+      weight: 0.25
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Complete infrastructure with compute, storage, and networking
+            - value: partial
+              label: Partial
+              criteria:
+                - Basic infrastructure but missing components
+            - value: fail
+              label: Fail
+              criteria:
+                - Incomplete infrastructure
+    - id: trd_alignment
+      name: TRD Alignment
+      description: Whether infrastructure supports technical requirements
+      weight: 0.2
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Infrastructure clearly supports TRD architecture
+            - value: partial
+              label: Partial
+              criteria:
+                - Some alignment but gaps exist
+            - value: fail
+              label: Fail
+              criteria:
+                - Infrastructure doesn't support requirements
+    - id: scalability
+      name: Scalability Design
+      description: Whether infrastructure can scale with growth
+      weight: 0.2
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Auto-scaling configured with clear triggers
+            - value: partial
+              label: Partial
+              criteria:
+                - Basic scaling capability
+            - value: fail
+              label: Fail
+              criteria:
+                - No scalability planning
+    - id: security
+      name: Security Controls
+      description: Basic security controls defined
+      weight: 0.15
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Network isolation, IAM, and encryption configured
+            - value: partial
+              label: Partial
+              criteria:
+                - Some security controls
+            - value: fail
+              label: Fail
+              criteria:
+                - Inadequate security
+    - id: monitoring
+      name: Monitoring
+      description: Observability and alerting
+      weight: 0.1
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Metrics, logs, and alerts configured
+            - value: partial
+              label: Partial
+              criteria:
+                - Basic monitoring
+            - value: fail
+              label: Fail
+              criteria:
+                - No monitoring
+    - id: cost_awareness
+      name: Cost Awareness
+      description: Cost estimation present
+      weight: 0.1
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Cost estimate with optimization considerations
+            - value: partial
+              label: Partial
+              criteria:
+                - Basic cost estimate
+            - value: fail
+              label: Fail
+              criteria:
+                - No cost analysis

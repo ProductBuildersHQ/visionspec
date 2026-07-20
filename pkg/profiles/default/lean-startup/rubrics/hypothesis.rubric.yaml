@@ -1,67 +1,133 @@
-name: "Lean Startup Hypothesis Evaluation"
-description: "Evaluates hypothesis documents for testability, clarity of assumptions, and experiment design"
-pass_criteria:
-  min_score: 7.0
-  max_critical: 0
-  max_high: 0
-
+id: hypothesis-rubric
+name: Lean Startup Hypothesis Evaluation
+version: "1.0"
+description: Evaluates hypothesis documents for testability, clarity of assumptions, and experiment design
+evaluationType: analytic
+passCriteria:
+    minCategoriesPassing: all_required
+    maxFindingsSeverity:
+        critical: 0
+        high: 0
+        medium: 0
+        low: -1
 categories:
-  - id: leap_of_faith_clarity
-    name: "Leap of Faith Clarity"
-    description: "Whether key assumptions are clearly identified and articulated"
-    weight: 0.20
-    required: true
-    criteria:
-      pass: "Value and growth hypotheses clearly stated with specific, falsifiable predictions"
-      partial: "Hypotheses present but vague or not falsifiable"
-      fail: "No clear hypotheses; assumptions buried or unstated"
-
-  - id: testability
-    name: "Testability"
-    description: "Whether hypotheses can be tested with concrete experiments"
-    weight: 0.20
-    required: true
-    criteria:
-      pass: "Clear experiments designed with specific success/failure criteria defined in advance"
-      partial: "Experiments mentioned but criteria vague"
-      fail: "No testable experiments; would just 'launch and see'"
-
-  - id: mvp_definition
-    name: "MVP Definition"
-    description: "Whether MVP is truly minimal and focused on learning"
-    weight: 0.20
-    required: true
-    criteria:
-      pass: "MVP is minimal, explicitly scoped, clearly tied to hypothesis testing"
-      partial: "MVP defined but scope creep evident; not clearly tied to learning"
-      fail: "MVP is really a full product; no focus on learning"
-
-  - id: customer_specificity
-    name: "Customer Specificity"
-    description: "Whether early adopter is specifically defined"
-    weight: 0.15
-    required: true
-    criteria:
-      pass: "Early adopter clearly defined with specific characteristics and evidence of problem severity"
-      partial: "Customer segment mentioned but too broad"
-      fail: "Target is 'everyone' or generic segment"
-
-  - id: actionable_metrics
-    name: "Actionable Metrics"
-    description: "Whether metrics are actionable vs vanity"
-    weight: 0.15
-    required: true
-    criteria:
-      pass: "Metrics are actionable, tied to hypotheses, with vanity metrics explicitly called out"
-      partial: "Some actionable metrics but vanity metrics mixed in"
-      fail: "Metrics are pure vanity; wouldn't drive decisions"
-
-  - id: pivot_criteria
-    name: "Pivot Criteria"
-    description: "Whether pivot/persevere criteria are defined in advance"
-    weight: 0.10
-    required: true
-    criteria:
-      pass: "Clear criteria for pivot vs persevere defined before experiment runs"
-      partial: "Some criteria mentioned but not specific"
-      fail: "No pivot criteria; would decide based on feelings"
+    - id: leap_of_faith_clarity
+      name: Leap of Faith Clarity
+      description: Whether key assumptions are clearly identified and articulated
+      weight: 0.2
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Value and growth hypotheses clearly stated with specific, falsifiable predictions
+            - value: partial
+              label: Partial
+              criteria:
+                - Hypotheses present but vague or not falsifiable
+            - value: fail
+              label: Fail
+              criteria:
+                - No clear hypotheses; assumptions buried or unstated
+    - id: testability
+      name: Testability
+      description: Whether hypotheses can be tested with concrete experiments
+      weight: 0.2
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Clear experiments designed with specific success/failure criteria defined in advance
+            - value: partial
+              label: Partial
+              criteria:
+                - Experiments mentioned but criteria vague
+            - value: fail
+              label: Fail
+              criteria:
+                - No testable experiments; would just 'launch and see'
+    - id: mvp_definition
+      name: MVP Definition
+      description: Whether MVP is truly minimal and focused on learning
+      weight: 0.2
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - MVP is minimal, explicitly scoped, clearly tied to hypothesis testing
+            - value: partial
+              label: Partial
+              criteria:
+                - MVP defined but scope creep evident; not clearly tied to learning
+            - value: fail
+              label: Fail
+              criteria:
+                - MVP is really a full product; no focus on learning
+    - id: customer_specificity
+      name: Customer Specificity
+      description: Whether early adopter is specifically defined
+      weight: 0.15
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Early adopter clearly defined with specific characteristics and evidence of problem severity
+            - value: partial
+              label: Partial
+              criteria:
+                - Customer segment mentioned but too broad
+            - value: fail
+              label: Fail
+              criteria:
+                - Target is 'everyone' or generic segment
+    - id: actionable_metrics
+      name: Actionable Metrics
+      description: Whether metrics are actionable vs vanity
+      weight: 0.15
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Metrics are actionable, tied to hypotheses, with vanity metrics explicitly called out
+            - value: partial
+              label: Partial
+              criteria:
+                - Some actionable metrics but vanity metrics mixed in
+            - value: fail
+              label: Fail
+              criteria:
+                - Metrics are pure vanity; wouldn't drive decisions
+    - id: pivot_criteria
+      name: Pivot Criteria
+      description: Whether pivot/persevere criteria are defined in advance
+      weight: 0.1
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Clear criteria for pivot vs persevere defined before experiment runs
+            - value: partial
+              label: Partial
+              criteria:
+                - Some criteria mentioned but not specific
+            - value: fail
+              label: Fail
+              criteria:
+                - No pivot criteria; would decide based on feelings

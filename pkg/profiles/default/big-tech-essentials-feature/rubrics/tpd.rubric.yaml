@@ -1,47 +1,91 @@
-name: "Test Plan Evaluation (Essentials)"
-description: "Simplified evaluation of Test Plan documents. Core criteria only - focuses on coverage and hypothesis validation."
-pass_criteria:
-  min_score: 6.5
-  max_critical: 0
-  max_high: 1
-
+id: tpd-rubric
+name: Test Plan Evaluation (Essentials)
+version: "1.0"
+description: Simplified evaluation of Test Plan documents. Core criteria only - focuses on coverage and hypothesis validation.
+evaluationType: analytic
+passCriteria:
+    minCategoriesPassing: all_required
+    maxFindingsSeverity:
+        critical: 0
+        high: 1
+        medium: 0
+        low: -1
 categories:
-  - id: test_coverage
-    name: "Test Coverage"
-    description: "Whether key functionality is covered by tests"
-    weight: 0.35
-    required: true
-    criteria:
-      pass: "All key user flows and requirements have test coverage"
-      partial: "Some coverage but gaps exist"
-      fail: "Test coverage inadequate"
-
-  - id: acceptance_criteria
-    name: "Acceptance Criteria"
-    description: "Clarity of pass/fail criteria"
-    weight: 0.25
-    required: true
-    criteria:
-      pass: "Clear pass/fail criteria for each test case"
-      partial: "Some criteria but ambiguous"
-      fail: "No clear acceptance criteria"
-
-  - id: hypothesis_validation
-    name: "Hypothesis Validation"
-    description: "Whether tests validate key assumptions"
-    weight: 0.20
-    required: false
-    criteria:
-      pass: "Tests designed to validate risky assumptions from PRD"
-      partial: "Some assumption testing"
-      fail: "No assumption testing; purely functional"
-
-  - id: edge_cases
-    name: "Edge Cases"
-    description: "Whether edge cases are considered"
-    weight: 0.20
-    required: false
-    criteria:
-      pass: "Key edge cases and error scenarios covered"
-      partial: "Some edge cases but not comprehensive"
-      fail: "Only happy path testing"
+    - id: test_coverage
+      name: Test Coverage
+      description: Whether key functionality is covered by tests
+      weight: 0.35
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - All key user flows and requirements have test coverage
+            - value: partial
+              label: Partial
+              criteria:
+                - Some coverage but gaps exist
+            - value: fail
+              label: Fail
+              criteria:
+                - Test coverage inadequate
+    - id: acceptance_criteria
+      name: Acceptance Criteria
+      description: Clarity of pass/fail criteria
+      weight: 0.25
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Clear pass/fail criteria for each test case
+            - value: partial
+              label: Partial
+              criteria:
+                - Some criteria but ambiguous
+            - value: fail
+              label: Fail
+              criteria:
+                - No clear acceptance criteria
+    - id: hypothesis_validation
+      name: Hypothesis Validation
+      description: Whether tests validate key assumptions
+      weight: 0.2
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Tests designed to validate risky assumptions from PRD
+            - value: partial
+              label: Partial
+              criteria:
+                - Some assumption testing
+            - value: fail
+              label: Fail
+              criteria:
+                - No assumption testing; purely functional
+    - id: edge_cases
+      name: Edge Cases
+      description: Whether edge cases are considered
+      weight: 0.2
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Key edge cases and error scenarios covered
+            - value: partial
+              label: Partial
+              criteria:
+                - Some edge cases but not comprehensive
+            - value: fail
+              label: Fail
+              criteria:
+                - Only happy path testing

@@ -1,77 +1,152 @@
-name: "Design Thinking UXD Evaluation"
-description: "Evaluates UX design documents for empathy depth, user-centricity, and research rigor"
-pass_criteria:
-  min_score: 7.0
-  max_critical: 0
-  max_high: 0
-
+id: uxd-rubric
+name: Design Thinking UXD Evaluation
+version: "1.0"
+description: Evaluates UX design documents for empathy depth, user-centricity, and research rigor
+evaluationType: analytic
+passCriteria:
+    minCategoriesPassing: all_required
+    maxFindingsSeverity:
+        critical: 0
+        high: 0
+        medium: 0
+        low: -1
 categories:
-  - id: empathy_depth
-    name: "Empathy Depth"
-    description: "Whether user research is deep, not surface-level"
-    weight: 0.25
-    required: true
-    criteria:
-      pass: "Rich empathy maps with direct user quotes; multiple research methods; surprising insights discovered"
-      partial: "Some user research but feels surface-level; empathy maps incomplete"
-      fail: "No real user research; personas invented without evidence"
-
-  - id: pov_clarity
-    name: "POV Clarity"
-    description: "Whether the Point of View statement synthesizes insights effectively"
-    weight: 0.20
-    required: true
-    criteria:
-      pass: "POV statement is specific, actionable, and grounded in empathy insights; not generic"
-      partial: "POV present but too broad or not clearly connected to research"
-      fail: "No POV or statement is a generic problem description"
-
-  - id: hmw_quality
-    name: "How Might We Quality"
-    description: "Whether HMW questions are well-scoped for ideation"
-    weight: 0.15
-    required: true
-    criteria:
-      pass: "HMW questions are neither too broad nor too narrow; inspire multiple solution directions"
-      partial: "HMW questions present but already imply solutions"
-      fail: "No HMW questions or questions are really feature requests"
-
-  - id: journey_mapping
-    name: "Journey Mapping"
-    description: "Whether user journey is mapped with emotional insight"
-    weight: 0.15
-    required: true
-    criteria:
-      pass: "Journey map captures actions, thoughts, emotions, pain points, and opportunities"
-      partial: "Journey map exists but missing emotional or opportunity dimensions"
-      fail: "No journey mapping or only process flow without user perspective"
-
-  - id: design_principles
-    name: "Design Principles"
-    description: "Whether principles are derived from research, not assumptions"
-    weight: 0.10
-    required: true
-    criteria:
-      pass: "Design principles flow directly from user research insights; would guide solution decisions"
-      partial: "Principles exist but feel generic or not connected to research"
-      fail: "No design principles or principles are industry clichés"
-
-  - id: user_voice
-    name: "User Voice"
-    description: "Whether user's actual voice is present in the document"
-    weight: 0.10
-    required: true
-    criteria:
-      pass: "Direct user quotes throughout; user's perspective dominates over author's"
-      partial: "Some quotes but mostly author's interpretation"
-      fail: "No user voice; entirely author's assumptions"
-
-  - id: iteration_readiness
-    name: "Iteration Readiness"
-    description: "Whether the document sets up effective ideation and testing"
-    weight: 0.05
-    required: false
-    criteria:
-      pass: "Clear setup for ideation sessions with constraints and inspiration sources"
-      partial: "Some ideation preparation"
-      fail: "No preparation for next phases"
+    - id: empathy_depth
+      name: Empathy Depth
+      description: Whether user research is deep, not surface-level
+      weight: 0.25
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Rich empathy maps with direct user quotes; multiple research methods; surprising insights discovered
+            - value: partial
+              label: Partial
+              criteria:
+                - Some user research but feels surface-level; empathy maps incomplete
+            - value: fail
+              label: Fail
+              criteria:
+                - No real user research; personas invented without evidence
+    - id: pov_clarity
+      name: POV Clarity
+      description: Whether the Point of View statement synthesizes insights effectively
+      weight: 0.2
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - POV statement is specific, actionable, and grounded in empathy insights; not generic
+            - value: partial
+              label: Partial
+              criteria:
+                - POV present but too broad or not clearly connected to research
+            - value: fail
+              label: Fail
+              criteria:
+                - No POV or statement is a generic problem description
+    - id: hmw_quality
+      name: How Might We Quality
+      description: Whether HMW questions are well-scoped for ideation
+      weight: 0.15
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - HMW questions are neither too broad nor too narrow; inspire multiple solution directions
+            - value: partial
+              label: Partial
+              criteria:
+                - HMW questions present but already imply solutions
+            - value: fail
+              label: Fail
+              criteria:
+                - No HMW questions or questions are really feature requests
+    - id: journey_mapping
+      name: Journey Mapping
+      description: Whether user journey is mapped with emotional insight
+      weight: 0.15
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Journey map captures actions, thoughts, emotions, pain points, and opportunities
+            - value: partial
+              label: Partial
+              criteria:
+                - Journey map exists but missing emotional or opportunity dimensions
+            - value: fail
+              label: Fail
+              criteria:
+                - No journey mapping or only process flow without user perspective
+    - id: design_principles
+      name: Design Principles
+      description: Whether principles are derived from research, not assumptions
+      weight: 0.1
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Design principles flow directly from user research insights; would guide solution decisions
+            - value: partial
+              label: Partial
+              criteria:
+                - Principles exist but feel generic or not connected to research
+            - value: fail
+              label: Fail
+              criteria:
+                - No design principles or principles are industry clichés
+    - id: user_voice
+      name: User Voice
+      description: Whether user's actual voice is present in the document
+      weight: 0.1
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Direct user quotes throughout; user's perspective dominates over author's
+            - value: partial
+              label: Partial
+              criteria:
+                - Some quotes but mostly author's interpretation
+            - value: fail
+              label: Fail
+              criteria:
+                - No user voice; entirely author's assumptions
+    - id: iteration_readiness
+      name: Iteration Readiness
+      description: Whether the document sets up effective ideation and testing
+      weight: 0.05
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Clear setup for ideation sessions with constraints and inspiration sources
+            - value: partial
+              label: Partial
+              criteria:
+                - Some ideation preparation
+            - value: fail
+              label: Fail
+              criteria:
+                - No preparation for next phases
