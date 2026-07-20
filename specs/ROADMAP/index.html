@@ -6977,9 +6977,9 @@
 <li>
 <p>[x] RMI-221: Define rubric YAML schema (<code>pkg/rubrics/yaml.go</code>)</p>
 </li>
-<li><code>RubricYAML</code> struct for parsing</li>
-<li>Validation and conversion to <code>RubricSet</code></li>
-<li>Compatible with structured-evaluation</li>
+<li>Rubrics parse directly into structured-evaluation's <code>rubric.RubricSet</code> (canonical format since v0.14.0)</li>
+<li><code>parseRubricYAML</code> / <code>WriteRubricYAML</code> read and write the structured-evaluation native format</li>
+<li>The legacy <code>RubricYAML</code> flat struct and VisionSpec-local <code>RubricSet</code> were retired</li>
 </ul>
 <h3 id="configurable-spec-requirements">Configurable Spec Requirements<a class="headerlink" href="#configurable-spec-requirements" title="Permanent link">&para;</a></h3>
 <ul>

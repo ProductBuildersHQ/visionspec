@@ -4205,6 +4205,11 @@
 <a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="w">    </span><span class="nt">prd</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">enterprise/prd.rubric.yaml</span>
 </code></pre></div>
 <p>Rubric files in the directory should be named <code>{spec-type}.rubric.yaml</code> (e.g., <code>prd.rubric.yaml</code>).</p>
+<p>Rubrics resolve in order: <code>overrides</code> (per spec type) → <code>directory</code> → the
+profile's built-in rubrics. Relative paths are resolved against the project
+directory. <code>strict_mode</code> and the <code>max_*</code> finding limits apply to every
+evaluation (<code>eval</code>, <code>synthesize --eval</code>, and the MCP <code>run_eval</code> / <code>eval_draft</code>
+tools). Rubric files use the structured-evaluation native format.</p>
 <h3 id="context">context<a class="headerlink" href="#context" title="Permanent link">&para;</a></h3>
 <p>Configure context sources for grounding technical spec synthesis.</p>
 <h4 id="contextcache_ttl">context.cache_ttl<a class="headerlink" href="#contextcache_ttl" title="Permanent link">&para;</a></h4>
