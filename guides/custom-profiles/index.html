@@ -2102,10 +2102,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#pass-criteria" class="md-nav__link">
+  <a href="#scale-and-pass-criteria" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Pass Criteria
+        Scale and Pass Criteria
       
     </span>
   </a>
@@ -3642,10 +3642,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#pass-criteria" class="md-nav__link">
+  <a href="#scale-and-pass-criteria" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Pass Criteria
+        Scale and Pass Criteria
       
     </span>
   </a>
@@ -3928,50 +3928,62 @@
 </tbody>
 </table>
 <h2 id="creating-custom-rubrics">Creating Custom Rubrics<a class="headerlink" href="#creating-custom-rubrics" title="Permanent link">&para;</a></h2>
-<p>Rubrics define evaluation criteria in YAML format:</p>
+<p>Rubrics use the shared <a href="https://github.com/plexusone/structured-evaluation">structured-evaluation</a>
+rubric format — the same definition used across the ecosystem. The spec type is
+taken from the filename (<code>prd.rubric.yaml</code> → <code>prd</code>).</p>
+<p><strong>Flat rubric</strong> (categorical pass/partial/fail per category):</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># rubrics/prd.rubric.yaml</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nt">spec_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">prd</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">prd-rubric</span>
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Acme</span><span class="nv"> </span><span class="s">PRD</span><span class="nv"> </span><span class="s">Rubric&quot;</span>
 <a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;PRD</span><span class="nv"> </span><span class="s">evaluation</span><span class="nv"> </span><span class="s">with</span><span class="nv"> </span><span class="s">Acme</span><span class="nv"> </span><span class="s">security</span><span class="nv"> </span><span class="s">requirements&quot;</span>
 <a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;1.0&quot;</span>
-<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
-<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="nt">categories</span><span class="p">:</span>
-<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">problem_definition</span>
-<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Problem</span><span class="nv"> </span><span class="s">Definition&quot;</span>
-<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Is</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">problem</span><span class="nv"> </span><span class="s">clearly</span><span class="nv"> </span><span class="s">articulated?&quot;</span>
-<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">    </span><span class="nt">weight</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.15</span>
-<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="w">    </span><span class="nt">required</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">    </span><span class="nt">criteria</span><span class="p">:</span>
-<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="w">      </span><span class="nt">pass</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Problem</span><span class="nv"> </span><span class="s">is</span><span class="nv"> </span><span class="s">specific,</span><span class="nv"> </span><span class="s">measurable,</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">tied</span><span class="nv"> </span><span class="s">to</span><span class="nv"> </span><span class="s">user</span><span class="nv"> </span><span class="s">needs&quot;</span>
-<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="w">      </span><span class="nt">partial</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Problem</span><span class="nv"> </span><span class="s">is</span><span class="nv"> </span><span class="s">stated</span><span class="nv"> </span><span class="s">but</span><span class="nv"> </span><span class="s">lacks</span><span class="nv"> </span><span class="s">specificity&quot;</span>
-<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="w">      </span><span class="nt">fail</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Problem</span><span class="nv"> </span><span class="s">is</span><span class="nv"> </span><span class="s">unclear</span><span class="nv"> </span><span class="s">or</span><span class="nv"> </span><span class="s">missing&quot;</span>
-<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>
-<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">user_stories</span>
-<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;User</span><span class="nv"> </span><span class="s">Stories&quot;</span>
-<a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a><span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Are</span><span class="nv"> </span><span class="s">user</span><span class="nv"> </span><span class="s">stories</span><span class="nv"> </span><span class="s">complete</span><span class="nv"> </span><span class="s">with</span><span class="nv"> </span><span class="s">acceptance</span><span class="nv"> </span><span class="s">criteria?&quot;</span>
-<a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a><span class="w">    </span><span class="nt">weight</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.20</span>
-<a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a><span class="w">    </span><span class="nt">required</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a><span class="w">    </span><span class="nt">criteria</span><span class="p">:</span>
-<a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a><span class="w">      </span><span class="nt">pass</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;All</span><span class="nv"> </span><span class="s">stories</span><span class="nv"> </span><span class="s">follow</span><span class="nv"> </span><span class="s">format</span><span class="nv"> </span><span class="s">with</span><span class="nv"> </span><span class="s">testable</span><span class="nv"> </span><span class="s">acceptance</span><span class="nv"> </span><span class="s">criteria&quot;</span>
-<a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a><span class="w">      </span><span class="nt">partial</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Some</span><span class="nv"> </span><span class="s">stories</span><span class="nv"> </span><span class="s">missing</span><span class="nv"> </span><span class="s">criteria&quot;</span>
-<a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a><span class="w">      </span><span class="nt">fail</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;User</span><span class="nv"> </span><span class="s">stories</span><span class="nv"> </span><span class="s">missing</span><span class="nv"> </span><span class="s">or</span><span class="nv"> </span><span class="s">inadequate&quot;</span>
-<a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a>
-<a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a><span class="w">  </span><span class="c1"># Custom category for your organization</span>
-<a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">security_requirements</span>
-<a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Security</span><span class="nv"> </span><span class="s">Requirements&quot;</span>
-<a id="__codelineno-4-31" name="__codelineno-4-31" href="#__codelineno-4-31"></a><span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Are</span><span class="nv"> </span><span class="s">security</span><span class="nv"> </span><span class="s">requirements</span><span class="nv"> </span><span class="s">documented?</span><span class="nv"> </span><span class="s">(ACME</span><span class="nv"> </span><span class="s">POLICY)&quot;</span>
-<a id="__codelineno-4-32" name="__codelineno-4-32" href="#__codelineno-4-32"></a><span class="w">    </span><span class="nt">weight</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.25</span>
-<a id="__codelineno-4-33" name="__codelineno-4-33" href="#__codelineno-4-33"></a><span class="w">    </span><span class="nt">required</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<a id="__codelineno-4-34" name="__codelineno-4-34" href="#__codelineno-4-34"></a><span class="w">    </span><span class="nt">criteria</span><span class="p">:</span>
-<a id="__codelineno-4-35" name="__codelineno-4-35" href="#__codelineno-4-35"></a><span class="w">      </span><span class="nt">pass</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Authentication,</span><span class="nv"> </span><span class="s">authorization,</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">data</span><span class="nv"> </span><span class="s">protection</span><span class="nv"> </span><span class="s">addressed&quot;</span>
-<a id="__codelineno-4-36" name="__codelineno-4-36" href="#__codelineno-4-36"></a><span class="w">      </span><span class="nt">partial</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Some</span><span class="nv"> </span><span class="s">security</span><span class="nv"> </span><span class="s">considerations</span><span class="nv"> </span><span class="s">but</span><span class="nv"> </span><span class="s">gaps</span><span class="nv"> </span><span class="s">exist&quot;</span>
-<a id="__codelineno-4-37" name="__codelineno-4-37" href="#__codelineno-4-37"></a><span class="w">      </span><span class="nt">fail</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Security</span><span class="nv"> </span><span class="s">requirements</span><span class="nv"> </span><span class="s">missing&quot;</span>
-<a id="__codelineno-4-38" name="__codelineno-4-38" href="#__codelineno-4-38"></a>
-<a id="__codelineno-4-39" name="__codelineno-4-39" href="#__codelineno-4-39"></a><span class="nt">pass_criteria</span><span class="p">:</span>
-<a id="__codelineno-4-40" name="__codelineno-4-40" href="#__codelineno-4-40"></a><span class="w">  </span><span class="nt">require_all_pass</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
-<a id="__codelineno-4-41" name="__codelineno-4-41" href="#__codelineno-4-41"></a><span class="w">  </span><span class="nt">max_critical</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
-<a id="__codelineno-4-42" name="__codelineno-4-42" href="#__codelineno-4-42"></a><span class="w">  </span><span class="nt">max_high</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
-<a id="__codelineno-4-43" name="__codelineno-4-43" href="#__codelineno-4-43"></a><span class="w">  </span><span class="nt">max_medium</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="nt">passCriteria</span><span class="p">:</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">  </span><span class="nt">minCategoriesPassing</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">all_required</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">  </span><span class="nt">maxFindingsSeverity</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">critical</span><span class="p">:</span><span class="w"> </span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="nt"> high</span><span class="p">:</span><span class="w"> </span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="nt"> medium</span><span class="p">:</span><span class="w"> </span><span class="nv">2</span><span class="p p-Indicator">,</span><span class="nt"> low</span><span class="p">:</span><span class="w"> </span><span class="nv">-1</span><span class="p p-Indicator">}</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="nt">categories</span><span class="p">:</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">problem_definition</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Problem</span><span class="nv"> </span><span class="s">Definition&quot;</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Is</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">problem</span><span class="nv"> </span><span class="s">clearly</span><span class="nv"> </span><span class="s">articulated?&quot;</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">    </span><span class="nt">weight</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.15</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="w">    </span><span class="nt">required</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="w">    </span><span class="nt">scale</span><span class="p">:</span>
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="w">      </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">categorical</span>
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="w">      </span><span class="nt">options</span><span class="p">:</span>
+<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="nv">pass</span><span class="p p-Indicator">,</span><span class="nt"> criteria</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;Problem</span><span class="nv"> </span><span class="s">is</span><span class="nv"> </span><span class="s">specific,</span><span class="nv"> </span><span class="s">measurable,</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">tied</span><span class="nv"> </span><span class="s">to</span><span class="nv"> </span><span class="s">user</span><span class="nv"> </span><span class="s">needs&quot;</span><span class="p p-Indicator">]}</span>
+<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="nv">partial</span><span class="p p-Indicator">,</span><span class="nt"> criteria</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;Problem</span><span class="nv"> </span><span class="s">is</span><span class="nv"> </span><span class="s">stated</span><span class="nv"> </span><span class="s">but</span><span class="nv"> </span><span class="s">lacks</span><span class="nv"> </span><span class="s">specificity&quot;</span><span class="p p-Indicator">]}</span>
+<a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="nv">fail</span><span class="p p-Indicator">,</span><span class="nt"> criteria</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;Problem</span><span class="nv"> </span><span class="s">is</span><span class="nv"> </span><span class="s">unclear</span><span class="nv"> </span><span class="s">or</span><span class="nv"> </span><span class="s">missing&quot;</span><span class="p p-Indicator">]}</span>
+<a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a>
+<a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a><span class="w">  </span><span class="c1"># Custom category for your organization</span>
+<a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">security_requirements</span>
+<a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Security</span><span class="nv"> </span><span class="s">Requirements&quot;</span>
+<a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a><span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Are</span><span class="nv"> </span><span class="s">security</span><span class="nv"> </span><span class="s">requirements</span><span class="nv"> </span><span class="s">documented?</span><span class="nv"> </span><span class="s">(ACME</span><span class="nv"> </span><span class="s">POLICY)&quot;</span>
+<a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a><span class="w">    </span><span class="nt">weight</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.25</span>
+<a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a><span class="w">    </span><span class="nt">required</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a><span class="w">    </span><span class="nt">scale</span><span class="p">:</span>
+<a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a><span class="w">      </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">categorical</span>
+<a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a><span class="w">      </span><span class="nt">options</span><span class="p">:</span>
+<a id="__codelineno-4-31" name="__codelineno-4-31" href="#__codelineno-4-31"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="nv">pass</span><span class="p p-Indicator">,</span><span class="nt"> criteria</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;Authentication,</span><span class="nv"> </span><span class="s">authorization,</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">data</span><span class="nv"> </span><span class="s">protection</span><span class="nv"> </span><span class="s">addressed&quot;</span><span class="p p-Indicator">]}</span>
+<a id="__codelineno-4-32" name="__codelineno-4-32" href="#__codelineno-4-32"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="nv">partial</span><span class="p p-Indicator">,</span><span class="nt"> criteria</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;Some</span><span class="nv"> </span><span class="s">security</span><span class="nv"> </span><span class="s">considerations</span><span class="nv"> </span><span class="s">but</span><span class="nv"> </span><span class="s">gaps</span><span class="nv"> </span><span class="s">exist&quot;</span><span class="p p-Indicator">]}</span>
+<a id="__codelineno-4-33" name="__codelineno-4-33" href="#__codelineno-4-33"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="nv">fail</span><span class="p p-Indicator">,</span><span class="nt"> criteria</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;Security</span><span class="nv"> </span><span class="s">requirements</span><span class="nv"> </span><span class="s">missing&quot;</span><span class="p p-Indicator">]}</span>
+</code></pre></div>
+<p><strong>Rich rubric</strong> (weighted sub-criteria with indicators, rolled up to a score):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># rubrics/discovery.rubric.yaml</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">discovery-rubric</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Discovery</span><span class="nv"> </span><span class="s">Rubric&quot;</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;1.0&quot;</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="nt">passCriteria</span><span class="p">:</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">  </span><span class="nt">scoreThresholds</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">pass</span><span class="p">:</span><span class="w"> </span><span class="nv">80</span><span class="p p-Indicator">,</span><span class="nt"> partial</span><span class="p">:</span><span class="w"> </span><span class="nv">60</span><span class="p p-Indicator">}</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="nt">categories</span><span class="p">:</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">assumption_coverage</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Assumption</span><span class="nv"> </span><span class="s">Coverage&quot;</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="w">    </span><span class="nt">weight</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">25</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="w">    </span><span class="nt">criteria</span><span class="p">:</span>
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">desirability</span>
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Desirability&quot;</span>
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="w">        </span><span class="nt">weight</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">25</span>
+<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="w">        </span><span class="nt">pass</span><span class="p">:</span>
+<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="w">          </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Desirability</span><span class="nv"> </span><span class="s">assumptions</span><span class="nv"> </span><span class="s">are</span><span class="nv"> </span><span class="s">identified&quot;</span>
+<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="w">          </span><span class="nt">indicators</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;customer</span><span class="nv"> </span><span class="s">demand</span><span class="nv"> </span><span class="s">cited&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;willingness-to-pay</span><span class="nv"> </span><span class="s">evidence&quot;</span><span class="p p-Indicator">]</span>
 </code></pre></div>
 <h3 id="rubric-fields">Rubric Fields<a class="headerlink" href="#rubric-fields" title="Permanent link">&para;</a></h3>
 <table>
@@ -3984,9 +3996,9 @@
 </thead>
 <tbody>
 <tr>
-<td><code>spec_type</code></td>
+<td><code>id</code></td>
 <td>string</td>
-<td>Must match filename (e.g., <code>prd</code> for <code>prd.rubric.yaml</code>)</td>
+<td>Rubric identifier (convention: <code>&lt;spec-type&gt;-rubric</code>)</td>
 </tr>
 <tr>
 <td><code>name</code></td>
@@ -4004,17 +4016,23 @@
 <td>Rubric version</td>
 </tr>
 <tr>
+<td><code>evaluationType</code></td>
+<td>string</td>
+<td><code>analytic</code> (per-category, default) or <code>holistic</code></td>
+</tr>
+<tr>
+<td><code>passCriteria</code></td>
+<td>object</td>
+<td>What constitutes passing</td>
+</tr>
+<tr>
 <td><code>categories</code></td>
 <td>array</td>
 <td>Evaluation categories</td>
 </tr>
-<tr>
-<td><code>pass_criteria</code></td>
-<td>object</td>
-<td>What constitutes passing</td>
-</tr>
 </tbody>
 </table>
+<p>The spec type comes from the filename, not a field (<code>prd.rubric.yaml</code> → <code>prd</code>).</p>
 <h3 id="category-fields">Category Fields<a class="headerlink" href="#category-fields" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
@@ -4043,7 +4061,7 @@
 <tr>
 <td><code>weight</code></td>
 <td>float</td>
-<td>Relative importance (0.0-1.0)</td>
+<td>Relative importance (any positive scale; normalized against the total)</td>
 </tr>
 <tr>
 <td><code>required</code></td>
@@ -4051,23 +4069,19 @@
 <td>Must this category pass?</td>
 </tr>
 <tr>
-<td><code>criteria.pass</code></td>
-<td>string</td>
-<td>What constitutes passing</td>
+<td><code>scale</code></td>
+<td>object</td>
+<td>Categorical scale with pass/partial/fail options (flat rubrics)</td>
 </tr>
 <tr>
-<td><code>criteria.partial</code></td>
-<td>string</td>
-<td>What constitutes partial pass</td>
-</tr>
-<tr>
-<td><code>criteria.fail</code></td>
-<td>string</td>
-<td>What constitutes failure</td>
+<td><code>criteria</code></td>
+<td>array</td>
+<td>Weighted sub-criteria, each with <code>pass</code>/<code>partial</code>/<code>fail</code> bands (rich rubrics)</td>
 </tr>
 </tbody>
 </table>
-<h3 id="pass-criteria">Pass Criteria<a class="headerlink" href="#pass-criteria" title="Permanent link">&para;</a></h3>
+<p>Use <strong>either</strong> <code>scale</code> (flat) <strong>or</strong> <code>criteria</code> (rich) per category.</p>
+<h3 id="scale-and-pass-criteria">Scale and Pass Criteria<a class="headerlink" href="#scale-and-pass-criteria" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
@@ -4078,39 +4092,49 @@
 </thead>
 <tbody>
 <tr>
-<td><code>require_all_pass</code></td>
-<td>bool</td>
-<td>All categories must pass</td>
+<td><code>scale.type</code></td>
+<td>string</td>
+<td><code>categorical</code> (recommended), <code>checklist</code>, <code>binary</code>, or <code>likert</code></td>
 </tr>
 <tr>
-<td><code>max_critical</code></td>
-<td>int</td>
-<td>Maximum critical findings allowed</td>
+<td><code>scale.options[].value</code></td>
+<td>string</td>
+<td><code>pass</code>, <code>partial</code>, or <code>fail</code></td>
 </tr>
 <tr>
-<td><code>max_high</code></td>
-<td>int</td>
-<td>Maximum high findings allowed</td>
+<td><code>scale.options[].criteria</code></td>
+<td>array</td>
+<td>What that band requires</td>
 </tr>
 <tr>
-<td><code>max_medium</code></td>
-<td>int</td>
-<td>Maximum medium findings allowed (-1 = unlimited)</td>
+<td><code>passCriteria.minCategoriesPassing</code></td>
+<td>string</td>
+<td><code>all</code>, <code>all_required</code>, or a number</td>
+</tr>
+<tr>
+<td><code>passCriteria.maxFindingsSeverity</code></td>
+<td>object</td>
+<td>Max findings per severity (<code>-1</code> = unlimited)</td>
+</tr>
+<tr>
+<td><code>passCriteria.scoreThresholds</code></td>
+<td>object</td>
+<td>Numeric <code>pass</code>/<code>partial</code> cutoffs (0-100) for rich rubrics</td>
 </tr>
 </tbody>
 </table>
 <h2 id="profile-inheritance">Profile Inheritance<a class="headerlink" href="#profile-inheritance" title="Permanent link">&para;</a></h2>
 <p>Profiles can extend other profiles:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">acme-startup</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Acme</span><span class="nv"> </span><span class="s">startup</span><span class="nv"> </span><span class="s">profile</span><span class="nv"> </span><span class="s">with</span><span class="nv"> </span><span class="s">security</span><span class="nv"> </span><span class="s">baseline&quot;</span>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="nt">extends</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">startup</span>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="nt">spec_config</span><span class="p">:</span>
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">  </span><span class="c1"># Inherits prd: required from startup</span>
-<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">  </span><span class="c1"># Add security requirement</span>
-<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">  </span><span class="nt">security-review</span><span class="p">:</span>
-<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="w">    </span><span class="nt">required</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="w">    </span><span class="nt">category</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">technical</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">acme-startup</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Acme</span><span class="nv"> </span><span class="s">startup</span><span class="nv"> </span><span class="s">profile</span><span class="nv"> </span><span class="s">with</span><span class="nv"> </span><span class="s">security</span><span class="nv"> </span><span class="s">baseline&quot;</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="nt">extends</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">startup</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="nt">spec_config</span><span class="p">:</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">  </span><span class="c1"># Inherits prd: required from startup</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="w">  </span><span class="c1"># Add security requirement</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="w">  </span><span class="nt">security-review</span><span class="p">:</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="w">    </span><span class="nt">required</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="w">    </span><span class="nt">category</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">technical</span>
 </code></pre></div>
 <p>When extending:</p>
 <ul>
@@ -4120,41 +4144,41 @@
 </ul>
 <h2 id="building-a-custom-cli">Building a Custom CLI<a class="headerlink" href="#building-a-custom-cli" title="Permanent link">&para;</a></h2>
 <p>For distribution, you can compile profiles into a custom binary:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">    </span><span class="s">&quot;embed&quot;</span>
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">    </span><span class="s">&quot;github.com/ProductBuildersHQ/visionspec/pkg/cli&quot;</span>
-<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">    </span><span class="s">&quot;github.com/ProductBuildersHQ/visionspec/pkg/templates&quot;</span>
-<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="w">    </span><span class="s">&quot;github.com/ProductBuildersHQ/visionspec/pkg/rubrics&quot;</span>
-<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="w">    </span><span class="s">&quot;github.com/spf13/cobra&quot;</span>
-<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="p">)</span>
-<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>
-<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="c1">//go:embed templates/*.md</span>
-<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="kd">var</span><span class="w"> </span><span class="nx">orgTemplates</span><span class="w"> </span><span class="nx">embed</span><span class="p">.</span><span class="nx">FS</span>
-<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>
-<a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="c1">//go:embed rubrics/*.rubric.yaml</span>
-<a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a><span class="kd">var</span><span class="w"> </span><span class="nx">orgRubrics</span><span class="w"> </span><span class="nx">embed</span><span class="p">.</span><span class="nx">FS</span>
-<a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a>
-<a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a><span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a><span class="w">    </span><span class="nx">root</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">cobra</span><span class="p">.</span><span class="nx">Command</span><span class="p">{</span><span class="nx">Use</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;acme-spec&quot;</span><span class="p">}</span>
-<a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a>
-<a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a><span class="w">    </span><span class="nx">cfg</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">cli</span><span class="p">.</span><span class="nx">DefaultConfig</span><span class="p">()</span>
-<a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a><span class="w">    </span><span class="nx">cfg</span><span class="p">.</span><span class="nx">TemplateLoader</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">templates</span><span class="p">.</span><span class="nx">NewChainLoader</span><span class="p">(</span>
-<a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a><span class="w">        </span><span class="nx">templates</span><span class="p">.</span><span class="nx">NewEmbedFSLoader</span><span class="p">(</span><span class="nx">orgTemplates</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;templates&quot;</span><span class="p">),</span>
-<a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a><span class="w">        </span><span class="nx">templates</span><span class="p">.</span><span class="nx">EmbeddedLoader</span><span class="p">(),</span><span class="w">  </span><span class="c1">// Fallback to defaults</span>
-<a id="__codelineno-6-24" name="__codelineno-6-24" href="#__codelineno-6-24"></a><span class="w">    </span><span class="p">)</span>
-<a id="__codelineno-6-25" name="__codelineno-6-25" href="#__codelineno-6-25"></a><span class="w">    </span><span class="nx">cfg</span><span class="p">.</span><span class="nx">RubricLoader</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">rubrics</span><span class="p">.</span><span class="nx">NewChainLoader</span><span class="p">(</span>
-<a id="__codelineno-6-26" name="__codelineno-6-26" href="#__codelineno-6-26"></a><span class="w">        </span><span class="nx">rubrics</span><span class="p">.</span><span class="nx">NewEmbedFSLoader</span><span class="p">(</span><span class="nx">orgRubrics</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;rubrics&quot;</span><span class="p">),</span>
-<a id="__codelineno-6-27" name="__codelineno-6-27" href="#__codelineno-6-27"></a><span class="w">        </span><span class="nx">rubrics</span><span class="p">.</span><span class="nx">EmbeddedLoader</span><span class="p">(),</span><span class="w">  </span><span class="c1">// Fallback to defaults</span>
-<a id="__codelineno-6-28" name="__codelineno-6-28" href="#__codelineno-6-28"></a><span class="w">    </span><span class="p">)</span>
-<a id="__codelineno-6-29" name="__codelineno-6-29" href="#__codelineno-6-29"></a>
-<a id="__codelineno-6-30" name="__codelineno-6-30" href="#__codelineno-6-30"></a><span class="w">    </span><span class="nx">cli</span><span class="p">.</span><span class="nx">AddCommandsTo</span><span class="p">(</span><span class="nx">root</span><span class="p">,</span><span class="w"> </span><span class="nx">cfg</span><span class="p">)</span>
-<a id="__codelineno-6-31" name="__codelineno-6-31" href="#__codelineno-6-31"></a><span class="w">    </span><span class="nx">root</span><span class="p">.</span><span class="nx">Execute</span><span class="p">()</span>
-<a id="__codelineno-6-32" name="__codelineno-6-32" href="#__codelineno-6-32"></a><span class="p">}</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span><span class="s">&quot;embed&quot;</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">    </span><span class="s">&quot;github.com/ProductBuildersHQ/visionspec/pkg/cli&quot;</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">    </span><span class="s">&quot;github.com/ProductBuildersHQ/visionspec/pkg/templates&quot;</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">    </span><span class="s">&quot;github.com/ProductBuildersHQ/visionspec/pkg/rubrics&quot;</span>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="w">    </span><span class="s">&quot;github.com/spf13/cobra&quot;</span>
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="p">)</span>
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="c1">//go:embed templates/*.md</span>
+<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="kd">var</span><span class="w"> </span><span class="nx">orgTemplates</span><span class="w"> </span><span class="nx">embed</span><span class="p">.</span><span class="nx">FS</span>
+<a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>
+<a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="c1">//go:embed rubrics/*.rubric.yaml</span>
+<a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="kd">var</span><span class="w"> </span><span class="nx">orgRubrics</span><span class="w"> </span><span class="nx">embed</span><span class="p">.</span><span class="nx">FS</span>
+<a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a>
+<a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a><span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a><span class="w">    </span><span class="nx">root</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">cobra</span><span class="p">.</span><span class="nx">Command</span><span class="p">{</span><span class="nx">Use</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;acme-spec&quot;</span><span class="p">}</span>
+<a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a>
+<a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a><span class="w">    </span><span class="nx">cfg</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">cli</span><span class="p">.</span><span class="nx">DefaultConfig</span><span class="p">()</span>
+<a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a><span class="w">    </span><span class="nx">cfg</span><span class="p">.</span><span class="nx">TemplateLoader</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">templates</span><span class="p">.</span><span class="nx">NewChainLoader</span><span class="p">(</span>
+<a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a><span class="w">        </span><span class="nx">templates</span><span class="p">.</span><span class="nx">NewEmbedFSLoader</span><span class="p">(</span><span class="nx">orgTemplates</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;templates&quot;</span><span class="p">),</span>
+<a id="__codelineno-7-23" name="__codelineno-7-23" href="#__codelineno-7-23"></a><span class="w">        </span><span class="nx">templates</span><span class="p">.</span><span class="nx">EmbeddedLoader</span><span class="p">(),</span><span class="w">  </span><span class="c1">// Fallback to defaults</span>
+<a id="__codelineno-7-24" name="__codelineno-7-24" href="#__codelineno-7-24"></a><span class="w">    </span><span class="p">)</span>
+<a id="__codelineno-7-25" name="__codelineno-7-25" href="#__codelineno-7-25"></a><span class="w">    </span><span class="nx">cfg</span><span class="p">.</span><span class="nx">RubricLoader</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">rubrics</span><span class="p">.</span><span class="nx">NewChainLoader</span><span class="p">(</span>
+<a id="__codelineno-7-26" name="__codelineno-7-26" href="#__codelineno-7-26"></a><span class="w">        </span><span class="nx">rubrics</span><span class="p">.</span><span class="nx">NewEmbedFSLoader</span><span class="p">(</span><span class="nx">orgRubrics</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;rubrics&quot;</span><span class="p">),</span>
+<a id="__codelineno-7-27" name="__codelineno-7-27" href="#__codelineno-7-27"></a><span class="w">        </span><span class="nx">rubrics</span><span class="p">.</span><span class="nx">EmbeddedLoader</span><span class="p">(),</span><span class="w">  </span><span class="c1">// Fallback to defaults</span>
+<a id="__codelineno-7-28" name="__codelineno-7-28" href="#__codelineno-7-28"></a><span class="w">    </span><span class="p">)</span>
+<a id="__codelineno-7-29" name="__codelineno-7-29" href="#__codelineno-7-29"></a>
+<a id="__codelineno-7-30" name="__codelineno-7-30" href="#__codelineno-7-30"></a><span class="w">    </span><span class="nx">cli</span><span class="p">.</span><span class="nx">AddCommandsTo</span><span class="p">(</span><span class="nx">root</span><span class="p">,</span><span class="w"> </span><span class="nx">cfg</span><span class="p">)</span>
+<a id="__codelineno-7-31" name="__codelineno-7-31" href="#__codelineno-7-31"></a><span class="w">    </span><span class="nx">root</span><span class="p">.</span><span class="nx">Execute</span><span class="p">()</span>
+<a id="__codelineno-7-32" name="__codelineno-7-32" href="#__codelineno-7-32"></a><span class="p">}</span>
 </code></pre></div>
 <p>Build with:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>go<span class="w"> </span>build<span class="w"> </span>-o<span class="w"> </span>acme-spec
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>go<span class="w"> </span>build<span class="w"> </span>-o<span class="w"> </span>acme-spec
 </code></pre></div>
 <p>The resulting binary contains all templates and rubrics - no external files needed.</p>
 <h2 id="loader-types">Loader Types<a class="headerlink" href="#loader-types" title="Permanent link">&para;</a></h2>
