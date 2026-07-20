@@ -18,8 +18,8 @@ github.com/grokify/oscompat v0.5.0 h1:qGUym1Jt+yecBmBM7FnimvuUWLs8VVRCxotpHTzaWH
 github.com/grokify/oscompat v0.5.0/go.mod h1:Ekex/WzHaA39LNt5xbeQRASo74NEXAIqBlqdvNF2oUM=
 github.com/grokify/pidl v0.5.0 h1:RDiLnJ0Pm8vlbHbxnMv0wjL3+obOkPnL3RrdqgNsf9A=
 github.com/grokify/pidl v0.5.0/go.mod h1:yq+qXFE3vAELJypeP0GpI/O4NL9vCLOWrIlTmGq6B54=
-github.com/grokify/prism-roadmap v0.15.0 h1:sW7nyS/WpgCKLSO3ojpF1bVBEIELwmDRZ6Zc38bIQM8=
-github.com/grokify/prism-roadmap v0.15.0/go.mod h1:TT1nWZ3BbgYV2kYyScr36NgBfksKLXo4FVp1iWEJ/6Y=
+github.com/grokify/prism-roadmap v0.16.0 h1:EGgXiOD7Y65JyHG3fxa/0wH1Q9sUm45WfE9ZBsSXn/E=
+github.com/grokify/prism-roadmap v0.16.0/go.mod h1:IWef6PsmIubzFzC7w2VeRJtsHlP5vRa0XudESSIx994=
 github.com/grokify/sogo v0.15.0 h1:RS4DPxNhZQLmz/qcLa5t1Mr+SjGwSZPJgpefp9BJInE=
 github.com/grokify/sogo v0.15.0/go.mod h1:BZjNVHThtkfC80J2kcPWCytQzu5XKtHTxCRffpZaWb8=
 github.com/inconshreveable/mousetrap v1.1.0 h1:wN+x4NVGpMsO7ErUn/mUI3vEoE6Jt13X2s0bqwp9tc8=
@@ -32,8 +32,8 @@ github.com/plexusone/graphize v0.4.0 h1:m3lV7ep6ZKCqOGRwxWIWOovLXY4lFiTDtfUsNwfB
 github.com/plexusone/graphize v0.4.0/go.mod h1:mceXpvnrd/QDdsjjusHV+c9fhfKtAljG0R0y+1YjWNY=
 github.com/plexusone/omnillm-core v0.18.0 h1:JnONiIe08W+83hsyxyFHSouk0jkBY2o7/SzvJxF3mYI=
 github.com/plexusone/omnillm-core v0.18.0/go.mod h1:180U/oa67fly3+T3h1sL/pBMvcjIKR+bvSEkAGnalMY=
-github.com/plexusone/structured-evaluation v0.9.0 h1:r0+v0hFF2bXFbu1pNN9Ev6Wjm5MUWx92Ispe5XLj3GU=
-github.com/plexusone/structured-evaluation v0.9.0/go.mod h1:/EeH1LVHmGq+O35LQ/VybJNLIGqpoJlR8FqKCOt2KC4=
+github.com/plexusone/structured-evaluation v0.10.0 h1:fmpNtO+H6Z5GvCQx4LPDIEPXC24X6KixBJny5wUWMZY=
+github.com/plexusone/structured-evaluation v0.10.0/go.mod h1:/EeH1LVHmGq+O35LQ/VybJNLIGqpoJlR8FqKCOt2KC4=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/russross/blackfriday/v2 v2.1.0/go.mod h1:+Rmxgy9KzJVeS9/2gXHxylqXiyQDYRxCVz55jmeOWTM=

@@ -6,10 +6,14 @@ import (
 
 	"gopkg.in/yaml.v3"
 
-	"github.com/ProductBuildersHQ/visionspec/pkg/types"
+	"github.com/plexusone/structured-evaluation/rubric"
 )
 
-// RubricYAML represents a rubric definition in YAML format.
+// RubricYAML represents a rubric definition in visionspec's legacy flat YAML
+// format (criteria as a pass/partial/fail map). It is retained only to read
+// not-yet-migrated profile rubrics; parseRubricYAML converts them to the
+// canonical structured-evaluation rubric.RubricSet. New rubrics are authored
+// directly in the structured-evaluation format.
 type RubricYAML struct {
 	SpecType     string           `yaml:"spec_type"`
 	Name         string           `yaml:"name"`
@@ -19,7 +23,7 @@ type RubricYAML struct {
 	PassCriteria PassCriteriaYAML `yaml:"pass_criteria"`
 }
 
-// CategoryYAML represents a category in YAML format.
+// CategoryYAML represents a category in the legacy flat YAML format.
 type CategoryYAML struct {
 	ID          string       `yaml:"id"`
 	Name        string       `yaml:"name"`
@@ -29,14 +33,14 @@ type CategoryYAML struct {
 	Criteria    CriteriaYAML `yaml:"criteria"`
 }
 
-// CriteriaYAML represents pass/partial/fail criteria in YAML format.
+// CriteriaYAML represents pass/partial/fail criteria in the legacy flat format.
 type CriteriaYAML struct {
 	Pass    string `yaml:"pass"`
 	Partial string `yaml:"partial"`
 	Fail    string `yaml:"fail"`
 }
 
-// PassCriteriaYAML represents pass criteria in YAML format.
+// PassCriteriaYAML represents pass criteria in the legacy flat format.
 type PassCriteriaYAML struct {
 	RequireAllPass bool `yaml:"require_all_pass"`
 	MaxCritical    int  `yaml:"max_critical"`
@@ -44,8 +48,23 @@ type PassCriteriaYAML struct {
 	MaxMedium      int  `yaml:"max_medium"`
 }
 
-// ToRubricSet converts a RubricYAML to a RubricSet.
-func (r *RubricYAML) ToRubricSet() (*RubricSet, error) {
+func sliceOrNil(s string) []string {
+	if s == "" {
+		return nil
+	}
+	return []string{s}
+}
+
+func minCategoriesPassing(requireAll bool) string {
+	if requireAll {
+		return "all"
+	}
+	return "all_required"
+}
+
+// ToRubricSet converts a legacy flat RubricYAML to the canonical
+// structured-evaluation rubric.RubricSet (categorical scale per category).
+func (r *RubricYAML) ToRubricSet() (*rubric.RubricSet, error) {
 	if r.SpecType == "" {
 		return nil, fmt.Errorf("spec_type is required")
 	}
@@ -56,16 +75,20 @@ func (r *RubricYAML) ToRubricSet() (*RubricSet, error) {
 		return nil, fmt.Errorf("at least one category is required")
 	}
 
-	rs := &RubricSet{
-		SpecType:    types.SpecType(r.SpecType),
-		Name:        r.Name,
-		Description: r.Description,
-		Categories:  make([]*Category, len(r.Categories)),
-		PassCriteria: PassCriteria{
-			RequireAllPass: r.PassCriteria.RequireAllPass,
-			MaxCritical:    r.PassCriteria.MaxCritical,
-			MaxHigh:        r.PassCriteria.MaxHigh,
-			MaxMedium:      r.PassCriteria.MaxMedium,
+	version := r.Version
+	if version == "" {
+		version = "1.0"
+	}
+
+	rs := rubric.NewRubricSet(r.SpecType+"-rubric", r.Name, version)
+	rs.Description = r.Description
+	rs.PassCriteria = rubric.RubricPassCriteria{
+		MinCategoriesPassing: minCategoriesPassing(r.PassCriteria.RequireAllPass),
+		MaxFindings: &rubric.FindingLimits{
+			Critical: r.PassCriteria.MaxCritical,
+			High:     r.PassCriteria.MaxHigh,
+			Medium:   r.PassCriteria.MaxMedium,
+			Low:      -1,
 		},
 	}
 
@@ -76,68 +99,44 @@ func (r *RubricYAML) ToRubricSet() (*RubricSet, error) {
 		if cat.Name == "" {
 			return nil, fmt.Errorf("category %d: name is required", i)
 		}
-
-		rs.Categories[i] = &Category{
-			ID:          cat.ID,
-			Name:        cat.Name,
-			Description: cat.Description,
-			Weight:      cat.Weight,
-			Required:    cat.Required,
-			Criteria: CategoricalCriteria{
-				Pass:    cat.Criteria.Pass,
-				Partial: cat.Criteria.Partial,
-				Fail:    cat.Criteria.Fail,
-			},
-		}
+		rs.AddCategory(*rubric.NewCategory(cat.ID, cat.Name, cat.Description).
+			SetWeight(cat.Weight).SetRequired(cat.Required).
+			WithPassPartialFail(
+				sliceOrNil(cat.Criteria.Pass),
+				sliceOrNil(cat.Criteria.Partial),
+				sliceOrNil(cat.Criteria.Fail),
+			))
 	}
 
 	return rs, nil
 }
 
-// ToYAML converts a RubricSet to RubricYAML.
-func (rs *RubricSet) ToYAML() *RubricYAML {
-	yaml := &RubricYAML{
-		SpecType:    string(rs.SpecType),
-		Name:        rs.Name,
-		Description: rs.Description,
-		Categories:  make([]CategoryYAML, len(rs.Categories)),
-		PassCriteria: PassCriteriaYAML{
-			RequireAllPass: rs.PassCriteria.RequireAllPass,
-			MaxCritical:    rs.PassCriteria.MaxCritical,
-			MaxHigh:        rs.PassCriteria.MaxHigh,
-			MaxMedium:      rs.PassCriteria.MaxMedium,
-		},
+// parseRubricYAML parses rubric YAML content into a rubric.RubricSet. It first
+// tries the canonical structured-evaluation format (rich weighted criteria or
+// categorical scales); if that does not yield categories, it falls back to
+// visionspec's legacy flat format. sourceName is used only for error context.
+func parseRubricYAML(content []byte, sourceName string) (*rubric.RubricSet, error) {
+	var rs rubric.RubricSet
+	if err := yaml.Unmarshal(content, &rs); err == nil && len(rs.Categories) > 0 {
+		return &rs, nil
 	}
 
-	for i, cat := range rs.Categories {
-		yaml.Categories[i] = CategoryYAML{
-			ID:          cat.ID,
-			Name:        cat.Name,
-			Description: cat.Description,
-			Weight:      cat.Weight,
-			Required:    cat.Required,
-			Criteria: CriteriaYAML{
-				Pass:    cat.Criteria.Pass,
-				Partial: cat.Criteria.Partial,
-				Fail:    cat.Criteria.Fail,
-			},
-		}
+	var flat RubricYAML
+	if err := yaml.Unmarshal(content, &flat); err != nil {
+		return nil, fmt.Errorf("parsing rubric %s: %w", sourceName, err)
 	}
-
-	return yaml
+	return flat.ToRubricSet()
 }
 
-// WriteRubricYAML writes a RubricSet to a YAML file.
-func WriteRubricYAML(path string, rs *RubricSet) error {
-	yamlData := rs.ToYAML()
-	data, err := yaml.Marshal(yamlData)
+// WriteRubricYAML writes a rubric.RubricSet to a YAML file in the canonical
+// structured-evaluation format.
+func WriteRubricYAML(path string, rs *rubric.RubricSet) error {
+	data, err := yaml.Marshal(rs)
 	if err != nil {
 		return fmt.Errorf("marshaling rubric: %w", err)
 	}
-
 	if err := os.WriteFile(path, data, 0600); err != nil {
 		return fmt.Errorf("writing file: %w", err)
 	}
-
 	return nil
 }

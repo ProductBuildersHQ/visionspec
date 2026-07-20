@@ -112,11 +112,13 @@ func (s *Server) handleRubricResource(ctx context.Context, req *mcp.ReadResource
 		sb.WriteString(fmt.Sprintf("    description: %s\n", cat.Description))
 	}
 
-	sb.WriteString(fmt.Sprintf("\npass_criteria:\n"))
-	sb.WriteString(fmt.Sprintf("  require_all_pass: %v\n", rubric.PassCriteria.RequireAllPass))
-	sb.WriteString(fmt.Sprintf("  max_critical: %d\n", rubric.PassCriteria.MaxCritical))
-	sb.WriteString(fmt.Sprintf("  max_high: %d\n", rubric.PassCriteria.MaxHigh))
-	sb.WriteString(fmt.Sprintf("  max_medium: %d\n", rubric.PassCriteria.MaxMedium))
+	sb.WriteString("\npass_criteria:\n")
+	sb.WriteString(fmt.Sprintf("  min_categories_passing: %s\n", rubric.PassCriteria.MinCategoriesPassing))
+	if lim := rubric.PassCriteria.MaxFindings; lim != nil {
+		sb.WriteString(fmt.Sprintf("  max_critical: %d\n", lim.Critical))
+		sb.WriteString(fmt.Sprintf("  max_high: %d\n", lim.High))
+		sb.WriteString(fmt.Sprintf("  max_medium: %d\n", lim.Medium))
+	}
 
 	return &mcp.ReadResourceResult{
 		Contents: []*mcp.ResourceContents{

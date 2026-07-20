@@ -9,13 +9,13 @@ import (
 	"strings"
 
 	"github.com/ProductBuildersHQ/visionspec/pkg/types"
-	"gopkg.in/yaml.v3"
+	"github.com/plexusone/structured-evaluation/rubric"
 )
 
 // Loader loads rubrics from various sources.
 type Loader interface {
 	// Load returns the rubric for a spec type.
-	Load(specType types.SpecType) (*RubricSet, error)
+	Load(specType types.SpecType) (*rubric.RubricSet, error)
 
 	// Available returns all available spec types with rubrics.
 	Available() []types.SpecType
@@ -29,7 +29,7 @@ func EmbeddedLoader() Loader {
 	return &embeddedLoader{}
 }
 
-func (l *embeddedLoader) Load(specType types.SpecType) (*RubricSet, error) {
+func (l *embeddedLoader) Load(specType types.SpecType) (*rubric.RubricSet, error) {
 	return Get(specType)
 }
 
@@ -48,7 +48,7 @@ func NewFileLoader(dir string) *fileLoader {
 	return &fileLoader{dir: dir}
 }
 
-func (l *fileLoader) Load(specType types.SpecType) (*RubricSet, error) {
+func (l *fileLoader) Load(specType types.SpecType) (*rubric.RubricSet, error) {
 	filename := string(specType) + ".rubric.yaml"
 	path := filepath.Join(l.dir, filename)
 
@@ -60,12 +60,7 @@ func (l *fileLoader) Load(specType types.SpecType) (*RubricSet, error) {
 		return nil, fmt.Errorf("reading rubric %s: %w", path, err)
 	}
 
-	var rubricYAML RubricYAML
-	if err := yaml.Unmarshal(content, &rubricYAML); err != nil {
-		return nil, fmt.Errorf("parsing rubric %s: %w", path, err)
-	}
-
-	return rubricYAML.ToRubricSet()
+	return parseRubricYAML(content, path)
 }
 
 func (l *fileLoader) Available() []types.SpecType {
@@ -114,7 +109,7 @@ func NewEmbedFSLoader(fsys embed.FS, dir string) Loader {
 	return &embedFSLoader{fs: fsys, dir: dir}
 }
 
-func (l *embedFSLoader) Load(specType types.SpecType) (*RubricSet, error) {
+func (l *embedFSLoader) Load(specType types.SpecType) (*rubric.RubricSet, error) {
 	filename := string(specType) + ".rubric.yaml"
 	path := l.dir + "/" + filename // embed.FS uses forward slashes
 
@@ -123,12 +118,7 @@ func (l *embedFSLoader) Load(specType types.SpecType) (*RubricSet, error) {
 		return nil, fmt.Errorf("rubric not found for spec type %q: %w", specType, err)
 	}
 
-	var rubricYAML RubricYAML
-	if err := yaml.Unmarshal(content, &rubricYAML); err != nil {
-		return nil, fmt.Errorf("parsing rubric: %w", err)
-	}
-
-	return rubricYAML.ToRubricSet()
+	return parseRubricYAML(content, path)
 }
 
 func (l *embedFSLoader) Available() []types.SpecType {
@@ -167,7 +157,7 @@ func NewChainLoader(loaders ...Loader) Loader {
 	return &chainLoader{loaders: loaders}
 }
 
-func (l *chainLoader) Load(specType types.SpecType) (*RubricSet, error) {
+func (l *chainLoader) Load(specType types.SpecType) (*rubric.RubricSet, error) {
 	var lastErr error
 
 	for _, loader := range l.loaders {
@@ -211,7 +201,7 @@ func NewSubFSLoader(fsys fs.FS) Loader {
 	return &subFSLoader{fsys: fsys}
 }
 
-func (l *subFSLoader) Load(specType types.SpecType) (*RubricSet, error) {
+func (l *subFSLoader) Load(specType types.SpecType) (*rubric.RubricSet, error) {
 	filename := string(specType) + ".rubric.yaml"
 
 	content, err := fs.ReadFile(l.fsys, filename)
@@ -219,12 +209,7 @@ func (l *subFSLoader) Load(specType types.SpecType) (*RubricSet, error) {
 		return nil, fmt.Errorf("rubric not found for spec type %q: %w", specType, err)
 	}
 
-	var rubricYAML RubricYAML
-	if err := yaml.Unmarshal(content, &rubricYAML); err != nil {
-		return nil, fmt.Errorf("parsing rubric: %w", err)
-	}
-
-	return rubricYAML.ToRubricSet()
+	return parseRubricYAML(content, filename)
 }
 
 func (l *subFSLoader) Available() []types.SpecType {
@@ -258,7 +243,7 @@ func DefaultLoader() Loader {
 }
 
 // LoadWithLoader loads a rubric using a specific loader.
-func LoadWithLoader(loader Loader, specType types.SpecType) (*RubricSet, error) {
+func LoadWithLoader(loader Loader, specType types.SpecType) (*rubric.RubricSet, error) {
 	if loader == nil {
 		loader = DefaultLoader()
 	}

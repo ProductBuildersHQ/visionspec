@@ -96,7 +96,7 @@ func GetRubricSet(docType DocType) (*rubric.RubricSet, error) {
 		return nil, fmt.Errorf("failed to get rubric for %s: %w", specType, err)
 	}
 
-	return rs.ToEvaluationRubricSet(), nil
+	return rs, nil
 }
 
 // Evaluate evaluates an AIDLC document using its rubric.

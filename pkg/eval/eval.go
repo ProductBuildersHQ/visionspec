@@ -134,7 +134,7 @@ func (e *Evaluator) Evaluate(ctx context.Context, specType types.SpecType, conte
 }
 
 // buildEvalPrompt constructs the evaluation prompt for the LLM.
-func buildEvalPrompt(rubricSet *rubrics.RubricSet, content string) string {
+func buildEvalPrompt(rubricSet *rubric.RubricSet, content string) string {
 	prompt := fmt.Sprintf(`You are an expert document evaluator. Evaluate the following %s against the provided rubric.
 
 ## Rubric
@@ -244,7 +244,7 @@ type evalResponse struct {
 }
 
 // parseEvalResponse parses the LLM response into a Result.
-func parseEvalResponse(specType types.SpecType, rubricSet *rubrics.RubricSet, response string, metadata JudgeMetadata) (*Result, error) {
+func parseEvalResponse(specType types.SpecType, rubricSet *rubric.RubricSet, response string, metadata JudgeMetadata) (*Result, error) {
 	var resp evalResponse
 	if err := json.Unmarshal([]byte(response), &resp); err != nil {
 		return nil, fmt.Errorf("invalid JSON response: %w", err)
@@ -393,12 +393,18 @@ func intScoreToLegacy(score rubric.IntegerScore) float64 {
 }
 
 // evaluatePassCriteriaV2 checks pass criteria using integer scores and returns blocking codes.
-func evaluatePassCriteriaV2(score rubric.IntegerScore, findings []Finding, criteria rubrics.PassCriteria) (bool, []rubric.ReasonCode) {
+func evaluatePassCriteriaV2(score rubric.IntegerScore, findings []Finding, criteria rubric.RubricPassCriteria) (bool, []rubric.ReasonCode) {
 	var blocking []rubric.ReasonCode
 
 	// Score must be at least 3 (Acceptable) to pass
 	if score < rubric.ScoreAcceptable {
 		return false, blocking
+	}
+
+	// Finding limits by severity; a nil limit set blocks any critical/high.
+	limits := criteria.MaxFindings
+	if limits == nil {
+		limits = &rubric.FindingLimits{Critical: 0, High: 0, Medium: -1, Low: -1}
 	}
 
 	// Count findings by severity and collect blocking codes
@@ -420,14 +426,14 @@ func evaluatePassCriteriaV2(score rubric.IntegerScore, findings []Finding, crite
 		}
 	}
 
-	// Check blocking thresholds
-	if critical > criteria.MaxCritical {
+	// Check blocking thresholds (a negative limit means unlimited)
+	if limits.Critical >= 0 && critical > limits.Critical {
 		return false, blocking
 	}
-	if high > criteria.MaxHigh {
+	if limits.High >= 0 && high > limits.High {
 		return false, blocking
 	}
-	if criteria.MaxMedium >= 0 && medium > criteria.MaxMedium {
+	if limits.Medium >= 0 && medium > limits.Medium {
 		return false, blocking
 	}
 
@@ -442,7 +448,7 @@ func evaluatePassCriteriaV2(score rubric.IntegerScore, findings []Finding, crite
 
 // ToEvaluationReport converts the result to a structured-evaluation report.
 // The rubricSet parameter is required for finalization.
-func (r *Result) ToEvaluationReport(rubricSet *rubrics.RubricSet) *rubric.Rubric {
+func (r *Result) ToEvaluationReport(rubricSet *rubric.RubricSet) *rubric.Rubric {
 	report := rubric.NewRubric(string(r.SpecType), "")
 
 	// Set v2 fields
@@ -493,8 +499,7 @@ func (r *Result) ToEvaluationReport(rubricSet *rubrics.RubricSet) *rubric.Rubric
 	}
 
 	// Finalize with rubric
-	evalRubric := rubricSet.ToEvaluationRubricSet()
-	report.Finalize(evalRubric, "visionspec eval")
+	report.Finalize(rubricSet, "visionspec eval")
 
 	return report
 }

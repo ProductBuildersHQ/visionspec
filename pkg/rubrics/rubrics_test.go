@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"github.com/ProductBuildersHQ/visionspec/pkg/types"
+	"github.com/plexusone/structured-evaluation/rubric"
 )
 
 func TestGet(t *testing.T) {
@@ -104,21 +105,24 @@ func TestRubricSetTotalWeight(t *testing.T) {
 
 	for _, st := range specTypes {
 		rs := MustGet(st)
-		total := rs.TotalWeight()
+		var total float64
+		for _, cat := range rs.Categories {
+			total += cat.Weight
+		}
 
 		// Total weight should be 1.0 (100%)
 		if total < 0.99 || total > 1.01 {
-			t.Errorf("%s TotalWeight() = %f, expected ~1.0", st, total)
+			t.Errorf("%s total weight = %f, expected ~1.0", st, total)
 		}
 	}
 }
 
-func TestRubricSetCategoryByID(t *testing.T) {
+func TestRubricSetGetCategory(t *testing.T) {
 	rs := MustGet(types.SpecTypePRD)
 
-	cat, ok := rs.CategoryByID("user_stories")
-	if !ok {
-		t.Fatal("CategoryByID('user_stories') not found")
+	cat := rs.GetCategory("user_stories")
+	if cat == nil {
+		t.Fatal("GetCategory('user_stories') not found")
 	}
 	if cat.Name != "User Stories" {
 		t.Errorf("Category name = %q, want 'User Stories'", cat.Name)
@@ -127,48 +131,59 @@ func TestRubricSetCategoryByID(t *testing.T) {
 		t.Errorf("Category weight = %f, want 0.20", cat.Weight)
 	}
 
-	_, ok = rs.CategoryByID("nonexistent")
-	if ok {
-		t.Error("CategoryByID('nonexistent') should return false")
+	if rs.GetCategory("nonexistent") != nil {
+		t.Error("GetCategory('nonexistent') should return nil")
 	}
+}
+
+// passOptionCriteria returns the criteria strings for the "pass" scale option.
+func passOptionCriteria(cat *rubric.Category) []string {
+	for _, opt := range cat.Scale.Options {
+		if opt.Value == "pass" {
+			return opt.Criteria
+		}
+	}
+	return nil
 }
 
 func TestCategoryCriteria(t *testing.T) {
 	rs := MustGet(types.SpecTypeMRD)
 
-	for _, cat := range rs.Categories {
-		if cat.Criteria.Pass == "" {
-			t.Errorf("Category %q has empty Pass criteria", cat.ID)
+	for i := range rs.Categories {
+		cat := &rs.Categories[i]
+		if len(cat.Scale.Options) == 0 {
+			t.Errorf("Category %q has no scale options", cat.ID)
+			continue
 		}
-		if cat.Criteria.Partial == "" {
-			t.Errorf("Category %q has empty Partial criteria", cat.ID)
-		}
-		if cat.Criteria.Fail == "" {
-			t.Errorf("Category %q has empty Fail criteria", cat.ID)
+		if len(passOptionCriteria(cat)) == 0 {
+			t.Errorf("Category %q has no pass criteria", cat.ID)
 		}
 	}
 }
 
 func TestPassCriteria(t *testing.T) {
 	defaultCriteria := DefaultPassCriteria()
-	if defaultCriteria.RequireAllPass != false {
-		t.Errorf("DefaultPassCriteria().RequireAllPass = %v, want false", defaultCriteria.RequireAllPass)
+	if defaultCriteria.MinCategoriesPassing != "all_required" {
+		t.Errorf("DefaultPassCriteria().MinCategoriesPassing = %q, want all_required", defaultCriteria.MinCategoriesPassing)
 	}
-	if defaultCriteria.MaxCritical != 0 {
-		t.Errorf("DefaultPassCriteria().MaxCritical = %d, want 0", defaultCriteria.MaxCritical)
+	if defaultCriteria.MaxFindings == nil {
+		t.Fatal("DefaultPassCriteria().MaxFindings is nil")
 	}
-	if defaultCriteria.MaxHigh != 0 {
-		t.Errorf("DefaultPassCriteria().MaxHigh = %d, want 0", defaultCriteria.MaxHigh)
+	if defaultCriteria.MaxFindings.Critical != 0 {
+		t.Errorf("DefaultPassCriteria() critical = %d, want 0", defaultCriteria.MaxFindings.Critical)
 	}
-	if defaultCriteria.MaxMedium != -1 {
-		t.Errorf("DefaultPassCriteria().MaxMedium = %d, want -1 (unlimited)", defaultCriteria.MaxMedium)
+	if defaultCriteria.MaxFindings.High != 0 {
+		t.Errorf("DefaultPassCriteria() high = %d, want 0", defaultCriteria.MaxFindings.High)
+	}
+	if defaultCriteria.MaxFindings.Medium != -1 {
+		t.Errorf("DefaultPassCriteria() medium = %d, want -1 (unlimited)", defaultCriteria.MaxFindings.Medium)
 	}
 
 	strictCriteria := StrictPassCriteria()
-	if strictCriteria.RequireAllPass != true {
-		t.Errorf("StrictPassCriteria().RequireAllPass = %v, want true", strictCriteria.RequireAllPass)
+	if strictCriteria.MinCategoriesPassing != "all" {
+		t.Errorf("StrictPassCriteria().MinCategoriesPassing = %q, want all", strictCriteria.MinCategoriesPassing)
 	}
-	if strictCriteria.MaxMedium != 3 {
-		t.Errorf("StrictPassCriteria().MaxMedium = %d, want 3", strictCriteria.MaxMedium)
+	if strictCriteria.MaxFindings == nil || strictCriteria.MaxFindings.Medium != 3 {
+		t.Errorf("StrictPassCriteria() medium = %v, want 3", strictCriteria.MaxFindings)
 	}
 }

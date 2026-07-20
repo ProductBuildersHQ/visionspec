@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	"github.com/ProductBuildersHQ/visionspec/pkg/types"
+	"github.com/plexusone/structured-evaluation/rubric"
 )
 
 //go:embed testdata/*.rubric.yaml
@@ -21,8 +22,8 @@ func TestEmbeddedRubricLoader(t *testing.T) {
 		t.Fatalf("Load(prd) failed: %v", err)
 	}
 
-	if rs.SpecType != types.SpecTypePRD {
-		t.Errorf("SpecType = %v, want %v", rs.SpecType, types.SpecTypePRD)
+	if rs.ID != "prd-rubric" {
+		t.Errorf("ID = %v, want prd-rubric", rs.ID)
 	}
 
 	if rs.Name == "" {
@@ -251,53 +252,32 @@ func TestRubricYAMLValidation(t *testing.T) {
 	}
 }
 
-func TestRubricSetToYAML(t *testing.T) {
-	rs := &RubricSet{
-		SpecType:    types.SpecTypePRD,
-		Name:        "Test Rubric",
-		Description: "A test rubric",
-		Categories: []*Category{
-			{
-				ID:          "cat1",
-				Name:        "Category 1",
-				Description: "First category",
-				Weight:      1.5,
-				Required:    true,
-				Criteria: CategoricalCriteria{
-					Pass:    "Pass criteria",
-					Partial: "Partial criteria",
-					Fail:    "Fail criteria",
-				},
-			},
-		},
-		PassCriteria: PassCriteria{
-			RequireAllPass: true,
-			MaxCritical:    0,
-			MaxHigh:        1,
-			MaxMedium:      3,
-		},
+func TestWriteRubricYAMLRoundTrip(t *testing.T) {
+	rs := rubric.NewRubricSet("prd-rubric", "Test Rubric", "1.0")
+	rs.Description = "A test rubric"
+	rs.PassCriteria = StrictPassCriteria()
+	rs.AddCategory(*rubric.NewCategory("cat1", "Category 1", "First category").
+		SetWeight(1.5).SetRequired(true).
+		WithPassPartialFail([]string{"Pass criteria"}, []string{"Partial criteria"}, []string{"Fail criteria"}))
+
+	dir := t.TempDir()
+	path := filepath.Join(dir, "prd.rubric.yaml")
+	if err := WriteRubricYAML(path, rs); err != nil {
+		t.Fatalf("WriteRubricYAML: %v", err)
 	}
 
-	yaml := rs.ToYAML()
-
-	if yaml.SpecType != "prd" {
-		t.Errorf("SpecType = %q, want %q", yaml.SpecType, "prd")
+	got, err := NewFileLoader(dir).Load(types.SpecTypePRD)
+	if err != nil {
+		t.Fatalf("Load: %v", err)
 	}
-
-	if yaml.Name != "Test Rubric" {
-		t.Errorf("Name = %q, want %q", yaml.Name, "Test Rubric")
+	if got.Name != "Test Rubric" {
+		t.Errorf("Name = %q, want Test Rubric", got.Name)
 	}
-
-	if len(yaml.Categories) != 1 {
-		t.Fatalf("Categories count = %d, want 1", len(yaml.Categories))
+	if len(got.Categories) != 1 || got.Categories[0].ID != "cat1" {
+		t.Fatalf("categories = %+v, want one cat1", got.Categories)
 	}
-
-	if yaml.Categories[0].ID != "cat1" {
-		t.Errorf("Category ID = %q, want %q", yaml.Categories[0].ID, "cat1")
-	}
-
-	if yaml.PassCriteria.MaxHigh != 1 {
-		t.Errorf("MaxHigh = %d, want 1", yaml.PassCriteria.MaxHigh)
+	if len(passOptionCriteria(&got.Categories[0])) == 0 {
+		t.Error("round-tripped category lost pass criteria")
 	}
 }
 
@@ -308,10 +288,6 @@ func TestEmbedFSRubricLoader(t *testing.T) {
 	rs, err := loader.Load(types.SpecType("custom"))
 	if err != nil {
 		t.Fatalf("Load(custom) failed: %v", err)
-	}
-
-	if rs.SpecType != types.SpecType("custom") {
-		t.Errorf("SpecType = %v, want custom", rs.SpecType)
 	}
 
 	if rs.Name != "Custom Test Rubric" {
