@@ -333,9 +333,8 @@ func (sc *SpecConfig) CustomSpecs() []string
    - `ChainLoader`
 
 2. **Define YAML schema** (`pkg/rubrics/yaml.go`)
-   - `RubricYAML` struct for parsing
-   - Validation
-   - Conversion to `RubricSet`
+   - Parse/write structured-evaluation's `rubric.RubricSet` directly (canonical format)
+   - The legacy `RubricYAML` flat struct was retired in v0.14.0
 
 3. **Update rubric functions** (`pkg/rubrics/rubrics.go`)
    - Accept `Loader` parameter or use default

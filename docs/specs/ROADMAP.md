@@ -827,9 +827,9 @@ Enable organizations (companies, open source projects, non-profits) to compose c
   - `NewChainLoader(loaders...)`
 
 - [x] RMI-221: Define rubric YAML schema (`pkg/rubrics/yaml.go`)
-  - `RubricYAML` struct for parsing
-  - Validation and conversion to `RubricSet`
-  - Compatible with structured-evaluation
+  - Rubrics parse directly into structured-evaluation's `rubric.RubricSet` (canonical format since v0.14.0)
+  - `parseRubricYAML` / `WriteRubricYAML` read and write the structured-evaluation native format
+  - The legacy `RubricYAML` flat struct and VisionSpec-local `RubricSet` were retired
 
 ### Configurable Spec Requirements
 
