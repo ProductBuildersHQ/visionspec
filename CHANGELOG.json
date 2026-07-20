@@ -7,6 +7,36 @@
   "maintainers": ["johncwang@gmail.com"],
   "releases": [
     {
+      "version": "v0.14.0",
+      "date": "2026-07-20",
+      "commit": "46e32f2",
+      "highlights": [
+        { "description": "Rubrics use structured-evaluation's shared RubricSet everywhere — one rubric type across the ecosystem" },
+        { "description": "Profiles consume canonical OpportunitySpec/BMC templates and rubrics from prism-roadmap instead of duplicating them" },
+        { "description": "The LLM judge prompt renders each category's scoring criteria and rich indicators" }
+      ],
+      "breaking": [
+        { "description": "`pkg/rubrics` drops the VisionSpec-local `RubricSet`/`Category`/`CategoricalCriteria`/`PassCriteria`/`ToEvaluationRubricSet`; `Loader.Load`, `Get`, and `MustGet` return `*structured-evaluation/rubric.RubricSet`", "commit": "46e32f2" },
+        { "description": "Rubric YAML is now structured-evaluation native (spec type from filename, `scale.options`, `passCriteria`); the legacy flat format is no longer parsed", "commit": "ace36ff" }
+      ],
+      "added": [
+        { "description": "Evaluation prompt renders per-category pass/partial/fail criteria (flat) and weighted criteria with indicators (rich)", "commit": "7528882" }
+      ],
+      "changed": [
+        { "description": "Profiles consume canonical canvas templates and rubrics from prism-roadmap; duplicated per-profile assets removed", "commit": "a22a38b" },
+        { "description": "All profile rubric YAMLs migrated to structured-evaluation native format; the legacy flat parser removed", "commit": "ace36ff" },
+        { "description": "The 3 discovery/shapeup rubrics authored in the canonical rich weighted-criteria format", "commit": "fd92f3e" },
+        { "description": "`profiles export` writes structured-evaluation native rubric YAML", "commit": "46e32f2" }
+      ],
+      "fixed": [
+        { "description": "Embed `tpd.md` template and include it in `Available()`", "commit": "f612b80" }
+      ],
+      "dependencies": [
+        { "description": "Require github.com/plexusone/structured-evaluation v0.10.0", "commit": "46e32f2" },
+        { "description": "Require github.com/grokify/prism-roadmap v0.16.0", "commit": "46e32f2" }
+      ]
+    },
+    {
       "version": "v0.13.0",
       "date": "2026-07-18",
       "commit": "ea8e6c0",
