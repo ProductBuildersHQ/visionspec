@@ -13,14 +13,17 @@
       "highlights": [
         { "description": "Rubrics use structured-evaluation's shared RubricSet everywhere — one rubric type across the ecosystem" },
         { "description": "Profiles consume canonical OpportunitySpec/BMC templates and rubrics from prism-roadmap instead of duplicating them" },
-        { "description": "The LLM judge prompt renders each category's scoring criteria and rich indicators" }
+        { "description": "The LLM judge prompt renders each category's scoring criteria and rich indicators" },
+        { "description": "Per-project rubric config (`visionspec.yaml` `rubrics`) is honored across all evaluation paths" }
       ],
       "breaking": [
         { "description": "`pkg/rubrics` drops the VisionSpec-local `RubricSet`/`Category`/`CategoricalCriteria`/`PassCriteria`/`ToEvaluationRubricSet`; `Loader.Load`, `Get`, and `MustGet` return `*structured-evaluation/rubric.RubricSet`", "commit": "46e32f2" },
         { "description": "Rubric YAML is now structured-evaluation native (spec type from filename, `scale.options`, `passCriteria`); the legacy flat format is no longer parsed", "commit": "ace36ff" }
       ],
       "added": [
-        { "description": "Evaluation prompt renders per-category pass/partial/fail criteria (flat) and weighted criteria with indicators (rich)", "commit": "7528882" }
+        { "description": "Evaluation prompt renders per-category pass/partial/fail criteria (flat) and weighted criteria with indicators (rich)", "commit": "7528882" },
+        { "description": "Per-project rubric config: custom rubric files (`rubrics.overrides` / `rubrics.directory`) and pass-criteria policy (`strict_mode`, `max_*`) applied across `eval`, `synthesize --eval`, and the MCP eval tools", "commit": "f99db82" },
+        { "description": "`rubrics.NewOverrideLoader` for per-spec-type rubric overrides", "commit": "3263e15" }
       ],
       "changed": [
         { "description": "Profiles consume canonical canvas templates and rubrics from prism-roadmap; duplicated per-profile assets removed", "commit": "a22a38b" },
