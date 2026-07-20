@@ -190,6 +190,12 @@ rubrics:
 
 Rubric files in the directory should be named `{spec-type}.rubric.yaml` (e.g., `prd.rubric.yaml`).
 
+Rubrics resolve in order: `overrides` (per spec type) → `directory` → the
+profile's built-in rubrics. Relative paths are resolved against the project
+directory. `strict_mode` and the `max_*` finding limits apply to every
+evaluation (`eval`, `synthesize --eval`, and the MCP `run_eval` / `eval_draft`
+tools). Rubric files use the structured-evaluation native format.
+
 ### context
 
 Configure context sources for grounding technical spec synthesis.
