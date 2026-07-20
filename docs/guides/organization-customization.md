@@ -210,28 +210,35 @@ Organization templates are more prescriptive. Instead of placeholders, they have
 
 Organization rubrics have stricter evaluation criteria:
 
+Rubrics use the shared structured-evaluation format; the spec type comes from
+the filename (`trd.rubric.yaml` → `trd`):
+
 ```yaml
 # rubrics/trd.rubric.yaml
-spec_type: trd
+id: trd-rubric
 name: "Organization TRD Evaluation"
 categories:
   - id: language_choice
     name: "Language Choice"
     weight: 0.15
     required: true
-    criteria:
-      pass: "Uses Go for backend services. Exceptions documented with approval."
-      partial: "Uses Go but missing exception documentation for non-Go components."
-      fail: "Uses non-Go backend without documented exception approval."
+    scale:
+      type: categorical
+      options:
+        - {value: pass, criteria: ["Uses Go for backend services. Exceptions documented with approval."]}
+        - {value: partial, criteria: ["Uses Go but missing exception documentation for non-Go components."]}
+        - {value: fail, criteria: ["Uses non-Go backend without documented exception approval."]}
 
   - id: database_choice
     name: "Database Choice"
     weight: 0.15
     required: true
-    criteria:
-      pass: "Uses PostgreSQL with RLS for multi-tenancy."
-      partial: "Uses PostgreSQL but RLS not configured."
-      fail: "Uses non-PostgreSQL database without exception approval."
+    scale:
+      type: categorical
+      options:
+        - {value: pass, criteria: ["Uses PostgreSQL with RLS for multi-tenancy."]}
+        - {value: partial, criteria: ["Uses PostgreSQL but RLS not configured."]}
+        - {value: fail, criteria: ["Uses non-PostgreSQL database without exception approval."]}
 ```
 
 ## Constitution System

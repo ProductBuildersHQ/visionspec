@@ -162,35 +162,33 @@ Templates are Markdown files with optional placeholders:
 
 ## Creating Custom Rubrics
 
-Rubrics define evaluation criteria in YAML format:
+Rubrics use the shared [structured-evaluation](https://github.com/plexusone/structured-evaluation)
+rubric format — the same definition used across the ecosystem. The spec type is
+taken from the filename (`prd.rubric.yaml` → `prd`).
+
+**Flat rubric** (categorical pass/partial/fail per category):
 
 ```yaml
 # rubrics/prd.rubric.yaml
-spec_type: prd
+id: prd-rubric
 name: "Acme PRD Rubric"
 description: "PRD evaluation with Acme security requirements"
 version: "1.0"
-
+passCriteria:
+  minCategoriesPassing: all_required
+  maxFindingsSeverity: {critical: 0, high: 0, medium: 2, low: -1}
 categories:
   - id: problem_definition
     name: "Problem Definition"
     description: "Is the problem clearly articulated?"
     weight: 0.15
     required: true
-    criteria:
-      pass: "Problem is specific, measurable, and tied to user needs"
-      partial: "Problem is stated but lacks specificity"
-      fail: "Problem is unclear or missing"
-
-  - id: user_stories
-    name: "User Stories"
-    description: "Are user stories complete with acceptance criteria?"
-    weight: 0.20
-    required: true
-    criteria:
-      pass: "All stories follow format with testable acceptance criteria"
-      partial: "Some stories missing criteria"
-      fail: "User stories missing or inadequate"
+    scale:
+      type: categorical
+      options:
+        - {value: pass, criteria: ["Problem is specific, measurable, and tied to user needs"]}
+        - {value: partial, criteria: ["Problem is stated but lacks specificity"]}
+        - {value: fail, criteria: ["Problem is unclear or missing"]}
 
   # Custom category for your organization
   - id: security_requirements
@@ -198,28 +196,49 @@ categories:
     description: "Are security requirements documented? (ACME POLICY)"
     weight: 0.25
     required: true
-    criteria:
-      pass: "Authentication, authorization, and data protection addressed"
-      partial: "Some security considerations but gaps exist"
-      fail: "Security requirements missing"
+    scale:
+      type: categorical
+      options:
+        - {value: pass, criteria: ["Authentication, authorization, and data protection addressed"]}
+        - {value: partial, criteria: ["Some security considerations but gaps exist"]}
+        - {value: fail, criteria: ["Security requirements missing"]}
+```
 
-pass_criteria:
-  require_all_pass: false
-  max_critical: 0
-  max_high: 0
-  max_medium: 2
+**Rich rubric** (weighted sub-criteria with indicators, rolled up to a score):
+
+```yaml
+# rubrics/discovery.rubric.yaml
+id: discovery-rubric
+name: "Discovery Rubric"
+version: "1.0"
+passCriteria:
+  scoreThresholds: {pass: 80, partial: 60}
+categories:
+  - id: assumption_coverage
+    name: "Assumption Coverage"
+    weight: 25
+    criteria:
+      - id: desirability
+        name: "Desirability"
+        weight: 25
+        pass:
+          description: "Desirability assumptions are identified"
+          indicators: ["customer demand cited", "willingness-to-pay evidence"]
 ```
 
 ### Rubric Fields
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `spec_type` | string | Must match filename (e.g., `prd` for `prd.rubric.yaml`) |
+| `id` | string | Rubric identifier (convention: `<spec-type>-rubric`) |
 | `name` | string | Display name for the rubric |
 | `description` | string | Purpose of this rubric |
 | `version` | string | Rubric version |
+| `evaluationType` | string | `analytic` (per-category, default) or `holistic` |
+| `passCriteria` | object | What constitutes passing |
 | `categories` | array | Evaluation categories |
-| `pass_criteria` | object | What constitutes passing |
+
+The spec type comes from the filename, not a field (`prd.rubric.yaml` → `prd`).
 
 ### Category Fields
 
@@ -228,20 +247,23 @@ pass_criteria:
 | `id` | string | Unique identifier (snake_case) |
 | `name` | string | Display name |
 | `description` | string | What this category evaluates |
-| `weight` | float | Relative importance (0.0-1.0) |
+| `weight` | float | Relative importance (any positive scale; normalized against the total) |
 | `required` | bool | Must this category pass? |
-| `criteria.pass` | string | What constitutes passing |
-| `criteria.partial` | string | What constitutes partial pass |
-| `criteria.fail` | string | What constitutes failure |
+| `scale` | object | Categorical scale with pass/partial/fail options (flat rubrics) |
+| `criteria` | array | Weighted sub-criteria, each with `pass`/`partial`/`fail` bands (rich rubrics) |
 
-### Pass Criteria
+Use **either** `scale` (flat) **or** `criteria` (rich) per category.
+
+### Scale and Pass Criteria
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `require_all_pass` | bool | All categories must pass |
-| `max_critical` | int | Maximum critical findings allowed |
-| `max_high` | int | Maximum high findings allowed |
-| `max_medium` | int | Maximum medium findings allowed (-1 = unlimited) |
+| `scale.type` | string | `categorical` (recommended), `checklist`, `binary`, or `likert` |
+| `scale.options[].value` | string | `pass`, `partial`, or `fail` |
+| `scale.options[].criteria` | array | What that band requires |
+| `passCriteria.minCategoriesPassing` | string | `all`, `all_required`, or a number |
+| `passCriteria.maxFindingsSeverity` | object | Max findings per severity (`-1` = unlimited) |
+| `passCriteria.scoreThresholds` | object | Numeric `pass`/`partial` cutoffs (0-100) for rich rubrics |
 
 ## Profile Inheritance
 

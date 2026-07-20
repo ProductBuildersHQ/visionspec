@@ -105,15 +105,20 @@ your-cli/templates/
 ### 2. Create your rubrics
 
 ```yaml
-# your-cli/rubrics/prd.rubric.yaml
-spec_type: prd
+# your-cli/rubrics/prd.rubric.yaml  (spec type comes from the filename)
+id: prd-rubric
 name: "Your Org PRD Rubric"
 categories:
   - id: security
     name: "Security Requirements"
     weight: 3.0
     required: true
-    # ... criteria
+    scale:
+      type: categorical
+      options:
+        - {value: pass, criteria: ["Security requirements documented and reviewed"]}
+        - {value: partial, criteria: ["Some security considerations, gaps remain"]}
+        - {value: fail, criteria: ["Security requirements missing"]}
 ```
 
 ### 3. Build your CLI
