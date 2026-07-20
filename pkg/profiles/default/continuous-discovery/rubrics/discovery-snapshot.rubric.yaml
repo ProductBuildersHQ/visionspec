@@ -1,94 +1,113 @@
+id: discovery-snapshot-rubric
 name: discovery-snapshot
-description: "Evaluation rubric for Continuous Discovery weekly snapshots"
 version: "1.0"
-methodology: "Continuous Discovery Habits (Teresa Torres)"
-reference: "https://www.producttalk.org/"
-
-thresholds:
-  pass: 80
-  partial: 60
-
+description: Evaluation rubric for Continuous Discovery weekly snapshots
+metadata:
+    basedOn:
+        - Continuous Discovery Habits (Teresa Torres)
+        - https://www.producttalk.org/
+passCriteria:
+    scoreThresholds:
+        pass: 80
+        partial: 60
 categories:
-  - name: weekly_touchpoints
-    weight: 25
-    description: "Are customer touchpoints happening weekly?"
-    criteria:
-      - id: interview_count
-        description: "At least one customer interview this week"
-        weight: 50
-      - id: participant_diversity
-        description: "Participants represent different segments or types"
-        weight: 25
-      - id: interview_quality
-        description: "Interviews are story-based, not opinion-gathering"
-        weight: 25
-
-  - name: story_capture
-    weight: 25
-    description: "Are stories captured with enough detail?"
-    criteria:
-      - id: situation_behavior_outcome
-        description: "Stories follow situation-behavior-outcome structure"
-        weight: 40
-      - id: emotions_pains
-        description: "Emotions and pain points are captured"
-        weight: 30
-      - id: verbatim_quotes
-        description: "Verbatim quotes are recorded"
-        weight: 15
-      - id: opportunity_connection
-        description: "Stories are connected to opportunities"
-        weight: 15
-
-  - name: opportunity_tracking
-    weight: 20
-    description: "Are opportunities being discovered and updated?"
-    criteria:
-      - id: opportunities_identified
-        description: "New opportunities discovered or existing ones updated"
-        weight: 50
-      - id: evidence_accumulated
-        description: "Evidence count is tracked for opportunities"
-        weight: 30
-      - id: priority_adjusted
-        description: "Priorities are adjusted based on evidence"
-        weight: 20
-
-  - name: assumption_testing
-    weight: 20
-    description: "Are assumptions being tested systematically?"
-    criteria:
-      - id: tests_running
-        description: "At least one assumption test is running or completed"
-        weight: 40
-      - id: hypothesis_clear
-        description: "Hypotheses follow if-then-because format"
-        weight: 30
-      - id: learnings_captured
-        description: "Learnings are captured from completed tests"
-        weight: 30
-
-  - name: decision_making
-    weight: 10
-    description: "Are decisions being made based on evidence?"
-    criteria:
-      - id: decisions_documented
-        description: "Decisions are documented with rationale"
-        weight: 50
-      - id: evidence_linked
-        description: "Decisions reference specific interviews or tests"
-        weight: 50
-
-scoring_guidance:
-  - score: 90-100
-    label: "Excellent"
-    description: "Strong discovery cadence. Multiple interviews, clear stories, assumptions being tested, decisions driven by evidence."
-  - score: 80-89
-    label: "Good"
-    description: "Solid discovery week. Weekly touchpoints happening, opportunities tracked, some testing."
-  - score: 60-79
-    label: "Needs Improvement"
-    description: "Discovery is happening but inconsistently. Missing interviews or incomplete story capture."
-  - score: 0-59
-    label: "Weak"
-    description: "Discovery not happening consistently. No interviews or superficial capture."
+    - id: weekly_touchpoints
+      name: Weekly Touchpoints
+      description: Are customer touchpoints happening weekly?
+      weight: 25
+      criteria:
+        - id: interview_count
+          name: Interview Count
+          weight: 50
+          pass:
+            description: At least one customer interview this week
+        - id: participant_diversity
+          name: Participant Diversity
+          weight: 25
+          pass:
+            description: Participants represent different segments or types
+        - id: interview_quality
+          name: Interview Quality
+          weight: 25
+          pass:
+            description: Interviews are story-based, not opinion-gathering
+    - id: story_capture
+      name: Story Capture
+      description: Are stories captured with enough detail?
+      weight: 25
+      criteria:
+        - id: situation_behavior_outcome
+          name: Situation Behavior Outcome
+          weight: 40
+          pass:
+            description: Stories follow situation-behavior-outcome structure
+        - id: emotions_pains
+          name: Emotions Pains
+          weight: 30
+          pass:
+            description: Emotions and pain points are captured
+        - id: verbatim_quotes
+          name: Verbatim Quotes
+          weight: 15
+          pass:
+            description: Verbatim quotes are recorded
+        - id: opportunity_connection
+          name: Opportunity Connection
+          weight: 15
+          pass:
+            description: Stories are connected to opportunities
+    - id: opportunity_tracking
+      name: Opportunity Tracking
+      description: Are opportunities being discovered and updated?
+      weight: 20
+      criteria:
+        - id: opportunities_identified
+          name: Opportunities Identified
+          weight: 50
+          pass:
+            description: New opportunities discovered or existing ones updated
+        - id: evidence_accumulated
+          name: Evidence Accumulated
+          weight: 30
+          pass:
+            description: Evidence count is tracked for opportunities
+        - id: priority_adjusted
+          name: Priority Adjusted
+          weight: 20
+          pass:
+            description: Priorities are adjusted based on evidence
+    - id: assumption_testing
+      name: Assumption Testing
+      description: Are assumptions being tested systematically?
+      weight: 20
+      criteria:
+        - id: tests_running
+          name: Tests Running
+          weight: 40
+          pass:
+            description: At least one assumption test is running or completed
+        - id: hypothesis_clear
+          name: Hypothesis Clear
+          weight: 30
+          pass:
+            description: Hypotheses follow if-then-because format
+        - id: learnings_captured
+          name: Learnings Captured
+          weight: 30
+          pass:
+            description: Learnings are captured from completed tests
+    - id: decision_making
+      name: Decision Making
+      description: Are decisions being made based on evidence?
+      weight: 10
+      criteria:
+        - id: decisions_documented
+          name: Decisions Documented
+          weight: 50
+          pass:
+            description: Decisions are documented with rationale
+        - id: evidence_linked
+          name: Evidence Linked
+          weight: 50
+          pass:
+            description: Decisions reference specific interviews or tests

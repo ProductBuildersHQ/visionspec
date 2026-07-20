@@ -1,106 +1,133 @@
+id: shapeup-pitch-rubric
 name: shapeup-pitch
-description: "Evaluation rubric for Shape Up Pitch documents"
 version: "1.0"
-methodology: "Shape Up (Basecamp)"
-reference: "https://basecamp.com/shapeup"
-
-thresholds:
-  pass: 80
-  partial: 60
-
+description: Evaluation rubric for Shape Up Pitch documents
+metadata:
+    basedOn:
+        - Shape Up (Basecamp)
+        - https://basecamp.com/shapeup
+passCriteria:
+    scoreThresholds:
+        pass: 80
+        partial: 60
 categories:
-  - name: problem_definition
-    weight: 20
-    description: "Is the problem well-defined and worth solving?"
-    criteria:
-      - id: raw_idea
-        description: "Raw idea or request is captured"
-        weight: 10
-      - id: problem_statement
-        description: "Problem statement is specific and clear"
-        weight: 30
-      - id: why_now
-        description: "Timing rationale is compelling"
-        weight: 20
-      - id: audience
-        description: "Target audience is identified"
-        weight: 20
-      - id: evidence
-        description: "Evidence supports the problem exists"
-        weight: 20
-
-  - name: appetite
-    weight: 20
-    description: "Is the appetite appropriate and well-reasoned?"
-    criteria:
-      - id: size_appropriate
-        description: "Small-batch (2 weeks) or big-batch (6 weeks) is appropriate for scope"
-        weight: 40
-      - id: rationale
-        description: "Rationale explains why this appetite is right"
-        weight: 30
-      - id: tradeoffs
-        description: "Trade-offs are identified (what would we cut?)"
-        weight: 30
-
-  - name: solution_shaping
-    weight: 25
-    description: "Is the solution shaped at the right level of abstraction?"
-    criteria:
-      - id: approach_clear
-        description: "High-level approach is clear and understandable"
-        weight: 25
-      - id: breadboard
-        description: "Breadboard shows places, affordances, and connections"
-        weight: 25
-      - id: abstraction_level
-        description: "Solution is concrete enough to evaluate but leaves room for builders"
-        weight: 25
-      - id: must_include
-        description: "Must-include elements are identified"
-        weight: 15
-      - id: nice_to_have
-        description: "Nice-to-have elements are separated from must-haves"
-        weight: 10
-
-  - name: risk_management
-    weight: 20
-    description: "Are risks and rabbit holes identified?"
-    criteria:
-      - id: rabbit_holes
-        description: "Rabbit holes are identified with avoidance strategies"
-        weight: 50
-      - id: no_gos
-        description: "Out-of-scope items are explicitly listed"
-        weight: 30
-      - id: complexity_awareness
-        description: "Known complexities are acknowledged"
-        weight: 20
-
-  - name: document_quality
-    weight: 15
-    description: "Is the pitch well-written and actionable?"
-    criteria:
-      - id: clarity
-        description: "Writing is clear and concise"
-        weight: 30
-      - id: completeness
-        description: "All sections are filled in"
-        weight: 30
-      - id: actionability
-        description: "A team could start building from this pitch"
-        weight: 40
-
-scoring_guidance:
-  - score: 90-100
-    label: "Excellent"
-    description: "Pitch is fully shaped and ready for betting. Problem is clear, solution is at right abstraction level, risks are identified."
-  - score: 80-89
-    label: "Good"
-    description: "Pitch is well-shaped with minor gaps. Ready for betting with small clarifications."
-  - score: 60-79
-    label: "Needs Work"
-    description: "Pitch has good elements but needs more shaping. Not ready for betting."
-  - score: 0-59
-    label: "Incomplete"
-    description: "Pitch is not sufficiently shaped. Major gaps in problem definition or solution."
+    - id: problem_definition
+      name: Problem Definition
+      description: Is the problem well-defined and worth solving?
+      weight: 20
+      criteria:
+        - id: raw_idea
+          name: Raw Idea
+          weight: 10
+          pass:
+            description: Raw idea or request is captured
+        - id: problem_statement
+          name: Problem Statement
+          weight: 30
+          pass:
+            description: Problem statement is specific and clear
+        - id: why_now
+          name: Why Now
+          weight: 20
+          pass:
+            description: Timing rationale is compelling
+        - id: audience
+          name: Audience
+          weight: 20
+          pass:
+            description: Target audience is identified
+        - id: evidence
+          name: Evidence
+          weight: 20
+          pass:
+            description: Evidence supports the problem exists
+    - id: appetite
+      name: Appetite
+      description: Is the appetite appropriate and well-reasoned?
+      weight: 20
+      criteria:
+        - id: size_appropriate
+          name: Size Appropriate
+          weight: 40
+          pass:
+            description: Small-batch (2 weeks) or big-batch (6 weeks) is appropriate for scope
+        - id: rationale
+          name: Rationale
+          weight: 30
+          pass:
+            description: Rationale explains why this appetite is right
+        - id: tradeoffs
+          name: Tradeoffs
+          weight: 30
+          pass:
+            description: Trade-offs are identified (what would we cut?)
+    - id: solution_shaping
+      name: Solution Shaping
+      description: Is the solution shaped at the right level of abstraction?
+      weight: 25
+      criteria:
+        - id: approach_clear
+          name: Approach Clear
+          weight: 25
+          pass:
+            description: High-level approach is clear and understandable
+        - id: breadboard
+          name: Breadboard
+          weight: 25
+          pass:
+            description: Breadboard shows places, affordances, and connections
+        - id: abstraction_level
+          name: Abstraction Level
+          weight: 25
+          pass:
+            description: Solution is concrete enough to evaluate but leaves room for builders
+        - id: must_include
+          name: Must Include
+          weight: 15
+          pass:
+            description: Must-include elements are identified
+        - id: nice_to_have
+          name: Nice To Have
+          weight: 10
+          pass:
+            description: Nice-to-have elements are separated from must-haves
+    - id: risk_management
+      name: Risk Management
+      description: Are risks and rabbit holes identified?
+      weight: 20
+      criteria:
+        - id: rabbit_holes
+          name: Rabbit Holes
+          weight: 50
+          pass:
+            description: Rabbit holes are identified with avoidance strategies
+        - id: no_gos
+          name: No Gos
+          weight: 30
+          pass:
+            description: Out-of-scope items are explicitly listed
+        - id: complexity_awareness
+          name: Complexity Awareness
+          weight: 20
+          pass:
+            description: Known complexities are acknowledged
+    - id: document_quality
+      name: Document Quality
+      description: Is the pitch well-written and actionable?
+      weight: 15
+      criteria:
+        - id: clarity
+          name: Clarity
+          weight: 30
+          pass:
+            description: Writing is clear and concise
+        - id: completeness
+          name: Completeness
+          weight: 30
+          pass:
+            description: All sections are filled in
+        - id: actionability
+          name: Actionability
+          weight: 40
+          pass:
+            description: A team could start building from this pitch
