@@ -18,11 +18,26 @@ import (
 	"fmt"
 	"os"
 
+	prrubrics "github.com/grokify/prism-roadmap/rubrics"
+	prtemplates "github.com/grokify/prism-roadmap/templates"
+
 	"github.com/ProductBuildersHQ/visionspec/pkg/rubrics"
 	"github.com/ProductBuildersHQ/visionspec/pkg/templates"
 	"github.com/ProductBuildersHQ/visionspec/pkg/types"
 	"gopkg.in/yaml.v3"
 )
+
+// canvasTemplateLoader resolves canonical canvas templates (BMC, OpportunitySpec,
+// and other canvases) from prism-roadmap, the single source of truth for them.
+// VisionSpec no longer carries duplicate copies in profile directories.
+func canvasTemplateLoader() templates.Loader {
+	return templates.NewSubFSLoader(prtemplates.FS())
+}
+
+// canvasRubricLoader resolves canonical canvas rubrics from prism-roadmap.
+func canvasRubricLoader() rubrics.Loader {
+	return rubrics.NewSubFSLoader(prrubrics.FS())
+}
 
 // Profile represents a complete visionspec configuration profile.
 type Profile struct {
@@ -91,20 +106,24 @@ func (p *Profile) GetSpecConfig() *types.SpecConfig {
 	return types.DefaultSpecConfig()
 }
 
-// GetTemplateLoader returns the template loader, falling back to default.
+// GetTemplateLoader returns the template loader, falling back to the default
+// loader and then to prism-roadmap's canonical canvas templates.
 func (p *Profile) GetTemplateLoader() templates.Loader {
-	if p.TemplateLoader != nil {
-		return p.TemplateLoader
+	base := p.TemplateLoader
+	if base == nil {
+		base = templates.DefaultLoader()
 	}
-	return templates.DefaultLoader()
+	return templates.NewChainLoader(base, canvasTemplateLoader())
 }
 
-// GetRubricLoader returns the rubric loader, falling back to default.
+// GetRubricLoader returns the rubric loader, falling back to the default loader
+// and then to prism-roadmap's canonical canvas rubrics.
 func (p *Profile) GetRubricLoader() rubrics.Loader {
-	if p.RubricLoader != nil {
-		return p.RubricLoader
+	base := p.RubricLoader
+	if base == nil {
+		base = rubrics.DefaultLoader()
 	}
-	return rubrics.DefaultLoader()
+	return rubrics.NewChainLoader(base, canvasRubricLoader())
 }
 
 // Merge combines this profile with a parent profile.

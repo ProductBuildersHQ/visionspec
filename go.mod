@@ -7,6 +7,7 @@ require (
 	github.com/fsnotify/fsnotify v1.10.1
 	github.com/grokify/oscompat v0.5.0
 	github.com/grokify/pidl v0.5.0
+	github.com/grokify/prism-roadmap v0.15.0
 	github.com/modelcontextprotocol/go-sdk v1.6.1
 	github.com/plexusone/graphfs v0.2.0
 	github.com/plexusone/graphize v0.4.0
