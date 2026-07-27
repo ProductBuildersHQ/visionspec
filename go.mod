@@ -7,12 +7,12 @@ require (
 	github.com/fsnotify/fsnotify v1.10.1
 	github.com/grokify/oscompat v0.5.0
 	github.com/grokify/pidl v0.5.0
-	github.com/grokify/prism-roadmap v0.16.0
+	github.com/grokify/prism-roadmap v0.16.1
 	github.com/modelcontextprotocol/go-sdk v1.6.1
 	github.com/plexusone/graphfs v0.2.0
 	github.com/plexusone/graphize v0.4.0
 	github.com/plexusone/omnillm-core v0.18.0
-	github.com/plexusone/structured-evaluation v0.10.0
+	github.com/plexusone/structured-evaluation v0.11.0
 	github.com/spf13/cobra v1.10.2
 	gopkg.in/yaml.v3 v3.0.1
 )
