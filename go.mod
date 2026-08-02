@@ -8,7 +8,7 @@ require (
 	github.com/grokify/oscompat v0.5.0
 	github.com/grokify/pidl v0.5.0
 	github.com/grokify/prism-roadmap v0.16.1
-	github.com/modelcontextprotocol/go-sdk v1.6.1
+	github.com/modelcontextprotocol/go-sdk v1.7.0
 	github.com/plexusone/graphfs v0.2.0
 	github.com/plexusone/graphize v0.4.0
 	github.com/plexusone/omnillm-core v0.18.0
@@ -28,5 +28,7 @@ require (
 	github.com/yaricom/goGraphML v1.4.3 // indirect
 	github.com/yosida95/uritemplate/v3 v3.0.2 // indirect
 	golang.org/x/oauth2 v0.36.0 // indirect
+	golang.org/x/sync v0.21.0 // indirect
 	golang.org/x/sys v0.47.0 // indirect
+	golang.org/x/time v0.15.0 // indirect
 )
