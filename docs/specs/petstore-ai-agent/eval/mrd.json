@@ -1,64 +1,103 @@
 {
   "schemaVersion": "v2",
-  "score": 8.8,
-  "scoreV2": 4,
-  "decision": "pass",
+  "metadata": {
+    "document": "mrd.md",
+    "generatedAt": "2026-07-20T13:39:10.497287Z",
+    "generatedBy": "structured-evaluation"
+  },
+  "reviewType": "mrd",
+  "intScore": 4,
+  "confidence": 0.82,
   "pass": true,
-  "confidence": 0.88,
-  "dimensions": [
+  "categories": [
     {
-      "id": "market-analysis",
-      "name": "Market Analysis",
-      "score": 5,
-      "severity": "none",
+      "category": "market-analysis",
+      "score": "pass",
+      "intScore": 5,
       "confidence": 0.92,
-      "reasonCodes": [],
-      "findings": []
+      "reasoning": ""
     },
     {
-      "id": "problem-definition",
-      "name": "Problem Definition",
-      "score": 4,
-      "severity": "none",
-      "confidence": 0.90,
-      "reasonCodes": [],
-      "findings": []
+      "category": "problem-definition",
+      "score": "pass",
+      "intScore": 4,
+      "confidence": 0.9,
+      "reasoning": ""
     },
     {
-      "id": "target-audience",
-      "name": "Target Audience",
-      "score": 4,
-      "severity": "none",
+      "category": "target-audience",
+      "score": "pass",
+      "intScore": 4,
       "confidence": 0.85,
-      "reasonCodes": [],
-      "findings": []
+      "reasoning": ""
     },
     {
-      "id": "business-goals",
-      "name": "Business Goals",
-      "score": 4,
-      "severity": "minor",
+      "category": "business-goals",
+      "score": "pass",
+      "intScore": 4,
       "confidence": 0.82,
-      "reasonCodes": ["SCOPE-NO_TIMELINE"],
+      "severity": "low",
+      "reasonCodes": [
+        "SCOPE-NO_TIMELINE"
+      ],
+      "reasoning": "",
       "findings": [
         {
-          "category": "market-analysis",
-          "severity": "low",
+          "id": "SCOPE-NO_TIMELINE",
+          "category": "business-goals",
           "code": "SCOPE-NO_TIMELINE",
-          "message": "Consider adding international market expansion timeline",
+          "severity": "low",
+          "title": "Consider adding international market expansion timeline",
+          "description": "",
+          "recommendation": "",
           "location": "Section 5: Go-to-Market"
         }
       ]
     }
   ],
-  "blocking": [],
   "findings": [
     {
-      "category": "market-analysis",
-      "severity": "low",
+      "id": "SCOPE-NO_TIMELINE",
+      "category": "business-goals",
       "code": "SCOPE-NO_TIMELINE",
-      "message": "Consider adding international market expansion timeline",
+      "severity": "low",
+      "title": "Consider adding international market expansion timeline",
+      "description": "",
+      "recommendation": "",
       "location": "Section 5: Go-to-Market"
     }
-  ]
+  ],
+  "passCriteria": {
+    "minCategoriesPassing": "all_required",
+    "maxFindingsSeverity": {
+      "critical": 0,
+      "high": 0,
+      "medium": -1,
+      "low": -1
+    }
+  },
+  "decision": {
+    "status": "conditional",
+    "passed": true,
+    "rationale": "Passed with non-blocking findings",
+    "findingCounts": {
+      "critical": 0,
+      "high": 0,
+      "medium": 0,
+      "low": 1,
+      "info": 0,
+      "total": 1
+    },
+    "categoryCounts": {
+      "pass": 4,
+      "partial": 0,
+      "fail": 0,
+      "total": 4
+    }
+  },
+  "overallDecision": "conditional",
+  "nextSteps": {
+    "rerunCommand": "visionspec eval mrd"
+  },
+  "summary": "Categories: 4 pass, 0 partial, 0 fail. 1 findings (1 low). Decision: conditional."
 }

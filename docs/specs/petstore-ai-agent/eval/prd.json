@@ -1,94 +1,175 @@
 {
   "schemaVersion": "v2",
-  "score": 7.2,
-  "scoreV2": 4,
-  "decision": "conditional",
-  "pass": false,
-  "confidence": 0.78,
-  "dimensions": [
+  "metadata": {
+    "document": "prd.md",
+    "generatedAt": "2026-07-20T13:39:10.497938Z",
+    "generatedBy": "structured-evaluation"
+  },
+  "reviewType": "prd",
+  "intScore": 4,
+  "confidence": 0.72,
+  "pass": true,
+  "categories": [
     {
-      "id": "requirements",
-      "name": "Requirements Clarity",
-      "score": 3,
-      "severity": "minor",
+      "category": "requirements",
+      "score": "partial",
+      "intScore": 3,
       "confidence": 0.75,
-      "reasonCodes": ["REQ-NO_CRITERIA"],
+      "severity": "medium",
+      "reasonCodes": [
+        "REQ-NO_CRITERIA"
+      ],
+      "reasoning": "",
       "findings": [
         {
+          "id": "REQ-NO_CRITERIA",
           "category": "requirements",
-          "severity": "medium",
           "code": "REQ-NO_CRITERIA",
-          "message": "FR-2.3 lacks specific acceptance criteria for 'explain match reasoning'",
+          "severity": "medium",
+          "title": "FR-2.3 lacks specific acceptance criteria for 'explain match reasoning'",
+          "description": "",
+          "recommendation": "",
           "location": "FR-2.3"
         }
       ]
     },
     {
-      "id": "metrics",
-      "name": "Success Metrics",
-      "score": 3,
-      "severity": "minor",
+      "category": "metrics",
+      "score": "partial",
+      "intScore": 3,
       "confidence": 0.72,
-      "reasonCodes": ["METRIC-UNMEASURABLE"],
+      "severity": "medium",
+      "reasonCodes": [
+        "METRIC-UNMEASURABLE"
+      ],
+      "reasoning": "",
       "findings": [
         {
+          "id": "METRIC-UNMEASURABLE",
           "category": "metrics",
-          "severity": "medium",
           "code": "METRIC-UNMEASURABLE",
-          "message": "Success metrics missing baseline measurement methodology",
+          "severity": "medium",
+          "title": "Success metrics missing baseline measurement methodology",
+          "description": "",
+          "recommendation": "",
           "location": "Section 4: Success Metrics"
         }
       ]
     },
     {
-      "id": "dependencies",
-      "name": "Dependencies",
-      "score": 4,
-      "severity": "minor",
+      "category": "dependencies",
+      "score": "pass",
+      "intScore": 4,
       "confidence": 0.85,
-      "reasonCodes": ["ARCH-MISSING_DEP"],
+      "severity": "low",
+      "reasonCodes": [
+        "ARCH-MISSING_DEP"
+      ],
+      "reasoning": "",
       "findings": [
         {
+          "id": "ARCH-MISSING_DEP",
           "category": "dependencies",
-          "severity": "low",
           "code": "ARCH-MISSING_DEP",
-          "message": "LLM API quota dependency status should be resolved before development",
+          "severity": "low",
+          "title": "LLM API quota dependency status should be resolved before development",
+          "description": "",
+          "recommendation": "",
           "location": "Section 6: Dependencies"
         }
       ]
     },
     {
-      "id": "user-stories",
-      "name": "User Stories",
-      "score": 4,
-      "severity": "none",
+      "category": "user-stories",
+      "score": "pass",
+      "intScore": 4,
       "confidence": 0.88,
-      "reasonCodes": [],
-      "findings": []
+      "reasoning": ""
     }
   ],
-  "blocking": ["REQ-NO_CRITERIA", "METRIC-UNMEASURABLE"],
   "findings": [
     {
+      "id": "REQ-NO_CRITERIA",
       "category": "requirements",
-      "severity": "medium",
       "code": "REQ-NO_CRITERIA",
-      "message": "FR-2.3 lacks specific acceptance criteria for 'explain match reasoning'",
+      "severity": "medium",
+      "title": "FR-2.3 lacks specific acceptance criteria for 'explain match reasoning'",
+      "description": "",
+      "recommendation": "",
       "location": "FR-2.3"
     },
     {
+      "id": "METRIC-UNMEASURABLE",
       "category": "metrics",
-      "severity": "medium",
       "code": "METRIC-UNMEASURABLE",
-      "message": "Success metrics missing baseline measurement methodology",
+      "severity": "medium",
+      "title": "Success metrics missing baseline measurement methodology",
+      "description": "",
+      "recommendation": "",
       "location": "Section 4: Success Metrics"
     },
     {
+      "id": "ARCH-MISSING_DEP",
       "category": "dependencies",
-      "severity": "low",
       "code": "ARCH-MISSING_DEP",
-      "message": "LLM API quota dependency status should be resolved before development",
+      "severity": "low",
+      "title": "LLM API quota dependency status should be resolved before development",
+      "description": "",
+      "recommendation": "",
       "location": "Section 6: Dependencies"
     }
-  ]
+  ],
+  "passCriteria": {
+    "minCategoriesPassing": "all_required",
+    "maxFindingsSeverity": {
+      "critical": 0,
+      "high": 0,
+      "medium": -1,
+      "low": -1
+    }
+  },
+  "decision": {
+    "status": "conditional",
+    "passed": true,
+    "rationale": "Passed with 2 partial score(s)",
+    "findingCounts": {
+      "critical": 0,
+      "high": 0,
+      "medium": 2,
+      "low": 1,
+      "info": 0,
+      "total": 3
+    },
+    "categoryCounts": {
+      "pass": 2,
+      "partial": 2,
+      "fail": 0,
+      "total": 4
+    }
+  },
+  "overallDecision": "conditional",
+  "nextSteps": {
+    "rerunCommand": "visionspec eval prd",
+    "recommended": [
+      {
+        "action": "",
+        "category": "requirements",
+        "severity": "medium"
+      },
+      {
+        "action": "",
+        "category": "metrics",
+        "severity": "medium"
+      },
+      {
+        "action": "Improve partial category: requirements",
+        "category": "requirements"
+      },
+      {
+        "action": "Improve partial category: metrics",
+        "category": "metrics"
+      }
+    ]
+  },
+  "summary": "Categories: 2 pass, 2 partial, 0 fail. 3 findings (2 medium, 1 low). Decision: conditional."
 }
