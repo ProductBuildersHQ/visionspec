@@ -37,6 +37,7 @@ import "embed"
 //go:embed default/big-tech-essentials/profile.yaml
 //go:embed default/big-tech-essentials-product/profile.yaml default/big-tech-essentials-product/rubrics/*.yaml
 //go:embed default/big-tech-essentials-feature/profile.yaml default/big-tech-essentials-feature/rubrics/*.yaml
+//go:embed default/pbhq-lite/profile.yaml default/pbhq-lite/rubrics/*.yaml
 var defaultProfiles embed.FS
 
 // DefaultLoader returns a loader for built-in default profiles.
@@ -72,6 +73,9 @@ func DefaultLoader() Loader {
 //   - big-tech-essentials: Abstract base (Amazon + Google + Stripe only)
 //   - big-tech-essentials-product: Essentials for new products
 //   - big-tech-essentials-feature: Essentials for features
+//
+// ProductBuildersHQ profiles:
+//   - pbhq-lite: Minimal PRD/TRD/PLAN/ROADMAP workflow for internal initiatives
 var DefaultProfileNames = []string{
 	// Stage-based
 	"0-1", "startup", "growth", "enterprise",
@@ -83,6 +87,8 @@ var DefaultProfileNames = []string{
 	"big-tech", "big-tech-product", "big-tech-feature",
 	// Big Tech Essentials (simplified)
 	"big-tech-essentials", "big-tech-essentials-product", "big-tech-essentials-feature",
+	// ProductBuildersHQ
+	"pbhq-lite",
 }
 
 // IsDefaultProfile returns true if the name is a default profile.

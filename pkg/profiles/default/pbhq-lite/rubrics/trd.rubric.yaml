@@ -1,0 +1,147 @@
+id: pbhq-trd-rubric
+name: TRD Evaluation (PBHQ Lite)
+version: "1.0"
+description: Evaluation of Technical Requirements Documents for PBHQ Lite workflow. Focus on architecture clarity, API design, and implementation feasibility.
+evaluationType: analytic
+passCriteria:
+  minCategoriesPassing: all_required
+  maxFindingsSeverity:
+    critical: 0
+    high: 1
+    medium: 3
+    low: -1
+categories:
+  - id: architecture_overview
+    name: Architecture Overview
+    description: High-level system design and component relationships
+    weight: 0.25
+    required: true
+    scale:
+      type: categorical
+      options:
+        - value: pass
+          label: Pass
+          criteria:
+            - Clear system diagram or description
+            - Component boundaries and responsibilities defined
+            - Data flow between components articulated
+        - value: partial
+          label: Partial
+          criteria:
+            - Architecture exists but component boundaries unclear
+        - value: fail
+          label: Fail
+          criteria:
+            - No architecture overview or unclear design
+
+  - id: api_design
+    name: API Design
+    description: Interface definitions and contracts
+    weight: 0.20
+    required: true
+    scale:
+      type: categorical
+      options:
+        - value: pass
+          label: Pass
+          criteria:
+            - APIs defined before implementation details
+            - Request/response shapes specified
+            - Error handling approach documented
+        - value: partial
+          label: Partial
+          criteria:
+            - Some API description but incomplete contracts
+        - value: fail
+          label: Fail
+          criteria:
+            - No API design; implementation-first approach
+
+  - id: data_models
+    name: Data Models
+    description: Entity definitions and relationships
+    weight: 0.20
+    required: true
+    scale:
+      type: categorical
+      options:
+        - value: pass
+          label: Pass
+          criteria:
+            - Entities and relationships clearly defined
+            - Schema migrations considered
+            - Data validation rules specified
+        - value: partial
+          label: Partial
+          criteria:
+            - Data models exist but relationships unclear
+        - value: fail
+          label: Fail
+          criteria:
+            - Data models missing
+
+  - id: security_considerations
+    name: Security Considerations
+    description: Authentication, authorization, and data protection
+    weight: 0.15
+    required: true
+    scale:
+      type: categorical
+      options:
+        - value: pass
+          label: Pass
+          criteria:
+            - AuthN/AuthZ approach defined
+            - Sensitive data handling specified
+            - Threat model or security boundaries identified
+        - value: partial
+          label: Partial
+          criteria:
+            - Security mentioned but incomplete
+        - value: fail
+          label: Fail
+          criteria:
+            - Security considerations missing
+
+  - id: alternatives_considered
+    name: Alternatives Considered
+    description: Documentation of rejected approaches and rationale
+    weight: 0.10
+    scale:
+      type: categorical
+      options:
+        - value: pass
+          label: Pass
+          criteria:
+            - At least 2 alternatives documented
+            - Trade-offs and rejection rationale clear
+        - value: partial
+          label: Partial
+          criteria:
+            - Alternatives mentioned but rationale weak
+        - value: fail
+          label: Fail
+          criteria:
+            - No alternatives considered
+
+  - id: dependencies
+    name: Dependencies
+    description: External dependencies and integration points
+    weight: 0.10
+    scale:
+      type: categorical
+      options:
+        - value: pass
+          label: Pass
+          criteria:
+            - External services and libraries identified
+            - Version requirements specified
+            - Fallback strategies for critical dependencies
+        - value: partial
+          label: Partial
+          criteria:
+            - Dependencies listed but integration unclear
+        - value: fail
+          label: Fail
+          criteria:
+            - Dependencies not documented

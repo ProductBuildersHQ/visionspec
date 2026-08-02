@@ -1,0 +1,53 @@
+name: pbhq-lite
+description: "ProductBuildersHQ Lite workflow for internal initiatives. Minimal spec set: PRD (what), TRD (how), PLAN (sequencing), ROADMAP (tracking). Designed for fast iteration with spec files committed alongside code."
+
+spec_config:
+  prd:
+    required: true
+    category: source
+    description: "Product Requirements Document - defines the what: problem, goals, non-goals, user stories, functional requirements"
+
+  trd:
+    required: true
+    category: technical
+    description: "Technical Requirements Document - defines the how: architecture, components, APIs, data models, security considerations"
+
+  plan:
+    required: true
+    category: execution
+    description: "Implementation plan - sequencing of work, dependencies, phases, milestones"
+
+  roadmap:
+    required: true
+    category: execution
+    description: "Execution tracking - RMI definitions, status, progress. Committed with repo for version control"
+
+synthesis:
+  trd:
+    sources:
+      - prd
+    guidance: "Derive technical approach from PRD requirements. Include architecture decisions, component boundaries, and API contracts."
+
+  plan:
+    sources:
+      - prd
+      - trd
+    guidance: "Sequence implementation based on dependencies from TRD and priorities from PRD. Break into phases with clear deliverables."
+
+  roadmap:
+    sources:
+      - plan
+    guidance: "Create RMI entries for each plan item. Use stable IDs (RMI-REPOSLUG-NNN). Track status alongside code commits."
+
+workflow:
+  sequence:
+    - prd
+    - trd
+    - plan
+    - roadmap
+  iteration_trigger: roadmap
+  review_gates:
+    - after: prd
+      action: stakeholder_review
+    - after: plan
+      action: tech_lead_review
