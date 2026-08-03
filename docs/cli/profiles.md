@@ -10,7 +10,7 @@ visionspec profiles <subcommand>
 
 ## Description
 
-Configuration profiles allow you to customize which specs are required and how they're evaluated. VisionSpec includes built-in profiles for different product stages:
+Configuration profiles allow you to customize which specs are required and how they're evaluated. The default profile library — 24 workflows spanning stage-based, methodology-based (AWS, Google, Stripe, Lean Startup, Design Thinking, JTBD, Shape Up, Continuous Discovery), Big Tech syntheses, V2MOM, and pbhq-lite — is defined in [specification-workflow-spec](https://github.com/ProductBuildersHQ/specification-workflow-spec) and embedded in the `visionspec` binary. The stage-based profiles:
 
 | Profile | Description | Required Specs |
 |---------|-------------|----------------|
@@ -29,18 +29,22 @@ List all available profiles.
 visionspec profiles list
 ```
 
-**Output:**
+**Output (abbreviated):**
 
 ```
 Available profiles:
 
-  0-1          Minimal configuration for idea validation [default]
-  startup      Lightweight configuration for pre-PMF startups [default]
-  growth       Metrics-driven configuration for 1-N scaling [default]
-  enterprise   Comprehensive configuration for post-PMF enterprises [default]
+  0-1          Minimal configuration for 0-1 product development. Focus on hypothesis validation. [default]
+  startup      Lightweight configuration for pre-PMF startups. Only PRD required. [default]
+  growth       Metrics-driven configuration for 1-N scaling. [default]
+  enterprise   Comprehensive configuration for post-PMF enterprises. Full specs with security and compliance. [default]
+  aws-product  Amazon Working Backwards methodology for new product lines. ... [default]
+  ...
 
 Use with: visionspec init <project> --profile <name>
 ```
+
+All 24 embedded workflows carry the `[default]` marker; custom profiles loaded from a directory appear without it.
 
 ### show
 
@@ -97,7 +101,7 @@ visionspec profiles export <profile-name> <output-dir>
 
 This creates a complete profile directory with:
 
-- `profile.yaml` - Configuration file
+- `profile.yaml` - Configuration file, fully resolved (inheritance applied; includes methodology and synthesis sections)
 - `templates/` - Template files (`.md`)
 - `rubrics/` - Rubric files (`.rubric.yaml`)
 

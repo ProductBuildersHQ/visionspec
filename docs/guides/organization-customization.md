@@ -37,6 +37,7 @@ VisionSpec is designed for organizations to build their own prescriptive CLI too
 
 | Aspect | Open Source VisionSpec | Organization CLI |
 |--------|------------------------|------------------|
+| **Workflows/Profiles** | 24 defaults from [specification-workflow-spec](https://github.com/ProductBuildersHQ/specification-workflow-spec) | Custom workflow set chained over the defaults |
 | **Templates** | Choices and placeholders | Prescriptive with pre-filled values |
 | **Rubrics** | "Database choice documented" | "MUST use PostgreSQL with RLS" |
 | **Constitutions** | None provided | Built-in org/team/project defaults |
@@ -173,6 +174,20 @@ func orgConfig() *cli.Config {
 
     return cfg
 }
+```
+
+Workflow definitions (configuration profiles) come from
+[specification-workflow-spec](https://github.com/ProductBuildersHQ/specification-workflow-spec).
+To ship an organization workflow set, chain its loaders over the embedded
+defaults:
+
+```go
+import sws "github.com/ProductBuildersHQ/specification-workflow-spec/pkg/workflows"
+
+cfg.WorkflowLoader = sws.NewResolvingLoader(sws.NewChainLoader(
+    sws.NewFileLoader("/etc/acme/workflows"), // org workflow directories
+    sws.DefaultLoader(),                      // 24 embedded defaults
+))
 ```
 
 ### Step 4: Create Organization Templates

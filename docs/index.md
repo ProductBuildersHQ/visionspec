@@ -63,7 +63,7 @@ go install github.com/ProductBuildersHQ/visionspec/cmd/visionspec@v0.13.0
 visionspec init user-onboarding
 
 # Initialize with a methodology profile
-visionspec init my-product --profile aws
+visionspec init my-product --profile aws-product
 
 # Initialize with a stage profile
 visionspec init my-feature --profile startup
@@ -118,21 +118,27 @@ VisionSpec includes two types of profiles:
 
 | Profile | Methodology | Best For |
 |---------|-------------|----------|
-| `aws` | Working Backwards | Customer-centric products |
+| `aws-product` / `aws-feature` | Working Backwards | Customer-centric products |
 | `google` | Design Docs + RFC | Engineering-heavy orgs |
 | `stripe` | API-First | Platform/API products |
 | `lean-startup` | Build-Measure-Learn | Early validation |
 | `design-thinking` | Stanford d.school | Human-centered design |
 | `jtbd` | Jobs to be Done | Customer motivations |
+| `shapeup` | Basecamp Shape Up | Appetite-based planning |
+| `continuous-discovery` | Continuous Discovery Habits | Weekly customer touchpoints |
 
-See [Frameworks](frameworks/index.md) for detailed methodology documentation.
+The full library — 24 workflows including Big Tech syntheses, V2MOM, and
+pbhq-lite — is defined in
+[specification-workflow-spec](https://github.com/ProductBuildersHQ/specification-workflow-spec);
+run `visionspec profiles list` to see them all. See
+[Frameworks](frameworks/index.md) for detailed methodology documentation.
 
 ```bash
 # List available profiles
 visionspec profiles list
 
 # Initialize with a methodology profile
-visionspec init my-product --profile aws
+visionspec init my-product --profile aws-product
 
 # Export a profile for customization
 visionspec profiles export enterprise ./my-profile

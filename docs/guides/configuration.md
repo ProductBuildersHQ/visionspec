@@ -403,10 +403,10 @@ VisionSpec supports configuration profiles that provide pre-configured settings 
 Export a profile to use as a starting point:
 
 ```bash
-visionspec profiles export startup
+visionspec profiles export startup ./my-profile
 ```
 
-See the [Profiles Guide](profiles.md) for details.
+See the [Custom Profiles Guide](custom-profiles.md) for details.
 
 ## Environment Variables
 
