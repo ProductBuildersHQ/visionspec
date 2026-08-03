@@ -1911,6 +1911,7 @@ func profilesListCmd(cfg *Config) *cobra.Command {
 			}
 
 			available := loader.Available()
+			slices.Sort(available)
 
 			fmt.Println("Available profiles:")
 			fmt.Println()
