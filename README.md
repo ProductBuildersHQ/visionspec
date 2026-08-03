@@ -301,7 +301,11 @@ visionspec-mcp
 
 ## Configuration Profiles
 
-VisionSpec includes two types of profiles:
+Profile (workflow) definitions — configurations, templates, and rubrics for all
+24 default workflows — ship from
+[specification-workflow-spec](https://github.com/ProductBuildersHQ/specification-workflow-spec),
+the canonical library, and load as embedded Go data with no filesystem access.
+VisionSpec includes two main types of profiles:
 
 ### Stage-Based Profiles
 
@@ -332,6 +336,8 @@ For different organizational methodologies:
 | `jtbd` | Jobs to be Done | Customer motivations (job statements, outcomes) |
 | `continuous-discovery` | Teresa Torres | Continuous learning (opportunity trees) |
 | `shapeup` | Basecamp | Fixed timelines (6-week cycles, pitches) |
+| `v2mom` | Salesforce V2MOM | Strategic alignment (company/department/team variants) |
+| `pbhq-lite` | ProductBuildersHQ | Internal initiatives (PRD/TRD/PLAN/ROADMAP) |
 
 The `aws-feature` profile uses **OpportunitySpec** from [prism-roadmap](https://github.com/grokify/prism-roadmap) as the starting document instead of MRD, providing a 12-box canvas that combines discovery (Patton) with business case rigor (Cagan).
 
@@ -382,7 +388,7 @@ VisionSpec is designed for organizations to build their own prescriptive CLI too
           │                │                │
           ▼                ▼                ▼
 ┌──────────────────────────────────────────────────────────┐
-│                  visionspec (open source)                │
+│      visionspec + specification-workflow-spec (OSS)      │
 │                                                          │
 │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐       │
 │  │ Default     │  │ Default     │  │ Built-in    │       │
