@@ -2945,6 +2945,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../releases/v0.15.0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.15.0
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../releases/v0.14.0/" class="md-nav__link">
         
   
@@ -3600,7 +3628,7 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>visionspec<span class="w"> </span>profiles<span class="w"> </span>&lt;subcommand&gt;
 </code></pre></div>
 <h2 id="description">Description<a class="headerlink" href="#description" title="Permanent link">&para;</a></h2>
-<p>Configuration profiles allow you to customize which specs are required and how they're evaluated. VisionSpec includes built-in profiles for different product stages:</p>
+<p>Configuration profiles allow you to customize which specs are required and how they're evaluated. The default profile library — 24 workflows spanning stage-based, methodology-based (AWS, Google, Stripe, Lean Startup, Design Thinking, JTBD, Shape Up, Continuous Discovery), Big Tech syntheses, V2MOM, and pbhq-lite — is defined in <a href="https://github.com/ProductBuildersHQ/specification-workflow-spec">specification-workflow-spec</a> and embedded in the <code>visionspec</code> binary. The stage-based profiles:</p>
 <table>
 <thead>
 <tr>
@@ -3637,16 +3665,19 @@
 <p>List all available profiles.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>visionspec<span class="w"> </span>profiles<span class="w"> </span>list
 </code></pre></div>
-<p><strong>Output:</strong></p>
+<p><strong>Output (abbreviated):</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>Available profiles:
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>  0-1          Minimal configuration for idea validation [default]
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>  startup      Lightweight configuration for pre-PMF startups [default]
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>  growth       Metrics-driven configuration for 1-N scaling [default]
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>  enterprise   Comprehensive configuration for post-PMF enterprises [default]
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>
-<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>Use with: visionspec init &lt;project&gt; --profile &lt;name&gt;
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>  0-1          Minimal configuration for 0-1 product development. Focus on hypothesis validation. [default]
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>  startup      Lightweight configuration for pre-PMF startups. Only PRD required. [default]
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>  growth       Metrics-driven configuration for 1-N scaling. [default]
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>  enterprise   Comprehensive configuration for post-PMF enterprises. Full specs with security and compliance. [default]
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>  aws-product  Amazon Working Backwards methodology for new product lines. ... [default]
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>  ...
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>Use with: visionspec init &lt;project&gt; --profile &lt;name&gt;
 </code></pre></div>
+<p>All 24 embedded workflows carry the <code>[default]</code> marker; custom profiles loaded from a directory appear without it.</p>
 <h3 id="show">show<a class="headerlink" href="#show" title="Permanent link">&para;</a></h3>
 <p>Show detailed information about a profile.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>visionspec<span class="w"> </span>profiles<span class="w"> </span>show<span class="w"> </span>&lt;profile-name&gt;
@@ -3688,7 +3719,7 @@
 </code></pre></div>
 <p>This creates a complete profile directory with:</p>
 <ul>
-<li><code>profile.yaml</code> - Configuration file</li>
+<li><code>profile.yaml</code> - Configuration file, fully resolved (inheritance applied; includes methodology and synthesis sections)</li>
 <li><code>templates/</code> - Template files (<code>.md</code>)</li>
 <li><code>rubrics/</code> - Rubric files (<code>.rubric.yaml</code>)</li>
 </ul>

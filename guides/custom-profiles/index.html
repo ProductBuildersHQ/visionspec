@@ -3028,6 +3028,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../releases/v0.15.0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.15.0
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../releases/v0.14.0/" class="md-nav__link">
         
   
@@ -3770,6 +3798,10 @@
 <li><strong>Rubrics</strong> - Evaluation criteria for each spec type</li>
 </ol>
 <p>You can customize any or all of these to match your organization's needs.</p>
+<p>The default profiles themselves (all 24 workflows) are defined in
+<a href="https://github.com/ProductBuildersHQ/specification-workflow-spec">specification-workflow-spec</a>
+and embedded in the <code>visionspec</code> binary; custom profile directories layer on
+top of them.</p>
 <h2 id="quick-start">Quick Start<a class="headerlink" href="#quick-start" title="Permanent link">&para;</a></h2>
 <p>The fastest way to create a custom profile is to export an existing one:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Export the enterprise profile as a starting point</span>
@@ -3821,7 +3853,6 @@
 </table>
 <p>The spec-type in the filename must match:</p>
 <ul>
-<li>The <code>spec_type</code> field in rubric YAML files</li>
 <li>The spec name in <code>profile.yaml</code></li>
 <li>The spec type used in visionspec commands</li>
 </ul>
@@ -4238,6 +4269,16 @@ taken from the filename (<code>prd.rubric.yaml</code> → <code>prd</code>).</p>
 <td><code>NewChainLoader(...)</code></td>
 <td>Multiple</td>
 <td>Try loaders in order</td>
+</tr>
+<tr>
+<td><code>NewMapLoader(m)</code></td>
+<td>A loaded workflow's template/rubric maps</td>
+<td>Serve a specification-workflow-spec <code>LoadedWorkflow</code></td>
+</tr>
+<tr>
+<td><code>LoaderForWorkflow(w)</code></td>
+<td>Workflow + defaults + prism-roadmap canvases</td>
+<td>Standard chain for a loaded workflow</td>
 </tr>
 </tbody>
 </table>
