@@ -1,109 +1,216 @@
 {
   "schemaVersion": "v2",
-  "score": 5.8,
-  "scoreV2": 2,
-  "decision": "fail",
+  "metadata": {
+    "document": "uxd.md",
+    "generatedAt": "2026-07-20T13:39:10.498127Z",
+    "generatedBy": "structured-evaluation"
+  },
+  "reviewType": "uxd",
+  "intScore": 3,
+  "confidence": 0.75,
   "pass": false,
-  "confidence": 0.82,
-  "dimensions": [
+  "blocking": [
+    "UX-NO_ARIA",
+    "UX-NO_ERROR_STATE"
+  ],
+  "categories": [
     {
-      "id": "accessibility",
-      "name": "Accessibility",
-      "score": 2,
-      "severity": "major",
-      "confidence": 0.90,
-      "reasonCodes": ["UX-NO_ARIA"],
+      "category": "accessibility",
+      "score": "fail",
+      "intScore": 2,
+      "confidence": 0.9,
+      "severity": "high",
+      "reasonCodes": [
+        "UX-NO_ARIA"
+      ],
+      "reasoning": "",
       "findings": [
         {
+          "id": "UX-NO_ARIA",
           "category": "accessibility",
-          "severity": "high",
           "code": "UX-NO_ARIA",
-          "message": "Missing ARIA labels specification for chat widget components",
+          "severity": "high",
+          "title": "Missing ARIA labels specification for chat widget components",
+          "description": "",
+          "recommendation": "",
           "location": "Section 3.2: Chat Widget"
         }
       ]
     },
     {
-      "id": "error-handling",
-      "name": "Error Handling",
-      "score": 2,
-      "severity": "major",
+      "category": "error-handling",
+      "score": "fail",
+      "intScore": 2,
       "confidence": 0.88,
-      "reasonCodes": ["UX-NO_ERROR_STATE"],
+      "severity": "high",
+      "reasonCodes": [
+        "UX-NO_ERROR_STATE"
+      ],
+      "reasoning": "",
       "findings": [
         {
+          "id": "UX-NO_ERROR_STATE",
           "category": "error-handling",
-          "severity": "high",
           "code": "UX-NO_ERROR_STATE",
-          "message": "Error state designs incomplete - missing recovery flows for network failures",
+          "severity": "high",
+          "title": "Error state designs incomplete - missing recovery flows for network failures",
+          "description": "",
+          "recommendation": "",
           "location": "Section 4: Error States"
         }
       ]
     },
     {
-      "id": "responsive",
-      "name": "Responsive Design",
-      "score": 3,
-      "severity": "minor",
+      "category": "responsive",
+      "score": "partial",
+      "intScore": 3,
       "confidence": 0.75,
-      "reasonCodes": ["UX-NO_RESPONSIVE"],
+      "severity": "medium",
+      "reasonCodes": [
+        "UX-NO_RESPONSIVE"
+      ],
+      "reasoning": "",
       "findings": [
         {
-          "category": "mobile",
-          "severity": "medium",
+          "id": "UX-NO_RESPONSIVE",
+          "category": "responsive",
           "code": "UX-NO_RESPONSIVE",
-          "message": "Mobile breakpoint behaviors not fully specified",
+          "severity": "medium",
+          "title": "Mobile breakpoint behaviors not fully specified",
+          "description": "",
+          "recommendation": "",
           "location": "Section 2.3: Responsive Layouts"
         }
       ]
     },
     {
-      "id": "analytics",
-      "name": "Analytics Integration",
-      "score": 4,
-      "severity": "minor",
-      "confidence": 0.80,
-      "reasonCodes": ["METRIC-UNMEASURABLE"],
+      "category": "analytics",
+      "score": "pass",
+      "intScore": 4,
+      "confidence": 0.8,
+      "severity": "low",
+      "reasonCodes": [
+        "METRIC-UNMEASURABLE"
+      ],
+      "reasoning": "",
       "findings": [
         {
+          "id": "METRIC-UNMEASURABLE",
           "category": "analytics",
-          "severity": "low",
           "code": "METRIC-UNMEASURABLE",
-          "message": "Consider adding funnel conversion events between recommendation and purchase",
+          "severity": "low",
+          "title": "Consider adding funnel conversion events between recommendation and purchase",
+          "description": "",
+          "recommendation": "",
           "location": "Section 5: Analytics"
         }
       ]
     }
   ],
-  "blocking": ["UX-NO_ARIA", "UX-NO_ERROR_STATE"],
   "findings": [
     {
+      "id": "UX-NO_ARIA",
       "category": "accessibility",
-      "severity": "high",
       "code": "UX-NO_ARIA",
-      "message": "Missing ARIA labels specification for chat widget components",
+      "severity": "high",
+      "title": "Missing ARIA labels specification for chat widget components",
+      "description": "",
+      "recommendation": "",
       "location": "Section 3.2: Chat Widget"
     },
     {
+      "id": "UX-NO_ERROR_STATE",
       "category": "error-handling",
-      "severity": "high",
       "code": "UX-NO_ERROR_STATE",
-      "message": "Error state designs incomplete - missing recovery flows for network failures",
+      "severity": "high",
+      "title": "Error state designs incomplete - missing recovery flows for network failures",
+      "description": "",
+      "recommendation": "",
       "location": "Section 4: Error States"
     },
     {
-      "category": "mobile",
-      "severity": "medium",
+      "id": "UX-NO_RESPONSIVE",
+      "category": "responsive",
       "code": "UX-NO_RESPONSIVE",
-      "message": "Mobile breakpoint behaviors not fully specified",
+      "severity": "medium",
+      "title": "Mobile breakpoint behaviors not fully specified",
+      "description": "",
+      "recommendation": "",
       "location": "Section 2.3: Responsive Layouts"
     },
     {
+      "id": "METRIC-UNMEASURABLE",
       "category": "analytics",
-      "severity": "low",
       "code": "METRIC-UNMEASURABLE",
-      "message": "Consider adding funnel conversion events between recommendation and purchase",
+      "severity": "low",
+      "title": "Consider adding funnel conversion events between recommendation and purchase",
+      "description": "",
+      "recommendation": "",
       "location": "Section 5: Analytics"
     }
-  ]
+  ],
+  "passCriteria": {
+    "minCategoriesPassing": "all_required",
+    "maxFindingsSeverity": {
+      "critical": 0,
+      "high": 0,
+      "medium": -1,
+      "low": -1
+    }
+  },
+  "decision": {
+    "status": "fail",
+    "passed": false,
+    "rationale": "Blocked: 2 high severity findings (max 0 allowed)",
+    "findingCounts": {
+      "critical": 0,
+      "high": 2,
+      "medium": 1,
+      "low": 1,
+      "info": 0,
+      "total": 4
+    },
+    "categoryCounts": {
+      "pass": 1,
+      "partial": 1,
+      "fail": 2,
+      "total": 4
+    }
+  },
+  "overallDecision": "fail",
+  "nextSteps": {
+    "rerunCommand": "visionspec eval uxd",
+    "immediate": [
+      {
+        "action": "",
+        "category": "accessibility",
+        "severity": "high"
+      },
+      {
+        "action": "",
+        "category": "error-handling",
+        "severity": "high"
+      },
+      {
+        "action": "Address failing category: accessibility",
+        "category": "accessibility"
+      },
+      {
+        "action": "Address failing category: error-handling",
+        "category": "error-handling"
+      }
+    ],
+    "recommended": [
+      {
+        "action": "",
+        "category": "responsive",
+        "severity": "medium"
+      },
+      {
+        "action": "Improve partial category: responsive",
+        "category": "responsive"
+      }
+    ]
+  },
+  "summary": "Categories: 1 pass, 1 partial, 2 fail. 4 findings (2 high, 1 medium, 1 low). Decision: fail."
 }

@@ -1,64 +1,103 @@
 {
   "schemaVersion": "v2",
-  "score": 8.5,
-  "scoreV2": 4,
-  "decision": "pass",
+  "metadata": {
+    "document": "opportunity-spec.md",
+    "generatedAt": "2026-07-20T13:39:10.497829Z",
+    "generatedBy": "structured-evaluation"
+  },
+  "reviewType": "opportunity-spec",
+  "intScore": 4,
+  "confidence": 0.78,
   "pass": true,
-  "confidence": 0.85,
-  "dimensions": [
+  "categories": [
     {
-      "id": "problem-statement",
-      "name": "Problem Statement",
-      "score": 5,
-      "severity": "none",
+      "category": "problem-statement",
+      "score": "pass",
+      "intScore": 5,
       "confidence": 0.92,
-      "reasonCodes": [],
-      "findings": []
+      "reasoning": ""
     },
     {
-      "id": "opportunity-size",
-      "name": "Opportunity Size",
-      "score": 4,
-      "severity": "none",
+      "category": "opportunity-size",
+      "score": "pass",
+      "intScore": 4,
       "confidence": 0.88,
-      "reasonCodes": [],
-      "findings": []
+      "reasoning": ""
     },
     {
-      "id": "competitive-landscape",
-      "name": "Competitive Landscape",
-      "score": 4,
-      "severity": "minor",
+      "category": "competitive-landscape",
+      "score": "pass",
+      "intScore": 4,
       "confidence": 0.78,
-      "reasonCodes": ["METRIC-UNMEASURABLE"],
+      "severity": "low",
+      "reasonCodes": [
+        "METRIC-UNMEASURABLE"
+      ],
+      "reasoning": "",
       "findings": [
         {
-          "category": "completeness",
-          "severity": "low",
+          "id": "METRIC-UNMEASURABLE",
+          "category": "competitive-landscape",
           "code": "METRIC-UNMEASURABLE",
-          "message": "Consider adding competitive differentiation metrics",
+          "severity": "low",
+          "title": "Consider adding competitive differentiation metrics",
+          "description": "",
+          "recommendation": "",
           "location": "Section 3: Competitive Analysis"
         }
       ]
     },
     {
-      "id": "solution-fit",
-      "name": "Solution Fit",
-      "score": 4,
-      "severity": "none",
+      "category": "solution-fit",
+      "score": "pass",
+      "intScore": 4,
       "confidence": 0.85,
-      "reasonCodes": [],
-      "findings": []
+      "reasoning": ""
     }
   ],
-  "blocking": [],
   "findings": [
     {
-      "category": "completeness",
-      "severity": "low",
+      "id": "METRIC-UNMEASURABLE",
+      "category": "competitive-landscape",
       "code": "METRIC-UNMEASURABLE",
-      "message": "Consider adding competitive differentiation metrics",
+      "severity": "low",
+      "title": "Consider adding competitive differentiation metrics",
+      "description": "",
+      "recommendation": "",
       "location": "Section 3: Competitive Analysis"
     }
-  ]
+  ],
+  "passCriteria": {
+    "minCategoriesPassing": "all_required",
+    "maxFindingsSeverity": {
+      "critical": 0,
+      "high": 0,
+      "medium": -1,
+      "low": -1
+    }
+  },
+  "decision": {
+    "status": "conditional",
+    "passed": true,
+    "rationale": "Passed with non-blocking findings",
+    "findingCounts": {
+      "critical": 0,
+      "high": 0,
+      "medium": 0,
+      "low": 1,
+      "info": 0,
+      "total": 1
+    },
+    "categoryCounts": {
+      "pass": 4,
+      "partial": 0,
+      "fail": 0,
+      "total": 4
+    }
+  },
+  "overallDecision": "conditional",
+  "nextSteps": {
+    "rerunCommand": "visionspec eval opportunity-spec"
+  },
+  "summary": "Categories: 4 pass, 0 partial, 0 fail. 1 findings (1 low). Decision: conditional."
 }
