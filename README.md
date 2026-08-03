@@ -483,6 +483,16 @@ infrastructure:
 
 See [Organization Customization Guide](https://productbuildershq.com/visionspec/guides/organization-customization/) and `examples/org-cli/` for complete examples.
 
+## Ecosystem
+
+VisionSpec is the engine layer of the ProductBuildersHQ spec stack
+(`visionstudio → visionspec → specification-workflow-spec`): it executes
+workflows — scaffolding, LLM synthesis, LLM-as-Judge evaluation, lint, drift,
+status — whose definitions live in the contract layer below it.
+
+- [specification-workflow-spec](https://github.com/ProductBuildersHQ/specification-workflow-spec) - The contract: workflow types, JSON Schemas, and the embedded 24-workflow library (configs, templates, rubrics) VisionSpec loads and acts on
+- [VisionStudio](https://github.com/ProductBuildersHQ/visionstudio) - The studio: LLM-powered app that imports VisionSpec's packages as its execution SDK
+
 ## Dependencies
 
 - [structured-evaluation](https://github.com/plexusone/structured-evaluation) - Rubric and evaluation types
