@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/ProductBuildersHQ/visionspec/pkg/profiles"
+	sws "github.com/ProductBuildersHQ/specification-workflow-spec/pkg/workflows"
 	"github.com/ProductBuildersHQ/visionspec/pkg/rubrics"
 	"github.com/ProductBuildersHQ/visionspec/pkg/templates"
 	"github.com/ProductBuildersHQ/visionspec/pkg/types"
@@ -137,11 +137,12 @@ func (s *Server) handleProfileResource(ctx context.Context, req *mcp.ReadResourc
 	uri := req.Params.URI
 	profileName := strings.TrimPrefix(uri, "profile://")
 
-	loader := profiles.DefaultLoader()
-	profile, err := loader.Load(profileName)
+	loader := sws.DefaultLoader()
+	w, err := loader.Load(profileName)
 	if err != nil {
 		return nil, fmt.Errorf("profile not found: %s", profileName)
 	}
+	profile := w.Workflow
 
 	// Format profile as YAML-like structure
 	var sb strings.Builder
@@ -154,7 +155,7 @@ func (s *Server) handleProfileResource(ctx context.Context, req *mcp.ReadResourc
 
 	sb.WriteString("\nspec_config:\n")
 	if profile.SpecConfig != nil {
-		for specType, req := range profile.SpecConfig.Specs {
+		for specType, req := range profile.SpecConfig {
 			sb.WriteString(fmt.Sprintf("  %s:\n", specType))
 			sb.WriteString(fmt.Sprintf("    required: %v\n", req.Required))
 			sb.WriteString(fmt.Sprintf("    category: %s\n", req.Category))
@@ -247,7 +248,7 @@ func (s *Server) handleListRubrics(ctx context.Context, req *mcp.ReadResourceReq
 
 // handleListProfiles returns a list of available profiles.
 func (s *Server) handleListProfiles(ctx context.Context, req *mcp.ReadResourceRequest) (*mcp.ReadResourceResult, error) {
-	loader := profiles.DefaultLoader()
+	loader := sws.DefaultLoader()
 	available := loader.Available()
 
 	items := make([]resourceListItem, len(available))

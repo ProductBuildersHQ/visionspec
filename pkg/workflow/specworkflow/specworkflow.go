@@ -1,11 +1,11 @@
 // Package specworkflow adapts the generic workflow package for visionspec.
 //
-// It generates workflows from visionspec profiles, mapping spec types to
+// It generates workflows from specification workflows, mapping spec types to
 // workflow nodes and synthesis dependencies to edges.
 package specworkflow
 
 import (
-	"github.com/ProductBuildersHQ/visionspec/pkg/profiles"
+	sws "github.com/ProductBuildersHQ/specification-workflow-spec/pkg/workflows"
 	"github.com/ProductBuildersHQ/visionspec/pkg/types"
 	"github.com/ProductBuildersHQ/visionspec/pkg/workflow"
 )
@@ -55,19 +55,19 @@ var phaseDefs = []struct {
 	{"reconcile", "Reconciliation", "Generate unified execution spec", 5, []types.SpecCategory{types.CategoryOutput}},
 }
 
-// FromProfile generates a workflow from a visionspec profile.
-func FromProfile(profile *profiles.Profile) (*workflow.Workflow, error) {
-	b := workflow.NewBuilder(profile.Name).
-		Description(profile.Description)
+// FromWorkflow generates a visionspec workflow from a loaded specification workflow.
+func FromWorkflow(w *sws.LoadedWorkflow) (*workflow.Workflow, error) {
+	b := workflow.NewBuilder(w.Workflow.Name).
+		Description(w.Workflow.Description)
 
 	// Add phases
 	for _, pd := range phaseDefs {
 		b.PhaseWithDescription(pd.ID, pd.Name, pd.Description, pd.Order)
 	}
 
-	specConfig := profile.GetSpecConfig()
+	specConfig := types.SpecConfigFromWorkflow(w.Workflow)
 	if specConfig == nil {
-		return b.Build()
+		specConfig = types.DefaultSpecConfig()
 	}
 
 	// Get synthesis rules

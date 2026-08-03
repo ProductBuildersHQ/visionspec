@@ -4,16 +4,20 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"maps"
 	"os"
 	"os/signal"
 	"path/filepath"
 	"regexp"
+	"slices"
 	"strings"
 	"syscall"
 	"time"
 
 	"github.com/fsnotify/fsnotify"
 
+	swf "github.com/ProductBuildersHQ/specification-workflow-spec/pkg/workflow"
+	sws "github.com/ProductBuildersHQ/specification-workflow-spec/pkg/workflows"
 	"github.com/ProductBuildersHQ/visionspec/internal/mcp"
 	"github.com/ProductBuildersHQ/visionspec/pkg/align"
 	"github.com/ProductBuildersHQ/visionspec/pkg/config"
@@ -26,7 +30,6 @@ import (
 	"github.com/ProductBuildersHQ/visionspec/pkg/metrics"
 	"github.com/ProductBuildersHQ/visionspec/pkg/mkdocs"
 	"github.com/ProductBuildersHQ/visionspec/pkg/patterns"
-	"github.com/ProductBuildersHQ/visionspec/pkg/profiles"
 	"github.com/ProductBuildersHQ/visionspec/pkg/reconcile"
 	"github.com/ProductBuildersHQ/visionspec/pkg/reuse"
 	"github.com/ProductBuildersHQ/visionspec/pkg/rubrics"
@@ -97,29 +100,29 @@ func runInit(cmd *cobra.Command, args []string, cfg *Config) error {
 	// Load profile if specified
 	profileName, _ := cmd.Flags().GetString("profile")
 	if profileName != "" {
-		loader := cfg.ProfileLoader
+		loader := cfg.WorkflowLoader
 		if loader == nil {
-			loader = profiles.DefaultLoader()
+			loader = sws.DefaultLoader()
 		}
 
-		profile, err := loader.Load(profileName)
+		w, err := loader.Load(profileName)
 		if err != nil {
 			return fmt.Errorf("loading profile %q: %w", profileName, err)
 		}
 
 		// Apply profile settings to config
-		if profile.SpecConfig != nil {
-			cfg.SpecConfig = profile.SpecConfig
+		if specConfig := types.SpecConfigFromWorkflow(w.Workflow); specConfig != nil {
+			cfg.SpecConfig = specConfig
 		}
-		if profile.TemplateLoader != nil {
-			cfg.TemplateLoader = templates.NewChainLoader(profile.TemplateLoader, cfg.TemplateLoader)
+		if len(w.Templates) > 0 {
+			cfg.TemplateLoader = templates.NewChainLoader(templates.NewMapLoader(w.Templates), cfg.TemplateLoader)
 		}
-		if profile.RubricLoader != nil {
-			cfg.RubricLoader = profile.RubricLoader
+		if len(w.Rubrics) > 0 {
+			cfg.RubricLoader = rubrics.NewMapLoader(w.Rubrics)
 		}
 
-		fmt.Printf("Using profile: %s\n", profile.Name)
-		fmt.Printf("  %s\n\n", profile.Description)
+		fmt.Printf("Using profile: %s\n", w.Workflow.Name)
+		fmt.Printf("  %s\n\n", w.Workflow.Description)
 	}
 
 	// Find or create specs directory
@@ -229,7 +232,7 @@ func runInit(cmd *cobra.Command, args []string, cfg *Config) error {
 				TemplateLoader:     cfg.GetTemplateLoaderForWorkflow(methodology),
 				RubricLoader:       cfg.GetRubricLoaderForWorkflow(methodology),
 				SpecConfig:         cfg.SpecConfig,
-				ProfileLoader:      cfg.ProfileLoader,
+				WorkflowLoader:     cfg.WorkflowLoader,
 				ConstitutionLoader: cfg.ConstitutionLoader,
 				AppTypeLoader:      cfg.AppTypeLoader,
 				DefaultProfile:     cfg.DefaultProfile,
@@ -664,18 +667,18 @@ func runWorkflow(cmd *cobra.Command, _ []string, cfg *Config) error {
 	}
 
 	// Load profile
-	loader := cfg.ProfileLoader
+	loader := cfg.WorkflowLoader
 	if loader == nil {
-		loader = profiles.DefaultLoader()
+		loader = sws.DefaultLoader()
 	}
 
-	profile, err := loader.Load(profileName)
+	w, err := loader.Load(profileName)
 	if err != nil {
 		return fmt.Errorf("failed to load profile %q: %w", profileName, err)
 	}
 
 	// Generate workflow from profile
-	wf, err := specworkflow.FromProfile(profile)
+	wf, err := specworkflow.FromWorkflow(w)
 	if err != nil {
 		return fmt.Errorf("failed to generate workflow: %w", err)
 	}
@@ -1892,14 +1895,19 @@ Usage:
 	return cmd
 }
 
+// isDefaultWorkflow reports whether name is one of the built-in default workflows.
+func isDefaultWorkflow(name string) bool {
+	return slices.Contains(sws.DefaultLoader().Available(), name)
+}
+
 func profilesListCmd(cfg *Config) *cobra.Command {
 	return &cobra.Command{
 		Use:   "list",
 		Short: "List available profiles",
 		RunE: func(cmd *cobra.Command, args []string) error {
-			loader := cfg.ProfileLoader
+			loader := cfg.WorkflowLoader
 			if loader == nil {
-				loader = profiles.DefaultLoader()
+				loader = sws.DefaultLoader()
 			}
 
 			available := loader.Available()
@@ -1908,18 +1916,18 @@ func profilesListCmd(cfg *Config) *cobra.Command {
 			fmt.Println()
 
 			for _, name := range available {
-				profile, err := loader.Load(name)
+				w, err := loader.Load(name)
 				if err != nil {
 					fmt.Printf("  %-12s (error loading)\n", name)
 					continue
 				}
 
 				marker := ""
-				if profiles.IsDefaultProfile(name) {
+				if isDefaultWorkflow(name) {
 					marker = " [default]"
 				}
 
-				fmt.Printf("  %-12s %s%s\n", name, profile.Description, marker)
+				fmt.Printf("  %-12s %s%s\n", name, w.Workflow.Description, marker)
 			}
 
 			fmt.Println()
@@ -1938,32 +1946,33 @@ func profilesShowCmd(cfg *Config) *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			profileName := args[0]
 
-			loader := cfg.ProfileLoader
+			loader := cfg.WorkflowLoader
 			if loader == nil {
-				loader = profiles.DefaultLoader()
+				loader = sws.DefaultLoader()
 			}
 
-			profile, err := loader.Load(profileName)
+			w, err := loader.Load(profileName)
 			if err != nil {
 				return fmt.Errorf("profile %q not found: %w", profileName, err)
 			}
 
-			fmt.Printf("Profile: %s\n", profile.Name)
-			fmt.Printf("Description: %s\n", profile.Description)
-			if profile.Extends != "" {
-				fmt.Printf("Extends: %s\n", profile.Extends)
+			fmt.Printf("Profile: %s\n", w.Workflow.Name)
+			fmt.Printf("Description: %s\n", w.Workflow.Description)
+			if w.Workflow.Extends != "" {
+				fmt.Printf("Extends: %s\n", w.Workflow.Extends)
 			}
 			fmt.Println()
 
 			// Show required specs
 			fmt.Println("Required specs:")
-			if profile.SpecConfig != nil {
-				required := profile.RequiredSpecs()
+			if w.Workflow.SpecConfig != nil {
+				required := w.Workflow.RequiredSpecs()
 				if len(required) == 0 {
 					fmt.Println("  (none)")
 				} else {
+					slices.Sort(required)
 					for _, name := range required {
-						category := profile.SpecConfig.GetCategory(name)
+						category := w.Workflow.GetCategory(name)
 						fmt.Printf("  - %s (%s)\n", name, category)
 					}
 				}
@@ -1974,33 +1983,23 @@ func profilesShowCmd(cfg *Config) *cobra.Command {
 
 			// Show available templates
 			fmt.Println("Custom templates:")
-			if profile.TemplateLoader != nil {
-				available := profile.TemplateLoader.Available()
-				if len(available) == 0 {
-					fmt.Println("  (none)")
-				} else {
-					for _, t := range available {
-						fmt.Printf("  - %s\n", t)
-					}
-				}
-			} else {
+			if len(w.Templates) == 0 {
 				fmt.Println("  (uses defaults)")
+			} else {
+				for _, t := range slices.Sorted(maps.Keys(w.Templates)) {
+					fmt.Printf("  - %s\n", t)
+				}
 			}
 			fmt.Println()
 
 			// Show available rubrics
 			fmt.Println("Custom rubrics:")
-			if profile.RubricLoader != nil {
-				available := profile.RubricLoader.Available()
-				if len(available) == 0 {
-					fmt.Println("  (none)")
-				} else {
-					for _, r := range available {
-						fmt.Printf("  - %s\n", r)
-					}
-				}
-			} else {
+			if len(w.Rubrics) == 0 {
 				fmt.Println("  (uses defaults)")
+			} else {
+				for _, r := range slices.Sorted(maps.Keys(w.Rubrics)) {
+					fmt.Printf("  - %s\n", r)
+				}
 			}
 
 			return nil
@@ -2032,13 +2031,13 @@ Examples:
 			profileName := args[0]
 			outputDir := args[1]
 
-			loader := cfg.ProfileLoader
+			loader := cfg.WorkflowLoader
 			if loader == nil {
-				loader = profiles.DefaultLoader()
+				loader = sws.DefaultLoader()
 			}
 
 			// Verify profile exists
-			profile, err := loader.Load(profileName)
+			w, err := loader.Load(profileName)
 			if err != nil {
 				return fmt.Errorf("profile %q not found: %w", profileName, err)
 			}
@@ -2049,26 +2048,26 @@ Examples:
 			}
 
 			// Export profile.yaml
-			profileYAML := profiles.ProfileToYAML(profile)
+			workflowYAML, err := w.Workflow.ToYAML()
+			if err != nil {
+				return fmt.Errorf("marshaling profile.yaml: %w", err)
+			}
 			profilePath := filepath.Join(outputDir, "profile.yaml")
-			if err := profiles.WriteProfileYAML(profilePath, profileYAML); err != nil {
+			if err := os.WriteFile(profilePath, workflowYAML, 0600); err != nil {
 				return fmt.Errorf("writing profile.yaml: %w", err)
 			}
 			fmt.Printf("Created %s\n", profilePath)
 
 			// Export templates
-			if profile.TemplateLoader != nil {
+			if len(w.Templates) > 0 {
 				templatesDir := filepath.Join(outputDir, "templates")
 				if err := os.MkdirAll(templatesDir, 0755); err != nil {
 					return fmt.Errorf("creating templates directory: %w", err)
 				}
 
-				for _, specType := range profile.TemplateLoader.Available() {
-					tmpl, err := profile.TemplateLoader.Load(specType)
-					if err != nil {
-						continue
-					}
-					filename := string(specType) + ".md"
+				for _, specType := range slices.Sorted(maps.Keys(w.Templates)) {
+					tmpl := w.Templates[specType]
+					filename := specType + ".md"
 					path := filepath.Join(templatesDir, filename)
 					if err := os.WriteFile(path, []byte(tmpl.Content), 0600); err != nil {
 						return fmt.Errorf("writing template %s: %w", filename, err)
@@ -2078,20 +2077,17 @@ Examples:
 			}
 
 			// Export rubrics
-			if profile.RubricLoader != nil {
+			if len(w.Rubrics) > 0 {
 				rubricsDir := filepath.Join(outputDir, "rubrics")
 				if err := os.MkdirAll(rubricsDir, 0755); err != nil {
 					return fmt.Errorf("creating rubrics directory: %w", err)
 				}
 
-				for _, specType := range profile.RubricLoader.Available() {
-					rubric, err := profile.RubricLoader.Load(specType)
-					if err != nil {
-						continue
-					}
-					filename := string(specType) + ".rubric.yaml"
+				for _, specType := range slices.Sorted(maps.Keys(w.Rubrics)) {
+					rs := w.Rubrics[specType]
+					filename := specType + ".rubric.yaml"
 					path := filepath.Join(rubricsDir, filename)
-					if err := rubrics.WriteRubricYAML(path, rubric); err != nil {
+					if err := rubrics.WriteRubricYAML(path, rs); err != nil {
 						return fmt.Errorf("writing rubric %s: %w", filename, err)
 					}
 					fmt.Printf("Created %s\n", path)
@@ -2150,15 +2146,17 @@ Examples:
 			}
 
 			// Create profile.yaml
-			profile := &profiles.Profile{
+			newWorkflow := &swf.Workflow{
 				Name:        profileName,
 				Description: fmt.Sprintf("Custom profile: %s", profileName),
-				SpecConfig:  types.NewSpecConfig(),
 			}
 
-			profileYAML := profiles.ProfileToYAML(profile)
+			workflowYAML, err := newWorkflow.ToYAML()
+			if err != nil {
+				return fmt.Errorf("marshaling profile.yaml: %w", err)
+			}
 			profilePath := filepath.Join(outputDir, "profile.yaml")
-			if err := profiles.WriteProfileYAML(profilePath, profileYAML); err != nil {
+			if err := os.WriteFile(profilePath, workflowYAML, 0600); err != nil {
 				return fmt.Errorf("writing profile.yaml: %w", err)
 			}
 
@@ -2202,13 +2200,13 @@ Examples:
 			newProfileName := args[1]
 			outputDir := args[2]
 
-			loader := cfg.ProfileLoader
+			loader := cfg.WorkflowLoader
 			if loader == nil {
-				loader = profiles.DefaultLoader()
+				loader = sws.DefaultLoader()
 			}
 
 			// Verify base profile exists
-			baseProfile, err := loader.Load(baseProfileName)
+			baseWorkflow, err := loader.Load(baseProfileName)
 			if err != nil {
 				return fmt.Errorf("base profile %q not found: %w", baseProfileName, err)
 			}
@@ -2234,25 +2232,28 @@ Examples:
 			}
 
 			// Create profile.yaml with extends
-			profile := &profiles.Profile{
+			newWorkflow := &swf.Workflow{
 				Name:        newProfileName,
 				Description: fmt.Sprintf("Custom profile extending %s", baseProfileName),
 				Extends:     baseProfileName,
-				SpecConfig:  types.NewSpecConfig(), // Empty - inherits from base
 			}
 
-			profileYAML := profiles.ProfileToYAML(profile)
+			workflowYAML, err := newWorkflow.ToYAML()
+			if err != nil {
+				return fmt.Errorf("marshaling profile.yaml: %w", err)
+			}
 			profilePath := filepath.Join(outputDir, "profile.yaml")
-			if err := profiles.WriteProfileYAML(profilePath, profileYAML); err != nil {
+			if err := os.WriteFile(profilePath, workflowYAML, 0600); err != nil {
 				return fmt.Errorf("writing profile.yaml: %w", err)
 			}
 
 			fmt.Printf("Created profile %s extending %s at %s\n", newProfileName, baseProfileName, outputDir)
 			fmt.Println()
 			fmt.Println("Inherited from base profile:")
-			if baseProfile.SpecConfig != nil {
-				required := baseProfile.RequiredSpecs()
+			if baseWorkflow.Workflow.SpecConfig != nil {
+				required := baseWorkflow.Workflow.RequiredSpecs()
 				if len(required) > 0 {
+					slices.Sort(required)
 					fmt.Printf("  Required specs: %s\n", strings.Join(required, ", "))
 				}
 			}
@@ -2305,18 +2306,18 @@ Examples:
 				if err != nil {
 					errors = append(errors, fmt.Sprintf("cannot read profile.yaml: %v", err))
 				} else {
-					var profileYAML profiles.ProfileYAML
-					if err := yaml.Unmarshal(data, &profileYAML); err != nil {
+					parsedWorkflow, err := swf.ParseYAML(data)
+					if err != nil {
 						errors = append(errors, fmt.Sprintf("invalid profile.yaml: %v", err))
 					} else {
 						// Validate extends reference
-						if profileYAML.Extends != "" {
-							loader := cfg.ProfileLoader
+						if parsedWorkflow.Extends != "" {
+							loader := cfg.WorkflowLoader
 							if loader == nil {
-								loader = profiles.DefaultLoader()
+								loader = sws.DefaultLoader()
 							}
-							if _, err := loader.Load(profileYAML.Extends); err != nil {
-								errors = append(errors, fmt.Sprintf("extends %q not found", profileYAML.Extends))
+							if _, err := loader.Load(parsedWorkflow.Extends); err != nil {
+								errors = append(errors, fmt.Sprintf("extends %q not found", parsedWorkflow.Extends))
 							}
 						}
 
@@ -2324,24 +2325,25 @@ Examples:
 						templatesDir := filepath.Join(profileDir, "templates")
 						rubricsDir := filepath.Join(profileDir, "rubrics")
 
-						if profileYAML.SpecConfig != nil {
-							for name, req := range profileYAML.SpecConfig {
-								if req.Required {
-									// Check template exists
-									templatePath := filepath.Join(templatesDir, name+".md")
-									if _, err := os.Stat(templatePath); os.IsNotExist(err) {
-										// Not an error if extends - may inherit
-										if profileYAML.Extends == "" {
-											warnings = append(warnings, fmt.Sprintf("required spec %q has no template", name))
-										}
+						if parsedWorkflow.SpecConfig != nil {
+							for name, req := range parsedWorkflow.SpecConfig {
+								if req == nil || !req.Required {
+									continue
+								}
+								// Check template exists
+								templatePath := filepath.Join(templatesDir, name+".md")
+								if _, err := os.Stat(templatePath); os.IsNotExist(err) {
+									// Not an error if extends - may inherit
+									if parsedWorkflow.Extends == "" {
+										warnings = append(warnings, fmt.Sprintf("required spec %q has no template", name))
 									}
+								}
 
-									// Check rubric exists
-									rubricPath := filepath.Join(rubricsDir, name+".rubric.yaml")
-									if _, err := os.Stat(rubricPath); os.IsNotExist(err) {
-										if profileYAML.Extends == "" {
-											warnings = append(warnings, fmt.Sprintf("required spec %q has no rubric", name))
-										}
+								// Check rubric exists
+								rubricPath := filepath.Join(rubricsDir, name+".rubric.yaml")
+								if _, err := os.Stat(rubricPath); os.IsNotExist(err) {
+									if parsedWorkflow.Extends == "" {
+										warnings = append(warnings, fmt.Sprintf("required spec %q has no rubric", name))
 									}
 								}
 							}

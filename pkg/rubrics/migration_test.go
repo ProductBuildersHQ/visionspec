@@ -7,6 +7,7 @@ import (
 	"strings"
 	"testing"
 
+	sws "github.com/ProductBuildersHQ/specification-workflow-spec/pkg/workflows"
 	"github.com/plexusone/structured-evaluation/rubric"
 	"gopkg.in/yaml.v3"
 )
@@ -54,7 +55,33 @@ func TestAllRubricYAMLsAreStructuredEvaluationNative(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+	// Profile rubric data moved to specification-workflow-spec; only local
+	// fixtures and example rubrics remain in this repo.
+	if scanned < 5 {
+		t.Errorf("scanned %d rubric files, expected at least 5", scanned)
+	}
+}
+
+// TestAllWorkflowRubricsAreStructuredEvaluationNative extends the migration
+// gate across the embedded workflows from specification-workflow-spec: every
+// rubric they ship must be structured-evaluation native with categories.
+func TestAllWorkflowRubricsAreStructuredEvaluationNative(t *testing.T) {
+	loader := sws.DefaultLoader()
+	var scanned int
+	for _, name := range loader.Available() {
+		w, err := loader.Load(name)
+		if err != nil {
+			t.Errorf("loading workflow %q: %v", name, err)
+			continue
+		}
+		for specType, rs := range w.Rubrics {
+			if len(rs.Categories) == 0 {
+				t.Errorf("workflow %q rubric %q: no categories (likely still flat)", name, specType)
+			}
+			scanned++
+		}
+	}
 	if scanned < 80 {
-		t.Errorf("scanned %d rubric files, expected at least 80", scanned)
+		t.Errorf("scanned %d workflow rubrics, expected at least 80", scanned)
 	}
 }

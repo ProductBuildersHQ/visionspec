@@ -20,9 +20,9 @@
 package cli
 
 import (
+	sws "github.com/ProductBuildersHQ/specification-workflow-spec/pkg/workflows"
 	"github.com/ProductBuildersHQ/visionspec/pkg/apptypes"
 	"github.com/ProductBuildersHQ/visionspec/pkg/constitution"
-	"github.com/ProductBuildersHQ/visionspec/pkg/profiles"
 	"github.com/ProductBuildersHQ/visionspec/pkg/rubrics"
 	"github.com/ProductBuildersHQ/visionspec/pkg/templates"
 	"github.com/ProductBuildersHQ/visionspec/pkg/types"
@@ -55,9 +55,9 @@ type Config struct {
 	// If nil, uses default visionspec requirements.
 	SpecConfig *types.SpecConfig
 
-	// ProfileLoader loads configuration profiles.
-	// If nil, uses default profiles.
-	ProfileLoader profiles.Loader
+	// WorkflowLoader loads specification workflows (configuration profiles).
+	// If nil, uses the default embedded workflows.
+	WorkflowLoader sws.Loader
 
 	// ConstitutionLoader loads organization/team/project constitutions.
 	// If nil, no built-in constitutions are available.
@@ -88,21 +88,25 @@ func DefaultConfig() *Config {
 		TemplateLoader:     templates.DefaultLoader(),
 		RubricLoader:       rubrics.DefaultLoader(),
 		SpecConfig:         types.DefaultSpecConfig(),
-		ProfileLoader:      profiles.DefaultLoader(),
+		WorkflowLoader:     sws.DefaultLoader(),
 		ConstitutionLoader: nil, // No built-in constitutions; orgs provide their own
 		AppTypeLoader:      apptypes.DefaultLoader(),
 		Version:            "0.3.0",
 	}
 }
 
-// ConfigFromProfile creates a Config from a profile.
-func ConfigFromProfile(profile *profiles.Profile) *Config {
+// ConfigFromWorkflow creates a Config from a loaded workflow.
+func ConfigFromWorkflow(w *sws.LoadedWorkflow) *Config {
+	specConfig := types.SpecConfigFromWorkflow(w.Workflow)
+	if specConfig == nil {
+		specConfig = types.DefaultSpecConfig()
+	}
 	return &Config{
-		TemplateLoader:     profile.GetTemplateLoader(),
-		RubricLoader:       profile.GetRubricLoader(),
-		SpecConfig:         profile.GetSpecConfig(),
-		ProfileLoader:      profiles.DefaultLoader(),
-		ConstitutionLoader: nil, // Profiles don't include constitutions yet
+		TemplateLoader:     templates.LoaderForWorkflow(w),
+		RubricLoader:       rubrics.LoaderForWorkflow(w),
+		SpecConfig:         specConfig,
+		WorkflowLoader:     sws.DefaultLoader(),
+		ConstitutionLoader: nil, // Workflows don't include constitutions yet
 		AppTypeLoader:      apptypes.DefaultLoader(),
 		Version:            "0.3.0",
 	}

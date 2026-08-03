@@ -3,25 +3,25 @@ package specworkflow
 import (
 	"testing"
 
-	"github.com/ProductBuildersHQ/visionspec/pkg/profiles"
+	sws "github.com/ProductBuildersHQ/specification-workflow-spec/pkg/workflows"
 	"github.com/ProductBuildersHQ/visionspec/pkg/types"
 	"github.com/ProductBuildersHQ/visionspec/pkg/workflow"
 )
 
-func TestFromProfile(t *testing.T) {
-	loader := profiles.DefaultLoader()
-	profile, err := loader.Load("big-tech-product")
+func TestFromWorkflow(t *testing.T) {
+	loader := sws.DefaultLoader()
+	loaded, err := loader.Load("big-tech-product")
 	if err != nil {
-		t.Skipf("profile not available: %v", err)
+		t.Skipf("workflow not available: %v", err)
 	}
 
-	w, err := FromProfile(profile)
+	w, err := FromWorkflow(loaded)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
 
-	if w.Name != profile.Name {
-		t.Errorf("expected workflow name %q, got %q", profile.Name, w.Name)
+	if w.Name != loaded.Workflow.Name {
+		t.Errorf("expected workflow name %q, got %q", loaded.Workflow.Name, w.Name)
 	}
 
 	// Should have phases

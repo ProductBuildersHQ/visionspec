@@ -12,8 +12,8 @@ import (
 	"fmt"
 	"os"
 
+	sws "github.com/ProductBuildersHQ/specification-workflow-spec/pkg/workflows"
 	"github.com/ProductBuildersHQ/visionspec/pkg/cli"
-	"github.com/ProductBuildersHQ/visionspec/pkg/profiles"
 	"github.com/spf13/cobra"
 )
 
@@ -28,14 +28,14 @@ PRD, UXD, and FAQ are required. Focus on experiments and growth metrics.`,
 	}
 
 	// Load the growth profile
-	profile, err := profiles.DefaultLoader().Load("growth")
+	loadedWorkflow, err := sws.DefaultLoader().Load("growth")
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error loading profile: %v\n", err)
 		os.Exit(1)
 	}
 
 	// Create config from profile
-	cfg := cli.ConfigFromProfile(profile)
+	cfg := cli.ConfigFromWorkflow(loadedWorkflow)
 	cfg.Version = "1.0.0-growth"
 
 	// Add visionspec commands

@@ -11,12 +11,12 @@ import (
 	"strings"
 	"time"
 
+	sws "github.com/ProductBuildersHQ/specification-workflow-spec/pkg/workflows"
 	"github.com/ProductBuildersHQ/visionspec/pkg/align"
 	"github.com/ProductBuildersHQ/visionspec/pkg/config"
 	ctxpkg "github.com/ProductBuildersHQ/visionspec/pkg/context"
 	"github.com/ProductBuildersHQ/visionspec/pkg/draft"
 	"github.com/ProductBuildersHQ/visionspec/pkg/eval"
-	"github.com/ProductBuildersHQ/visionspec/pkg/profiles"
 	"github.com/ProductBuildersHQ/visionspec/pkg/reconcile"
 	"github.com/ProductBuildersHQ/visionspec/pkg/status"
 	"github.com/ProductBuildersHQ/visionspec/pkg/synth"
@@ -1616,14 +1616,14 @@ func (s *Server) handleGetWorkflow(ctx context.Context, req *mcp.CallToolRequest
 	}
 
 	// Load profile
-	loader := profiles.DefaultLoader()
-	profile, err := loader.Load(profileName)
+	loader := sws.DefaultLoader()
+	loaded, err := loader.Load(profileName)
 	if err != nil {
 		return errorResult("failed to load profile: " + err.Error())
 	}
 
 	// Generate workflow from profile
-	wf, err := specworkflow.FromProfile(profile)
+	wf, err := specworkflow.FromWorkflow(loaded)
 	if err != nil {
 		return errorResult("failed to generate workflow: " + err.Error())
 	}

@@ -12,8 +12,8 @@ import (
 	"fmt"
 	"os"
 
+	sws "github.com/ProductBuildersHQ/specification-workflow-spec/pkg/workflows"
 	"github.com/ProductBuildersHQ/visionspec/pkg/cli"
-	"github.com/ProductBuildersHQ/visionspec/pkg/profiles"
 	"github.com/spf13/cobra"
 )
 
@@ -33,14 +33,14 @@ This CLI uses the "0-1" profile with a single "hypothesis" document.`,
 	}
 
 	// Load the 0-1 profile
-	profile, err := profiles.DefaultLoader().Load("0-1")
+	loadedWorkflow, err := sws.DefaultLoader().Load("0-1")
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error loading profile: %v\n", err)
 		os.Exit(1)
 	}
 
 	// Create config from profile
-	cfg := cli.ConfigFromProfile(profile)
+	cfg := cli.ConfigFromWorkflow(loadedWorkflow)
 	cfg.Version = "1.0.0-zero-to-one"
 
 	// Add visionspec commands
