@@ -7,6 +7,35 @@
   "maintainers": ["johncwang@gmail.com"],
   "releases": [
     {
+      "version": "v0.15.0",
+      "date": "2026-08-03",
+      "highlights": [
+        { "description": "Workflow definitions move to their canonical home: specification-workflow-spec v0.2.0 owns all 24 default workflows (configurations, templates, rubrics), consumed as embedded Go data through composable loaders" },
+        { "description": "Bridge helpers feed VisionSpec's template/rubric loader interfaces and SpecConfig from a loaded workflow — rubrics flow through as structured-evaluation RubricSet with no conversion" },
+        { "description": "New pbhq-lite workflow: minimal PRD/TRD/PLAN/ROADMAP flow for internal initiatives" }
+      ],
+      "breaking": [
+        { "description": "pkg/profiles is removed; workflow definitions, templates, and rubrics load from specification-workflow-spec's pkg/workflows", "commit": "db8758d" },
+        { "description": "cli.ConfigFromProfile is now cli.ConfigFromWorkflow, cli.Config.ProfileLoader is now Config.WorkflowLoader (workflows.Loader), and specworkflow.FromProfile is now FromWorkflow; the CLI surface (--profile, profiles subcommands) is unchanged", "commit": "32a0977" }
+      ],
+      "added": [
+        { "description": "templates.NewMapLoader and templates.LoaderForWorkflow serve a loaded workflow's templates through the existing Loader interface with the standard fallback chain", "commit": "92ec599" },
+        { "description": "rubrics.NewMapLoader and rubrics.LoaderForWorkflow, structured-evaluation RubricSet end to end", "commit": "aa9b1aa" },
+        { "description": "types.SpecConfigFromWorkflow maps workflow spec requirements into SpecConfig for eval, lint, and status", "commit": "f563749" },
+        { "description": "pbhq-lite workflow for ProductBuildersHQ internal initiatives", "commit": "39bdec4" }
+      ],
+      "changed": [
+        { "description": "CLI, MCP server, and examples load workflows via specification-workflow-spec; the [default] marker derives from the embedded set (v2mom* now included), profiles export writes the fully resolved workflow, profiles validate checks the full schema, and listings are deterministically sorted", "commit": "32a0977" }
+      ],
+      "documentation": [
+        { "description": "Update petstore-ai-agent evals to v2 schema", "commit": "144a233" },
+        { "description": "Update MkDocs site and README for the canonical workflow library" }
+      ],
+      "infrastructure": [
+        { "description": "Update dependencies: modelcontextprotocol/go-sdk v1.7.0, structured-evaluation v0.11.0, prism-roadmap v0.16.1", "commit": "198bd56" }
+      ]
+    },
+    {
       "version": "v0.14.0",
       "date": "2026-07-20",
       "commit": "46e32f2",
