@@ -5,7 +5,8 @@
 package specworkflow
 
 import (
-	sws "github.com/ProductBuildersHQ/specification-workflow-spec/pkg/workflows"
+	sws "github.com/ProductBuildersHQ/visionspec/pkg/workflows"
+	"github.com/ProductBuildersHQ/visionspec/pkg/workflow"
 	"github.com/ProductBuildersHQ/visionspec/pkg/types"
 	"github.com/ProductBuildersHQ/visionspec/pkg/execgraph"
 )
@@ -70,9 +71,6 @@ func FromWorkflow(w *sws.LoadedWorkflow) (*execgraph.Workflow, error) {
 		specConfig = types.DefaultSpecConfig()
 	}
 
-	// Get synthesis rules
-	synthesisRules := getSynthesisRules()
-
 	// Add nodes for each spec in the config
 	for specName, req := range specConfig.Specs {
 		if req == nil {
@@ -87,8 +85,8 @@ func FromWorkflow(w *sws.LoadedWorkflow) (*execgraph.Workflow, error) {
 		// Determine phase based on category
 		phase := categoryToPhase(req.Category)
 
-		// Get dependencies from synthesis rules
-		deps := synthesisRules[specName]
+		// Get dependencies from the workflow's own synthesis configuration
+		deps := synthesisSources(w.Workflow, specName)
 
 		nodeType := categoryToNodeType(req.Category)
 		automated := isAutomated(req.Category)
@@ -126,25 +124,15 @@ func FromWorkflow(w *sws.LoadedWorkflow) (*execgraph.Workflow, error) {
 	return b.Build()
 }
 
-// getSynthesisRules returns synthesis dependencies for spec types.
-// TODO: Read from profile's synthesis configuration when available.
-func getSynthesisRules() map[string][]string {
-	// Default synthesis rules based on common patterns
-	return map[string][]string{
-		"press":         {"mrd"},
-		"faq":           {"mrd", "press"},
-		"narrative-1p":  {"mrd", "press", "faq"},
-		"narrative-6p":  {"mrd", "press", "faq"},
-		"prd":           {"mrd", "press", "faq"},
-		"uxd":           {"prd"},
-		"trd":           {"prd", "uxd"},
-		"tpd":           {"prd", "trd"},
-		"ird":           {"trd"},
-		"spec":          {"prd", "uxd", "trd", "tpd"},
-		"current-truth": {"spec"},
-		// Feature-based workflows
-		"opportunity-spec": {},
+// synthesisSources returns the workflow's own declared synthesis sources for
+// a spec type, or nil if the workflow declares no synthesis rule for it
+// (e.g. a human-authored document like the press release).
+func synthesisSources(w *workflow.Workflow, specName string) []string {
+	rule, ok := w.Synthesis[specName]
+	if !ok || rule == nil {
+		return nil
 	}
+	return rule.Sources
 }
 
 func categoryToPhase(cat types.SpecCategory) string {

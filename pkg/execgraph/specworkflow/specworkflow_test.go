@@ -3,7 +3,7 @@ package specworkflow
 import (
 	"testing"
 
-	sws "github.com/ProductBuildersHQ/specification-workflow-spec/pkg/workflows"
+	sws "github.com/ProductBuildersHQ/visionspec/pkg/workflows"
 	"github.com/ProductBuildersHQ/visionspec/pkg/types"
 	"github.com/ProductBuildersHQ/visionspec/pkg/execgraph"
 )
