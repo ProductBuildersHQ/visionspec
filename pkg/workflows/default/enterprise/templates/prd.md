@@ -10,6 +10,13 @@
 | Reviewers | |
 | Last Updated | |
 
+This PRD is the **authoritative product contract**: normative product intent,
+scope, and business behavior. Architecture and task sequencing belong in the
+TRD and PLAN, not here — if you find yourself describing *how* something will
+be built, that content belongs downstream. Execution dates and status belong
+in ROADMAP; this document states product sequencing constraints only (what
+must ship before what), never calendar dates.
+
 ## Executive Summary
 
 <!-- 2-3 paragraph overview of the product/feature -->
@@ -28,6 +35,28 @@
 
 <!-- How does this fit in the competitive landscape? -->
 
+## Assumptions and Constraints
+
+*What this PRD assumes to be true, and the hard limits it operates within. An
+assumption that turns out false, or a constraint that gets relaxed, is grounds
+to revisit the requirements below — call it out here rather than burying it.*
+
+| ID | Assumption / Constraint | Type | Impact if Wrong |
+|----|--------------------------|------|-------------------|
+| A-001 | | Assumption / Constraint | |
+
+## Decision Register
+
+*Every consequential product decision recorded once, with its reversibility.
+One-way-door decisions (hard or costly to reverse) warrant more scrutiny before
+approval than two-way-door decisions (cheap to reverse) — don't spend the same
+review effort on both. Link out to a six-pager or ADR for the full reasoning;
+this table is the index.*
+
+| ID | Decision | Reversibility | Rationale | Reference |
+|----|----------|----------------|-----------|-----------|
+| D-001 | | One-way-door / Two-way-door | | |
+
 ## Target Users
 
 ### Primary Persona
@@ -45,6 +74,10 @@
 
 ## User Stories
 
+*Every story and every acceptance criterion carries a stable ID. Acceptance
+criteria cover happy path, error, empty, permission, and boundary behavior —
+not only the primary flow.*
+
 ### Epic: [Epic Name]
 
 #### US-001: [Story Title]
@@ -55,14 +88,33 @@
 
 **Acceptance Criteria:**
 
-- [ ] Given [precondition], when [action], then [result]
-- [ ] Given [precondition], when [action], then [result]
+- [ ] **AC-001-1:** Given [precondition], when [action], then [result]
+- [ ] **AC-001-2:** Given [precondition], when [action], then [result]
+- [ ] **AC-001-3:** Given [error/boundary condition], when [action], then [result]
 
 **Dependencies:** None
 
 ---
 
+#### US-002: [Story Title]
+
+**As a** [user type]
+**I want** [goal]
+**So that** [benefit]
+
+**Acceptance Criteria:**
+
+- [ ] **AC-002-1:** Given [precondition], when [action], then [result]
+
+**Dependencies:** [e.g., US-001]
+
+---
+
 ## Functional Requirements
+
+*Every requirement traces to the story (and therefore the customer need) it
+serves. A requirement with no story reference is a candidate for scope creep —
+justify it or cut it.*
 
 ### FR-001: [Requirement Title]
 
@@ -71,6 +123,8 @@
 **Priority:** P0 | P1 | P2
 
 **Rationale:** [Why is this needed?]
+
+**Traces to:** US-001
 
 **Dependencies:** [List any dependencies]
 
@@ -180,25 +234,26 @@
 |--------|----------|--------|-------------|
 | | | | |
 
-## Rollout Plan
+## Release Strategy
 
-### Phase 1: Beta
+*Product-level release decisions only — cohort definition, GA gating
+criteria, rollback triggers. Scheduling, feature-flag mechanics, and rollout
+percentage-by-date belong in PLAN/ROADMAP, not here; this document does not
+carry execution timelines.*
 
-- [ ] Target users: [group]
-- [ ] Feature flags: [list]
-- [ ] Success criteria for GA: [criteria]
-
-### Phase 2: General Availability
-
-- [ ] Rollout percentage: [schedule]
-- [ ] Monitoring: [metrics to watch]
-- [ ] Rollback criteria: [thresholds]
+- **Beta cohort:** <!-- who, and why this group -->
+- **GA gating criteria:** <!-- what must be true before general availability -->
+- **Rollback triggers:** <!-- product-level conditions that pull the release back, not the mechanical rollback steps -->
 
 ## Open Questions
 
-| # | Question | Owner | Due Date | Resolution |
-|---|----------|-------|----------|------------|
-| 1 | | | | |
+*No question here may block implementation at the point this PRD is approved
+— an unresolved implementation-blocking question means the PRD is not ready
+for approval, not a footnote.*
+
+| # | Question | Owner | Resolution |
+|---|----------|-------|------------|
+| 1 | | | |
 
 ## Appendix
 
@@ -206,7 +261,6 @@
 
 | Term | Definition |
 |------|------------|
-| | |
 
 ### B. References
 
