@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"sort"
 
-	sws "github.com/ProductBuildersHQ/specification-workflow-spec/pkg/workflows"
+	sws "github.com/ProductBuildersHQ/visionspec/pkg/workflows"
 	prrubrics "github.com/grokify/prism-roadmap/rubrics"
 	"github.com/plexusone/structured-evaluation/rubric"
 

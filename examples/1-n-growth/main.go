@@ -12,7 +12,7 @@ import (
 	"fmt"
 	"os"
 
-	sws "github.com/ProductBuildersHQ/specification-workflow-spec/pkg/workflows"
+	sws "github.com/ProductBuildersHQ/visionspec/pkg/workflows"
 	"github.com/ProductBuildersHQ/visionspec/pkg/cli"
 	"github.com/spf13/cobra"
 )

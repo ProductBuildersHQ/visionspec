@@ -9,8 +9,8 @@ import (
 	"slices"
 	"strings"
 
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/template"
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/workflow"
+	"github.com/ProductBuildersHQ/visionspec/pkg/template"
+	"github.com/ProductBuildersHQ/visionspec/pkg/workflow"
 	oscompatfs "github.com/grokify/oscompat/fs"
 	"github.com/plexusone/structured-evaluation/rubric"
 	"gopkg.in/yaml.v3"

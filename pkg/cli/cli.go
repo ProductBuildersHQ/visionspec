@@ -20,7 +20,7 @@
 package cli
 
 import (
-	sws "github.com/ProductBuildersHQ/specification-workflow-spec/pkg/workflows"
+	sws "github.com/ProductBuildersHQ/visionspec/pkg/workflows"
 	"github.com/ProductBuildersHQ/visionspec/pkg/apptypes"
 	"github.com/ProductBuildersHQ/visionspec/pkg/constitution"
 	"github.com/ProductBuildersHQ/visionspec/pkg/rubrics"

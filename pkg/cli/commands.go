@@ -16,8 +16,8 @@ import (
 
 	"github.com/fsnotify/fsnotify"
 
-	swf "github.com/ProductBuildersHQ/specification-workflow-spec/pkg/workflow"
-	sws "github.com/ProductBuildersHQ/specification-workflow-spec/pkg/workflows"
+	swf "github.com/ProductBuildersHQ/visionspec/pkg/workflow"
+	sws "github.com/ProductBuildersHQ/visionspec/pkg/workflows"
 	"github.com/ProductBuildersHQ/visionspec/internal/mcp"
 	"github.com/ProductBuildersHQ/visionspec/pkg/align"
 	"github.com/ProductBuildersHQ/visionspec/pkg/config"

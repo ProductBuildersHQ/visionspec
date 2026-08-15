@@ -13,15 +13,15 @@ import (
 
 	"github.com/invopop/jsonschema"
 
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/gate"
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/integration"
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/layout"
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/loop"
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/pipeline"
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/spectype"
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/synthesis"
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/template"
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/workflow"
+	"github.com/ProductBuildersHQ/visionspec/pkg/gate"
+	"github.com/ProductBuildersHQ/visionspec/pkg/integration"
+	"github.com/ProductBuildersHQ/visionspec/pkg/layout"
+	"github.com/ProductBuildersHQ/visionspec/pkg/loop"
+	"github.com/ProductBuildersHQ/visionspec/pkg/pipeline"
+	"github.com/ProductBuildersHQ/visionspec/pkg/spectype"
+	"github.com/ProductBuildersHQ/visionspec/pkg/synthesis"
+	"github.com/ProductBuildersHQ/visionspec/pkg/template"
+	"github.com/ProductBuildersHQ/visionspec/pkg/workflow"
 )
 
 func main() {
