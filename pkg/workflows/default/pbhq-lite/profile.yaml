@@ -1,26 +1,52 @@
 name: pbhq-lite
-description: "ProductBuildersHQ Lite workflow for internal initiatives. Minimal spec set: PRD (what), TRD (how), PLAN (sequencing), ROADMAP (tracking). Designed for fast iteration with spec files committed alongside code."
+description: >-
+  ProductBuildersHQ Lite: the smallest spec set that keeps product, technology,
+  plan, and roadmap distinct — PRD (what), TRD (how), PLAN (sequencing),
+  ROADMAP (tracking). The four stay separate because they answer different
+  questions and change on different cadences; merging any two couples their
+  churn. Built to keep velocity high and development consistent across
+  one-person, multi-repo initiatives: minimal ceremony keeps the loop turning
+  fast, and the same four files committed alongside the code in every repo let
+  humans and agents navigate any initiative the same way. This is the minimal
+  set for the building phase — getting to shipped with verifiable success
+  criteria; growth-phase product execution (GTM plans, growth experiments)
+  adds artifacts or graduates to a heavier workflow rather than stretching
+  these four.
 
+# Each spec declares where its template and rubric come from. `local` means this
+# workflow's own templates/ or rubrics/ dir; a workflow name (e.g. enterprise)
+# sources the file from that workflow. Provenance is loader-enforced: a source
+# that does not provide the file fails to load. pbhq-lite authors its own PRD
+# template and all four rubrics, and borrows the generic TRD/PLAN/ROADMAP
+# templates from enterprise.
 spec_config:
   prd:
     required: true
     category: source
-    description: "Product Requirements Document - defines the what: problem, goals, non-goals, user stories, functional requirements"
+    description: "Product Requirements Document - defines the what: problem, goals, non-goals, user stories, functional requirements, and required success metrics (outcome targets with baselines and measurement method — the Product Loop's verification criteria)"
+    template: local
+    rubric: local
 
   trd:
     required: true
     category: technical
     description: "Technical Requirements Document - defines the how: architecture, components, APIs, data models, security considerations"
+    template: {from: enterprise}
+    rubric: local
 
   plan:
     required: true
     category: execution
-    description: "Implementation plan - sequencing of work, dependencies, phases, milestones"
+    description: "Implementation plan - the narrative of the sequence: why this order, dependencies, phases, milestones. Deliberately separate from ROADMAP so the plan's story is not churned by status flips"
+    template: {from: enterprise}
+    rubric: local
 
   roadmap:
     required: true
     category: execution
-    description: "Execution tracking - RMI definitions, status, progress. Committed with repo for version control"
+    description: "Execution tracking - the checklist: a machine-readable RMI ledger (stable IDs, status, progress) committed with the repo. Deliberately separate from PLAN so per-session status churn never touches the narrative"
+    template: {from: enterprise}
+    rubric: local
 
 synthesis:
   trd:
@@ -39,7 +65,7 @@ synthesis:
       - plan
     guidance: "Create RMI entries for each plan item. Use stable IDs (RMI-REPOSLUG-NNN). Track status alongside code commits."
 
-workflow:
+execution:
   sequence:
     - prd
     - trd

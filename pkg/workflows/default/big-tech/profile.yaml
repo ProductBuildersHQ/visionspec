@@ -290,27 +290,37 @@ spec_config:
     required: false
     category: source
     description: "Shaped pitch with appetite, problem, solution, rabbit holes"
+    template: {from: shapeup}
+    rubric: {from: shapeup}
 
   shapeup-scope:
     required: false
     category: tracking
     description: "Scopes with hill chart positions for execution tracking"
+    template: {from: shapeup}
+    rubric: {from: shapeup}
 
   # Continuous Discovery artifacts (optional - use for research-heavy work)
   ost:
     required: false
     category: source
     description: "Opportunity Solution Tree linking outcome to solutions"
+    template: {from: continuous-discovery}
+    rubric: {from: continuous-discovery}
 
   discovery-snapshot:
     required: false
     category: tracking
     description: "Weekly discovery summary with interviews and learnings"
+    template: {from: continuous-discovery}
+    rubric: {from: continuous-discovery}
 
   assumption-map:
     required: false
     category: source
     description: "Risk matrix by assumption type (DVFUE)"
+    template: {from: continuous-discovery}
+    rubric: {from: continuous-discovery}
 
 # Synthesis rules - leverage multiple source documents
 synthesis:

@@ -167,12 +167,16 @@ spec_config:
     required: false
     category: source
     description: "Use big-tech-product for Shape Up integration"
+    template: {from: shapeup}
+    rubric: {from: shapeup}
 
   # Continuous Discovery artifacts (not included in essentials - too advanced)
   ost:
     required: false
     category: source
     description: "Use big-tech-product for Continuous Discovery integration"
+    template: {from: continuous-discovery}
+    rubric: {from: continuous-discovery}
 
 # Synthesis rules - same flow, simplified guidance
 synthesis:
