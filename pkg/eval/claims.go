@@ -37,7 +37,7 @@ func (r *Result) ToClaimsReport(document string) *claims.ClaimsReport {
 			false, // LLM evaluations are not fully reproducible
 		)
 		validation.Internal.ValidatedBy = fmt.Sprintf("%s via %s", r.Judge.Provider, r.Judge.Model)
-		validation.Internal.ValidatedAt = r.Timestamp
+		validation.Internal.ValidatedAt = &r.Timestamp
 
 		claim.SetValidation(validation)
 
