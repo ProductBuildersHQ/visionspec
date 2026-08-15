@@ -1,0 +1,27 @@
+name: quick-fix
+description: >-
+  Minimal workflow for small fixes and maintenance tasks. Only the ROADMAP
+  (the machine-readable RMI ledger) is required, so a fix can be tracked and
+  shipped without spec ceremony. PRD, TRD, and PLAN remain available as
+  optional documents when a fix turns out to need more context.
+extends: pbhq-lite
+
+spec_config:
+  prd:
+    required: false
+    category: source
+  trd:
+    required: false
+    category: technical
+  plan:
+    required: false
+    category: execution
+  roadmap:
+    required: true
+    category: execution
+    description: "Execution tracking - the checklist: a machine-readable RMI ledger (stable IDs, status, progress) committed with the repo"
+
+execution:
+  sequence:
+    - roadmap
+  iteration_trigger: roadmap

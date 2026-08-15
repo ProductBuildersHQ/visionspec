@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/ProductBuildersHQ/specification-workflow-spec/schema/synthesis.schema.json",
+  "$ref": "#/$defs/DAG",
+  "$defs": {
+    "DAG": {
+      "properties": {
+        "nodes": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Spec types in topological order"
+        },
+        "edges": {
+          "items": {
+            "$ref": "#/$defs/Edge"
+          },
+          "type": "array",
+          "description": "Dependency edges"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "nodes",
+        "edges"
+      ]
+    },
+    "Edge": {
+      "properties": {
+        "source": {
+          "type": "string",
+          "description": "Upstream spec type"
+        },
+        "target": {
+          "type": "string",
+          "description": "Downstream spec type"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "source",
+        "target"
+      ]
+    }
+  },
+  "title": "Synthesis DAG",
+  "description": "Schema for synthesis definitions"
+}

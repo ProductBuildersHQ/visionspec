@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/ProductBuildersHQ/specification-workflow-spec/schema/spectype.schema.json",
+  "$ref": "#/$defs/SpecTypeRegistry",
+  "$defs": {
+    "SpecType": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Canonical identifier for the spec type"
+        },
+        "name": {
+          "type": "string",
+          "description": "Human-readable name"
+        },
+        "shortName": {
+          "type": "string",
+          "description": "Abbreviated name for compact display"
+        },
+        "description": {
+          "type": "string",
+          "description": "Purpose and usage of this spec type"
+        },
+        "category": {
+          "type": "string",
+          "enum": [
+            "source",
+            "gtm",
+            "technical",
+            "execution",
+            "output",
+            "strategic"
+          ]
+        },
+        "pdlcStage": {
+          "type": "string",
+          "enum": [
+            "product-definition",
+            "builder-definition"
+          ]
+        },
+        "authorship": {
+          "type": "string",
+          "enum": [
+            "human",
+            "synthesized",
+            "hybrid"
+          ]
+        },
+        "filename": {
+          "type": "string",
+          "description": "Canonical filename for this spec"
+        },
+        "evalFilename": {
+          "type": "string",
+          "description": "Filename for LLM-as-Judge evaluation results"
+        },
+        "origins": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Methodologies that originated or use this spec type"
+        },
+        "aliases": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Alternative names or abbreviations"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "category",
+        "authorship",
+        "filename"
+      ]
+    },
+    "SpecTypeRegistry": {
+      "properties": {
+        "version": {
+          "type": "string",
+          "description": "Schema version"
+        },
+        "types": {
+          "items": {
+            "$ref": "#/$defs/SpecType"
+          },
+          "type": "array",
+          "description": "Registered specification types"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "version",
+        "types"
+      ]
+    }
+  },
+  "title": "Specification Type Registry",
+  "description": "Schema for spectype definitions"
+}

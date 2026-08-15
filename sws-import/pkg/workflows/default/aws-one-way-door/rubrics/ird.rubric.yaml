@@ -1,0 +1,306 @@
+id: ird-rubric
+name: AWS Product IRD Rubric
+version: "2.0"
+description: >-
+  Infrastructure Requirements Document evaluation for product-level
+  one-way-door launches. implementation_readiness categories are blocking
+  gates on whether infrastructure guarantees are explicit, capacity is
+  provisioned for the launch projection, and DR is proven before the public
+  commitment. infra_ownership is a Leadership Principle lens (Ownership,
+  Frugality, Highest Standards) and never blocks on its own.
+evaluationType: analytic
+judgeInstructions:
+  - Cite the relevant section and IRD/TRD/TPD ID for every finding.
+  - An "Infrastructure impact — None" declaration is implausible at product scale; accept it only with rationale and evidence strong enough to survive review, otherwise fail scope_declaration.
+  - An irreversible infrastructure commitment (region/residency, tenancy structure, public endpoint) absent from §3 is a fail on door_classification, not an omission.
+  - A DR recovery procedure with no pre-launch "Last Tested" date is a fail on dr_proven, not a pass — a tabletop review does not count as executed.
+  - A launch-capacity row with no quota check is a gap; quotas discovered at launch are outages.
+  - Only data-bearing resources require replacement protection when judging resource_lifecycle_safety.
+  - Do not reward length; reward guarantees that are explicit, provisioned, and safe to implement from.
+passCriteria:
+    minCategoriesPassing: all_required
+    maxFindingsSeverity:
+        critical: 0
+        high: 0
+        medium: 2
+        low: -1
+categories:
+    - id: scope_declaration
+      name: Infrastructure Impact Declaration
+      description: Is infrastructure impact explicitly declared — None with strong rationale/evidence, or fully scoped below?
+      weight: 0.05
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Declaration states impact exists and the rest is completed, or states None with rationale and evidence proportionate to a product-scale launch
+            - value: fail
+              label: Fail
+              criteria:
+                - Declaration missing, or None with weak or absent rationale
+    - id: requirements_traceability
+      name: Requirements Traceability
+      description: Infrastructure requirements have stable IDs tracing to TRD and verified by TPD.
+      weight: 0.11
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Every IRD-ID has a Source TRD reference and a Verification TPD reference
+            - value: partial
+              label: Partial
+              criteria:
+                - Some alignment but gaps exist
+            - value: fail
+              label: Fail
+              criteria:
+                - Infrastructure doesn't trace to technical requirements
+    - id: door_classification
+      name: Irreversible Infrastructure Commitments
+      description: Are region/residency, tenancy, and public-endpoint one-way doors named, linked to product doors, and given pre-launch proofs?
+      weight: 0.10
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Every §3 row names the commitment, the OWD/TWD it carries, why it is irreversible, and its pre-launch proof reference
+                - Externally visible endpoints/domains in §8 cross-reference §3
+            - value: partial
+              label: Partial
+              criteria:
+                - Commitments listed but product linkage or proof references missing
+            - value: fail
+              label: Fail
+              criteria:
+                - No §3 section, or an obvious infrastructure one-way door left unnamed
+    - id: environment_model
+      name: Environment Model
+      description: Environments, isolation boundaries, and promotion model are explicit.
+      weight: 0.07
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Dev/staging/prod/DR environments with isolation boundaries, configuration ownership, and promotion model stated
+            - value: partial
+              label: Partial
+              criteria:
+                - Environments listed but isolation or promotion model unclear
+            - value: fail
+              label: Fail
+              criteria:
+                - No environment model
+    - id: launch_capacity
+      name: Launch Capacity
+      description: Capacity, quotas, and scaling provisioned in advance for the launch-day peak and year-1 projection.
+      weight: 0.11
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Load projections quantified for steady state, launch-day peak, and year-1
+                - Service quotas checked against the launch peak with raised status recorded
+                - Scaling and pre-warming stated per component
+            - value: partial
+              label: Partial
+              criteria:
+                - Load quantified but quotas unchecked or pre-warming unstated
+            - value: fail
+              label: Fail
+              criteria:
+                - No launch capacity planning beyond current traffic
+    - id: resource_lifecycle_safety
+      name: Resource Lifecycle Safety
+      description: Do data-bearing resources have explicit replacement/deletion protection?
+      weight: 0.11
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Data-bearing resources marked with protection status and documented replace/delete behavior
+                - Expected replacements documented in advance
+            - value: partial
+              label: Partial
+              criteria:
+                - Table present but protection status missing for some resources
+            - value: fail
+              label: Fail
+              criteria:
+                - No lifecycle section despite data-bearing resources existing
+    - id: security
+      name: Security
+      description: Identity, network, secrets, and compliance requirements documented.
+      weight: 0.11
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Identity/access roles, network security, secrets and encryption, and applicable compliance documented
+            - value: partial
+              label: Partial
+              criteria:
+                - Some security considerations
+            - value: fail
+              label: Fail
+              criteria:
+                - Security not addressed
+    - id: dr_proven
+      name: DR Proven Pre-Launch
+      description: HA/DR targets stated and recovery procedures executed before launch.
+      weight: 0.09
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - SLA, RTO, and RPO stated
+                - Every recovery scenario has an executed procedure with a pre-launch "Last Tested" date
+            - value: partial
+              label: Partial
+              criteria:
+                - Targets stated but some procedures untested or tested only as tabletop reviews
+            - value: fail
+              label: Fail
+              criteria:
+                - No DR section, or no procedure ever executed
+    - id: deployment_guarantees
+      name: Deployment Guarantees
+      description: Preview, policy validation, drift detection, ordering, approvals, and rollback/roll-forward strategy.
+      weight: 0.08
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Preview-before-apply, policy validation, drift detection, ordering, and approvals stated
+                - Rollback safety for data-bearing resources explicitly addressed; §3 commitments rely on pre-launch proof, not rollback
+            - value: partial
+              label: Partial
+              criteria:
+                - Deployment mechanics mentioned but rollback/roll-forward strategy missing
+            - value: fail
+              label: Fail
+              criteria:
+                - No deployment guarantees section
+    - id: observability
+      name: Observability
+      description: Logs, metrics, traces, audit, and alerting defined with retention.
+      weight: 0.05
+      required: false
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Logs, metrics, traces, and audit destinations with retention and alert thresholds
+            - value: partial
+              label: Partial
+              criteria:
+                - Basic monitoring mentioned
+            - value: fail
+              label: Fail
+              criteria:
+                - No observability definition
+    - id: cost_horizon
+      name: Cost at Launch and Year-1
+      description: Cost projected at launch and the year-1 projection, not just current month.
+      weight: 0.04
+      required: false
+      class: specification_quality
+      blocking: false
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Cost table with launch and year-1 columns and totals
+            - value: partial
+              label: Partial
+              criteria:
+                - Launch cost only
+            - value: fail
+              label: Fail
+              criteria:
+                - No cost analysis
+    - id: infra_ownership
+      name: Infrastructure Ownership
+      description: Ownership, Frugality, Highest Standards — is the infrastructure scoped to the real projection and owned end to end?
+      weight: 0.08
+      required: false
+      class: leadership_principle
+      blocking: false
+      evaluation: semantic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Capacity matches the stated projection — neither speculative over-provisioning nor launch-day under-provisioning
+                - Operational ownership (on-call, runbooks executed) is addressed, not deferred
+            - value: partial
+              label: Partial
+              criteria:
+                - Mostly scoped but some speculative or unowned elements
+            - value: fail
+              label: Fail
+              criteria:
+                - Over-provisioned without rationale, or ownership unaddressed

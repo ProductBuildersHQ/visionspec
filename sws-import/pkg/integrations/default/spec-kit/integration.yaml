@@ -1,0 +1,175 @@
+id: spec-kit
+name: GitHub Spec-Kit
+short_name: Spec-Kit
+vendor: GitHub
+description: >-
+  Spec-first toolkit ("Specify") that drives any AI coding agent from a
+  natural-language feature description through specification, planning, and
+  task breakdown to implementation. Spans its own requirements and design, but
+  in the ProductBuildersHQ system the definition-side spec feeds its /speckit.specify step.
+kind: execution
+source: repo
+homepage: https://github.com/github/spec-kit
+repo: https://github.com/github/spec-kit
+reference: https://github.com/github/spec-kit/blob/main/README.md
+license: MIT
+invocations:
+  - cli
+  - slash-command
+cli_command: specify
+agents:
+  - Claude Code
+  - GitHub Copilot
+  - Cursor
+  - Gemini CLI
+  - Codex
+  - Windsurf
+  - Kiro
+
+detection:
+  root_markers:
+    - .specify/
+    - .specify/memory/
+    - .specify/templates/
+  globs:
+    - specs/*/spec.md
+
+artifacts:
+  - id: constitution
+    path: .specify/memory/constitution.md
+    role: constitution
+    description: Project governing principles, ratified and versioned.
+    phase: constitution
+    produced: true
+  - id: feature-pointer
+    path: .specify/feature.json
+    role: config
+    description: 'Active feature pointer: {"feature_directory": "specs/NNN-..."}.'
+    phase: specify
+    produced: true
+  - id: spec
+    path: specs/<NNN-feature>/spec.md
+    role: requirement
+    description: Feature specification (WHAT/WHY) — user stories, FR-###, SC-### success criteria.
+    phase: specify
+    spec_type: prd
+    produced: true
+  - id: plan
+    path: specs/<NNN-feature>/plan.md
+    role: design
+    description: Implementation plan (HOW) — technical context and Constitution Check gate.
+    phase: plan
+    spec_type: trd
+    produced: true
+  - id: research
+    path: specs/<NNN-feature>/research.md
+    role: research
+    description: Phase 0 decisions, rationale, and alternatives.
+    phase: plan
+    produced: true
+  - id: data-model
+    path: specs/<NNN-feature>/data-model.md
+    role: design
+    description: Entities, fields, relationships, and state transitions.
+    phase: plan
+    produced: true
+  - id: contracts
+    path: specs/<NNN-feature>/contracts/
+    role: contract
+    description: API/interface contracts (directory; may be absent for internal-only work).
+    phase: plan
+    produced: true
+  - id: tasks
+    path: specs/<NNN-feature>/tasks.md
+    role: tasks
+    description: Ordered, checkboxed task list grouped by phase and user story.
+    phase: tasks
+    spec_type: plan
+    produced: true
+  - id: code
+    path: src/
+    role: output
+    description: Source code and tests written during implementation.
+    phase: implement
+    produced: true
+
+lifecycle:
+  - id: constitution
+    name: Constitution
+    description: Establish project governing principles.
+    command: /speckit.constitution
+    produces:
+      - constitution
+  - id: specify
+    name: Specify
+    description: Turn a feature description into a structured specification.
+    command: /speckit.specify
+    produces:
+      - spec
+      - feature-pointer
+  - id: clarify
+    name: Clarify
+    description: Resolve open questions in the spec (recommended before planning).
+    command: /speckit.clarify
+    consumes:
+      - spec
+  - id: plan
+    name: Plan
+    description: Produce the implementation plan and Phase 0/1 design docs.
+    command: /speckit.plan
+    consumes:
+      - spec
+    produces:
+      - plan
+      - research
+      - data-model
+      - contracts
+  - id: tasks
+    name: Tasks
+    description: Break the plan into an ordered task list.
+    command: /speckit.tasks
+    consumes:
+      - plan
+    produces:
+      - tasks
+  - id: analyze
+    name: Analyze
+    description: Cross-artifact consistency check before implementation.
+    command: /speckit.analyze
+    consumes:
+      - spec
+      - plan
+      - tasks
+  - id: implement
+    name: Implement
+    description: Execute tasks, writing code and marking tasks complete.
+    command: /speckit.implement
+    consumes:
+      - tasks
+    produces:
+      - code
+
+status:
+  method: task-checkboxes
+  source: tasks
+  description: >-
+    Percent complete = checked over total checkbox lines in tasks.md
+    ("- [X]" or "- [x]" vs "- [ ]"). Phase is also inferable from which artifacts
+    exist: spec only → specified; +plan → planned; +tasks → ready to implement.
+
+inputs:
+  - id: feature-description
+    medium: prompt
+    description: >-
+      Natural-language feature description passed to /speckit.specify. An
+      external definition-side PRD feeds in here (or is merged into spec.md).
+    spec_types:
+      - prd
+      - narrative-6p
+
+outputs:
+  - id: code-out
+    medium: code
+    description: Source code and tests written into the repository.
+    artifacts:
+      - code

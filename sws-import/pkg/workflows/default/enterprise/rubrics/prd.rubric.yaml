@@ -1,0 +1,279 @@
+id: prd-rubric
+name: Enterprise PRD Rubric
+version: "2.0"
+description: >-
+  Comprehensive PRD evaluation for enterprise SaaS products with security and
+  compliance requirements. The PRD is the authoritative product contract:
+  categories tagged implementation_readiness are blocking gates on whether an
+  agent could implement and verify the spec without inventing product
+  decisions. Categories tagged specification_quality inform review but do not
+  block on their own.
+evaluationType: analytic
+judgeInstructions:
+  - Cite the relevant section and requirement/story/decision ID for every finding.
+  - A requirement with no "Traces to" story, or a story with no acceptance criteria, is a fail on requirements_traceability regardless of prose quality elsewhere.
+  - Do not infer customer validation (research, quotes, metrics) that is not documented in Problem Statement.
+  - Do not reward length; reward traceable, testable, unambiguous statements.
+  - List contradictions between sections (e.g., Scope vs. Functional Requirements) separately from missing content.
+passCriteria:
+    minCategoriesPassing: all_required
+    maxFindingsSeverity:
+        critical: 0
+        high: 0
+        medium: 2
+        low: -1
+categories:
+    - id: problem-definition
+      name: Problem Definition
+      description: Is the business and user problem clearly defined with supporting data?
+      weight: 0.08
+      required: false
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Business and user problems clearly stated with metrics and research data
+            - value: partial
+              label: Partial
+              criteria:
+                - Problems stated but missing supporting data or metrics
+            - value: fail
+              label: Fail
+              criteria:
+                - No clear problem definition or missing business/user perspective
+    - id: assumptions_constraints
+      name: Assumptions and Constraints
+      description: Are assumptions and constraints stated with their impact if wrong?
+      weight: 0.08
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Every load-bearing assumption or constraint is listed with type and impact-if-wrong
+            - value: partial
+              label: Partial
+              criteria:
+                - Some assumptions listed but impact-if-wrong missing
+            - value: fail
+              label: Fail
+              criteria:
+                - Section empty despite the PRD depending on unstated assumptions
+    - id: decision_register
+      name: Decision Register
+      description: Are consequential decisions recorded with a reversibility classification?
+      weight: 0.08
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Each consequential decision has an ID, reversibility (one-way/two-way-door), and rationale
+                - One-way-door decisions reference deeper analysis (six-pager, ADR) rather than being decided inline
+            - value: partial
+              label: Partial
+              criteria:
+                - Decisions listed but reversibility or rationale missing for some
+            - value: fail
+              label: Fail
+              criteria:
+                - Section empty despite the PRD containing consequential decisions
+    - id: requirements_traceability
+      name: Requirements Traceability
+      description: Does every functional requirement trace to a user story, and is coverage comprehensive?
+      weight: 0.14
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Every FR has a "Traces to" story ID that exists in User Stories
+                - FR/NFR coverage is complete with priorities, rationale, and dependencies
+            - value: partial
+              label: Partial
+              criteria:
+                - Most FRs traced but some missing a story reference or priority
+            - value: fail
+              label: Fail
+              criteria:
+                - FRs untraced to stories, or requirements coverage has entire categories missing
+    - id: user-stories
+      name: User Stories & Acceptance
+      description: Do all stories carry stable IDs with acceptance criteria covering more than the happy path?
+      weight: 0.14
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Every story has a stable ID (US-NNN) and every acceptance criterion a stable ID (AC-NNN-M)
+                - Acceptance criteria cover error, boundary, or permission cases, not only the primary flow
+            - value: partial
+              label: Partial
+              criteria:
+                - Stories present with acceptance criteria, but IDs missing or only happy-path covered
+            - value: fail
+              label: Fail
+              criteria:
+                - Missing user stories or no acceptance criteria
+    - id: scope-definition
+      name: Scope Definition
+      description: Is scope clearly bounded with explicit in/out items, and consistent with the rest of the document?
+      weight: 0.08
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Clear in-scope, out-of-scope, and future considerations sections
+                - Scope is consistent with User Stories and Functional Requirements (nothing in FRs contradicts Out of Scope)
+            - value: partial
+              label: Partial
+              criteria:
+                - Scope defined but boundaries unclear, or a minor inconsistency with FRs
+            - value: fail
+              label: Fail
+              criteria:
+                - No scope definition, scope is unbounded, or FRs directly contradict stated scope
+    - id: security-requirements
+      name: Security Requirements
+      description: Are security requirements explicitly defined?
+      weight: 0.12
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Complete security section covering auth, authz, data protection, and audit
+            - value: partial
+              label: Partial
+              criteria:
+                - Security mentioned but missing key areas (auth, data protection, or audit)
+            - value: fail
+              label: Fail
+              criteria:
+                - No security requirements or only generic statements
+    - id: platform-requirements
+      name: Platform & Integration
+      description: Are platform requirements and integrations documented?
+      weight: 0.06
+      required: false
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Web, mobile, and API requirements with version support and integrations documented
+            - value: partial
+              label: Partial
+              criteria:
+                - Platform requirements present but incomplete or missing integrations
+            - value: fail
+              label: Fail
+              criteria:
+                - No platform requirements or integration documentation
+    - id: success-metrics
+      name: Success Metrics
+      description: Are measurable success metrics defined?
+      weight: 0.10
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Specific, measurable metrics with baselines, targets, and measurement methods
+            - value: partial
+              label: Partial
+              criteria:
+                - Metrics defined but missing baselines or measurement methods
+            - value: fail
+              label: Fail
+              criteria:
+                - No success metrics or only vague goals
+    - id: unresolved_decisions
+      name: No Blocking Open Questions
+      description: Are all open questions non-blocking to implementation at the point of approval?
+      weight: 0.06
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Every open question has a resolution, or is explicitly non-blocking to implementation
+            - value: fail
+              label: Fail
+              criteria:
+                - An open question lacks resolution and is implementation-blocking (e.g., scope, requirement, or security decision still pending)
+    - id: release-strategy
+      name: Release Strategy
+      description: Is the release approached in product terms (cohort, GA gate, rollback trigger) without execution-timeline detail?
+      weight: 0.06
+      required: false
+      class: specification_quality
+      blocking: false
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Beta cohort, GA gating criteria, and rollback triggers stated in product terms
+                - No calendar dates or percentage-rollout schedules (that belongs in PLAN/ROADMAP)
+            - value: partial
+              label: Partial
+              criteria:
+                - Release strategy present but missing GA gating criteria or rollback triggers
+            - value: fail
+              label: Fail
+              criteria:
+                - No release strategy, or the PRD carries execution dates/schedules that belong downstream

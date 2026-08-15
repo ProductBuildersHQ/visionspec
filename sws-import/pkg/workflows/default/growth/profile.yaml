@@ -1,0 +1,31 @@
+name: growth
+description: "Metrics-driven configuration for 1-N growth phase. PRD, UXD, and FAQ required."
+extends: startup
+
+spec_config:
+  # Source specs: PRD and UXD required
+  prd:
+    required: true
+    category: source
+  uxd:
+    required: true
+    category: source
+
+  # GTM specs: FAQ required for support at scale
+  faq:
+    required: true
+    category: gtm
+
+  # Technical specs: optional but recommended as architecture stabilizes
+  trd:
+    required: false
+    category: technical
+    description: "Technical design for scalable architecture"
+  ird:
+    required: false
+    category: technical
+    description: "Infrastructure for growth scaling"
+  tpd:
+    required: false
+    category: technical
+    description: "Test plan for quality at scale"

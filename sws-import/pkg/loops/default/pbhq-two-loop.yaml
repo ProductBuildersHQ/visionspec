@@ -1,0 +1,152 @@
+id: pbhq-two-loop
+name: ProductBuildersHQ Two-Loop System
+vendor: ProductBuildersHQ
+description: >-
+  The Product Loop originates what to build and verifies outcomes; the Builder
+  Loop implements and verifies built-right. Both loops share the same gate
+  anatomy — intent, AI drafts, clarify, approve, AI executes, verify — and
+  differ in artifact (specs vs code) and verification question (right thing?
+  vs built right?). Gates shift from human to policy authority as a team's
+  autonomy (ASDM level) rises. Generalizes single-loop systems such as AWS
+  AI-DLC, which map onto the Builder Loop.
+reference: https://productbuildershq.com
+
+loops:
+  - id: product
+    name: Product Loop
+    owner: Product
+    question: "Right thing?"
+    description: >-
+      Humans use AI to originate what to build and to verify the built work
+      achieves its goal — adoption, engagement, revenue.
+    stations:
+      - id: sense
+        name: Sense
+        actor: human+ai
+        description: Market signals, user research, and production telemetry arriving from the Builder Loop.
+        workflows:
+          - continuous-discovery
+          - jtbd
+      - id: hypothesize
+        name: Hypothesize
+        actor: human+ai
+        description: Frame opportunities and hypotheses worth testing.
+        spec_types:
+          - hypothesis
+          - opportunity-spec
+          - ost
+        workflows:
+          - lean-startup
+          - 0-1
+          - design-thinking
+      - id: define
+        name: Define
+        actor: ai
+        description: >-
+          AI drafts the definition specs — MRD, Press Release, FAQ, 6-Pager,
+          PRD, UXD — with a human clarification sub-cycle and LLM-as-a-Judge
+          evaluation.
+        spec_types:
+          - mrd
+          - press
+          - faq
+          - narrative-6p
+          - prd
+          - uxd
+        workflows:
+          - aws-one-way-door
+          - aws-two-way-door
+          - big-tech-product
+          - big-tech-feature
+          - pbhq-lite
+      - id: approve
+        name: Approve
+        actor: human
+        gate: true
+        gate_authority: human
+        description: Humans approve the Product Baseline — the handoff contract to the Builder Loop.
+        autonomy_note: Remains human at every autonomy level; the human's market knowledge advantage is largest here.
+      - id: measure
+        name: Measure
+        actor: human+ai
+        description: Instrument adoption, engagement, and revenue against the hypothesis.
+      - id: validate-grow
+        name: Validate & Grow
+        actor: human+ai
+        description: Verify the hypothesis survived contact with users; double down or kill. Learnings feed Sense.
+        workflows:
+          - growth
+
+  - id: builder
+    name: Builder Loop
+    owner: Builder
+    question: "Built right?"
+    description: >-
+      AI implements against the handed-off specs under human-or-policy gates.
+      Execution workflows (AI-DLC, Spec-Kit, OpenSpec, Kiro) instantiate this
+      loop; the agentic coding loop runs inside Build.
+    stations:
+      - id: accept
+        name: Accept
+        actor: human+ai
+        gate: true
+        gate_authority: human
+        description: Receive the Product Baseline; the builder accepts the spec as buildable.
+        spec_types:
+          - spec
+          - trd
+      - id: plan
+        name: Plan
+        actor: ai
+        description: >-
+          AI drafts the implementation plan, running the clarify sub-cycle.
+          Spec ambiguity escalates to the Product Loop rather than being
+          resolved by builder guesswork.
+        spec_types:
+          - plan
+      - id: approve
+        name: Approve
+        actor: human
+        gate: true
+        gate_authority: human
+        description: The implementation plan is approved.
+        autonomy_note: Human at L5 and below; policy-gated at L6+.
+      - id: build
+        name: Build
+        actor: ai
+        description: >-
+          AI executes — code, tests, iterate. The agentic coding loop runs
+          unattended inside this station.
+        integrations:
+          - spec-kit
+          - ai-dlc
+          - openspec
+          - kiro
+      - id: verify
+        name: Verify
+        actor: human+ai
+        gate: true
+        gate_authority: human
+        description: Built-right verification against spec and scenarios.
+        autonomy_note: Human review at L5 and below; LLM-as-a-Judge and scenario validation at L6.
+      - id: ship
+        name: Ship
+        actor: human+ai
+        gate: true
+        gate_authority: human
+        description: Release per operational policy; emits telemetry to the Product Loop.
+        autonomy_note: Human gates through L6; autonomous operations at L7.
+
+seams:
+  - from: product.approve
+    to: builder.accept
+    artifact: Product Baseline
+    description: The versioned handoff contract between product and builder (PDLC).
+  - from: builder.ship
+    to: product.measure
+    artifact: Telemetry
+    description: Usage, adoption, and operational data flowing back to the Product Loop.
+  - from: builder.plan
+    to: product.define
+    artifact: Spec ambiguity escalation
+    description: Ambiguities in the spec escalate to the Product Loop instead of being resolved by builder guesswork.

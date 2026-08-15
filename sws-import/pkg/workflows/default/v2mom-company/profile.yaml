@@ -1,0 +1,33 @@
+name: v2mom-company
+description: "Company-level V2MOM. The top of the cascade - defines organizational vision and strategic priorities that flow down to departments."
+extends: v2mom
+
+# Company V2MOM is the root - no parent alignment needed
+v2mom:
+  level: company
+  cascading:
+    is_root: true
+    children:
+      - v2mom-department
+
+  # Company methods are the most strategic
+  methods:
+    scope: "organization-wide strategic initiatives"
+    typical_count: 3-5
+    time_horizon: "fiscal year or multi-year"
+
+  # Company measures are high-level outcomes
+  measures:
+    scope: "organization-wide KPIs"
+    examples:
+      - "Revenue targets"
+      - "Market share"
+      - "Customer satisfaction (NPS)"
+      - "Employee engagement"
+
+# Override synthesis to remove parent alignment (company has no parent)
+synthesis:
+  v2mom-alignment:
+    required: false
+    sources: []
+    guidance: "Company V2MOM is the root - no parent alignment document needed."

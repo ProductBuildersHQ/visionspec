@@ -1,0 +1,43 @@
+name: lean-startup
+description: "Eric Ries' Lean Startup methodology. Build-Measure-Learn cycles with validated learning, MVP focus, and pivot-or-persevere decisions."
+extends: startup
+
+methodology:
+  name: "Lean Startup"
+  source: "Eric Ries - The Lean Startup (2011)"
+  principles:
+    - validated_learning: "Progress measured by validated learning, not vanity metrics"
+    - build_measure_learn: "Rapid iteration through Build-Measure-Learn feedback loops"
+    - minimum_viable_product: "Build the smallest thing that tests the hypothesis"
+    - pivot_or_persevere: "Structured decision-making about direction changes"
+    - innovation_accounting: "Measure progress toward product-market fit"
+    - continuous_deployment: "Ship early, ship often, learn fast"
+    - split_testing: "A/B test assumptions systematically"
+    - actionable_metrics: "Focus on metrics that drive decisions, not vanity"
+
+spec_config:
+  # Hypothesis is central to Lean Startup
+  hypothesis:
+    required: true
+    category: source
+
+  # MVP definition required
+  prd:
+    required: true
+    category: source
+
+  # Press/FAQ less emphasized in early stages
+  press:
+    required: false
+    category: gtm
+  faq:
+    required: false
+    category: gtm
+
+  # Narratives optional
+  narrative-1p:
+    required: false
+    category: gtm
+  narrative-6p:
+    required: false
+    category: gtm

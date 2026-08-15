@@ -1,0 +1,172 @@
+name: aws-two-way-door
+description: "Amazon Working Backwards with two-way-door ceremony — for reversible decisions (typically features, experiments, incremental bets). Starts with the human-authored Press Release (the same founding artifact regardless of scale), stress-tested by the FAQ; the iterative PR/FAQ review is the only formal gate and the 6-pager is optional. Optional post-FAQ deepening: OpportunitySpec (discovery, feature scale) or MRD (market validation, product scale) — the door sets the ceremony; the scale picks the tool."
+extends: enterprise
+
+# Methodology documentation
+methodology:
+  name: "Amazon Working Backwards (Feature)"
+  description: |
+    Amazon uses the same PR/FAQ instrument for features as for products; what
+    scales is ceremony (one-way vs. two-way door), not the sequence. At feature
+    scale the optional discovery deepening is the OpportunitySpec, which
+    combines Patton's discovery-focused Opportunity Canvas with Cagan's
+    business-case-focused SVPG Assessment.
+  reference: "https://www.amazon.jobs/content/en/our-workplace/leadership-principles"
+  principles:
+    - customer_obsession: "Start with the customer and work backwards; earn and keep customer trust. Economics count: exciting customers with something unsustainable is not doing right by them. Competitors inform, customers decide."
+    - ownership: "Think long-term; never sacrifice long-term value for short-term results. Act for the whole company. The test: what would I do if this were my personal money?"
+    - invent_and_simplify: "Expect invention and simplification; be externally aware and take ideas from everywhere — no 'not invented here.' Accept being misunderstood for long periods."
+    - are_right_a_lot: "Judgment over ego: seek diverse perspectives and work to disconfirm your own beliefs. The goal is the best answer for the customer, whoever's idea it is. Leaders speak last."
+    - learn_and_be_curious: "Never done learning; curious about new possibilities and act to explore them."
+    - hire_and_develop_the_best: "Raise the performance bar with every hire; develop leaders and take ownership of others' growth."
+    - insist_on_highest_standards: "Relentlessly, even unreasonably, high standards. Defects do not get sent down the line. Higher expectations produce better results."
+    - think_big: "Thinking small is a self-fulfilling prophecy. Communicate a bold direction; look around corners for ways to serve customers."
+    - bias_for_action: "Speed matters and is a leadership decision, not a circumstance. Most decisions are reversible two-way doors — make them quickly at the team level. Reserve deep study for one-way doors. Days or hours, not weeks."
+    - frugality: "Accomplish more with less. Constraints breed resourcefulness, self-sufficiency, and invention. No extra points for headcount, budget, or fixed expense."
+    - earn_trust: "Listen attentively, speak candidly, treat others respectfully. Be vocally self-critical, even when awkward; benchmark against the best."
+    - deep_dive: "Operate at all levels and stay connected to the details; audit frequently; be skeptical when metrics and anecdotes differ. It is hard to fake the details in a narrative — that is why the narrative format works."
+    - have_backbone: "Respectfully challenge decisions when you disagree, even when uncomfortable. No compromise for social cohesion. Once decided, commit wholly."
+    - deliver_results: "Focus on the key inputs and deliver with the right quality, on time. Launch is the starting line, not the finish."
+    - strive_to_be_earths_best_employer: "Work to create a safer, more productive, more diverse, and more just work environment; lead with empathy and make others' success possible."
+    - success_and_scale_bring_broad_responsibility: "Big things carry big obligations: be humble about second-order effects, better every day for customers, employees, communities, and the world, and leave things better than found."
+spec_config:
+  # PR/FAQ are the founding artifacts of Working Backwards. The Press Release
+  # is human-authored — the vision seed, not a synthesis product. Amazon uses
+  # the same instrument for features as for products; only ceremony scales.
+  press:
+    required: true
+    category: gtm
+    description: "The founding artifact: human-authored press release announcing the customer experience. Written first; everything else works backward from it."
+  faq:
+    required: true
+    category: gtm
+    description: "Stress-tests the press release. Absorbs the business case: users, problem, timing, feasibility."
+
+  # OpportunitySpec is optional post-FAQ discovery deepening (replaces MRD
+  # at feature scale; overrides enterprise)
+  opportunity-spec:
+    required: false
+    category: source
+    description: "Optional 12-box canvas combining Patton (discovery) + Cagan (business case) — deepens the FAQ's answers when the risk warrants it"
+
+  # MRD is the product-scale deepening alternative (overrides enterprise's
+  # required-starting-document role) — e.g. a reversible market test of a new
+  # product line wants market validation, not a discovery canvas.
+  mrd:
+    required: false
+    category: source
+    description: "Optional market validation deepening the FAQ's business-case answers with evidence (typical at product scale)"
+
+  # 6-pager is available but not part of the feature flow
+  # (see visionspec aws-two-way-door-flow.d2 — features skip the executive narrative)
+  narrative-6p:
+    required: false
+    category: gtm
+
+  # 1-pager is executive summary
+  narrative-1p:
+    required: false
+    category: gtm
+
+  # Unified output spec is not part of the Working Backwards flow
+  # (overrides enterprise; see visionspec aws-two-way-door-flow.d2)
+  spec:
+    required: false
+    category: output
+
+# Synthesis rules
+synthesis:
+  # The press release is the human-authored founding artifact. The explicit
+  # empty sources list overrides enterprise's press←mrd rule (per-key merge
+  # would otherwise inherit it).
+  press:
+    sources: []
+    guidance: "Human-authored founding artifact — not synthesized. Write the press release first; everything else works backward from it."
+
+  # FAQ stress-tests the Press Release
+  faq:
+    sources:
+      - press
+    prompt_context: |
+      Generate FAQ challenging the Press Release's claims. Include questions about:
+      - Users & Problem: Who is this for? Why is this a problem?
+      - Current Solutions: How do people solve this today?
+      - Competitive Edge: Why us? Why not competitors?
+      - Market & Timing: Why now?
+      - Critical Requirements: What must be true?
+      - Risks & Assumptions: What could go wrong?
+
+  # OpportunitySpec deepens the FAQ's discovery and business-case answers
+  opportunity-spec:
+    sources:
+      - press
+      - faq
+    prompt_context: |
+      Populate the 12-box OpportunitySpec canvas from the Press Release and FAQ:
+      - Users & Problem (Box 1) from the problem statement
+      - Solution Ideas (Box 3) from the announced experience
+      - User Value (Box 4) from the headline benefit
+      - Business Value (Box 5) and Competitive Edge (Box 6) from differentiation claims
+      - Success Metrics (Box 9) from measurable outcomes
+      Flag boxes the source documents leave unanswered — those are the discovery gaps.
+
+  # MRD as product-scale deepening alternative
+  mrd:
+    sources:
+      - press
+      - faq
+    guidance: "Deepen and validate the FAQ's business-case answers with market evidence: segments, sizing, competition, positioning."
+
+  # PRD synthesized from Working Backwards artifacts. Both optional deepenings
+  # feed it: a team picks OpportunitySpec (feature scale) or MRD (product
+  # scale), and whichever exists must ground the requirements — the door sets
+  # the ceremony; the scale picks the tool.
+  prd:
+    sources:
+      - press
+      - faq
+      - opportunity-spec
+      - mrd
+    guidance: "Derive product requirements from the announced customer experience (press) and its stress-tested constraints (FAQ), grounded in whichever optional deepening is present: the discovery canvas (OpportunitySpec, typical at feature scale) or market validation (MRD, typical at product scale)."
+
+  # Test plan includes UX acceptance flows (aws-two-way-door-flow.d2: uxd -> tpd)
+  tpd:
+    sources:
+      - prd
+      - trd
+      - uxd
+    guidance: "Test plan covering all PRD requirements with traceability, including UX acceptance flows."
+
+# Working Backwards feature flow, matching visionspec's aws-two-way-door-flow.d2
+execution:
+  sequence:
+    - press
+    - faq
+    - opportunity-spec
+    - prd
+    - uxd
+    - trd
+    - tpd
+  phases:
+    - id: vision
+      name: Vision (Working Backwards)
+      specs: [press, faq]
+    - id: discovery
+      name: Discovery
+      specs: [opportunity-spec]
+    - id: requirements
+      name: Requirements
+      specs: [prd]
+    - id: experience
+      name: Experience
+      specs: [uxd]
+    - id: technical
+      name: Technical
+      specs: [trd, tpd]
+  # The PR/FAQ is revised through many drafts — iteration is the essence of
+  # Working Backwards, not a failure of the first pass.
+  iteration_trigger: faq
+  review_gates:
+    # Two-way-door ceremony: the PR/FAQ review is the only formal gate.
+    - after: faq
+      action: prfaq_review
