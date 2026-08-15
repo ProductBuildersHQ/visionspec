@@ -14,7 +14,10 @@ import (
 	"github.com/invopop/jsonschema"
 
 	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/gate"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/integration"
 	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/layout"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/loop"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/pipeline"
 	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/spectype"
 	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/synthesis"
 	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/template"
@@ -32,6 +35,9 @@ func main() {
 		{"synthesis", synthesis.DAG{}},
 		{"gate", gate.Gate{}},
 		{"layout", layout.Layout{}},
+		{"integration", integration.Integration{}},
+		{"pipeline", pipeline.Pipeline{}},
+		{"loop", loop.System{}},
 	}
 
 	dir := "."
@@ -75,12 +81,15 @@ func generateSchema(dir, name string, v any) error {
 
 func toTitle(name string) string {
 	titles := map[string]string{
-		"spectype":  "Specification Type Registry",
-		"workflow":  "Specification Workflow",
-		"template":  "Spec Template",
-		"synthesis": "Synthesis DAG",
-		"gate":      "Phase Gate",
-		"layout":    "Project Layout",
+		"spectype":    "Specification Type Registry",
+		"workflow":    "Specification Workflow",
+		"template":    "Spec Template",
+		"synthesis":   "Synthesis DAG",
+		"gate":        "Phase Gate",
+		"layout":      "Project Layout",
+		"integration": "External Tool Integration",
+		"pipeline":    "Definition-to-Execution Pipeline",
+		"loop":        "Loop System",
 	}
 	if t, ok := titles[name]; ok {
 		return t

@@ -32,6 +32,13 @@
             "strategic"
           ]
         },
+        "pdlcStage": {
+          "type": "string",
+          "enum": [
+            "product-definition",
+            "builder-definition"
+          ]
+        },
         "authorship": {
           "type": "string",
           "enum": [

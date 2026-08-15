@@ -246,18 +246,31 @@
           "description": "Workflow-specific description"
         },
         "template": {
-          "type": "string",
-          "description": "Custom template path"
+          "$ref": "#/$defs/SpecSource",
+          "description": "Provenance of this spec's template"
         },
         "rubric": {
-          "type": "string",
-          "description": "Custom rubric path"
+          "$ref": "#/$defs/SpecSource",
+          "description": "Provenance of this spec's rubric"
         }
       },
       "additionalProperties": false,
       "type": "object",
       "required": [
         "required"
+      ]
+    },
+    "SpecSource": {
+      "properties": {
+        "from": {
+          "type": "string",
+          "description": "Owning workflow name"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "from"
       ]
     },
     "SynthesisRule": {
