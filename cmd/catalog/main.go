@@ -18,15 +18,15 @@ import (
 	"os"
 	"sort"
 
-	"github.com/ProductBuildersHQ/visionspec/pkg/integration"
-	"github.com/ProductBuildersHQ/visionspec/pkg/integrations"
-	"github.com/ProductBuildersHQ/visionspec/pkg/loop"
-	"github.com/ProductBuildersHQ/visionspec/pkg/loops"
-	"github.com/ProductBuildersHQ/visionspec/pkg/pipeline"
-	"github.com/ProductBuildersHQ/visionspec/pkg/pipelines"
-	"github.com/ProductBuildersHQ/visionspec/pkg/spectype"
-	"github.com/ProductBuildersHQ/visionspec/pkg/workflow"
-	"github.com/ProductBuildersHQ/visionspec/pkg/workflows"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/integration"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/integrations"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/loop"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/loops"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/pipeline"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/pipelines"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/spectype"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/workflow"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/workflows"
 )
 
 // Catalog is the exported shape.

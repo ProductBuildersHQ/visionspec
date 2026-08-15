@@ -9,7 +9,7 @@ import (
 	"path/filepath"
 	"time"
 
-	ctx "github.com/ProductBuildersHQ/visionspec/pkg/context"
+	ctx "github.com/ProductBuildersHQ/specification-workflow-spec/pkg/context"
 )
 
 // Source analyzes graphize requirement traceability data.

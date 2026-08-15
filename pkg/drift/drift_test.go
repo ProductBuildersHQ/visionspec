@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/ProductBuildersHQ/visionspec/pkg/context"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/context"
 )
 
 func TestExtractRequirements(t *testing.T) {

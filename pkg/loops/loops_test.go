@@ -3,9 +3,9 @@ package loops
 import (
 	"testing"
 
-	"github.com/ProductBuildersHQ/visionspec/pkg/integrations"
-	"github.com/ProductBuildersHQ/visionspec/pkg/spectype"
-	"github.com/ProductBuildersHQ/visionspec/pkg/workflows"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/integrations"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/spectype"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/workflows"
 )
 
 func TestDefaultsLoad(t *testing.T) {

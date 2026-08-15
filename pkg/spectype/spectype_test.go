@@ -3,7 +3,7 @@ package spectype_test
 import (
 	"testing"
 
-	"github.com/ProductBuildersHQ/visionspec/pkg/spectype"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/spectype"
 )
 
 // validPDLCStages must match pdlc.Stage* string values exactly. Kept as a

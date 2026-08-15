@@ -9,7 +9,7 @@ import (
 	"strings"
 	"time"
 
-	ctx "github.com/ProductBuildersHQ/visionspec/pkg/context"
+	ctx "github.com/ProductBuildersHQ/specification-workflow-spec/pkg/context"
 	"github.com/bmatcuk/doublestar/v4"
 )
 

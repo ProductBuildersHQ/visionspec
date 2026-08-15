@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/ProductBuildersHQ/visionspec/pkg/types"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/types"
 	"github.com/plexusone/omnillm-core"
 )
 

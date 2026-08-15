@@ -3,7 +3,7 @@ package integrations
 import (
 	"testing"
 
-	"github.com/ProductBuildersHQ/visionspec/pkg/spectype"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/spectype"
 )
 
 func specTypeIDs() map[string]bool {

@@ -6,8 +6,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/ProductBuildersHQ/visionspec/pkg/config"
-	"github.com/ProductBuildersHQ/visionspec/pkg/types"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/config"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/types"
 )
 
 // DiffLine represents a single line in a diff.

@@ -7,7 +7,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/ProductBuildersHQ/visionspec/pkg/types"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/types"
 )
 
 func TestGenerate(t *testing.T) {

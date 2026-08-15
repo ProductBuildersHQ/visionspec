@@ -8,7 +8,7 @@ package drift
 import (
 	"time"
 
-	"github.com/ProductBuildersHQ/visionspec/pkg/context"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/context"
 )
 
 // DriftType categorizes the type of drift detected.

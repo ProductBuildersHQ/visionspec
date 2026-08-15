@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"sort"
 
-	sws "github.com/ProductBuildersHQ/visionspec/pkg/workflows"
+	sws "github.com/ProductBuildersHQ/specification-workflow-spec/pkg/workflows"
 	prrubrics "github.com/grokify/prism-roadmap/rubrics"
 	"github.com/plexusone/structured-evaluation/rubric"
 
-	"github.com/ProductBuildersHQ/visionspec/pkg/types"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/types"
 )
 
 // mapLoader serves rubrics from an in-memory map keyed by spec type,

@@ -13,7 +13,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/ProductBuildersHQ/visionspec/pkg/pipeline"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/pipeline"
 )
 
 //go:embed default/*.yaml

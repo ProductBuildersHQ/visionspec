@@ -1,7 +1,7 @@
 package types
 
 import (
-	swf "github.com/ProductBuildersHQ/visionspec/pkg/workflow"
+	swf "github.com/ProductBuildersHQ/specification-workflow-spec/pkg/workflow"
 )
 
 // SpecConfigFromWorkflow converts a specification-workflow-spec Workflow's

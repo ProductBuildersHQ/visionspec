@@ -14,7 +14,7 @@ import (
 	"sort"
 	"sync"
 
-	"github.com/ProductBuildersHQ/visionspec/pkg/integration"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/integration"
 )
 
 //go:embed default/*

@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"sort"
 
-	spectemplate "github.com/ProductBuildersHQ/visionspec/pkg/template"
-	sws "github.com/ProductBuildersHQ/visionspec/pkg/workflows"
+	spectemplate "github.com/ProductBuildersHQ/specification-workflow-spec/pkg/template"
+	sws "github.com/ProductBuildersHQ/specification-workflow-spec/pkg/workflows"
 	prtemplates "github.com/grokify/prism-roadmap/templates"
 
-	"github.com/ProductBuildersHQ/visionspec/pkg/types"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/types"
 )
 
 // mapLoader serves templates from an in-memory map keyed by spec type,

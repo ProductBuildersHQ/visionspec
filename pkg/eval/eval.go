@@ -11,8 +11,8 @@ import (
 
 	"github.com/plexusone/structured-evaluation/rubric"
 
-	"github.com/ProductBuildersHQ/visionspec/pkg/rubrics"
-	"github.com/ProductBuildersHQ/visionspec/pkg/types"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/rubrics"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/types"
 )
 
 // Result represents the outcome of an evaluation.

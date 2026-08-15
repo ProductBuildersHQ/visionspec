@@ -3,10 +3,10 @@ package templates
 import (
 	"testing"
 
-	swf "github.com/ProductBuildersHQ/visionspec/pkg/workflow"
-	sws "github.com/ProductBuildersHQ/visionspec/pkg/workflows"
+	swf "github.com/ProductBuildersHQ/specification-workflow-spec/pkg/workflow"
+	sws "github.com/ProductBuildersHQ/specification-workflow-spec/pkg/workflows"
 
-	"github.com/ProductBuildersHQ/visionspec/pkg/types"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/types"
 )
 
 func TestLoaderForWorkflow(t *testing.T) {

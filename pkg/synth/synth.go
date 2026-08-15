@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/ProductBuildersHQ/visionspec/pkg/templates"
-	"github.com/ProductBuildersHQ/visionspec/pkg/types"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/templates"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/types"
 )
 
 // Synthesizer generates specs from source documents using LLM.

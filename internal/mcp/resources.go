@@ -6,10 +6,10 @@ import (
 	"fmt"
 	"strings"
 
-	sws "github.com/ProductBuildersHQ/visionspec/pkg/workflows"
-	"github.com/ProductBuildersHQ/visionspec/pkg/rubrics"
-	"github.com/ProductBuildersHQ/visionspec/pkg/templates"
-	"github.com/ProductBuildersHQ/visionspec/pkg/types"
+	sws "github.com/ProductBuildersHQ/specification-workflow-spec/pkg/workflows"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/rubrics"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/templates"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/types"
 	"github.com/modelcontextprotocol/go-sdk/mcp"
 )
 

@@ -3,8 +3,8 @@ package workflows
 import (
 	"testing"
 
-	"github.com/ProductBuildersHQ/visionspec/pkg/template"
-	"github.com/ProductBuildersHQ/visionspec/pkg/workflow"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/template"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/workflow"
 	"github.com/plexusone/structured-evaluation/rubric"
 )
 

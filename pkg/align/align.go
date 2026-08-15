@@ -8,7 +8,7 @@ package align
 import (
 	"time"
 
-	"github.com/ProductBuildersHQ/visionspec/pkg/context"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/context"
 )
 
 // DiscrepancyType categorizes the type of discrepancy detected.

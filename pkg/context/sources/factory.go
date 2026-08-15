@@ -6,11 +6,11 @@ import (
 	"os"
 	"path/filepath"
 
-	ctx "github.com/ProductBuildersHQ/visionspec/pkg/context"
-	"github.com/ProductBuildersHQ/visionspec/pkg/context/file"
-	"github.com/ProductBuildersHQ/visionspec/pkg/context/git"
-	"github.com/ProductBuildersHQ/visionspec/pkg/context/graphize"
-	"github.com/ProductBuildersHQ/visionspec/pkg/context/mcp"
+	ctx "github.com/ProductBuildersHQ/specification-workflow-spec/pkg/context"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/context/file"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/context/git"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/context/graphize"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/context/mcp"
 )
 
 // CreateFromConfig creates Source instances from configuration.
