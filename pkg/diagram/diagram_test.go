@@ -12,7 +12,7 @@ var _ = synthesis.DAG{} // keep import for TestGenerateFromDAG
 
 func TestGenerateD2(t *testing.T) {
 	w := &workflow.Workflow{
-		Name: "aws-product",
+		Name: "aws-one-way-door",
 		SpecConfig: map[string]*workflow.SpecRequirement{
 			"mrd":   {Required: true, Category: "source"},
 			"press": {Required: true, Category: "gtm"},
@@ -48,7 +48,7 @@ func TestGenerateD2(t *testing.T) {
 
 func TestGenerateMermaid(t *testing.T) {
 	w := &workflow.Workflow{
-		Name: "aws-product",
+		Name: "aws-one-way-door",
 		SpecConfig: map[string]*workflow.SpecRequirement{
 			"mrd":   {Required: true, Category: "source"},
 			"press": {Required: true, Category: "gtm"},

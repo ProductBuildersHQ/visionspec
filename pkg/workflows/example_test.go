@@ -8,7 +8,7 @@ import (
 
 func Example() {
 	// Load a workflow by name - no filesystem access needed
-	w, err := workflows.Get("aws-feature")
+	w, err := workflows.Get("aws-two-way-door")
 	if err != nil {
 		panic(err)
 	}
@@ -31,12 +31,12 @@ func Example() {
 	fmt.Printf("Required specs count: %d\n", len(required))
 
 	// Output:
-	// Workflow: aws-feature
+	// Workflow: aws-two-way-door
 	// Extends: enterprise
 	// Methodology: Amazon Working Backwards (Feature)
-	// Press template length: 5093 chars
-	// Press rubric categories: 8
-	// Required specs count: 4
+	// Press template length: 6338 chars
+	// Press rubric categories: 9
+	// Required specs count: 2
 }
 
 func ExampleList() {
@@ -45,5 +45,5 @@ func ExampleList() {
 	fmt.Printf("Available workflows: %d\n", len(names))
 
 	// Output:
-	// Available workflows: 24
+	// Available workflows: 25
 }

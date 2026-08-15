@@ -112,6 +112,30 @@ func (a *Artifact) UnmarshalYAML(node *yaml.Node) error {
 	return nil
 }
 
+// UnmarshalYAML supports both the object form and a bare-string shorthand for a
+// spec source:
+//
+//	template: {from: enterprise}
+//	rubric: local
+//
+// The scalar form sets From directly.
+func (s *SpecSource) UnmarshalYAML(node *yaml.Node) error {
+	if node.Kind == yaml.ScalarNode {
+		s.From = node.Value
+		return nil
+	}
+	if node.Kind != yaml.MappingNode {
+		return fmt.Errorf("spec source must be a string or mapping, got %v", node.Kind)
+	}
+	type plain SpecSource
+	var ps plain
+	if err := node.Decode(&ps); err != nil {
+		return err
+	}
+	*s = SpecSource(ps)
+	return nil
+}
+
 // titleFromID converts an identifier like "customer_obsession" to "Customer Obsession".
 func titleFromID(id string) string {
 	words := strings.FieldsFunc(id, func(r rune) bool {

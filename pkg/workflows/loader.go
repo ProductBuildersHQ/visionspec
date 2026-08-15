@@ -335,10 +335,101 @@ func (l *ResolvingLoader) Load(name string) (*LoadedWorkflow, error) {
 	return l.loadWithChain(name, nil)
 }
 
+// applyExplicitSources honors per-spec template/rubric provenance declared in
+// spec_config (SpecRequirement.Template/.Rubric). A declared source overrides
+// whatever the extends chain resolved, and is enforced: if the named source
+// does not actually provide the file, loading fails. This makes provenance
+// authoritative rather than implicit. The chain carries every workflow on the
+// current resolution path (extends links and spec sources alike) so a source
+// that leads back to a workflow already being resolved fails as a cycle
+// instead of recursing forever.
+func (l *ResolvingLoader) applyExplicitSources(loaded *LoadedWorkflow, name string, chain []string) error {
+	for spec, req := range loaded.Workflow.SpecConfig {
+		if req == nil {
+			continue
+		}
+		if req.Template != nil {
+			t, err := l.sourceTemplate(name, req.Template.From, spec, chain)
+			if err != nil {
+				return fmt.Errorf("workflow %q spec %q template: %w", name, spec, err)
+			}
+			loaded.Templates[spec] = t
+		}
+		if req.Rubric != nil {
+			r, err := l.sourceRubric(name, req.Rubric.From, spec, chain)
+			if err != nil {
+				return fmt.Errorf("workflow %q spec %q rubric: %w", name, spec, err)
+			}
+			loaded.Rubrics[spec] = r
+		}
+	}
+	return nil
+}
+
+// sourceTemplate resolves a spec's template from the named source workflow. The
+// "local" sentinel (or the workflow's own name) resolves from the workflow's
+// own directory only; any other name resolves from that workflow's fully
+// resolved template set.
+func (l *ResolvingLoader) sourceTemplate(self, from, spec string, chain []string) (*template.Template, error) {
+	if from == "" {
+		return nil, fmt.Errorf("empty source (use %q or a workflow name)", workflow.SourceLocal)
+	}
+	src, err := l.sourceWorkflow(self, from, chain)
+	if err != nil {
+		return nil, err
+	}
+	t, ok := src.Templates[spec]
+	if !ok {
+		return nil, fmt.Errorf("source %q has no template for %q", from, spec)
+	}
+	return t, nil
+}
+
+// sourceRubric resolves a spec's rubric from the named source workflow, with the
+// same semantics as sourceTemplate.
+func (l *ResolvingLoader) sourceRubric(self, from, spec string, chain []string) (*rubric.RubricSet, error) {
+	if from == "" {
+		return nil, fmt.Errorf("empty source (use %q or a workflow name)", workflow.SourceLocal)
+	}
+	src, err := l.sourceWorkflow(self, from, chain)
+	if err != nil {
+		return nil, err
+	}
+	r, ok := src.Rubrics[spec]
+	if !ok {
+		return nil, fmt.Errorf("source %q has no rubric for %q", from, spec)
+	}
+	return r, nil
+}
+
+// sourceWorkflow returns the assets to resolve a spec source against. For the
+// "local" sentinel (or the workflow's own name) it returns the workflow's own
+// directory assets only (no inheritance); otherwise it returns the named
+// workflow's fully resolved assets, resolved on the same chain as the caller —
+// a source naming a workflow whose resolution leads back to the declaring
+// workflow (e.g. a descendant, whose extends chain necessarily returns here)
+// is a cycle error, not infinite recursion.
+func (l *ResolvingLoader) sourceWorkflow(self, from string, chain []string) (*LoadedWorkflow, error) {
+	if from == workflow.SourceLocal || from == self {
+		local, err := l.base.Load(self)
+		if err != nil {
+			return nil, fmt.Errorf("loading local assets: %w", err)
+		}
+		return local, nil
+	}
+	src, err := l.loadWithChain(from, chain)
+	if err != nil {
+		return nil, fmt.Errorf("loading source workflow %q: %w", from, err)
+	}
+	return src, nil
+}
+
 func (l *ResolvingLoader) loadWithChain(name string, chain []string) (*LoadedWorkflow, error) {
-	// Check for circular inheritance
+	// The chain holds every workflow currently being resolved, whether reached
+	// via extends or via an explicit spec_config template/rubric source; any
+	// path that returns to one of them is a cycle.
 	if slices.Contains(chain, name) {
-		return nil, fmt.Errorf("circular inheritance detected: %s", strings.Join(append(chain, name), " -> "))
+		return nil, fmt.Errorf("circular workflow reference detected (via extends or spec_config sources): %s", strings.Join(append(chain, name), " -> "))
 	}
 
 	loaded, err := l.base.Load(name)
@@ -346,9 +437,23 @@ func (l *ResolvingLoader) loadWithChain(name string, chain []string) (*LoadedWor
 		return nil, err
 	}
 
+	// Clone before appending: the chain is shared with sibling resolution paths
+	// (each spec source and the extends link recurse from the same slice), so
+	// growing it in place could leak this level's entry across paths.
+	childChain := append(slices.Clone(chain), name)
+
+	// Resolve this workflow's own declared template/rubric sources against real
+	// workflows before merging upward. Resolving per level keeps the "local"
+	// sentinel pinned to the workflow that declared it: once baked into this
+	// level's Templates/Rubrics maps, a child that inherits the entry reuses the
+	// resolved file rather than re-resolving "local" against its own directory.
+	if err := l.applyExplicitSources(loaded, name, childChain); err != nil {
+		return nil, err
+	}
+
 	// If this workflow extends another, load and merge
 	if loaded.Workflow.Extends != "" {
-		parent, err := l.loadWithChain(loaded.Workflow.Extends, append(chain, name))
+		parent, err := l.loadWithChain(loaded.Workflow.Extends, childChain)
 		if err != nil {
 			return nil, fmt.Errorf("loading parent workflow %q: %w", loaded.Workflow.Extends, err)
 		}
