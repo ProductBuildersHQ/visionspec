@@ -18,7 +18,7 @@
 //	// Get loaders for templates and rubrics
 //	templateLoader := repo.TemplateLoader("aws-working-backwards")
 //	rubricLoader := repo.RubricLoader("aws-working-backwards")
-package workflows
+package reporeader
 
 import (
 	"fmt"

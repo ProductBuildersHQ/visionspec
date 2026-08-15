@@ -9,7 +9,7 @@
 //   - Phase: A logical grouping/stage in the workflow
 //   - Node: A work item with dependencies, status, and metadata
 //   - Status: The state of a node (pending, in_progress, completed, blocked)
-package workflow
+package execgraph
 
 import (
 	"encoding/json"

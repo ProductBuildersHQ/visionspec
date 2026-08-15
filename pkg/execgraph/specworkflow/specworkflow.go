@@ -7,15 +7,15 @@ package specworkflow
 import (
 	sws "github.com/ProductBuildersHQ/specification-workflow-spec/pkg/workflows"
 	"github.com/ProductBuildersHQ/visionspec/pkg/types"
-	"github.com/ProductBuildersHQ/visionspec/pkg/workflow"
+	"github.com/ProductBuildersHQ/visionspec/pkg/execgraph"
 )
 
 // Node types for visionspec
 const (
-	TypeSource    workflow.NodeType = "source"
-	TypeGTM       workflow.NodeType = "gtm"
-	TypeTechnical workflow.NodeType = "technical"
-	TypeOutput    workflow.NodeType = "output"
+	TypeSource    execgraph.NodeType = "source"
+	TypeGTM       execgraph.NodeType = "gtm"
+	TypeTechnical execgraph.NodeType = "technical"
+	TypeOutput    execgraph.NodeType = "output"
 )
 
 // Spec metadata for display
@@ -56,8 +56,8 @@ var phaseDefs = []struct {
 }
 
 // FromWorkflow generates a visionspec workflow from a loaded specification workflow.
-func FromWorkflow(w *sws.LoadedWorkflow) (*workflow.Workflow, error) {
-	b := workflow.NewBuilder(w.Workflow.Name).
+func FromWorkflow(w *sws.LoadedWorkflow) (*execgraph.Workflow, error) {
+	b := execgraph.NewBuilder(w.Workflow.Name).
 		Description(w.Workflow.Description)
 
 	// Add phases
@@ -162,7 +162,7 @@ func categoryToPhase(cat types.SpecCategory) string {
 	}
 }
 
-func categoryToNodeType(cat types.SpecCategory) workflow.NodeType {
+func categoryToNodeType(cat types.SpecCategory) execgraph.NodeType {
 	switch cat {
 	case types.CategorySource:
 		return TypeSource
@@ -183,7 +183,7 @@ func isAutomated(cat types.SpecCategory) bool {
 }
 
 // UpdateFromProject updates workflow node statuses from project state.
-func UpdateFromProject(w *workflow.Workflow, project *types.Project) {
+func UpdateFromProject(w *execgraph.Workflow, project *types.Project) {
 	if project == nil || project.Specs == nil {
 		return
 	}
@@ -197,33 +197,33 @@ func UpdateFromProject(w *workflow.Workflow, project *types.Project) {
 		// Map spec status to workflow status
 		switch spec.Status {
 		case types.StatusDraft:
-			node.Status = workflow.StatusInProgress
+			node.Status = execgraph.StatusInProgress
 		case types.StatusEvaluated:
 			// Evaluated specs are in progress until approved
-			node.Status = workflow.StatusInProgress
+			node.Status = execgraph.StatusInProgress
 		case types.StatusApproved:
-			node.Status = workflow.StatusCompleted
+			node.Status = execgraph.StatusCompleted
 		case types.StatusRejected:
-			node.Status = workflow.StatusBlocked
+			node.Status = execgraph.StatusBlocked
 		case types.StatusMissing:
 			if w.IsReady(node.ID) {
-				node.Status = workflow.StatusReady
+				node.Status = execgraph.StatusReady
 			} else {
-				node.Status = workflow.StatusPending
+				node.Status = execgraph.StatusPending
 			}
 		default:
 			if w.IsReady(node.ID) {
-				node.Status = workflow.StatusReady
+				node.Status = execgraph.StatusReady
 			} else {
-				node.Status = workflow.StatusPending
+				node.Status = execgraph.StatusPending
 			}
 		}
 	}
 
 	// Update ready status for pending nodes
 	for _, node := range w.Nodes {
-		if node.Status == workflow.StatusPending && w.IsReady(node.ID) {
-			node.Status = workflow.StatusReady
+		if node.Status == execgraph.StatusPending && w.IsReady(node.ID) {
+			node.Status = execgraph.StatusReady
 		}
 	}
 }

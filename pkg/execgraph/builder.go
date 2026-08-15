@@ -1,4 +1,4 @@
-package workflow
+package execgraph
 
 // Builder provides a fluent API for constructing workflows.
 type Builder struct {

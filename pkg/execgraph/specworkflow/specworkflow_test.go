@@ -5,7 +5,7 @@ import (
 
 	sws "github.com/ProductBuildersHQ/specification-workflow-spec/pkg/workflows"
 	"github.com/ProductBuildersHQ/visionspec/pkg/types"
-	"github.com/ProductBuildersHQ/visionspec/pkg/workflow"
+	"github.com/ProductBuildersHQ/visionspec/pkg/execgraph"
 )
 
 func TestFromWorkflow(t *testing.T) {
@@ -37,7 +37,7 @@ func TestFromWorkflow(t *testing.T) {
 
 func TestUpdateFromProject(t *testing.T) {
 	// Create a simple workflow
-	w, _ := workflow.NewBuilder("test").
+	w, _ := execgraph.NewBuilder("test").
 		Phase("discovery", "Discovery", 1).
 		Node("mrd", "MRD").Add().
 		Node("prd", "PRD").DependsOn("mrd").Add().
@@ -60,18 +60,18 @@ func TestUpdateFromProject(t *testing.T) {
 	UpdateFromProject(w, project)
 
 	mrd, _ := w.GetNode("mrd")
-	if mrd.Status != workflow.StatusCompleted {
+	if mrd.Status != execgraph.StatusCompleted {
 		t.Errorf("expected mrd to be completed, got %s", mrd.Status)
 	}
 
 	prd, _ := w.GetNode("prd")
-	if prd.Status != workflow.StatusInProgress {
+	if prd.Status != execgraph.StatusInProgress {
 		t.Errorf("expected prd to be in_progress, got %s", prd.Status)
 	}
 }
 
 func TestUpdateFromProjectNil(t *testing.T) {
-	w, _ := workflow.NewBuilder("test").
+	w, _ := execgraph.NewBuilder("test").
 		Phase("p1", "Phase 1", 1).
 		Node("n1", "Node 1").Add().
 		Build()
@@ -105,7 +105,7 @@ func TestCategoryToPhase(t *testing.T) {
 func TestCategoryToNodeType(t *testing.T) {
 	tests := []struct {
 		category types.SpecCategory
-		expected workflow.NodeType
+		expected execgraph.NodeType
 	}{
 		{types.CategorySource, TypeSource},
 		{types.CategoryGTM, TypeGTM},

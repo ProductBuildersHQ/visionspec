@@ -24,8 +24,8 @@ import (
 	"github.com/ProductBuildersHQ/visionspec/pkg/templates"
 	"github.com/ProductBuildersHQ/visionspec/pkg/testmap"
 	"github.com/ProductBuildersHQ/visionspec/pkg/types"
-	"github.com/ProductBuildersHQ/visionspec/pkg/workflow"
-	"github.com/ProductBuildersHQ/visionspec/pkg/workflow/specworkflow"
+	"github.com/ProductBuildersHQ/visionspec/pkg/execgraph"
+	"github.com/ProductBuildersHQ/visionspec/pkg/execgraph/specworkflow"
 	"github.com/modelcontextprotocol/go-sdk/mcp"
 )
 
@@ -1639,7 +1639,7 @@ func (s *Server) handleGetWorkflow(ctx context.Context, req *mcp.CallToolRequest
 
 	switch format {
 	case "mermaid":
-		renderer := workflow.NewMermaidRenderer()
+		renderer := execgraph.NewMermaidRenderer()
 		mermaid := renderer.Render(wf)
 		return &mcp.CallToolResult{
 			Content: []mcp.Content{
@@ -1648,7 +1648,7 @@ func (s *Server) handleGetWorkflow(ctx context.Context, req *mcp.CallToolRequest
 		}, nil, nil
 
 	case "dot":
-		renderer := workflow.NewDOTRenderer()
+		renderer := execgraph.NewDOTRenderer()
 		dot := renderer.Render(wf)
 		return &mcp.CallToolResult{
 			Content: []mcp.Content{
@@ -1716,7 +1716,7 @@ func (s *Server) handleGetWorkflow(ctx context.Context, req *mcp.CallToolRequest
 
 		// Optionally include Mermaid diagram
 		if args.IncludeMermaid {
-			renderer := workflow.NewMermaidRenderer()
+			renderer := execgraph.NewMermaidRenderer()
 			result["mermaid"] = renderer.Render(wf)
 		}
 

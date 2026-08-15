@@ -43,8 +43,8 @@ import (
 	"github.com/ProductBuildersHQ/visionspec/pkg/testgen"
 	"github.com/ProductBuildersHQ/visionspec/pkg/types"
 	"github.com/ProductBuildersHQ/visionspec/pkg/version"
-	"github.com/ProductBuildersHQ/visionspec/pkg/workflow"
-	"github.com/ProductBuildersHQ/visionspec/pkg/workflow/specworkflow"
+	"github.com/ProductBuildersHQ/visionspec/pkg/execgraph"
+	"github.com/ProductBuildersHQ/visionspec/pkg/execgraph/specworkflow"
 	"github.com/plexusone/structured-evaluation/claims"
 	"github.com/plexusone/structured-evaluation/rubric"
 	"github.com/spf13/cobra"
@@ -690,15 +690,15 @@ func runWorkflow(cmd *cobra.Command, _ []string, cfg *Config) error {
 
 	switch format {
 	case "mermaid":
-		renderer := workflow.NewMermaidRenderer()
+		renderer := execgraph.NewMermaidRenderer()
 		fmt.Println(renderer.Render(wf))
 
 	case "dot":
-		renderer := workflow.NewDOTRenderer()
+		renderer := execgraph.NewDOTRenderer()
 		fmt.Println(renderer.Render(wf))
 
 	case "json":
-		renderer := &workflow.JSONRenderer{Indent: true}
+		renderer := &execgraph.JSONRenderer{Indent: true}
 		fmt.Println(renderer.Render(wf))
 
 	default: // text
@@ -749,17 +749,17 @@ func runWorkflow(cmd *cobra.Command, _ []string, cfg *Config) error {
 	return nil
 }
 
-func getStatusIcon(status workflow.Status) string {
+func getStatusIcon(status execgraph.Status) string {
 	switch status {
-	case workflow.StatusCompleted:
+	case execgraph.StatusCompleted:
 		return "✓"
-	case workflow.StatusInProgress:
+	case execgraph.StatusInProgress:
 		return "◐"
-	case workflow.StatusReady:
+	case execgraph.StatusReady:
 		return "○"
-	case workflow.StatusBlocked:
+	case execgraph.StatusBlocked:
 		return "✗"
-	case workflow.StatusSkipped:
+	case execgraph.StatusSkipped:
 		return "⊘"
 	default:
 		return "·"
