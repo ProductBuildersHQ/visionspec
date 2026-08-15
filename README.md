@@ -78,6 +78,10 @@ go get github.com/ProductBuildersHQ/specification-workflow-spec
 | `pkg/gate` | Phase gates and approval checkpoints |
 | `pkg/layout` | Filesystem layout conventions for spec projects |
 | `pkg/diagram` | D2 and Mermaid diagram generation from workflows |
+| `pkg/integration` | Descriptor types for external execution-side SDD tools |
+| `pkg/integrations` | Embedded default tool integrations (spec-kit, ai-dlc, openspec, kiro) |
+| `pkg/pipeline` | Types linking a definition workflow to an execution integration |
+| `pkg/pipelines` | Embedded default definition→execution pipelines |
 | `schema` | Generated JSON Schema files |
 
 Rubric definitions use [structured-evaluation](https://github.com/plexusone/structured-evaluation)'s canonical `rubric.RubricSet` type.
@@ -90,10 +94,10 @@ The registry defines canonical spec types across methodologies:
 
 | ID | Name | Category | Origins |
 |----|------|----------|---------|
-| `mrd` | Market Requirements Document | source | enterprise, aws-product, big-tech-product |
+| `mrd` | Market Requirements Document | source | enterprise, aws-one-way-door, big-tech-product |
 | `prd` | Product Requirements Document | source | startup, enterprise, big-tech |
 | `uxd` | User Experience Design | source | design-thinking, big-tech |
-| `opportunity-spec` | Opportunity Specification | source | aws-feature, big-tech-feature |
+| `opportunity-spec` | Opportunity Specification | source | aws-two-way-door, big-tech-feature |
 | `hypothesis` | Hypothesis Document | source | lean-startup, 0-1 |
 | `shapeup-pitch` | Shape Up Pitch | source | shapeup |
 | `ost` | Opportunity Solution Tree | source | continuous-discovery |
@@ -102,9 +106,9 @@ The registry defines canonical spec types across methodologies:
 
 | ID | Name | Category | Origins |
 |----|------|----------|---------|
-| `press` | Press Release | gtm | aws-product, big-tech |
-| `faq` | Frequently Asked Questions | gtm | aws-product, big-tech |
-| `narrative-6p` | Six-Pager Narrative | gtm | aws-product, big-tech-product |
+| `press` | Press Release | gtm | aws-one-way-door, big-tech |
+| `faq` | Frequently Asked Questions | gtm | aws-one-way-door, big-tech |
+| `narrative-6p` | Six-Pager Narrative | gtm | aws-one-way-door, big-tech-product |
 | `narrative-1p` | One-Pager Executive Summary | gtm | enterprise, big-tech |
 | `bmc` | Business Model Canvas | gtm | enterprise, lean-startup |
 
@@ -129,19 +133,19 @@ See `pkg/spectype/spectype.go` for the full registry.
 ## Workflows
 
 Workflows bundle spec requirements, synthesis rules, templates, and rubrics for
-specific methodologies. Default workflows (aws-product, big-tech-feature,
+specific methodologies. Default workflows (aws-one-way-door, big-tech-feature,
 lean-startup, etc.) are embedded and load with no filesystem access:
 
 ```go
 import "github.com/ProductBuildersHQ/specification-workflow-spec/pkg/workflows"
 
-// Load with inheritance resolution (aws-feature extends enterprise)
-w, err := workflows.DefaultLoader().Load("aws-feature")
+// Load with inheritance resolution (aws-two-way-door extends enterprise)
+w, err := workflows.DefaultLoader().Load("aws-two-way-door")
 if err != nil {
     // handle error
 }
 
-w.Workflow.Name              // "aws-feature"
+w.Workflow.Name              // "aws-two-way-door"
 w.Workflow.RequiredSpecs()   // required spec type IDs
 w.Templates["press"].Content // raw markdown template
 w.Rubrics["press"].Categories // structured-evaluation rubric categories
@@ -155,6 +159,100 @@ loader := workflows.NewResolvingLoader(workflows.NewChainLoader(
     workflows.NewFileLoader("./custom-workflows"),
     workflows.DefaultLoader(),
 ))
+```
+
+### Inheritance and Provenance
+
+Workflows inherit via `extends:` (e.g. both AWS door profiles extend
+`enterprise`), with child entries overriding parent entries per key. Beyond
+implicit inheritance, a spec can declare exactly where its template or rubric
+comes from:
+
+```yaml
+spec_config:
+  mrd:
+    required: false
+    template: {from: enterprise}   # resolved from the enterprise workflow
+    rubric: enterprise             # bare-string shorthand for the same
+  press:
+    template: local                # this workflow's own templates/ dir
+```
+
+Declared provenance is **loader-enforced**: a source that does not actually
+provide the file is a load-time error, and a source whose resolution path leads
+back to the declaring workflow (e.g. naming a descendant) fails as a circular
+reference instead of recursing. Point sources at ancestors or unrelated
+workflows; descendant-owned content must be copied, not referenced.
+
+Two library-wide guarantees are enforced by tests:
+
+- **Every declared spec resolves.** Each spec in a workflow's `spec_config` —
+  required *or* optional — must resolve to both a template and a rubric.
+  "Optional" means optional to *use* in a workflow run, not optional for the
+  library to support.
+- **Every synthesis source is declared.** A synthesis rule may only consume
+  specs the workflow declares in its `spec_config`.
+
+### Layered Rubrics
+
+Rubrics separate three kinds of judgment via a per-category `class`, so an
+LLM-as-Judge evaluation can distinguish cultural fit from contract quality:
+
+| Class | Meaning | Blocking? |
+|-------|---------|-----------|
+| `leadership_principle` | Methodology/culture judgment (e.g. customer obsession, frugality) | Never |
+| `specification_quality` | Is the document a complete, testable contract? | Often |
+| `implementation_readiness` | Can a team build from this without guessing? | Often |
+
+Categories also carry `blocking` (a failing blocking category fails the
+document regardless of weighted score) and an `evaluation` mode
+(`deterministic`, `semantic`, or `human`). The hardened workflow families
+(`enterprise`, `aws-one-way-door`, `aws-two-way-door`) ship fully layered
+PRD/TRD/TPD/IRD/UXD rubric sets, guarded by regression tests.
+
+### Domain Content Sync
+
+Roadmap-domain spec content (MRD, OpportunitySpec, V2MOM, BMC, …) is owned
+upstream by [prism-roadmap](https://github.com/grokify/prism-roadmap) and
+synced into the embedded library by `tools/prism-sync` (a nested Go module).
+Synced files carry provenance headers; `prism-sync -check` detects drift.
+
+## Definition vs. Execution
+
+Workflows describe the **definition** side of spec-driven development — the
+methodologies that produce *what to build* (PRD, six-pager, TRD). External tools
+such as GitHub Spec-Kit and AWS AI-DLC own the **execution** side — consuming
+those specs to produce code. These are the "Definition" and "Execution" halves
+surfaced in the VisionStudio viewer.
+
+- **Integrations** (`pkg/integration`, `pkg/integrations`) are declarative
+  descriptors of external tools: how to detect a project on disk, its artifacts
+  and lifecycle, how to compute status from those artifacts, and where its
+  inputs and outputs connect. They hold **no scanning or execution logic** —
+  consumers implement detection against the contract.
+- **Pipelines** (`pkg/pipeline`, `pkg/pipelines`) link a definition workflow to
+  an execution integration, declaring how the workflow's output specs feed the
+  tool (e.g., `aws-one-way-door` → `ai-dlc`).
+
+Default execution integrations: **spec-kit**, **ai-dlc**, **openspec**, **kiro**.
+
+```go
+import (
+    "github.com/ProductBuildersHQ/specification-workflow-spec/pkg/integrations"
+    "github.com/ProductBuildersHQ/specification-workflow-spec/pkg/pipelines"
+)
+
+// An execution tool descriptor: detection, artifacts, lifecycle, status.
+in, _ := integrations.Get("spec-kit")
+in.Detection.RootMarkers        // [".specify/", ...] — how to recognize a project
+in.Status.Method                // "task-checkboxes" — how a viewer reads progress
+in.Artifacts[0].SpecType        // maps a tool file to a spec type ID where applicable
+
+// A definition→execution handoff: aws-one-way-door's specs feed AI-DLC.
+p, _ := pipelines.Get("aws-one-way-door-to-ai-dlc")
+p.Definition.Workflow           // "aws-one-way-door"
+p.Execution.Integration         // "ai-dlc"
+p.Handoffs                      // per-spec-type mappings across the seam
 ```
 
 ## Diagram Generation
