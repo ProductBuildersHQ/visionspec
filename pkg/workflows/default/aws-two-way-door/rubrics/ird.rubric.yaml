@@ -1,0 +1,229 @@
+id: ird-rubric
+name: AWS Feature IRD Rubric
+version: "2.0"
+description: >-
+  Infrastructure Requirements Document evaluation for feature-level
+  implementations. implementation_readiness categories are blocking gates on
+  whether infrastructure guarantees are explicit and safe to implement from.
+  infra_ownership is a Leadership Principle lens (Ownership, Frugality,
+  Highest Standards) and never blocks on its own.
+evaluationType: analytic
+judgeInstructions:
+  - Cite the relevant section and IRD/TRD/TPD ID for every finding.
+  - An "Infrastructure impact — None" declaration with rationale and evidence is a pass on scope_declaration; the same declaration with no rationale or evidence is a fail.
+  - Only data-bearing resources require replacement protection when judging resource_lifecycle_safety.
+  - Do not reward length; reward guarantees that are explicit and safe to implement from.
+passCriteria:
+    minCategoriesPassing: all_required
+    maxFindingsSeverity:
+        critical: 0
+        high: 1
+        medium: 2
+        low: -1
+categories:
+    - id: scope_declaration
+      name: Infrastructure Impact Declaration
+      description: Is infrastructure impact explicitly declared — None with rationale/evidence, or fully scoped below?
+      weight: 0.08
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Declaration states None with rationale and evidence, or states impact exists and the rest is completed
+            - value: fail
+              label: Fail
+              criteria:
+                - Declaration missing, or None with no rationale or evidence
+    - id: requirements_traceability
+      name: Requirements Traceability
+      description: Infrastructure requirements have stable IDs tracing to TRD and verified by TPD.
+      weight: 0.14
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Every IRD-ID has a Traces To TRD reference and a Verified By TPD reference
+            - value: partial
+              label: Partial
+              criteria:
+                - Some alignment but gaps exist
+            - value: fail
+              label: Fail
+              criteria:
+                - Infrastructure doesn't trace to technical requirements
+    - id: resource_lifecycle_safety
+      name: Resource Lifecycle Safety
+      description: Do data-bearing resources have explicit replacement/deletion protection?
+      weight: 0.14
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Data-bearing resources marked with protection status and documented replace/delete behavior
+                - Expected replacements documented in advance
+            - value: partial
+              label: Partial
+              criteria:
+                - Table present but protection status missing for some resources
+            - value: fail
+              label: Fail
+              criteria:
+                - No lifecycle section despite data-bearing resources existing
+    - id: scaling_impact
+      name: Scaling Impact
+      description: Load impact and scaling considerations.
+      weight: 0.12
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Expected load quantified with scaling approach
+            - value: partial
+              label: Partial
+              criteria:
+                - Load mentioned but scaling unclear
+            - value: fail
+              label: Fail
+              criteria:
+                - No scaling considerations
+    - id: security
+      name: Security
+      description: Security changes for the feature.
+      weight: 0.14
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Network, access, and data security changes documented
+            - value: partial
+              label: Partial
+              criteria:
+                - Some security considerations
+            - value: fail
+              label: Fail
+              criteria:
+                - Security not addressed
+    - id: deployment_guarantees
+      name: Deployment Guarantees
+      description: Preview requirement, deployment order, and rollback/roll-forward strategy.
+      weight: 0.12
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Preview-before-apply, deployment order, and rollback/roll-forward strategy stated
+                - Rollback safety for data-bearing resources explicitly addressed, not assumed
+            - value: partial
+              label: Partial
+              criteria:
+                - Deployment mechanics mentioned but rollback/roll-forward strategy missing
+            - value: fail
+              label: Fail
+              criteria:
+                - No deployment guarantees section
+    - id: monitoring
+      name: Monitoring
+      description: New metrics and alerts for the feature.
+      weight: 0.08
+      required: false
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - New metrics and alerts defined with thresholds
+            - value: partial
+              label: Partial
+              criteria:
+                - Basic monitoring mentioned
+            - value: fail
+              label: Fail
+              criteria:
+                - No monitoring changes
+    - id: cost_impact
+      name: Cost Impact
+      description: Cost estimation for changes.
+      weight: 0.06
+      required: false
+      class: specification_quality
+      blocking: false
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Cost impact estimated with a total
+            - value: partial
+              label: Partial
+              criteria:
+                - Basic cost estimate
+            - value: fail
+              label: Fail
+              criteria:
+                - No cost analysis
+    - id: infra_ownership
+      name: Infrastructure Ownership
+      description: Ownership, Frugality, Highest Standards — is the infrastructure change scoped tightly and owned end to end?
+      weight: 0.12
+      required: false
+      class: leadership_principle
+      blocking: false
+      evaluation: semantic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Change is scoped to what the feature actually needs, no speculative capacity
+                - Operational ownership (on-call impact, runbooks) is addressed, not deferred
+            - value: partial
+              label: Partial
+              criteria:
+                - Mostly scoped but some speculative or unowned elements
+            - value: fail
+              label: Fail
+              criteria:
+                - Over-provisioned or ownership unaddressed

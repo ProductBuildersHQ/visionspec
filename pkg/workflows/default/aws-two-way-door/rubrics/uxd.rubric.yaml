@@ -1,0 +1,251 @@
+id: uxd-rubric
+name: AWS Feature UXD Rubric
+version: "2.0"
+description: >-
+  User Experience Design evaluation for feature-level implementations.
+  implementation_readiness categories are blocking gates on whether the
+  experience is complete enough to implement without inventing states,
+  permission behavior, or copy. user_understanding and content_craft are
+  Leadership Principle lenses (Customer Obsession, Earn Trust, Highest
+  Standards) and never block on their own.
+evaluationType: analytic
+judgeInstructions:
+  - Cite the relevant section and PRD story ID for every finding.
+  - A journey with no Traces To reference is a fail on requirements_traceability regardless of detail elsewhere.
+  - Copy marked Provisional with a stated reason is acceptable; copy with no status marker is a gap.
+  - A permission-differentiated views table stating "Not applicable — single-permission feature" is a pass.
+passCriteria:
+    minCategoriesPassing: all_required
+    maxFindingsSeverity:
+        critical: 0
+        high: 1
+        medium: 2
+        low: -1
+categories:
+    - id: user_understanding
+      name: User Understanding
+      description: Customer Obsession — clear understanding of target users and their needs.
+      weight: 0.10
+      required: false
+      class: leadership_principle
+      blocking: false
+      evaluation: semantic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Target users identified with key insights from research
+            - value: partial
+              label: Partial
+              criteria:
+                - Users mentioned but insights thin
+            - value: fail
+              label: Fail
+              criteria:
+                - No user understanding demonstrated
+    - id: requirements_traceability
+      name: Requirements Traceability
+      description: Does the journey trace to a PRD story?
+      weight: 0.12
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Journey has a Traces To story ID that exists in the PRD
+            - value: fail
+              label: Fail
+              criteria:
+                - No traceability to PRD requirements
+    - id: user_journey
+      name: User Journey
+      description: Current and future state user journeys with a resulting state per step.
+      weight: 0.10
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Clear current vs future state with pain points addressed
+                - Future-state steps have a resulting state, not only an action
+            - value: partial
+              label: Partial
+              criteria:
+                - Journey described but resulting states missing for some steps
+            - value: fail
+              label: Fail
+              criteria:
+                - No user journey
+    - id: information_architecture
+      name: Information Architecture
+      description: Feature location and navigation.
+      weight: 0.06
+      required: false
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Clear placement in product with navigation flow
+            - value: partial
+              label: Partial
+              criteria:
+                - Location mentioned but navigation unclear
+            - value: fail
+              label: Fail
+              criteria:
+                - No IA consideration
+    - id: wireframes
+      name: Wireframes
+      description: Visual representations of screens.
+      weight: 0.14
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Wireframes for all key screens with interactions noted
+            - value: partial
+              label: Partial
+              criteria:
+                - Some wireframes but incomplete coverage
+            - value: fail
+              label: Fail
+              criteria:
+                - No wireframes
+    - id: interaction_design
+      name: Interaction Design
+      description: Every interaction has a resulting state or outcome.
+      weight: 0.10
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Every interaction has a stated resulting state or outcome, not only a trigger
+            - value: partial
+              label: Partial
+              criteria:
+                - Happy path interactions defined but resulting state missing for some
+            - value: fail
+              label: Fail
+              criteria:
+                - No interaction design
+    - id: state_completeness
+      name: User-Visible State Completeness
+      description: Are loading, empty, error, timeout, and recovery states defined?
+      weight: 0.12
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - State matrix covers loading, empty, error, timeout, and recovery
+            - value: partial
+              label: Partial
+              criteria:
+                - Matrix present but one or more state types missing
+            - value: fail
+              label: Fail
+              criteria:
+                - No state matrix, or only the happy path documented
+    - id: copy_status
+      name: Copy Status
+      description: Is every piece of user-facing copy marked Final or Provisional?
+      weight: 0.06
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Every copy row has a Final or Provisional status
+            - value: partial
+              label: Partial
+              criteria:
+                - Most copy has a status but some entries silent on it
+            - value: fail
+              label: Fail
+              criteria:
+                - No copy status markers
+    - id: content_craft
+      name: Content Craft
+      description: Earn Trust, Highest Standards — is the voice and tone guidance genuinely useful?
+      weight: 0.06
+      required: false
+      class: leadership_principle
+      blocking: false
+      evaluation: semantic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Voice/tone guidance is specific enough to guide copy decisions, not generic
+            - value: partial
+              label: Partial
+              criteria:
+                - Some guidance but generic
+            - value: fail
+              label: Fail
+              criteria:
+                - No content design
+    - id: accessibility
+      name: Accessibility
+      description: Accessibility considerations.
+      weight: 0.14
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - WCAG compliance with specific considerations noted
+            - value: partial
+              label: Partial
+              criteria:
+                - Basic accessibility mentioned
+            - value: fail
+              label: Fail
+              criteria:
+                - No accessibility consideration

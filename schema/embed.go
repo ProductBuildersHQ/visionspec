@@ -18,4 +18,7 @@ var SchemaFiles = []string{
 	"synthesis.schema.json",
 	"gate.schema.json",
 	"layout.schema.json",
+	"integration.schema.json",
+	"pipeline.schema.json",
+	"loop.schema.json",
 }

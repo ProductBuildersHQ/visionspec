@@ -5,7 +5,7 @@
 //
 // Usage:
 //
-//	w, err := workflows.Get("aws-feature")
+//	w, err := workflows.Get("aws-two-way-door")
 //	if err != nil {
 //	    // handle error
 //	}

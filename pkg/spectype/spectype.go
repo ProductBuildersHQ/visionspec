@@ -41,6 +41,39 @@ const (
 	AuthorshipHybrid AuthorshipMode = "hybrid"
 )
 
+// PDLCStage identifies which stage of the ProductBuildersHQ Product
+// Development Lifecycle (PDLC) a spec type belongs to. This is orthogonal to
+// Category (which groups specs by their role in a *workflow*, e.g. source vs.
+// gtm vs. technical): PDLCStage groups them by which of the six PDLC stages
+// they are produced in, so a downstream consumer (e.g. Threat Model Spec) can
+// bucket any workflow's specs into the PDLC stages without knowing the
+// individual spec types.
+//
+// Only the two spec-driven stages apply here — Implementation, Deployment,
+// Builder Operations, and Product Operations consume non-spec artifacts
+// (code, IaC, telemetry), never workflow specs, so no spec type carries those
+// values. Execution-tracking spec types (plan, roadmap) carry no PDLCStage:
+// they track work across the whole lifecycle rather than belonging to one
+// content-producing stage.
+//
+// These values are string constants, not an imported Go type, deliberately:
+// specification-workflow-spec sits upstream of visionspec in the
+// visionstudio -> visionspec -> specification-workflow-spec dependency chain,
+// and pdlc itself depends on visionspec — so importing
+// github.com/ProductBuildersHQ/pdlc here would close an import cycle. The
+// values must match pdlc's Stage* constants (see stages.go in that module);
+// a downstream consumer that can safely import both (e.g. Threat Model Spec)
+// should carry the conformance test verifying they stay in sync.
+type PDLCStage string
+
+const (
+	// PDLCStageProductDefinition matches pdlc.StageProductDefinition.
+	PDLCStageProductDefinition PDLCStage = "product-definition"
+
+	// PDLCStageBuilderDefinition matches pdlc.StageBuilderDefinition.
+	PDLCStageBuilderDefinition PDLCStage = "builder-definition"
+)
+
 // SpecType defines a specification document type in the registry.
 type SpecType struct {
 	// ID is the canonical identifier (e.g., "prd", "press", "narrative-6p").
@@ -57,6 +90,11 @@ type SpecType struct {
 
 	// Category groups this spec type (source, gtm, technical, etc.).
 	Category Category `json:"category" jsonschema:"required,enum=source,enum=gtm,enum=technical,enum=execution,enum=output,enum=strategic"`
+
+	// PDLCStage is the PDLC stage this spec type is produced in. Empty for
+	// spec types that aren't tied to one content-producing stage (e.g. plan,
+	// roadmap). See the PDLCStage type doc for the full rationale.
+	PDLCStage PDLCStage `json:"pdlcStage,omitempty" jsonschema:"enum=product-definition,enum=builder-definition"`
 
 	// Authorship indicates typical authorship mode.
 	Authorship AuthorshipMode `json:"authorship" jsonschema:"required,enum=human,enum=synthesized,enum=hybrid"`
@@ -93,10 +131,11 @@ func CoreSpecTypes() []SpecType {
 			ShortName:    "MRD",
 			Description:  "Defines the market problem, customer segments, and business opportunity.",
 			Category:     CategorySource,
+			PDLCStage:    PDLCStageProductDefinition,
 			Authorship:   AuthorshipHuman,
 			Filename:     "MRD.md",
 			EvalFilename: "MRD.eval.json",
-			Origins:      []string{"enterprise", "aws-product", "big-tech-product"},
+			Origins:      []string{"enterprise", "aws-one-way-door", "big-tech-product"},
 		},
 		{
 			ID:           "prd",
@@ -104,6 +143,7 @@ func CoreSpecTypes() []SpecType {
 			ShortName:    "PRD",
 			Description:  "Defines product goals, user stories, and functional requirements.",
 			Category:     CategorySource,
+			PDLCStage:    PDLCStageProductDefinition,
 			Authorship:   AuthorshipHuman,
 			Filename:     "PRD.md",
 			EvalFilename: "PRD.eval.json",
@@ -115,6 +155,7 @@ func CoreSpecTypes() []SpecType {
 			ShortName:    "UXD",
 			Description:  "Defines user journeys, wireframes, and interaction patterns.",
 			Category:     CategorySource,
+			PDLCStage:    PDLCStageProductDefinition,
 			Authorship:   AuthorshipHuman,
 			Filename:     "UXD.md",
 			EvalFilename: "UXD.eval.json",
@@ -126,10 +167,11 @@ func CoreSpecTypes() []SpecType {
 			ShortName:    "OpportunitySpec",
 			Description:  "12-box canvas combining Patton discovery + Cagan business case for features.",
 			Category:     CategorySource,
+			PDLCStage:    PDLCStageProductDefinition,
 			Authorship:   AuthorshipHuman,
 			Filename:     "OPPORTUNITY-SPEC.md",
 			EvalFilename: "OPPORTUNITY-SPEC.eval.json",
-			Origins:      []string{"aws-feature", "big-tech-feature"},
+			Origins:      []string{"aws-two-way-door", "big-tech-feature"},
 			Aliases:      []string{"opportunity-canvas"},
 		},
 
@@ -140,10 +182,11 @@ func CoreSpecTypes() []SpecType {
 			ShortName:    "Press",
 			Description:  "Working Backwards customer announcement written before building.",
 			Category:     CategoryGTM,
+			PDLCStage:    PDLCStageProductDefinition,
 			Authorship:   AuthorshipSynthesized,
 			Filename:     "PRESS.md",
 			EvalFilename: "PRESS.eval.json",
-			Origins:      []string{"aws-product", "aws-feature", "big-tech"},
+			Origins:      []string{"aws-one-way-door", "aws-two-way-door", "big-tech"},
 			Aliases:      []string{"press-release", "pr"},
 		},
 		{
@@ -152,10 +195,11 @@ func CoreSpecTypes() []SpecType {
 			ShortName:    "FAQ",
 			Description:  "Challenges assumptions with internal and external questions.",
 			Category:     CategoryGTM,
+			PDLCStage:    PDLCStageProductDefinition,
 			Authorship:   AuthorshipSynthesized,
 			Filename:     "FAQ.md",
 			EvalFilename: "FAQ.eval.json",
-			Origins:      []string{"aws-product", "aws-feature", "big-tech"},
+			Origins:      []string{"aws-one-way-door", "aws-two-way-door", "big-tech"},
 		},
 		{
 			ID:           "narrative-6p",
@@ -163,10 +207,11 @@ func CoreSpecTypes() []SpecType {
 			ShortName:    "6-Pager",
 			Description:  "Amazon-style narrative document for stakeholder alignment.",
 			Category:     CategoryGTM,
+			PDLCStage:    PDLCStageProductDefinition,
 			Authorship:   AuthorshipSynthesized,
 			Filename:     "NARRATIVE-6P.md",
 			EvalFilename: "NARRATIVE-6P.eval.json",
-			Origins:      []string{"aws-product", "big-tech-product"},
+			Origins:      []string{"aws-one-way-door", "big-tech-product"},
 			Aliases:      []string{"6-pager", "six-pager", "narrative"},
 		},
 		{
@@ -175,6 +220,7 @@ func CoreSpecTypes() []SpecType {
 			ShortName:    "1-Pager",
 			Description:  "Executive summary for quick stakeholder review.",
 			Category:     CategoryGTM,
+			PDLCStage:    PDLCStageProductDefinition,
 			Authorship:   AuthorshipSynthesized,
 			Filename:     "NARRATIVE-1P.md",
 			EvalFilename: "NARRATIVE-1P.eval.json",
@@ -187,6 +233,7 @@ func CoreSpecTypes() []SpecType {
 			ShortName:    "BMC",
 			Description:  "9-block business model visualization extracted from MRD.",
 			Category:     CategoryGTM,
+			PDLCStage:    PDLCStageProductDefinition,
 			Authorship:   AuthorshipSynthesized,
 			Filename:     "BMC.md",
 			EvalFilename: "BMC.eval.json",
@@ -200,6 +247,7 @@ func CoreSpecTypes() []SpecType {
 			ShortName:    "TRD",
 			Description:  "Defines architecture, components, APIs, and technical approach.",
 			Category:     CategoryTechnical,
+			PDLCStage:    PDLCStageBuilderDefinition,
 			Authorship:   AuthorshipSynthesized,
 			Filename:     "TRD.md",
 			EvalFilename: "TRD.eval.json",
@@ -212,6 +260,7 @@ func CoreSpecTypes() []SpecType {
 			ShortName:    "TPD",
 			Description:  "Defines test strategy, coverage requirements, and validation approach.",
 			Category:     CategoryTechnical,
+			PDLCStage:    PDLCStageBuilderDefinition,
 			Authorship:   AuthorshipSynthesized,
 			Filename:     "TPD.md",
 			EvalFilename: "TPD.eval.json",
@@ -224,6 +273,7 @@ func CoreSpecTypes() []SpecType {
 			ShortName:    "IRD",
 			Description:  "Defines deployment, scaling, and operational requirements.",
 			Category:     CategoryTechnical,
+			PDLCStage:    PDLCStageBuilderDefinition,
 			Authorship:   AuthorshipSynthesized,
 			Filename:     "IRD.md",
 			EvalFilename: "IRD.eval.json",
@@ -260,6 +310,7 @@ func CoreSpecTypes() []SpecType {
 			ShortName:   "SPEC",
 			Description: "Unified execution spec reconciling all source documents.",
 			Category:    CategoryOutput,
+			PDLCStage:   PDLCStageProductDefinition,
 			Authorship:  AuthorshipSynthesized,
 			Filename:    "spec.md",
 			Origins:     []string{"enterprise"},
@@ -272,6 +323,7 @@ func CoreSpecTypes() []SpecType {
 			ShortName:   "Hypothesis",
 			Description: "Core hypothesis to validate in Build-Measure-Learn cycles.",
 			Category:    CategorySource,
+			PDLCStage:   PDLCStageProductDefinition,
 			Authorship:  AuthorshipHuman,
 			Filename:    "HYPOTHESIS.md",
 			Origins:     []string{"lean-startup", "0-1"},
@@ -282,6 +334,7 @@ func CoreSpecTypes() []SpecType {
 			ShortName:   "Pitch",
 			Description: "Shaped problem and solution with appetite (Basecamp).",
 			Category:    CategorySource,
+			PDLCStage:   PDLCStageProductDefinition,
 			Authorship:  AuthorshipHuman,
 			Filename:    "PITCH.md",
 			Origins:     []string{"shapeup"},
@@ -292,6 +345,7 @@ func CoreSpecTypes() []SpecType {
 			ShortName:   "OST",
 			Description: "Maps outcomes to opportunities to solutions (Teresa Torres).",
 			Category:    CategorySource,
+			PDLCStage:   PDLCStageProductDefinition,
 			Authorship:  AuthorshipHuman,
 			Filename:    "OST.md",
 			Origins:     []string{"continuous-discovery"},

@@ -1,0 +1,21 @@
+id: big-tech-product-to-openspec
+name: Big Tech Product → OpenSpec
+description: >-
+  A Big Tech product definition produces a PRD and six-pager; OpenSpec's
+  /opsx:propose consumes them into a change proposal, then delta specs, tasks,
+  and implementation, archiving into the canonical capability specs.
+definition:
+  workflow: big-tech-product
+  outputs:
+    - prd
+    - narrative-6p
+execution:
+  integration: openspec
+  input_port: proposal-in
+handoffs:
+  - spec_type: prd
+    to_artifact: proposal
+    transform: Map PRD scope onto proposal.md Why / What Changes / Capabilities.
+  - spec_type: narrative-6p
+    to_artifact: proposal
+    transform: Use the six-pager narrative as the proposal's context and rationale.

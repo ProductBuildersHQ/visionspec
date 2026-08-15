@@ -24,31 +24,49 @@ spec_config:
   prd:
     required: false
     category: source
+    template: {from: enterprise}
+    rubric: {from: enterprise}
   mrd:
     required: false
     category: source
+    template: {from: enterprise}
+    rubric: {from: enterprise}
   uxd:
     required: false
     category: source
+    template: {from: enterprise}
+    rubric: {from: enterprise}
 
   # No GTM in 0-1 phase
   press:
     required: false
     category: gtm
+    template: {from: enterprise}
+    rubric: {from: enterprise}
   faq:
     required: false
     category: gtm
+    template: {from: enterprise}
+    rubric: {from: enterprise}
   narrative-1p:
     required: false
     category: gtm
+    template: {from: enterprise}
+    rubric: {from: enterprise}
   narrative-6p:
     required: false
     category: gtm
+    template: {from: enterprise}
+    rubric: {from: enterprise}
 
   # No technical specs in 0-1 phase
   trd:
     required: false
     category: technical
+    template: {from: enterprise}
+    rubric: {from: enterprise}
   ird:
     required: false
     category: technical
+    template: {from: enterprise}
+    rubric: {from: enterprise}

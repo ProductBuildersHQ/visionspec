@@ -1,13 +1,13 @@
 // Package workflow defines specification workflow configurations.
 //
 // A Workflow bundles spec requirements, synthesis rules, and evaluation
-// criteria into a cohesive workflow configuration (e.g., "aws-product",
+// criteria into a cohesive workflow configuration (e.g., "aws-one-way-door",
 // "big-tech-feature", "pbhq-lite").
 package workflow
 
 // Workflow represents a complete specification workflow configuration.
 type Workflow struct {
-	// Name is the workflow identifier (e.g., "aws-product", "pbhq-lite").
+	// Name is the workflow identifier (e.g., "aws-one-way-door", "pbhq-lite").
 	Name string `json:"name" yaml:"name" jsonschema:"required,description=Workflow identifier"`
 
 	// Description explains the workflow's purpose and use case.
@@ -120,11 +120,50 @@ type SpecRequirement struct {
 	// Description provides workflow-specific context for this spec.
 	Description string `json:"description,omitempty" yaml:"description,omitempty" jsonschema:"description=Workflow-specific description"`
 
-	// Template specifies a custom template path.
-	Template string `json:"template,omitempty" yaml:"template,omitempty" jsonschema:"description=Custom template path"`
+	// Template declares where this spec's document template comes from. Omit to
+	// use default resolution (the workflow's own templates/ dir, then the
+	// extends chain).
+	Template *SpecSource `json:"template,omitempty" yaml:"template,omitempty" jsonschema:"description=Provenance of this spec's template"`
 
-	// Rubric specifies a custom rubric path.
-	Rubric string `json:"rubric,omitempty" yaml:"rubric,omitempty" jsonschema:"description=Custom rubric path"`
+	// Rubric declares where this spec's evaluation rubric comes from. Omit to
+	// use default resolution (the workflow's own rubrics/ dir, then the extends
+	// chain).
+	Rubric *SpecSource `json:"rubric,omitempty" yaml:"rubric,omitempty" jsonschema:"description=Provenance of this spec's rubric"`
+}
+
+// SourceLocal is the SpecSource.From sentinel meaning this workflow's own
+// templates/ or rubrics/ directory (as opposed to another workflow).
+const SourceLocal = "local"
+
+// SpecSource declares the provenance of a spec's template or rubric: the
+// workflow that owns the file. The sentinel "local" (SourceLocal) means this
+// workflow's own directory; any other value names the workflow to resolve the
+// file from. Declaring a source makes provenance explicit and loader-enforced —
+// a source that does not actually provide the file is a load-time error.
+//
+// A source must not lead back to the declaring workflow: it is resolved with
+// full inheritance, so naming a descendant (whose extends chain necessarily
+// returns to the declaring workflow) or any other workflow whose resolution
+// path re-enters it is a circular reference and a load-time error. Point
+// sources at ancestors or unrelated workflows; content owned by a descendant
+// must be physically copied, not referenced.
+//
+// In YAML it accepts the object form or a bare-string shorthand:
+//
+//	template: {from: enterprise}
+//	rubric: local
+type SpecSource struct {
+	// From is the owning workflow name, or "local" for this workflow's own dir.
+	From string `json:"from" yaml:"from" jsonschema:"required,description=Owning workflow name, or \"local\" for this workflow's own directory"`
+}
+
+// clone returns a deep copy, or nil if the receiver is nil.
+func (s *SpecSource) clone() *SpecSource {
+	if s == nil {
+		return nil
+	}
+	c := *s
+	return &c
 }
 
 // Execution defines the ordered execution of specs.

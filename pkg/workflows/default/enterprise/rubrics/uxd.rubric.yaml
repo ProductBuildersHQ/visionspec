@@ -1,8 +1,20 @@
 id: uxd-rubric
 name: Enterprise UXD Rubric
-version: "1.0"
-description: Comprehensive UXD evaluation for enterprise products with WCAG 2.1 AA accessibility requirements.
+version: "2.0"
+description: >-
+  Comprehensive UXD evaluation for enterprise products with WCAG 2.1 AA
+  accessibility requirements. The UXD is the experience contract: categories
+  tagged implementation_readiness are blocking gates on whether the
+  user-visible behavior is complete enough to implement without inventing
+  states, permission behavior, or copy. Categories tagged
+  specification_quality inform review without blocking on their own.
 evaluationType: analytic
+judgeInstructions:
+  - Cite the relevant section and PRD story or FR ID for every finding.
+  - A journey or interaction with no "Traces to" reference is a fail on requirements_traceability, regardless of how detailed it is otherwise.
+  - Copy marked Provisional with a stated reason is acceptable; copy with no status marker is a gap, not an oversight.
+  - A permission-differentiated views table stating "Not applicable — single-permission experience" is a pass, not a missing section.
+  - Do not reward visual polish described in prose; reward states, traces, and copy status that are actually present.
 passCriteria:
     minCategoriesPassing: all_required
     maxFindingsSeverity:
@@ -14,8 +26,11 @@ categories:
     - id: user-research
       name: User Research
       description: Is the design grounded in user research?
-      weight: 1.5
-      required: true
+      weight: 0.06
+      required: false
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -31,31 +46,132 @@ categories:
               label: Fail
               criteria:
                 - No user research documented
-    - id: user-journeys
-      name: User Journeys
-      description: Are user journeys comprehensive and goal-oriented?
-      weight: 2
+    - id: requirements_traceability
+      name: Requirements Traceability
+      description: Do journeys and interactions trace to PRD stories or functional requirements?
+      weight: 0.12
       required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:
             - value: pass
               label: Pass
               criteria:
-                - Complete journeys with personas, steps, system responses, and success criteria
+                - Every journey has a "Traces to" story ID that exists in the PRD
+                - Every interaction has a "Traces to" story or FR ID
             - value: partial
               label: Partial
               criteria:
-                - Journeys present but missing emotional states or success criteria
+                - Most journeys/interactions traced but some missing a reference
             - value: fail
               label: Fail
               criteria:
-                - No user journeys or journeys incomplete
+                - No traceability to PRD requirements
+    - id: user-journeys
+      name: User Journeys
+      description: Are user journeys comprehensive with a resulting state at every step?
+      weight: 0.12
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Complete journeys with persona, steps, system response, and resulting state at every step
+                - Success criteria stated
+            - value: partial
+              label: Partial
+              criteria:
+                - Journeys present but resulting state or success criteria missing for some steps
+            - value: fail
+              label: Fail
+              criteria:
+                - No user journeys, or steps have no resulting state
+    - id: permission_differentiation
+      name: Permission-Differentiated Views
+      description: Are role or permission differences in the experience stated explicitly?
+      weight: 0.08
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Permission differences enumerated with role and specific behavioral delta
+            - value: not_applicable
+              label: Not Applicable
+              criteria:
+                - Table states "Not applicable — single-permission experience" and the PRD confirms no role differentiation
+            - value: fail
+              label: Fail
+              criteria:
+                - Section blank with no applicability statement, despite the PRD defining multiple roles or permission levels
+    - id: state-completeness
+      name: User-Visible State Completeness
+      description: Are loading, empty, error, timeout, and recovery states all defined per flow?
+      weight: 0.12
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - The state matrix covers loading, empty, error, timeout, and recovery for every flow
+                - Each referenced state has trigger, message, and recovery/next-action detail
+            - value: partial
+              label: Partial
+              criteria:
+                - Matrix present but one or more state types missing for some flows
+            - value: fail
+              label: Fail
+              criteria:
+                - No state matrix, or only the happy path is documented
+    - id: copy_status
+      name: Copy Status
+      description: Is every piece of user-facing copy marked Final or Provisional with a reason?
+      weight: 0.06
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Every state detail entry has a Copy status of Final or Provisional-with-reason
+            - value: partial
+              label: Partial
+              criteria:
+                - Most copy has a status but some entries are silent on it
+            - value: fail
+              label: Fail
+              criteria:
+                - No copy status markers anywhere
     - id: information-architecture
       name: Information Architecture
       description: Is the IA clear and logical?
-      weight: 1.5
-      required: true
+      weight: 0.06
+      required: false
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -74,15 +190,18 @@ categories:
     - id: accessibility-perceivable
       name: 'Accessibility: Perceivable'
       description: Are WCAG 2.1 AA perceivable requirements addressed?
-      weight: 2
+      weight: 0.10
       required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:
             - value: pass
               label: Pass
               criteria:
-                - Text alternatives, color contrast (4.5:1), and adaptable content documented
+                - Text alternatives, color contrast (4.5:1), and resize-to-200% documented
             - value: partial
               label: Partial
               criteria:
@@ -94,15 +213,18 @@ categories:
     - id: accessibility-operable
       name: 'Accessibility: Operable'
       description: Are WCAG 2.1 AA operable requirements addressed?
-      weight: 2
+      weight: 0.10
       required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:
             - value: pass
               label: Pass
               criteria:
-                - Keyboard accessibility, focus management, and timing documented
+                - Keyboard accessibility, focus order/visibility, and touch target size documented
             - value: partial
               label: Partial
               criteria:
@@ -114,15 +236,18 @@ categories:
     - id: accessibility-understandable
       name: 'Accessibility: Understandable'
       description: Are WCAG 2.1 AA understandable requirements addressed?
-      weight: 1.5
+      weight: 0.08
       required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:
             - value: pass
               label: Pass
               criteria:
-                - Language, predictability, and input assistance documented
+                - Language identification, predictable focus/input, and error identification with suggestions documented
             - value: partial
               label: Partial
               criteria:
@@ -134,54 +259,41 @@ categories:
     - id: responsive-design
       name: Responsive Design
       description: Are responsive breakpoints and behaviors documented?
-      weight: 1.5
-      required: true
+      weight: 0.06
+      required: false
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
             - value: pass
               label: Pass
               criteria:
-                - Breakpoints defined with component behavior across all viewports
+                - Breakpoints defined with layout changes across viewports
             - value: partial
               label: Partial
               criteria:
-                - Breakpoints defined but component behavior incomplete
+                - Breakpoints defined but layout behavior incomplete
             - value: fail
               label: Fail
               criteria:
                 - No responsive design documentation
-    - id: error-states
-      name: Error & Empty States
-      description: Are error, loading, and empty states documented?
-      weight: 1
-      required: true
-      scale:
-        type: categorical
-        options:
-            - value: pass
-              label: Pass
-              criteria:
-                - Error messages, loading states, and empty states with recovery actions
-            - value: partial
-              label: Partial
-              criteria:
-                - Some states documented but missing recovery actions
-            - value: fail
-              label: Fail
-              criteria:
-                - No state documentation
     - id: internationalization
       name: Internationalization
       description: Are i18n requirements documented?
-      weight: 1
+      weight: 0.04
+      required: false
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
             - value: pass
               label: Pass
               criteria:
-                - RTL support, language list, date/time/number formats documented
+                - RTL support, language list, and text expansion buffer documented
             - value: partial
               label: Partial
               criteria:

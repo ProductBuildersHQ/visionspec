@@ -1,0 +1,258 @@
+id: prd-rubric
+name: AWS PRD Evaluation
+version: "2.0"
+description: >-
+  Evaluates feature-level PRDs against Amazon Leadership Principles and
+  implementation readiness. Leadership Principle criteria (customer_obsession,
+  simplifying_assumptions, frugality) are advisory judgment lenses and never
+  block on their own — implementation_readiness criteria are the blocking
+  gates on whether an agent could implement without inventing product
+  decisions.
+evaluationType: analytic
+judgeInstructions:
+  - Cite the relevant section and requirement/story ID for every finding.
+  - Leadership Principle criteria are decision-making lenses, not mechanical checks — cite specific evidence rather than scoring on vibe.
+  - A functional requirement with no Traces To story is a fail on functional_requirements regardless of prose quality.
+  - Decision Framing must name the actual walk-back path, not assert reversibility without one.
+  - Do not reward length; reward customer-traceable, testable, unambiguous requirements.
+passCriteria:
+    minCategoriesPassing: all_required
+    maxFindingsSeverity:
+        critical: 0
+        high: 0
+        medium: 0
+        low: -1
+categories:
+    - id: customer_obsession
+      name: Customer Obsession
+      description: Whether requirements clearly trace back to validated customer needs.
+      weight: 0.15
+      required: false
+      class: leadership_principle
+      blocking: false
+      evaluation: semantic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Every requirement traces to a specific customer need; customer voice evident throughout
+            - value: partial
+              label: Partial
+              criteria:
+                - Requirements exist but customer connection is weak
+            - value: fail
+              label: Fail
+              criteria:
+                - Requirements feel internally driven, not customer-driven
+    - id: problem_definition
+      name: Problem Definition
+      description: Clarity of the problem statement from user perspective.
+      weight: 0.15
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: semantic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Problem is specific, measurable, and clearly impacts users; worked backwards from customer
+            - value: partial
+              label: Partial
+              criteria:
+                - Problem exists but lacks specificity or customer grounding
+            - value: fail
+              label: Fail
+              criteria:
+                - No clear problem statement
+    - id: decision_reversibility
+      name: Decision Reversibility
+      description: Two-way-door profile — decisions framed for speed with an explicit walk-back path, and any hidden one-way-door element flagged.
+      weight: 0.10
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Decision Framing states reversibility with a concrete walk-back path (rollback, kill criteria, exit cost)
+                - Any latent one-way-door element is flagged for escalation rather than hidden
+            - value: partial
+              label: Partial
+              criteria:
+                - Reversibility assumed but the walk-back path is vague
+            - value: fail
+              label: Fail
+              criteria:
+                - No reversibility framing, or a one-way-door commitment hidden inside a two-way-door process
+    - id: goals_scope
+      name: Goals and Scope
+      description: Clarity of goals and explicit non-goals.
+      weight: 0.10
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Goals are SMART, non-goals explicitly stated, scope is bounded
+            - value: partial
+              label: Partial
+              criteria:
+                - Goals present but scope could be clearer
+            - value: fail
+              label: Fail
+              criteria:
+                - Goals and scope missing
+    - id: user_stories
+      name: User Stories
+      description: Quality, stable IDs, and completeness of user stories.
+      weight: 0.15
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Every story and acceptance criterion has a stable ID (US-N, AC-N-M)
+                - Stories are prioritized with clear, testable acceptance criteria
+            - value: partial
+              label: Partial
+              criteria:
+                - Stories exist but some lack IDs or acceptance criteria
+            - value: fail
+              label: Fail
+              criteria:
+                - User stories missing or inadequate
+    - id: functional_requirements
+      name: Functional Requirements
+      description: Completeness, traceability, and testability of functional requirements.
+      weight: 0.15
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Every FR has a Traces To story ID that exists in User Stories
+                - Requirements are complete and testable
+            - value: partial
+              label: Partial
+              criteria:
+                - Requirements exist but some untraced or vague
+            - value: fail
+              label: Fail
+              criteria:
+                - Functional requirements missing or untraced
+    - id: simplifying_assumptions
+      name: Simplifying Assumptions
+      description: Invent and Simplify — whether key simplifying assumptions are identified and justified.
+      weight: 0.05
+      required: false
+      class: leadership_principle
+      blocking: false
+      evaluation: semantic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Decision Framing lists simplifying assumptions with why each is safe to make
+            - value: partial
+              label: Partial
+              criteria:
+                - Some simplification mentioned without justification
+            - value: fail
+              label: Fail
+              criteria:
+                - No simplifying assumptions; solution feels overengineered
+    - id: frugality
+      name: Frugality
+      description: Whether requirements demonstrate an accomplish-more-with-less mindset.
+      weight: 0.05
+      required: false
+      class: leadership_principle
+      blocking: false
+      evaluation: semantic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Requirements focused on essential value; no gold-plating; constraints acknowledged
+            - value: partial
+              label: Partial
+              criteria:
+                - Some nice-to-haves but mostly focused
+            - value: fail
+              label: Fail
+              criteria:
+                - Kitchen sink approach; no prioritization
+    - id: success_metrics
+      name: Success Metrics
+      description: Definition of measurable success criteria, focused on inputs the team controls.
+      weight: 0.05
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - SMART metrics with baselines and targets; inputs the team controls, not just outputs
+            - value: partial
+              label: Partial
+              criteria:
+                - Some metrics but lacking specificity or too output-focused
+            - value: fail
+              label: Fail
+              criteria:
+                - Success metrics missing
+    - id: dependencies
+      name: Dependencies and Risks
+      description: Identification of dependencies and open questions.
+      weight: 0.05
+      required: false
+      class: specification_quality
+      blocking: false
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Dependencies mapped with status and risk mitigation
+            - value: partial
+              label: Partial
+              criteria:
+                - Some dependencies noted
+            - value: fail
+              label: Fail
+              criteria:
+                - Dependencies not addressed

@@ -9,6 +9,8 @@ spec_config:
   mrd:
     required: false
     category: source
+    template: {from: enterprise}
+    rubric: {from: enterprise}
   uxd:
     required: false
     category: source
@@ -18,15 +20,23 @@ spec_config:
   press:
     required: false
     category: gtm
+    template: {from: enterprise}
+    rubric: {from: enterprise}
   faq:
     required: false
     category: gtm
+    template: {from: enterprise}
+    rubric: {from: enterprise}
   narrative-1p:
     required: false
     category: gtm
+    template: {from: enterprise}
+    rubric: {from: enterprise}
   narrative-6p:
     required: false
     category: gtm
+    template: {from: enterprise}
+    rubric: {from: enterprise}
 
   # Technical specs: optional until architecture stabilizes
   trd:
@@ -36,3 +46,5 @@ spec_config:
   ird:
     required: false
     category: technical
+    template: {from: enterprise}
+    rubric: {from: enterprise}

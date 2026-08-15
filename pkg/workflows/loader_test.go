@@ -10,22 +10,22 @@ func TestDefaultLoader(t *testing.T) {
 	loader := DefaultLoader()
 
 	t.Run("loads embedded workflow", func(t *testing.T) {
-		w, err := loader.Load("aws-feature")
+		w, err := loader.Load("aws-two-way-door")
 		if err != nil {
-			t.Fatalf("Load(aws-feature) error: %v", err)
+			t.Fatalf("Load(aws-two-way-door) error: %v", err)
 		}
-		if w.Workflow.Name != "aws-feature" {
-			t.Errorf("Name = %q, want %q", w.Workflow.Name, "aws-feature")
+		if w.Workflow.Name != "aws-two-way-door" {
+			t.Errorf("Name = %q, want %q", w.Workflow.Name, "aws-two-way-door")
 		}
 	})
 
 	t.Run("resolves inheritance", func(t *testing.T) {
-		w, err := loader.Load("aws-feature")
+		w, err := loader.Load("aws-two-way-door")
 		if err != nil {
-			t.Fatalf("Load(aws-feature) error: %v", err)
+			t.Fatalf("Load(aws-two-way-door) error: %v", err)
 		}
 
-		// aws-feature extends enterprise, so should have enterprise's specs merged
+		// aws-two-way-door extends enterprise, so should have enterprise's specs merged
 		if w.Workflow.SpecConfig == nil {
 			t.Fatal("SpecConfig is nil after inheritance resolution")
 		}
@@ -35,19 +35,19 @@ func TestDefaultLoader(t *testing.T) {
 			t.Error("Expected inherited 'mrd' spec config from enterprise")
 		}
 
-		// Check that aws-feature's "opportunity-spec" is present
+		// Check that aws-two-way-door's "opportunity-spec" is present
 		if _, ok := w.Workflow.SpecConfig["opportunity-spec"]; !ok {
-			t.Error("Expected 'opportunity-spec' from aws-feature")
+			t.Error("Expected 'opportunity-spec' from aws-two-way-door")
 		}
 	})
 
 	t.Run("inherits templates from parent", func(t *testing.T) {
-		w, err := loader.Load("aws-feature")
+		w, err := loader.Load("aws-two-way-door")
 		if err != nil {
-			t.Fatalf("Load(aws-feature) error: %v", err)
+			t.Fatalf("Load(aws-two-way-door) error: %v", err)
 		}
 
-		// Should have templates from both aws-feature and enterprise
+		// Should have templates from both aws-two-way-door and enterprise
 		if len(w.Templates) == 0 {
 			t.Error("Expected templates after inheritance")
 		}
@@ -130,12 +130,12 @@ description: A custom workflow for testing
 	})
 
 	t.Run("falls back to embedded", func(t *testing.T) {
-		w, err := loader.Load("aws-feature")
+		w, err := loader.Load("aws-two-way-door")
 		if err != nil {
-			t.Fatalf("Load(aws-feature) error: %v", err)
+			t.Fatalf("Load(aws-two-way-door) error: %v", err)
 		}
-		if w.Workflow.Name != "aws-feature" {
-			t.Errorf("Name = %q, want %q", w.Workflow.Name, "aws-feature")
+		if w.Workflow.Name != "aws-two-way-door" {
+			t.Errorf("Name = %q, want %q", w.Workflow.Name, "aws-two-way-door")
 		}
 	})
 
@@ -148,7 +148,7 @@ description: A custom workflow for testing
 			if name == "custom-workflow" {
 				hasCustom = true
 			}
-			if name == "aws-feature" {
+			if name == "aws-two-way-door" {
 				hasEmbedded = true
 			}
 		}
@@ -157,7 +157,7 @@ description: A custom workflow for testing
 			t.Error("Available() missing custom-workflow")
 		}
 		if !hasEmbedded {
-			t.Error("Available() missing aws-feature")
+			t.Error("Available() missing aws-two-way-door")
 		}
 	})
 }
@@ -317,8 +317,62 @@ extends: workflow-a
 	if err == nil {
 		t.Error("Expected error for circular inheritance")
 	}
-	if err != nil && !contains(err.Error(), "circular inheritance") {
-		t.Errorf("Expected circular inheritance error, got: %v", err)
+	if err != nil && !contains(err.Error(), "circular workflow reference") {
+		t.Errorf("Expected circular reference error, got: %v", err)
+	}
+}
+
+// TestResolvingLoader_SourceNamingDescendantIsCycle guards the recursion trap
+// explicit provenance introduces: a spec_config template/rubric source is
+// resolved with full inheritance, so a source naming a descendant of the
+// declaring workflow (whose extends chain necessarily returns to it) must fail
+// as a circular reference — under a fresh resolution chain it would recurse
+// until stack exhaustion instead.
+func TestResolvingLoader_SourceNamingDescendantIsCycle(t *testing.T) {
+	tmpDir := t.TempDir()
+
+	// parent declares a template source naming its own descendant.
+	parentDir := filepath.Join(tmpDir, "parent")
+	if err := os.MkdirAll(filepath.Join(parentDir, "templates"), 0750); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.WriteFile(filepath.Join(parentDir, "profile.yaml"), []byte(`name: parent
+spec_config:
+  prd:
+    required: true
+    template: {from: child}
+`), 0600); err != nil {
+		t.Fatal(err)
+	}
+
+	// child extends parent and owns the template file the parent points at.
+	childDir := filepath.Join(tmpDir, "child")
+	if err := os.MkdirAll(filepath.Join(childDir, "templates"), 0750); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.WriteFile(filepath.Join(childDir, "profile.yaml"), []byte(`name: child
+extends: parent
+`), 0600); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.WriteFile(filepath.Join(childDir, "templates", "prd.md"), []byte("# PRD\n"), 0600); err != nil {
+		t.Fatal(err)
+	}
+
+	loader := NewResolvingLoader(NewFileLoader(tmpDir))
+
+	// Both entry points hit the cycle: loading the parent resolves its source
+	// into the child, whose extends returns to the parent; loading the child
+	// reaches the same source via its parent.
+	for _, name := range []string{"parent", "child"} {
+		_, err := loader.Load(name)
+		if err == nil {
+			t.Errorf("Load(%q): expected circular reference error, got nil", name)
+			continue
+		}
+		if !contains(err.Error(), "circular workflow reference") {
+			t.Errorf("Load(%q): expected circular reference error, got: %v", name, err)
+		}
 	}
 }
 

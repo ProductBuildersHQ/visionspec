@@ -8,6 +8,23 @@
 **Version:** 1.0
 **Status:** Draft
 
+The IRD is the **infrastructure contract**: what the infrastructure MUST
+guarantee, tool-agnostic (Terraform, CloudFormation, Pulumi, or other IaC).
+The TRD states what the application must guarantee; this document states what
+the infrastructure underneath it must guarantee. If this change has no
+infrastructure impact, do not skip this document — complete §1–2 and the
+declaration below instead.
+
+### No Infrastructure Changes (if applicable)
+
+**Infrastructure impact:** {{ None | See below }}
+
+<!-- If None: state the rationale and the evidence it rests on, so "no
+     infrastructure changes" is a reviewed decision, not a skipped section. -->
+
+**Rationale:**
+**Evidence:** <!-- e.g., TRD capacity analysis, existing resource headroom -->
+
 ## 1. Introduction
 
 ### 1.1 Purpose
@@ -26,271 +43,189 @@
 | PRD | |
 | Security Policy | |
 
-## 2. Infrastructure Overview
+## 2. Infrastructure Requirements and Traceability
 
-### 2.1 Architecture Diagram
+| IRD ID | Requirement | Source (TRD ID) | Verification (TPD ID) |
+|--------|-------------|-------------------|--------------------------|
+| IRD-001 | *e.g., "The API workload MUST have no public ingress."* | TRD-xxx | TPD-INFRA-xxx |
+
+## 3. Environment Model
+
+| Environment | Account / Project / Tenant | Region | Purpose |
+|-------------|------------------------------|--------|---------|
+| Development | | | Dev/testing |
+| Staging | | | Pre-production |
+| Production | | | Live traffic |
+| DR | | | Disaster recovery |
+
+- **Isolation boundaries:** <!-- how environments/tenants are separated -->
+- **Naming and tagging conventions:** <!-- resource naming, cost-allocation tags -->
+- **Configuration ownership:** <!-- what's shared vs. environment-specific -->
+- **Promotion model:** <!-- how a change moves dev → staging → prod -->
+
+## 4. Architecture Diagram
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                     Infrastructure Overview                   │
 ├─────────────────────────────────────────────────────────────┤
-│                                                               │
 │   [Load Balancer] ──► [App Servers] ──► [Database]          │
-│                                                               │
 └─────────────────────────────────────────────────────────────┘
 ```
 
-### 2.2 Environment Summary
+## 5. Compute Resources
 
-| Environment | Purpose | Region | Tier |
-|-------------|---------|--------|------|
-| Development | Dev/testing | | |
-| Staging | Pre-production | | |
-| Production | Live traffic | | |
-| DR | Disaster recovery | | |
-
-## 3. Compute Resources
-
-### 3.1 Application Servers
+### 5.1 Application Servers
 
 | Component | Instance Type | Count (Min) | Count (Max) | Auto-scale |
 |-----------|---------------|-------------|-------------|------------|
 | Web Server | | | | Yes/No |
 | App Server | | | | Yes/No |
-| Worker | | | | Yes/No |
 
-### 3.2 Container Orchestration
+### 5.2 Container Orchestration / Serverless
 
 | Attribute | Value |
 |-----------|-------|
-| Platform | <!-- Kubernetes, ECS, etc. --> |
-| Cluster Size | |
-| Node Type | |
-| Namespaces | |
+| Platform | <!-- Kubernetes, ECS, Lambda, etc. --> |
+| Cluster / Function Config | |
 
-### 3.3 Serverless Functions
+## 6. Data Storage
 
-| Function | Runtime | Memory | Timeout | Trigger |
-|----------|---------|--------|---------|---------|
-| | | | | |
+### 6.1 Databases and Storage
 
-## 4. Data Storage
+| Resource | Type | Size | Replicas | Backup |
+|----------|------|------|----------|--------|
+| Primary DB | | | | Daily |
 
-### 4.1 Databases
-
-| Database | Type | Engine | Size | Replicas | Backup |
-|----------|------|--------|------|----------|--------|
-| Primary | Relational | PostgreSQL | | | Daily |
-| Cache | In-memory | Redis | | | |
-| Search | Document | Elasticsearch | | | |
-
-### 4.2 Object Storage
-
-| Bucket | Purpose | Lifecycle | Replication |
-|--------|---------|-----------|-------------|
-| | | | |
-
-### 4.3 File Storage
-
-| Mount | Size | Type | Backup |
-|-------|------|------|--------|
-| | | | |
-
-### 4.4 Backup and Recovery
+### 6.2 Backup and Recovery
 
 | Data Type | Backup Frequency | Retention | RTO | RPO |
 |-----------|------------------|-----------|-----|-----|
-| Database | Daily | 30 days | 4h | 1h |
-| Objects | | | | |
-| Configs | | | | |
+| Database | | | | |
 
-## 5. Networking
+## 7. Networking
 
-### 5.1 Network Architecture
-
-| Component | CIDR | Purpose |
-|-----------|------|---------|
+| Component | CIDR / Config | Purpose |
+|-----------|----------------|---------|
 | VPC | 10.0.0.0/16 | Main network |
 | Public Subnet | 10.0.1.0/24 | Load balancers |
 | Private Subnet | 10.0.2.0/24 | Application |
 | Data Subnet | 10.0.3.0/24 | Databases |
 
-### 5.2 Load Balancing
+## 8. Resource Lifecycle
 
-| Load Balancer | Type | Protocol | Health Check |
-|---------------|------|----------|--------------|
-| | ALB/NLB | HTTP/HTTPS | |
+*A valid deployment can still produce an unsafe replacement. This section is
+what prevents that — for every resource category that holds state or data.*
 
-### 5.3 DNS
+| Resource Category | Create | Update | Replace | Delete | Protected? |
+|---------------------|--------|--------|---------|--------|-------------|
+| Data-bearing (DB, storage) | | | Backup before replace | Deny by default | Yes |
+| Disposable (compute, cache) | | | | | No |
 
-| Domain | Record Type | Target |
-|--------|-------------|--------|
-| | A/CNAME | |
+- **Expected replacements:** <!-- which changes are known to force a resource replacement, documented in advance -->
+- **Import / adoption of existing resources:** <!-- how pre-existing resources enter management -->
+- **Behavior during full stack destruction:** <!-- what survives, what doesn't -->
 
-### 5.4 CDN
+## 9. Security
 
-| Distribution | Origin | Cache TTL | Geographic |
-|--------------|--------|-----------|------------|
-| | | | |
-
-## 6. Security
-
-### 6.1 Identity and Access Management
+### 9.1 Identity and Access
 
 | Role | Permissions | Principal |
 |------|-------------|-----------|
 | Admin | Full access | |
-| Developer | Read/Write | |
+| Deploy | Apply/plan | |
 | Read-only | Read | |
 
-### 6.2 Network Security
+### 9.2 Network Security
 
 | Security Group | Inbound | Outbound | Associated |
 |----------------|---------|----------|------------|
 | Web | 443 from 0.0.0.0/0 | All | Load Balancer |
-| App | 8080 from Web SG | All | App Servers |
 | Data | 5432 from App SG | None | Database |
 
-### 6.3 Encryption
+### 9.3 Secrets and Encryption
 
-| Data State | Method | Key Management |
-|------------|--------|----------------|
+| Data State / Item | Method | Owner / Rotation |
+|-----------------------|--------|---------------------|
 | At rest | AES-256 | KMS |
 | In transit | TLS 1.3 | ACM |
-| Secrets | | Secrets Manager |
+| Secrets | Secrets Manager / equivalent | <!-- rotation policy --> |
 
-### 6.4 Compliance
+**Prohibited:** Plaintext secrets in stack outputs, state files committed to
+version control, or long-lived static credentials where a workload identity
+is available.
+
+### 9.4 Compliance
 
 | Requirement | Implementation | Validation |
 |-------------|----------------|------------|
-| SOC 2 | | |
-| GDPR | | |
-| PCI-DSS | | |
+| SOC 2 / GDPR / PCI-DSS (as applicable) | | |
 
-## 7. Observability
+## 10. Observability
 
-### 7.1 Logging
-
-| Log Type | Destination | Retention | Alert |
-|----------|-------------|-----------|-------|
-| Application | | 30 days | |
-| Access | | 90 days | |
+| Type | Destination | Retention | Alert |
+|------|--------------|-----------|-------|
+| Logs | | 30 days | |
+| Metrics | | | > threshold |
+| Traces | | | |
 | Audit | | 1 year | |
 
-### 7.2 Metrics
-
-| Metric | Source | Dashboard | Alert Threshold |
-|--------|--------|-----------|-----------------|
-| CPU | | | > 80% |
-| Memory | | | > 85% |
-| Disk | | | > 90% |
-| Latency | | | > 500ms |
-
-### 7.3 Tracing
-
-| Service | Sampling Rate | Integration |
-|---------|---------------|-------------|
-| | | |
-
-### 7.4 Alerting
-
-| Alert | Condition | Severity | Notification |
-|-------|-----------|----------|--------------|
-| High CPU | > 80% for 5m | Warning | Slack |
-| Service Down | Health check fail | Critical | PagerDuty |
-| | | | |
-
-## 8. High Availability and Disaster Recovery
-
-### 8.1 Availability Targets
+## 11. High Availability and Disaster Recovery
 
 | Metric | Target |
 |--------|--------|
-| Uptime SLA | 99.9% |
-| RTO | 4 hours |
-| RPO | 1 hour |
-| MTTR | 30 minutes |
+| Uptime SLA | |
+| RTO | |
+| RPO | |
 
-### 8.2 Redundancy
+| Scenario | Recovery Procedure | Last Tested |
+|----------|-----------------------|--------------|
+| AZ / node failure | | |
+| Region failure | | |
+| Data corruption | Point-in-time restore | |
 
-| Component | Redundancy | Failover |
-|-----------|------------|----------|
-| Load Balancer | Multi-AZ | Automatic |
-| App Servers | Multi-AZ | Automatic |
-| Database | Multi-AZ + Read Replicas | Automatic |
+*"Last Tested" is not optional for a Pass — a documented recovery procedure
+that has never been executed is a gap, not a guarantee.*
 
-### 8.3 Disaster Recovery
+## 12. Cost
 
-| Scenario | Recovery Procedure | Tested |
-|----------|-------------------|--------|
-| AZ failure | Auto-failover | Yes/No |
-| Region failure | Manual DR activation | Yes/No |
-| Data corruption | Point-in-time recovery | Yes/No |
+| Resource | Quantity | Monthly Cost |
+|----------|----------|---------------|
+| | | |
+| **Total** | | |
 
-## 9. Cost Estimation
+## 13. Deployment Guarantees
 
-### 9.1 Monthly Cost Breakdown
+*The mechanics of getting a change safely into production, tool-agnostic.*
 
-| Resource | Quantity | Unit Cost | Monthly Cost |
-|----------|----------|-----------|--------------|
-| Compute | | | |
-| Database | | | |
-| Storage | | | |
-| Network | | | |
-| **Total** | | | |
+- **Preview / plan required before production apply:** <!-- yes/no, enforced how -->
+- **Policy validation:** <!-- what's checked before apply (e.g., no public buckets) -->
+- **Drift detection:** <!-- how divergence between desired and actual state is caught -->
+- **Deployment ordering:** <!-- dependency order across stacks/modules -->
+- **Approval requirements:** <!-- who must approve a production apply -->
+- **Failure and retry behavior:** <!-- what happens when an apply fails partway -->
+- **Rollback vs. roll-forward:** <!-- for data-bearing resources, rollback is often not
+     safe — state the actual recovery strategy -->
 
-### 9.2 Cost Optimization
-
-| Opportunity | Savings | Implementation |
-|-------------|---------|----------------|
-| Reserved instances | | |
-| Spot instances | | |
-| Right-sizing | | |
-
-## 10. Provisioning and Automation
-
-### 10.1 Infrastructure as Code
+## 14. Provisioning
 
 | Tool | Repository | Coverage |
 |------|------------|----------|
-| Terraform | | |
-| CloudFormation | | |
-| Ansible | | |
+| | | |
 
-### 10.2 CI/CD Integration
+## 15. Operations
 
-<!-- How is infrastructure deployed through CI/CD? -->
-
-### 10.3 Configuration Management
-
-| Config Type | Storage | Update Process |
-|-------------|---------|----------------|
-| App config | | |
-| Secrets | | |
-| Feature flags | | |
-
-## 11. Operations
-
-### 11.1 Runbooks
+### 15.1 Runbooks
 
 | Runbook | Scenario | Location |
 |---------|----------|----------|
 | | | |
 
-### 11.2 Maintenance Windows
-
-| Activity | Frequency | Duration | Impact |
-|----------|-----------|----------|--------|
-| Patching | Monthly | 2 hours | Minimal |
-| Upgrades | Quarterly | 4 hours | Downtime |
-
-### 11.3 On-Call
+### 15.2 On-Call
 
 | Tier | Response Time | Escalation |
 |------|---------------|------------|
-| L1 | 15 minutes | |
-| L2 | 30 minutes | |
-| L3 | 1 hour | |
+| L1 | | |
 
 ## Appendix
 
@@ -298,7 +233,6 @@
 
 | Resource ID | Type | Environment | Owner |
 |-------------|------|-------------|-------|
-| | | | |
 
 ### B. Revision History
 

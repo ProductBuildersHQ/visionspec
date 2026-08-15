@@ -10,6 +10,12 @@
 | Reviewers | |
 | Last Updated | |
 
+The UXD is the **experience contract**: normative user-visible interaction
+behavior. Backend implementation details belong in the TRD. Every interaction
+below has a stated resulting state, every journey traces to the PRD story it
+serves, and every piece of copy is marked final or explicitly provisional —
+an agent should never have to guess whether placeholder text is real.
+
 ## Executive Summary
 
 <!-- Overview of UX goals and approach -->
@@ -18,7 +24,6 @@
 
 1. **[Principle 1]:** Description
 2. **[Principle 2]:** Description
-3. **[Principle 3]:** Description
 
 ## User Research Summary
 
@@ -33,28 +38,40 @@
 
 1. [Insight 1]
 2. [Insight 2]
-3. [Insight 3]
 
 ## User Journeys
 
+*Every journey traces to the PRD story it serves. Every step has a resulting
+state — "then what?" should never be unanswered.*
+
 ### Journey 1: [Journey Name]
+
+**Traces to:** US-001
 
 **Persona:** [Persona name]
 
 **Goal:** [What the user wants to accomplish]
 
-| Step | User Action | System Response | Emotional State |
-|------|-------------|-----------------|-----------------|
+| Step | User Action | System Response | Resulting State |
+|------|-------------|-------------------|--------------------|
 | 1 | | | |
 | 2 | | | |
-| 3 | | | |
 
 **Success Criteria:**
 
 - [ ] [Criteria 1]
-- [ ] [Criteria 2]
 
 ---
+
+## Permission-Differentiated Views
+
+*If any part of this experience differs by role or permission level, state
+the difference explicitly — do not leave it to be inferred from the primary
+flow.*
+
+| View / Element | Role / Permission | Difference from Primary Flow |
+|-------------------|----------------------|----------------------------------|
+| | | *or "Not applicable — single-permission experience"* |
 
 ## Information Architecture
 
@@ -63,12 +80,7 @@
 ```
 [Primary Nav Item 1]
 ├── [Sub-item 1.1]
-├── [Sub-item 1.2]
-└── [Sub-item 1.3]
-
-[Primary Nav Item 2]
-├── [Sub-item 2.1]
-└── [Sub-item 2.2]
+└── [Sub-item 1.2]
 ```
 
 ### Content Hierarchy
@@ -77,9 +89,12 @@
 
 ## Interaction Design
 
-### Core Interactions
+*Every interaction states its resulting state or outcome — a button with no
+defined result is incomplete, not implied.*
 
 #### Interaction 1: [Name]
+
+**Traces to:** US-001 / FR-001
 
 **Trigger:** [What initiates this interaction]
 
@@ -87,9 +102,10 @@
 
 1. [Step 1]
 2. [Step 2]
-3. [Step 3]
 
-**Feedback:** [How the system communicates state]
+**Resulting State / Outcome:** [What state the UI is in after this completes]
+
+**Feedback:** [How the system communicates state during/after]
 
 **Error Handling:** [How errors are communicated]
 
@@ -101,94 +117,27 @@
 
 ### Perceivable
 
-#### Text Alternatives (1.1)
-
 - [ ] All non-text content has text alternatives
-- [ ] Complex images have long descriptions
-- [ ] Decorative images are marked appropriately
-
-#### Time-based Media (1.2)
-
-- [ ] Videos have captions
-- [ ] Audio has transcripts
-- [ ] Live content has real-time captions (if applicable)
-
-#### Adaptable (1.3)
-
-- [ ] Information structure is programmatically determinable
-- [ ] Reading sequence is logical
-- [ ] Instructions don't rely solely on sensory characteristics
-
-#### Distinguishable (1.4)
-
 - [ ] Color contrast ratio: 4.5:1 for normal text, 3:1 for large text
 - [ ] Text can be resized to 200% without loss of content
 - [ ] Color is not the only means of conveying information
-- [ ] Audio controls are available
-- [ ] Reflow works at 320px width
 
 ### Operable
 
-#### Keyboard Accessible (2.1)
-
 - [ ] All functionality available via keyboard
 - [ ] No keyboard traps
-- [ ] Keyboard shortcuts documented and non-conflicting
-- [ ] Focus order is logical
-
-#### Enough Time (2.2)
-
-- [ ] Timing adjustable or can be turned off
-- [ ] Moving content can be paused
-- [ ] No time limits on reading (or adjustable)
-
-#### Seizures and Physical Reactions (2.3)
-
-- [ ] No content flashes more than 3 times per second
-- [ ] Motion can be disabled
-
-#### Navigable (2.4)
-
-- [ ] Skip links provided
-- [ ] Pages have descriptive titles
-- [ ] Focus visible at all times
-- [ ] Link purpose clear from context
-- [ ] Multiple ways to find pages
-- [ ] Headings and labels describe topic
-
-#### Input Modalities (2.5)
-
+- [ ] Focus order is logical and focus is visible at all times
 - [ ] Touch targets minimum 44x44 CSS pixels
-- [ ] Pointer gestures have alternatives
-- [ ] Motion actuation can be disabled
+- [ ] Timing adjustable or can be turned off
 
 ### Understandable
 
-#### Readable (3.1)
-
-- [ ] Language of page identified
-- [ ] Language of parts identified
-- [ ] Unusual words defined
-- [ ] Abbreviations expanded
-
-#### Predictable (3.2)
-
-- [ ] Focus doesn't change context unexpectedly
-- [ ] Input doesn't change context unexpectedly
-- [ ] Navigation consistent across pages
-
-#### Input Assistance (3.3)
-
-- [ ] Errors identified and described
-- [ ] Labels and instructions provided
-- [ ] Error suggestions provided
-- [ ] Error prevention for important submissions
+- [ ] Language of page/parts identified
+- [ ] Focus and input don't change context unexpectedly
+- [ ] Errors identified, described, and paired with a suggestion
 
 ### Robust
 
-#### Compatible (4.1)
-
-- [ ] HTML validates
 - [ ] ARIA used correctly
 - [ ] Status messages announced to assistive technology
 
@@ -199,22 +148,16 @@
 | Automated | axe-core, Lighthouse | Every build |
 | Manual | Keyboard-only navigation | Before release |
 | Screen reader | NVDA, VoiceOver | Before release |
-| Color contrast | Contrast checker | Design review |
 
 ## Responsive Design
 
 ### Breakpoints
 
 | Breakpoint | Width | Layout Changes |
-|------------|-------|----------------|
+|------------|-------|-------------------|
 | Mobile | 320-767px | |
 | Tablet | 768-1023px | |
-| Desktop | 1024-1439px | |
-| Large Desktop | 1440px+ | |
-
-### Component Behavior
-
-<!-- How components adapt across breakpoints -->
+| Desktop | 1024px+ | |
 
 ## Visual Design
 
@@ -222,62 +165,34 @@
 
 - [ ] Using [Design System Name] v[version]
 - [ ] Component library: [Link]
-- [ ] Icon set: [Name]
 
-### Color Palette
+### Color and Typography
 
-| Usage | Color | Hex | Contrast Ratio |
-|-------|-------|-----|----------------|
+| Usage | Color/Font | Value | Contrast Ratio |
+|-------|------------|-------|-------------------|
 | Primary | | | |
-| Secondary | | | |
 | Error | | | |
-| Success | | | |
 
-### Typography
+## User-Visible States
 
-| Usage | Font | Size | Weight | Line Height |
-|-------|------|------|--------|-------------|
-| H1 | | | | |
-| Body | | | | |
-| Caption | | | | |
+*Every flow's full state set — not only the happy path. A state left out here
+is a state an implementer will invent.*
 
-## Error States
+| Flow | Loading | Empty | Error | Timeout | Recovery |
+|------|---------|-------|-------|---------|----------|
+| | | | | | |
 
-### Error Type 1: [Name]
+### State Detail Template
 
-**Trigger:** [What causes this error]
+#### [State Name]
 
-**Message:** [Exact error message text]
+**Trigger:** [What causes this state]
 
-**Recovery:** [How user can recover]
+**Message / Copy:** [Exact text]
 
-**Visual Treatment:** [How it appears]
+**Copy status:** {{ Final | Provisional — <what's pending> }}
 
----
-
-## Loading States
-
-### Loading Pattern 1: [Name]
-
-**Trigger:** [When this appears]
-
-**Duration:** [Expected duration]
-
-**Visual Treatment:** [Skeleton, spinner, etc.]
-
-**Fallback:** [If loading fails]
-
----
-
-## Empty States
-
-### Empty State 1: [Name]
-
-**Context:** [When this appears]
-
-**Message:** [Exact text]
-
-**Call to Action:** [What user can do]
+**Recovery / Next Action:** [How the user proceeds, if applicable]
 
 ---
 
@@ -285,22 +200,19 @@
 
 - [ ] RTL support required: Yes / No
 - [ ] Languages supported: [List]
-- [ ] Date/time formats: [Strategy]
-- [ ] Number formats: [Strategy]
-- [ ] Text expansion: [20-30% buffer]
+- [ ] Text expansion buffer: [e.g., 20-30%]
 
 ## Prototype Links
 
-| Platform | Link | Password |
-|----------|------|----------|
-| Figma | | |
-| Prototype | | |
+| Platform | Link |
+|----------|------|
+| Figma | |
 
 ## Open Questions
 
-| # | Question | Owner | Due Date | Resolution |
-|---|----------|-------|----------|------------|
-| 1 | | | | |
+| # | Question | Owner | Resolution |
+|---|----------|-------|------------|
+| 1 | | | |
 
 ---
 

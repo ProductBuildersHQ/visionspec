@@ -10,8 +10,8 @@ func TestGet(t *testing.T) {
 		wantErr bool
 	}{
 		{"enterprise", false},
-		{"aws-feature", false},
-		{"aws-product", false},
+		{"aws-two-way-door", false},
+		{"aws-one-way-door", false},
 		{"nonexistent", true},
 	}
 
@@ -45,9 +45,9 @@ func TestList(t *testing.T) {
 
 	// Check expected workflows are present
 	expected := map[string]bool{
-		"enterprise":  false,
-		"aws-feature": false,
-		"aws-product": false,
+		"enterprise":       false,
+		"aws-two-way-door": false,
+		"aws-one-way-door": false,
 	}
 	for _, name := range names {
 		expected[name] = true
@@ -60,19 +60,19 @@ func TestList(t *testing.T) {
 }
 
 func TestTemplatesLoaded(t *testing.T) {
-	w, err := Get("aws-feature")
+	w, err := Get("aws-two-way-door")
 	if err != nil {
-		t.Fatalf("Get(aws-feature) error: %v", err)
+		t.Fatalf("Get(aws-two-way-door) error: %v", err)
 	}
 
 	if len(w.Templates) == 0 {
-		t.Error("aws-feature has no templates loaded")
+		t.Error("aws-two-way-door has no templates loaded")
 	}
 
 	// Check press template has content
 	press, ok := w.Templates["press"]
 	if !ok {
-		t.Fatal("aws-feature missing press template")
+		t.Fatal("aws-two-way-door missing press template")
 	}
 	if press.Content == "" {
 		t.Error("press template has no content")
@@ -83,19 +83,19 @@ func TestTemplatesLoaded(t *testing.T) {
 }
 
 func TestRubricsLoaded(t *testing.T) {
-	w, err := Get("aws-feature")
+	w, err := Get("aws-two-way-door")
 	if err != nil {
-		t.Fatalf("Get(aws-feature) error: %v", err)
+		t.Fatalf("Get(aws-two-way-door) error: %v", err)
 	}
 
 	if len(w.Rubrics) == 0 {
-		t.Error("aws-feature has no rubrics loaded")
+		t.Error("aws-two-way-door has no rubrics loaded")
 	}
 
 	// Check press rubric is loaded
 	press, ok := w.Rubrics["press"]
 	if !ok {
-		t.Fatal("aws-feature missing press rubric")
+		t.Fatal("aws-two-way-door missing press rubric")
 	}
 	if press.ID == "" {
 		t.Error("press rubric has no ID")
@@ -115,21 +115,21 @@ func TestMustGetPanics(t *testing.T) {
 }
 
 func TestWorkflowInheritance(t *testing.T) {
-	awsFeature, err := Get("aws-feature")
+	awsFeature, err := Get("aws-two-way-door")
 	if err != nil {
-		t.Fatalf("Get(aws-feature) error: %v", err)
+		t.Fatalf("Get(aws-two-way-door) error: %v", err)
 	}
 
-	// aws-feature extends enterprise
+	// aws-two-way-door extends enterprise
 	if awsFeature.Workflow.Extends != "enterprise" {
-		t.Errorf("aws-feature.Extends = %q, want %q", awsFeature.Workflow.Extends, "enterprise")
+		t.Errorf("aws-two-way-door.Extends = %q, want %q", awsFeature.Workflow.Extends, "enterprise")
 	}
 
 	// Check methodology is set
 	if awsFeature.Workflow.Methodology == nil {
-		t.Error("aws-feature.Methodology is nil")
+		t.Error("aws-two-way-door.Methodology is nil")
 	}
 	if awsFeature.Workflow.Methodology.Name == "" {
-		t.Error("aws-feature.Methodology.Name is empty")
+		t.Error("aws-two-way-door.Methodology.Name is empty")
 	}
 }

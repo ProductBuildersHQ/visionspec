@@ -93,8 +93,8 @@ func (w *Workflow) Clone() *Workflow {
 				Required:    v.Required,
 				Category:    v.Category,
 				Description: v.Description,
-				Template:    v.Template,
-				Rubric:      v.Rubric,
+				Template:    v.Template.clone(),
+				Rubric:      v.Rubric.clone(),
 			}
 		}
 	}

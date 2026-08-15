@@ -1,0 +1,57 @@
+# prism-sync manifest: which prism-roadmap templates and rubrics land in which
+# workflow directories. prism-roadmap is the source of truth for these files;
+# the copies here are embedded so the library stays self-contained.
+#
+# Run from the repo root:
+#
+#   go run -C tools/prism-sync . [-check]
+
+templates:
+  - name: bmc
+    workflows: [enterprise]
+  - name: opportunity-spec
+    workflows: [enterprise]
+  - name: ost
+    workflows: [continuous-discovery]
+  - name: assumption-map
+    workflows: [continuous-discovery]
+  - name: discovery-snapshot
+    workflows: [continuous-discovery]
+  - name: v2mom-vision
+    workflows: [v2mom]
+  - name: v2mom-values
+    workflows: [v2mom]
+  - name: v2mom-methods
+    workflows: [v2mom]
+  - name: v2mom-obstacles
+    workflows: [v2mom]
+  - name: v2mom-measures
+    workflows: [v2mom]
+  - name: v2mom-alignment
+    workflows: [v2mom]
+  - name: v2mom-summary
+    workflows: [v2mom]
+
+rubrics:
+  - name: bmc
+    workflows: [enterprise]
+  - name: opportunity-spec
+    workflows: [enterprise]
+  - name: ost
+    workflows: [continuous-discovery]
+  - name: assumption-map
+    workflows: [continuous-discovery]
+  - name: discovery-snapshot
+    workflows: [continuous-discovery]
+  - name: v2mom-vision
+    workflows: [v2mom]
+  - name: v2mom-values
+    workflows: [v2mom]
+  - name: v2mom-methods
+    workflows: [v2mom]
+  - name: v2mom-obstacles
+    workflows: [v2mom]
+  - name: v2mom-measures
+    workflows: [v2mom]
+  - name: v2mom-alignment
+    workflows: [v2mom]

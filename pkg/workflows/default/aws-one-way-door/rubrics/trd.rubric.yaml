@@ -1,0 +1,267 @@
+id: trd-rubric
+name: AWS Product TRD Rubric
+version: "2.0"
+description: >-
+  Technical Requirements Document evaluation for product-level one-way-door
+  launches. implementation_readiness categories are blocking gates on whether
+  the irreversible technical commitments are named, contained, and explicit
+  enough to implement without guessing; technical_ownership is a Leadership
+  Principle lens (Ownership, Dive Deep, Invent and Simplify, Highest
+  Standards) and never blocks on its own.
+evaluationType: analytic
+judgeInstructions:
+  - Cite the relevant section and TRD/PRD/TPD ID for every finding.
+  - A traceability row with a Source or Verification reference that does not exist elsewhere in the document set is a fail, not a pass.
+  - A public commitment (endpoint marked Public Commitment, externally visible field) with no §6.3 versioning and deprecation policy is a fail on interface_contracts.
+  - A §3.1 technical one-way door that carries no PRD OWD-N reference is an escalation finding, not a pass.
+  - A compatibility/migration section marked Not applicable with a real rationale is a pass; blank is a fail.
+  - Do not reward length; reward guarantees explicit enough for an agent to implement without inventing behavior.
+passCriteria:
+    minCategoriesPassing: all_required
+    maxFindingsSeverity:
+        critical: 0
+        high: 0
+        medium: 2
+        low: -1
+categories:
+    - id: requirements_traceability
+      name: Requirements Traceability
+      description: Does every TRD requirement trace to a PRD/UXD source and a TPD verification?
+      weight: 0.14
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Every TRD-ID row has a Source reference (PRD/UXD) and a Verification reference (TPD)
+            - value: partial
+              label: Partial
+              criteria:
+                - Some traceability but gaps exist
+            - value: fail
+              label: Fail
+              criteria:
+                - No traceability to requirements
+    - id: door_classification
+      name: Technical Door Classification
+      description: Are irreversible technical commitments named, tied to PRD OWD-N rows, and contained — with reversible decisions separated for speed?
+      weight: 0.12
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Every §3.1 row names the commitment, the PRD OWD-N it carries, why it is irreversible, and what stays reversible around it
+                - Reversible technical decisions listed in §3.2 with walk-back paths
+            - value: partial
+              label: Partial
+              criteria:
+                - Doors classified but containment or PRD linkage missing
+            - value: fail
+              label: Fail
+              criteria:
+                - No door classification, or an obviously irreversible element (public contract, data model) absent from §3.1
+    - id: invariants
+      name: Invariants
+      description: Are cross-cutting guarantees stated as explicit, testable invariants?
+      weight: 0.10
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: semantic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - MUST/MUST NOT invariants cover the system's blast radius, including data integrity and tenancy
+            - value: partial
+              label: Partial
+              criteria:
+                - Invariants present but vague or not testable
+            - value: fail
+              label: Fail
+              criteria:
+                - Section empty
+    - id: architecture_context
+      name: Architecture Context
+      description: High-level architecture, component responsibilities, and data flow.
+      weight: 0.08
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: semantic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Architecture diagram with component responsibilities and key data flows
+            - value: partial
+              label: Partial
+              criteria:
+                - Architecture sketched but responsibilities or flows unclear
+            - value: fail
+              label: Fail
+              criteria:
+                - No architecture context
+    - id: interface_contracts
+      name: Interface Contracts
+      description: Complete public interface contracts including versioning and deprecation policy — the one-way door itself.
+      weight: 0.14
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Operations marked as public commitments or not; request/response contracts with validation
+                - "§6.3 states versioning scheme, compatibility promise, and deprecation policy for every public commitment"
+                - Error semantics, idempotency, and rate limits addressed
+            - value: partial
+              label: Partial
+              criteria:
+                - Contracts present but versioning/deprecation policy or error semantics missing
+            - value: fail
+              label: Fail
+              criteria:
+                - No interface contracts, or a public commitment with no versioning policy
+    - id: data_design
+      name: Data Design and Migration
+      description: Data models with external visibility marked, storage/residency stated, and compatibility/migration guarantees.
+      weight: 0.12
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Data models mark externally visible fields; storage and residency stated with rationale
+                - "§11 compatibility/migration guarantees completed or marked Not applicable with rationale"
+            - value: not_applicable
+              label: Not Applicable
+              criteria:
+                - No persistent data and §11 states Not applicable with rationale
+            - value: partial
+              label: Partial
+              criteria:
+                - Data models present but visibility, residency, or migration guarantees missing
+            - value: fail
+              label: Fail
+              criteria:
+                - Sections blank despite persistent data existing
+    - id: operational_guarantees
+      name: Operational Guarantees
+      description: Measurable operational guarantees sized to the launch projection, not current traffic.
+      weight: 0.12
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Every §9 row is a number, a method, or Not applicable with rationale
+                - Throughput and capacity rows reference the launch projection
+            - value: partial
+              label: Partial
+              criteria:
+                - Guarantees present but some rows aspirational or blank
+            - value: fail
+              label: Fail
+              criteria:
+                - No measurable guarantees
+    - id: launch_readiness
+      name: Deployment and Launch Readiness
+      description: Flags cover reversible scope; every irreversible commitment has stated pre-launch proof.
+      weight: 0.08
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - "Every §3.1 commitment has a §13.2 row stating the pre-launch proof and its TPD verification"
+                - Feature flags mapped to reversible decisions; rollback plan covers reversible scope with roll-forward stated where rollback is unsafe
+            - value: partial
+              label: Partial
+              criteria:
+                - Deployment mechanics present but pre-launch proof rows incomplete
+            - value: fail
+              label: Fail
+              criteria:
+                - No launch readiness section, or an irreversible commitment with no pre-launch proof
+    - id: testing_strategy
+      name: Testing Strategy
+      description: Testing approach (the TPD carries the full verification plan).
+      weight: 0.04
+      required: false
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Unit, integration, load, and security testing approach defined
+            - value: partial
+              label: Partial
+              criteria:
+                - Some testing mentioned
+            - value: fail
+              label: Fail
+              criteria:
+                - No testing strategy
+    - id: technical_ownership
+      name: Technical Ownership
+      description: Ownership, Dive Deep, Invent and Simplify, Highest Standards — does the design show deep edge-case consideration and deliberate simplification of the irreversible core?
+      weight: 0.06
+      required: false
+      class: leadership_principle
+      blocking: false
+      evaluation: semantic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Edge cases and failure modes are visibly considered, not just the happy path
+                - The irreversible core is deliberately minimized and the simplification choices justified
+            - value: partial
+              label: Partial
+              criteria:
+                - Some depth but edge cases thin or simplification unexplained
+            - value: fail
+              label: Fail
+              criteria:
+                - Surface-level design with no evidence of deeper consideration

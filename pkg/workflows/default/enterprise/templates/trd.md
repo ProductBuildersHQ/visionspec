@@ -8,257 +8,221 @@
 **Version:** 1.0
 **Status:** Draft
 
+This TRD is a **technical contract**: what the system MUST guarantee, not only
+how it is currently designed. Use MUST / MUST NOT / SHOULD / MAY consistently.
+A condition that does not apply to this change is answered with
+`Not applicable — <rationale>`, never left blank — an unanswered row reads as
+missing, not exempt.
+
 ## 1. Introduction
 
 ### 1.1 Purpose
 
-<!-- What is the purpose of this TRD? What system or feature does it describe? -->
+<!-- What system or feature does this TRD describe, and what decision does it enable? -->
 
 ### 1.2 Scope
 
 <!-- What is in scope and out of scope for this technical design? -->
 
-### 1.3 Definitions and Acronyms
-
-| Term | Definition |
-|------|------------|
-| | |
-
-### 1.4 References
-
-<!-- Link to PRD, MRD, UXD, and other related documents -->
+### 1.3 References
 
 | Document | Link |
 |----------|------|
 | PRD | |
-| MRD | |
 | UXD | |
+| MRD | |
 
-## 2. System Architecture
+## 2. Technical Requirements and Traceability
 
-### 2.1 High-Level Architecture
+*The contract itself. Every applicable PRD/UXD requirement maps to one or more
+TRD requirements — or is explicitly marked "Not applicable" with rationale.
+Every TRD requirement maps to a TPD verification method.*
 
-<!-- Describe the overall system architecture.
-     Include a diagram if helpful (ASCII or link to image). -->
+| TRD ID | Requirement | Source | Verification |
+|--------|-------------|--------|---------------|
+| TRD-001 | *e.g., "The API MUST reject requests without a valid bearer token."* | PRD-FR-003 | TPD-AUTH-014 |
+| TRD-002 | | | |
+
+## 3. System Invariants
+
+*Conditions that MUST hold across every code path, including ones the rest of
+this document did not anticipate. Invariants are what let an implementer (human
+or AI) fill gaps safely instead of guessing.*
+
+- *e.g., A user MUST never access an object outside an authorized tenant.*
+- *e.g., Reprocessing an event MUST NOT create duplicate records.*
+- *e.g., A failed migration MUST leave the previous schema readable.*
+
+## 4. Architecture
+
+### 4.1 High-Level Architecture
+
+<!-- Overall system architecture. Include a diagram if helpful (ASCII or link). -->
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                     System Overview                          │
 ├─────────────────────────────────────────────────────────────┤
-│                                                              │
 │   [Component A] ──────► [Component B] ──────► [Component C] │
-│                                                              │
 └─────────────────────────────────────────────────────────────┘
 ```
 
-### 2.2 Component Descriptions
+### 4.2 Component Responsibilities
 
-#### Component A
+| Component | Purpose | Responsibilities |
+|-----------|---------|-------------------|
+| | | |
 
-**Purpose:**
-**Responsibilities:**
-**Interfaces:**
+### 4.3 Data Flow
 
-#### Component B
+<!-- How data moves through the system. Sequence diagrams for key flows if helpful. -->
 
-**Purpose:**
-**Responsibilities:**
-**Interfaces:**
+## 5. State and Lifecycle
 
-### 2.3 Data Flow
+*Applies to any entity with a status, phase, or lifecycle. If nothing in this
+change has meaningful state, answer "Not applicable" with rationale.*
 
-<!-- Describe how data flows through the system.
-     Include sequence diagrams for key flows if helpful. -->
+**Applicability:** {{ "Applicable" | "Not applicable — <rationale>" }}
 
-## 3. Functional Design
+| Entity | States | Trigger | Invalid Transitions |
+|--------|--------|---------|----------------------|
+| | | | |
 
-### 3.1 Feature: [Feature Name]
+- **Idempotency:** <!-- Is the operation safe to retry / replay? -->
+- **Concurrency:** <!-- Behavior under concurrent operations on the same entity -->
+- **Retention / deletion:** <!-- Data lifecycle and deletion behavior -->
+- **Terminal and recovery states:** <!-- Which states are terminal; how recovery happens -->
 
-**PRD Reference:** FR-X
+## 6. Interface Contracts
 
-**Description:**
+*Prefer a machine-readable contract (OpenAPI, JSON Schema, Protobuf) linked
+here over hand-written tables where practical.*
 
-**Technical Approach:**
+### 6.1 Endpoints / Operations
 
-**API/Interface:**
+| Operation | Method | Description |
+|-----------|--------|--------------|
+| | | |
+
+### 6.2 Request / Response Contract
 
 ```
-// Example API signature
 POST /api/v1/resource
-Request:
-{
-  "field": "value"
-}
-Response:
-{
-  "id": "123",
-  "status": "created"
-}
+Request:  { "field": "value" }
+Response: { "id": "123", "status": "created" }
 ```
 
-### 3.2 Feature: [Feature Name 2]
+| Field | Type | Required | Validation |
+|-------|------|----------|------------|
+| | | | |
 
-<!-- Repeat for each feature from the PRD -->
+### 6.3 Authentication and Authorization
 
-## 4. Data Design
+<!-- How are requests authenticated? What authorization model? -->
 
-### 4.1 Data Models
+### 6.4 Error Semantics
 
-<!-- Define key data entities and their relationships -->
+| Error Code | HTTP Status | Meaning | Retryable |
+|------------|-------------|---------|-----------|
+| | | | |
 
-#### Entity: [Entity Name]
+### 6.5 Idempotency, Pagination, Versioning
+
+- **Idempotency:** <!-- idempotency keys, safe-retry guarantees -->
+- **Pagination and ordering:** <!-- or "Not applicable — <rationale>" -->
+- **Versioning and backward compatibility:** <!-- or "Not applicable — <rationale>" -->
+- **Rate limits:** <!-- or "Not applicable — <rationale>" -->
+
+### 6.6 Events Emitted and Consumed
+
+| Event | Emitted By | Consumed By | Schema Version |
+|-------|-----------|-------------|-----------------|
+| | | | |
+
+## 7. Data Design
+
+### 7.1 Data Models
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
 | id | string | Yes | Unique identifier |
-| | | | |
 
-### 4.2 Data Storage
-
-<!-- Where is data stored? What database/storage technology? -->
+### 7.2 Data Storage
 
 | Data Type | Storage | Rationale |
 |-----------|---------|-----------|
 | | | |
 
-### 4.3 Data Migration
+## 8. Operational Guarantees
 
-<!-- If migrating from existing system, describe migration strategy -->
+*Measurable, not aspirational. Every row is a number, a method, or
+"Not applicable — <rationale>" — never a blank or a word like "fast."*
 
-## 5. API Design
+| Category | Requirement | Measurement | Applicability |
+|----------|-------------|-------------|-----------------|
+| Performance (p50 / p99) | | | |
+| Throughput | | | |
+| Availability (SLA, RTO, RPO) | | | |
+| Reliability | | | |
+| Capacity limits | | | |
+| Degraded behavior | | | |
+| Observability (logs / metrics / traces / alerts) | | | |
+| Auditability | | | |
 
-### 5.1 API Overview
-
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| /api/v1/resource | GET | List resources |
-| /api/v1/resource | POST | Create resource |
-| /api/v1/resource/{id} | GET | Get resource |
-| /api/v1/resource/{id} | PUT | Update resource |
-| /api/v1/resource/{id} | DELETE | Delete resource |
-
-### 5.2 Authentication and Authorization
-
-<!-- How are API requests authenticated? What authorization model? -->
-
-### 5.3 Rate Limiting
-
-<!-- Rate limiting strategy and limits -->
-
-### 5.4 Error Handling
-
-| Error Code | HTTP Status | Description |
-|------------|-------------|-------------|
-| | | |
-
-## 6. Non-Functional Requirements
-
-### 6.1 Performance
-
-| Metric | Requirement | Measurement |
-|--------|-------------|-------------|
-| Response time (p50) | < 100ms | |
-| Response time (p99) | < 500ms | |
-| Throughput | 1000 req/s | |
-
-### 6.2 Scalability
-
-<!-- How does the system scale? Horizontal/vertical?
-     What are the scaling triggers? -->
-
-### 6.3 Availability
-
-| Metric | Target |
-|--------|--------|
-| Uptime SLA | 99.9% |
-| RTO | |
-| RPO | |
-
-### 6.4 Security
-
-<!-- Security requirements and controls -->
+## 9. Security and Privacy
 
 - [ ] Authentication mechanism
 - [ ] Authorization model
 - [ ] Data encryption (at rest)
 - [ ] Data encryption (in transit)
 - [ ] Audit logging
-- [ ] Vulnerability scanning
+- [ ] Vulnerability scanning / dependency policy
 
-### 6.5 Observability
+<!-- For each unchecked item that does not apply, state why. -->
 
-<!-- Logging, metrics, tracing strategy -->
+## 10. Compatibility and Migration Guarantees
 
-| Type | Tool | Details |
-|------|------|---------|
-| Logs | | |
-| Metrics | | |
-| Traces | | |
-| Alerts | | |
+**Applicability:** {{ "Applicable" | "Not applicable — <rationale>" }}
 
-## 7. Dependencies
+- **Supported versions:** <!-- what must keep working -->
+- **Forward / backward compatibility:** <!-- old clients vs new server, and vice versa -->
+- **Mixed-version deployment behavior:** <!-- rolling deploys, dual-read/write windows -->
+- **Migration phases:** <!-- ordered steps, each independently safe -->
+- **Data validation:** <!-- how migrated data is verified -->
+- **Abort conditions and rollback boundary:** <!-- past which point rollback is no longer safe -->
 
-### 7.1 External Services
+## 11. Dependencies
 
-| Service | Purpose | Criticality |
-|---------|---------|-------------|
-| | | |
+| Dependency | Type | Purpose | Criticality |
+|------------|------|---------|-------------|
+| | External service / library / infra | | |
 
-### 7.2 Libraries and Frameworks
+## 12. Testing Strategy
 
-| Library | Version | Purpose |
-|---------|---------|---------|
-| | | |
+<!-- Unit, integration, load, and security testing approach. Reference TPD for
+     the full verification plan — this section states the strategy, TPD proves it. -->
 
-### 7.3 Infrastructure Dependencies
+## 13. Deployment
 
-<!-- What infrastructure is required? -->
-
-## 8. Testing Strategy
-
-### 8.1 Unit Testing
-
-<!-- Unit testing approach and coverage targets -->
-
-### 8.2 Integration Testing
-
-<!-- Integration testing approach -->
-
-### 8.3 Load Testing
-
-<!-- Load testing scenarios and targets -->
-
-### 8.4 Security Testing
-
-<!-- Security testing approach -->
-
-## 9. Deployment
-
-### 9.1 Deployment Strategy
-
-<!-- Blue-green, canary, rolling? -->
-
-### 9.2 Rollback Plan
-
-<!-- How to rollback if deployment fails -->
-
-### 9.3 Feature Flags
+### 13.1 Rollout and Feature Flags
 
 | Flag | Purpose | Default |
 |------|---------|---------|
 | | | |
 
-## 10. Risks and Mitigations
+### 13.2 Rollback Plan
 
-| Risk | Impact | Probability | Mitigation |
-|------|--------|-------------|------------|
+<!-- How to roll back if deployment fails. If rollback is unsafe past a point
+     (see §10), state the roll-forward alternative. -->
+
+## 14. Risks and Open Questions
+
+| ID | Risk / Question | Impact | Mitigation / Resolution |
+|----|------------------|--------|--------------------------|
 | | | | |
 
-## 11. Open Questions
-
-| Question | Owner | Status | Resolution |
-|----------|-------|--------|------------|
-| | | Open | |
+*A TRD entering review should carry no open question that blocks
+implementation. Unresolved questions here are non-blocking by construction.*
 
 ## Appendix
 

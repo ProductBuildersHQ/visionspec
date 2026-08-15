@@ -1,0 +1,117 @@
+id: kiro
+name: AWS Kiro Spec-Driven Development
+short_name: Kiro
+vendor: AWS
+description: >-
+  Kiro is an agentic IDE whose spec workflow turns a prompt into a three-file
+  spec — requirements (EARS notation), design, and tasks — then implements task
+  by task. Modeled from published documentation and the IDE (no public source
+  repository), so the on-disk detail is lower-confidence than repo-modeled tools.
+kind: execution
+source: docs
+homepage: https://kiro.dev
+reference: https://kiro.dev/docs/specs/
+license: Proprietary
+invocations:
+  - ide
+agents:
+  - Kiro
+
+detection:
+  root_markers:
+    - .kiro/specs/
+    - .kiro/steering/
+  globs:
+    - .kiro/specs/*/requirements.md
+
+artifacts:
+  - id: steering
+    path: .kiro/steering/
+    role: constitution
+    description: Steering documents — standing project conventions and guidance.
+    phase: steering
+    produced: true
+  - id: requirements
+    path: .kiro/specs/<feature>/requirements.md
+    role: requirement
+    description: Feature requirements in EARS notation (user stories + acceptance criteria).
+    phase: requirements
+    spec_type: prd
+    produced: true
+  - id: design
+    path: .kiro/specs/<feature>/design.md
+    role: design
+    description: Technical design — architecture, components, data models, sequencing.
+    phase: design
+    spec_type: trd
+    produced: true
+  - id: tasks
+    path: .kiro/specs/<feature>/tasks.md
+    role: tasks
+    description: Discrete, checkboxed implementation tasks linked to requirements.
+    phase: tasks
+    spec_type: plan
+    produced: true
+  - id: code
+    path: ./
+    role: output
+    description: Source code implemented task by task from tasks.md.
+    phase: implement
+    produced: true
+
+lifecycle:
+  - id: steering
+    name: Steering
+    description: Optional standing guidance the agent applies across specs.
+    produces:
+      - steering
+  - id: requirements
+    name: Requirements
+    description: Capture requirements in EARS notation from a feature prompt.
+    produces:
+      - requirements
+  - id: design
+    name: Design
+    description: Produce the technical design from the approved requirements.
+    consumes:
+      - requirements
+    produces:
+      - design
+  - id: tasks
+    name: Tasks
+    description: Break the design into discrete implementation tasks.
+    consumes:
+      - design
+    produces:
+      - tasks
+  - id: implement
+    name: Implement
+    description: Execute tasks one at a time, updating task status.
+    consumes:
+      - tasks
+    produces:
+      - code
+
+status:
+  method: task-checkboxes
+  source: tasks
+  description: >-
+    Percent complete = checked over total tasks in tasks.md. Phase is inferable
+    from which of requirements.md / design.md / tasks.md exist for a feature.
+
+inputs:
+  - id: feature-prompt
+    medium: prompt
+    description: >-
+      Feature idea given in the IDE. An external definition-side PRD feeds the
+      requirements phase (or is merged into requirements.md).
+    spec_types:
+      - prd
+      - narrative-6p
+
+outputs:
+  - id: code-out
+    medium: code
+    description: Source code implemented from the task list.
+    artifacts:
+      - code
