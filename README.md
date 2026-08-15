@@ -324,8 +324,8 @@ For different organizational methodologies:
 
 | Profile | Methodology | Best For |
 |---------|-------------|----------|
-| `aws-product` | Working Backwards (MRD start) | New product lines (PR/FAQ, 6-pager) |
-| `aws-feature` | Working Backwards (OpportunitySpec start) | Features on existing products |
+| `aws-one-way-door` | Working Backwards (MRD start) | New product lines (PR/FAQ, 6-pager) |
+| `aws-two-way-door` | Working Backwards (OpportunitySpec start) | Features on existing products |
 | `big-tech-product` | Multi-company best practices | Enterprise products (10 methodologies) |
 | `big-tech-feature` | Multi-company feature workflow | Enterprise features (comprehensive) |
 | `big-tech-essentials-product` | Streamlined best practices | Growing companies (3 core methodologies) |
@@ -339,7 +339,7 @@ For different organizational methodologies:
 | `v2mom` | Salesforce V2MOM | Strategic alignment (company/department/team variants) |
 | `pbhq-lite` | ProductBuildersHQ | Internal initiatives (PRD/TRD/PLAN/ROADMAP) |
 
-The `aws-feature` profile uses **OpportunitySpec** from [prism-roadmap](https://github.com/grokify/prism-roadmap) as the starting document instead of MRD, providing a 12-box canvas that combines discovery (Patton) with business case rigor (Cagan).
+The `aws-two-way-door` profile uses **OpportunitySpec** from [prism-roadmap](https://github.com/grokify/prism-roadmap) as the starting document instead of MRD, providing a 12-box canvas that combines discovery (Patton) with business case rigor (Cagan).
 
 ### Using Profiles
 

@@ -10,9 +10,9 @@ import (
 )
 
 func TestLoaderForWorkflow(t *testing.T) {
-	w, err := sws.DefaultLoader().Load("aws-feature")
+	w, err := sws.DefaultLoader().Load("aws-two-way-door")
 	if err != nil {
-		t.Fatalf("loading aws-feature workflow: %v", err)
+		t.Fatalf("loading aws-two-way-door workflow: %v", err)
 	}
 
 	loader := LoaderForWorkflow(w)
@@ -55,9 +55,9 @@ func TestLoaderForWorkflowNoTemplates(t *testing.T) {
 }
 
 func TestMapLoaderAvailable(t *testing.T) {
-	w, err := sws.DefaultLoader().Load("aws-feature")
+	w, err := sws.DefaultLoader().Load("aws-two-way-door")
 	if err != nil {
-		t.Fatalf("loading aws-feature workflow: %v", err)
+		t.Fatalf("loading aws-two-way-door workflow: %v", err)
 	}
 
 	loader := NewMapLoader(w.Templates)

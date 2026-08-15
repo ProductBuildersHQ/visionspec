@@ -20,7 +20,7 @@ require (
 
 require (
 	github.com/google/jsonschema-go v0.4.3 // indirect
-	github.com/grokify/mogo v0.74.6 // indirect
+	github.com/grokify/mogo v0.74.7 // indirect
 	github.com/grokify/sogo v0.15.0 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/segmentio/asm v1.2.1 // indirect

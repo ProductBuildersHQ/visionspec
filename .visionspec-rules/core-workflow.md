@@ -46,8 +46,8 @@ visionspec init <project> --profile <framework>
 # Examples:
 visionspec init myproject --profile big-tech-product       # Best practices, MRD start (recommended)
 visionspec init myproject --profile big-tech-feature       # Best practices, OpportunitySpec start
-visionspec init myproject --profile aws-product            # Amazon Working Backwards, MRD start
-visionspec init myproject --profile aws-feature            # Amazon Working Backwards, OpportunitySpec start
+visionspec init myproject --profile aws-one-way-door            # Amazon Working Backwards, MRD start
+visionspec init myproject --profile aws-two-way-door            # Amazon Working Backwards, OpportunitySpec start
 visionspec init myproject --profile google
 visionspec init myproject --profile stripe
 visionspec init myproject --profile shapeup                # Basecamp Shape Up, Pitch-based
@@ -335,7 +335,7 @@ visionspec status -p <project>
 Or check `visionspec.yaml`:
 
 ```yaml
-profile: aws-product  # or aws-feature, lean-startup, design-thinking, etc.
+profile: aws-one-way-door  # or aws-two-way-door, lean-startup, design-thinking, etc.
 ```
 
 Continue with the configured framework's flow.
