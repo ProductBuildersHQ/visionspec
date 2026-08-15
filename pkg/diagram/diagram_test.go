@@ -4,8 +4,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/synthesis"
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/workflow"
+	"github.com/ProductBuildersHQ/visionspec/pkg/synthesis"
+	"github.com/ProductBuildersHQ/visionspec/pkg/workflow"
 )
 
 var _ = synthesis.DAG{} // keep import for TestGenerateFromDAG

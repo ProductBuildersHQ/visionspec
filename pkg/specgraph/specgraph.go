@@ -12,8 +12,8 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/config"
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/types"
+	"github.com/ProductBuildersHQ/visionspec/pkg/config"
+	"github.com/ProductBuildersHQ/visionspec/pkg/types"
 	"github.com/plexusone/graphfs/pkg/graph"
 	"github.com/plexusone/graphize/pkg/exporters/graphml"
 	"github.com/plexusone/graphize/pkg/exporters/htmlsite"

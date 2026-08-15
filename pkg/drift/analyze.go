@@ -5,7 +5,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/context"
+	"github.com/ProductBuildersHQ/visionspec/pkg/context"
 )
 
 // Analyzer performs spec-to-code comparison.

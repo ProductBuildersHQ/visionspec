@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/context"
+	"github.com/ProductBuildersHQ/visionspec/pkg/context"
 )
 
 func TestNewAligner(t *testing.T) {

@@ -3,7 +3,7 @@ package types
 import (
 	"testing"
 
-	swf "github.com/ProductBuildersHQ/specification-workflow-spec/pkg/workflow"
+	swf "github.com/ProductBuildersHQ/visionspec/pkg/workflow"
 )
 
 func TestSpecConfigFromWorkflow(t *testing.T) {

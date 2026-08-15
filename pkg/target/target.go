@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/types"
+	"github.com/ProductBuildersHQ/visionspec/pkg/types"
 )
 
 // Target defines the interface for export adapters.

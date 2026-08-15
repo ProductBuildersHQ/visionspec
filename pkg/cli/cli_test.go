@@ -3,9 +3,9 @@ package cli
 import (
 	"testing"
 
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/rubrics"
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/templates"
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/types"
+	"github.com/ProductBuildersHQ/visionspec/pkg/rubrics"
+	"github.com/ProductBuildersHQ/visionspec/pkg/templates"
+	"github.com/ProductBuildersHQ/visionspec/pkg/types"
 	"github.com/spf13/cobra"
 )
 

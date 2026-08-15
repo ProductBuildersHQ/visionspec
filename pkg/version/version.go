@@ -11,8 +11,8 @@ import (
 	"sort"
 	"time"
 
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/config"
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/types"
+	"github.com/ProductBuildersHQ/visionspec/pkg/config"
+	"github.com/ProductBuildersHQ/visionspec/pkg/types"
 )
 
 // Version represents a specific version of a spec.

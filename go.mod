@@ -1,4 +1,4 @@
-module github.com/ProductBuildersHQ/specification-workflow-spec
+module github.com/ProductBuildersHQ/visionspec
 
 go 1.26.1
 

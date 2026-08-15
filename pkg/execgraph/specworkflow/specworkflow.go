@@ -5,10 +5,10 @@
 package specworkflow
 
 import (
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/execgraph"
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/types"
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/workflow"
-	sws "github.com/ProductBuildersHQ/specification-workflow-spec/pkg/workflows"
+	"github.com/ProductBuildersHQ/visionspec/pkg/execgraph"
+	"github.com/ProductBuildersHQ/visionspec/pkg/types"
+	"github.com/ProductBuildersHQ/visionspec/pkg/workflow"
+	sws "github.com/ProductBuildersHQ/visionspec/pkg/workflows"
 )
 
 // Node types for visionspec

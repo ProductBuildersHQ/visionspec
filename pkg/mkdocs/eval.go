@@ -9,7 +9,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/eval"
+	"github.com/ProductBuildersHQ/visionspec/pkg/eval"
 )
 
 // RenderEvalOptions configures evaluation rendering.

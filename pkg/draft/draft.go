@@ -9,9 +9,9 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/config"
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/templates"
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/types"
+	"github.com/ProductBuildersHQ/visionspec/pkg/config"
+	"github.com/ProductBuildersHQ/visionspec/pkg/templates"
+	"github.com/ProductBuildersHQ/visionspec/pkg/types"
 )
 
 // ErrDraftNotFound indicates no draft exists.

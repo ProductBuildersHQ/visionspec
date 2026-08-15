@@ -15,7 +15,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/loop"
+	"github.com/ProductBuildersHQ/visionspec/pkg/loop"
 )
 
 //go:embed default/*.yaml
