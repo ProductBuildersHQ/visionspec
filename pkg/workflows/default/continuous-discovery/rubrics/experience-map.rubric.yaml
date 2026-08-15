@@ -1,0 +1,191 @@
+# Not prism-synced: prism-roadmap defines schema/experience-map.schema.json
+# but has no rubrics/experience-map.rubric.yaml upstream yet. Authored
+# locally, matching this directory's house style (ost.rubric.yaml,
+# assumption-map.rubric.yaml). Candidate for upstreaming to prism-roadmap so
+# this file can be replaced by a synced copy.
+#
+# Experience Map Rubric
+# LLM-as-a-Judge evaluation criteria for Experience Map documents
+# Based on Teresa Torres's continuous discovery framework
+
+id: experience-map-rubric
+name: Experience Map Evaluation Rubric
+version: "1.0"
+description: |
+  Evaluates Experience Map documents for journey structure, depth of
+  customer insight per phase, and traceability of the pain points and
+  opportunities that should drive the Opportunity Solution Tree. A healthy
+  experience map covers the full journey (not just the moment of product
+  use), grounds each phase in the customer's actual thinking and feeling,
+  and rolls up to a small, prioritized set of pain points and opportunities.
+
+passCriteria:
+  scoreThresholds:
+    pass: 80
+    partial: 60
+
+categories:
+  - id: journey-structure
+    name: Journey Structure
+    weight: 25
+    description: Evaluates the phases and their ordering
+    criteria:
+      - id: JS1
+        name: Phase Coverage
+        weight: 15
+        pass:
+          description: Phases cover the full journey, including before and after product use
+          indicators:
+            - At least one phase precedes first product contact (awareness, evaluation)
+            - At least one phase follows core usage (renewal, support, advocacy)
+            - Phases are ordered and non-overlapping
+        partial:
+          description: Journey covers usage but not the full arc
+          indicators:
+            - Only in-product phases mapped
+            - Ordering unclear or phases overlap
+        fail:
+          description: No coherent journey
+          indicators:
+            - Single phase or unordered list of moments
+            - Phases missing entirely
+      - id: JS2
+        name: Persona Grounding
+        weight: 10
+        pass:
+          description: The map is scoped to a specific, named persona
+          indicators:
+            - Persona reference or description identifies a specific customer segment
+            - Journey content is consistent with that persona's context
+        partial:
+          description: Persona named but generic
+          indicators:
+            - Persona reference present but description vague ("users")
+        fail:
+          description: No persona scoping
+          indicators:
+            - Persona fields empty
+            - Content reads as generic for all users
+
+  - id: phase-depth
+    name: Phase Depth
+    weight: 35
+    description: Evaluates the quality of thinking, feeling, and action detail within each phase
+    criteria:
+      - id: PD1
+        name: Thinking & Feeling
+        weight: 15
+        pass:
+          description: Each phase states what the customer is thinking and feeling, not just doing
+          indicators:
+            - Thinking and feeling filled for every phase, in the customer's voice
+            - Emotions are specific (frustrated, relieved), not generic (positive/negative)
+        partial:
+          description: Some phases have thinking/feeling, others only actions
+          indicators:
+            - Thinking or feeling blank for one or more phases
+            - Emotions listed as generic sentiment only
+        fail:
+          description: No thinking or feeling captured
+          indicators:
+            - All phases list only actions
+            - Thinking/feeling fields empty throughout
+      - id: PD2
+        name: Action & Touchpoint Detail
+        weight: 12
+        pass:
+          description: Actions name the actor and channel, and touchpoints are concrete
+          indicators:
+            - Each action has an actor and a channel
+            - Touchpoints name specific surfaces (app screen, email, support call), not "the product"
+        partial:
+          description: Actions or touchpoints listed but underspecified
+          indicators:
+            - Actor or channel missing on some actions
+            - Touchpoints vague or generic
+        fail:
+          description: No action or touchpoint detail
+          indicators:
+            - Actions section empty for one or more phases
+            - Touchpoints not listed
+      - id: PD3
+        name: Pain and Delight per Action
+        weight: 8
+        pass:
+          description: Actions record both pain and delight where relevant, not only pain
+          indicators:
+            - Pain and delight fields used per action where applicable
+            - At least one delight moment identified somewhere in the journey
+        partial:
+          description: Pain captured but delight ignored, or vice versa
+          indicators:
+            - Delight column empty throughout
+        fail:
+          description: No pain or delight captured at the action level
+          indicators:
+            - Pain and delight fields empty for all actions
+
+  - id: insight-rollup
+    name: Insight Rollup
+    weight: 25
+    description: Evaluates the top pain points and opportunities synthesized from the phases
+    criteria:
+      - id: IR1
+        name: Pain Point Prioritization
+        weight: 13
+        pass:
+          description: Top pain points are ranked and traceable to specific phases
+          indicators:
+            - Each top pain point links to the phase it came from
+            - Ranking reflects severity or frequency, not just section order
+        partial:
+          description: Pain points listed but not clearly prioritized
+          indicators:
+            - No ranking rationale
+            - Phase linkage missing
+        fail:
+          description: No pain point rollup
+          indicators:
+            - Section empty
+            - Pain points invented that don't appear in any phase
+      - id: IR2
+        name: Opportunity Framing
+        weight: 12
+        pass:
+          description: Top opportunities are customer-problem framed and traceable to pain points
+          indicators:
+            - Each opportunity addresses a specific pain point or phase
+            - Opportunities framed as problems/needs, not predetermined solutions
+        partial:
+          description: Opportunities present but weakly linked or solution-first
+          indicators:
+            - Opportunity-to-pain-point link missing
+            - Some opportunities are features in disguise
+        fail:
+          description: No opportunity rollup
+          indicators:
+            - Section empty
+            - Opportunities disconnected from any mapped phase
+
+  - id: traceability
+    name: Traceability
+    weight: 15
+    description: Evaluates linkage to the PRD and downstream artifacts
+    criteria:
+      - id: TR1
+        name: PRD Linkage
+        weight: 15
+        pass:
+          description: The map links to the PRD, features, requirements, or user stories it informs, where applicable
+          indicators:
+            - PRD ID or feature IDs populated when a related PRD exists
+            - Requirement or user story IDs populated where the map has already influenced them
+            - Explicit "not yet linked" note when discovery precedes a PRD
+        partial:
+          description: Some traceability fields populated, others left blank without explanation
+          indicators:
+            - PRD ID present but no feature/requirement/story links
+        fail:
+          description: No traceability and no explanation
+          indicators:
+            - All PRD Traceability fields empty with no note on why

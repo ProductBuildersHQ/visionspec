@@ -12,20 +12,20 @@ import (
 	"time"
 
 	sws "github.com/ProductBuildersHQ/specification-workflow-spec/pkg/workflows"
-	"github.com/ProductBuildersHQ/visionspec/pkg/align"
-	"github.com/ProductBuildersHQ/visionspec/pkg/config"
-	ctxpkg "github.com/ProductBuildersHQ/visionspec/pkg/context"
-	"github.com/ProductBuildersHQ/visionspec/pkg/draft"
-	"github.com/ProductBuildersHQ/visionspec/pkg/eval"
-	"github.com/ProductBuildersHQ/visionspec/pkg/reconcile"
-	"github.com/ProductBuildersHQ/visionspec/pkg/status"
-	"github.com/ProductBuildersHQ/visionspec/pkg/synth"
-	"github.com/ProductBuildersHQ/visionspec/pkg/target"
-	"github.com/ProductBuildersHQ/visionspec/pkg/templates"
-	"github.com/ProductBuildersHQ/visionspec/pkg/testmap"
-	"github.com/ProductBuildersHQ/visionspec/pkg/types"
-	"github.com/ProductBuildersHQ/visionspec/pkg/workflow"
-	"github.com/ProductBuildersHQ/visionspec/pkg/workflow/specworkflow"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/align"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/config"
+	ctxpkg "github.com/ProductBuildersHQ/specification-workflow-spec/pkg/context"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/draft"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/eval"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/reconcile"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/status"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/synth"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/target"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/templates"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/testmap"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/types"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/execgraph"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/execgraph/specworkflow"
 	"github.com/modelcontextprotocol/go-sdk/mcp"
 )
 
@@ -1639,7 +1639,7 @@ func (s *Server) handleGetWorkflow(ctx context.Context, req *mcp.CallToolRequest
 
 	switch format {
 	case "mermaid":
-		renderer := workflow.NewMermaidRenderer()
+		renderer := execgraph.NewMermaidRenderer()
 		mermaid := renderer.Render(wf)
 		return &mcp.CallToolResult{
 			Content: []mcp.Content{
@@ -1648,7 +1648,7 @@ func (s *Server) handleGetWorkflow(ctx context.Context, req *mcp.CallToolRequest
 		}, nil, nil
 
 	case "dot":
-		renderer := workflow.NewDOTRenderer()
+		renderer := execgraph.NewDOTRenderer()
 		dot := renderer.Render(wf)
 		return &mcp.CallToolResult{
 			Content: []mcp.Content{
@@ -1716,7 +1716,7 @@ func (s *Server) handleGetWorkflow(ctx context.Context, req *mcp.CallToolRequest
 
 		// Optionally include Mermaid diagram
 		if args.IncludeMermaid {
-			renderer := workflow.NewMermaidRenderer()
+			renderer := execgraph.NewMermaidRenderer()
 			result["mermaid"] = renderer.Render(wf)
 		}
 

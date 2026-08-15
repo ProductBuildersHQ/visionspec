@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/ProductBuildersHQ/visionspec/pkg/config"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/config"
 )
 
 func TestKebabCaseRegex(t *testing.T) {

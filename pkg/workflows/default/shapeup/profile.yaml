@@ -1,0 +1,79 @@
+name: shapeup
+description: "Basecamp's Shape Up methodology. Fixed time, variable scope. Appetite-based planning with betting table and hill charts."
+extends: enterprise
+
+methodology:
+  name: "Shape Up"
+  creator: "Ryan Singer (Basecamp)"
+  reference: "https://basecamp.com/shapeup"
+
+  principles:
+    - fixed_time_variable_scope: "Appetite sets the time; scope flexes to fit"
+    - shaping: "Define problems and solutions at the right level of abstraction"
+    - betting_not_planning: "Bet on pitches, don't manage backlogs"
+    - small_teams: "One designer, one or two programmers"
+    - full_responsibility: "Teams have full autonomy during the cycle"
+    - circuit_breaker: "If it's not working, stop and reassess"
+    - cool_down: "Two-week break between cycles for recovery"
+    - no_backlogs: "If it's important, it will come back"
+    - appetite_not_estimates: "How much time is this worth, not how long will it take"
+    - hill_charts: "Track uncertainty, not completion"
+
+  artifacts:
+    - pitch: "Shaped problem and solution ready for betting"
+    - bet: "Decision to pursue a pitch in a cycle"
+    - scope: "Hill chart tracking during building"
+
+# Shape Up doesn't use traditional spec documents
+# It replaces PRD/MRD with Pitches
+spec_config:
+  # Pitch is the core artifact (replaces MRD/PRD)
+  shapeup-pitch:
+    required: true
+    category: source
+    description: "Shaped pitch ready for betting"
+
+  # Scope tracker during building
+  shapeup-scope:
+    required: false
+    category: execution
+    description: "Hill chart and scope tracking"
+
+  # Traditional specs are optional - Shape Up is lean
+  mrd:
+    required: false
+    category: source
+  prd:
+    required: false
+    category: source
+  press:
+    required: false
+    category: gtm
+  faq:
+    required: false
+    category: gtm
+  uxd:
+    required: false
+    category: source
+  trd:
+    required: false
+    category: technical
+
+# Shape Up workflow is different - no synthesis, human-authored pitches
+synthesis:
+  # Pitches are human-authored after shaping sessions
+  # No automatic synthesis - the thinking IS the work
+
+# Betting cycle structure
+cycles:
+  big_batch:
+    weeks: 6
+    cool_down: 2
+  small_batch:
+    weeks: 2
+    cool_down: 2
+
+# Evaluation thresholds
+evaluation:
+  pass_threshold: 80
+  partial_threshold: 60

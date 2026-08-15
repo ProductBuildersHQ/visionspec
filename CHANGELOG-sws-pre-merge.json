@@ -1,0 +1,63 @@
+{
+  "irVersion": "1.0",
+  "project": "specification-workflow-spec",
+  "repository": "https://github.com/ProductBuildersHQ/specification-workflow-spec",
+  "versioning": "semver",
+  "commitConvention": "conventional",
+  "maintainers": ["ProductBuildersHQ"],
+  "releases": [
+    {
+      "version": "v0.2.0",
+      "date": "2026-08-02",
+      "highlights": [
+        { "description": "Canonical home for workflow definitions: all 24 default workflows (stage-based, methodology-based, big-tech syntheses, v2mom, pbhq-lite) are embedded and loadable as Go structs with no filesystem access" },
+        { "description": "Breaking: pkg/profile renamed to pkg/workflow (Profile -> Workflow, inner Workflow field -> Execution); pkg/rubricdef removed in favor of structured-evaluation's rubric.RubricSet" }
+      ],
+      "added": [
+        { "description": "Add embedded workflow registry and composable loaders (embedded, file, fs.FS, chain, resolving with extends inheritance and cycle detection)", "commit": "47aba7b" },
+        { "description": "Add default workflow definition library with 24 methodologies imported from visionspec", "commit": "99d1b6b" },
+        { "description": "Add Content field to Template for filesystem-free template loading", "commit": "d0c3f40" },
+        { "description": "Parse methodology YAML shorthand and grouped artifacts; add Artifact type and Methodology.Source", "commit": "73b0b14" }
+      ],
+      "changed": [
+        { "description": "Breaking: rename profile package to workflow; Profile is now Workflow and its phase ordering field is Execution", "commit": "7207bd9" }
+      ],
+      "removed": [
+        { "description": "Breaking: drop pkg/rubricdef and rubricdef.schema.json; rubric definitions use structured-evaluation's rubric.RubricSet directly", "commit": "04119e4" }
+      ],
+      "documentation": [
+        { "description": "Document workflow packages, embedded library, and loader composition in README", "commit": "01115ed" }
+      ]
+    },
+    {
+      "version": "v0.1.0",
+      "date": "2026-08-02",
+      "highlights": [
+        { "description": "Initial release of specification workflow spec library providing Go types and utilities for spec-driven product development workflows" }
+      ],
+      "added": [
+        { "description": "Add spectype package with spec type registry (MRD, PRD, UXD, TRD, etc.)", "commit": "fb2b32e" },
+        { "description": "Add synthesis package for spec generation dependency rules", "commit": "9a4f363" },
+        { "description": "Add profile package for workflow configuration with YAML parsing", "commit": "db06261" },
+        { "description": "Add template, rubricdef, and gate packages for spec workflow primitives", "commit": "bb2f9ae" },
+        { "description": "Add JSON Schema generation and schema files", "commit": "658fa8e" },
+        { "description": "Add diagram package for D2 and Mermaid workflow visualization", "commit": "4330d5e" },
+        { "description": "Add profile YAML parsing and profile utilities", "commit": "2308d77" },
+        { "description": "Add layout package for filesystem layout conventions", "commit": "56f0e2b" }
+      ],
+      "fixed": [
+        { "description": "Use forward slashes in layout paths for cross-platform consistency", "commit": "6b4b713" }
+      ],
+      "documentation": [
+        { "description": "Add README with spec type tables and workflow diagram", "commit": "0ff927e" },
+        { "description": "Expand spec type tables and add diagram documentation", "commit": "4427d10" },
+        { "description": "Add shields and update workflow diagram in README", "commit": "2d306a6" }
+      ],
+      "infrastructure": [
+        { "description": "Add project configuration", "commit": "cc7047c" },
+        { "description": "Update license owner", "commit": "f1b6986" },
+        { "description": "Update to shared CI workflows", "commit": "b8ce883" }
+      ]
+    }
+  ]
+}

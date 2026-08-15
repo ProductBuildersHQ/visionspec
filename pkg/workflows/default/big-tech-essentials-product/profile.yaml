@@ -1,0 +1,116 @@
+name: big-tech-essentials-product
+description: "Big Tech essentials for new product lines. Starts with MRD + OKRs, uses PR/FAQ-driven development with design docs and API-first thinking. Simplified evaluation criteria focused on Amazon, Google, and Stripe practices."
+extends: big-tech-essentials
+
+# Product-level workflow: MRD is the starting document
+spec_config:
+  # Discovery phase - MRD with OKRs (Amazon + Google)
+  mrd:
+    required: true
+    category: source
+    description: "Market requirements with OKR alignment - the starting document for new products"
+
+  # OpportunitySpec not required for product-level (use big-tech-essentials-feature instead)
+  opportunity-spec:
+    required: false
+    category: source
+
+  # Vision phase - PR/FAQ (Amazon)
+  press:
+    required: true
+    category: gtm
+    description: "Working backwards press release"
+
+  faq:
+    required: true
+    category: gtm
+    description: "Challenge assumptions, include developer FAQ"
+
+  # Narratives (Amazon)
+  narrative-6p:
+    required: true
+    category: gtm
+    description: "Amazon-style 6-pager for stakeholder alignment"
+
+  narrative-1p:
+    required: false
+    category: gtm
+    description: "Executive summary"
+
+  # Requirements phase - PRD with API contracts (Google + Stripe)
+  prd:
+    required: true
+    category: source
+    description: "Product requirements with API contracts, non-goals, and alternatives"
+
+  # Experience phase - UXD with DX (Stripe)
+  uxd:
+    required: true
+    category: source
+    description: "User experience with developer experience considerations"
+
+  # Technical phase - Design docs (Google)
+  trd:
+    required: true
+    category: technical
+    description: "Design doc with alternatives, tradeoffs, and reversibility assessment"
+
+  tpd:
+    required: true
+    category: technical
+    description: "Test plan with experiment design and hypothesis validation"
+
+  ird:
+    required: false
+    category: technical
+    description: "Infrastructure requirements"
+
+  # Business Model Canvas: synthesized from MRD
+  bmc:
+    required: false
+    category: gtm
+    description: "Business Model Canvas extracted from MRD for stakeholder review"
+
+# Synthesis rules for product-level flow (simplified guidance)
+synthesis:
+  bmc:
+    sources:
+      - mrd
+    guidance: "Extract Business Model Canvas blocks from MRD. Focus on customer segments, value propositions, and revenue streams."
+
+  press:
+    sources:
+      - mrd
+    guidance: "Write from customer perspective. Include measurable outcomes (OKRs)."
+
+  faq:
+    sources:
+      - mrd
+      - press
+    guidance: "Include internal stakeholder questions, customer questions, and developer/API questions (Stripe). Challenge key assumptions."
+
+  narrative-6p:
+    sources:
+      - mrd
+      - press
+      - faq
+    guidance: "Amazon 6-pager format. Include data and explicit tradeoffs (Google). No slides, pure narrative."
+
+  prd:
+    sources:
+      - mrd
+      - press
+      - faq
+    guidance: "Include API contracts (Stripe), non-goals (Google), alternatives considered, and success metrics (OKRs)."
+
+  trd:
+    sources:
+      - prd
+      - uxd
+    guidance: "Google design doc format. Include alternatives considered, explicit tradeoffs, and reversibility assessment (two-way vs one-way door)."
+
+  tpd:
+    sources:
+      - prd
+      - trd
+    guidance: "Include hypothesis and success criteria for key validations."

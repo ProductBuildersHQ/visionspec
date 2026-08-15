@@ -1,0 +1,311 @@
+id: tpd-rubric
+name: Enterprise TPD Rubric
+version: "2.0"
+description: >-
+  Test Plan Document evaluation for enterprise implementations. The TPD is the
+  verification contract: categories tagged implementation_readiness are
+  blocking gates on whether the customer promise, product behavior, and
+  technical guarantees are all actually proven, not merely described. A
+  not_applicable option accepts a documented risk rationale as a complete
+  answer for infrastructure or chaos-testing scope that genuinely does not
+  apply.
+evaluationType: analytic
+judgeInstructions:
+  - Cite the relevant section and PRESS/PRD/UXD/TRD/IRD/TPD ID for every finding.
+  - A coverage row with a Test Case ID that does not exist elsewhere in the document is a fail, not a pass — verify referenced IDs resolve.
+  - A "Not applicable" answer with a real, risk-based rationale counts as pass; "Not applicable" alone, or silence, counts as fail.
+  - Distinguish "configured" from "tested" for observability — an alert that exists but was never fired counts as a gap.
+  - Do not reward automation coverage percentage alone; reward requirement and risk coverage.
+passCriteria:
+    minCategoriesPassing: all_required
+    maxFindingsSeverity:
+        critical: 0
+        high: 0
+        medium: 2
+        low: -1
+categories:
+    - id: promise_traceability
+      name: Promise and Requirement Traceability
+      description: Does every PRESS promise trace forward through PRD/UXD/TRD/IRD to a verified TPD scenario?
+      weight: 0.16
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Every row in the traceability chain has an ID and a Verified By test case
+                - Referenced test case IDs exist in the document
+            - value: partial
+              label: Partial
+              criteria:
+                - Most chain rows filled but some missing a verification reference
+            - value: fail
+              label: Fail
+              criteria:
+                - No traceability chain, or referenced test cases do not exist
+    - id: prd_coverage
+      name: PRD Coverage
+      description: Whether all PRD requirements have corresponding test cases.
+      weight: 0.12
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Every PRD requirement has a mapped test case ID
+            - value: partial
+              label: Partial
+              criteria:
+                - Most requirements covered but some gaps exist
+            - value: fail
+              label: Fail
+              criteria:
+                - No systematic mapping from requirements to tests
+    - id: trd_coverage
+      name: TRD Coverage
+      description: Technical guarantees (interface contracts, invariants, operational guarantees) have test scenarios.
+      weight: 0.12
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Every applicable TRD-ID has a mapped test case
+            - value: partial
+              label: Partial
+              criteria:
+                - Major guarantees covered but edge cases missing
+            - value: fail
+              label: Fail
+              criteria:
+                - Technical testing inadequate or unmapped
+    - id: ird_coverage
+      name: IRD Coverage
+      description: Infrastructure requirements have test or validation scenarios.
+      weight: 0.08
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Every applicable IRD-ID has a mapped test case
+            - value: not_applicable
+              label: Not Applicable
+              criteria:
+                - Section states "Not applicable" with rationale matching the IRD's own no-infrastructure-impact declaration
+            - value: partial
+              label: Partial
+              criteria:
+                - Some IRD requirements covered but gaps exist
+            - value: fail
+              label: Fail
+              criteria:
+                - Section blank with no applicability statement, despite IRD requirements existing
+    - id: uxd_coverage
+      name: UXD Coverage
+      description: User journeys and states have corresponding E2E and UAT tests.
+      weight: 0.08
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - All critical user journeys and states have E2E tests and UAT scenarios
+            - value: partial
+              label: Partial
+              criteria:
+                - Happy paths covered but alternative or error states missing
+            - value: fail
+              label: Fail
+              criteria:
+                - No user journey testing defined
+    - id: nft_coverage
+      name: Non-Functional Testing
+      description: Coverage of performance, security, and reliability testing with measurable targets.
+      weight: 0.10
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Performance and security test cases have numeric targets, not just labels
+                - Test cases map to the TRD Operational Guarantees / Security rows they verify
+            - value: partial
+              label: Partial
+              criteria:
+                - Some NFT coverage but targets vague or unmapped
+            - value: fail
+              label: Fail
+              criteria:
+                - No non-functional testing defined
+    - id: resiliency_observability
+      name: Resiliency, Observability, and Runbooks
+      description: Is chaos/failure testing risk-gated, and is observability actually exercised rather than only configured?
+      weight: 0.10
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Risk tier stated with rationale
+                - Chaos/fault injection scope matches the risk tier (high risk tested; lower risk explicitly justified as not applicable)
+                - Observability validation confirms alerts/dashboards fire, not only that they exist
+                - Runbook procedures are executed, not only reviewed
+            - value: partial
+              label: Partial
+              criteria:
+                - Risk tier stated but scope doesn't match it, or observability described as configured without being exercised
+            - value: fail
+              label: Fail
+              criteria:
+                - No risk tier stated, or section entirely blank
+    - id: test_automation
+      name: Test Automation Strategy
+      description: Automation strategy with coverage by requirement/risk, not raw percentage.
+      weight: 0.08
+      required: false
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Automation scope, tooling, and execution layer specified per test type
+            - value: partial
+              label: Partial
+              criteria:
+                - Basic automation plan but missing tooling or execution layer
+            - value: fail
+              label: Fail
+              criteria:
+                - No automation strategy
+    - id: test_environment
+      name: Test Environment
+      description: Test environment and infrastructure clearly defined.
+      weight: 0.05
+      required: false
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Complete environment specs with setup and parity requirements
+            - value: partial
+              label: Partial
+              criteria:
+                - Basic environment defined but missing details
+            - value: fail
+              label: Fail
+              criteria:
+                - No test environment defined
+    - id: test_data
+      name: Test Data Strategy
+      description: Test data requirements, generation, and reproducibility.
+      weight: 0.05
+      required: false
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Complete data strategy including generation, anonymization, cleanup, and reproducibility
+            - value: partial
+              label: Partial
+              criteria:
+                - Basic data approach but missing privacy or reproducibility details
+            - value: fail
+              label: Fail
+              criteria:
+                - No test data strategy
+    - id: ci_integration
+      name: CI/CD Integration
+      description: Tests integrated into CI/CD pipeline with blocking gates.
+      weight: 0.03
+      required: false
+      class: specification_quality
+      blocking: false
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Clear CI/CD stages with blocking gate criteria per stage
+            - value: partial
+              label: Partial
+              criteria:
+                - Some CI integration but incomplete pipeline coverage
+            - value: fail
+              label: Fail
+              criteria:
+                - No CI/CD integration defined
+    - id: sign_off
+      name: Entry and Exit Criteria
+      description: Exit criteria require every traceability row to pass, not merely test execution.
+      weight: 0.03
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Exit criteria reference the traceability chain (§2) passing, not only "tests executed"
+            - value: partial
+              label: Partial
+              criteria:
+                - Exit criteria present but do not reference traceability completeness
+            - value: fail
+              label: Fail
+              criteria:
+                - No exit criteria, or criteria satisfied by execution alone regardless of coverage

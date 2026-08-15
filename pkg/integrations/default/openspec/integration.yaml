@@ -1,0 +1,151 @@
+id: openspec
+name: OpenSpec
+short_name: OpenSpec
+vendor: Fission-AI
+description: >-
+  Lightweight, brownfield-first SDD layer where humans and AI agents agree on
+  written specs (requirements + scenarios) before code, using delta-based change
+  proposals (ADDED/MODIFIED/REMOVED) that merge into a canonical spec set on
+  archive. Current workflow surface is branded OPSX.
+kind: execution
+source: repo
+homepage: https://github.com/Fission-AI/OpenSpec
+repo: https://github.com/Fission-AI/OpenSpec
+reference: https://github.com/Fission-AI/OpenSpec/blob/main/README.md
+license: MIT
+invocations:
+  - cli
+  - slash-command
+cli_command: openspec
+agents:
+  - Claude Code
+  - Cursor
+  - GitHub Copilot
+  - Amazon Q
+  - Codex
+  - Kiro
+
+detection:
+  root_markers:
+    - openspec/
+    - openspec/config.yaml
+    - openspec/specs/
+    - openspec/changes/
+  globs:
+    - openspec/specs/*/spec.md
+
+artifacts:
+  - id: config
+    path: openspec/config.yaml
+    role: config
+    description: Project config — schema, context, and per-artifact rules injected into generation.
+    phase: init
+    produced: true
+  - id: capability-spec
+    path: openspec/specs/<capability>/spec.md
+    role: spec
+    description: Canonical, agreed-upon behavior — the source of truth (Requirements + WHEN/THEN scenarios).
+    phase: archive
+    spec_type: spec
+    produced: true
+  - id: proposal
+    path: openspec/changes/<change-id>/proposal.md
+    role: proposal
+    description: The why + what of a change (intent, scope, capabilities, impact).
+    phase: propose
+    spec_type: prd
+    produced: true
+  - id: delta-spec
+    path: openspec/changes/<change-id>/specs/<capability>/spec.md
+    role: spec
+    description: Delta specs — ADDED/MODIFIED/REMOVED/RENAMED requirement sections.
+    phase: propose
+    produced: true
+  - id: design
+    path: openspec/changes/<change-id>/design.md
+    role: design
+    description: Technical how — context, decisions, risks, migration (optional).
+    phase: propose
+    produced: true
+  - id: tasks
+    path: openspec/changes/<change-id>/tasks.md
+    role: tasks
+    description: Implementation checklist ("- [ ] N.M" checkboxes).
+    phase: apply
+    produced: true
+  - id: archive
+    path: openspec/changes/archive/<YYYY-MM-DD-change-id>/
+    role: proposal
+    description: Completed changes, date-prefixed, retained for history.
+    phase: archive
+    produced: true
+
+lifecycle:
+  - id: init
+    name: Init
+    description: Scaffold the openspec/ directory and config.
+    command: openspec init
+    produces:
+      - config
+  - id: explore
+    name: Explore
+    description: Optional shaping/thinking step before proposing (no structured output).
+    command: /opsx:explore
+  - id: propose
+    name: Propose
+    description: Open a change — proposal, delta specs, optional design, and tasks.
+    command: /opsx:propose
+    consumes:
+      - config
+    produces:
+      - proposal
+      - delta-spec
+      - design
+      - tasks
+  - id: apply
+    name: Apply
+    description: Implement the change, checking off tasks as code is written.
+    command: /opsx:apply
+    consumes:
+      - tasks
+      - delta-spec
+  - id: archive
+    name: Archive
+    description: Merge delta specs into the canonical specs and move the change to archive/.
+    command: openspec archive
+    consumes:
+      - delta-spec
+    produces:
+      - capability-spec
+      - archive
+
+status:
+  method: dir-state
+  source: openspec/changes/**
+  description: >-
+    A change directly under openspec/changes/ is active; under
+    openspec/changes/archive/ it is done (date-prefixed). For an active change,
+    "openspec status --change <id> --json" reports each planning artifact as
+    done/ready/blocked; implementation progress comes from tasks.md checkbox
+    counts. Roll up: count active vs archived changes and specs/*/spec.md.
+
+inputs:
+  - id: proposal-in
+    medium: prompt
+    description: >-
+      Human intent handed to /opsx:propose. An external PRD/feature request maps
+      onto proposal.md (its Why / What Changes / Capabilities sections); standing
+      product context maps onto openspec/config.yaml's context block.
+    spec_types:
+      - prd
+      - narrative-6p
+
+outputs:
+  - id: specs-out
+    medium: export
+    description: The evolving canonical capability spec set (the durable product).
+    artifacts:
+      - capability-spec
+  - id: code-out
+    medium: code
+    description: Implemented code, tracked via tasks.md checkboxes.

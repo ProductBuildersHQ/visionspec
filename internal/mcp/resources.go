@@ -7,9 +7,9 @@ import (
 	"strings"
 
 	sws "github.com/ProductBuildersHQ/specification-workflow-spec/pkg/workflows"
-	"github.com/ProductBuildersHQ/visionspec/pkg/rubrics"
-	"github.com/ProductBuildersHQ/visionspec/pkg/templates"
-	"github.com/ProductBuildersHQ/visionspec/pkg/types"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/rubrics"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/templates"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/types"
 	"github.com/modelcontextprotocol/go-sdk/mcp"
 )
 
@@ -159,11 +159,11 @@ func (s *Server) handleProfileResource(ctx context.Context, req *mcp.ReadResourc
 			sb.WriteString(fmt.Sprintf("  %s:\n", specType))
 			sb.WriteString(fmt.Sprintf("    required: %v\n", req.Required))
 			sb.WriteString(fmt.Sprintf("    category: %s\n", req.Category))
-			if req.Template != "" {
-				sb.WriteString(fmt.Sprintf("    template: %s\n", req.Template))
+			if req.Template != nil {
+				sb.WriteString(fmt.Sprintf("    template: {from: %s}\n", req.Template.From))
 			}
-			if req.Rubric != "" {
-				sb.WriteString(fmt.Sprintf("    rubric: %s\n", req.Rubric))
+			if req.Rubric != nil {
+				sb.WriteString(fmt.Sprintf("    rubric: {from: %s}\n", req.Rubric.From))
 			}
 		}
 	}

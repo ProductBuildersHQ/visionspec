@@ -7,7 +7,7 @@ package cli
 import (
 	"fmt"
 
-	pkgcli "github.com/ProductBuildersHQ/visionspec/pkg/cli"
+	pkgcli "github.com/ProductBuildersHQ/specification-workflow-spec/pkg/cli"
 	"github.com/spf13/cobra"
 )
 

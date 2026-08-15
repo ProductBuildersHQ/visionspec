@@ -1,0 +1,147 @@
+<!-- Not prism-synced: prism-roadmap defines schema/experience-map.schema.json
+but has no templates/experience-map.md upstream yet. Authored locally,
+matching this directory's house style (assumption-map.md, discovery-snapshot.md)
+and the ExperienceMap JSON Schema fields. Candidate for upstreaming to
+prism-roadmap so this file can be replaced by a synced copy. -->
+
+# Experience Map: {{experience}}
+
+> A customer journey across phases, surfacing pain points and opportunities at each step.
+> Reference: [Continuous Discovery Habits by Teresa Torres](https://www.producttalk.org/)
+
+## Metadata
+
+| Attribute | Value |
+|-----------|-------|
+| **Experience** | <!-- The end-to-end experience being mapped --> |
+| **Persona Reference** | <!-- Link to the persona this map is for --> |
+| **Persona Description** | <!-- One or two sentences on who this persona is --> |
+| **PRD Reference** | <!-- Link to the PRD this map informs, if any --> |
+
+## Journey Overview
+
+<!-- List phases in order, left to right. Each phase gets a section below. -->
+
+| Order | Phase | Summary |
+|-------|-------|---------|
+| 1 | | |
+| 2 | | |
+| 3 | | |
+
+## Phases
+
+### Phase 1: {{phase_name}}
+
+| Attribute | Value |
+|-----------|-------|
+| **Description** | |
+| **Thinking** | <!-- What is the customer thinking during this phase? --> |
+| **Feeling** | <!-- What is the customer feeling during this phase? --> |
+| **Emotions** | <!-- e.g. anxious, hopeful, frustrated --> |
+
+#### Actions
+
+| ID | Action | Actor | Channel | Pain | Delight |
+|----|--------|-------|---------|------|---------|
+| A1-1 | | | | | |
+| A1-2 | | | | | |
+
+#### Touchpoints
+
+- <!-- Where the customer interacts with the product/company in this phase -->
+
+#### Pain Points
+
+- <!-- What goes wrong or frustrates the customer in this phase -->
+
+#### Opportunities
+
+- <!-- What could be improved or built to address the pain points -->
+
+### Phase 2: {{phase_name}}
+
+| Attribute | Value |
+|-----------|-------|
+| **Description** | |
+| **Thinking** | |
+| **Feeling** | |
+| **Emotions** | |
+
+#### Actions
+
+| ID | Action | Actor | Channel | Pain | Delight |
+|----|--------|-------|---------|------|---------|
+| A2-1 | | | | | |
+
+#### Touchpoints
+
+-
+
+#### Pain Points
+
+-
+
+#### Opportunities
+
+-
+
+### Phase 3: {{phase_name}}
+
+| Attribute | Value |
+|-----------|-------|
+| **Description** | |
+| **Thinking** | |
+| **Feeling** | |
+| **Emotions** | |
+
+#### Actions
+
+| ID | Action | Actor | Channel | Pain | Delight |
+|----|--------|-------|---------|------|---------|
+| A3-1 | | | | | |
+
+#### Touchpoints
+
+-
+
+#### Pain Points
+
+-
+
+#### Opportunities
+
+-
+
+## Top Pain Points
+
+<!-- The highest-impact pain points across all phases, ranked -->
+
+| Rank | Pain Point | Phase |
+|------|------------|-------|
+| 1 | | |
+| 2 | | |
+| 3 | | |
+
+## Top Opportunities
+
+<!-- The highest-impact opportunities across all phases, ranked -->
+
+| Rank | Opportunity | Phase |
+|------|-------------|-------|
+| 1 | | |
+| 2 | | |
+| 3 | | |
+
+## PRD Traceability
+
+| Attribute | Value |
+|-----------|-------|
+| **PRD ID** | |
+| **Feature IDs** | |
+| **Requirement IDs** | |
+| **User Story IDs** | |
+| **Persona IDs** | |
+
+---
+
+*This experience map follows the [Continuous Discovery Habits](https://www.producttalk.org/) framework by Teresa Torres.*

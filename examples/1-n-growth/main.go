@@ -13,7 +13,7 @@ import (
 	"os"
 
 	sws "github.com/ProductBuildersHQ/specification-workflow-spec/pkg/workflows"
-	"github.com/ProductBuildersHQ/visionspec/pkg/cli"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/cli"
 	"github.com/spf13/cobra"
 )
 

@@ -1,0 +1,191 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/ProductBuildersHQ/specification-workflow-spec/schema/template.schema.json",
+  "$ref": "#/$defs/Template",
+  "$defs": {
+    "Frontmatter": {
+      "properties": {
+        "required": {
+          "items": {
+            "$ref": "#/$defs/FrontmatterField"
+          },
+          "type": "array",
+          "description": "Required frontmatter fields"
+        },
+        "optional": {
+          "items": {
+            "$ref": "#/$defs/FrontmatterField"
+          },
+          "type": "array",
+          "description": "Optional frontmatter fields"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "FrontmatterField": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Field name"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "string",
+            "number",
+            "boolean",
+            "array",
+            "object"
+          ]
+        },
+        "description": {
+          "type": "string",
+          "description": "Field purpose"
+        },
+        "default": {
+          "description": "Default value"
+        },
+        "enum": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Allowed values"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "name",
+        "type"
+      ]
+    },
+    "Section": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Section identifier"
+        },
+        "title": {
+          "type": "string",
+          "description": "Section heading"
+        },
+        "description": {
+          "type": "string",
+          "description": "Section guidance"
+        },
+        "required": {
+          "type": "boolean",
+          "description": "Whether section is required"
+        },
+        "level": {
+          "type": "integer",
+          "maximum": 6,
+          "minimum": 1,
+          "description": "Heading level"
+        },
+        "subsections": {
+          "items": {
+            "$ref": "#/$defs/Section"
+          },
+          "type": "array",
+          "description": "Nested sections"
+        },
+        "placeholder": {
+          "type": "string",
+          "description": "Example content"
+        },
+        "minLength": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Minimum content length"
+        },
+        "maxLength": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Maximum content length"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "id",
+        "title"
+      ]
+    },
+    "Template": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Template identifier"
+        },
+        "specType": {
+          "type": "string",
+          "description": "Spec type ID this template produces"
+        },
+        "version": {
+          "type": "string",
+          "description": "Template version"
+        },
+        "description": {
+          "type": "string",
+          "description": "Template purpose"
+        },
+        "sections": {
+          "items": {
+            "$ref": "#/$defs/Section"
+          },
+          "type": "array",
+          "description": "Template sections"
+        },
+        "frontmatter": {
+          "$ref": "#/$defs/Frontmatter",
+          "description": "YAML frontmatter schema"
+        },
+        "metadata": {
+          "$ref": "#/$defs/TemplateMetadata",
+          "description": "Template metadata"
+        },
+        "content": {
+          "type": "string",
+          "description": "Raw markdown template content with placeholders"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "id",
+        "specType"
+      ]
+    },
+    "TemplateMetadata": {
+      "properties": {
+        "author": {
+          "type": "string",
+          "description": "Template author"
+        },
+        "source": {
+          "type": "string",
+          "description": "Template origin"
+        },
+        "lastUpdated": {
+          "type": "string",
+          "format": "date",
+          "description": "Last modification date"
+        },
+        "tags": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Categorization tags"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    }
+  },
+  "title": "Spec Template",
+  "description": "Schema for template definitions"
+}

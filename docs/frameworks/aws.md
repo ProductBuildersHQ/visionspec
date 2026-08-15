@@ -4,24 +4,24 @@ Amazon's Working Backwards methodology starts with the customer and works backwa
 
 ## Profile Variants
 
-VisionSpec provides two AWS profiles for different scopes:
+Both profiles start the same way — with the human-authored **Press Release**, the founding artifact of Working Backwards. Amazon classifies decisions by **reversibility** (one-way vs. two-way doors), not by a product/feature taxonomy — so the profiles are named by the door. The door sets the ceremony; the scale picks the deepening tool (both are optional in both profiles):
 
-| Profile | Starting Document | Best For |
-|---------|-------------------|----------|
-| `aws-product` | MRD | New product lines, major initiatives |
-| `aws-feature` | OpportunitySpec | Features on existing products |
+| Profile | Founding Document | Ceremony | Typical For |
+|---------|-------------------|----------|-------------|
+| `aws-one-way-door` | Press Release | 6-pager decision narrative **required**; formal decision meeting gates build spend | Hard-to-reverse bets: new product lines, public commitments, major investments |
+| `aws-two-way-door` | Press Release | Iterative PR/FAQ review is the only formal gate; 6-pager optional | Reversible bets: features, experiments, incremental improvements |
 
-For feature-level opportunities, see [OpportunitySpec Framework](opportunity-spec.md).
+Optional post-FAQ deepening in either profile: **MRD** (market validation — typical at product scale) or **OpportunitySpec** (discovery canvas — typical at feature scale). For the latter, see [OpportunitySpec Framework](opportunity-spec.md).
 
 ## The Flow
 
-### AWS Product Flow (MRD Start)
+### One-Way Door Flow (PR/FAQ Start)
 
-![AWS Product Flow](../diagrams/aws-product-flow.svg)
+![AWS One-Way Door Flow](../diagrams/aws-one-way-door-flow.svg)
 
-### AWS Feature Flow (OpportunitySpec Start)
+### Two-Way Door Flow (PR/FAQ Start)
 
-![AWS Feature Flow](../diagrams/aws-feature-flow.svg)
+![AWS Two-Way Door Flow](../diagrams/aws-two-way-door-flow.svg)
 
 ## Key Principles
 
@@ -30,53 +30,76 @@ For feature-level opportunities, see [OpportunitySpec Framework](opportunity-spe
 3. **PR/FAQ**: Write the press release announcing the product's launch
 4. **Challenge Assumptions**: Use FAQ to surface gaps and concerns
 5. **Narrative-Driven**: Use 6-pagers for decision-making
+6. **Iterate**: The PR/FAQ goes through many drafts — iteration is the method, not a failure of the first pass
+
+## AI-Native Working Backwards
+
+The methodology's division of labor maps cleanly onto AI-native building — and gets *stronger*, because AI makes the expensive parts of authenticity cheap:
+
+| Working Backwards element | Who does it | Why |
+|---|---|---|
+| **Press Release** | Human | The vision seed — taste and intent are the inputs AI cannot supply. Written first, by hand, on purpose. |
+| **FAQ** | Agents synthesize, human curates | Agents research the market, competitors, and constraints to stress-test the PR's claims; the human decides which answers survive. |
+| **Desirability evidence** | Agents build, humans watch users | A clickable demo of the announced experience (hardcoded data, no backend) is minutes of agent work. Attach it to the PR appendix — "watch people try it" beats "we believe." |
+| **Feasibility evidence** | Agents spike | The FAQ's "can we build it?" answers cite a vertical-slice proof-of-concept against real data — hours of agent work now, not weeks. Assertion-free feasibility. |
+| **Evaluation** | LLM-as-a-Judge | Each document is scored against the profile's leadership-principle rubrics between drafts, so iteration has a feedback signal cheaper than a review meeting. |
+| **PR/FAQ review, decision meeting** | Human | The gates stay human. The 6-pager review is the one-way-door judgment call — precisely the decision AI evidence can inform but not make. |
+
+Two disciplines keep this honest:
+
+- **Label the evidence.** AI makes artifacts *look* real for free, so every appendix item is marked by what it proves — a mockup illustrates, a demo tests desirability, a spike proves feasibility. Never let a facade cash a working-system claim.
+- **Iterate before the gate, not after.** Cheap synthesis and cheap evaluation mean the PR/FAQ can go through its ten drafts in days. Spend the iterations where Amazon always did — on the vision documents — so the one-way-door meeting decides on a hardened narrative, and the post-gate build (UXD, TRD, TPD) starts from settled intent.
 
 ## VisionSpec Mapping
 
 | AWS Artifact | VisionSpec Type | Purpose |
 |--------------|-----------------|---------|
-| Business Case | MRD | Market opportunity and customer problem |
-| Press Release | Press | Vision document announcing the solution |
-| FAQ | FAQ | Challenges claims, surfaces gaps |
+| Press Release | Press | **Founding artifact** — human-authored vision announcing the solution; written first |
+| FAQ | FAQ | Challenges claims, surfaces gaps; absorbs the business case |
+| Business Case deep-dive | MRD *(optional)* | Post-FAQ market validation when the risk warrants it (Amazon has no MRD; the FAQ carries the case) |
 | PRFAQ Combined | PRD | Product requirements derived from narrative |
-| 6-Pager | Narrative | Executive decision document |
+| 6-Pager | Narrative | Decision document for the one-way-door gate |
 | Design Doc | TRD | Technical architecture |
 | Test Plan | TPD | Test cases, automation, quality gates |
 | Ops Review | IRD | Infrastructure and operations |
 
-## Using the aws-product Profile
+## Using the aws-one-way-door Profile
 
 ### Initialize a Project
 
 ```bash
-multispec init my-product --profile aws-product
+multispec init my-product --profile aws-one-way-door
 ```
 
-### Create the MRD (Business Case)
+### Write the Press Release (Founding Artifact)
 
 ```bash
-multispec draft mrd -p my-product
+multispec draft press -p my-product
 ```
+
+The press release is human-authored — it is the vision seed, not a synthesis
+product. Write it first; everything else works backward from it.
 
 ### Synthesize Working Backwards Documents
 
 ```bash
-# Generate Press Release from MRD
-multispec synthesize press -p my-product
-
-# Generate FAQ from MRD + Press
+# Generate FAQ challenging the Press Release
 multispec synthesize faq -p my-product
+
+# Optional: deepen the FAQ's business case with market validation
+# (or `synthesize opportunity-spec` for the feature-scale discovery canvas)
+multispec synthesize mrd -p my-product
 
 # Generate PRD from Working Backwards artifacts
 multispec synthesize prd -p my-product
 
-# Generate technical specs
+# Generate 6-Pager Narrative for the decision gate
+multispec synthesize narrative-6p -p my-product
+
+# Generate technical specs (post-gate)
 multispec synthesize trd -p my-product
 multispec synthesize tpd -p my-product  # Test plan
 multispec synthesize ird -p my-product  # Infrastructure
-
-# Generate 6-Pager Narrative
-multispec synthesize narrative-6p -p my-product
 ```
 
 ### Evaluate Documents
@@ -126,7 +149,7 @@ The 6-Pager template follows Amazon's structure:
 
 ## Rubric Categories
 
-The AWS profiles evaluate documents on:
+Each document type carries its own LLM-as-a-Judge rubric (structured-evaluation format), grounded in the [Amazon Leadership Principles](https://www.amazon.jobs/content/en/our-workplace/leadership-principles) — all 16 are carried in the profiles' methodology metadata, and the most judgeable teachings are encoded as rubric categories: economic sustainability in the press rubric (Customer Obsession includes economics), disconfirmation rigor in the FAQ rubric (Are Right, A Lot: work to disconfirm; Earn Trust: vocally self-critical), the ownership horizon in the 6-pager rubric (the personal-money test), and door-specific decision-reversibility criteria in the PRD rubric (Bias for Action). Cross-cutting themes:
 
 | Category | Weight | Description |
 |----------|--------|-------------|
@@ -138,39 +161,39 @@ The AWS profiles evaluate documents on:
 | Frugality | 10% | Resource efficiency |
 | Deep Dive | 5% | Data-driven analysis |
 
-## Example Workflow (aws-product)
+## Example Workflow (aws-one-way-door)
 
 ```bash
 # 1. Initialize project
-multispec init checkout-redesign --profile aws-product
+multispec init checkout-redesign --profile aws-one-way-door
 
-# 2. Draft MRD with business case
-multispec draft mrd -p checkout-redesign
-# ... collaborate on MRD ...
-multispec finalize mrd -p checkout-redesign
-
-# 3. Synthesize Press Release
-multispec synthesize press -p checkout-redesign
+# 2. Human writes the Press Release — the founding artifact
+multispec draft press -p checkout-redesign
+# ... iterate on the announced customer experience ...
 multispec eval press -p checkout-redesign
 multispec approve press -p checkout-redesign
 
-# 4. Synthesize FAQ
+# 3. Synthesize FAQ to stress-test the press release
 multispec synthesize faq -p checkout-redesign
 multispec eval faq -p checkout-redesign
 multispec approve faq -p checkout-redesign
+
+# 4. Optional: deepen the business case with market validation
+#    (or `synthesize opportunity-spec` for the feature-scale discovery canvas)
+multispec synthesize mrd -p checkout-redesign
 
 # 5. Synthesize PRD from Working Backwards artifacts
 multispec synthesize prd -p checkout-redesign
 multispec eval prd -p checkout-redesign
 
-# 6. Human authors UXD
+# 6. Generate 6-Pager for the one-way-door decision meeting
+multispec synthesize narrative-6p -p checkout-redesign
+
+# 7. Post-gate: human authors UXD
 multispec draft uxd -p checkout-redesign
 
-# 7. Synthesize TRD
+# 8. Synthesize TRD
 multispec synthesize trd -p checkout-redesign
-
-# 8. Generate 6-Pager for executive review
-multispec synthesize narrative-6p -p checkout-redesign
 
 # 9. Check status
 multispec status -p checkout-redesign

@@ -1,0 +1,232 @@
+id: narrative-6p-rubric
+name: AWS 6-Pager Evaluation
+version: "1.0"
+description: Evaluates 6-pager narratives using Amazon Leadership Principles with emphasis on customer obsession, ownership, and deep dive
+evaluationType: analytic
+passCriteria:
+    minCategoriesPassing: all_required
+    maxFindingsSeverity:
+        critical: 0
+        high: 0
+        medium: 0
+        low: -1
+categories:
+    - id: customer_problem_depth
+      name: Customer Problem Depth
+      description: How deeply and authentically the customer problem is understood
+      weight: 0.2
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Deep dive into customer problem with specific anecdotes; reader feels the pain; authentic customer voice
+            - value: partial
+              label: Partial
+              criteria:
+                - Problem described but lacks depth or specificity
+            - value: fail
+              label: Fail
+              criteria:
+                - Customer problem superficial or clearly retrofitted to solution
+    - id: working_backwards_fidelity
+      name: Working Backwards Fidelity
+      description: Whether the narrative genuinely works backwards from customer needs
+      weight: 0.15
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Clear evidence of working backwards; solution flows from problem; not solution-seeking-problem
+            - value: partial
+              label: Partial
+              criteria:
+                - Customer framing present but connection to solution feels forced
+            - value: fail
+              label: Fail
+              criteria:
+                - Solution-first thinking; customer problem invented to justify predetermined solution
+    - id: simplifying_assumptions
+      name: Simplifying Assumptions
+      description: Whether breakthrough simplifying insights are identified
+      weight: 0.05
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Key simplifying assumption identified that unlocks the solution; 'blindingly obvious in retrospect' insight
+            - value: partial
+              label: Partial
+              criteria:
+                - Some simplification mentioned but not a breakthrough
+            - value: fail
+              label: Fail
+              criteria:
+                - No simplifying assumptions; solution feels overly complex
+    - id: tenets_quality
+      name: Tenets Quality
+      description: Whether tenets are opinionated and useful for decision-making
+      weight: 0.05
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Tenets are opinionated, help resolve tradeoffs, and guide the team
+            - value: partial
+              label: Partial
+              criteria:
+                - Tenets present but generic or non-actionable
+            - value: fail
+              label: Fail
+              criteria:
+                - No tenets or tenets are meaningless platitudes
+    - id: think_big
+      name: Think Big
+      description: Whether the vision is bold and ambitious
+      weight: 0.1
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Bold vision that looks around corners; not incremental thinking; inspires action
+            - value: partial
+              label: Partial
+              criteria:
+                - Vision present but feels safe or incremental
+            - value: fail
+              label: Fail
+              criteria:
+                - Thinking small; no ambition evident
+    - id: decision_analysis
+      name: Decision Analysis
+      description: "Bias for Action / Have Backbone: quality of one-way vs two-way door analysis, with genuine disagreements recorded in their strongest form rather than sanitized consensus"
+      weight: 0.1
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Decisions clearly categorized by reversibility; appropriate deliberation for one-way doors; speed for two-way doors
+            - value: partial
+              label: Partial
+              criteria:
+                - Some decision analysis but reversibility not consistently considered
+            - value: fail
+              label: Fail
+              criteria:
+                - No decision analysis or all decisions treated the same
+    - id: business_case_rigor
+      name: Business Case Rigor
+      description: Whether the business case focuses on inputs and is honest about assumptions
+      weight: 0.1
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Clear metrics focusing on inputs; assumptions explicit; honest about uncertainty
+            - value: partial
+              label: Partial
+              criteria:
+                - Business case present but too focused on outputs or assumptions hidden
+            - value: fail
+              label: Fail
+              criteria:
+                - No business case or metrics are meaningless
+    - id: self_critical_honesty
+      name: Self-Critical Honesty
+      description: Whether risks and limitations are honestly acknowledged
+      weight: 0.1
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Vocally self-critical; risks honestly assessed; alternative approaches genuinely considered
+            - value: partial
+              label: Partial
+              criteria:
+                - Some risks mentioned but feels defensive
+            - value: fail
+              label: Fail
+              criteria:
+                - No acknowledgment of risks; overconfident
+    - id: post_launch_thinking
+      name: Post-Launch Thinking
+      description: Whether the narrative plans for iteration after launch
+      weight: 0.05
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Clear recognition that 'launch is the starting line'; iteration plan; long-term ownership
+            - value: partial
+              label: Partial
+              criteria:
+                - Some post-launch thinking but not detailed
+            - value: fail
+              label: Fail
+              criteria:
+                - Launch treated as finish line; no iteration plan
+    - id: narrative_detail
+      name: Narrative Detail
+      description: "Deep Dive: it is hard to fake the details in a narrative — details sufficient to guide implementation; sections that survive only at high abstraction mark the proposal's weak points"
+      weight: 0.05
+      required: true
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Details are specific enough to guide engineering; hard to fake; deep dive quality
+            - value: partial
+              label: Partial
+              criteria:
+                - Some details but gaps remain
+            - value: fail
+              label: Fail
+              criteria:
+                - Hand-wavy; details avoided; PowerPoint-level thinking
+    - id: ownership_horizon
+      name: Ownership Horizon
+      description: "Ownership: the proposal passes the personal-money test and does not trade long-term value for short-term results"
+      weight: 0.05
+      required: false
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Long-term consequences analyzed; investment framed as an owner would (opportunity cost, durability); no short-term metric gaming
+            - value: partial
+              label: Partial
+              criteria:
+                - Long-term mentioned but the case argued mostly on short-term wins
+            - value: fail
+              label: Fail
+              criteria:
+                - Short-term results at visible long-term cost, or horizon unexamined

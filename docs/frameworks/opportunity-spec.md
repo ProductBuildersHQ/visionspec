@@ -4,36 +4,39 @@ OpportunitySpec is a merged 12-box framework from [prism-roadmap](https://github
 
 ## When to Use
 
-Use OpportunitySpec when evaluating **feature-level opportunities** within an existing product line. For new product lines, start with MRD instead.
+Use OpportunitySpec as optional **post-FAQ deepening** when the risk warrants
+discovery depth — typically at feature scale. Both AWS door profiles offer it
+alongside MRD: the door sets the ceremony; the scale picks the tool.
 
-| Scope | Starting Document | Profile |
-|-------|-------------------|---------|
-| New product line | MRD (Market Requirements) | `aws-product` |
-| New feature on existing product | OpportunitySpec | `aws-feature` |
+| Deepening Tool | Typical Scale | Available In |
+|----------------|---------------|--------------|
+| OpportunitySpec (discovery canvas) | Feature | `aws-one-way-door`, `aws-two-way-door` |
+| MRD (market validation) | Product | `aws-one-way-door`, `aws-two-way-door` |
 
 ## The OpportunitySpec Flow
 
-OpportunitySpec replaces MRD as the starting point for feature-level Working Backwards:
+Working Backwards starts with the human-authored Press Release — the founding
+artifact — and the FAQ that stress-tests it. The OpportunitySpec deepens the
+FAQ's discovery and business-case answers, and feeds PRD synthesis when
+present:
 
 ```
-1. OPPORTUNITY DISCOVERY (human-authored)
+1. WORKING BACKWARDS (human-authored PR, iterated with FAQ)
+   press.md  ⇄  faq.md
+   (vision)     (challenge assumptions)
+       ↓
+2. OPPORTUNITY DEEPENING (synthesized from press + faq, optional)
    opportunity-spec.md
+   (12-box discovery canvas; flag unanswered boxes as discovery gaps)
        ↓
-2. WORKING BACKWARDS (synthesized, editable)
-   press.md  →  faq.md  →  prd.md
-   (vision)     (scope)    (requirements)
-       ↓
-3. STAKEHOLDER REVIEW (synthesized, editable)
-   narrative-1p.md / narrative-6p.md
+3. REQUIREMENTS (synthesized, editable)
+   prd.md  ←  press + faq + whichever deepening is present
        ↓
 4. USER EXPERIENCE (human-authored)
    uxd.md
        ↓
 5. TECHNICAL SPECS (synthesized, editable)
-   trd.md  →  tpd.md  →  ird.md
-       ↓
-6. RECONCILIATION
-   spec.md
+   trd.md  →  tpd.md
 ```
 
 ## OpportunitySpec Structure
@@ -72,12 +75,12 @@ The 12-box canvas is organized in a 3×4 grid:
 | 11. Risks & Assumptions | What are we betting on and what could go wrong? | Patton + Cagan |
 | 12. Recommendation | Given all the above, what's the recommendation? | Cagan + Patton |
 
-## Using the aws-feature Profile
+## Using the aws-two-way-door Profile
 
 ### Initialize a Feature Project
 
 ```bash
-multispec init mobile-app-feature --profile aws-feature
+multispec init mobile-app-feature --profile aws-two-way-door
 ```
 
 ### Draft the OpportunitySpec
@@ -269,41 +272,37 @@ multispec imports these canonical assets and can customize them via profile conf
 
 ```bash
 # 1. Initialize feature project
-multispec init checkout-optimization --profile aws-feature
+multispec init checkout-optimization --profile aws-two-way-door
 
-# 2. Draft OpportunitySpec
-multispec draft opportunity-spec -p checkout-optimization
+# 2. Human authors the Press Release — the founding artifact
+multispec draft press -p checkout-optimization
 
-# 3. Collaborate on OpportunitySpec
-# ... edit opportunity-spec.md ...
-
-# 4. Evaluate
-multispec eval opportunity-spec -p checkout-optimization
-# Score: 85% (PASS)
-
-# 5. Approve and continue
-multispec approve opportunity-spec -p checkout-optimization
-
-# 6. Synthesize Press Release
-multispec synthesize press -p checkout-optimization
-multispec eval press -p checkout-optimization
-multispec approve press -p checkout-optimization
-
-# 7. Synthesize FAQ
+# 3. Synthesize FAQ to stress-test the PR; iterate the pair through drafts
 multispec synthesize faq -p checkout-optimization
 multispec eval faq -p checkout-optimization
 multispec approve faq -p checkout-optimization
 
-# 8. Generate PRD
+# 4. Optional deepening: populate the OpportunitySpec from press + faq
+multispec synthesize opportunity-spec -p checkout-optimization
+
+# 5. Collaborate on OpportunitySpec — fill the discovery gaps it flags
+# ... edit opportunity-spec.md ...
+
+# 6. Evaluate and approve
+multispec eval opportunity-spec -p checkout-optimization
+# Score: 85% (PASS)
+multispec approve opportunity-spec -p checkout-optimization
+
+# 7. Generate PRD (grounded in press + faq + opportunity-spec)
 multispec synthesize prd -p checkout-optimization
 
-# 9. Human authors UXD
+# 8. Human authors UXD
 multispec draft uxd -p checkout-optimization
 
-# 10. Generate technical specs
+# 9. Generate technical specs
 multispec synthesize trd -p checkout-optimization
 
-# 11. Check status
+# 10. Check status
 multispec status -p checkout-optimization
 ```
 

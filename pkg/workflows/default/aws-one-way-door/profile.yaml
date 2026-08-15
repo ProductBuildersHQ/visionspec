@@ -1,0 +1,188 @@
+name: aws-one-way-door
+description: "Amazon Working Backwards with one-way-door ceremony — for hard-to-reverse decisions (typically new product lines, public commitments, major investments). Starts with the human-authored Press Release (the founding artifact), stress-tests it with the FAQ, and requires the 6-pager decision narrative before build spend. Optional post-FAQ deepening: MRD (market validation, product scale) or OpportunitySpec (discovery, feature scale) — the door sets the ceremony; the scale picks the tool."
+extends: enterprise
+
+# Methodology documentation
+methodology:
+  name: "Amazon Working Backwards"
+  reference: "https://www.amazon.jobs/content/en/our-workplace/leadership-principles"
+  principles:
+    - customer_obsession: "Start with the customer and work backwards; earn and keep customer trust. Economics count: exciting customers with something unsustainable is not doing right by them. Competitors inform, customers decide."
+    - ownership: "Think long-term; never sacrifice long-term value for short-term results. Act for the whole company. The test: what would I do if this were my personal money?"
+    - invent_and_simplify: "Expect invention and simplification; be externally aware and take ideas from everywhere — no 'not invented here.' Accept being misunderstood for long periods."
+    - are_right_a_lot: "Judgment over ego: seek diverse perspectives and work to disconfirm your own beliefs. The goal is the best answer for the customer, whoever's idea it is. Leaders speak last."
+    - learn_and_be_curious: "Never done learning; curious about new possibilities and act to explore them."
+    - hire_and_develop_the_best: "Raise the performance bar with every hire; develop leaders and take ownership of others' growth."
+    - insist_on_highest_standards: "Relentlessly, even unreasonably, high standards. Defects do not get sent down the line. Higher expectations produce better results."
+    - think_big: "Thinking small is a self-fulfilling prophecy. Communicate a bold direction; look around corners for ways to serve customers."
+    - bias_for_action: "Speed matters and is a leadership decision, not a circumstance. Most decisions are reversible two-way doors — make them quickly at the team level. Reserve deep study for one-way doors. Days or hours, not weeks."
+    - frugality: "Accomplish more with less. Constraints breed resourcefulness, self-sufficiency, and invention. No extra points for headcount, budget, or fixed expense."
+    - earn_trust: "Listen attentively, speak candidly, treat others respectfully. Be vocally self-critical, even when awkward; benchmark against the best."
+    - deep_dive: "Operate at all levels and stay connected to the details; audit frequently; be skeptical when metrics and anecdotes differ. It is hard to fake the details in a narrative — that is why the narrative format works."
+    - have_backbone: "Respectfully challenge decisions when you disagree, even when uncomfortable. No compromise for social cohesion. Once decided, commit wholly."
+    - deliver_results: "Focus on the key inputs and deliver with the right quality, on time. Launch is the starting line, not the finish."
+    - strive_to_be_earths_best_employer: "Work to create a safer, more productive, more diverse, and more just work environment; lead with empathy and make others' success possible."
+    - success_and_scale_bring_broad_responsibility: "Big things carry big obligations: be humble about second-order effects, better every day for customers, employees, communities, and the world, and leave things better than found."
+spec_config:
+  # PR/FAQ are the founding artifacts of Working Backwards. The Press Release
+  # is human-authored — the vision seed, not a synthesis product.
+  press:
+    required: true
+    category: gtm
+    description: "The founding artifact: human-authored press release announcing the customer experience. Written first; everything else works backward from it."
+  faq:
+    required: true
+    category: gtm
+    description: "Stress-tests the press release. Absorbs the business case: market, economics, why-now, feasibility."
+
+  # MRD is optional post-FAQ market validation (overrides enterprise, where it
+  # is a required starting document). Amazon has no MRD; this deepens the
+  # FAQ's business-case answers with market evidence when the risk warrants it.
+  mrd:
+    required: false
+    category: source
+    description: "Optional market validation deepening the FAQ's business-case answers with evidence (typical at product scale)"
+
+  # OpportunitySpec is the feature-scale deepening alternative — a one-way-door
+  # decision at feature scale (e.g. a public API commitment) wants discovery
+  # depth, not a market requirements document.
+  opportunity-spec:
+    required: false
+    category: source
+    description: "Optional 12-box discovery canvas (Patton + Cagan) deepening the FAQ's answers (typical at feature scale)"
+
+  # 6-pager is the one-way-door decision narrative — required for new product lines
+  narrative-6p:
+    required: true
+    category: gtm
+
+  # 1-pager is executive summary
+  narrative-1p:
+    required: false
+    category: gtm
+
+  # Business Model Canvas: synthesized from MRD
+  bmc:
+    required: false
+    category: gtm
+    description: "Business Model Canvas extracted from MRD for stakeholder review"
+
+  # Unified output spec is not part of the Working Backwards flow
+  # (overrides enterprise; see visionspec aws-one-way-door-flow.d2)
+  spec:
+    required: false
+    category: output
+
+# Synthesis rules
+# Sources mirror the edges in visionspec's aws-one-way-door-flow.d2.
+synthesis:
+  # The press release is the human-authored founding artifact. The explicit
+  # empty sources list overrides enterprise's press←mrd rule (per-key merge
+  # would otherwise inherit it): a PR synthesized from research is "working
+  # forwards", the inversion this profile exists to prevent.
+  press:
+    sources: []
+    guidance: "Human-authored founding artifact — not synthesized. Write the press release first; everything else works backward from it."
+
+  faq:
+    sources:
+      - press
+    guidance: "Challenge the press release's assumptions ruthlessly. Include customer questions, internal stakeholder questions, and the business case: market, economics, why now, feasibility."
+
+  mrd:
+    sources:
+      - press
+      - faq
+    guidance: "Deepen and validate the FAQ's business-case answers with market evidence: segments, sizing, competition, positioning."
+
+  opportunity-spec:
+    sources:
+      - press
+      - faq
+    guidance: "Populate the 12-box OpportunitySpec canvas from the Press Release and FAQ. Flag boxes the source documents leave unanswered — those are the discovery gaps."
+
+  bmc:
+    sources:
+      - mrd
+    guidance: "Extract Business Model Canvas blocks from MRD. Focus on customer obsession and working backwards."
+
+  # Both optional deepenings feed the PRD: a team picks MRD (product scale) or
+  # OpportunitySpec (feature scale), and whichever exists must ground the
+  # requirements — the door sets the ceremony; the scale picks the tool.
+  prd:
+    sources:
+      - press
+      - faq
+      - mrd
+      - opportunity-spec
+    guidance: "Derive product requirements from the announced customer experience (press) and its stress-tested constraints (FAQ), grounded in whichever optional deepening is present: market validation (MRD, typical at product scale) or the discovery canvas (OpportunitySpec, typical at feature scale)."
+
+  narrative-6p:
+    sources:
+      - press
+      - faq
+      - prd
+    guidance: "Amazon 6-pager format for the one-way-door decision meeting. Data-driven narrative, no slides."
+
+  trd:
+    sources:
+      - prd
+      - uxd
+      - mrd
+    guidance: "Technical design to support PRD requirements, grounded in the market context from the MRD where present."
+
+  tpd:
+    sources:
+      - prd
+      - trd
+      - uxd
+    guidance: "Test plan covering all PRD requirements with traceability, including UX acceptance flows."
+
+  ird:
+    sources:
+      - trd
+    guidance: "Infrastructure and operations requirements derived from the technical design."
+
+# Working Backwards flow, matching visionspec's aws-one-way-door-flow.d2
+execution:
+  sequence:
+    - press
+    - faq
+    - mrd
+    - prd
+    - narrative-6p
+    - uxd
+    - trd
+    - tpd
+    - ird
+  phases:
+    - id: vision
+      name: Vision (Working Backwards)
+      specs: [press, faq]
+    - id: validation
+      name: Validation
+      specs: [mrd]
+    - id: requirements
+      name: Requirements
+      specs: [prd]
+    - id: decision
+      name: Decision Narrative
+      specs: [narrative-6p]
+    - id: experience
+      name: Experience
+      specs: [uxd]
+    - id: technical
+      name: Technical
+      specs: [trd, tpd, ird]
+  # The PR/FAQ is revised through many drafts — iteration is the essence of
+  # Working Backwards, not a failure of the first pass.
+  iteration_trigger: faq
+  review_gates:
+    # The Working Backwards review: PR + FAQ read together, iterated until
+    # the announced experience survives the room.
+    - after: faq
+      action: prfaq_review
+    # The one-way-door decision meeting; Build spend is gated on it.
+    - after: narrative-6p
+      action: decision_meeting
+      required: true

@@ -7,7 +7,7 @@
 //
 //	import (
 //		"github.com/spf13/cobra"
-//		"github.com/ProductBuildersHQ/visionspec/pkg/cli"
+//		"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/cli"
 //	)
 //
 //	func main() {
@@ -21,12 +21,12 @@ package cli
 
 import (
 	sws "github.com/ProductBuildersHQ/specification-workflow-spec/pkg/workflows"
-	"github.com/ProductBuildersHQ/visionspec/pkg/apptypes"
-	"github.com/ProductBuildersHQ/visionspec/pkg/constitution"
-	"github.com/ProductBuildersHQ/visionspec/pkg/rubrics"
-	"github.com/ProductBuildersHQ/visionspec/pkg/templates"
-	"github.com/ProductBuildersHQ/visionspec/pkg/types"
-	"github.com/ProductBuildersHQ/visionspec/pkg/workflows"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/apptypes"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/constitution"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/rubrics"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/templates"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/types"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/reporeader"
 	"github.com/spf13/cobra"
 )
 
@@ -140,12 +140,12 @@ func (c *Config) GetAppTypeLoader() apptypes.Loader {
 // GetWorkflowsRepo loads and returns the spec-workflows repository.
 // Uses auto-discovery if no explicit path is configured.
 // Returns nil, nil if no repository is found (not an error for optional usage).
-func (c *Config) GetWorkflowsRepo() (*workflows.Repo, error) {
+func (c *Config) GetWorkflowsRepo() (*reporeader.Repo, error) {
 	if c == nil {
 		return nil, nil
 	}
 	// Use discovery with explicit path (empty string triggers auto-discovery)
-	repo, err := workflows.DiscoverRepo(c.WorkflowsRepoPath)
+	repo, err := reporeader.DiscoverRepo(c.WorkflowsRepoPath)
 	if err != nil {
 		// If discovery fails and no explicit path was set, return nil (optional)
 		if c.WorkflowsRepoPath == "" {
@@ -163,7 +163,7 @@ func (c *Config) GetWorkflowsRepoPath() string {
 	if c == nil {
 		return ""
 	}
-	return workflows.DiscoverRepoPath(c.WorkflowsRepoPath)
+	return reporeader.DiscoverRepoPath(c.WorkflowsRepoPath)
 }
 
 // GetTemplateLoaderForWorkflow returns a template loader for a specific workflow.

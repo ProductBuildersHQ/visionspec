@@ -1,0 +1,40 @@
+name: jtbd
+description: "Clayton Christensen's Jobs-to-be-Done framework. Focus on the job customers hire products to do, not demographics or features."
+extends: startup
+
+methodology:
+  name: "Jobs-to-be-Done"
+  source: "Clayton Christensen - Competing Against Luck (2016)"
+  principles:
+    - jobs_not_products: "Customers don't buy products; they hire them to do a job"
+    - progress_over_features: "People want to make progress in their lives"
+    - circumstances_matter: "The same person has different jobs in different circumstances"
+    - functional_emotional_social: "Jobs have functional, emotional, and social dimensions"
+    - struggling_moments: "Innovation opportunity exists where customers struggle"
+    - competing_with_nothing: "Sometimes the competition is doing nothing"
+    - forces_of_progress: "Push, pull, anxiety, and habit determine switching"
+    - outcome_driven: "Success is measured by outcomes customers seek"
+
+spec_config:
+  # Job definition is central
+  mrd:
+    required: true
+    category: source
+
+  # Requirements framed as job outcomes
+  prd:
+    required: true
+    category: source
+
+  # UXD for journey mapping
+  uxd:
+    required: false
+    category: source
+
+  # GTM can use job stories
+  press:
+    required: false
+    category: gtm
+  faq:
+    required: false
+    category: gtm

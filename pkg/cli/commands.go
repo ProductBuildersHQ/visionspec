@@ -18,33 +18,33 @@ import (
 
 	swf "github.com/ProductBuildersHQ/specification-workflow-spec/pkg/workflow"
 	sws "github.com/ProductBuildersHQ/specification-workflow-spec/pkg/workflows"
-	"github.com/ProductBuildersHQ/visionspec/internal/mcp"
-	"github.com/ProductBuildersHQ/visionspec/pkg/align"
-	"github.com/ProductBuildersHQ/visionspec/pkg/config"
-	ctxpkg "github.com/ProductBuildersHQ/visionspec/pkg/context"
-	"github.com/ProductBuildersHQ/visionspec/pkg/context/sources"
-	"github.com/ProductBuildersHQ/visionspec/pkg/drift"
-	"github.com/ProductBuildersHQ/visionspec/pkg/eval"
-	"github.com/ProductBuildersHQ/visionspec/pkg/hooks"
-	"github.com/ProductBuildersHQ/visionspec/pkg/lint"
-	"github.com/ProductBuildersHQ/visionspec/pkg/metrics"
-	"github.com/ProductBuildersHQ/visionspec/pkg/mkdocs"
-	"github.com/ProductBuildersHQ/visionspec/pkg/patterns"
-	"github.com/ProductBuildersHQ/visionspec/pkg/reconcile"
-	"github.com/ProductBuildersHQ/visionspec/pkg/reuse"
-	"github.com/ProductBuildersHQ/visionspec/pkg/rubrics"
-	"github.com/ProductBuildersHQ/visionspec/pkg/rules"
-	"github.com/ProductBuildersHQ/visionspec/pkg/search"
-	"github.com/ProductBuildersHQ/visionspec/pkg/specgraph"
-	"github.com/ProductBuildersHQ/visionspec/pkg/status"
-	"github.com/ProductBuildersHQ/visionspec/pkg/synth"
-	"github.com/ProductBuildersHQ/visionspec/pkg/target"
-	"github.com/ProductBuildersHQ/visionspec/pkg/templates"
-	"github.com/ProductBuildersHQ/visionspec/pkg/testgen"
-	"github.com/ProductBuildersHQ/visionspec/pkg/types"
-	"github.com/ProductBuildersHQ/visionspec/pkg/version"
-	"github.com/ProductBuildersHQ/visionspec/pkg/workflow"
-	"github.com/ProductBuildersHQ/visionspec/pkg/workflow/specworkflow"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/internal/mcp"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/align"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/config"
+	ctxpkg "github.com/ProductBuildersHQ/specification-workflow-spec/pkg/context"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/context/sources"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/drift"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/eval"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/hooks"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/lint"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/metrics"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/mkdocs"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/patterns"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/reconcile"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/reuse"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/rubrics"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/rules"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/search"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/specgraph"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/status"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/synth"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/target"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/templates"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/testgen"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/types"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/version"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/execgraph"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/execgraph/specworkflow"
 	"github.com/plexusone/structured-evaluation/claims"
 	"github.com/plexusone/structured-evaluation/rubric"
 	"github.com/spf13/cobra"
@@ -212,7 +212,7 @@ func runInit(cmd *cobra.Command, args []string, cfg *Config) error {
 	}
 
 	// Add header comment
-	header := "# visionspec project configuration\n# See: https://github.com/ProductBuildersHQ/visionspec\n\n"
+	header := "# visionspec project configuration\n# See: https://github.com/ProductBuildersHQ/specification-workflow-spec\n\n"
 	if err := os.WriteFile(configPath, []byte(header+string(data)), 0600); err != nil {
 		return fmt.Errorf("failed to write config: %w", err)
 	}
@@ -690,15 +690,15 @@ func runWorkflow(cmd *cobra.Command, _ []string, cfg *Config) error {
 
 	switch format {
 	case "mermaid":
-		renderer := workflow.NewMermaidRenderer()
+		renderer := execgraph.NewMermaidRenderer()
 		fmt.Println(renderer.Render(wf))
 
 	case "dot":
-		renderer := workflow.NewDOTRenderer()
+		renderer := execgraph.NewDOTRenderer()
 		fmt.Println(renderer.Render(wf))
 
 	case "json":
-		renderer := &workflow.JSONRenderer{Indent: true}
+		renderer := &execgraph.JSONRenderer{Indent: true}
 		fmt.Println(renderer.Render(wf))
 
 	default: // text
@@ -749,17 +749,17 @@ func runWorkflow(cmd *cobra.Command, _ []string, cfg *Config) error {
 	return nil
 }
 
-func getStatusIcon(status workflow.Status) string {
+func getStatusIcon(status execgraph.Status) string {
 	switch status {
-	case workflow.StatusCompleted:
+	case execgraph.StatusCompleted:
 		return "✓"
-	case workflow.StatusInProgress:
+	case execgraph.StatusInProgress:
 		return "◐"
-	case workflow.StatusReady:
+	case execgraph.StatusReady:
 		return "○"
-	case workflow.StatusBlocked:
+	case execgraph.StatusBlocked:
 		return "✗"
-	case workflow.StatusSkipped:
+	case execgraph.StatusSkipped:
 		return "⊘"
 	default:
 		return "·"

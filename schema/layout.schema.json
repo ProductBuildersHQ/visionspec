@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/ProductBuildersHQ/specification-workflow-spec/schema/layout.schema.json",
+  "$ref": "#/$defs/Layout",
+  "$defs": {
+    "Layout": {
+      "properties": {
+        "source_dir": {
+          "type": "string"
+        },
+        "gtm_dir": {
+          "type": "string"
+        },
+        "technical_dir": {
+          "type": "string"
+        },
+        "strategic_dir": {
+          "type": "string"
+        },
+        "execution_dir": {
+          "type": "string"
+        },
+        "eval_dir": {
+          "type": "string"
+        },
+        "spec_extension": {
+          "type": "string"
+        },
+        "eval_extension": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    }
+  },
+  "title": "Project Layout",
+  "description": "Schema for layout definitions"
+}

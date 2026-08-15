@@ -1,0 +1,362 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/ProductBuildersHQ/specification-workflow-spec/schema/workflow.schema.json",
+  "$ref": "#/$defs/Workflow",
+  "$defs": {
+    "Artifact": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Artifact identifier"
+        },
+        "description": {
+          "type": "string",
+          "description": "Artifact explanation"
+        },
+        "category": {
+          "type": "string",
+          "description": "Artifact grouping"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "id"
+      ]
+    },
+    "Artifacts": {
+      "items": {
+        "$ref": "#/$defs/Artifact"
+      },
+      "type": "array"
+    },
+    "EvaluationConfig": {
+      "properties": {
+        "pass_threshold": {
+          "type": "integer",
+          "maximum": 100,
+          "minimum": 0,
+          "description": "Minimum score to pass"
+        },
+        "partial_threshold": {
+          "type": "integer",
+          "maximum": 100,
+          "minimum": 0,
+          "description": "Minimum score for partial pass"
+        },
+        "max_findings_severity": {
+          "$ref": "#/$defs/FindingSeverityLimits",
+          "description": "Maximum findings allowed by severity"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "Execution": {
+      "properties": {
+        "sequence": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Ordered spec type IDs"
+        },
+        "phases": {
+          "items": {
+            "$ref": "#/$defs/Phase"
+          },
+          "type": "array",
+          "description": "Named workflow phases"
+        },
+        "iteration_trigger": {
+          "type": "string",
+          "description": "Spec type that triggers workflow iteration"
+        },
+        "review_gates": {
+          "items": {
+            "$ref": "#/$defs/ReviewGate"
+          },
+          "type": "array",
+          "description": "Approval checkpoints"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "FindingSeverityLimits": {
+      "properties": {
+        "critical": {
+          "type": "integer",
+          "description": "Max critical findings (-1 = unlimited)"
+        },
+        "high": {
+          "type": "integer",
+          "description": "Max high findings (-1 = unlimited)"
+        },
+        "medium": {
+          "type": "integer",
+          "description": "Max medium findings (-1 = unlimited)"
+        },
+        "low": {
+          "type": "integer",
+          "description": "Max low findings (-1 = unlimited)"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "Methodology": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Methodology name"
+        },
+        "description": {
+          "type": "string",
+          "description": "Methodology overview"
+        },
+        "creator": {
+          "type": "string",
+          "description": "Methodology creator"
+        },
+        "source": {
+          "type": "string",
+          "description": "Origin company or publication"
+        },
+        "reference": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL to methodology documentation"
+        },
+        "principles": {
+          "items": {
+            "$ref": "#/$defs/Principle"
+          },
+          "type": "array",
+          "description": "Core methodology principles"
+        },
+        "artifacts": {
+          "$ref": "#/$defs/Artifacts",
+          "description": "Key artifacts"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "name"
+      ]
+    },
+    "Phase": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Phase identifier"
+        },
+        "name": {
+          "type": "string",
+          "description": "Phase name"
+        },
+        "description": {
+          "type": "string",
+          "description": "Phase purpose"
+        },
+        "specs": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Spec type IDs in this phase"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "specs"
+      ]
+    },
+    "Principle": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Principle identifier"
+        },
+        "name": {
+          "type": "string",
+          "description": "Principle name"
+        },
+        "description": {
+          "type": "string",
+          "description": "Principle explanation"
+        },
+        "source": {
+          "type": "string",
+          "description": "Origin company or methodology"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "id",
+        "name"
+      ]
+    },
+    "ReviewGate": {
+      "properties": {
+        "after": {
+          "type": "string",
+          "description": "Spec type ID after which gate applies"
+        },
+        "action": {
+          "type": "string",
+          "description": "Required approval action"
+        },
+        "required": {
+          "type": "boolean",
+          "description": "Whether gate is mandatory"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "after",
+        "action"
+      ]
+    },
+    "SpecRequirement": {
+      "properties": {
+        "required": {
+          "type": "boolean",
+          "description": "Whether this spec is required"
+        },
+        "category": {
+          "type": "string",
+          "enum": [
+            "source",
+            "gtm",
+            "technical",
+            "execution",
+            "output",
+            "strategic"
+          ]
+        },
+        "description": {
+          "type": "string",
+          "description": "Workflow-specific description"
+        },
+        "template": {
+          "$ref": "#/$defs/SpecSource",
+          "description": "Provenance of this spec's template"
+        },
+        "rubric": {
+          "$ref": "#/$defs/SpecSource",
+          "description": "Provenance of this spec's rubric"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "required"
+      ]
+    },
+    "SpecSource": {
+      "properties": {
+        "from": {
+          "type": "string",
+          "description": "Owning workflow name"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "from"
+      ]
+    },
+    "SynthesisRule": {
+      "properties": {
+        "sources": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Source spec type IDs"
+        },
+        "guidance": {
+          "type": "string",
+          "description": "LLM prompt guidance for synthesis"
+        },
+        "prompt_context": {
+          "type": "string",
+          "description": "Additional synthesis prompt context"
+        },
+        "required": {
+          "type": "boolean",
+          "description": "Whether all sources are required"
+        },
+        "priority": {
+          "type": "integer",
+          "description": "Synthesis priority (higher = earlier)"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "sources"
+      ]
+    },
+    "Workflow": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Workflow identifier"
+        },
+        "description": {
+          "type": "string",
+          "description": "Workflow purpose and target audience"
+        },
+        "extends": {
+          "type": "string",
+          "description": "Parent workflow to inherit settings from"
+        },
+        "abstract": {
+          "type": "boolean",
+          "description": "True if this workflow cannot be used directly"
+        },
+        "methodology": {
+          "$ref": "#/$defs/Methodology",
+          "description": "Underlying product methodology documentation"
+        },
+        "spec_config": {
+          "additionalProperties": {
+            "$ref": "#/$defs/SpecRequirement"
+          },
+          "type": "object",
+          "description": "Spec requirements by spec type ID"
+        },
+        "synthesis": {
+          "additionalProperties": {
+            "$ref": "#/$defs/SynthesisRule"
+          },
+          "type": "object",
+          "description": "Synthesis rules by target spec type"
+        },
+        "execution": {
+          "$ref": "#/$defs/Execution",
+          "description": "Phase ordering and gates"
+        },
+        "evaluation": {
+          "$ref": "#/$defs/EvaluationConfig",
+          "description": "Evaluation thresholds"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "name"
+      ]
+    }
+  },
+  "title": "Specification Workflow",
+  "description": "Schema for workflow definitions"
+}

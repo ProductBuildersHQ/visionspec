@@ -1342,7 +1342,7 @@ Ensure all profiles have complete template and rubric coverage for LLM-as-a-Judg
   - `rubrics/trd.rubric.yaml`, `rubrics/ird.rubric.yaml`, `rubrics/tpd.rubric.yaml`
   - Update profile.yaml to include optional technical specs
 
-- [x] RMI-498: Add missing templates/rubrics to aws-feature profile
+- [x] RMI-498: Add missing templates/rubrics to aws-two-way-door profile
   - `templates/prd.md` - Feature-level PRD
   - `templates/trd.md` - Feature-level TRD
   - `templates/uxd.md` - Feature-level UXD
@@ -1351,7 +1351,7 @@ Ensure all profiles have complete template and rubric coverage for LLM-as-a-Judg
   - `rubrics/trd.rubric.yaml`, `rubrics/ird.rubric.yaml`, `rubrics/uxd.rubric.yaml`
 
 - [x] RMI-499: Add missing templates/rubrics to big-tech-feature profile
-  - Same templates/rubrics as aws-feature
+  - Same templates/rubrics as aws-two-way-door
   - Naming updated to "Big Tech Feature"
 
 - [x] RMI-500a: Add missing templates/rubrics to startup profile

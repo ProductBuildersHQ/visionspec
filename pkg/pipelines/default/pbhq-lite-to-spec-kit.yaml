@@ -1,0 +1,17 @@
+id: pbhq-lite-to-spec-kit
+name: PBHQ Lite → Spec-Kit
+description: >-
+  A lightweight PBHQ Lite definition produces a reconciled spec; Spec-Kit's
+  /speckit.specify consumes it (or it is merged into specs/<feature>/spec.md),
+  after which plan → tasks → implement proceeds.
+definition:
+  workflow: pbhq-lite
+  outputs:
+    - spec
+execution:
+  integration: spec-kit
+  input_port: feature-description
+handoffs:
+  - spec_type: spec
+    to_artifact: spec
+    transform: Pass the reconciled spec as the /speckit.specify argument, or merge it into specs/<feature>/spec.md.

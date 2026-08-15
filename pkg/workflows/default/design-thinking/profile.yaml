@@ -1,0 +1,47 @@
+name: design-thinking
+description: "Stanford d.school Design Thinking methodology. Human-centered design with Empathize-Define-Ideate-Prototype-Test cycles."
+extends: startup
+
+methodology:
+  name: "Design Thinking"
+  source: "Stanford d.school / IDEO"
+  principles:
+    - human_centered: "Focus on human needs and experiences"
+    - empathy_first: "Deeply understand users before defining problems"
+    - bias_toward_action: "Prototype and test rather than debate"
+    - radical_collaboration: "Diverse perspectives strengthen solutions"
+    - embrace_ambiguity: "Sit with uncertainty; don't rush to solutions"
+    - fail_fast: "Early failure is learning; late failure is expensive"
+    - iterate: "Solutions emerge through cycles, not single attempts"
+    - show_dont_tell: "Make ideas tangible to communicate and test"
+
+  phases:
+    - empathize: "Understand users through observation and engagement"
+    - define: "Synthesize insights into actionable problem statements"
+    - ideate: "Generate diverse solutions without judgment"
+    - prototype: "Build quick, rough representations to learn"
+    - test: "Gather feedback and iterate"
+
+spec_config:
+  # Empathy map and persona are central
+  uxd:
+    required: true
+    category: source
+
+  # Problem definition (How Might We)
+  prd:
+    required: true
+    category: source
+
+  # Market context
+  mrd:
+    required: false
+    category: source
+
+  # GTM less emphasized in design phase
+  press:
+    required: false
+    category: gtm
+  faq:
+    required: false
+    category: gtm

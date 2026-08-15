@@ -1,0 +1,177 @@
+# AWS Working Backwards - One-Way Door Flow (PR/FAQ Start)
+# Layout: ELK
+
+direction: down
+
+title: {
+  label: AWS Working Backwards - One-Way Door
+  near: top-center
+  shape: text
+  style.font-size: 24
+  style.bold: true
+}
+
+# Vision Phase (Working Backwards) - the founding artifacts
+press: {
+  label: Press Release\n(Founding Artifact)
+  shape: rectangle
+  style.fill: "#e8f5e9"
+  style.stroke: "#2e7d32"
+}
+
+faq: {
+  label: FAQ\n(Challenge Assumptions)
+  shape: rectangle
+  style.fill: "#e3f2fd"
+  style.stroke: "#1565c0"
+}
+
+# Validation Phase (optional post-FAQ deepening — the door sets the ceremony;
+# the scale picks the tool: MRD at product scale, OpportunitySpec at feature scale)
+mrd: {
+  label: MRD\n(Market Validation)
+  shape: rectangle
+  style.fill: "#e3f2fd"
+  style.stroke: "#1565c0"
+  style.stroke-dash: 3
+}
+
+opportunity-spec: {
+  label: OpportunitySpec\n(12-Box Canvas)
+  shape: rectangle
+  style.fill: "#e3f2fd"
+  style.stroke: "#1565c0"
+  style.stroke-dash: 3
+}
+
+# Requirements Phase
+prd: {
+  label: PRD\n(Product Requirements)
+  shape: rectangle
+  style.fill: "#fff3e0"
+  style.stroke: "#ef6c00"
+}
+
+# Decision Phase
+narrative: {
+  label: 6-Pager Narrative\n(Decision Document)
+  shape: rectangle
+  style.fill: "#fce4ec"
+  style.stroke: "#c2185b"
+}
+
+gate: {
+  label: Decision Meeting\n(One-Way Door)
+  shape: diamond
+  style.fill: "#fce4ec"
+  style.stroke: "#c2185b"
+}
+
+# Experience Phase
+uxd: {
+  label: UXD\n(User Experience)
+  shape: rectangle
+  style.fill: "#e8f5e9"
+  style.stroke: "#2e7d32"
+}
+
+# Technical Phase
+trd: {
+  label: TRD\n(Technical Design)
+  shape: rectangle
+  style.fill: "#e3f2fd"
+  style.stroke: "#1565c0"
+}
+
+tpd: {
+  label: TPD\n(Test Plan)
+  shape: rectangle
+  style.fill: "#e3f2fd"
+  style.stroke: "#1565c0"
+}
+
+ird: {
+  label: IRD\n(Infrastructure)
+  shape: rectangle
+  style.fill: "#e3f2fd"
+  style.stroke: "#1565c0"
+  style.stroke-dash: 3
+}
+
+# Flow - Working Backwards: the human-authored PR is the origin
+press -> faq: synthesize
+
+# The PR/FAQ iterates through many drafts - iteration is the method
+faq -> press: iterate (many drafts) {
+  style.stroke-dash: 3
+}
+
+# Optional deepening of the FAQ's business case (either tool, per scale)
+press -> mrd
+faq -> mrd: synthesize
+press -> opportunity-spec
+faq -> opportunity-spec: synthesize
+
+# Requirements derived from the announced experience, grounded in whichever
+# optional deepening is present
+press -> prd
+faq -> prd: synthesize
+mrd -> prd
+opportunity-spec -> prd
+
+# Decision narrative for the one-way-door gate
+press -> narrative
+faq -> narrative
+prd -> narrative: synthesize
+
+# The gate green-lights the post-gate build spend
+narrative -> gate: review
+gate -> uxd: approved
+
+# Technical synthesis (post-gate)
+uxd -> trd
+prd -> trd: synthesize
+mrd -> trd
+
+# Test plan synthesis
+prd -> tpd
+trd -> tpd: synthesize
+uxd -> tpd
+
+# Infrastructure synthesis (optional)
+trd -> ird: synthesize
+
+# Legend
+legend: {
+  label: Legend
+  near: bottom-center
+  grid-columns: 4
+
+  human: {
+    label: Human-Authored
+    shape: rectangle
+    style.fill: "#e8f5e9"
+    style.stroke: "#2e7d32"
+  }
+
+  synth: {
+    label: Synthesized
+    shape: rectangle
+    style.fill: "#e3f2fd"
+    style.stroke: "#1565c0"
+  }
+
+  hybrid: {
+    label: Hybrid
+    shape: rectangle
+    style.fill: "#fff3e0"
+    style.stroke: "#ef6c00"
+  }
+
+  exec: {
+    label: Decision
+    shape: rectangle
+    style.fill: "#fce4ec"
+    style.stroke: "#c2185b"
+  }
+}

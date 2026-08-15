@@ -38,7 +38,7 @@ Available profiles:
   startup      Lightweight configuration for pre-PMF startups. Only PRD required. [default]
   growth       Metrics-driven configuration for 1-N scaling. [default]
   enterprise   Comprehensive configuration for post-PMF enterprises. Full specs with security and compliance. [default]
-  aws-product  Amazon Working Backwards methodology for new product lines. ... [default]
+  aws-one-way-door  Amazon Working Backwards methodology for new product lines. ... [default]
   ...
 
 Use with: visionspec init <project> --profile <name>

@@ -1,0 +1,123 @@
+id: pbhq-roadmap-rubric
+name: ROADMAP Evaluation (PBHQ Lite)
+version: "1.0"
+description: Evaluation of Execution ROADMAPs for PBHQ Lite workflow. Focus on RMI structure, status tracking, and maintainability.
+evaluationType: analytic
+passCriteria:
+  minCategoriesPassing: all_required
+  maxFindingsSeverity:
+    critical: 0
+    high: 1
+    medium: 3
+    low: -1
+categories:
+  - id: rmi_structure
+    name: RMI Structure
+    description: Proper formatting and identification of roadmap items
+    weight: 0.30
+    required: true
+    scale:
+      type: categorical
+      options:
+        - value: pass
+          label: Pass
+          criteria:
+            - RMIs have stable IDs (RMI-REPOSLUG-NNN format)
+            - Each RMI has title, type, and status
+            - RMIs grouped by phase
+        - value: partial
+          label: Partial
+          criteria:
+            - RMIs exist but inconsistent formatting
+        - value: fail
+          label: Fail
+          criteria:
+            - No RMI structure or missing IDs
+
+  - id: status_tracking
+    name: Status Tracking
+    description: Clear, current status for each item
+    weight: 0.25
+    required: true
+    scale:
+      type: categorical
+      options:
+        - value: pass
+          label: Pass
+          criteria:
+            - All RMIs have valid status (planned, in_progress, completed, blocked)
+            - Status reflects actual state
+            - Phase status derived from member RMIs
+        - value: partial
+          label: Partial
+          criteria:
+            - Statuses present but some stale or inconsistent
+        - value: fail
+          label: Fail
+          criteria:
+            - Status tracking missing or unreliable
+
+  - id: dependencies
+    name: RMI Dependencies
+    description: Inter-RMI blocking relationships
+    weight: 0.15
+    scale:
+      type: categorical
+      options:
+        - value: pass
+          label: Pass
+          criteria:
+            - Dependencies between RMIs explicit
+            - No circular dependencies
+        - value: partial
+          label: Partial
+          criteria:
+            - Some dependencies noted but incomplete
+        - value: fail
+          label: Fail
+          criteria:
+            - Dependencies not tracked
+
+  - id: plan_alignment
+    name: PLAN Alignment
+    description: Traceability to PLAN.md phases and milestones
+    weight: 0.15
+    required: true
+    scale:
+      type: categorical
+      options:
+        - value: pass
+          label: Pass
+          criteria:
+            - Phases match PLAN.md structure
+            - All PLAN items have corresponding RMIs
+        - value: partial
+          label: Partial
+          criteria:
+            - Partial alignment with gaps
+        - value: fail
+          label: Fail
+          criteria:
+            - ROADMAP disconnected from PLAN
+
+  - id: maintainability
+    name: Maintainability
+    description: Ease of updating as work progresses
+    weight: 0.15
+    scale:
+      type: categorical
+      options:
+        - value: pass
+          label: Pass
+          criteria:
+            - Format is machine-parseable (consistent markdown structure)
+            - Adding/updating RMIs is straightforward
+            - Commit-friendly (diffs are readable)
+        - value: partial
+          label: Partial
+          criteria:
+            - Mostly consistent but some formatting issues
+        - value: fail
+          label: Fail
+          criteria:
+            - Format inconsistent or hard to maintain

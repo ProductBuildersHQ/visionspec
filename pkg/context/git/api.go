@@ -7,7 +7,7 @@ import (
 	"regexp"
 	"strings"
 
-	ctx "github.com/ProductBuildersHQ/visionspec/pkg/context"
+	ctx "github.com/ProductBuildersHQ/specification-workflow-spec/pkg/context"
 	"gopkg.in/yaml.v3"
 )
 

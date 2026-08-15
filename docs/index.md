@@ -63,7 +63,7 @@ go install github.com/ProductBuildersHQ/visionspec/cmd/visionspec@v0.13.0
 visionspec init user-onboarding
 
 # Initialize with a methodology profile
-visionspec init my-product --profile aws-product
+visionspec init my-product --profile aws-one-way-door
 
 # Initialize with a stage profile
 visionspec init my-feature --profile startup
@@ -118,7 +118,7 @@ VisionSpec includes two types of profiles:
 
 | Profile | Methodology | Best For |
 |---------|-------------|----------|
-| `aws-product` / `aws-feature` | Working Backwards | Customer-centric products |
+| `aws-one-way-door` / `aws-two-way-door` | Working Backwards | Customer-centric products |
 | `google` | Design Docs + RFC | Engineering-heavy orgs |
 | `stripe` | API-First | Platform/API products |
 | `lean-startup` | Build-Measure-Learn | Early validation |
@@ -138,7 +138,7 @@ run `visionspec profiles list` to see them all. See
 visionspec profiles list
 
 # Initialize with a methodology profile
-visionspec init my-product --profile aws-product
+visionspec init my-product --profile aws-one-way-door
 
 # Export a profile for customization
 visionspec profiles export enterprise ./my-profile

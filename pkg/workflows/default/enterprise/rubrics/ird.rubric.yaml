@@ -1,0 +1,256 @@
+id: ird-rubric
+name: Enterprise IRD Rubric
+version: "2.0"
+description: >-
+  Infrastructure Requirements Document evaluation for enterprise
+  implementations. The IRD is the infrastructure contract: categories tagged
+  implementation_readiness are blocking gates on whether infrastructure
+  guarantees are explicit and safe to implement from, tool-agnostic across
+  Terraform, CloudFormation, Pulumi, or others. Categories tagged
+  specification_quality describe design narrative and inform review without
+  blocking on their own.
+evaluationType: analytic
+judgeInstructions:
+  - Cite the relevant section and IRD/TRD/TPD ID for every finding.
+  - An "Infrastructure impact — None" declaration with rationale and evidence is a pass on scope_declaration; the same declaration with no rationale or evidence is a fail.
+  - A recovery procedure with no "Last Tested" date is a gap on availability_design, not a pass.
+  - Distinguish resources that hold state or data from disposable ones when judging resource_lifecycle_safety — only data-bearing resources require replacement protection.
+  - Do not reward length; reward guarantees that are explicit, measurable, and safe to implement from.
+passCriteria:
+    minCategoriesPassing: all_required
+    maxFindingsSeverity:
+        critical: 0
+        high: 0
+        medium: 2
+        low: -1
+categories:
+    - id: scope_declaration
+      name: Infrastructure Impact Declaration
+      description: Is infrastructure impact explicitly declared — either None with rationale and evidence, or fully scoped below?
+      weight: 0.06
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Declaration states None with rationale and evidence, or states impact exists and the rest of the document is completed
+            - value: fail
+              label: Fail
+              criteria:
+                - Declaration missing, or states None with no rationale or evidence
+    - id: requirements_traceability
+      name: Requirements and Traceability
+      description: Does every infrastructure requirement have a stable ID, a TRD source, and a TPD verification?
+      weight: 0.14
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Every IRD-ID row has a source TRD ID and a verification TPD ID
+            - value: partial
+              label: Partial
+              criteria:
+                - Some IRD-IDs missing a source or verification reference
+            - value: fail
+              label: Fail
+              criteria:
+                - No traceability table, or infrastructure impact is declared but no requirements are listed
+    - id: environment_model
+      name: Environment Model
+      description: Are environments, isolation boundaries, and the promotion model defined?
+      weight: 0.10
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Environments, isolation boundaries, naming/tagging, and promotion model all stated
+            - value: partial
+              label: Partial
+              criteria:
+                - Environments listed but isolation or promotion model missing
+            - value: fail
+              label: Fail
+              criteria:
+                - No environment model
+    - id: resource_lifecycle_safety
+      name: Resource Lifecycle Safety
+      description: Do data-bearing resources have explicit replacement and deletion protection?
+      weight: 0.14
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Data-bearing resources are marked protected with documented replace/delete behavior
+                - Expected replacements are documented in advance, not discovered at apply time
+            - value: partial
+              label: Partial
+              criteria:
+                - Lifecycle table present but protection status or expected replacements missing
+            - value: fail
+              label: Fail
+              criteria:
+                - No lifecycle section, despite data-bearing resources existing
+    - id: security_controls
+      name: Security Controls
+      description: Enterprise security controls, secrets handling, and compliance mapping.
+      weight: 0.14
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - IAM, network security, encryption, and secrets ownership/rotation all addressed
+                - No plaintext secrets in outputs or committed state, per the prohibited-practices list
+            - value: partial
+              label: Partial
+              criteria:
+                - Most controls addressed but secrets rotation or prohibited-practices check missing
+            - value: fail
+              label: Fail
+              criteria:
+                - Security design inadequate or missing
+    - id: availability_design
+      name: Availability and Disaster Recovery
+      description: Are RTO/RPO targets set and recovery procedures actually tested?
+      weight: 0.12
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - RTO/RPO targets set with redundancy design
+                - Every recovery scenario has a "Last Tested" date, not only a documented procedure
+            - value: partial
+              label: Partial
+              criteria:
+                - Targets and procedures present but one or more scenarios never tested
+            - value: fail
+              label: Fail
+              criteria:
+                - No RTO/RPO targets, or single point of failure with no DR plan
+    - id: deployment_guarantees
+      name: Deployment Guarantees
+      description: Are preview, policy validation, drift detection, and rollback behavior defined?
+      weight: 0.12
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Preview-before-apply, policy validation, drift detection, and approval requirements all stated
+                - Rollback vs. roll-forward strategy is explicit for data-bearing resources (rollback is not assumed safe by default)
+            - value: partial
+              label: Partial
+              criteria:
+                - Deployment mechanics stated but rollback/roll-forward strategy missing
+            - value: fail
+              label: Fail
+              criteria:
+                - No deployment guarantees section
+    - id: architecture_completeness
+      name: Compute and Storage Architecture
+      description: Whether infrastructure architecture covers required compute, storage, and networking components.
+      weight: 0.08
+      required: false
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Complete architecture with compute, storage, and networking components
+            - value: partial
+              label: Partial
+              criteria:
+                - Basic architecture but missing some components
+            - value: fail
+              label: Fail
+              criteria:
+                - Incomplete or unclear architecture
+    - id: observability
+      name: Observability
+      description: Logging, metrics, tracing, and alerting configuration.
+      weight: 0.05
+      required: false
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Logs, metrics, traces, and alerts all configured with destinations and thresholds
+            - value: partial
+              label: Partial
+              criteria:
+                - Basic monitoring but gaps in coverage
+            - value: fail
+              label: Fail
+              criteria:
+                - Insufficient observability configuration
+    - id: cost_analysis
+      name: Cost Analysis
+      description: Cost estimation and optimization planning.
+      weight: 0.05
+      required: false
+      class: specification_quality
+      blocking: false
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Cost breakdown by resource with a total
+            - value: partial
+              label: Partial
+              criteria:
+                - Basic cost estimate but no breakdown
+            - value: fail
+              label: Fail
+              criteria:
+                - No cost analysis

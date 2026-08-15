@@ -1,331 +1,229 @@
-// Package workflow provides a generic workflow intermediate representation (IR)
-// for modeling directed acyclic graphs (DAGs) of work items with dependencies.
+// Package workflow defines specification workflow configurations.
 //
-// This package is designed to be domain-agnostic and could be extracted
-// as a standalone library for general workflow orchestration.
-//
-// Key concepts:
-//   - Workflow: A named DAG with phases and nodes
-//   - Phase: A logical grouping/stage in the workflow
-//   - Node: A work item with dependencies, status, and metadata
-//   - Status: The state of a node (pending, in_progress, completed, blocked)
+// A Workflow bundles spec requirements, synthesis rules, and evaluation
+// criteria into a cohesive workflow configuration (e.g., "aws-one-way-door",
+// "big-tech-feature", "pbhq-lite").
 package workflow
 
-import (
-	"encoding/json"
-	"fmt"
-	"sort"
-)
-
-// Status represents the state of a workflow node.
-type Status string
-
-const (
-	StatusPending    Status = "pending"     // Not started, dependencies not met
-	StatusReady      Status = "ready"       // Dependencies met, ready to start
-	StatusInProgress Status = "in_progress" // Work in progress
-	StatusCompleted  Status = "completed"   // Successfully completed
-	StatusBlocked    Status = "blocked"     // Blocked by failed dependency
-	StatusSkipped    Status = "skipped"     // Intentionally skipped
-)
-
-// NodeType categorizes nodes for grouping and visualization.
-type NodeType string
-
-// Workflow represents a directed acyclic graph of work items.
+// Workflow represents a complete specification workflow configuration.
 type Workflow struct {
-	// Name identifies the workflow (e.g., "aws-working-backwards", "big-tech-product")
-	Name string `json:"name" yaml:"name"`
+	// Name is the workflow identifier (e.g., "aws-one-way-door", "pbhq-lite").
+	Name string `json:"name" yaml:"name" jsonschema:"required,description=Workflow identifier"`
 
-	// Description provides human-readable context
-	Description string `json:"description,omitempty" yaml:"description,omitempty"`
+	// Description explains the workflow's purpose and use case.
+	Description string `json:"description,omitempty" yaml:"description,omitempty" jsonschema:"description=Workflow purpose and target audience"`
 
-	// Phases define logical groupings/stages in order
-	Phases []Phase `json:"phases" yaml:"phases"`
+	// Extends is the name of a parent workflow to inherit from.
+	Extends string `json:"extends,omitempty" yaml:"extends,omitempty" jsonschema:"description=Parent workflow to inherit settings from"`
 
-	// Nodes are the work items in the workflow
-	Nodes map[string]*Node `json:"nodes" yaml:"nodes"`
+	// Abstract indicates this workflow is a base for other workflows (not directly usable).
+	Abstract bool `json:"abstract,omitempty" yaml:"abstract,omitempty" jsonschema:"description=True if this workflow cannot be used directly"`
+
+	// Methodology documents the underlying product methodology.
+	Methodology *Methodology `json:"methodology,omitempty" yaml:"methodology,omitempty" jsonschema:"description=Underlying product methodology documentation"`
+
+	// SpecConfig defines which specs are required/optional.
+	SpecConfig map[string]*SpecRequirement `json:"spec_config,omitempty" yaml:"spec_config,omitempty" jsonschema:"description=Spec requirements by spec type ID"`
+
+	// Synthesis defines how specs are generated from other specs.
+	Synthesis map[string]*SynthesisRule `json:"synthesis,omitempty" yaml:"synthesis,omitempty" jsonschema:"description=Synthesis rules by target spec type"`
+
+	// Execution defines the ordered phases and gates.
+	Execution *Execution `json:"execution,omitempty" yaml:"execution,omitempty" jsonschema:"description=Phase ordering and gates"`
+
+	// Evaluation defines pass/fail thresholds.
+	Evaluation *EvaluationConfig `json:"evaluation,omitempty" yaml:"evaluation,omitempty" jsonschema:"description=Evaluation thresholds"`
 }
 
-// Phase represents a logical stage in the workflow.
+// SynthesisRule defines how a spec can be synthesized from source specs.
+type SynthesisRule struct {
+	// Sources are the spec type IDs required to synthesize this spec.
+	Sources []string `json:"sources" yaml:"sources" jsonschema:"required,description=Source spec type IDs"`
+
+	// Guidance is the prompt context for LLM synthesis.
+	Guidance string `json:"guidance,omitempty" yaml:"guidance,omitempty" jsonschema:"description=LLM prompt guidance for synthesis"`
+
+	// PromptContext is additional context for the synthesis prompt.
+	PromptContext string `json:"prompt_context,omitempty" yaml:"prompt_context,omitempty" jsonschema:"description=Additional synthesis prompt context"`
+
+	// Required indicates all sources must be present (vs. best-effort).
+	Required bool `json:"required,omitempty" yaml:"required,omitempty" jsonschema:"description=Whether all sources are required"`
+
+	// Priority determines synthesis order when multiple rules exist.
+	Priority int `json:"priority,omitempty" yaml:"priority,omitempty" jsonschema:"description=Synthesis priority (higher = earlier)"`
+}
+
+// Methodology documents the underlying product development methodology.
+type Methodology struct {
+	// Name is the methodology name (e.g., "Amazon Working Backwards").
+	Name string `json:"name" yaml:"name" jsonschema:"required,description=Methodology name"`
+
+	// Description explains the methodology.
+	Description string `json:"description,omitempty" yaml:"description,omitempty" jsonschema:"description=Methodology overview"`
+
+	// Creator is the person/company who created the methodology.
+	Creator string `json:"creator,omitempty" yaml:"creator,omitempty" jsonschema:"description=Methodology creator"`
+
+	// Source is the origin company or publication of the methodology.
+	Source string `json:"source,omitempty" yaml:"source,omitempty" jsonschema:"description=Origin company or publication"`
+
+	// Reference is a URL to the canonical methodology documentation.
+	Reference string `json:"reference,omitempty" yaml:"reference,omitempty" jsonschema:"format=uri,description=URL to methodology documentation"`
+
+	// Principles are the core principles of the methodology.
+	Principles []Principle `json:"principles,omitempty" yaml:"principles,omitempty" jsonschema:"description=Core methodology principles"`
+
+	// Artifacts are the key artifacts produced by the methodology.
+	Artifacts Artifacts `json:"artifacts,omitempty" yaml:"artifacts,omitempty" jsonschema:"description=Key artifacts"`
+}
+
+// Artifacts is a list of methodology artifacts.
+// In YAML it accepts either a flat sequence or a mapping of category name
+// to sequence (e.g., primary/supporting groups).
+type Artifacts []Artifact
+
+// Artifact is a named artifact produced by a methodology.
+type Artifact struct {
+	// ID is the artifact identifier (e.g., "press_release").
+	ID string `json:"id" yaml:"id" jsonschema:"required,description=Artifact identifier"`
+
+	// Description explains the artifact.
+	Description string `json:"description,omitempty" yaml:"description,omitempty" jsonschema:"description=Artifact explanation"`
+
+	// Category optionally groups artifacts (e.g., "primary", "supporting").
+	Category string `json:"category,omitempty" yaml:"category,omitempty" jsonschema:"description=Artifact grouping"`
+}
+
+// Principle is a named principle with description.
+type Principle struct {
+	// ID is the principle identifier (e.g., "customer_obsession").
+	ID string `json:"id" yaml:"id" jsonschema:"required,description=Principle identifier"`
+
+	// Name is the human-readable name.
+	Name string `json:"name" yaml:"name" jsonschema:"required,description=Principle name"`
+
+	// Description explains the principle.
+	Description string `json:"description,omitempty" yaml:"description,omitempty" jsonschema:"description=Principle explanation"`
+
+	// Source is the origin (e.g., "Amazon", "Google").
+	Source string `json:"source,omitempty" yaml:"source,omitempty" jsonschema:"description=Origin company or methodology"`
+}
+
+// SpecRequirement defines whether a spec type is required and its configuration.
+type SpecRequirement struct {
+	// Required indicates whether this spec must be present.
+	Required bool `json:"required" yaml:"required" jsonschema:"description=Whether this spec is required"`
+
+	// Category overrides the default category for this spec type.
+	Category string `json:"category,omitempty" yaml:"category,omitempty" jsonschema:"enum=source,enum=gtm,enum=technical,enum=execution,enum=output,enum=strategic"`
+
+	// Description provides workflow-specific context for this spec.
+	Description string `json:"description,omitempty" yaml:"description,omitempty" jsonschema:"description=Workflow-specific description"`
+
+	// Template declares where this spec's document template comes from. Omit to
+	// use default resolution (the workflow's own templates/ dir, then the
+	// extends chain).
+	Template *SpecSource `json:"template,omitempty" yaml:"template,omitempty" jsonschema:"description=Provenance of this spec's template"`
+
+	// Rubric declares where this spec's evaluation rubric comes from. Omit to
+	// use default resolution (the workflow's own rubrics/ dir, then the extends
+	// chain).
+	Rubric *SpecSource `json:"rubric,omitempty" yaml:"rubric,omitempty" jsonschema:"description=Provenance of this spec's rubric"`
+}
+
+// SourceLocal is the SpecSource.From sentinel meaning this workflow's own
+// templates/ or rubrics/ directory (as opposed to another workflow).
+const SourceLocal = "local"
+
+// SpecSource declares the provenance of a spec's template or rubric: the
+// workflow that owns the file. The sentinel "local" (SourceLocal) means this
+// workflow's own directory; any other value names the workflow to resolve the
+// file from. Declaring a source makes provenance explicit and loader-enforced —
+// a source that does not actually provide the file is a load-time error.
+//
+// A source must not lead back to the declaring workflow: it is resolved with
+// full inheritance, so naming a descendant (whose extends chain necessarily
+// returns to the declaring workflow) or any other workflow whose resolution
+// path re-enters it is a circular reference and a load-time error. Point
+// sources at ancestors or unrelated workflows; content owned by a descendant
+// must be physically copied, not referenced.
+//
+// In YAML it accepts the object form or a bare-string shorthand:
+//
+//	template: {from: enterprise}
+//	rubric: local
+type SpecSource struct {
+	// From is the owning workflow name, or "local" for this workflow's own dir.
+	From string `json:"from" yaml:"from" jsonschema:"required,description=Owning workflow name, or \"local\" for this workflow's own directory"`
+}
+
+// clone returns a deep copy, or nil if the receiver is nil.
+func (s *SpecSource) clone() *SpecSource {
+	if s == nil {
+		return nil
+	}
+	c := *s
+	return &c
+}
+
+// Execution defines the ordered execution of specs.
+type Execution struct {
+	// Sequence is the ordered list of spec types to produce.
+	Sequence []string `json:"sequence,omitempty" yaml:"sequence,omitempty" jsonschema:"description=Ordered spec type IDs"`
+
+	// Phases groups specs into named phases.
+	Phases []Phase `json:"phases,omitempty" yaml:"phases,omitempty" jsonschema:"description=Named workflow phases"`
+
+	// IterationTrigger is the spec type that triggers iteration.
+	IterationTrigger string `json:"iteration_trigger,omitempty" yaml:"iteration_trigger,omitempty" jsonschema:"description=Spec type that triggers workflow iteration"`
+
+	// ReviewGates are approval checkpoints.
+	ReviewGates []ReviewGate `json:"review_gates,omitempty" yaml:"review_gates,omitempty" jsonschema:"description=Approval checkpoints"`
+}
+
+// Phase is a named group of specs in the workflow.
 type Phase struct {
-	// ID uniquely identifies the phase
-	ID string `json:"id" yaml:"id"`
+	// ID is the phase identifier.
+	ID string `json:"id" yaml:"id" jsonschema:"required,description=Phase identifier"`
 
-	// Name is the display name
-	Name string `json:"name" yaml:"name"`
+	// Name is the human-readable phase name.
+	Name string `json:"name" yaml:"name" jsonschema:"required,description=Phase name"`
 
-	// Description provides context
-	Description string `json:"description,omitempty" yaml:"description,omitempty"`
+	// Description explains the phase purpose.
+	Description string `json:"description,omitempty" yaml:"description,omitempty" jsonschema:"description=Phase purpose"`
 
-	// Order determines phase sequence (lower = earlier)
-	Order int `json:"order" yaml:"order"`
-
-	// Nodes lists the node IDs in this phase
-	Nodes []string `json:"nodes" yaml:"nodes"`
+	// Specs are the spec types in this phase.
+	Specs []string `json:"specs" yaml:"specs" jsonschema:"required,description=Spec type IDs in this phase"`
 }
 
-// Node represents a single work item in the workflow.
-type Node struct {
-	// ID uniquely identifies the node
-	ID string `json:"id" yaml:"id"`
+// ReviewGate is an approval checkpoint after a spec.
+type ReviewGate struct {
+	// After is the spec type after which this gate applies.
+	After string `json:"after" yaml:"after" jsonschema:"required,description=Spec type ID after which gate applies"`
 
-	// Name is the display name
-	Name string `json:"name" yaml:"name"`
+	// Action is the required action (e.g., "stakeholder_review", "tech_lead_review").
+	Action string `json:"action" yaml:"action" jsonschema:"required,description=Required approval action"`
 
-	// Description provides context
-	Description string `json:"description,omitempty" yaml:"description,omitempty"`
-
-	// Type categorizes the node (domain-specific, e.g., "source", "gtm", "technical")
-	Type NodeType `json:"type,omitempty" yaml:"type,omitempty"`
-
-	// Phase is the phase ID this node belongs to
-	Phase string `json:"phase" yaml:"phase"`
-
-	// DependsOn lists node IDs that must complete before this node can start
-	DependsOn []string `json:"depends_on,omitempty" yaml:"depends_on,omitempty"`
-
-	// Status is the current state of the node
-	Status Status `json:"status" yaml:"status"`
-
-	// Automated indicates if this node is machine-generated vs human-authored
-	Automated bool `json:"automated,omitempty" yaml:"automated,omitempty"`
-
-	// Metadata holds domain-specific data
-	Metadata map[string]any `json:"metadata,omitempty" yaml:"metadata,omitempty"`
+	// Required indicates whether passing this gate is mandatory.
+	Required bool `json:"required,omitempty" yaml:"required,omitempty" jsonschema:"description=Whether gate is mandatory"`
 }
 
-// New creates a new empty workflow.
-func New(name string) *Workflow {
-	return &Workflow{
-		Name:   name,
-		Phases: make([]Phase, 0),
-		Nodes:  make(map[string]*Node),
-	}
+// EvaluationConfig defines pass/fail thresholds.
+type EvaluationConfig struct {
+	// PassThreshold is the minimum score (0-100) to pass.
+	PassThreshold int `json:"pass_threshold,omitempty" yaml:"pass_threshold,omitempty" jsonschema:"minimum=0,maximum=100,description=Minimum score to pass"`
+
+	// PartialThreshold is the minimum score (0-100) for partial pass.
+	PartialThreshold int `json:"partial_threshold,omitempty" yaml:"partial_threshold,omitempty" jsonschema:"minimum=0,maximum=100,description=Minimum score for partial pass"`
+
+	// MaxFindingsSeverity defines maximum allowed findings by severity.
+	MaxFindingsSeverity *FindingSeverityLimits `json:"max_findings_severity,omitempty" yaml:"max_findings_severity,omitempty" jsonschema:"description=Maximum findings allowed by severity"`
 }
 
-// AddPhase adds a phase to the workflow.
-func (w *Workflow) AddPhase(id, name string, order int) *Phase {
-	phase := Phase{
-		ID:    id,
-		Name:  name,
-		Order: order,
-		Nodes: make([]string, 0),
-	}
-	w.Phases = append(w.Phases, phase)
-	// Keep phases sorted by order
-	sort.Slice(w.Phases, func(i, j int) bool {
-		return w.Phases[i].Order < w.Phases[j].Order
-	})
-	return &w.Phases[len(w.Phases)-1]
-}
-
-// AddNode adds a node to the workflow.
-func (w *Workflow) AddNode(node *Node) error {
-	if node.ID == "" {
-		return fmt.Errorf("node ID is required")
-	}
-	if _, exists := w.Nodes[node.ID]; exists {
-		return fmt.Errorf("node %q already exists", node.ID)
-	}
-	if node.Status == "" {
-		node.Status = StatusPending
-	}
-	w.Nodes[node.ID] = node
-
-	// Add to phase's node list
-	for i := range w.Phases {
-		if w.Phases[i].ID == node.Phase {
-			w.Phases[i].Nodes = append(w.Phases[i].Nodes, node.ID)
-			break
-		}
-	}
-
-	return nil
-}
-
-// GetNode returns a node by ID.
-func (w *Workflow) GetNode(id string) (*Node, bool) {
-	node, ok := w.Nodes[id]
-	return node, ok
-}
-
-// Dependencies returns the direct dependencies of a node.
-func (w *Workflow) Dependencies(nodeID string) []*Node {
-	node, ok := w.Nodes[nodeID]
-	if !ok {
-		return nil
-	}
-
-	deps := make([]*Node, 0, len(node.DependsOn))
-	for _, depID := range node.DependsOn {
-		if dep, ok := w.Nodes[depID]; ok {
-			deps = append(deps, dep)
-		}
-	}
-	return deps
-}
-
-// Dependents returns nodes that depend on the given node.
-func (w *Workflow) Dependents(nodeID string) []*Node {
-	var dependents []*Node
-	for _, node := range w.Nodes {
-		for _, depID := range node.DependsOn {
-			if depID == nodeID {
-				dependents = append(dependents, node)
-				break
-			}
-		}
-	}
-	return dependents
-}
-
-// IsReady returns true if all dependencies of a node are completed.
-func (w *Workflow) IsReady(nodeID string) bool {
-	node, ok := w.Nodes[nodeID]
-	if !ok {
-		return false
-	}
-
-	for _, depID := range node.DependsOn {
-		dep, ok := w.Nodes[depID]
-		if !ok {
-			return false
-		}
-		if dep.Status != StatusCompleted && dep.Status != StatusSkipped {
-			return false
-		}
-	}
-	return true
-}
-
-// ReadyNodes returns all nodes that are ready to start.
-func (w *Workflow) ReadyNodes() []*Node {
-	var ready []*Node
-	for _, node := range w.Nodes {
-		if node.Status == StatusPending && w.IsReady(node.ID) {
-			ready = append(ready, node)
-		}
-	}
-	return ready
-}
-
-// UpdateStatus updates a node's status and returns affected nodes.
-func (w *Workflow) UpdateStatus(nodeID string, status Status) error {
-	node, ok := w.Nodes[nodeID]
-	if !ok {
-		return fmt.Errorf("node %q not found", nodeID)
-	}
-	node.Status = status
-	return nil
-}
-
-// TopologicalSort returns nodes in dependency order.
-func (w *Workflow) TopologicalSort() ([]*Node, error) {
-	visited := make(map[string]bool)
-	inStack := make(map[string]bool)
-	var result []*Node
-
-	var visit func(id string) error
-	visit = func(id string) error {
-		if inStack[id] {
-			return fmt.Errorf("cycle detected at node %q", id)
-		}
-		if visited[id] {
-			return nil
-		}
-
-		inStack[id] = true
-		node := w.Nodes[id]
-		for _, depID := range node.DependsOn {
-			if err := visit(depID); err != nil {
-				return err
-			}
-		}
-		inStack[id] = false
-		visited[id] = true
-		result = append(result, node)
-		return nil
-	}
-
-	for id := range w.Nodes {
-		if err := visit(id); err != nil {
-			return nil, err
-		}
-	}
-
-	return result, nil
-}
-
-// Progress returns completion statistics.
-func (w *Workflow) Progress() (completed, total int, percent float64) {
-	total = len(w.Nodes)
-	for _, node := range w.Nodes {
-		if node.Status == StatusCompleted || node.Status == StatusSkipped {
-			completed++
-		}
-	}
-	if total > 0 {
-		percent = float64(completed) / float64(total) * 100
-	}
-	return
-}
-
-// Validate checks the workflow for errors.
-func (w *Workflow) Validate() error {
-	// Check for missing dependencies
-	for id, node := range w.Nodes {
-		for _, depID := range node.DependsOn {
-			if _, ok := w.Nodes[depID]; !ok {
-				return fmt.Errorf("node %q depends on non-existent node %q", id, depID)
-			}
-		}
-	}
-
-	// Check for cycles
-	_, err := w.TopologicalSort()
-	if err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// Clone creates a deep copy of the workflow.
-func (w *Workflow) Clone() *Workflow {
-	data, err := json.Marshal(w)
-	if err != nil {
-		panic(fmt.Sprintf("workflow Clone: marshal failed: %v", err))
-	}
-	var clone Workflow
-	if err := json.Unmarshal(data, &clone); err != nil {
-		panic(fmt.Sprintf("workflow Clone: unmarshal failed: %v", err))
-	}
-	return &clone
-}
-
-// NodesByPhase returns nodes grouped by phase in order.
-func (w *Workflow) NodesByPhase() []struct {
-	Phase Phase
-	Nodes []*Node
-} {
-	var result []struct {
-		Phase Phase
-		Nodes []*Node
-	}
-
-	for _, phase := range w.Phases {
-		nodes := make([]*Node, 0, len(phase.Nodes))
-		for _, nodeID := range phase.Nodes {
-			if node, ok := w.Nodes[nodeID]; ok {
-				nodes = append(nodes, node)
-			}
-		}
-		result = append(result, struct {
-			Phase Phase
-			Nodes []*Node
-		}{Phase: phase, Nodes: nodes})
-	}
-
-	return result
+// FindingSeverityLimits defines maximum findings by severity level.
+type FindingSeverityLimits struct {
+	Critical int `json:"critical,omitempty" yaml:"critical,omitempty" jsonschema:"description=Max critical findings (-1 = unlimited)"`
+	High     int `json:"high,omitempty" yaml:"high,omitempty" jsonschema:"description=Max high findings (-1 = unlimited)"`
+	Medium   int `json:"medium,omitempty" yaml:"medium,omitempty" jsonschema:"description=Max medium findings (-1 = unlimited)"`
+	Low      int `json:"low,omitempty" yaml:"low,omitempty" jsonschema:"description=Max low findings (-1 = unlimited)"`
 }

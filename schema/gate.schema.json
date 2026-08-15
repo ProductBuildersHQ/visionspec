@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/ProductBuildersHQ/specification-workflow-spec/schema/gate.schema.json",
+  "$ref": "#/$defs/Gate",
+  "$defs": {
+    "ApproverConfig": {
+      "properties": {
+        "roles": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Approver roles"
+        },
+        "users": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Specific approver user IDs"
+        },
+        "minApprovals": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Minimum approvals required"
+        },
+        "requireAll": {
+          "type": "boolean",
+          "description": "Whether all approvers must approve"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "Condition": {
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "spec_exists",
+            "spec_approved",
+            "eval_score",
+            "no_blocking_findings",
+            "custom"
+          ]
+        },
+        "specType": {
+          "type": "string",
+          "description": "Spec type ID"
+        },
+        "minScore": {
+          "type": "number",
+          "maximum": 100,
+          "minimum": 0,
+          "description": "Minimum score"
+        },
+        "custom": {
+          "type": "string",
+          "description": "Custom condition expression"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "type"
+      ]
+    },
+    "Gate": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Gate identifier"
+        },
+        "name": {
+          "type": "string",
+          "description": "Gate name"
+        },
+        "description": {
+          "type": "string",
+          "description": "Gate purpose"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "approval",
+            "evaluation",
+            "automated"
+          ]
+        },
+        "after": {
+          "type": "string",
+          "description": "Spec type ID after which gate applies"
+        },
+        "phase": {
+          "type": "string",
+          "description": "Phase ID after which gate applies"
+        },
+        "conditions": {
+          "items": {
+            "$ref": "#/$defs/Condition"
+          },
+          "type": "array",
+          "description": "Gate conditions"
+        },
+        "approvers": {
+          "$ref": "#/$defs/ApproverConfig",
+          "description": "Approver configuration"
+        },
+        "required": {
+          "type": "boolean",
+          "description": "Whether gate is mandatory"
+        },
+        "blocking": {
+          "type": "boolean",
+          "description": "Whether failure blocks progress"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "type"
+      ]
+    }
+  },
+  "title": "Phase Gate",
+  "description": "Schema for gate definitions"
+}

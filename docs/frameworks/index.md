@@ -73,7 +73,7 @@ multispec profiles list
 ### Initialize Project with Profile
 
 ```bash
-multispec init my-project --profile aws-product
+multispec init my-project --profile aws-one-way-door
 ```
 
 ### Show Profile Details

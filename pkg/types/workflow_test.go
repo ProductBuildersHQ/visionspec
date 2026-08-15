@@ -11,7 +11,7 @@ func TestSpecConfigFromWorkflow(t *testing.T) {
 		Name: "test",
 		SpecConfig: map[string]*swf.SpecRequirement{
 			"prd":   {Required: true, Category: "source"},
-			"press": {Required: false, Category: "gtm", Template: "custom-press"},
+			"press": {Required: false, Category: "gtm"},
 		},
 	}
 
@@ -26,8 +26,12 @@ func TestSpecConfigFromWorkflow(t *testing.T) {
 	if sc.GetCategory("press") != CategoryGTM {
 		t.Errorf("press category = %q, want %q", sc.GetCategory("press"), CategoryGTM)
 	}
-	if sc.GetTemplate("press") != "custom-press" {
-		t.Errorf("press template = %q, want %q", sc.GetTemplate("press"), "custom-press")
+	// Template/Rubric name overrides no longer come through
+	// SpecConfigFromWorkflow: sws's Template/Rubric fields are provenance
+	// pointers (*workflow.SpecSource), not name overrides. GetTemplate
+	// falls back to the spec type's own name.
+	if sc.GetTemplate("press") != "press" {
+		t.Errorf("press template = %q, want %q", sc.GetTemplate("press"), "press")
 	}
 }
 

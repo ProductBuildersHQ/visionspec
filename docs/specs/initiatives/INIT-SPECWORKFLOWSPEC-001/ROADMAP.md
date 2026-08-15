@@ -1,0 +1,97 @@
+# Spec Hardening — Normative Contracts, Layered Rubrics, and Content Provenance — Roadmap
+
+**Initiative:** `INIT-SPECWORKFLOWSPEC-001`
+**Repository:** `github.com/ProductBuildersHQ/specification-workflow-spec`
+
+> RMI IDs are stable and permanent. Commits implementing an item carry the trailer `Refs: RMI-SPECWORKFLOWSPEC-<NNN>`. Phase status is derived from member RMIs — a phase is complete only when all its required RMIs are complete.
+
+Source material: `IDEATION_CHAT_SPEC-HARDENING.md` (local-only ideation input); guiding decisions and sequencing rationale in PRD.md / TRD.md / PLAN.md alongside this file.
+
+## Phase 1 — Content Provenance and Source of Truth
+
+**Theme:** Every template/rubric has an explicit, enforced origin; prism-roadmap becomes the domain home for roadmap-related spec content; the library guards itself with a strict resolution test
+
+- [x] `RMI-SPECWORKFLOWSPEC-001` Loader-enforced per-spec template/rubric provenance
+  - `workflow.SpecSource` type with `{from: <workflow>}` / `local` YAML shorthand on `spec_config` entries; `ResolvingLoader` resolves declared sources per inheritance level so `local` stays pinned through `extends` chains; unsatisfiable source = load-time error; pbhq-lite trd/plan/roadmap templates sourced from enterprise (closing the original gap)
+- [x] `RMI-SPECWORKFLOWSPEC-002` prism-roadmap as domain source of truth for roadmap-spec content
+  - 7 v2mom templates moved in; 6 v2mom rubrics + OST template/rubric authored there; bmc, assumption-map, discovery-snapshot rubrics migrated to the canonical structured-evaluation v0.13.0 schema; parse-all and weight-arithmetic guard tests added
+- [x] `RMI-SPECWORKFLOWSPEC-003` prism-sync tool (nested module)
+  - `tools/prism-sync` with its own go.mod (prism-roadmap never enters the library module graph); manifest-driven copy with provenance headers stamped from `debug.ReadBuildInfo()`; `-check` drift mode for CI
+- [x] `RMI-SPECWORKFLOWSPEC-004` Strict library-wide resolution guarantee
+  - `TestRequiredSpecsResolve`: every required spec in every workflow resolves to both a template and a rubric, no allowlist; 28 pre-existing gaps (3 templates, 25 rubrics) closed to reach green
+- [x] `RMI-SPECWORKFLOWSPEC-005` Library hygiene from initial review
+  - `schema/tools.go` pins the `//go:build ignore` generator dependency so `go generate ./schema/...` works from a clean checkout; catalog cross-reference test (pipelines→workflows/integrations/spec-types, loops→everything); registry `All()` helpers panic on invariant violation instead of discarding errors; `.gitignore` for ideation inputs and build artifacts
+
+## Phase 2 — Layered Rubric Schema
+
+**Theme:** structured-evaluation gains the metadata to separate Leadership-Principle judgment from specification quality and implementation readiness
+
+- [x] `RMI-SPECWORKFLOWSPEC-006` Extend structured-evaluation RubricSet for layered evaluation
+  - Criterion/category `class` (leadership_principle | specification_quality | implementation_readiness | deterministic_integrity), `blocking` semantics, `evaluation` method (deterministic | semantic | human), evidence-based `judgeInstructions`; additive, v0.13.0 YAML parses unchanged (round-trip + back-compat corpus tests); `Validate()` enforces INV-3 (leadership_principle must not be blocking); schema/*.schema.json regenerated
+- [x] `RMI-SPECWORKFLOWSPEC-007` Wire the library to the extended schema
+  - Bumped; temporary local replace in place, flagged TODO(release), to be dropped once v0.14.0 is tagged; full suite green unaffected
+
+## Phase 3 — Normative Contract Templates (enterprise tree)
+
+**Theme:** enterprise templates upgrade from design outlines to normative contracts; every rubric criterion has a template section that satisfies it; propagates by inheritance to aws-one-way-door, big-tech, big-tech-essentials, continuous-discovery, google, shapeup
+
+- [x] `RMI-SPECWORKFLOWSPEC-008` TRD → normative technical contract
+  - Stable TRD-IDs with MUST/MUST NOT language; bidirectional PRD↔TRD↔TPD traceability matrix; system invariants; state and lifecycle; interface contracts (validation, authn/z, idempotency, retries, versioning); measurable operational guarantees; compatibility and migration guarantees; 9-category layered rubric (7 implementation_readiness blocking, 2 specification_quality), weights sum to 1.0
+- [x] `RMI-SPECWORKFLOWSPEC-009` PRD template–rubric alignment
+  - Assumptions & Constraints section; Decision Register (one-way/two-way-door reversibility); stable IDs on every story and acceptance criterion; FR→story traceability; timeline replaced with product-only Release Strategy; 11-category layered rubric incl. stable_requirement_ids-equivalent (user-stories), assumptions_constraints, decision_register, unresolved_decisions as blocking criteria
+- [x] `RMI-SPECWORKFLOWSPEC-010` TPD verification contract
+  - TRD/IRD coverage matrices; PRESS→PRD→UXD→TRD/IRD→TPD promise traceability chain in one table; resiliency/observability/runbook section with stated risk tier and risk-based chaos-testing applicability; requirement/risk coverage emphasized over raw line coverage; 12-category layered rubric
+- [x] `RMI-SPECWORKFLOWSPEC-011` IRD infrastructure contract (tool-agnostic)
+  - IRD-ID requirement table with source/verification links; environment model; resource lifecycle safety (data-bearing replacement protection); deployment guarantees (preview/policy/drift/rollback vs roll-forward); secrets and state ownership; DR with "Last Tested" required; explicit "Infrastructure impact: None" reviewed-decision pattern; 10-category layered rubric. Pulumi-specific constraints deferred to aws-two-way-door's local IRD (RMI-013) rather than baked into the tool-agnostic enterprise base — corrects an over-broad reading of the source ideation, which described the user's own Pulumi practice, not a generic requirement
+- [x] `RMI-SPECWORKFLOWSPEC-012` UXD experience contract
+  - All user-visible states defined per flow (loading, empty, error, timeout, recovery); permission-differentiated views section with explicit N/A path; copy status (Final/Provisional) required on every copy entry; measurable accessibility requirements retained; UXD→PRD ID traceability; every interaction has a defined resulting state/outcome; 12-category layered rubric
+
+## Phase 4 — Feature-Level Adaptation and Release
+
+**Theme:** aws-two-way-door's local set gets the same treatment in its feature-level framing; three repos verified and released in dependency order
+
+- [x] `RMI-SPECWORKFLOWSPEC-013` aws-two-way-door hardened local set
+  - Same contract upgrades applied to its local prd/trd/tpd/ird/uxd templates and rubrics, keeping two-way-door (feature/reversible) framing and OpportunitySpec/Press/FAQ references; existing AWS Leadership Principle categories (customer_obsession, decision_reversibility, bar_raiser_readiness, frugality, etc.) relabeled `class: leadership_principle, blocking: false`; new LP categories added where the ideation doc's principle-mapping table called for them but none existed (technical_ownership on TRD, infra_ownership on IRD); 9 LP categories total across the 5 pairs, all non-blocking (guarded by test)
+- [x] `RMI-SPECWORKFLOWSPEC-014` Three-repo verification and release sequencing
+  - Full build/test/vet/lint sweep green across structured-evaluation, prism-roadmap, specification-workflow-spec (+ tools/prism-sync nested module); `prism-sync -check` reports no drift; permanent `TestHardenedRubricWeightsSumToOne` / `TestHardenedRubricLayering` guard all 10 hardened rubrics. **Not done:** replace directives remain in place (flagged `TODO(release)`) — dropping them requires tagging structured-evaluation v0.14.0 and a prism-roadmap release first, which is a release decision outside this initiative's implementation scope
+
+## Phase 5 — Full-Library Resolution and One-Way-Door Parity
+
+**Theme:** "optional" means optional to use in a workflow run, not optional for the library to support — every declared spec resolves; aws-one-way-door gets the same hardened local set as aws-two-way-door, reframed for irreversible product-scale launches
+
+- [x] `RMI-SPECWORKFLOWSPEC-015` Library-wide resolution guarantee extended to optional specs
+  - `TestRequiredSpecsResolve` widened from required-only to every spec_config entry (163 gaps across 22 workflows surfaced and closed); bmc template/rubric synced from prism-roadmap into enterprise; enterprise narrative-6p copied from aws-one-way-door (a `from:` reference would recurse — explicit sources must never point at a descendant); explicit `template:/rubric: {from: ...}` provenance added to startup, 0-1, big-tech (shapeup + continuous-discovery borrowings), and big-tech-essentials; experience-map template/rubric and v2mom-summary rubric authored locally (marked as prism-roadmap upstream candidates — the schema exists there, the content did not)
+- [x] `RMI-SPECWORKFLOWSPEC-016` aws-one-way-door hardened local set (full RMI-013 parity, one-way framing)
+  - Local prd/trd/tpd/ird/uxd templates and v2.0 layered rubrics authored with the one-way-door inversion of RMI-013's feature framing: name the irreversible commitment and prove it pre-launch, rather than prove a walk-back path. PRD carries One-Way-Door Commitments (OWD-N: why irreversible, blast radius, exit cost, deliberation evidence, personal-money test) split from fast reversible sub-decisions; TRD adds Technical Door Classification (TWD-N tied to OWD-N), versioning/deprecation policy required per public commitment, and launch-readiness proofs replacing rollback for the irreversible core; TPD gates launch on pre-launch validation at stated launch scale plus reversibility-containment (rollbacks executed, not reviewed); IRD adds irreversible infrastructure commitments (region/residency/tenancy/endpoints), launch capacity with quota raises, and DR proven pre-launch; UXD adds Press Promise Alignment (every promise → a designed journey) and First-Run Experience with time-to-first-value. All five pairs guarded by the permanent weight-sum and LP-non-blocking layering tests
+
+## Phase 6 — Profile Consistency and Loader Safety
+
+**Theme:** correctness follow-ups surfaced by the Phase 5 review — commit the accumulated work, close the synthesis asymmetry, and harden the loader against the one recursion trap explicit provenance introduces
+
+- [ ] `RMI-SPECWORKFLOWSPEC-017` Topical commit and push of the accumulated working tree
+  - The entire hardening body (RMI-008 through RMI-016) exists only as uncommitted changes in the working tree; break it into conventional-commit topical commits carrying `Refs:` trailers, run the pre-push checklist, and push after CI passes
+- [x] `RMI-SPECWORKFLOWSPEC-018` Symmetric optional-deepening synthesis in the AWS door profiles
+  - Both door profiles document MRD (product-scale) and OpportunitySpec (feature-scale) as optional post-FAQ deepening paths, but aws-one-way-door's `prd` synthesis never consumes opportunity-spec and aws-two-way-door's never consumes mrd — the off-path document a team chooses never feeds PRD synthesis; wire both sources into each profile's `prd` rule
+  - Done: both profiles' `prd` synthesis now consumes press, faq, mrd, and opportunity-spec with guidance naming whichever deepening is present; visionspec's aws-one-way-door-flow.d2 / aws-two-way-door-flow.d2 (and their SVGs) carry the symmetric optional nodes and edges; guarded by `TestAWSDoorProfilesSymmetricDeepening` plus the new library-wide `TestSynthesisSourcesDeclared` (every unqualified synthesis source must be declared in spec_config)
+- [x] `RMI-SPECWORKFLOWSPEC-019` Loader cycle guard for explicit spec sources
+  - `ResolvingLoader.sourceWorkflow` resolves a declared `{from: <workflow>}` with a fresh inheritance chain (`loadWithChain(from, nil)`), so a source naming a descendant of the declaring workflow recurses forever instead of erroring; thread the chain through source resolution (or detect and fail with a clear message) and document the ancestor-only invariant on `SpecSource`
+  - Done: the resolution chain now threads through `applyExplicitSources` → `sourceTemplate`/`sourceRubric` → `sourceWorkflow`, so extends links and spec sources share one cycle check ("circular workflow reference detected"); the invariant is documented on `SpecSource` (sources point at ancestors or unrelated workflows; descendant-owned content is copied, never referenced); guarded by `TestResolvingLoader_SourceNamingDescendantIsCycle` from both load entry points
+- [ ] `RMI-SPECWORKFLOWSPEC-020` Model or remove unparsed profile keys
+  - `rubric_extensions` (big-tech, big-tech-essentials), v2mom's bespoke `evaluation` block, and `cycles`/`cadence`/`assumption_types`/`v2mom` keys are silently dropped by the Workflow parser — config that does nothing; either add them to the schema or delete them, and reconcile `category: tracking` (big-tech shapeup-scope, discovery-snapshot) with the SpecRequirement category enum
+
+## Phase 7 — Domain Home Consolidation and Release
+
+**Theme:** locally authored stopgaps move to their domain homes, duplicates collapse to one owner, and the replace directives finally drop
+
+- [ ] `RMI-SPECWORKFLOWSPEC-021` Upstream locally authored roadmap-domain content to prism-roadmap
+  - experience-map template/rubric and the v2mom-summary rubric were authored here as marked upstream candidates (prism-roadmap has the experience-map schema and the v2mom-summary template but not these files); land them upstream and convert the local copies to prism-sync manifest entries
+- [ ] `RMI-SPECWORKFLOWSPEC-022` Dedupe press/faq/narrative-6p via explicit provenance
+  - Byte-identical copies now live in enterprise, aws-one-way-door, and aws-two-way-door; keep enterprise as the owner and declare `template:/rubric: {from: enterprise}` in the door profiles (safe direction — enterprise is their ancestor), depends on the RMI-019 guard landing first
+- [ ] `RMI-SPECWORKFLOWSPEC-023` Release sequencing — drop the replace directives
+  - Tag structured-evaluation v0.14.0 and a prism-roadmap release containing the upstreamed content, bump the requires, and drop the local replace directives in go.mod and tools/prism-sync/go.mod (completes the release step RMI-014 explicitly deferred)
+- [ ] `RMI-SPECWORKFLOWSPEC-024` Layered-rubric relabeling for the remaining workflow families
+  - Apply class/blocking/evaluation metadata to big-tech, google, shapeup, and the other family rubrics now that the enterprise + both-door-profile pattern is proven; extend the hardenedRubrics guard list as each family lands
+- [ ] `RMI-SPECWORKFLOWSPEC-025` Requirements-family template ownership review
+  - Evaluate migrating PRD/TRD/MRD (and PLAN/ROADMAP) template ownership to prism-roadmap's domain home per the domain-home pattern; today enterprise owns them locally
+- [ ] `RMI-SPECWORKFLOWSPEC-026` visionstudio spec judge calibration against the hardened rubrics
+  - Calibration run exercising the layered rubrics end to end in visionstudio: deterministic checks vs LLM semantic checks vs human gates, using the 15 hardened rubric pairs as the corpus

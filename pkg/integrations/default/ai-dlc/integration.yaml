@@ -1,0 +1,174 @@
+id: ai-dlc
+name: AWS AI-DLC Workflows
+short_name: AI-DLC
+vendor: AWS Labs
+description: >-
+  AI-Driven Development Life Cycle — a prompt/rules package that steers an AI
+  coding agent through Inception, Construction, and Operations phases, emitting
+  reviewable markdown artifacts at each human-gated stage. Not a CLI or MCP
+  server: activated in-agent with the phrase "Using AI-DLC, ...".
+kind: execution
+source: repo
+homepage: https://github.com/awslabs/aidlc-workflows
+repo: https://github.com/awslabs/aidlc-workflows
+reference: https://github.com/awslabs/aidlc-workflows/blob/main/README.md
+license: MIT-0
+invocations:
+  - ide
+agents:
+  - Kiro
+  - Amazon Q Developer
+  - Cursor
+  - Cline
+  - Claude Code
+  - GitHub Copilot
+  - Codex
+
+detection:
+  root_markers:
+    - aidlc-docs/aidlc-state.md
+    - .aidlc-rule-details/
+    - .kiro/aws-aidlc-rule-details/
+    - .amazonq/aws-aidlc-rule-details/
+  globs:
+    - "**/aws-aidlc-rules/core-workflow.md"
+
+artifacts:
+  - id: state
+    path: aidlc-docs/aidlc-state.md
+    role: config
+    description: >-
+      Primary state tracker — project info, extension config, and the
+      "## Stage Progress" checklist. Definitive marker that a run has occurred.
+    phase: inception
+    produced: true
+  - id: audit
+    path: aidlc-docs/audit.md
+    role: config
+    description: Append-only, timestamped log of every interaction.
+    phase: inception
+    produced: true
+  - id: requirements
+    path: aidlc-docs/inception/requirements/requirements.md
+    role: requirement
+    description: Analyzed requirements — the hinge every downstream stage builds on.
+    phase: inception
+    spec_type: prd
+    produced: true
+  - id: stories
+    path: aidlc-docs/inception/user-stories/stories.md
+    role: requirement
+    description: User stories and personas (conditional stage).
+    phase: inception
+    produced: true
+  - id: execution-plan
+    path: aidlc-docs/inception/plans/execution-plan.md
+    role: plan
+    description: Which downstream stages run, their depth, and a workflow visualization.
+    phase: inception
+    spec_type: plan
+    produced: true
+  - id: app-design
+    path: aidlc-docs/inception/application-design/
+    role: design
+    description: Components, methods, services, and dependency maps (conditional).
+    phase: inception
+    produced: true
+  - id: functional-design
+    path: aidlc-docs/construction/<unit>/functional-design/
+    role: design
+    description: Per-unit business logic, domain entities, and rules.
+    phase: construction
+    produced: true
+  - id: code-generation-plan
+    path: aidlc-docs/construction/plans/<unit>-code-generation-plan.md
+    role: tasks
+    description: Per-unit code-generation checklist (checkbox steps).
+    phase: construction
+    produced: true
+  - id: code-summaries
+    path: aidlc-docs/construction/<unit>/code/
+    role: output
+    description: Markdown summaries of generated code (the code itself lands at the workspace root).
+    phase: construction
+    produced: true
+  - id: build-and-test
+    path: aidlc-docs/construction/build-and-test/
+    role: tests
+    description: Build and test instruction files plus a summary.
+    phase: construction
+    produced: true
+  - id: code
+    path: ./
+    role: output
+    description: Application code, tests, and IaC written to the workspace root.
+    phase: construction
+    produced: true
+
+lifecycle:
+  - id: inception
+    name: Inception
+    description: >-
+      Planning — WHAT & WHY. Workspace detection, (brownfield) reverse
+      engineering, requirements analysis, user stories, workflow planning,
+      application design, and units-of-work generation.
+    produces:
+      - state
+      - audit
+      - requirements
+      - stories
+      - execution-plan
+      - app-design
+  - id: construction
+    name: Construction
+    description: >-
+      HOW — per unit of work: functional design, NFR requirements and design,
+      infrastructure design, code generation, then build and test.
+    consumes:
+      - requirements
+      - execution-plan
+    produces:
+      - functional-design
+      - code-generation-plan
+      - code-summaries
+      - build-and-test
+      - code
+  - id: operations
+    name: Operations
+    description: Reserved for deployment and monitoring (placeholder in current release).
+
+status:
+  method: task-checkboxes
+  source: state
+  description: >-
+    Parse the "## Stage Progress" checklist in aidlc-state.md (respecting SKIPPED
+    as done/not-applicable), then refine per-unit progress from the checkbox
+    ratio in each construction/plans/<unit>-code-generation-plan.md. Formats are
+    LLM-generated markdown — match checkboxes plus the keywords
+    COMPLETED/SKIPPED/IN PROGRESS rather than exact headings.
+
+inputs:
+  - id: vision-document
+    medium: spec-file
+    description: >-
+      Vision Document (what to build and why) plus a Technical Environment
+      Document, consumed at Requirements Analysis. An external PRD/6-pager maps
+      onto the Vision Document.
+    spec_types:
+      - narrative-6p
+      - prd
+      - mrd
+
+outputs:
+  - id: code-out
+    medium: code
+    description: Application code, tests, and IaC at the workspace root.
+    artifacts:
+      - code
+  - id: docs-out
+    medium: export
+    description: The aidlc-docs/ markdown tree (requirements, design, plans, state).
+    artifacts:
+      - requirements
+      - execution-plan
+      - functional-design

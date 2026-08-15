@@ -10,9 +10,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ProductBuildersHQ/visionspec/pkg/config"
-	"github.com/ProductBuildersHQ/visionspec/pkg/status"
-	"github.com/ProductBuildersHQ/visionspec/pkg/types"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/config"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/status"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/types"
 )
 
 // ProjectIndexOptions configures project index generation.
