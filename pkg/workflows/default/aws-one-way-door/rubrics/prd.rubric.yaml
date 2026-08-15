@@ -1,0 +1,261 @@
+id: prd-rubric
+name: AWS PRD Evaluation
+version: "2.0"
+description: >-
+  Evaluates product-level PRDs for one-way-door launches against Amazon
+  Leadership Principles and implementation readiness. Leadership Principle
+  criteria (customer_obsession, simplifying_assumptions, frugality) are
+  advisory judgment lenses and never block on their own —
+  implementation_readiness criteria are the blocking gates on whether the
+  irreversible commitments are named and deliberated and whether an agent
+  could implement without inventing product decisions.
+evaluationType: analytic
+judgeInstructions:
+  - Cite the relevant section and requirement/story ID for every finding.
+  - Leadership Principle criteria are decision-making lenses, not mechanical checks — cite specific evidence rather than scoring on vibe.
+  - An unnamed one-way-door commitment is a fail on decision_reversibility, not a gap — the §3.1 table must name every irreversible commitment with linked deliberation evidence.
+  - A functional requirement with no Traces To story or no Working Backwards source is a fail on functional_requirements regardless of prose quality.
+  - An "MRD not produced" declaration with a real rationale is acceptable on market grounding; a blank MRD reference is not.
+  - Do not reward length; reward customer-traceable, testable, unambiguous requirements with deliberation proportionate to the stakes.
+passCriteria:
+    minCategoriesPassing: all_required
+    maxFindingsSeverity:
+        critical: 0
+        high: 0
+        medium: 0
+        low: -1
+categories:
+    - id: customer_obsession
+      name: Customer Obsession
+      description: Whether requirements clearly trace back to the announced customer experience and validated customer needs.
+      weight: 0.15
+      required: false
+      class: leadership_principle
+      blocking: false
+      evaluation: semantic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Every requirement traces to a specific customer need from the Press Release or FAQ; customer voice evident throughout
+            - value: partial
+              label: Partial
+              criteria:
+                - Requirements exist but customer connection is weak
+            - value: fail
+              label: Fail
+              criteria:
+                - Requirements feel internally driven, not customer-driven
+    - id: problem_definition
+      name: Problem Definition
+      description: Clarity of the customer and business problem, worked backwards from the Press Release and FAQ.
+      weight: 0.15
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: semantic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Problem is specific, measurable, and clearly impacts users; §2 cites the Press Release problem and FAQ business-case answers
+            - value: partial
+              label: Partial
+              criteria:
+                - Problem exists but lacks specificity or Working Backwards grounding
+            - value: fail
+              label: Fail
+              criteria:
+                - No clear problem statement
+    - id: decision_reversibility
+      name: Decision Reversibility
+      description: One-way-door profile — every irreversible commitment is named and justified with deliberation proportionate to the stakes, while reversible sub-decisions are separated out for fast team-level resolution.
+      weight: 0.10
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Every §3.1 commitment states WHY it cannot be walked back, its blast radius, exit cost, and linked deliberation evidence (6-pager/decision meeting)
+                - Reversible sub-decisions appear in §3.2 with owners and walk-back paths, not buried in one-way-door scrutiny
+                - The personal-money test is answered substantively
+            - value: partial
+              label: Partial
+              criteria:
+                - Door classification asserted but not justified, deliberation evidence missing, or everything treated as irreversible so nothing moves fast
+            - value: fail
+              label: Fail
+              criteria:
+                - No reversibility analysis, or an irreversible commitment left unnamed in §3.1
+    - id: goals_scope
+      name: Goals and Scope
+      description: Clarity of goals and explicit non-goals over a horizon long enough for a one-way-door bet.
+      weight: 0.10
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Goals are SMART with baselines and 90-day plus year-1 targets; non-goals explicitly stated; scope is bounded
+            - value: partial
+              label: Partial
+              criteria:
+                - Goals present but scope could be clearer or the horizon is launch-only
+            - value: fail
+              label: Fail
+              criteria:
+                - Goals and scope missing
+    - id: user_stories
+      name: User Stories
+      description: Quality, stable IDs, and completeness of user stories.
+      weight: 0.15
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Every story and acceptance criterion has a stable ID (US-NNN, AC-NNN-M)
+                - Stories are prioritized with clear, testable acceptance criteria covering error and boundary behavior
+            - value: partial
+              label: Partial
+              criteria:
+                - Stories exist but some lack IDs or acceptance criteria
+            - value: fail
+              label: Fail
+              criteria:
+                - User stories missing or inadequate
+    - id: functional_requirements
+      name: Functional Requirements
+      description: Completeness, story traceability, and Working Backwards sourcing of functional requirements.
+      weight: 0.15
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Every FR has a Traces To story ID that exists in User Stories and a Source citing a Press Release promise or FAQ answer
+                - Requirements are complete and testable
+            - value: partial
+              label: Partial
+              criteria:
+                - Requirements exist but some untraced, unsourced, or vague
+            - value: fail
+              label: Fail
+              criteria:
+                - Functional requirements missing or untraced
+    - id: simplifying_assumptions
+      name: Simplifying Assumptions
+      description: Invent and Simplify — whether the irreversible core is kept narrow and simplifying insights are identified.
+      weight: 0.05
+      required: false
+      class: leadership_principle
+      blocking: false
+      evaluation: semantic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - The one-way-door commitment list is visibly minimized; simplifying assumptions identified with why each is safe
+            - value: partial
+              label: Partial
+              criteria:
+                - Some simplification mentioned without justification
+            - value: fail
+              label: Fail
+              criteria:
+                - No simplifying assumptions; the irreversible surface is larger than the customer promise requires
+    - id: frugality
+      name: Frugality
+      description: Whether requirements demonstrate an accomplish-more-with-less mindset.
+      weight: 0.05
+      required: false
+      class: leadership_principle
+      blocking: false
+      evaluation: semantic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Requirements focused on essential value; no gold-plating; constraints acknowledged
+            - value: partial
+              label: Partial
+              criteria:
+                - Some nice-to-haves but mostly focused
+            - value: fail
+              label: Fail
+              criteria:
+                - Kitchen sink approach; no prioritization
+    - id: success_metrics
+      name: Success Metrics
+      description: Measurable success criteria focused on inputs the team controls, with launch treated as the starting line.
+      weight: 0.05
+      required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - SMART metrics with baselines, 90-day and year-1 targets; inputs the team controls, not just outputs
+            - value: partial
+              label: Partial
+              criteria:
+                - Some metrics but lacking specificity, output-only, or launch-day-only horizon
+            - value: fail
+              label: Fail
+              criteria:
+                - Success metrics missing
+    - id: dependencies
+      name: Dependencies and Risks
+      description: Identification of dependencies and the FAQ-surfaced risks carried forward with mitigations.
+      weight: 0.05
+      required: false
+      class: specification_quality
+      blocking: false
+      evaluation: deterministic
+      scale:
+        type: categorical
+        options:
+            - value: pass
+              label: Pass
+              criteria:
+                - Dependencies mapped with owners and status; risks carried forward from the FAQ with mitigations and source citations
+            - value: partial
+              label: Partial
+              criteria:
+                - Some dependencies noted
+            - value: fail
+              label: Fail
+              criteria:
+                - Dependencies not addressed
