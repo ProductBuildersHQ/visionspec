@@ -1,7 +1,7 @@
 package types
 
 import (
-	swf "github.com/ProductBuildersHQ/specification-workflow-spec/pkg/workflow"
+	swf "github.com/ProductBuildersHQ/visionspec/pkg/workflow"
 )
 
 // SpecConfigFromWorkflow converts a specification-workflow-spec Workflow's
@@ -22,8 +22,11 @@ func SpecConfigFromWorkflow(w *swf.Workflow) *SpecConfig {
 		sc.Specs[specType] = &SpecRequirement{
 			Required: req.Required,
 			Category: SpecCategory(req.Category),
-			Template: req.Template,
-			Rubric:   req.Rubric,
+			// Template/Rubric are left unset: sws's Template/Rubric fields
+			// are now *SpecSource provenance pointers (which workflow owns
+			// the file), not template/rubric name overrides — a different
+			// concept than this field, which callers already treat an
+			// empty string as "use the spec type's default name."
 		}
 	}
 	return sc
