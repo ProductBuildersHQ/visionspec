@@ -5,8 +5,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/eval"
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/types"
+	"github.com/ProductBuildersHQ/visionspec/pkg/eval"
+	"github.com/ProductBuildersHQ/visionspec/pkg/types"
 )
 
 // mockResult creates a sample Result for testing.

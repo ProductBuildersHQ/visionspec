@@ -9,8 +9,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/config"
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/types"
+	"github.com/ProductBuildersHQ/visionspec/pkg/config"
+	"github.com/ProductBuildersHQ/visionspec/pkg/types"
 )
 
 // Report represents a project status report.

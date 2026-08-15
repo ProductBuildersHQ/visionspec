@@ -14,8 +14,8 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/cli"
-	sws "github.com/ProductBuildersHQ/specification-workflow-spec/pkg/workflows"
+	"github.com/ProductBuildersHQ/visionspec/pkg/cli"
+	sws "github.com/ProductBuildersHQ/visionspec/pkg/workflows"
 )
 
 func main() {

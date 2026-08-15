@@ -3,7 +3,7 @@ package apptypes
 import (
 	"testing"
 
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/constitution"
+	"github.com/ProductBuildersHQ/visionspec/pkg/constitution"
 )
 
 func TestMicroserviceSpec(t *testing.T) {

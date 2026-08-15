@@ -1,8 +1,8 @@
 site_name: VisionSpec
 site_description: Multi-domain specification orchestration for humans and AI agents
-site_url: https://productbuildershq.com/specification-workflow-spec
-repo_url: https://github.com/ProductBuildersHQ/specification-workflow-spec
-repo_name: ProductBuildersHQ/specification-workflow-spec
+site_url: https://productbuildershq.com/visionspec
+repo_url: https://github.com/ProductBuildersHQ/visionspec
+repo_name: ProductBuildersHQ/visionspec
 
 theme:
   name: material
@@ -147,4 +147,4 @@ nav:
 extra:
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/ProductBuildersHQ/specification-workflow-spec
+      link: https://github.com/ProductBuildersHQ/visionspec

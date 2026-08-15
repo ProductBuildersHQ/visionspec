@@ -3,7 +3,7 @@ package apptypes
 import (
 	"testing"
 
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/types"
+	"github.com/ProductBuildersHQ/visionspec/pkg/types"
 )
 
 func TestAppTypeIsValid(t *testing.T) {

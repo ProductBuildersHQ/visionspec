@@ -1,4 +1,4 @@
-module github.com/ProductBuildersHQ/specification-workflow-spec/tools/prism-sync
+module github.com/ProductBuildersHQ/visionspec/tools/prism-sync
 
 go 1.25.5
 

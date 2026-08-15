@@ -3,7 +3,7 @@ package rubrics
 import (
 	"testing"
 
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/types"
+	"github.com/ProductBuildersHQ/visionspec/pkg/types"
 	"github.com/plexusone/structured-evaluation/rubric"
 )
 

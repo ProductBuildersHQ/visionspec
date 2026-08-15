@@ -1,8 +1,8 @@
 package apptypes
 
 import (
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/constitution"
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/types"
+	"github.com/ProductBuildersHQ/visionspec/pkg/constitution"
+	"github.com/ProductBuildersHQ/visionspec/pkg/types"
 )
 
 // MicroserviceSpec returns the default AppTypeSpec for microservices.

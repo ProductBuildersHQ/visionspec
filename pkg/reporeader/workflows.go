@@ -25,8 +25,8 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/rubrics"
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/templates"
+	"github.com/ProductBuildersHQ/visionspec/pkg/rubrics"
+	"github.com/ProductBuildersHQ/visionspec/pkg/templates"
 )
 
 const (

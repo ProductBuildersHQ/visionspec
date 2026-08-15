@@ -7,7 +7,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/types"
+	"github.com/ProductBuildersHQ/visionspec/pkg/types"
 )
 
 //go:embed mrd.md prd.md uxd.md narrative-1p.md narrative-6p.md press.md faq.md trd.md tpd.md ird.md

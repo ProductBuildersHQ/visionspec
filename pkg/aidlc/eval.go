@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/rubrics"
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/types"
+	"github.com/ProductBuildersHQ/visionspec/pkg/rubrics"
+	"github.com/ProductBuildersHQ/visionspec/pkg/types"
 	"github.com/plexusone/structured-evaluation/rubric"
 )
 

@@ -6,7 +6,7 @@ package apptypes
 import (
 	"fmt"
 
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/types"
+	"github.com/ProductBuildersHQ/visionspec/pkg/types"
 )
 
 // AppType represents the type of application being built.

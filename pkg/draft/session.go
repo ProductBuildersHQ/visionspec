@@ -3,8 +3,8 @@ package draft
 import (
 	"fmt"
 
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/templates"
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/types"
+	"github.com/ProductBuildersHQ/visionspec/pkg/templates"
+	"github.com/ProductBuildersHQ/visionspec/pkg/types"
 )
 
 // Session manages the state of a draft authoring session.

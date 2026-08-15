@@ -7,7 +7,7 @@
 //
 //	import (
 //		"github.com/spf13/cobra"
-//		"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/cli"
+//		"github.com/ProductBuildersHQ/visionspec/pkg/cli"
 //	)
 //
 //	func main() {
@@ -22,13 +22,13 @@ package cli
 import (
 	"github.com/spf13/cobra"
 
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/apptypes"
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/constitution"
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/reporeader"
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/rubrics"
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/templates"
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/types"
-	sws "github.com/ProductBuildersHQ/specification-workflow-spec/pkg/workflows"
+	"github.com/ProductBuildersHQ/visionspec/pkg/apptypes"
+	"github.com/ProductBuildersHQ/visionspec/pkg/constitution"
+	"github.com/ProductBuildersHQ/visionspec/pkg/reporeader"
+	"github.com/ProductBuildersHQ/visionspec/pkg/rubrics"
+	"github.com/ProductBuildersHQ/visionspec/pkg/templates"
+	"github.com/ProductBuildersHQ/visionspec/pkg/types"
+	sws "github.com/ProductBuildersHQ/visionspec/pkg/workflows"
 )
 
 // Config allows customization of CLI behavior.

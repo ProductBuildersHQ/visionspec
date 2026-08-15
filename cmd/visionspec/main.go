@@ -4,7 +4,7 @@ package main
 import (
 	"os"
 
-	"github.com/ProductBuildersHQ/specification-workflow-spec/internal/cli"
+	"github.com/ProductBuildersHQ/visionspec/internal/cli"
 )
 
 func main() {

@@ -3,7 +3,7 @@ package workflows_test
 import (
 	"fmt"
 
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/workflows"
+	"github.com/ProductBuildersHQ/visionspec/pkg/workflows"
 )
 
 func Example() {

@@ -3,10 +3,10 @@ package pipelines
 import (
 	"testing"
 
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/integrations"
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/loops"
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/spectype"
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/workflows"
+	"github.com/ProductBuildersHQ/visionspec/pkg/integrations"
+	"github.com/ProductBuildersHQ/visionspec/pkg/loops"
+	"github.com/ProductBuildersHQ/visionspec/pkg/spectype"
+	"github.com/ProductBuildersHQ/visionspec/pkg/workflows"
 )
 
 // TestCatalogCrossReferencesResolve guards the whole embedded catalog graph.
