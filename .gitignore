@@ -34,3 +34,7 @@ site/
 
 # Chat transcripts
 IDEATION_CHAT*.md
+
+# From specification-workflow-spec merge
+/catalog
+/tools/prism-sync/prism-sync
