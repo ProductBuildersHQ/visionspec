@@ -1,0 +1,178 @@
+# V2MOM Summary Rubric
+# LLM-as-a-Judge evaluation criteria for V2MOM Summary documents
+#
+# Not prism-synced: prism-roadmap has no rubrics/v2mom-summary.rubric.yaml
+# upstream (only the template). Authored locally, matching the schema and
+# style of the other v2mom-*.rubric.yaml files in this directory, which are
+# prism-synced. Candidate for upstreaming to prism-roadmap so this file can
+# be replaced by a synced copy.
+#
+# The Summary is the reconciled, cross-referenced rollup of Vision, Values,
+# Methods, Obstacles, and Measures: it must faithfully consolidate those five
+# source documents, not just restate them, and it must make the cascade
+# (parent/sibling/child V2MOMs) and ProductContext links legible.
+
+id: v2mom-summary-rubric
+name: V2MOM Summary Evaluation Rubric
+version: "1.0"
+description: |
+  Evaluates V2MOM Summary documents for fidelity to the five source sections,
+  cross-reference and traceability quality, and accuracy of the cascade and
+  health rollups. A strong summary lets a reader who has not read the five
+  source documents still trust the state of the V2MOM and where it sits in
+  the cascade.
+
+passCriteria:
+  scoreThresholds:
+    pass: 80
+    partial: 60
+
+categories:
+  - id: section-fidelity
+    name: Section Fidelity
+    weight: 40
+    description: Evaluates whether the summary faithfully consolidates the five source documents
+    criteria:
+      - id: SF1
+        name: Vision & Values Fidelity
+        weight: 15
+        pass:
+          description: Vision statement and ranked values match their source documents without drift
+          indicators:
+            - Vision statement is verbatim or a faithful restatement of the Vision document
+            - Values retain their source ranking and trade-off guidance
+            - No values added, dropped, or reordered without explanation
+        partial:
+          description: Vision or values present but drifted from source
+          indicators:
+            - Vision paraphrased in a way that changes meaning
+            - Values reordered or trade-off guidance altered without note
+        fail:
+          description: Vision or values missing or contradicting source
+          indicators:
+            - Section empty or placeholder
+            - Values contradict the ranked list in the Values document
+      - id: SF2
+        name: Methods & Obstacles Fidelity
+        weight: 15
+        pass:
+          description: Methods and obstacles are complete and consistent with their source documents
+          indicators:
+            - Every method in the Methods document appears in the summary with owner, priority, status, target
+            - Every obstacle appears with category, severity, status, mitigation
+            - Method-to-parent alignment table matches the Methods document's stated parent links
+        partial:
+          description: Methods or obstacles present but incomplete
+          indicators:
+            - Some methods or obstacles omitted without explanation
+            - Status or ownership fields blank for entries that have them in source
+        fail:
+          description: Methods or obstacles missing or fabricated
+          indicators:
+            - Section empty or placeholder
+            - Entries present in summary that do not exist in source documents
+      - id: SF3
+        name: Measures Fidelity
+        weight: 10
+        pass:
+          description: Measures match source baselines, targets, and current values
+          indicators:
+            - Baseline, target, and current values match the Measures document
+            - Each measure links to the method it tracks
+        partial:
+          description: Measures present but values inconsistent with source
+          indicators:
+            - Baseline or target differs from the Measures document without explanation
+            - Measure-to-method link missing
+        fail:
+          description: Measures missing or contradicting source
+          indicators:
+            - Section empty or placeholder
+            - Values contradict the Measures document
+
+  - id: cross-references-traceability
+    name: Cross-References & Traceability
+    weight: 30
+    description: Evaluates ProductContext linking and method-to-parent traceability
+    criteria:
+      - id: CR1
+        name: ProductContext Links
+        weight: 15
+        pass:
+          description: Capabilities, projects, KPIs, and decisions are linked and consistent with the source sections
+          indicators:
+            - Every method with a capability link in the Methods document is reflected here
+            - Every measure with a KPI link in the Measures document is reflected here
+            - Linked decisions correspond to obstacles that reference them
+        partial:
+          description: Some ProductContext links present but incomplete
+          indicators:
+            - Capability or KPI links present for some methods/measures but not others that have them in source
+            - Linked-entity tables present but mostly empty
+        fail:
+          description: No ProductContext linking
+          indicators:
+            - Section empty or all placeholders
+            - Links reference entities that do not exist elsewhere in the document
+      - id: CR2
+        name: Method-to-Parent Alignment
+        weight: 15
+        pass:
+          description: Each method's contribution to the parent V2MOM's methods is explicit and plausible
+          indicators:
+            - Every method has a stated parent-method link (or explicit N/A at company level)
+            - The stated contribution is specific, not a restatement of the method itself
+        partial:
+          description: Parent alignment asserted but not substantiated
+          indicators:
+            - Parent method named without explanation of contribution
+            - Some methods missing a parent link with no N/A
+        fail:
+          description: No parent alignment shown
+          indicators:
+            - Section empty for a non-company-level V2MOM
+            - Parent methods referenced do not exist
+
+  - id: cascade-health-rollup
+    name: Cascade & Health Rollup
+    weight: 30
+    description: Evaluates accuracy of the cascade context and the health dashboard
+    criteria:
+      - id: CH1
+        name: Cascade Path Accuracy
+        weight: 15
+        pass:
+          description: Parent, sibling, and child V2MOMs are correctly identified and consistent with the cascade
+          indicators:
+            - Cascade path (company/department/team) matches the document's own Level field
+            - Sibling and child V2MOMs listed have plausible, non-overlapping ownership
+            - Alignment percentages are present, not placeholder zeros
+        partial:
+          description: Cascade path present but incomplete or inconsistent
+          indicators:
+            - Level field inconsistent with the cascade diagram
+            - Sibling or child list present but alignment percentages missing
+        fail:
+          description: No cascade context
+          indicators:
+            - Cascade section empty or all placeholders
+            - Cascade path contradicts the Level field
+      - id: CH2
+        name: Health Dashboard Consistency
+        weight: 15
+        pass:
+          description: Health scores are internally consistent with the section content they summarize
+          indicators:
+            - Vision/Values/Method/Obstacle/Measure scores are plausible given the fidelity of those sections
+            - Overall score is a reasonable function of the individual scores, not an unexplained outlier
+            - Status labels (e.g. on-track, at-risk) match the underlying data (e.g. measures behind target marked at-risk)
+        partial:
+          description: Health dashboard present but not clearly grounded
+          indicators:
+            - Scores present but no visible basis in the section content
+            - Overall score inconsistent with individual scores
+        fail:
+          description: No health dashboard, or scores contradict the document
+          indicators:
+            - Dashboard empty or all placeholders
+            - Status labels contradict the data shown elsewhere in the document (e.g. "on-track" with measures below baseline)
