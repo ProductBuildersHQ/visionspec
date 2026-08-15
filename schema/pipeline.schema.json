@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/ProductBuildersHQ/specification-workflow-spec/schema/pipeline.schema.json",
+  "$ref": "#/$defs/Pipeline",
+  "$defs": {
+    "DefinitionRef": {
+      "properties": {
+        "workflow": {
+          "type": "string",
+          "description": "Definition workflow name"
+        },
+        "outputs": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Spec type IDs handed off downstream"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "workflow"
+      ]
+    },
+    "ExecutionRef": {
+      "properties": {
+        "integration": {
+          "type": "string",
+          "description": "Execution integration ID"
+        },
+        "input_port": {
+          "type": "string",
+          "description": "Integration input port ID that receives the handoff"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "integration"
+      ]
+    },
+    "Handoff": {
+      "properties": {
+        "spec_type": {
+          "type": "string",
+          "description": "Definition-side spec type ID"
+        },
+        "to_artifact": {
+          "type": "string",
+          "description": "Execution-side artifact or port the spec feeds into"
+        },
+        "transform": {
+          "type": "string",
+          "description": "Note on any transform applied at the seam"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "spec_type"
+      ]
+    },
+    "Pipeline": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Canonical identifier for the pipeline"
+        },
+        "name": {
+          "type": "string",
+          "description": "Human-readable name"
+        },
+        "description": {
+          "type": "string",
+          "description": "Pipeline purpose and use case"
+        },
+        "definition": {
+          "$ref": "#/$defs/DefinitionRef",
+          "description": "Upstream definition workflow"
+        },
+        "execution": {
+          "$ref": "#/$defs/ExecutionRef",
+          "description": "Downstream execution integration"
+        },
+        "handoffs": {
+          "items": {
+            "$ref": "#/$defs/Handoff"
+          },
+          "type": "array",
+          "description": "Per-spec-type handoff mappings"
+        },
+        "reference": {
+          "type": "string",
+          "format": "uri",
+          "description": "Documentation URL"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "definition",
+        "execution"
+      ]
+    }
+  },
+  "title": "Definition-to-Execution Pipeline",
+  "description": "Schema for pipeline definitions"
+}

@@ -1,0 +1,309 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/ProductBuildersHQ/specification-workflow-spec/schema/integration.schema.json",
+  "$ref": "#/$defs/Integration",
+  "$defs": {
+    "Artifact": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Artifact identifier"
+        },
+        "path": {
+          "type": "string",
+          "description": "Path or glob relative to project root"
+        },
+        "role": {
+          "type": "string",
+          "enum": [
+            "constitution",
+            "requirement",
+            "design",
+            "plan",
+            "tasks",
+            "proposal",
+            "spec",
+            "research",
+            "contract",
+            "config",
+            "output"
+          ]
+        },
+        "description": {
+          "type": "string",
+          "description": "Artifact purpose"
+        },
+        "phase": {
+          "type": "string",
+          "description": "Lifecycle phase ID that produces this artifact"
+        },
+        "spec_type": {
+          "type": "string",
+          "description": "Mapped specification-workflow-spec spec type ID"
+        },
+        "produced": {
+          "type": "boolean",
+          "description": "True if the tool writes this artifact"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "id",
+        "path",
+        "role"
+      ]
+    },
+    "Detection": {
+      "properties": {
+        "root_markers": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Paths whose presence indicates the tool (any match)"
+        },
+        "globs": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Additional corroborating file globs"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "Integration": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Canonical identifier for the integration"
+        },
+        "name": {
+          "type": "string",
+          "description": "Human-readable name"
+        },
+        "short_name": {
+          "type": "string",
+          "description": "Abbreviated name for compact display"
+        },
+        "vendor": {
+          "type": "string",
+          "description": "Owning organization or project"
+        },
+        "description": {
+          "type": "string",
+          "description": "Purpose of the tool"
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "definition",
+            "execution",
+            "hybrid"
+          ]
+        },
+        "source": {
+          "type": "string",
+          "enum": [
+            "repo",
+            "docs"
+          ],
+          "description": "How this descriptor was modeled"
+        },
+        "homepage": {
+          "type": "string",
+          "format": "uri",
+          "description": "Homepage URL"
+        },
+        "repo": {
+          "type": "string",
+          "format": "uri",
+          "description": "Source repository URL"
+        },
+        "reference": {
+          "type": "string",
+          "format": "uri",
+          "description": "Canonical documentation URL"
+        },
+        "license": {
+          "type": "string",
+          "description": "License identifier"
+        },
+        "invocations": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "How the tool is driven"
+        },
+        "cli_command": {
+          "type": "string",
+          "description": "Primary CLI command name"
+        },
+        "agents": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Supported AI agents or runtimes"
+        },
+        "detection": {
+          "$ref": "#/$defs/Detection",
+          "description": "How to detect the tool on disk"
+        },
+        "artifacts": {
+          "items": {
+            "$ref": "#/$defs/Artifact"
+          },
+          "type": "array",
+          "description": "Files the tool reads or writes"
+        },
+        "lifecycle": {
+          "items": {
+            "$ref": "#/$defs/Phase"
+          },
+          "type": "array",
+          "description": "Ordered lifecycle phases"
+        },
+        "status": {
+          "$ref": "#/$defs/StatusModel",
+          "description": "How to compute progress from artifacts"
+        },
+        "inputs": {
+          "items": {
+            "$ref": "#/$defs/Port"
+          },
+          "type": "array",
+          "description": "Input seams (what feeds in)"
+        },
+        "outputs": {
+          "items": {
+            "$ref": "#/$defs/Port"
+          },
+          "type": "array",
+          "description": "Output seams (what it emits)"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "kind",
+        "detection"
+      ]
+    },
+    "Phase": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Phase identifier"
+        },
+        "name": {
+          "type": "string",
+          "description": "Phase name"
+        },
+        "description": {
+          "type": "string",
+          "description": "Phase purpose"
+        },
+        "command": {
+          "type": "string",
+          "description": "Command or slash command that drives the phase"
+        },
+        "produces": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Artifact IDs emitted by this phase"
+        },
+        "consumes": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Artifact IDs required by this phase"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "id",
+        "name"
+      ]
+    },
+    "Port": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Port identifier"
+        },
+        "medium": {
+          "type": "string",
+          "enum": [
+            "spec-file",
+            "code",
+            "tests",
+            "prompt",
+            "export"
+          ]
+        },
+        "description": {
+          "type": "string",
+          "description": "Seam explanation"
+        },
+        "spec_types": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Mapped spec type IDs (for inputs)"
+        },
+        "artifacts": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Associated artifact IDs (for outputs)"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "id",
+        "medium"
+      ]
+    },
+    "StatusModel": {
+      "properties": {
+        "method": {
+          "type": "string",
+          "enum": [
+            "task-checkboxes",
+            "phase-files",
+            "dir-state",
+            "frontmatter"
+          ]
+        },
+        "source": {
+          "type": "string",
+          "description": "Artifact ID or glob the method reads"
+        },
+        "description": {
+          "type": "string",
+          "description": "How status is derived"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "method"
+      ]
+    }
+  },
+  "title": "External Tool Integration",
+  "description": "Schema for integration definitions"
+}

@@ -25,3 +25,8 @@ Thumbs.db
 # Build artifacts
 /dist/
 /bin/
+/catalog
+
+# Ideation input — local-only stream-of-thought notes we distill formal specs
+# from; never checked in.
+IDEATION_CHAT*.md

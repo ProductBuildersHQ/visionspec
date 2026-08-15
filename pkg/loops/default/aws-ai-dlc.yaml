@@ -1,0 +1,50 @@
+id: aws-ai-dlc
+name: AWS AI-DLC Single-Loop System
+vendor: AWS
+description: >-
+  The AI-DLC development cycle as published by AWS — a single human-gated AI
+  loop. In ProductBuildersHQ terms it is an engineering (Builder) loop: the
+  task arrives from outside the system, and "verify outcome" checks the work
+  matches the task, not whether the task achieved its product goal. Included
+  as the reference system the two-loop model generalizes.
+reference: https://github.com/awslabs/aidlc-workflows
+
+loops:
+  - id: dlc
+    name: AI-DLC Cycle
+    owner: Builder
+    question: "Matches the task?"
+    description: Humans provide and gate; AI plans and executes.
+    stations:
+      - id: provide-task
+        name: Humans Provide Task
+        actor: human
+        description: A task arrives from outside the loop.
+      - id: create-plan
+        name: AI Creates Plan
+        actor: ai
+        description: AI drafts a plan and seeks clarification.
+      - id: clarify
+        name: Humans Provide Clarification
+        actor: human
+        description: Humans resolve the AI's questions.
+      - id: refine-plan
+        name: AI Refines Plan
+        actor: ai
+        description: The plan is revised with the clarifications.
+      - id: approve-plan
+        name: Humans Approve Plan
+        actor: human
+        gate: true
+        gate_authority: human
+        description: Explicit human approval gate before execution.
+      - id: execute
+        name: AI Executes Plan
+        actor: ai
+        description: AI implements the approved plan.
+      - id: verify
+        name: Humans Verify Outcome
+        actor: human
+        gate: true
+        gate_authority: human
+        description: Humans verify the work matches the task, then the cycle repeats.

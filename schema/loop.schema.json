@@ -1,0 +1,187 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/ProductBuildersHQ/specification-workflow-spec/schema/loop.schema.json",
+  "$ref": "#/$defs/System",
+  "$defs": {
+    "Loop": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Loop identifier (unique within the system)"
+        },
+        "name": {
+          "type": "string",
+          "description": "Loop name"
+        },
+        "owner": {
+          "type": "string",
+          "description": "Accountable role"
+        },
+        "question": {
+          "type": "string",
+          "description": "The loop's verification question"
+        },
+        "description": {
+          "type": "string",
+          "description": "Loop purpose"
+        },
+        "stations": {
+          "items": {
+            "$ref": "#/$defs/Station"
+          },
+          "type": "array",
+          "description": "Ordered stations (last cycles back to first)"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "stations"
+      ]
+    },
+    "Seam": {
+      "properties": {
+        "from": {
+          "type": "string",
+          "description": "Source station as loopID.stationID"
+        },
+        "to": {
+          "type": "string",
+          "description": "Destination station as loopID.stationID"
+        },
+        "artifact": {
+          "type": "string",
+          "description": "What crosses the seam"
+        },
+        "description": {
+          "type": "string",
+          "description": "Seam explanation"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "from",
+        "to"
+      ]
+    },
+    "Station": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Station identifier (unique within the loop)"
+        },
+        "name": {
+          "type": "string",
+          "description": "Station name"
+        },
+        "actor": {
+          "type": "string",
+          "enum": [
+            "human",
+            "ai",
+            "human+ai"
+          ]
+        },
+        "description": {
+          "type": "string",
+          "description": "Station purpose"
+        },
+        "gate": {
+          "type": "boolean",
+          "description": "True if this station is an approval checkpoint"
+        },
+        "gate_authority": {
+          "type": "string",
+          "enum": [
+            "human",
+            "policy"
+          ],
+          "description": "Default approval authority when gate is true"
+        },
+        "autonomy_note": {
+          "type": "string",
+          "description": "How the station changes as autonomy rises"
+        },
+        "spec_types": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Spec type IDs produced or consumed here"
+        },
+        "workflows": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Definition workflow names mapped to this station"
+        },
+        "integrations": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Execution integration IDs mapped to this station"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "actor"
+      ]
+    },
+    "System": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Canonical identifier for the loop system"
+        },
+        "name": {
+          "type": "string",
+          "description": "Human-readable name"
+        },
+        "vendor": {
+          "type": "string",
+          "description": "Defining organization"
+        },
+        "description": {
+          "type": "string",
+          "description": "System purpose and scope"
+        },
+        "reference": {
+          "type": "string",
+          "format": "uri",
+          "description": "Documentation URL"
+        },
+        "loops": {
+          "items": {
+            "$ref": "#/$defs/Loop"
+          },
+          "type": "array",
+          "description": "Cycles in this system (outermost first)"
+        },
+        "seams": {
+          "items": {
+            "$ref": "#/$defs/Seam"
+          },
+          "type": "array",
+          "description": "Cross-loop connections"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "loops"
+      ]
+    }
+  },
+  "title": "Loop System",
+  "description": "Schema for loop definitions"
+}

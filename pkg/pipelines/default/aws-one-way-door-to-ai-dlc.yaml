@@ -1,0 +1,25 @@
+id: aws-one-way-door-to-ai-dlc
+name: AWS Working Backwards → AI-DLC
+description: >-
+  Definition side runs Amazon Working Backwards (aws-one-way-door) to produce the
+  six-pager, PRD, and TRD; the execution side hands those to AWS AI-DLC, whose
+  Requirements Analysis absorbs them as the Vision and drives Construction.
+definition:
+  workflow: aws-one-way-door
+  outputs:
+    - narrative-6p
+    - prd
+    - trd
+execution:
+  integration: ai-dlc
+  input_port: vision-document
+handoffs:
+  - spec_type: narrative-6p
+    to_artifact: requirements
+    transform: Distill the six-pager into the Vision Document consumed at Requirements Analysis.
+  - spec_type: prd
+    to_artifact: requirements
+    transform: Fold product requirements into the AI-DLC requirements analysis.
+  - spec_type: trd
+    to_artifact: functional-design
+    transform: Seed per-unit functional and NFR design from the technical requirements.
