@@ -3,9 +3,9 @@ package specworkflow
 import (
 	"testing"
 
-	sws "github.com/ProductBuildersHQ/specification-workflow-spec/pkg/workflows"
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/types"
 	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/execgraph"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/types"
+	sws "github.com/ProductBuildersHQ/specification-workflow-spec/pkg/workflows"
 )
 
 func TestFromWorkflow(t *testing.T) {

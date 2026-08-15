@@ -15,9 +15,11 @@ import (
 	"time"
 
 	"github.com/fsnotify/fsnotify"
+	"github.com/plexusone/structured-evaluation/claims"
+	"github.com/plexusone/structured-evaluation/rubric"
+	"github.com/spf13/cobra"
+	"gopkg.in/yaml.v3"
 
-	swf "github.com/ProductBuildersHQ/specification-workflow-spec/pkg/workflow"
-	sws "github.com/ProductBuildersHQ/specification-workflow-spec/pkg/workflows"
 	"github.com/ProductBuildersHQ/specification-workflow-spec/internal/mcp"
 	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/align"
 	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/config"
@@ -25,6 +27,8 @@ import (
 	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/context/sources"
 	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/drift"
 	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/eval"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/execgraph"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/execgraph/specworkflow"
 	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/hooks"
 	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/lint"
 	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/metrics"
@@ -43,12 +47,8 @@ import (
 	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/testgen"
 	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/types"
 	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/version"
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/execgraph"
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/execgraph/specworkflow"
-	"github.com/plexusone/structured-evaluation/claims"
-	"github.com/plexusone/structured-evaluation/rubric"
-	"github.com/spf13/cobra"
-	"gopkg.in/yaml.v3"
+	swf "github.com/ProductBuildersHQ/specification-workflow-spec/pkg/workflow"
+	sws "github.com/ProductBuildersHQ/specification-workflow-spec/pkg/workflows"
 )
 
 // initCmd creates the init command.

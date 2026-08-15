@@ -6,11 +6,12 @@ import (
 	"fmt"
 	"strings"
 
-	sws "github.com/ProductBuildersHQ/specification-workflow-spec/pkg/workflows"
+	"github.com/modelcontextprotocol/go-sdk/mcp"
+
 	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/rubrics"
 	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/templates"
 	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/types"
-	"github.com/modelcontextprotocol/go-sdk/mcp"
+	sws "github.com/ProductBuildersHQ/specification-workflow-spec/pkg/workflows"
 )
 
 // registerResources registers MCP resources for templates, rubrics, and profiles.

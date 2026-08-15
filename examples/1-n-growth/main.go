@@ -12,9 +12,10 @@ import (
 	"fmt"
 	"os"
 
-	sws "github.com/ProductBuildersHQ/specification-workflow-spec/pkg/workflows"
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/cli"
 	"github.com/spf13/cobra"
+
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/cli"
+	sws "github.com/ProductBuildersHQ/specification-workflow-spec/pkg/workflows"
 )
 
 func main() {

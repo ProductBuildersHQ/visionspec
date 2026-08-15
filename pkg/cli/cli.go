@@ -20,14 +20,15 @@
 package cli
 
 import (
-	sws "github.com/ProductBuildersHQ/specification-workflow-spec/pkg/workflows"
+	"github.com/spf13/cobra"
+
 	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/apptypes"
 	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/constitution"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/reporeader"
 	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/rubrics"
 	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/templates"
 	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/types"
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/reporeader"
-	"github.com/spf13/cobra"
+	sws "github.com/ProductBuildersHQ/specification-workflow-spec/pkg/workflows"
 )
 
 // Config allows customization of CLI behavior.

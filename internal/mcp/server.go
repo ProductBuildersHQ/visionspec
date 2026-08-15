@@ -11,12 +11,15 @@ import (
 	"strings"
 	"time"
 
-	sws "github.com/ProductBuildersHQ/specification-workflow-spec/pkg/workflows"
+	"github.com/modelcontextprotocol/go-sdk/mcp"
+
 	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/align"
 	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/config"
 	ctxpkg "github.com/ProductBuildersHQ/specification-workflow-spec/pkg/context"
 	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/draft"
 	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/eval"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/execgraph"
+	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/execgraph/specworkflow"
 	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/reconcile"
 	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/status"
 	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/synth"
@@ -24,9 +27,7 @@ import (
 	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/templates"
 	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/testmap"
 	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/types"
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/execgraph"
-	"github.com/ProductBuildersHQ/specification-workflow-spec/pkg/execgraph/specworkflow"
-	"github.com/modelcontextprotocol/go-sdk/mcp"
+	sws "github.com/ProductBuildersHQ/specification-workflow-spec/pkg/workflows"
 )
 
 // Server implements the MCP server for visionspec.
