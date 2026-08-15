@@ -26,6 +26,7 @@ Thumbs.db
 /dist/
 /bin/
 /catalog
+/tools/prism-sync/prism-sync
 
 # Ideation input — local-only stream-of-thought notes we distill formal specs
 # from; never checked in.
