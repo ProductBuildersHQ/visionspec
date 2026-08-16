@@ -16,6 +16,9 @@ categories:
       description: Quality of customer-facing questions and answers
       weight: 0.3
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -36,6 +39,9 @@ categories:
       description: Quality of internal stakeholder questions
       weight: 0.25
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -55,6 +61,9 @@ categories:
       name: Developer Questions
       description: Quality of API and developer experience questions (Stripe practice)
       weight: 0.2
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:
@@ -75,6 +84,9 @@ categories:
       description: Whether the FAQ challenges key assumptions
       weight: 0.25
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:

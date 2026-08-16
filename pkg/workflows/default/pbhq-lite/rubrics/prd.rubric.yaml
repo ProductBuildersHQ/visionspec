@@ -16,6 +16,9 @@ categories:
     description: Clarity of the problem being solved
     weight: 0.25
     required: true
+    class: specification_quality
+    blocking: false
+    evaluation: semantic
     scale:
       type: categorical
       options:
@@ -38,6 +41,9 @@ categories:
     description: Explicit definition of scope boundaries
     weight: 0.20
     required: true
+    class: implementation_readiness
+    blocking: true
+    evaluation: deterministic
     scale:
       type: categorical
       options:
@@ -60,6 +66,9 @@ categories:
     description: Quality of user stories and acceptance criteria
     weight: 0.20
     required: true
+    class: implementation_readiness
+    blocking: true
+    evaluation: deterministic
     scale:
       type: categorical
       options:
@@ -82,6 +91,9 @@ categories:
     description: Completeness and testability of requirements
     weight: 0.20
     required: true
+    class: implementation_readiness
+    blocking: true
+    evaluation: deterministic
     scale:
       type: categorical
       options:
@@ -104,6 +116,9 @@ categories:
     description: Definition of how success will be measured
     weight: 0.15
     required: true
+    class: implementation_readiness
+    blocking: true
+    evaluation: deterministic
     scale:
       type: categorical
       options:

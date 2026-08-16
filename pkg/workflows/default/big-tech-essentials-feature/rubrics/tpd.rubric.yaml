@@ -16,6 +16,9 @@ categories:
       description: Whether key functionality is covered by tests
       weight: 0.35
       required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:
@@ -36,6 +39,9 @@ categories:
       description: Clarity of pass/fail criteria
       weight: 0.25
       required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:
@@ -55,6 +61,9 @@ categories:
       name: Hypothesis Validation
       description: Whether tests validate key assumptions
       weight: 0.2
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -74,6 +83,9 @@ categories:
       name: Edge Cases
       description: Whether edge cases are considered
       weight: 0.2
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:

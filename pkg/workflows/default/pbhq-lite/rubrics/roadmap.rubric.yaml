@@ -16,6 +16,9 @@ categories:
     description: Proper formatting and identification of roadmap items
     weight: 0.30
     required: true
+    class: specification_quality
+    blocking: false
+    evaluation: semantic
     scale:
       type: categorical
       options:
@@ -39,6 +42,9 @@ categories:
     description: Clear, current status for each item
     weight: 0.25
     required: true
+    class: specification_quality
+    blocking: false
+    evaluation: semantic
     scale:
       type: categorical
       options:
@@ -61,6 +67,9 @@ categories:
     name: RMI Dependencies
     description: Inter-RMI blocking relationships
     weight: 0.15
+    class: specification_quality
+    blocking: false
+    evaluation: semantic
     scale:
       type: categorical
       options:
@@ -83,6 +92,9 @@ categories:
     description: Traceability to PLAN.md phases and milestones
     weight: 0.15
     required: true
+    class: implementation_readiness
+    blocking: true
+    evaluation: deterministic
     scale:
       type: categorical
       options:
@@ -104,6 +116,9 @@ categories:
     name: Maintainability
     description: Ease of updating as work progresses
     weight: 0.15
+    class: specification_quality
+    blocking: false
+    evaluation: semantic
     scale:
       type: categorical
       options:

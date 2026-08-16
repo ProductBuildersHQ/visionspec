@@ -16,6 +16,9 @@ categories:
       description: Clarity and relevance of the market problem being addressed
       weight: 0.12
       required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:
@@ -36,6 +39,9 @@ categories:
       description: Definition of target customer segments with needs and sizing
       weight: 0.12
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -56,6 +62,9 @@ categories:
       description: Clarity of value delivered to each customer segment
       weight: 0.12
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -76,6 +85,9 @@ categories:
       description: Understanding of competitive landscape and differentiation
       weight: 0.1
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -96,6 +108,9 @@ categories:
       description: How we reach customers and relationship strategy
       weight: 0.08
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -116,6 +131,9 @@ categories:
       description: Viability and clarity of revenue model
       weight: 0.1
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -136,6 +154,9 @@ categories:
       description: Key resources and activities required
       weight: 0.08
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -156,6 +177,9 @@ categories:
       description: Partnership strategy and cost structure
       weight: 0.08
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -176,6 +200,9 @@ categories:
       description: Clarity and prioritization of market requirements
       weight: 0.1
       required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:
@@ -196,6 +223,9 @@ categories:
       description: Alignment with business goals and measurable success metrics
       weight: 0.06
       required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:
@@ -216,6 +246,9 @@ categories:
       description: Identification of constraints, assumptions, and risks
       weight: 0.04
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:

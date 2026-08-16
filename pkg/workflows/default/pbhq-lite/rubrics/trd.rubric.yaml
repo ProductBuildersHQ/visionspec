@@ -16,6 +16,9 @@ categories:
     description: High-level system design and component relationships
     weight: 0.25
     required: true
+    class: specification_quality
+    blocking: false
+    evaluation: semantic
     scale:
       type: categorical
       options:
@@ -39,6 +42,9 @@ categories:
     description: Interface definitions and contracts
     weight: 0.20
     required: true
+    class: implementation_readiness
+    blocking: true
+    evaluation: deterministic
     scale:
       type: categorical
       options:
@@ -62,6 +68,9 @@ categories:
     description: Entity definitions and relationships
     weight: 0.20
     required: true
+    class: implementation_readiness
+    blocking: true
+    evaluation: deterministic
     scale:
       type: categorical
       options:
@@ -85,6 +94,9 @@ categories:
     description: Authentication, authorization, and data protection
     weight: 0.15
     required: true
+    class: implementation_readiness
+    blocking: true
+    evaluation: deterministic
     scale:
       type: categorical
       options:
@@ -107,6 +119,9 @@ categories:
     name: Alternatives Considered
     description: Documentation of rejected approaches and rationale
     weight: 0.10
+    class: specification_quality
+    blocking: false
+    evaluation: semantic
     scale:
       type: categorical
       options:
@@ -128,6 +143,9 @@ categories:
     name: Dependencies
     description: External dependencies and integration points
     weight: 0.10
+    class: implementation_readiness
+    blocking: true
+    evaluation: deterministic
     scale:
       type: categorical
       options:

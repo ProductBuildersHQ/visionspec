@@ -16,6 +16,9 @@ categories:
       description: How deeply and authentically the customer problem is understood
       weight: 0.2
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -36,6 +39,9 @@ categories:
       description: Whether the narrative genuinely works backwards from customer needs
       weight: 0.15
       required: true
+      class: leadership_principle
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -56,6 +62,9 @@ categories:
       description: Whether breakthrough simplifying insights are identified
       weight: 0.05
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -76,6 +85,9 @@ categories:
       description: Whether tenets are opinionated and useful for decision-making
       weight: 0.05
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -96,6 +108,9 @@ categories:
       description: Whether the vision is bold and ambitious
       weight: 0.1
       required: true
+      class: leadership_principle
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -116,6 +131,9 @@ categories:
       description: "Bias for Action / Have Backbone: quality of one-way vs two-way door analysis, with genuine disagreements recorded in their strongest form rather than sanitized consensus"
       weight: 0.1
       required: true
+      class: leadership_principle
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -136,6 +154,9 @@ categories:
       description: Whether the business case focuses on inputs and is honest about assumptions
       weight: 0.1
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -156,6 +177,9 @@ categories:
       description: Whether risks and limitations are honestly acknowledged
       weight: 0.1
       required: true
+      class: leadership_principle
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -175,6 +199,9 @@ categories:
       name: Post-Launch Thinking
       description: Whether the narrative plans for iteration after launch
       weight: 0.05
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -195,6 +222,9 @@ categories:
       description: "Deep Dive: it is hard to fake the details in a narrative — details sufficient to guide implementation; sections that survive only at high abstraction mark the proposal's weak points"
       weight: 0.05
       required: true
+      class: leadership_principle
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -215,6 +245,9 @@ categories:
       description: "Ownership: the proposal passes the personal-money test and does not trade long-term value for short-term results"
       weight: 0.05
       required: false
+      class: leadership_principle
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:

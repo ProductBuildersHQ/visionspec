@@ -16,6 +16,9 @@ categories:
       description: Whether requirements clearly trace back to validated customer needs
       weight: 0.15
       required: true
+      class: leadership_principle
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -36,6 +39,9 @@ categories:
       description: Clarity of the problem statement from user perspective
       weight: 0.15
       required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:
@@ -56,6 +62,9 @@ categories:
       description: Whether decisions are analyzed as one-way or two-way doors
       weight: 0.1
       required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:
@@ -76,6 +85,9 @@ categories:
       description: Clarity of goals and explicit non-goals
       weight: 0.1
       required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:
@@ -96,6 +108,9 @@ categories:
       description: Quality and completeness of user stories
       weight: 0.15
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -116,6 +131,9 @@ categories:
       description: Completeness and testability of functional requirements
       weight: 0.15
       required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:
@@ -135,6 +153,9 @@ categories:
       name: Simplifying Assumptions
       description: Whether key simplifying assumptions are identified
       weight: 0.05
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -154,6 +175,9 @@ categories:
       name: Frugality
       description: Whether requirements demonstrate accomplish more with less mindset
       weight: 0.05
+      class: leadership_principle
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -174,6 +198,9 @@ categories:
       description: Definition of measurable success criteria focusing on inputs
       weight: 0.05
       required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:
@@ -193,6 +220,9 @@ categories:
       name: Dependencies and Risks
       description: Identification of dependencies and open questions
       weight: 0.05
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:

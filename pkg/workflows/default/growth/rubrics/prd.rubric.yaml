@@ -16,6 +16,9 @@ categories:
       description: Is the growth opportunity clearly defined?
       weight: 2
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -36,6 +39,9 @@ categories:
       description: Is there a clear, testable hypothesis?
       weight: 2
       required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:
@@ -56,6 +62,9 @@ categories:
       description: Are features mapped to funnel stages?
       weight: 1.5
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -75,6 +84,9 @@ categories:
       name: Experiment Design
       description: Is the experiment properly designed?
       weight: 1.5
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -95,6 +107,9 @@ categories:
       description: Are tracking and measurement planned?
       weight: 1.5
       required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:
@@ -115,6 +130,9 @@ categories:
       description: Are guardrail metrics defined to prevent regressions?
       weight: 1.5
       required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:
@@ -135,6 +153,9 @@ categories:
       description: Is there a phased rollout plan?
       weight: 1
       required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:
