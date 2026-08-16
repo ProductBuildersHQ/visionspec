@@ -20,11 +20,15 @@ spec_config:
     required: true
     category: gtm
     description: "Working backwards press release"
+    template: {from: aws-one-way-door}
+    rubric: {from: aws-one-way-door}
 
   faq:
     required: true
     category: gtm
     description: "Challenge assumptions, include developer FAQ"
+    template: {from: aws-one-way-door}
+    rubric: {from: aws-one-way-door}
 
   # Narratives (Amazon)
   narrative-6p:

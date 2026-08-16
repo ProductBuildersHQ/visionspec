@@ -51,7 +51,9 @@ spec_config:
     category: source
     description: "Optional 12-box discovery canvas (Patton + Cagan) deepening the FAQ's answers (typical at feature scale)"
 
-  # 6-pager is the one-way-door decision narrative — required for new product lines
+  # 6-pager is the one-way-door decision narrative — required for new product lines.
+  # aws-one-way-door is the canonical home for the Working Backwards artifacts
+  # (press, faq, narrative-6p); owned locally here.
   narrative-6p:
     required: true
     category: gtm

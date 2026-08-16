@@ -241,11 +241,15 @@ spec_config:
     required: true
     category: gtm
     description: "Working backwards press release"
+    template: {from: aws-one-way-door}
+    rubric: {from: aws-one-way-door}
 
   faq:
     required: true
     category: gtm
     description: "Challenge assumptions, internal and external"
+    template: {from: aws-one-way-door}
+    rubric: {from: aws-one-way-door}
 
   # Requirements phase - API-first + narrative
   prd:
@@ -257,6 +261,8 @@ spec_config:
     required: false
     category: gtm
     description: "Amazon-style 6-pager for major initiatives"
+    template: {from: aws-one-way-door}
+    rubric: {from: aws-one-way-door}
 
   narrative-1p:
     required: false
@@ -358,48 +364,3 @@ synthesis:
 evaluation:
   pass_threshold: 80
   partial_threshold: 60
-
-# Additional rubric criteria from combined methodologies
-rubric_extensions:
-  mrd:
-    - okr_quality: "Objectives inspiring, key results measurable"
-    - customer_clarity: "Customer segment and pain clearly defined"
-
-  prd:
-    - api_contract: "Interface defined before implementation details"
-    - non_goals: "Explicit scope exclusions listed"
-    - alternatives: "Multiple approaches evaluated"
-
-  trd:
-    - tradeoffs: "Explicit costs and benefits of chosen approach"
-    - reversibility: "Two-way vs one-way door assessment"
-    - scalability: "Design for 10x growth"
-
-  uxd:
-    - developer_experience: "API usability and error handling"
-    - accessibility: "Inclusive design considerations"
-
-  # Shape Up artifact rubrics
-  shapeup-pitch:
-    - problem_clarity: "Problem well-defined with evidence"
-    - appetite_reasoning: "Time budget justified and appropriate"
-    - solution_abstraction: "Right level of detail - not too detailed, not too vague"
-    - rabbit_holes: "Scope traps identified and mitigated"
-    - no_gos: "Clear boundaries on what's excluded"
-
-  # Continuous Discovery artifact rubrics
-  ost:
-    - outcome_measurable: "Clear, measurable outcome at root"
-    - opportunities_researched: "Opportunities grounded in customer interviews"
-    - solutions_multiple: "Multiple solutions per opportunity"
-    - experiments_defined: "Clear tests for riskiest assumptions"
-
-  discovery-snapshot:
-    - weekly_cadence: "At least one customer touchpoint per week"
-    - story_quality: "Stories capture situation, behavior, outcome"
-    - learnings_actionable: "Insights lead to decisions"
-
-  assumption-map:
-    - type_coverage: "All assumption types considered (DVFUE)"
-    - prioritization: "High importance + low confidence = test first"
-    - tests_designed: "Tests have clear success criteria"

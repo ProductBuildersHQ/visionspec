@@ -20,17 +20,12 @@ spec_config:
     category: gtm
     description: "Business Model Canvas extracted from MRD for stakeholder review"
 
-  # GTM specs: required for launches
-  press:
-    required: true
-    category: gtm
-  faq:
-    required: true
-    category: gtm
+  # GTM specs. The Amazon Working Backwards discovery artifacts (press, faq,
+  # narrative-6p) are NOT owned here — enterprise is the cross-methodology
+  # contract layer (MRD/PRD/UXD/TRD/TPD/IRD/spec). Those three live in their
+  # canonical home, aws-one-way-door; families that use them source
+  # {from: aws-one-way-door}.
   narrative-1p:
-    required: false
-    category: gtm
-  narrative-6p:
     required: false
     category: gtm
 
@@ -59,23 +54,10 @@ synthesis:
       - mrd
     guidance: "Extract Business Model Canvas blocks from MRD sections 2-11. Format as standalone canvas for visual review."
 
-  press:
-    sources:
-      - mrd
-    guidance: "Write from customer perspective based on value propositions and customer segments in MRD."
-
-  faq:
-    sources:
-      - mrd
-      - press
-    guidance: "Address customer questions based on segments, internal questions based on risks and assumptions."
-
   prd:
     sources:
       - mrd
-      - press
-      - faq
-    guidance: "Derive product requirements from market requirements. Map to customer segments."
+    guidance: "Derive product requirements from market requirements. Map to customer segments. (The Working Backwards press/faq-first flow is an aws-one-way-door override, not the enterprise base.)"
 
   trd:
     sources:

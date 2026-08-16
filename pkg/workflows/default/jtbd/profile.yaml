@@ -31,10 +31,3 @@ spec_config:
     required: false
     category: source
 
-  # GTM can use job stories
-  press:
-    required: false
-    category: gtm
-  faq:
-    required: false
-    category: gtm

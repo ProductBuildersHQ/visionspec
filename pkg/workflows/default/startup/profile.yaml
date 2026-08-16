@@ -16,28 +16,11 @@ spec_config:
     category: source
     description: "Lightweight UX design for MVP"
 
-  # GTM specs: all optional for pre-PMF
-  press:
-    required: false
-    category: gtm
-    template: {from: enterprise}
-    rubric: {from: enterprise}
-  faq:
-    required: false
-    category: gtm
-    template: {from: enterprise}
-    rubric: {from: enterprise}
   narrative-1p:
     required: false
     category: gtm
     template: {from: enterprise}
     rubric: {from: enterprise}
-  narrative-6p:
-    required: false
-    category: gtm
-    template: {from: enterprise}
-    rubric: {from: enterprise}
-
   # Technical specs: optional until architecture stabilizes
   trd:
     required: false

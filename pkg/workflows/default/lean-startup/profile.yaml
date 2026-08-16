@@ -26,18 +26,7 @@ spec_config:
     required: true
     category: source
 
-  # Press/FAQ less emphasized in early stages
-  press:
-    required: false
-    category: gtm
-  faq:
-    required: false
-    category: gtm
-
   # Narratives optional
   narrative-1p:
-    required: false
-    category: gtm
-  narrative-6p:
     required: false
     category: gtm

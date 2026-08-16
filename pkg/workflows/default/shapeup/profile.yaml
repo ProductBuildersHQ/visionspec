@@ -24,6 +24,16 @@ methodology:
     - bet: "Decision to pursue a pitch in a cycle"
     - scope: "Hill chart tracking during building"
 
+  # Betting cycle structure
+  parameters:
+    cycles:
+      big_batch:
+        weeks: 6
+        cool_down: 2
+      small_batch:
+        weeks: 2
+        cool_down: 2
+
 # Shape Up doesn't use traditional spec documents
 # It replaces PRD/MRD with Pitches
 spec_config:
@@ -46,12 +56,6 @@ spec_config:
   prd:
     required: false
     category: source
-  press:
-    required: false
-    category: gtm
-  faq:
-    required: false
-    category: gtm
   uxd:
     required: false
     category: source
@@ -63,15 +67,6 @@ spec_config:
 synthesis:
   # Pitches are human-authored after shaping sessions
   # No automatic synthesis - the thinking IS the work
-
-# Betting cycle structure
-cycles:
-  big_batch:
-    weeks: 6
-    cool_down: 2
-  small_batch:
-    weeks: 2
-    cool_down: 2
 
 # Evaluation thresholds
 evaluation:
