@@ -16,6 +16,9 @@ categories:
       description: Whether all source documents are referenced and approved
       weight: 0.15
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -36,6 +39,9 @@ categories:
       description: Whether information is consistent across all source documents
       weight: 0.18
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -56,6 +62,9 @@ categories:
       description: Ability to trace from business need to implementation
       weight: 0.15
       required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:
@@ -76,6 +85,9 @@ categories:
       description: Whether document provides enough detail to begin implementation
       weight: 0.18
       required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:
@@ -96,6 +108,9 @@ categories:
       description: Completeness of timeline, milestones, and launch checklist
       weight: 0.12
       required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:
@@ -116,6 +131,9 @@ categories:
       description: Aggregation and prioritization of risks across all documents
       weight: 0.1
       required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:
@@ -136,6 +154,9 @@ categories:
       description: Evidence of stakeholder review and approval
       weight: 0.12
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:

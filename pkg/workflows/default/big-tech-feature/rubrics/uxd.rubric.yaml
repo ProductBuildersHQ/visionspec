@@ -16,6 +16,9 @@ categories:
       description: Clear understanding of target users and their needs
       weight: 0.2
       required: true
+      class: leadership_principle
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -36,6 +39,9 @@ categories:
       description: Current and future state user journeys
       weight: 0.15
       required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:
@@ -56,6 +62,9 @@ categories:
       description: Feature location and navigation
       weight: 0.1
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -76,6 +85,9 @@ categories:
       description: Visual representations of screens
       weight: 0.2
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -96,6 +108,9 @@ categories:
       description: Interactions, errors, and loading states
       weight: 0.15
       required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:
@@ -116,6 +131,9 @@ categories:
       description: Copy and microcopy defined
       weight: 0.1
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -136,6 +154,9 @@ categories:
       description: Accessibility considerations
       weight: 0.1
       required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:

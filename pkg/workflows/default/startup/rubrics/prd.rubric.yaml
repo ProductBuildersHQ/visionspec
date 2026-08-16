@@ -16,6 +16,9 @@ categories:
       description: Is the problem being solved clearly stated?
       weight: 2
       required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:
@@ -36,6 +39,9 @@ categories:
       description: Is it clear what you're building and what you're not?
       weight: 2
       required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:
@@ -56,6 +62,9 @@ categories:
       description: Are there testable user stories?
       weight: 1.5
       required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:
@@ -75,6 +84,9 @@ categories:
       name: Success Metrics
       description: How will you know if it's working?
       weight: 1
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:

@@ -15,6 +15,9 @@ categories:
       name: Problem Definition
       description: Is the problem well-defined and worth solving?
       weight: 20
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       criteria:
         - id: raw_idea
           name: Raw Idea
@@ -45,6 +48,9 @@ categories:
       name: Appetite
       description: Is the appetite appropriate and well-reasoned?
       weight: 20
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       criteria:
         - id: size_appropriate
           name: Size Appropriate
@@ -65,6 +71,9 @@ categories:
       name: Solution Shaping
       description: Is the solution shaped at the right level of abstraction?
       weight: 25
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       criteria:
         - id: approach_clear
           name: Approach Clear
@@ -95,6 +104,9 @@ categories:
       name: Risk Management
       description: Are risks and rabbit holes identified?
       weight: 20
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       criteria:
         - id: rabbit_holes
           name: Rabbit Holes
@@ -115,6 +127,9 @@ categories:
       name: Document Quality
       description: Is the pitch well-written and actionable?
       weight: 15
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       criteria:
         - id: clarity
           name: Clarity

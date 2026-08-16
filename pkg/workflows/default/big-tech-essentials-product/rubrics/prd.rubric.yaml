@@ -16,6 +16,9 @@ categories:
       description: Clarity of the problem statement
       weight: 0.2
       required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:
@@ -36,6 +39,9 @@ categories:
       description: Clarity of goals and explicit non-goals
       weight: 0.15
       required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:
@@ -56,6 +62,9 @@ categories:
       description: Quality of user stories
       weight: 0.2
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -76,6 +85,9 @@ categories:
       description: Completeness of functional requirements
       weight: 0.2
       required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:
@@ -95,6 +107,9 @@ categories:
       name: API Contract
       description: Whether API interfaces are defined (Stripe practice)
       weight: 0.15
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:
@@ -115,6 +130,9 @@ categories:
       description: Definition of measurable success criteria
       weight: 0.1
       required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:

@@ -16,6 +16,9 @@ categories:
       description: Whether PRD requirements have test cases
       weight: 0.25
       required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:
@@ -36,6 +39,9 @@ categories:
       description: Coverage of different testing types
       weight: 0.2
       required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:
@@ -56,6 +62,9 @@ categories:
       description: Test automation approach
       weight: 0.2
       required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:
@@ -76,6 +85,9 @@ categories:
       description: Tests integrated into pipeline
       weight: 0.15
       required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:
@@ -96,6 +108,9 @@ categories:
       description: Test environments defined
       weight: 0.1
       required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:
@@ -115,6 +130,9 @@ categories:
       name: Exit Criteria
       description: Clear sign-off criteria
       weight: 0.1
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:

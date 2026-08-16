@@ -16,6 +16,9 @@ categories:
       description: Tests support A/B testing and experiment validation
       weight: 0.18
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -36,6 +39,9 @@ categories:
       description: Tests validate Design Doc technical decisions
       weight: 0.15
       required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:
@@ -56,6 +62,9 @@ categories:
       description: Tests validate chosen approach vs rejected alternatives
       weight: 0.12
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -76,6 +85,9 @@ categories:
       description: Test plan uses data and metrics for decision making
       weight: 0.15
       required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:
@@ -96,6 +108,9 @@ categories:
       description: Test plan is ready for peer review
       weight: 0.1
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -116,6 +131,9 @@ categories:
       description: Tests validate behavior at Google scale
       weight: 0.15
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -136,6 +154,9 @@ categories:
       description: Tests support safe canary deployments
       weight: 0.15
       required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:

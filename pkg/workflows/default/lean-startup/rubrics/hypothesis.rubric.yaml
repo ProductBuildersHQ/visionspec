@@ -16,6 +16,9 @@ categories:
       description: Whether key assumptions are clearly identified and articulated
       weight: 0.2
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -36,6 +39,9 @@ categories:
       description: Whether hypotheses can be tested with concrete experiments
       weight: 0.2
       required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:
@@ -56,6 +62,9 @@ categories:
       description: Whether MVP is truly minimal and focused on learning
       weight: 0.2
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -76,6 +85,9 @@ categories:
       description: Whether early adopter is specifically defined
       weight: 0.15
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -96,6 +108,9 @@ categories:
       description: Whether metrics are actionable vs vanity
       weight: 0.15
       required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:
@@ -116,6 +131,9 @@ categories:
       description: Whether pivot/persevere criteria are defined in advance
       weight: 0.1
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:

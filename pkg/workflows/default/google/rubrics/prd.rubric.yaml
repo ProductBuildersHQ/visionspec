@@ -16,6 +16,9 @@ categories:
       description: Whether the problem and motivation are clearly articulated
       weight: 0.15
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -36,6 +39,9 @@ categories:
       description: Whether scope is well-bounded with explicit exclusions
       weight: 0.15
       required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:
@@ -56,6 +62,9 @@ categories:
       description: Whether alternatives were considered and tradeoffs acknowledged
       weight: 0.15
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -76,6 +85,9 @@ categories:
       description: Whether the RFC is structured for effective review
       weight: 0.15
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -96,6 +108,9 @@ categories:
       description: Whether risks and dependencies are identified
       weight: 0.1
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -116,6 +131,9 @@ categories:
       description: Whether success is measurable
       weight: 0.15
       required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:
@@ -136,6 +154,9 @@ categories:
       description: Whether rollout is planned with rollback capability
       weight: 0.1
       required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:
@@ -155,6 +176,9 @@ categories:
       name: Open Questions
       description: Whether unknowns are surfaced for discussion
       weight: 0.05
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:

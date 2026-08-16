@@ -16,6 +16,9 @@ categories:
       description: Hypothesis is clear, specific, and testable
       weight: 0.25
       required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:
@@ -36,6 +39,9 @@ categories:
       description: Experiment tests a critical assumption
       weight: 0.2
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -56,6 +62,9 @@ categories:
       description: Method is appropriate and executable
       weight: 0.2
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -76,6 +85,9 @@ categories:
       description: Clear pass/fail criteria defined upfront
       weight: 0.2
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -96,6 +108,9 @@ categories:
       description: Focused on learning, not just validation
       weight: 0.1
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -115,6 +130,9 @@ categories:
       name: Resource Efficiency
       description: Experiment is appropriately scoped
       weight: 0.05
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:

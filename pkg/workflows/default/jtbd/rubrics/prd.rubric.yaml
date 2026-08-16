@@ -16,6 +16,9 @@ categories:
       description: Whether requirements clearly align with the job to be done
       weight: 0.2
       required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:
@@ -36,6 +39,9 @@ categories:
       description: Whether requirements are framed as outcomes not features
       weight: 0.2
       required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:
@@ -56,6 +62,9 @@ categories:
       description: Whether emotional and social job dimensions are addressed
       weight: 0.15
       required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:
@@ -76,6 +85,9 @@ categories:
       description: Whether hiring and firing triggers are defined
       weight: 0.15
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -96,6 +108,9 @@ categories:
       description: Whether switching from current solutions is considered
       weight: 0.1
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -116,6 +131,9 @@ categories:
       description: Whether stories are in job format with context and motivation
       weight: 0.1
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -135,6 +153,9 @@ categories:
       name: Non-Requirements
       description: Whether scope is bounded by job boundaries
       weight: 0.1
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:

@@ -16,6 +16,9 @@ categories:
       description: Whether the document genuinely works backwards from customer needs, not forwards from a solution
       weight: 0.2
       required: true
+      class: leadership_principle
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -36,6 +39,9 @@ categories:
       description: Whether the headline clearly communicates the primary customer benefit
       weight: 0.15
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -56,6 +62,9 @@ categories:
       description: How well the customer problem is articulated with authentic voice
       weight: 0.2
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -76,6 +85,9 @@ categories:
       description: Whether the solution and benefits are clearly explained in customer terms
       weight: 0.15
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -95,6 +107,9 @@ categories:
       name: Customer Validation
       description: Quality of customer quotes and validation
       weight: 0.1
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -114,6 +129,9 @@ categories:
       name: Simplifying Assumption
       description: Whether the document identifies the key insight that makes this achievable
       weight: 0.1
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -134,6 +152,9 @@ categories:
       description: Clarity of availability, pricing, and next steps
       weight: 0.05
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -153,6 +174,9 @@ categories:
       name: Readability
       description: Whether the press release is written in plain, accessible language
       weight: 0.05
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:

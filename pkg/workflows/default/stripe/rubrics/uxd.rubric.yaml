@@ -16,6 +16,9 @@ categories:
       description: Whether onboarding is mapped with quality bars
       weight: 0.25
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -36,6 +39,9 @@ categories:
       description: Whether documentation is well-structured
       weight: 0.2
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -56,6 +62,9 @@ categories:
       description: Whether documentation quality is specified
       weight: 0.2
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -76,6 +85,9 @@ categories:
       description: Whether SDK principles and coverage are defined
       weight: 0.15
       required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:
@@ -96,6 +108,9 @@ categories:
       description: Whether errors help developers succeed
       weight: 0.1
       required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:
@@ -115,6 +130,9 @@ categories:
       name: Interactive Tools
       description: Whether developer tools are planned
       weight: 0.05
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -134,6 +152,9 @@ categories:
       name: DX Metrics
       description: Whether developer experience is measurable
       weight: 0.05
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:

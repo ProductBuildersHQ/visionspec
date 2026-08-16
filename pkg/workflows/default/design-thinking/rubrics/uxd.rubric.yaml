@@ -16,6 +16,9 @@ categories:
       description: Whether user research is deep, not surface-level
       weight: 0.25
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -36,6 +39,9 @@ categories:
       description: Whether the Point of View statement synthesizes insights effectively
       weight: 0.2
       required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:
@@ -56,6 +62,9 @@ categories:
       description: Whether HMW questions are well-scoped for ideation
       weight: 0.15
       required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:
@@ -76,6 +85,9 @@ categories:
       description: Whether user journey is mapped with emotional insight
       weight: 0.15
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -96,6 +108,9 @@ categories:
       description: Whether principles are derived from research, not assumptions
       weight: 0.1
       required: true
+      class: leadership_principle
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -116,6 +131,9 @@ categories:
       description: Whether user's actual voice is present in the document
       weight: 0.1
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -135,6 +153,9 @@ categories:
       name: Iteration Readiness
       description: Whether the document sets up effective ideation and testing
       weight: 0.05
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:

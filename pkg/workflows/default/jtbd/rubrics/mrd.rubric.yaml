@@ -16,6 +16,9 @@ categories:
       description: Whether the job is clearly defined in circumstance-based terms
       weight: 0.25
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -36,6 +39,9 @@ categories:
       description: Whether functional, emotional, and social dimensions are addressed
       weight: 0.15
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -56,6 +62,9 @@ categories:
       description: Whether current struggles and workarounds are identified
       weight: 0.2
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -76,6 +85,9 @@ categories:
       description: Whether push, pull, anxiety, and habit forces are understood
       weight: 0.15
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -96,6 +108,9 @@ categories:
       description: Whether outcomes are specific and measurable
       weight: 0.15
       required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:
@@ -115,6 +130,9 @@ categories:
       name: Market by Job
       description: Whether market is sized by job rather than demographics
       weight: 0.1
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:

@@ -16,6 +16,9 @@ categories:
       description: Whether the FAQ genuinely vets the product idea rather than just marketing it
       weight: 0.15
       required: true
+      class: leadership_principle
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -36,6 +39,9 @@ categories:
       description: "Whether the FAQ anticipates the questions customers will actually ask, and answers the canonical vetting set: what problem are we solving, what will customers care most about, what would disappoint them most at launch, what will they love most"
       weight: 0.2
       required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:
@@ -56,6 +62,9 @@ categories:
       description: How clearly and directly questions are answered
       weight: 0.1
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -76,6 +85,9 @@ categories:
       description: "Earn Trust: whether the document is vocally self-critical about limitations and risks"
       weight: 0.15
       required: true
+      class: leadership_principle
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -96,6 +108,9 @@ categories:
       description: Whether the FAQ addresses likely concerns with honest, substantive responses
       weight: 0.15
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -116,6 +131,9 @@ categories:
       description: Whether questions and answers use customer language, not internal jargon
       weight: 0.05
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -135,6 +153,9 @@ categories:
       name: Pricing Transparency
       description: Clarity of pricing and cost-related information
       weight: 0.05
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -155,6 +176,9 @@ categories:
       description: How well the path to adoption is explained
       weight: 0.05
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -175,6 +199,9 @@ categories:
       description: "Are Right, A Lot / Earn Trust: the FAQ works to disconfirm the press release's claims — diverse perspectives, vocally self-critical — rather than defending the proposal"
       weight: 0.1
       required: true
+      class: leadership_principle
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:

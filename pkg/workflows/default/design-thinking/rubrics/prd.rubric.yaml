@@ -16,6 +16,9 @@ categories:
       description: Whether requirements trace back to user research
       weight: 0.2
       required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:
@@ -36,6 +39,9 @@ categories:
       description: Whether solution addresses the How Might We questions
       weight: 0.15
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -56,6 +62,9 @@ categories:
       description: Whether solution emerged from proper ideation process
       weight: 0.15
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -76,6 +85,9 @@ categories:
       description: Whether prototyping is purposeful and appropriately scoped
       weight: 0.2
       required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:
@@ -96,6 +108,9 @@ categories:
       description: Whether testing with users is well-designed
       weight: 0.15
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -116,6 +131,9 @@ categories:
       description: Whether the document embraces iteration vs perfection
       weight: 0.1
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -135,6 +153,9 @@ categories:
       name: Design Principles Alignment
       description: Whether solution honors the design principles from empathy work
       weight: 0.05
+      class: leadership_principle
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:

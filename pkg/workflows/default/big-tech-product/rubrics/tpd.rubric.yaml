@@ -16,6 +16,9 @@ categories:
       description: Tests validate the customer experience promised in Press Release
       weight: 0.2
       required: true
+      class: specification_quality
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -36,6 +39,9 @@ categories:
       description: Tests trace back through FAQ, PRD to original vision
       weight: 0.15
       required: true
+      class: leadership_principle
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
@@ -56,6 +62,9 @@ categories:
       description: Tests consider reversibility of technical decisions
       weight: 0.12
       required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:
@@ -76,6 +85,9 @@ categories:
       description: Test plan would pass bar raiser review
       weight: 0.15
       required: true
+      class: leadership_principle
+      blocking: false
+      evaluation: human
       scale:
         type: categorical
         options:
@@ -96,6 +108,9 @@ categories:
       description: Tests support operational excellence principles
       weight: 0.13
       required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:
@@ -116,6 +131,9 @@ categories:
       description: Test automation is prioritized appropriately
       weight: 0.13
       required: true
+      class: implementation_readiness
+      blocking: true
+      evaluation: deterministic
       scale:
         type: categorical
         options:
@@ -135,6 +153,9 @@ categories:
       name: Frugality
       description: Test plan is efficient without unnecessary complexity
       weight: 0.12
+      class: leadership_principle
+      blocking: false
+      evaluation: semantic
       scale:
         type: categorical
         options:
