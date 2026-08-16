@@ -54,6 +54,10 @@ categories:
             - APIs defined before implementation details
             - Request/response shapes specified
             - Error handling approach documented
+        - value: not_applicable
+          label: Not Applicable
+          criteria:
+            - Document states "Not applicable" with a rationale — the change has no external interface or API surface (e.g. an internal refactor)
         - value: partial
           label: Partial
           criteria:
@@ -80,6 +84,10 @@ categories:
             - Entities and relationships clearly defined
             - Schema migrations considered
             - Data validation rules specified
+        - value: not_applicable
+          label: Not Applicable
+          criteria:
+            - Document states "Not applicable" with a rationale — the change touches no data models or persisted schema
         - value: partial
           label: Partial
           criteria:
@@ -106,6 +114,10 @@ categories:
             - AuthN/AuthZ approach defined
             - Sensitive data handling specified
             - Threat model or security boundaries identified
+        - value: not_applicable
+          label: Not Applicable
+          criteria:
+            - Document states "Not applicable" with a rationale — the change has no authentication, authorization, data-handling, or untrusted-input surface
         - value: partial
           label: Partial
           criteria:
@@ -155,6 +167,10 @@ categories:
             - External services and libraries identified
             - Version requirements specified
             - Fallback strategies for critical dependencies
+        - value: not_applicable
+          label: Not Applicable
+          criteria:
+            - Document states "Not applicable" with a rationale — the change introduces no new external services or libraries
         - value: partial
           label: Partial
           criteria:

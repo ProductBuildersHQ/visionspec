@@ -48,6 +48,51 @@ func TestAllLocalRubricsClassified(t *testing.T) {
 	}
 }
 
+// TestConditionalBlockingCategoriesAllowNA guards RMI-029: the generic
+// lightweight rubrics (pbhq-lite, inherited by quick-fix) get applied to
+// arbitrary initiatives, so their conditional blocking gates — the ones that
+// assume a service/feature — must offer a not_applicable option, or they
+// false-fail on maintenance/refactor/compliance/library work (the RMI-026
+// finding). Universally-applicable gates (goals, requirements) intentionally
+// have no escape hatch and are not listed here.
+func TestConditionalBlockingCategoriesAllowNA(t *testing.T) {
+	want := map[string][]string{
+		"trd": {"api_design", "data_models", "security_considerations", "dependencies"},
+		"prd": {"user_stories", "success_metrics"},
+	}
+	w, err := DefaultLoader().Load("pbhq-lite")
+	if err != nil {
+		t.Fatalf("load pbhq-lite: %v", err)
+	}
+	for spec, cats := range want {
+		r, ok := w.Rubrics[spec]
+		if !ok {
+			t.Fatalf("pbhq-lite: no %s rubric", spec)
+		}
+		for _, catID := range cats {
+			var cat *rubric.Category
+			for i := range r.Categories {
+				if r.Categories[i].ID == catID {
+					cat = &r.Categories[i]
+				}
+			}
+			if cat == nil {
+				t.Errorf("pbhq-lite/%s: category %q not found", spec, catID)
+				continue
+			}
+			hasNA := false
+			for _, o := range cat.Scale.Options {
+				if o.Value == "not_applicable" {
+					hasNA = true
+				}
+			}
+			if !hasNA {
+				t.Errorf("pbhq-lite/%s: conditional blocking category %q lacks a not_applicable option (RMI-029)", spec, catID)
+			}
+		}
+	}
+}
+
 // TestNoLeadershipPrincipleIsBlocking guards INV-3 across the entire embedded
 // library (synced rubrics included): advisory principle-based judgment can
 // never be a hard implementation gate.
