@@ -77,6 +77,10 @@ categories:
           criteria:
             - Stories follow "As a X, I want Y, so that Z" format
             - Acceptance criteria are testable
+        - value: not_applicable
+          label: Not Applicable
+          criteria:
+            - Document states "Not applicable" with a rationale — an internal refactor, compliance, or maintenance change with no user-facing behavior
         - value: partial
           label: Partial
           criteria:
@@ -127,6 +131,10 @@ categories:
           criteria:
             - Metrics are quantitative with baseline and target
             - Measurement method is specified
+        - value: not_applicable
+          label: Not Applicable
+          criteria:
+            - Document states "Not applicable" with a rationale — a maintenance or refactor change whose success is correctness or parity, not a product metric
         - value: partial
           label: Partial
           criteria:
