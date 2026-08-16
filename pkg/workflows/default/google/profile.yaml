@@ -43,14 +43,6 @@ spec_config:
     required: false
     category: source
 
-  # Press/FAQ less emphasized - more internal focus
-  press:
-    required: false
-    category: gtm
-  faq:
-    required: false
-    category: gtm
-
   # IRD for infrastructure decisions
   ird:
     required: false

@@ -118,11 +118,15 @@ spec_config:
     required: true
     category: gtm
     description: "Working backwards press release"
+    template: {from: aws-one-way-door}
+    rubric: {from: aws-one-way-door}
 
   faq:
     required: true
     category: gtm
     description: "Challenge assumptions, internal and external"
+    template: {from: aws-one-way-door}
+    rubric: {from: aws-one-way-door}
 
   # Requirements phase - API-first + narrative
   prd:
@@ -134,6 +138,8 @@ spec_config:
     required: false
     category: gtm
     description: "Amazon-style 6-pager for major initiatives"
+    template: {from: aws-one-way-door}
+    rubric: {from: aws-one-way-door}
 
   narrative-1p:
     required: false
@@ -214,25 +220,5 @@ synthesis:
 evaluation:
   pass_threshold: 70
   partial_threshold: 50
-
-# Simplified rubric criteria (core only, no advanced practices)
-rubric_extensions:
-  mrd:
-    - okr_quality: "Objectives inspiring, key results measurable"
-    - customer_clarity: "Customer segment and pain clearly defined"
-
-  prd:
-    - api_contract: "Interface defined before implementation details"
-    - non_goals: "Explicit scope exclusions listed"
-    - alternatives: "At least one alternative approach considered"
-
-  trd:
-    - tradeoffs: "Explicit costs and benefits of chosen approach"
-    - reversibility: "Two-way vs one-way door assessment"
-    # Removed: scalability (10x thinking) - too advanced for essentials
-
-  uxd:
-    - developer_experience: "API usability and error handling"
-    # Removed: accessibility - teams may have separate process
 
   # Shape Up and Continuous Discovery rubrics not included in essentials

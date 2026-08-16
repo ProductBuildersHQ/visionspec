@@ -37,28 +37,11 @@ spec_config:
     template: {from: enterprise}
     rubric: {from: enterprise}
 
-  # No GTM in 0-1 phase
-  press:
-    required: false
-    category: gtm
-    template: {from: enterprise}
-    rubric: {from: enterprise}
-  faq:
-    required: false
-    category: gtm
-    template: {from: enterprise}
-    rubric: {from: enterprise}
   narrative-1p:
     required: false
     category: gtm
     template: {from: enterprise}
     rubric: {from: enterprise}
-  narrative-6p:
-    required: false
-    category: gtm
-    template: {from: enterprise}
-    rubric: {from: enterprise}
-
   # No technical specs in 0-1 phase
   trd:
     required: false

@@ -38,10 +38,3 @@ spec_config:
     required: false
     category: source
 
-  # GTM less emphasized in design phase
-  press:
-    required: false
-    category: gtm
-  faq:
-    required: false
-    category: gtm

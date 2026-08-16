@@ -37,10 +37,16 @@ spec_config:
     required: true
     category: gtm
     description: "The founding artifact: human-authored press release announcing the customer experience. Written first; everything else works backward from it."
+    # Shared verbatim with aws-one-way-door (the more canonical Working
+    # Backwards embodiment); sourced from there rather than duplicated.
+    template: {from: aws-one-way-door}
+    rubric: {from: aws-one-way-door}
   faq:
     required: true
     category: gtm
     description: "Stress-tests the press release. Absorbs the business case: users, problem, timing, feasibility."
+    template: {from: aws-one-way-door}
+    rubric: {from: aws-one-way-door}
 
   # OpportunitySpec is optional post-FAQ discovery deepening (replaces MRD
   # at feature scale; overrides enterprise)
@@ -62,6 +68,8 @@ spec_config:
   narrative-6p:
     required: false
     category: gtm
+    template: {from: aws-one-way-door}
+    rubric: {from: aws-one-way-door}
 
   # 1-pager is executive summary
   narrative-1p:

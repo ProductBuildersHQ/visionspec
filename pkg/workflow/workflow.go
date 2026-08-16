@@ -75,6 +75,14 @@ type Methodology struct {
 
 	// Artifacts are the key artifacts produced by the methodology.
 	Artifacts Artifacts `json:"artifacts,omitempty" yaml:"artifacts,omitempty" jsonschema:"description=Key artifacts"`
+
+	// Parameters holds methodology-specific structured configuration whose
+	// shape varies per methodology — e.g., Shape Up's betting cycle lengths,
+	// Continuous Discovery's interview cadence and assumption taxonomy, or
+	// V2MOM's cascading levels. This is documentation for humans and
+	// downstream renderers (e.g., a UI explaining "Shape Up uses 6-week
+	// cycles"); the loader does not interpret it.
+	Parameters map[string]any `json:"parameters,omitempty" yaml:"parameters,omitempty" jsonschema:"description=Methodology-specific structured parameters (shape varies per methodology)"`
 }
 
 // Artifacts is a list of methodology artifacts.
@@ -115,7 +123,7 @@ type SpecRequirement struct {
 	Required bool `json:"required" yaml:"required" jsonschema:"description=Whether this spec is required"`
 
 	// Category overrides the default category for this spec type.
-	Category string `json:"category,omitempty" yaml:"category,omitempty" jsonschema:"enum=source,enum=gtm,enum=technical,enum=execution,enum=output,enum=strategic"`
+	Category string `json:"category,omitempty" yaml:"category,omitempty" jsonschema:"enum=source,enum=gtm,enum=technical,enum=execution,enum=output,enum=strategic,enum=tracking"`
 
 	// Description provides workflow-specific context for this spec.
 	Description string `json:"description,omitempty" yaml:"description,omitempty" jsonschema:"description=Workflow-specific description"`
