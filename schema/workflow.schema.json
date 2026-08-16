@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/ProductBuildersHQ/specification-workflow-spec/schema/workflow.schema.json",
+  "$id": "https://github.com/ProductBuildersHQ/visionspec/schema/workflow.schema.json",
   "$ref": "#/$defs/Workflow",
   "$defs": {
     "Artifact": {
@@ -138,6 +138,10 @@
         "artifacts": {
           "$ref": "#/$defs/Artifacts",
           "description": "Key artifacts"
+        },
+        "parameters": {
+          "type": "object",
+          "description": "Methodology-specific structured parameters (shape varies per methodology)"
         }
       },
       "additionalProperties": false,
@@ -238,7 +242,8 @@
             "technical",
             "execution",
             "output",
-            "strategic"
+            "strategic",
+            "tracking"
           ]
         },
         "description": {

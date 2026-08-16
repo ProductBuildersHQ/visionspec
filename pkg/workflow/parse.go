@@ -83,6 +83,9 @@ func (w *Workflow) Clone() *Workflow {
 			clone.Methodology.Artifacts = make(Artifacts, len(w.Methodology.Artifacts))
 			copy(clone.Methodology.Artifacts, w.Methodology.Artifacts)
 		}
+		if w.Methodology.Parameters != nil {
+			clone.Methodology.Parameters = maps.Clone(w.Methodology.Parameters)
+		}
 	}
 
 	// Clone SpecConfig

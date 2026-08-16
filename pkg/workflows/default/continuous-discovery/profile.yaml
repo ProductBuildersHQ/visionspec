@@ -26,6 +26,21 @@ methodology:
     - experience_map: "Customer journey across phases"
     - interview: "Customer interview notes"
 
+  parameters:
+    # Discovery cadence
+    cadence:
+      touchpoints_per_week: 1  # Minimum customer interviews per week
+      snapshot_frequency: weekly
+      assumption_test_duration: "1-2 weeks"
+
+    # Assumption types from Teresa Torres framework
+    assumption_types:
+      - desirability: "Will customers want this?"
+      - viability: "Will this work for the business?"
+      - feasibility: "Can we build this?"
+      - usability: "Can users figure it out?"
+      - ethical: "Should we build this?"
+
 spec_config:
   # Opportunity Solution Tree is the core visualization
   ost:
@@ -89,21 +104,7 @@ synthesis:
       - assumption-map
     guidance: "Synthesize UX from prototype learnings and usability assumption tests"
 
-# Discovery cadence
-cadence:
-  touchpoints_per_week: 1  # Minimum customer interviews per week
-  snapshot_frequency: weekly
-  assumption_test_duration: "1-2 weeks"
-
 # Evaluation thresholds
 evaluation:
   pass_threshold: 80
   partial_threshold: 60
-
-# Assumption types from Teresa Torres framework
-assumption_types:
-  - desirability: "Will customers want this?"
-  - viability: "Will this work for the business?"
-  - feasibility: "Can we build this?"
-  - usability: "Can users figure it out?"
-  - ethical: "Should we build this?"
