@@ -76,8 +76,8 @@ Source material: `IDEATION_CHAT_SPEC-HARDENING.md` (local-only ideation input); 
 - [x] `RMI-SPECWORKFLOWSPEC-019` Loader cycle guard for explicit spec sources
   - `ResolvingLoader.sourceWorkflow` resolves a declared `{from: <workflow>}` with a fresh inheritance chain (`loadWithChain(from, nil)`), so a source naming a descendant of the declaring workflow recurses forever instead of erroring; thread the chain through source resolution (or detect and fail with a clear message) and document the ancestor-only invariant on `SpecSource`
   - Done: the resolution chain now threads through `applyExplicitSources` → `sourceTemplate`/`sourceRubric` → `sourceWorkflow`, so extends links and spec sources share one cycle check ("circular workflow reference detected"); the invariant is documented on `SpecSource` (sources point at ancestors or unrelated workflows; descendant-owned content is copied, never referenced); guarded by `TestResolvingLoader_SourceNamingDescendantIsCycle` from both load entry points
-- [ ] `RMI-SPECWORKFLOWSPEC-020` Model or remove unparsed profile keys
-  - `rubric_extensions` (big-tech, big-tech-essentials), v2mom's bespoke `evaluation` block, and `cycles`/`cadence`/`assumption_types`/`v2mom` keys are silently dropped by the Workflow parser — config that does nothing; either add them to the schema or delete them, and reconcile `category: tracking` (big-tech shapeup-scope, discovery-snapshot) with the SpecRequirement category enum
+- [x] `RMI-SPECWORKFLOWSPEC-020` Model or remove unparsed profile keys
+  - Done: added `Methodology.Parameters` (map[string]any) and moved the genuinely-useful methodology config into it (Shape Up `cycles`, Continuous Discovery `cadence`/`assumption_types`, V2MOM `cascading`/`productcontext`); deleted the dead `rubric_extensions` (big-tech, big-tech-essentials, superseded by real rubric files) and v2mom's redundant `evaluation` block; added `tracking` to the `SpecRequirement.Category` enum (big-tech shapeup-scope/discovery-snapshot); regenerated JSON schemas (also fixed a stale `$id` from the pre-merge module path). Merged in PR #11.
 
 ## Phase 7 — Domain Home Consolidation and Release
 
