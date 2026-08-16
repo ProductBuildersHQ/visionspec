@@ -10,7 +10,7 @@ visionspec profiles <subcommand>
 
 ## Description
 
-Configuration profiles allow you to customize which specs are required and how they're evaluated. The default profile library — 24 workflows spanning stage-based, methodology-based (AWS, Google, Stripe, Lean Startup, Design Thinking, JTBD, Shape Up, Continuous Discovery), Big Tech syntheses, V2MOM, and pbhq-lite — is defined in [specification-workflow-spec](https://github.com/ProductBuildersHQ/specification-workflow-spec) and embedded in the `visionspec` binary. The stage-based profiles:
+Configuration profiles allow you to customize which specs are required and how they're evaluated. The default profile library — 25 workflows spanning stage-based, methodology-based (AWS one-way/two-way door, Google, Stripe, Lean Startup, Design Thinking, JTBD, Shape Up, Continuous Discovery), Big Tech syntheses, V2MOM, and pbhq-lite — is embedded directly in this repo (`pkg/workflows`) and built into the `visionspec` binary. The stage-based profiles:
 
 | Profile | Description | Required Specs |
 |---------|-------------|----------------|

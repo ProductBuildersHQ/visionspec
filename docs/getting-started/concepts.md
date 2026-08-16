@@ -71,9 +71,9 @@ docs/specs/
 ## Configuration Profiles
 
 Profiles bundle spec requirements, templates, and rubrics for different use
-cases. The default library of 24 workflows is defined in
-[specification-workflow-spec](https://github.com/ProductBuildersHQ/specification-workflow-spec)
-and embedded in the binary. The stage-based profiles:
+cases. The default library of 25 workflows is embedded directly in this
+repo (`pkg/workflows`) and loaded into the binary with no filesystem
+access. The stage-based profiles:
 
 | Profile | Use Case | Required Specs |
 |---------|----------|----------------|

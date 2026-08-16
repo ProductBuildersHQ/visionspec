@@ -302,9 +302,8 @@ visionspec-mcp
 ## Configuration Profiles
 
 Profile (workflow) definitions — configurations, templates, and rubrics for all
-24 default workflows — ship from
-[specification-workflow-spec](https://github.com/ProductBuildersHQ/specification-workflow-spec),
-the canonical library, and load as embedded Go data with no filesystem access.
+25 default workflows — are embedded directly in this repo (`pkg/workflows`)
+and load as Go data with no filesystem access.
 VisionSpec includes two main types of profiles:
 
 ### Stage-Based Profiles
@@ -388,7 +387,7 @@ VisionSpec is designed for organizations to build their own prescriptive CLI too
           │                │                │
           ▼                ▼                ▼
 ┌──────────────────────────────────────────────────────────┐
-│      visionspec + specification-workflow-spec (OSS)      │
+│                     visionspec (OSS)                     │
 │                                                          │
 │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐       │
 │  │ Default     │  │ Default     │  │ Built-in    │       │
@@ -485,12 +484,17 @@ See [Organization Customization Guide](https://productbuildershq.com/visionspec/
 
 ## Ecosystem
 
-VisionSpec is the engine layer of the ProductBuildersHQ spec stack
-(`visionstudio → visionspec → specification-workflow-spec`): it executes
-workflows — scaffolding, LLM synthesis, LLM-as-Judge evaluation, lint, drift,
-status — whose definitions live in the contract layer below it.
+VisionSpec is the ProductBuildersHQ spec stack's engine
+(`visionstudio → visionspec`): it executes workflows — scaffolding, LLM
+synthesis, LLM-as-Judge evaluation, lint, drift, status — against workflow
+definitions it now owns directly. The formal, JSON-Schema-backed contract
+those definitions are written against — workflow types, spec-type registry,
+templates, rubrics, provenance rules — lives here too, as **the VisionSpec
+Specification** (`pkg/workflow`, `pkg/workflows`, `schema/`; mirroring
+"Swagger" / "Swagger Specification"). It was previously incubated in a
+standalone repo (`specification-workflow-spec`) and has since been merged
+back in with full git history preserved.
 
-- [specification-workflow-spec](https://github.com/ProductBuildersHQ/specification-workflow-spec) - The contract: workflow types, JSON Schemas, and the embedded 24-workflow library (configs, templates, rubrics) VisionSpec loads and acts on
 - [VisionStudio](https://github.com/ProductBuildersHQ/visionstudio) - The studio: LLM-powered app that imports VisionSpec's packages as its execution SDK
 
 ## Dependencies

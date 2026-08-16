@@ -12,10 +12,9 @@ Profiles bundle three things:
 
 You can customize any or all of these to match your organization's needs.
 
-The default profiles themselves (all 24 workflows) are defined in
-[specification-workflow-spec](https://github.com/ProductBuildersHQ/specification-workflow-spec)
-and embedded in the `visionspec` binary; custom profile directories layer on
-top of them.
+The default profiles themselves (all 25 workflows) are embedded directly in
+this repo (`pkg/workflows`) and built into the `visionspec` binary; custom
+profile directories layer on top of them.
 
 ## Quick Start
 
@@ -347,7 +346,7 @@ The resulting binary contains all templates and rubrics - no external files need
 | `NewEmbedFSLoader(fs, dir)` | `embed.FS` | Compile into binary |
 | `NewFileLoader(dir)` | Filesystem | Runtime loading |
 | `NewChainLoader(...)` | Multiple | Try loaders in order |
-| `NewMapLoader(m)` | A loaded workflow's template/rubric maps | Serve a specification-workflow-spec `LoadedWorkflow` |
+| `NewMapLoader(m)` | A loaded workflow's template/rubric maps | Serve a `workflows.LoadedWorkflow` |
 | `LoaderForWorkflow(w)` | Workflow + defaults + prism-roadmap canvases | Standard chain for a loaded workflow |
 
 ## Best Practices

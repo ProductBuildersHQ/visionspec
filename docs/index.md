@@ -127,11 +127,11 @@ VisionSpec includes two types of profiles:
 | `shapeup` | Basecamp Shape Up | Appetite-based planning |
 | `continuous-discovery` | Continuous Discovery Habits | Weekly customer touchpoints |
 
-The full library — 24 workflows including Big Tech syntheses, V2MOM, and
-pbhq-lite — is defined in
-[specification-workflow-spec](https://github.com/ProductBuildersHQ/specification-workflow-spec);
-run `visionspec profiles list` to see them all. See
-[Frameworks](frameworks/index.md) for detailed methodology documentation.
+The full library — 25 workflows including Big Tech syntheses, V2MOM, the
+AWS one-way/two-way door workflows, and pbhq-lite — is embedded directly in
+this repo (`pkg/workflows`); run `visionspec profiles list` to see them
+all. See [Frameworks](frameworks/index.md) for detailed methodology
+documentation.
 
 ```bash
 # List available profiles
