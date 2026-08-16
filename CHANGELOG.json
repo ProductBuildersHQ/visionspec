@@ -4,35 +4,168 @@
   "repository": "https://github.com/ProductBuildersHQ/visionspec",
   "versioning": "semver",
   "commitConvention": "conventional",
-  "maintainers": ["johncwang@gmail.com"],
+  "maintainers": [
+    "johncwang@gmail.com"
+  ],
   "releases": [
+    {
+      "version": "v0.16.0",
+      "date": "2026-08-15",
+      "highlights": [
+        {
+          "description": "specification-workflow-spec's full catalog and toolchain are merged into this repo, with complete git history preserved: loader-enforced per-spec template/rubric provenance, a layered rubric schema, hardened aws-one-way-door/aws-two-way-door workflows with symmetric optional deepening (MRD or OpportunitySpec both feed PRD synthesis), catalog registries for pipelines/loops/integrations, and the prism-sync tool"
+        },
+        {
+          "description": "Own DAG/execution-graph type (pkg/workflow) and external spec-workflows repo loader (pkg/workflows) renamed to pkg/execgraph and pkg/reporeader, freeing those import paths for the merged-in workflow catalog and its loader"
+        },
+        {
+          "description": "prism-sync's local replace directive is dropped: grokify/prism-roadmap v0.17.0 now ships the v2mom/OST content it depends on, so it builds from a fresh clone for the first time"
+        },
+        {
+          "description": "Fixed a real bug the merge surfaced: the workflow-DAG adapter's synthesis dependency edges were a hardcoded table, never reading the actual loaded workflow's synthesis config"
+        }
+      ],
+      "added": [
+        {
+          "description": "pkg/workflow: workflow profile types (SpecConfig, Synthesis, Execution) with per-spec template/rubric provenance (SpecSource) enforced at load time"
+        },
+        {
+          "description": "pkg/workflows: embedded catalog of 25 default workflow families (0-1, aws-one-way-door, aws-two-way-door, big-tech families, continuous-discovery, design-thinking, enterprise, google, growth, jtbd, lean-startup, pbhq-lite, quick-fix, shapeup, startup, stripe, v2mom families) with composable loaders (embedded, file, chain, resolving) and a cycle guard covering both extends links and explicit spec sources"
+        },
+        {
+          "description": "pkg/template, pkg/spectype: spec type registry and filesystem-free (go:embed) template content"
+        },
+        {
+          "description": "pkg/diagram, pkg/gate, pkg/synthesis, pkg/layout: workflow visualization (D2/Mermaid), phase-gate types, synthesis dependency rules, filesystem layout conventions"
+        },
+        {
+          "description": "pkg/integration, pkg/integrations, pkg/loop, pkg/loops, pkg/pipeline, pkg/pipelines: registries for execution-target integrations, multi-phase loops, and workflow-to-target pipelines, with a cross-reference test validating pipelines against workflows/integrations/spec-types"
+        },
+        {
+          "description": "cmd/catalog: viewer for the embedded registries"
+        },
+        {
+          "description": "schema/: JSON Schema generation and embedded schema files for the above"
+        },
+        {
+          "description": "tools/prism-sync: nested-module tool copying roadmap-domain templates/rubrics from prism-roadmap with provenance headers, own go.mod so prism-roadmap never enters the main module graph"
+        }
+      ],
+      "changed": [
+        {
+          "description": "Breaking: own DAG/execution-graph type (Node, Phase, TopologicalSort) moved from pkg/workflow to pkg/execgraph \u2014 the old path now holds the merged-in workflow profile/catalog types instead"
+        },
+        {
+          "description": "Breaking: external spec-workflows repository loader (DiscoverRepo, LoadRepo) moved from pkg/workflows to pkg/reporeader \u2014 the old path now holds the merged-in embedded catalog instead"
+        },
+        {
+          "description": "aws-one-way-door and aws-two-way-door (replacing the earlier product/feature-named profiles) ship normative enterprise contract templates/rubrics and symmetric optional deepening: MRD (product scale) and OpportunitySpec (feature scale) both feed PRD synthesis in both doors"
+        }
+      ],
+      "fixed": [
+        {
+          "description": "specworkflow.FromWorkflow's synthesis dependency edges now read the loaded workflow's actual Synthesis config instead of a hardcoded table that never reflected which workflow was loaded"
+        },
+        {
+          "description": "Bridge helpers reconciled with sws's SpecSource provenance-pointer type (Template/Rubric fields changed from name strings to provenance pointers): the SpecConfig converter now leaves the now-inapplicable name-override fields unset instead of a type-mismatched assignment, and the MCP raw-profile dump renders the provenance source instead"
+        },
+        {
+          "description": "Unrelated pre-existing bug: pkg/eval's ToClaimsReport assigned a time.Time where a *time.Time was expected"
+        }
+      ],
+      "documentation": [
+        {
+          "description": "Add ecosystem section to README describing the engine role",
+          "commit": "67f242c"
+        },
+        {
+          "description": "goals/okr.md: document RoadmapItem OKR linking (RICEByObjective, UnlinkedScoredItems) from the prism-roadmap v0.17.0 upgrade"
+        },
+        {
+          "description": "canvas/prioritization.md: document RICE impact/confidence level parsing and validation from the prism-roadmap v0.17.0 upgrade"
+        },
+        {
+          "description": "prism-sync README: document the manual sync process and the graduation path to automated CI once prism-roadmap tags a release with the content it depends on"
+        }
+      ],
+      "infrastructure": [
+        {
+          "description": "Bump plexusone/structured-evaluation from 0.11.0 to 0.13.0",
+          "commit": "d81888e"
+        },
+        {
+          "description": "Bump plexusone/structured-evaluation to 0.14.0 for the layered-rubric schema"
+        },
+        {
+          "description": "Bump grokify/prism-roadmap to v0.17.0 (MoSCoW-optional RoadmapItem, OKR objective/key-result linking, RICE level validation) and drop tools/prism-sync's local replace directive"
+        },
+        {
+          "description": "Full commit history from specification-workflow-spec (formerly a standalone repo, now archived) preserved via a history-preserving git subtree merge \u2014 git blame/log on merged files trace to their real original authors and dates"
+        }
+      ]
+    },
     {
       "version": "v0.15.0",
       "date": "2026-08-03",
       "highlights": [
-        { "description": "Workflow definitions move to their canonical home: specification-workflow-spec v0.2.0 owns all 24 default workflows (configurations, templates, rubrics), consumed as embedded Go data through composable loaders" },
-        { "description": "Bridge helpers feed VisionSpec's template/rubric loader interfaces and SpecConfig from a loaded workflow — rubrics flow through as structured-evaluation RubricSet with no conversion" },
-        { "description": "New pbhq-lite workflow: minimal PRD/TRD/PLAN/ROADMAP flow for internal initiatives" }
+        {
+          "description": "Workflow definitions move to their canonical home: specification-workflow-spec v0.2.0 owns all 24 default workflows (configurations, templates, rubrics), consumed as embedded Go data through composable loaders"
+        },
+        {
+          "description": "Bridge helpers feed VisionSpec's template/rubric loader interfaces and SpecConfig from a loaded workflow \u2014 rubrics flow through as structured-evaluation RubricSet with no conversion"
+        },
+        {
+          "description": "New pbhq-lite workflow: minimal PRD/TRD/PLAN/ROADMAP flow for internal initiatives"
+        }
       ],
       "breaking": [
-        { "description": "pkg/profiles is removed; workflow definitions, templates, and rubrics load from specification-workflow-spec's pkg/workflows", "commit": "db8758d" },
-        { "description": "cli.ConfigFromProfile is now cli.ConfigFromWorkflow, cli.Config.ProfileLoader is now Config.WorkflowLoader (workflows.Loader), and specworkflow.FromProfile is now FromWorkflow; the CLI surface (--profile, profiles subcommands) is unchanged", "commit": "32a0977" }
+        {
+          "description": "pkg/profiles is removed; workflow definitions, templates, and rubrics load from specification-workflow-spec's pkg/workflows",
+          "commit": "db8758d"
+        },
+        {
+          "description": "cli.ConfigFromProfile is now cli.ConfigFromWorkflow, cli.Config.ProfileLoader is now Config.WorkflowLoader (workflows.Loader), and specworkflow.FromProfile is now FromWorkflow; the CLI surface (--profile, profiles subcommands) is unchanged",
+          "commit": "32a0977"
+        }
       ],
       "added": [
-        { "description": "templates.NewMapLoader and templates.LoaderForWorkflow serve a loaded workflow's templates through the existing Loader interface with the standard fallback chain", "commit": "92ec599" },
-        { "description": "rubrics.NewMapLoader and rubrics.LoaderForWorkflow, structured-evaluation RubricSet end to end", "commit": "aa9b1aa" },
-        { "description": "types.SpecConfigFromWorkflow maps workflow spec requirements into SpecConfig for eval, lint, and status", "commit": "f563749" },
-        { "description": "pbhq-lite workflow for ProductBuildersHQ internal initiatives", "commit": "39bdec4" }
+        {
+          "description": "templates.NewMapLoader and templates.LoaderForWorkflow serve a loaded workflow's templates through the existing Loader interface with the standard fallback chain",
+          "commit": "92ec599"
+        },
+        {
+          "description": "rubrics.NewMapLoader and rubrics.LoaderForWorkflow, structured-evaluation RubricSet end to end",
+          "commit": "aa9b1aa"
+        },
+        {
+          "description": "types.SpecConfigFromWorkflow maps workflow spec requirements into SpecConfig for eval, lint, and status",
+          "commit": "f563749"
+        },
+        {
+          "description": "pbhq-lite workflow for ProductBuildersHQ internal initiatives",
+          "commit": "39bdec4"
+        }
       ],
       "changed": [
-        { "description": "CLI, MCP server, and examples load workflows via specification-workflow-spec; the [default] marker derives from the embedded set (v2mom* now included), profiles export writes the fully resolved workflow, profiles validate checks the full schema, and listings are deterministically sorted", "commit": "32a0977" }
+        {
+          "description": "CLI, MCP server, and examples load workflows via specification-workflow-spec; the [default] marker derives from the embedded set (v2mom* now included), profiles export writes the fully resolved workflow, profiles validate checks the full schema, and listings are deterministically sorted",
+          "commit": "32a0977"
+        }
       ],
       "documentation": [
-        { "description": "Update petstore-ai-agent evals to v2 schema", "commit": "144a233" },
-        { "description": "Update MkDocs site and README for the canonical workflow library" }
+        {
+          "description": "Update petstore-ai-agent evals to v2 schema",
+          "commit": "144a233"
+        },
+        {
+          "description": "Update MkDocs site and README for the canonical workflow library"
+        }
       ],
       "infrastructure": [
-        { "description": "Update dependencies: modelcontextprotocol/go-sdk v1.7.0, structured-evaluation v0.11.0, prism-roadmap v0.16.1", "commit": "198bd56" }
+        {
+          "description": "Update dependencies: modelcontextprotocol/go-sdk v1.7.0, structured-evaluation v0.11.0, prism-roadmap v0.16.1",
+          "commit": "198bd56"
+        }
       ]
     },
     {
@@ -40,32 +173,76 @@
       "date": "2026-07-20",
       "commit": "46e32f2",
       "highlights": [
-        { "description": "Rubrics use structured-evaluation's shared RubricSet everywhere — one rubric type across the ecosystem" },
-        { "description": "Profiles consume canonical OpportunitySpec/BMC templates and rubrics from prism-roadmap instead of duplicating them" },
-        { "description": "The LLM judge prompt renders each category's scoring criteria and rich indicators" },
-        { "description": "Per-project rubric config (`visionspec.yaml` `rubrics`) is honored across all evaluation paths" }
+        {
+          "description": "Rubrics use structured-evaluation's shared RubricSet everywhere \u2014 one rubric type across the ecosystem"
+        },
+        {
+          "description": "Profiles consume canonical OpportunitySpec/BMC templates and rubrics from prism-roadmap instead of duplicating them"
+        },
+        {
+          "description": "The LLM judge prompt renders each category's scoring criteria and rich indicators"
+        },
+        {
+          "description": "Per-project rubric config (`visionspec.yaml` `rubrics`) is honored across all evaluation paths"
+        }
       ],
       "breaking": [
-        { "description": "`pkg/rubrics` drops the VisionSpec-local `RubricSet`/`Category`/`CategoricalCriteria`/`PassCriteria`/`ToEvaluationRubricSet`; `Loader.Load`, `Get`, and `MustGet` return `*structured-evaluation/rubric.RubricSet`", "commit": "46e32f2" },
-        { "description": "Rubric YAML is now structured-evaluation native (spec type from filename, `scale.options`, `passCriteria`); the legacy flat format is no longer parsed", "commit": "ace36ff" }
+        {
+          "description": "`pkg/rubrics` drops the VisionSpec-local `RubricSet`/`Category`/`CategoricalCriteria`/`PassCriteria`/`ToEvaluationRubricSet`; `Loader.Load`, `Get`, and `MustGet` return `*structured-evaluation/rubric.RubricSet`",
+          "commit": "46e32f2"
+        },
+        {
+          "description": "Rubric YAML is now structured-evaluation native (spec type from filename, `scale.options`, `passCriteria`); the legacy flat format is no longer parsed",
+          "commit": "ace36ff"
+        }
       ],
       "added": [
-        { "description": "Evaluation prompt renders per-category pass/partial/fail criteria (flat) and weighted criteria with indicators (rich)", "commit": "7528882" },
-        { "description": "Per-project rubric config: custom rubric files (`rubrics.overrides` / `rubrics.directory`) and pass-criteria policy (`strict_mode`, `max_*`) applied across `eval`, `synthesize --eval`, and the MCP eval tools", "commit": "f99db82" },
-        { "description": "`rubrics.NewOverrideLoader` for per-spec-type rubric overrides", "commit": "3263e15" }
+        {
+          "description": "Evaluation prompt renders per-category pass/partial/fail criteria (flat) and weighted criteria with indicators (rich)",
+          "commit": "7528882"
+        },
+        {
+          "description": "Per-project rubric config: custom rubric files (`rubrics.overrides` / `rubrics.directory`) and pass-criteria policy (`strict_mode`, `max_*`) applied across `eval`, `synthesize --eval`, and the MCP eval tools",
+          "commit": "f99db82"
+        },
+        {
+          "description": "`rubrics.NewOverrideLoader` for per-spec-type rubric overrides",
+          "commit": "3263e15"
+        }
       ],
       "changed": [
-        { "description": "Profiles consume canonical canvas templates and rubrics from prism-roadmap; duplicated per-profile assets removed", "commit": "a22a38b" },
-        { "description": "All profile rubric YAMLs migrated to structured-evaluation native format; the legacy flat parser removed", "commit": "ace36ff" },
-        { "description": "The 3 discovery/shapeup rubrics authored in the canonical rich weighted-criteria format", "commit": "fd92f3e" },
-        { "description": "`profiles export` writes structured-evaluation native rubric YAML", "commit": "46e32f2" }
+        {
+          "description": "Profiles consume canonical canvas templates and rubrics from prism-roadmap; duplicated per-profile assets removed",
+          "commit": "a22a38b"
+        },
+        {
+          "description": "All profile rubric YAMLs migrated to structured-evaluation native format; the legacy flat parser removed",
+          "commit": "ace36ff"
+        },
+        {
+          "description": "The 3 discovery/shapeup rubrics authored in the canonical rich weighted-criteria format",
+          "commit": "fd92f3e"
+        },
+        {
+          "description": "`profiles export` writes structured-evaluation native rubric YAML",
+          "commit": "46e32f2"
+        }
       ],
       "fixed": [
-        { "description": "Embed `tpd.md` template and include it in `Available()`", "commit": "f612b80" }
+        {
+          "description": "Embed `tpd.md` template and include it in `Available()`",
+          "commit": "f612b80"
+        }
       ],
       "dependencies": [
-        { "description": "Require github.com/plexusone/structured-evaluation v0.10.0", "commit": "46e32f2" },
-        { "description": "Require github.com/grokify/prism-roadmap v0.16.0", "commit": "46e32f2" }
+        {
+          "description": "Require github.com/plexusone/structured-evaluation v0.10.0",
+          "commit": "46e32f2"
+        },
+        {
+          "description": "Require github.com/grokify/prism-roadmap v0.16.0",
+          "commit": "46e32f2"
+        }
       ]
     },
     {
@@ -73,45 +250,127 @@
       "date": "2026-07-18",
       "commit": "ea8e6c0",
       "highlights": [
-        { "description": "Full AIDLC workflow package with 12 document types across 3 phases" },
-        { "description": "Dual-methodology system separating requirements (WHAT) from implementation (HOW)" },
-        { "description": "V2MOM strategic planning profiles for company, department, and team levels" },
-        { "description": "V2 evaluation schema with 1-5 numeric scoring" },
-        { "description": "PIDL protocol export for workflow visualization" }
+        {
+          "description": "Full AIDLC workflow package with 12 document types across 3 phases"
+        },
+        {
+          "description": "Dual-methodology system separating requirements (WHAT) from implementation (HOW)"
+        },
+        {
+          "description": "V2MOM strategic planning profiles for company, department, and team levels"
+        },
+        {
+          "description": "V2 evaluation schema with 1-5 numeric scoring"
+        },
+        {
+          "description": "PIDL protocol export for workflow visualization"
+        }
       ],
       "added": [
-        { "description": "AIDLC workflow package (`pkg/aidlc/`) with types, workflow DAG, sync, state, eval, transition, and templates", "commit": "9310a48" },
-        { "description": "Methodology types (`pkg/types/methodology.go`) for dual-methodology system", "commit": "18a18c7" },
-        { "description": "RequirementsMethodology and ImplementationMethodology fields in Project struct", "commit": "1407eca" },
-        { "description": "V2MOM and AIDLC spec types (19 new spec types)", "commit": "24ba932" },
-        { "description": "V2MOM strategic planning profiles: v2mom, v2mom-company, v2mom-department, v2mom-team", "commit": "f4c6fcc" },
-        { "description": "AIDLC evaluation rubrics for all 12 document types", "commit": "398795a" },
-        { "description": "AIDLC demo project in `examples/aidlc-demo/`", "commit": "3baf7fc" },
-        { "description": "V2 evaluation schema with 1-5 numeric scoring replacing categorical scoring", "commit": "d75feab" },
-        { "description": "PIDL protocol export (`WorkflowToPIDL`) for workflow visualization", "commit": "9310a48" }
+        {
+          "description": "AIDLC workflow package (`pkg/aidlc/`) with types, workflow DAG, sync, state, eval, transition, and templates",
+          "commit": "9310a48"
+        },
+        {
+          "description": "Methodology types (`pkg/types/methodology.go`) for dual-methodology system",
+          "commit": "18a18c7"
+        },
+        {
+          "description": "RequirementsMethodology and ImplementationMethodology fields in Project struct",
+          "commit": "1407eca"
+        },
+        {
+          "description": "V2MOM and AIDLC spec types (19 new spec types)",
+          "commit": "24ba932"
+        },
+        {
+          "description": "V2MOM strategic planning profiles: v2mom, v2mom-company, v2mom-department, v2mom-team",
+          "commit": "f4c6fcc"
+        },
+        {
+          "description": "AIDLC evaluation rubrics for all 12 document types",
+          "commit": "398795a"
+        },
+        {
+          "description": "AIDLC demo project in `examples/aidlc-demo/`",
+          "commit": "3baf7fc"
+        },
+        {
+          "description": "V2 evaluation schema with 1-5 numeric scoring replacing categorical scoring",
+          "commit": "d75feab"
+        },
+        {
+          "description": "PIDL protocol export (`WorkflowToPIDL`) for workflow visualization",
+          "commit": "9310a48"
+        }
       ],
       "changed": [
-        { "description": "Project struct deprecated Workflow field in favor of RequirementsMethodology", "commit": "1407eca" },
-        { "description": "Evaluation output now uses numeric scores (1-5) instead of categorical (pass/partial/fail)", "commit": "d75feab" },
-        { "description": "petstore example eval files updated to v2 format", "commit": "cf41481" }
+        {
+          "description": "Project struct deprecated Workflow field in favor of RequirementsMethodology",
+          "commit": "1407eca"
+        },
+        {
+          "description": "Evaluation output now uses numeric scores (1-5) instead of categorical (pass/partial/fail)",
+          "commit": "d75feab"
+        },
+        {
+          "description": "petstore example eval files updated to v2 format",
+          "commit": "cf41481"
+        }
       ],
       "documentation": [
-        { "description": "AIDLC integration guide (`docs/guides/aidlc-integration.md`)", "commit": "b6f626d" },
-        { "description": "Updated ROADMAP with AIDLC integration phase (Phase 15)", "commit": "c1004e5" },
-        { "description": "Updated eval command documentation for v2 format", "commit": "27d56a7" },
-        { "description": "Added reason codes reference documentation", "commit": "1e32b1e" },
-        { "description": "Fixed README diagram alignment", "commit": "f4abd3c" }
+        {
+          "description": "AIDLC integration guide (`docs/guides/aidlc-integration.md`)",
+          "commit": "b6f626d"
+        },
+        {
+          "description": "Updated ROADMAP with AIDLC integration phase (Phase 15)",
+          "commit": "c1004e5"
+        },
+        {
+          "description": "Updated eval command documentation for v2 format",
+          "commit": "27d56a7"
+        },
+        {
+          "description": "Added reason codes reference documentation",
+          "commit": "1e32b1e"
+        },
+        {
+          "description": "Fixed README diagram alignment",
+          "commit": "f4abd3c"
+        }
       ],
       "tests": [
-        { "description": "Integration tests updated for v2 evaluation schema", "commit": "83401c6" },
-        { "description": "Unit tests for pkg/aidlc/ (types, templates, transitions, PIDL integration)", "commit": "9310a48" }
+        {
+          "description": "Integration tests updated for v2 evaluation schema",
+          "commit": "83401c6"
+        },
+        {
+          "description": "Unit tests for pkg/aidlc/ (types, templates, transitions, PIDL integration)",
+          "commit": "9310a48"
+        }
       ],
       "dependencies": [
-        { "description": "Add github.com/grokify/pidl v0.5.0 for PIDL protocol export", "commit": "ea8e6c0" },
-        { "description": "Update Go version from 1.26.0 to 1.26.1", "commit": "ea8e6c0" },
-        { "description": "Update golang.org/x/sys from v0.46.0 to v0.47.0", "commit": "ea8e6c0" },
-        { "description": "Bump github.com/plexusone/structured-evaluation to v0.9.0", "commit": "3436cb5" },
-        { "description": "Bump github.com/grokify/oscompat from 0.4.0 to 0.5.0", "commit": "e818172" }
+        {
+          "description": "Add github.com/grokify/pidl v0.5.0 for PIDL protocol export",
+          "commit": "ea8e6c0"
+        },
+        {
+          "description": "Update Go version from 1.26.0 to 1.26.1",
+          "commit": "ea8e6c0"
+        },
+        {
+          "description": "Update golang.org/x/sys from v0.46.0 to v0.47.0",
+          "commit": "ea8e6c0"
+        },
+        {
+          "description": "Bump github.com/plexusone/structured-evaluation to v0.9.0",
+          "commit": "3436cb5"
+        },
+        {
+          "description": "Bump github.com/grokify/oscompat from 0.4.0 to 0.5.0",
+          "commit": "e818172"
+        }
       ]
     },
     {
@@ -119,26 +378,58 @@
       "date": "2026-07-06",
       "commit": "e02eb5c",
       "highlights": [
-        { "description": "True AWS Working Backwards workflow order based on synthesis dependencies" },
-        { "description": "6-Pager positioned as leadership approval gate before PRD/UXD" },
-        { "description": "Infrastructure Design (IRD) added as required spec in big-tech-product" },
-        { "description": "Workflow follows actual dependency chain rather than category grouping" }
+        {
+          "description": "True AWS Working Backwards workflow order based on synthesis dependencies"
+        },
+        {
+          "description": "6-Pager positioned as leadership approval gate before PRD/UXD"
+        },
+        {
+          "description": "Infrastructure Design (IRD) added as required spec in big-tech-product"
+        },
+        {
+          "description": "Workflow follows actual dependency chain rather than category grouping"
+        }
       ],
       "added": [
-        { "description": "Infrastructure Design (IRD) as required spec with synthesis from TRD and PRD", "commit": "e302419" },
-        { "description": "IRD synthesis guidance covering deployment, scaling, monitoring, security, and cost", "commit": "e302419" }
+        {
+          "description": "Infrastructure Design (IRD) as required spec with synthesis from TRD and PRD",
+          "commit": "e302419"
+        },
+        {
+          "description": "IRD synthesis guidance covering deployment, scaling, monitoring, security, and cost",
+          "commit": "e302419"
+        }
       ],
       "changed": [
-        { "description": "Workflow order now follows AWS Working Backwards: MRD → Press → FAQ → 6-Pager → PRD → UXD → TRD → IRD → TPD → Spec", "commit": "8ea9fc3" },
-        { "description": "6-Pager (narrative-6p) moved before PRD/UXD as leadership approval gate", "commit": "e02eb5c" },
-        { "description": "PRD synthesis now includes narrative-6p as source for alignment", "commit": "e02eb5c" },
-        { "description": "TPD synthesis now includes IRD for infrastructure testing coverage", "commit": "e302419" }
+        {
+          "description": "Workflow order now follows AWS Working Backwards: MRD \u2192 Press \u2192 FAQ \u2192 6-Pager \u2192 PRD \u2192 UXD \u2192 TRD \u2192 IRD \u2192 TPD \u2192 Spec",
+          "commit": "8ea9fc3"
+        },
+        {
+          "description": "6-Pager (narrative-6p) moved before PRD/UXD as leadership approval gate",
+          "commit": "e02eb5c"
+        },
+        {
+          "description": "PRD synthesis now includes narrative-6p as source for alignment",
+          "commit": "e02eb5c"
+        },
+        {
+          "description": "TPD synthesis now includes IRD for infrastructure testing coverage",
+          "commit": "e302419"
+        }
       ],
       "fixed": [
-        { "description": "Spec ordering now uses synthesis dependencies rather than arbitrary category grouping", "commit": "8ea9fc3" }
+        {
+          "description": "Spec ordering now uses synthesis dependencies rather than arbitrary category grouping",
+          "commit": "8ea9fc3"
+        }
       ],
       "documentation": [
-        { "description": "Updated mkdocs.yml navigation", "commit": "e0da8b1" }
+        {
+          "description": "Updated mkdocs.yml navigation",
+          "commit": "e0da8b1"
+        }
       ]
     },
     {
@@ -146,36 +437,97 @@
       "date": "2026-07-06",
       "commit": "cf9e522",
       "highlights": [
-        { "description": "Generic workflow IR package for DAG-based spec pipeline modeling" },
-        { "description": "specworkflow adapter for generating workflows from visionspec profiles" },
-        { "description": "CLI workflow command and MCP get_workflow tool for visualization" },
-        { "description": "Mermaid diagram rendering for workflow pipelines" },
-        { "description": "Fixed spec ordering to maintain consistent PR-FAQ and category order" }
+        {
+          "description": "Generic workflow IR package for DAG-based spec pipeline modeling"
+        },
+        {
+          "description": "specworkflow adapter for generating workflows from visionspec profiles"
+        },
+        {
+          "description": "CLI workflow command and MCP get_workflow tool for visualization"
+        },
+        {
+          "description": "Mermaid diagram rendering for workflow pipelines"
+        },
+        {
+          "description": "Fixed spec ordering to maintain consistent PR-FAQ and category order"
+        }
       ],
       "added": [
-        { "description": "Workflow IR package (`pkg/workflow`) for DAG modeling with phases, nodes, and dependencies", "commit": "a678d96" },
-        { "description": "Workflow builder pattern for fluent workflow construction", "commit": "a678d96" },
-        { "description": "Topological sort and cycle detection for workflow validation", "commit": "a678d96" },
-        { "description": "Mermaid diagram renderer for workflow visualization", "commit": "a678d96" },
-        { "description": "specworkflow adapter (`pkg/workflow/specworkflow`) for profile-to-workflow generation", "commit": "2933cc6" },
-        { "description": "UpdateFromProject function to sync workflow status from project state", "commit": "2933cc6" },
-        { "description": "CLI `workflow` command with mermaid, json, and dot output formats", "commit": "ba46de4" },
-        { "description": "MCP `get_workflow` tool for AI assistant workflow queries", "commit": "ba46de4" },
-        { "description": "petstore-ai-agent example project with specs in various states", "commit": "c28c2ec" }
+        {
+          "description": "Workflow IR package (`pkg/workflow`) for DAG modeling with phases, nodes, and dependencies",
+          "commit": "a678d96"
+        },
+        {
+          "description": "Workflow builder pattern for fluent workflow construction",
+          "commit": "a678d96"
+        },
+        {
+          "description": "Topological sort and cycle detection for workflow validation",
+          "commit": "a678d96"
+        },
+        {
+          "description": "Mermaid diagram renderer for workflow visualization",
+          "commit": "a678d96"
+        },
+        {
+          "description": "specworkflow adapter (`pkg/workflow/specworkflow`) for profile-to-workflow generation",
+          "commit": "2933cc6"
+        },
+        {
+          "description": "UpdateFromProject function to sync workflow status from project state",
+          "commit": "2933cc6"
+        },
+        {
+          "description": "CLI `workflow` command with mermaid, json, and dot output formats",
+          "commit": "ba46de4"
+        },
+        {
+          "description": "MCP `get_workflow` tool for AI assistant workflow queries",
+          "commit": "ba46de4"
+        },
+        {
+          "description": "petstore-ai-agent example project with specs in various states",
+          "commit": "c28c2ec"
+        }
       ],
       "fixed": [
-        { "description": "Spec ordering now consistent by category (source → gtm → technical → output) and workflow position", "commit": "d9ab9a0" },
-        { "description": "Press Release now appears before FAQ in GTM category (PR-FAQ order)", "commit": "d9ab9a0" },
-        { "description": "Lint errors in workflow tests using proper error handling helpers", "commit": "cf9e522" },
-        { "description": "gofmt formatting in MCP server imports", "commit": "cf9e522" }
+        {
+          "description": "Spec ordering now consistent by category (source \u2192 gtm \u2192 technical \u2192 output) and workflow position",
+          "commit": "d9ab9a0"
+        },
+        {
+          "description": "Press Release now appears before FAQ in GTM category (PR-FAQ order)",
+          "commit": "d9ab9a0"
+        },
+        {
+          "description": "Lint errors in workflow tests using proper error handling helpers",
+          "commit": "cf9e522"
+        },
+        {
+          "description": "gofmt formatting in MCP server imports",
+          "commit": "cf9e522"
+        }
       ],
       "documentation": [
-        { "description": "README updated with hero image and links", "commit": "309ca86" },
-        { "description": "petstore-ai-agent example with eval results demonstrating pass/conditional/fail states", "commit": "c28c2ec" }
+        {
+          "description": "README updated with hero image and links",
+          "commit": "309ca86"
+        },
+        {
+          "description": "petstore-ai-agent example with eval results demonstrating pass/conditional/fail states",
+          "commit": "c28c2ec"
+        }
       ],
       "dependencies": [
-        { "description": "Bump github.com/plexusone/omnillm-core to latest", "commit": "7a6a250" },
-        { "description": "Bump github.com/plexusone/structured-evaluation to v0.8.0", "commit": "51318bd" }
+        {
+          "description": "Bump github.com/plexusone/omnillm-core to latest",
+          "commit": "7a6a250"
+        },
+        {
+          "description": "Bump github.com/plexusone/structured-evaluation to v0.8.0",
+          "commit": "51318bd"
+        }
       ]
     },
     {
@@ -183,54 +535,162 @@
       "date": "2026-06-13",
       "commit": "b865371",
       "highlights": [
-        { "description": "Post-ship alignment checking with spec-to-reality comparison" },
-        { "description": "OpenSpec portable JSON/YAML export format for cross-tool compatibility" },
-        { "description": "Git hooks for automated spec validation (pre-commit, pre-push)" },
-        { "description": "Full-text search, pattern detection, and requirement reuse tracking" },
-        { "description": "Evaluation metrics dashboard with quality trends and conflict analysis" },
-        { "description": "MCP execution tracking tools and guided implementation prompts" }
+        {
+          "description": "Post-ship alignment checking with spec-to-reality comparison"
+        },
+        {
+          "description": "OpenSpec portable JSON/YAML export format for cross-tool compatibility"
+        },
+        {
+          "description": "Git hooks for automated spec validation (pre-commit, pre-push)"
+        },
+        {
+          "description": "Full-text search, pattern detection, and requirement reuse tracking"
+        },
+        {
+          "description": "Evaluation metrics dashboard with quality trends and conflict analysis"
+        },
+        {
+          "description": "MCP execution tracking tools and guided implementation prompts"
+        }
       ],
       "added": [
-        { "description": "Post-ship alignment checking (`pkg/align`) with discrepancy detection and current-truth.md generation", "commit": "b07268a" },
-        { "description": "OpenSpec target adapter for portable JSON/YAML export with standardized schema", "commit": "b646735" },
-        { "description": "Git hooks support (`pkg/hooks`) with pre-commit, pre-push, commit-msg, post-commit templates", "commit": "1443f4b" },
-        { "description": "MkDocs graphize visualization embedding with iframe and link options", "commit": "1443f4b" },
-        { "description": "Cross-project dependencies (`pkg/deps`) with dependency graph and cycle detection", "commit": "62956a3" },
-        { "description": "ROADMAP.md generation (`pkg/roadmap`) with aggregate project statuses and milestones", "commit": "62956a3" },
-        { "description": "Decision log persistence (`pkg/decisions`) with tradeoff tracking and impact analysis", "commit": "62956a3" },
-        { "description": "Rationale graphs for linking decisions to requirements", "commit": "62956a3" },
-        { "description": "Evaluation metrics dashboard (`pkg/metrics`) with HTML, JSON, and terminal renderers", "commit": "110bce3" },
-        { "description": "GitHub Issues export (`pkg/target/github_issues.go`) with milestones and labels", "commit": "9fd56cf" },
-        { "description": "Jira export (`pkg/target/jira.go`) as epics/stories with priority mapping", "commit": "9fd56cf" },
-        { "description": "Test coverage mapping (`pkg/testmap`) for TPD test cases to actual tests", "commit": "9fd56cf" },
-        { "description": "Full-text search (`pkg/search`) across spec files with filters and ranking", "commit": "fcb04a6" },
-        { "description": "Requirement reuse tracking (`pkg/reuse`) with duplicate detection and consolidation suggestions", "commit": "5a7753a" },
-        { "description": "Pattern detection (`pkg/patterns`) for structural, content, and anti-patterns", "commit": "98d0053" },
-        { "description": "CLI commands: align, metrics, hooks, search, reuse, patterns", "commit": "ebca742" },
-        { "description": "Context flags (--with-context, --context-file) on align and drift commands", "commit": "ebca742" },
-        { "description": "MCP tools: align_spec, get_alignment_status, track_resolution, get_metrics, install_hooks, get_hooks_status", "commit": "9a1ca33" },
-        { "description": "MCP execution tracking tools: get_execution_status, track_requirement", "commit": "b0e68c4" },
-        { "description": "MCP prompts for guided implementation: implement_requirement, verify_acceptance, resolve_drift", "commit": "b0e68c4" },
-        { "description": "Rich status output with pipeline visualization and box-drawing tables", "commit": "901ca7b" },
-        { "description": "Shape Up and Continuous Discovery workflow documentation", "commit": "412610e" }
+        {
+          "description": "Post-ship alignment checking (`pkg/align`) with discrepancy detection and current-truth.md generation",
+          "commit": "b07268a"
+        },
+        {
+          "description": "OpenSpec target adapter for portable JSON/YAML export with standardized schema",
+          "commit": "b646735"
+        },
+        {
+          "description": "Git hooks support (`pkg/hooks`) with pre-commit, pre-push, commit-msg, post-commit templates",
+          "commit": "1443f4b"
+        },
+        {
+          "description": "MkDocs graphize visualization embedding with iframe and link options",
+          "commit": "1443f4b"
+        },
+        {
+          "description": "Cross-project dependencies (`pkg/deps`) with dependency graph and cycle detection",
+          "commit": "62956a3"
+        },
+        {
+          "description": "ROADMAP.md generation (`pkg/roadmap`) with aggregate project statuses and milestones",
+          "commit": "62956a3"
+        },
+        {
+          "description": "Decision log persistence (`pkg/decisions`) with tradeoff tracking and impact analysis",
+          "commit": "62956a3"
+        },
+        {
+          "description": "Rationale graphs for linking decisions to requirements",
+          "commit": "62956a3"
+        },
+        {
+          "description": "Evaluation metrics dashboard (`pkg/metrics`) with HTML, JSON, and terminal renderers",
+          "commit": "110bce3"
+        },
+        {
+          "description": "GitHub Issues export (`pkg/target/github_issues.go`) with milestones and labels",
+          "commit": "9fd56cf"
+        },
+        {
+          "description": "Jira export (`pkg/target/jira.go`) as epics/stories with priority mapping",
+          "commit": "9fd56cf"
+        },
+        {
+          "description": "Test coverage mapping (`pkg/testmap`) for TPD test cases to actual tests",
+          "commit": "9fd56cf"
+        },
+        {
+          "description": "Full-text search (`pkg/search`) across spec files with filters and ranking",
+          "commit": "fcb04a6"
+        },
+        {
+          "description": "Requirement reuse tracking (`pkg/reuse`) with duplicate detection and consolidation suggestions",
+          "commit": "5a7753a"
+        },
+        {
+          "description": "Pattern detection (`pkg/patterns`) for structural, content, and anti-patterns",
+          "commit": "98d0053"
+        },
+        {
+          "description": "CLI commands: align, metrics, hooks, search, reuse, patterns",
+          "commit": "ebca742"
+        },
+        {
+          "description": "Context flags (--with-context, --context-file) on align and drift commands",
+          "commit": "ebca742"
+        },
+        {
+          "description": "MCP tools: align_spec, get_alignment_status, track_resolution, get_metrics, install_hooks, get_hooks_status",
+          "commit": "9a1ca33"
+        },
+        {
+          "description": "MCP execution tracking tools: get_execution_status, track_requirement",
+          "commit": "b0e68c4"
+        },
+        {
+          "description": "MCP prompts for guided implementation: implement_requirement, verify_acceptance, resolve_drift",
+          "commit": "b0e68c4"
+        },
+        {
+          "description": "Rich status output with pipeline visualization and box-drawing tables",
+          "commit": "901ca7b"
+        },
+        {
+          "description": "Shape Up and Continuous Discovery workflow documentation",
+          "commit": "412610e"
+        }
       ],
       "fixed": [
-        { "description": "Cross-platform executable detection using oscompat for Windows support", "commit": "e2e5acd" },
-        { "description": "gosec G115 integer overflow in pairKey function", "commit": "b865371" },
-        { "description": "gosec G306 file permissions (use 0o600 for sensitive files)", "commit": "b865371" },
-        { "description": "Lint issues in cli and hooks packages", "commit": "d67dbb2" }
+        {
+          "description": "Cross-platform executable detection using oscompat for Windows support",
+          "commit": "e2e5acd"
+        },
+        {
+          "description": "gosec G115 integer overflow in pairKey function",
+          "commit": "b865371"
+        },
+        {
+          "description": "gosec G306 file permissions (use 0o600 for sensitive files)",
+          "commit": "b865371"
+        },
+        {
+          "description": "Lint issues in cli and hooks packages",
+          "commit": "d67dbb2"
+        }
       ],
       "documentation": [
-        { "description": "CLI documentation for align, metrics, and hooks commands", "commit": "d99bfc9" },
-        { "description": "Status command documentation for rich output format", "commit": "988c694" },
-        { "description": "README updated with new commands and export targets", "commit": "2716a32" },
-        { "description": "ROADMAP updated with completed implementation items", "commit": "212aff4" }
+        {
+          "description": "CLI documentation for align, metrics, and hooks commands",
+          "commit": "d99bfc9"
+        },
+        {
+          "description": "Status command documentation for rich output format",
+          "commit": "988c694"
+        },
+        {
+          "description": "README updated with new commands and export targets",
+          "commit": "2716a32"
+        },
+        {
+          "description": "ROADMAP updated with completed implementation items",
+          "commit": "212aff4"
+        }
       ],
       "tests": [
-        { "description": "Rich report tests for status package", "commit": "e34c103" }
+        {
+          "description": "Rich report tests for status package",
+          "commit": "e34c103"
+        }
       ],
       "dependencies": [
-        { "description": "Update oscompat to v0.4.0 for cross-platform executable detection", "commit": "aa45775" }
+        {
+          "description": "Update oscompat to v0.4.0 for cross-platform executable detection",
+          "commit": "aa45775"
+        }
       ]
     },
     {
@@ -238,24 +698,61 @@
       "date": "2026-06-08",
       "commit": "99581d4",
       "highlights": [
-        { "description": "Spec-workflows repository integration for organization customization" },
-        { "description": "Auto-discovery of spec-workflows from current directory upward" },
-        { "description": "Workflows command to list available methodologies" },
-        { "description": "Workflow selection on project initialization" }
+        {
+          "description": "Spec-workflows repository integration for organization customization"
+        },
+        {
+          "description": "Auto-discovery of spec-workflows from current directory upward"
+        },
+        {
+          "description": "Workflows command to list available methodologies"
+        },
+        {
+          "description": "Workflow selection on project initialization"
+        }
       ],
       "added": [
-        { "description": "Spec-workflows repository integration (`pkg/workflows`) with LoadRepo and DiscoverRepo", "commit": "eff5136" },
-        { "description": "Auto-discovery search order: flag, env var, upward walk, user config", "commit": "eff5136" },
-        { "description": "Workflow field in Project type for methodology tracking", "commit": "cb0d514" },
-        { "description": "WorkflowsRepoPath field and helper methods in CLI Config", "commit": "d6b4a60" },
-        { "description": "GetTemplateLoaderForWorkflow and GetRubricLoaderForWorkflow with methodology fallback", "commit": "d6b4a60" },
-        { "description": "CLI `workflows` command to list available workflows from spec-workflows repo", "commit": "7977b34" },
-        { "description": "CLI `init --workflow` flag for selecting methodology/level", "commit": "7977b34" },
-        { "description": "CLI `--workflows-repo` global flag for explicit repo path", "commit": "99581d4" },
-        { "description": "VISIONSPEC_WORKFLOWS_REPO environment variable support", "commit": "eff5136" }
+        {
+          "description": "Spec-workflows repository integration (`pkg/workflows`) with LoadRepo and DiscoverRepo",
+          "commit": "eff5136"
+        },
+        {
+          "description": "Auto-discovery search order: flag, env var, upward walk, user config",
+          "commit": "eff5136"
+        },
+        {
+          "description": "Workflow field in Project type for methodology tracking",
+          "commit": "cb0d514"
+        },
+        {
+          "description": "WorkflowsRepoPath field and helper methods in CLI Config",
+          "commit": "d6b4a60"
+        },
+        {
+          "description": "GetTemplateLoaderForWorkflow and GetRubricLoaderForWorkflow with methodology fallback",
+          "commit": "d6b4a60"
+        },
+        {
+          "description": "CLI `workflows` command to list available workflows from spec-workflows repo",
+          "commit": "7977b34"
+        },
+        {
+          "description": "CLI `init --workflow` flag for selecting methodology/level",
+          "commit": "7977b34"
+        },
+        {
+          "description": "CLI `--workflows-repo` global flag for explicit repo path",
+          "commit": "99581d4"
+        },
+        {
+          "description": "VISIONSPEC_WORKFLOWS_REPO environment variable support",
+          "commit": "eff5136"
+        }
       ],
       "documentation": [
-        { "description": "v0.9.0 release notes with spec-workflows integration guide" }
+        {
+          "description": "v0.9.0 release notes with spec-workflows integration guide"
+        }
       ]
     },
     {
@@ -263,56 +760,171 @@
       "date": "2026-06-07",
       "commit": "ac7f789",
       "highlights": [
-        { "description": "Big Tech methodology profiles with multi-company best practices (Google, Amazon, Meta, Stripe)" },
-        { "description": "Constitution spec support for organizational governance and constraint inheritance" },
-        { "description": "Agent specs and Claude Code skills for AI assistant integration" },
-        { "description": "MCP resource handlers for programmatic spec access" },
-        { "description": "Continuous Discovery and Shape Up methodology profiles" }
+        {
+          "description": "Big Tech methodology profiles with multi-company best practices (Google, Amazon, Meta, Stripe)"
+        },
+        {
+          "description": "Constitution spec support for organizational governance and constraint inheritance"
+        },
+        {
+          "description": "Agent specs and Claude Code skills for AI assistant integration"
+        },
+        {
+          "description": "MCP resource handlers for programmatic spec access"
+        },
+        {
+          "description": "Continuous Discovery and Shape Up methodology profiles"
+        }
       ],
       "added": [
-        { "description": "Big Tech profiles with 10 methodology integration (`big-tech-product`, `big-tech-feature`)", "commit": "8b5c5af" },
-        { "description": "Big Tech Essentials profiles with streamlined 3-company approach", "commit": "b6a4b2c" },
-        { "description": "AWS feature and product-level profiles for Working Backwards at different scopes", "commit": "1f75de9" },
-        { "description": "Continuous Discovery profile with Teresa Torres' opportunity tree methodology", "commit": "bd66c14" },
-        { "description": "Shape Up profile with Basecamp's 6-week cycle methodology", "commit": "bd66c14" },
-        { "description": "Experiment and lean-canvas specs added to 0-1 profile", "commit": "916c3ff" },
-        { "description": "TRD and UXD specs added to startup profile", "commit": "349bc31" },
-        { "description": "TRD, TPD, and IRD specs added to growth profile", "commit": "db9ac4f" },
-        { "description": "Enterprise profile expanded with governance specs", "commit": "afa4067" },
-        { "description": "Constitution spec support (`pkg/constitution`) with inheritance hierarchy", "commit": "1fd3462" },
-        { "description": "Application-wide type definitions (`pkg/apptypes`) for microservices and loaders", "commit": "b72c0b8" },
-        { "description": "Version management utilities (`pkg/version`) with diff and comparison", "commit": "4d2e461" },
-        { "description": "MCP resource handlers for spec content delivery", "commit": "51f06ac" },
-        { "description": "Claude Code skill definitions for eval, export, lint, reconcile, status, synthesize", "commit": "b35438b" },
-        { "description": "Agent specs with orchestrator, evaluator, exporter, synthesizer, reconciler agents", "commit": "3640bba" },
-        { "description": "Steering documents for AI agent behavior configuration", "commit": "3640bba" },
-        { "description": "MkDocs eval documentation generator", "commit": "4d75e00" },
-        { "description": "IRD evaluation rubric and updated template", "commit": "50c0e29" },
-        { "description": "Infrastructure specification templates (microservice, constitutions)", "commit": "337bdb1" },
-        { "description": "Workflow and architecture D2 diagrams", "commit": "b565141" }
+        {
+          "description": "Big Tech profiles with 10 methodology integration (`big-tech-product`, `big-tech-feature`)",
+          "commit": "8b5c5af"
+        },
+        {
+          "description": "Big Tech Essentials profiles with streamlined 3-company approach",
+          "commit": "b6a4b2c"
+        },
+        {
+          "description": "AWS feature and product-level profiles for Working Backwards at different scopes",
+          "commit": "1f75de9"
+        },
+        {
+          "description": "Continuous Discovery profile with Teresa Torres' opportunity tree methodology",
+          "commit": "bd66c14"
+        },
+        {
+          "description": "Shape Up profile with Basecamp's 6-week cycle methodology",
+          "commit": "bd66c14"
+        },
+        {
+          "description": "Experiment and lean-canvas specs added to 0-1 profile",
+          "commit": "916c3ff"
+        },
+        {
+          "description": "TRD and UXD specs added to startup profile",
+          "commit": "349bc31"
+        },
+        {
+          "description": "TRD, TPD, and IRD specs added to growth profile",
+          "commit": "db9ac4f"
+        },
+        {
+          "description": "Enterprise profile expanded with governance specs",
+          "commit": "afa4067"
+        },
+        {
+          "description": "Constitution spec support (`pkg/constitution`) with inheritance hierarchy",
+          "commit": "1fd3462"
+        },
+        {
+          "description": "Application-wide type definitions (`pkg/apptypes`) for microservices and loaders",
+          "commit": "b72c0b8"
+        },
+        {
+          "description": "Version management utilities (`pkg/version`) with diff and comparison",
+          "commit": "4d2e461"
+        },
+        {
+          "description": "MCP resource handlers for spec content delivery",
+          "commit": "51f06ac"
+        },
+        {
+          "description": "Claude Code skill definitions for eval, export, lint, reconcile, status, synthesize",
+          "commit": "b35438b"
+        },
+        {
+          "description": "Agent specs with orchestrator, evaluator, exporter, synthesizer, reconciler agents",
+          "commit": "3640bba"
+        },
+        {
+          "description": "Steering documents for AI agent behavior configuration",
+          "commit": "3640bba"
+        },
+        {
+          "description": "MkDocs eval documentation generator",
+          "commit": "4d75e00"
+        },
+        {
+          "description": "IRD evaluation rubric and updated template",
+          "commit": "50c0e29"
+        },
+        {
+          "description": "Infrastructure specification templates (microservice, constitutions)",
+          "commit": "337bdb1"
+        },
+        {
+          "description": "Workflow and architecture D2 diagrams",
+          "commit": "b565141"
+        }
       ],
       "changed": [
-        { "description": "CLI updated with new commands and features", "commit": "df86c45" },
-        { "description": "Embedded profile registry updated with all new profiles", "commit": "6ffb681" },
-        { "description": "Org-cli example updated with new APIs", "commit": "4d5fec0" },
-        { "description": "Go module dependencies updated", "commit": "4050f87" }
+        {
+          "description": "CLI updated with new commands and features",
+          "commit": "df86c45"
+        },
+        {
+          "description": "Embedded profile registry updated with all new profiles",
+          "commit": "6ffb681"
+        },
+        {
+          "description": "Org-cli example updated with new APIs",
+          "commit": "4d5fec0"
+        },
+        {
+          "description": "Go module dependencies updated",
+          "commit": "4050f87"
+        }
       ],
       "refactored": [
-        { "description": "Legacy AWS profile removed in favor of aws-product and aws-feature profiles", "commit": "6faed99" }
+        {
+          "description": "Legacy AWS profile removed in favor of aws-product and aws-feature profiles",
+          "commit": "6faed99"
+        }
       ],
       "fixed": [
-        { "description": "Windows compatibility: Use path.Join for embed.FS paths (filepath.Join uses backslashes on Windows)", "commit": "5a7a867" },
-        { "description": "Refactored MCP resource handlers to eliminate code duplication", "commit": "ac7f789" }
+        {
+          "description": "Windows compatibility: Use path.Join for embed.FS paths (filepath.Join uses backslashes on Windows)",
+          "commit": "5a7a867"
+        },
+        {
+          "description": "Refactored MCP resource handlers to eliminate code duplication",
+          "commit": "ac7f789"
+        }
       ],
       "documentation": [
-        { "description": "Big Tech and methodology framework guides (Big Tech, Continuous Discovery, Opportunity Spec, Shape Up)", "commit": "47e744e" },
-        { "description": "Execution target documentation (SpecKit, GSD, GasTown, GasCity, AWS AI-DLC)", "commit": "e68dff5" },
-        { "description": "Workflow example documentation with PetStore API walkthrough", "commit": "a82d396" },
-        { "description": "Organization customization guide for building custom CLIs", "commit": "9fa3eef" },
-        { "description": "CLI documentation for generate, sync, drift, rules, render, watch, version commands", "commit": "1e38fa9" },
-        { "description": "MkDocs navigation updated with new framework and CLI entries", "commit": "d55b404" },
-        { "description": "Core workflow rules updated for AI assistant orchestration", "commit": "6c76d2a" },
-        { "description": "README and ROADMAP updated for v0.7.0 and v0.8.0 features", "commit": "5e2f72a" }
+        {
+          "description": "Big Tech and methodology framework guides (Big Tech, Continuous Discovery, Opportunity Spec, Shape Up)",
+          "commit": "47e744e"
+        },
+        {
+          "description": "Execution target documentation (SpecKit, GSD, GasTown, GasCity, AWS AI-DLC)",
+          "commit": "e68dff5"
+        },
+        {
+          "description": "Workflow example documentation with PetStore API walkthrough",
+          "commit": "a82d396"
+        },
+        {
+          "description": "Organization customization guide for building custom CLIs",
+          "commit": "9fa3eef"
+        },
+        {
+          "description": "CLI documentation for generate, sync, drift, rules, render, watch, version commands",
+          "commit": "1e38fa9"
+        },
+        {
+          "description": "MkDocs navigation updated with new framework and CLI entries",
+          "commit": "d55b404"
+        },
+        {
+          "description": "Core workflow rules updated for AI assistant orchestration",
+          "commit": "6c76d2a"
+        },
+        {
+          "description": "README and ROADMAP updated for v0.7.0 and v0.8.0 features",
+          "commit": "5e2f72a"
+        }
       ]
     },
     {
@@ -320,27 +932,67 @@
       "date": "2026-06-01",
       "commit": "36cf2ce",
       "highlights": [
-        { "description": "Spec-to-code drift detection for identifying implementation divergence" },
-        { "description": "Test generation from Test Plan Documents (TPD)" },
-        { "description": "Generate, sync, and drift CLI commands for continuous spec alignment" },
-        { "description": "Updated to structured-evaluation v0.6.0 with rubric package" }
+        {
+          "description": "Spec-to-code drift detection for identifying implementation divergence"
+        },
+        {
+          "description": "Test generation from Test Plan Documents (TPD)"
+        },
+        {
+          "description": "Generate, sync, and drift CLI commands for continuous spec alignment"
+        },
+        {
+          "description": "Updated to structured-evaluation v0.6.0 with rubric package"
+        }
       ],
       "added": [
-        { "description": "Drift detection engine (`pkg/drift`) for spec-to-code analysis", "commit": "f4eae9d" },
-        { "description": "ExecutionState type for tracking sync state between specs and code", "commit": "3c07b31" },
-        { "description": "Syncer interface for target adapter status synchronization", "commit": "eb598b4" },
-        { "description": "Test generation from TPD specs (`pkg/testgen`)", "commit": "bd42c44" },
-        { "description": "CLI `generate` command for test generation from TPD", "commit": "eb5fea8" },
-        { "description": "CLI `sync` command for bidirectional spec-code synchronization", "commit": "eb5fea8" },
-        { "description": "CLI `drift` command for detecting spec-to-code divergence", "commit": "eb5fea8" }
+        {
+          "description": "Drift detection engine (`pkg/drift`) for spec-to-code analysis",
+          "commit": "f4eae9d"
+        },
+        {
+          "description": "ExecutionState type for tracking sync state between specs and code",
+          "commit": "3c07b31"
+        },
+        {
+          "description": "Syncer interface for target adapter status synchronization",
+          "commit": "eb598b4"
+        },
+        {
+          "description": "Test generation from TPD specs (`pkg/testgen`)",
+          "commit": "bd42c44"
+        },
+        {
+          "description": "CLI `generate` command for test generation from TPD",
+          "commit": "eb5fea8"
+        },
+        {
+          "description": "CLI `sync` command for bidirectional spec-code synchronization",
+          "commit": "eb5fea8"
+        },
+        {
+          "description": "CLI `drift` command for detecting spec-to-code divergence",
+          "commit": "eb5fea8"
+        }
       ],
       "changed": [
-        { "description": "Updated structured-evaluation dependency from v0.5.0 to v0.6.0", "commit": "36cf2ce" },
-        { "description": "Renamed evaluation imports to rubric package per structured-evaluation v0.6.0", "commit": "36cf2ce" },
-        { "description": "Added claims, render, and summary evaluation support", "commit": "36cf2ce" }
+        {
+          "description": "Updated structured-evaluation dependency from v0.5.0 to v0.6.0",
+          "commit": "36cf2ce"
+        },
+        {
+          "description": "Renamed evaluation imports to rubric package per structured-evaluation v0.6.0",
+          "commit": "36cf2ce"
+        },
+        {
+          "description": "Added claims, render, and summary evaluation support",
+          "commit": "36cf2ce"
+        }
       ],
       "documentation": [
-        { "description": "v0.7.0 release notes with drift detection and test generation features" }
+        {
+          "description": "v0.7.0 release notes with drift detection and test generation features"
+        }
       ]
     },
     {
@@ -348,45 +1000,128 @@
       "date": "2026-06-01",
       "commit": "7f4d11d",
       "highlights": [
-        { "description": "Test Plan Document (TPD) spec type for comprehensive test planning" },
-        { "description": "AWS AI-DLC Workflows export target for AI Development Lifecycle integration" },
-        { "description": "Workflow rules for AI assistant orchestration (Claude Code, Kiro, Cursor)" },
-        { "description": "Framework selection with flows for all 6 methodologies" }
+        {
+          "description": "Test Plan Document (TPD) spec type for comprehensive test planning"
+        },
+        {
+          "description": "AWS AI-DLC Workflows export target for AI Development Lifecycle integration"
+        },
+        {
+          "description": "Workflow rules for AI assistant orchestration (Claude Code, Kiro, Cursor)"
+        },
+        {
+          "description": "Framework selection with flows for all 6 methodologies"
+        }
       ],
       "added": [
-        { "description": "TPD (Test Plan Document) spec type with synthesis from PRD + TRD + UXD", "commit": "01b2756" },
-        { "description": "TPD template with 14 sections covering test strategy, cases, automation, CI/CD", "commit": "01b2756" },
-        { "description": "TPD rubrics for enterprise, AWS, and Google profiles", "commit": "01b2756" },
-        { "description": "AWS AI-DLC Workflows export target (`visionspec export aidlc`)", "commit": "2863e21" },
-        { "description": "AIDLC export generates vision-document.md, technical-environment.md, imported-requirements.md", "commit": "2863e21" },
-        { "description": "Workflow rules directory (.visionspec-rules/) for AI assistant orchestration", "commit": "3108878" },
-        { "description": "Core workflow with trigger patterns and phase orchestration", "commit": "3108878" },
-        { "description": "Phase-specific rules: Discovery, Vision, Experience, Technical, Reconciliation", "commit": "3108878" },
-        { "description": "Gate definitions for evaluation and approval workflows", "commit": "3108878" },
-        { "description": "Framework selection in workflow with 6 methodology flows", "commit": "e222d9c" },
-        { "description": "CLI command `visionspec rules export` to copy workflow rules to projects", "commit": "7f4d11d" },
-        { "description": "Phase-specific workflow rules for Lean Startup, Design Thinking, JTBD, Google, Stripe", "commit": "7f4d11d" },
-        { "description": "Rules embedding package (pkg/rules) for distributing workflow rules", "commit": "7f4d11d" }
+        {
+          "description": "TPD (Test Plan Document) spec type with synthesis from PRD + TRD + UXD",
+          "commit": "01b2756"
+        },
+        {
+          "description": "TPD template with 14 sections covering test strategy, cases, automation, CI/CD",
+          "commit": "01b2756"
+        },
+        {
+          "description": "TPD rubrics for enterprise, AWS, and Google profiles",
+          "commit": "01b2756"
+        },
+        {
+          "description": "AWS AI-DLC Workflows export target (`visionspec export aidlc`)",
+          "commit": "2863e21"
+        },
+        {
+          "description": "AIDLC export generates vision-document.md, technical-environment.md, imported-requirements.md",
+          "commit": "2863e21"
+        },
+        {
+          "description": "Workflow rules directory (.visionspec-rules/) for AI assistant orchestration",
+          "commit": "3108878"
+        },
+        {
+          "description": "Core workflow with trigger patterns and phase orchestration",
+          "commit": "3108878"
+        },
+        {
+          "description": "Phase-specific rules: Discovery, Vision, Experience, Technical, Reconciliation",
+          "commit": "3108878"
+        },
+        {
+          "description": "Gate definitions for evaluation and approval workflows",
+          "commit": "3108878"
+        },
+        {
+          "description": "Framework selection in workflow with 6 methodology flows",
+          "commit": "e222d9c"
+        },
+        {
+          "description": "CLI command `visionspec rules export` to copy workflow rules to projects",
+          "commit": "7f4d11d"
+        },
+        {
+          "description": "Phase-specific workflow rules for Lean Startup, Design Thinking, JTBD, Google, Stripe",
+          "commit": "7f4d11d"
+        },
+        {
+          "description": "Rules embedding package (pkg/rules) for distributing workflow rules",
+          "commit": "7f4d11d"
+        }
       ],
       "changed": [
-        { "description": "AWS flow diagram updated to include TPD and IRD nodes", "commit": "01b2756" },
-        { "description": "TotalSpecs count increased from 11 to 12 for TPD addition", "commit": "d3c99ad" }
+        {
+          "description": "AWS flow diagram updated to include TPD and IRD nodes",
+          "commit": "01b2756"
+        },
+        {
+          "description": "TotalSpecs count increased from 11 to 12 for TPD addition",
+          "commit": "d3c99ad"
+        }
       ],
       "fixed": [
-        { "description": "Add nolint:dupl to extractConstraints for intentional similar structure", "commit": "ce5a26b" }
+        {
+          "description": "Add nolint:dupl to extractConstraints for intentional similar structure",
+          "commit": "ce5a26b"
+        }
       ],
       "documentation": [
-        { "description": "TPD documentation in concepts.md and synthesize.md", "commit": "7b1f1b7" },
-        { "description": "CONSTITUTION Quality and Testing Requirements section", "commit": "7b1f1b7" },
-        { "description": "AWS framework doc updated with TPD and IRD mapping", "commit": "9cfafee" },
-        { "description": "Export targets documentation updated with AIDLC", "commit": "2863e21" },
-        { "description": "CLAUDE.md updated with workflow rules reference and AIDLC target", "commit": "3108878" },
-        { "description": "Framework-specific phase documentation for all 6 methodologies", "commit": "7f4d11d" }
+        {
+          "description": "TPD documentation in concepts.md and synthesize.md",
+          "commit": "7b1f1b7"
+        },
+        {
+          "description": "CONSTITUTION Quality and Testing Requirements section",
+          "commit": "7b1f1b7"
+        },
+        {
+          "description": "AWS framework doc updated with TPD and IRD mapping",
+          "commit": "9cfafee"
+        },
+        {
+          "description": "Export targets documentation updated with AIDLC",
+          "commit": "2863e21"
+        },
+        {
+          "description": "CLAUDE.md updated with workflow rules reference and AIDLC target",
+          "commit": "3108878"
+        },
+        {
+          "description": "Framework-specific phase documentation for all 6 methodologies",
+          "commit": "7f4d11d"
+        }
       ],
       "tests": [
-        { "description": "AIDLC export target test coverage", "commit": "2863e21" },
-        { "description": "AIDLC integration test with full project workflow", "commit": "7f4d11d" },
-        { "description": "Rules package test coverage", "commit": "7f4d11d" }
+        {
+          "description": "AIDLC export target test coverage",
+          "commit": "2863e21"
+        },
+        {
+          "description": "AIDLC integration test with full project workflow",
+          "commit": "7f4d11d"
+        },
+        {
+          "description": "Rules package test coverage",
+          "commit": "7f4d11d"
+        }
       ]
     },
     {
@@ -394,48 +1129,140 @@
       "date": "2026-05-26",
       "commit": "a469138",
       "highlights": [
-        { "description": "Project renamed to VisionSpec under ProductBuildersHQ" },
-        { "description": "Six methodology profiles: AWS, Google, Stripe, Lean Startup, Design Thinking, JTBD" },
-        { "description": "Working Backwards synthesis flow with vision-first development" },
-        { "description": "Comprehensive framework documentation with D2 flow diagrams" }
+        {
+          "description": "Project renamed to VisionSpec under ProductBuildersHQ"
+        },
+        {
+          "description": "Six methodology profiles: AWS, Google, Stripe, Lean Startup, Design Thinking, JTBD"
+        },
+        {
+          "description": "Working Backwards synthesis flow with vision-first development"
+        },
+        {
+          "description": "Comprehensive framework documentation with D2 flow diagrams"
+        }
       ],
       "breaking": [
-        { "description": "Project renamed from multispec to visionspec", "commit": "5ad4f29" },
-        { "description": "Module path changed to github.com/ProductBuildersHQ/visionspec", "commit": "5ad4f29" },
-        { "description": "CLI binary renamed to `visionspec` (was `multispec`)", "commit": "5ad4f29" },
-        { "description": "Config file renamed to `visionspec.yaml` (multispec.yaml still supported)", "commit": "5ad4f29" }
+        {
+          "description": "Project renamed from multispec to visionspec",
+          "commit": "5ad4f29"
+        },
+        {
+          "description": "Module path changed to github.com/ProductBuildersHQ/visionspec",
+          "commit": "5ad4f29"
+        },
+        {
+          "description": "CLI binary renamed to `visionspec` (was `multispec`)",
+          "commit": "5ad4f29"
+        },
+        {
+          "description": "Config file renamed to `visionspec.yaml` (multispec.yaml still supported)",
+          "commit": "5ad4f29"
+        }
       ],
       "added": [
-        { "description": "AWS Working Backwards methodology profile with Leadership Principles rubrics", "commit": "9c96a17" },
-        { "description": "Google Design Docs + RFC methodology profile with OKR and experiment templates", "commit": "bcafa8d" },
-        { "description": "Stripe API-first methodology profile with docs-as-product philosophy", "commit": "5528016" },
-        { "description": "Lean Startup methodology profile with Build-Measure-Learn and hypothesis validation", "commit": "c6eb2ec" },
-        { "description": "Design Thinking methodology profile with Stanford d.school 5-stage process", "commit": "c6eb2ec" },
-        { "description": "Jobs to be Done methodology profile with outcome-driven requirements", "commit": "c6eb2ec" },
-        { "description": "Working Backwards synthesis flow: MRD → Press → FAQ → PRD", "commit": "5ed0950" },
-        { "description": "PRD synthesis from Working Backwards artifacts (MRD + Press + FAQ)", "commit": "5ed0950" },
-        { "description": "D2 flow diagrams for all six methodology frameworks (ELK layout)", "commit": "81b315f" },
-        { "description": "ProductBuildersHQ MkDocs theme with CDN assets", "commit": "0bb513e" }
+        {
+          "description": "AWS Working Backwards methodology profile with Leadership Principles rubrics",
+          "commit": "9c96a17"
+        },
+        {
+          "description": "Google Design Docs + RFC methodology profile with OKR and experiment templates",
+          "commit": "bcafa8d"
+        },
+        {
+          "description": "Stripe API-first methodology profile with docs-as-product philosophy",
+          "commit": "5528016"
+        },
+        {
+          "description": "Lean Startup methodology profile with Build-Measure-Learn and hypothesis validation",
+          "commit": "c6eb2ec"
+        },
+        {
+          "description": "Design Thinking methodology profile with Stanford d.school 5-stage process",
+          "commit": "c6eb2ec"
+        },
+        {
+          "description": "Jobs to be Done methodology profile with outcome-driven requirements",
+          "commit": "c6eb2ec"
+        },
+        {
+          "description": "Working Backwards synthesis flow: MRD \u2192 Press \u2192 FAQ \u2192 PRD",
+          "commit": "5ed0950"
+        },
+        {
+          "description": "PRD synthesis from Working Backwards artifacts (MRD + Press + FAQ)",
+          "commit": "5ed0950"
+        },
+        {
+          "description": "D2 flow diagrams for all six methodology frameworks (ELK layout)",
+          "commit": "81b315f"
+        },
+        {
+          "description": "ProductBuildersHQ MkDocs theme with CDN assets",
+          "commit": "0bb513e"
+        }
       ],
       "changed": [
-        { "description": "Press now synthesizes from MRD only (was MRD + PRD)", "commit": "5ed0950" },
-        { "description": "FAQ now synthesizes from MRD + Press (was Press only)", "commit": "5ed0950" },
-        { "description": "Default profiles expanded: 6 stage-based + 6 methodology-based", "commit": "5528016" }
+        {
+          "description": "Press now synthesizes from MRD only (was MRD + PRD)",
+          "commit": "5ed0950"
+        },
+        {
+          "description": "FAQ now synthesizes from MRD + Press (was Press only)",
+          "commit": "5ed0950"
+        },
+        {
+          "description": "Default profiles expanded: 6 stage-based + 6 methodology-based",
+          "commit": "5528016"
+        }
       ],
       "fixed": [
-        { "description": "Remove non-existent Phase 12 reference from README", "commit": "7e89c58" },
-        { "description": "Fix gofmt lint errors in embedded.go", "commit": "702796e" }
+        {
+          "description": "Remove non-existent Phase 12 reference from README",
+          "commit": "7e89c58"
+        },
+        {
+          "description": "Fix gofmt lint errors in embedded.go",
+          "commit": "702796e"
+        }
       ],
       "documentation": [
-        { "description": "Framework documentation for all six methodologies with flow diagrams", "commit": "f17e68a" },
-        { "description": "Framework comparison matrix and profile selection guide", "commit": "f17e68a" },
-        { "description": "Working Backwards methodology guide", "commit": "668971f" },
-        { "description": "CLI documentation for all commands (approve, context, create, docs, eval, export, reconcile, serve, synthesize, targets)", "commit": "0809e90" },
-        { "description": "Configuration reference guide with all visionspec.yaml options", "commit": "fe02b20" },
-        { "description": "CLAUDE.md for AI assistant integration with MCP tools reference", "commit": "ce13ce7" },
-        { "description": "Working Backwards references and attribution", "commit": "45ff249" },
-        { "description": "Updated navigation and CLI reference organization", "commit": "e3e4b2c" },
-        { "description": "Frameworks section added to MkDocs navigation", "commit": "a469138" }
+        {
+          "description": "Framework documentation for all six methodologies with flow diagrams",
+          "commit": "f17e68a"
+        },
+        {
+          "description": "Framework comparison matrix and profile selection guide",
+          "commit": "f17e68a"
+        },
+        {
+          "description": "Working Backwards methodology guide",
+          "commit": "668971f"
+        },
+        {
+          "description": "CLI documentation for all commands (approve, context, create, docs, eval, export, reconcile, serve, synthesize, targets)",
+          "commit": "0809e90"
+        },
+        {
+          "description": "Configuration reference guide with all visionspec.yaml options",
+          "commit": "fe02b20"
+        },
+        {
+          "description": "CLAUDE.md for AI assistant integration with MCP tools reference",
+          "commit": "ce13ce7"
+        },
+        {
+          "description": "Working Backwards references and attribution",
+          "commit": "45ff249"
+        },
+        {
+          "description": "Updated navigation and CLI reference organization",
+          "commit": "e3e4b2c"
+        },
+        {
+          "description": "Frameworks section added to MkDocs navigation",
+          "commit": "a469138"
+        }
       ]
     },
     {
@@ -443,57 +1270,172 @@
       "date": "2026-05-25",
       "commit": "1ae5043",
       "highlights": [
-        { "description": "Context Sources for grounding spec synthesis in actual codebase data" },
-        { "description": "Reconciliation Engine with conflict detection and resolution" },
-        { "description": "Target Adapters: GSD, GasTown, GasCity, SpecKit constitution sync" },
-        { "description": "MkDocs documentation generation with graph metrics" }
+        {
+          "description": "Context Sources for grounding spec synthesis in actual codebase data"
+        },
+        {
+          "description": "Reconciliation Engine with conflict detection and resolution"
+        },
+        {
+          "description": "Target Adapters: GSD, GasTown, GasCity, SpecKit constitution sync"
+        },
+        {
+          "description": "MkDocs documentation generation with graph metrics"
+        }
       ],
       "added": [
-        { "description": "Context aggregation framework (`pkg/context`) with concurrent source fetching and caching", "commit": "ff58b0e" },
-        { "description": "Git repository source with structure analysis, dependency detection, and API schema extraction", "commit": "ed8dd24" },
-        { "description": "Remote git repository support with sparse checkout and shallow cloning", "commit": "ed8dd24" },
-        { "description": "Graphize source for requirement traceability graph integration", "commit": "953a2fa" },
-        { "description": "File source for including architecture docs, ADRs, and API specs as context", "commit": "88a4454" },
-        { "description": "MCP client for external tools (Jira, Confluence, Linear, Notion, Google Docs)", "commit": "984af64" },
-        { "description": "Context CLI commands: `context gather`, `context show`, `context save`, `context sources`", "commit": "d1c2188" },
-        { "description": "Context configuration in `visionspec.yaml` with repositories, graphize, files, and mcp_servers sections", "commit": "ff58b0e" },
-        { "description": "Context snapshot save/load for CI reproducibility", "commit": "ff58b0e" },
-        { "description": "Integration with `synthesize` command for TRD and IRD grounding", "commit": "a98b73d" },
-        { "description": "Conflict detection algorithm with pattern matching for cross-spec analysis", "commit": "63dfa86" },
-        { "description": "Conflict integration with reconciliation process and decision logging", "commit": "0e7e9bd" },
-        { "description": "GSD target adapter with PLAN.md, STATE.md, and config.json export", "commit": "0ad48e3" },
-        { "description": "GasTown target adapter with formula.toml and bead definitions", "commit": "ceeeeb0" },
-        { "description": "GasCity target adapter with city.toml for multi-agent orchestration", "commit": "ef3a56a" },
-        { "description": "SpecKit constitution sync to `.specify/memory/constitution.md`", "commit": "d0cf167" },
-        { "description": "CONSTITUTION.md multi-location support (repo-level and org-level)", "commit": "cd402fb" },
-        { "description": "`create` command for scaffolding specs from templates", "commit": "45e0934" },
-        { "description": "MkDocs documentation generation package (`pkg/mkdocs`)", "commit": "5ed7639" },
-        { "description": "`docs` command with `generate` and `project` subcommands", "commit": "d2cbd0b" },
-        { "description": "RubricsConfig for custom rubric configuration in projects", "commit": "d3f39b5" },
-        { "description": "GraphMetrics in status reports with traceability statistics", "commit": "f29d6b0" },
-        { "description": "ComputeMetrics function for spec graph analysis", "commit": "c7f5372" },
-        { "description": "`profiles export` command to extract profiles for customization" }
+        {
+          "description": "Context aggregation framework (`pkg/context`) with concurrent source fetching and caching",
+          "commit": "ff58b0e"
+        },
+        {
+          "description": "Git repository source with structure analysis, dependency detection, and API schema extraction",
+          "commit": "ed8dd24"
+        },
+        {
+          "description": "Remote git repository support with sparse checkout and shallow cloning",
+          "commit": "ed8dd24"
+        },
+        {
+          "description": "Graphize source for requirement traceability graph integration",
+          "commit": "953a2fa"
+        },
+        {
+          "description": "File source for including architecture docs, ADRs, and API specs as context",
+          "commit": "88a4454"
+        },
+        {
+          "description": "MCP client for external tools (Jira, Confluence, Linear, Notion, Google Docs)",
+          "commit": "984af64"
+        },
+        {
+          "description": "Context CLI commands: `context gather`, `context show`, `context save`, `context sources`",
+          "commit": "d1c2188"
+        },
+        {
+          "description": "Context configuration in `visionspec.yaml` with repositories, graphize, files, and mcp_servers sections",
+          "commit": "ff58b0e"
+        },
+        {
+          "description": "Context snapshot save/load for CI reproducibility",
+          "commit": "ff58b0e"
+        },
+        {
+          "description": "Integration with `synthesize` command for TRD and IRD grounding",
+          "commit": "a98b73d"
+        },
+        {
+          "description": "Conflict detection algorithm with pattern matching for cross-spec analysis",
+          "commit": "63dfa86"
+        },
+        {
+          "description": "Conflict integration with reconciliation process and decision logging",
+          "commit": "0e7e9bd"
+        },
+        {
+          "description": "GSD target adapter with PLAN.md, STATE.md, and config.json export",
+          "commit": "0ad48e3"
+        },
+        {
+          "description": "GasTown target adapter with formula.toml and bead definitions",
+          "commit": "ceeeeb0"
+        },
+        {
+          "description": "GasCity target adapter with city.toml for multi-agent orchestration",
+          "commit": "ef3a56a"
+        },
+        {
+          "description": "SpecKit constitution sync to `.specify/memory/constitution.md`",
+          "commit": "d0cf167"
+        },
+        {
+          "description": "CONSTITUTION.md multi-location support (repo-level and org-level)",
+          "commit": "cd402fb"
+        },
+        {
+          "description": "`create` command for scaffolding specs from templates",
+          "commit": "45e0934"
+        },
+        {
+          "description": "MkDocs documentation generation package (`pkg/mkdocs`)",
+          "commit": "5ed7639"
+        },
+        {
+          "description": "`docs` command with `generate` and `project` subcommands",
+          "commit": "d2cbd0b"
+        },
+        {
+          "description": "RubricsConfig for custom rubric configuration in projects",
+          "commit": "d3f39b5"
+        },
+        {
+          "description": "GraphMetrics in status reports with traceability statistics",
+          "commit": "f29d6b0"
+        },
+        {
+          "description": "ComputeMetrics function for spec graph analysis",
+          "commit": "c7f5372"
+        },
+        {
+          "description": "`profiles export` command to extract profiles for customization"
+        }
       ],
       "changed": [
-        { "description": "Reconcile command outputs spec.eval.json with conflict details and decision log", "commit": "20b8086" },
-        { "description": "CLI commands use config.LoadConstitution for automatic discovery", "commit": "7fc835f" }
+        {
+          "description": "Reconcile command outputs spec.eval.json with conflict details and decision log",
+          "commit": "20b8086"
+        },
+        {
+          "description": "CLI commands use config.LoadConstitution for automatic discovery",
+          "commit": "7fc835f"
+        }
       ],
       "fixed": [
-        { "description": "Lint errors in context/mcp package (unused error returns)", "commit": "c6f828e" },
-        { "description": "Lint errors in context/git package (unused parameters, ignored errors)", "commit": "ffaa15c" }
+        {
+          "description": "Lint errors in context/mcp package (unused error returns)",
+          "commit": "c6f828e"
+        },
+        {
+          "description": "Lint errors in context/git package (unused parameters, ignored errors)",
+          "commit": "ffaa15c"
+        }
       ],
       "documentation": [
-        { "description": "Context sources user guide (`docs/context-sources.md`) with configuration examples", "commit": "91e0028" },
-        { "description": "Custom profiles guide (`docs/guides/custom-profiles.md`) with template and rubric creation" },
-        { "description": "CLI profiles reference (`docs/cli/profiles.md`) with export command documentation" },
-        { "description": "Updated CLI index and concepts documentation" },
-        { "description": "Phase 4 Reconciliation Engine completed in ROADMAP.md", "commit": "e1155ba" },
-        { "description": "Phase 5 Target Adapters completed in ROADMAP.md", "commit": "d1e7b66" },
-        { "description": "Phase 11 Context Sources completed in ROADMAP.md", "commit": "91e0028" },
-        { "description": "Phase 12 Platform Enhancements progress in ROADMAP.md", "commit": "1ae5043" }
+        {
+          "description": "Context sources user guide (`docs/context-sources.md`) with configuration examples",
+          "commit": "91e0028"
+        },
+        {
+          "description": "Custom profiles guide (`docs/guides/custom-profiles.md`) with template and rubric creation"
+        },
+        {
+          "description": "CLI profiles reference (`docs/cli/profiles.md`) with export command documentation"
+        },
+        {
+          "description": "Updated CLI index and concepts documentation"
+        },
+        {
+          "description": "Phase 4 Reconciliation Engine completed in ROADMAP.md",
+          "commit": "e1155ba"
+        },
+        {
+          "description": "Phase 5 Target Adapters completed in ROADMAP.md",
+          "commit": "d1e7b66"
+        },
+        {
+          "description": "Phase 11 Context Sources completed in ROADMAP.md",
+          "commit": "91e0028"
+        },
+        {
+          "description": "Phase 12 Platform Enhancements progress in ROADMAP.md",
+          "commit": "1ae5043"
+        }
       ],
       "dependencies": [
-        { "description": "Add doublestar v4 for glob pattern matching", "commit": "ff58b0e" }
+        {
+          "description": "Add doublestar v4 for glob pattern matching",
+          "commit": "ff58b0e"
+        }
       ]
     },
     {
@@ -501,30 +1443,66 @@
       "date": "2026-05-24",
       "commit": "6fc7007",
       "highlights": [
-        { "description": "CLI composability - use visionspec as a library to build custom organization CLIs" },
-        { "description": "Configuration profiles for different product lifecycle stages (0-1, startup, growth, enterprise)" },
-        { "description": "Custom templates and rubrics with Loader interfaces and YAML support" }
+        {
+          "description": "CLI composability - use visionspec as a library to build custom organization CLIs"
+        },
+        {
+          "description": "Configuration profiles for different product lifecycle stages (0-1, startup, growth, enterprise)"
+        },
+        {
+          "description": "Custom templates and rubrics with Loader interfaces and YAML support"
+        }
       ],
       "added": [
-        { "description": "CLI as library (`pkg/cli`) with `AddCommandsTo()` and `Commands()` APIs" },
-        { "description": "Template Loader interface with EmbeddedLoader, FileLoader, EmbedFSLoader, ChainLoader" },
-        { "description": "Rubric Loader interface with YAML format support for custom rubrics" },
-        { "description": "SpecConfig types for configurable spec requirements per organization" },
-        { "description": "Profile system (`pkg/profiles`) with inheritance via `extends` field" },
-        { "description": "Default profiles: 0-1 (hypothesis), startup (PRD), growth (PRD+UXD+FAQ), enterprise (full suite)" },
-        { "description": "Profile CLI commands: `profiles list`, `profiles show <name>`" },
-        { "description": "`--profile` flag on `init` command for profile-based project initialization" },
-        { "description": "Example organization CLIs in `examples/` directory" }
+        {
+          "description": "CLI as library (`pkg/cli`) with `AddCommandsTo()` and `Commands()` APIs"
+        },
+        {
+          "description": "Template Loader interface with EmbeddedLoader, FileLoader, EmbedFSLoader, ChainLoader"
+        },
+        {
+          "description": "Rubric Loader interface with YAML format support for custom rubrics"
+        },
+        {
+          "description": "SpecConfig types for configurable spec requirements per organization"
+        },
+        {
+          "description": "Profile system (`pkg/profiles`) with inheritance via `extends` field"
+        },
+        {
+          "description": "Default profiles: 0-1 (hypothesis), startup (PRD), growth (PRD+UXD+FAQ), enterprise (full suite)"
+        },
+        {
+          "description": "Profile CLI commands: `profiles list`, `profiles show <name>`"
+        },
+        {
+          "description": "`--profile` flag on `init` command for profile-based project initialization"
+        },
+        {
+          "description": "Example organization CLIs in `examples/` directory"
+        }
       ],
       "changed": [
-        { "description": "Moved CLI commands from `internal/cli` to `pkg/cli` for library use" },
-        { "description": "Linter now accepts SpecConfig for organization-specific spec requirements" },
-        { "description": "Status command uses SpecConfig for determining required specs" }
+        {
+          "description": "Moved CLI commands from `internal/cli` to `pkg/cli` for library use"
+        },
+        {
+          "description": "Linter now accepts SpecConfig for organization-specific spec requirements"
+        },
+        {
+          "description": "Status command uses SpecConfig for determining required specs"
+        }
       ],
       "documentation": [
-        { "description": "Phase 9 Composability added to ROADMAP.md" },
-        { "description": "Phase 10 Platform Enhancements roadmap with future features" },
-        { "description": "Example CLIs demonstrating profile-based organization tools" }
+        {
+          "description": "Phase 9 Composability added to ROADMAP.md"
+        },
+        {
+          "description": "Phase 10 Platform Enhancements roadmap with future features"
+        },
+        {
+          "description": "Example CLIs demonstrating profile-based organization tools"
+        }
       ]
     },
     {
@@ -532,30 +1510,69 @@
       "date": "2026-05-24",
       "commit": "82c621c",
       "highlights": [
-        { "description": "Graphize integration for requirement graph extraction and visualization" },
-        { "description": "Documentation accuracy improvements for implementation status" }
+        {
+          "description": "Graphize integration for requirement graph extraction and visualization"
+        },
+        {
+          "description": "Documentation accuracy improvements for implementation status"
+        }
       ],
       "added": [
-        { "description": "Spec graph extraction from MRD, PRD, UXD, TRD specs (`visionspec graph extract`)", "commit": "e33c3fb" },
-        { "description": "Graph export to HTML, GraphML, and JSON formats (`visionspec graph export`)", "commit": "e33c3fb" },
-        { "description": "Graph query for filtering nodes by type and spec (`visionspec graph query`)", "commit": "33622e3" },
-        { "description": "Integration with graphize v0.3.0 and graphfs v0.2.0 for graph operations", "commit": "e33c3fb" }
+        {
+          "description": "Spec graph extraction from MRD, PRD, UXD, TRD specs (`visionspec graph extract`)",
+          "commit": "e33c3fb"
+        },
+        {
+          "description": "Graph export to HTML, GraphML, and JSON formats (`visionspec graph export`)",
+          "commit": "e33c3fb"
+        },
+        {
+          "description": "Graph query for filtering nodes by type and spec (`visionspec graph query`)",
+          "commit": "33622e3"
+        },
+        {
+          "description": "Integration with graphize v0.3.0 and graphfs v0.2.0 for graph operations",
+          "commit": "e33c3fb"
+        }
       ],
       "fixed": [
-        { "description": "Use filepath.Join for cross-platform path tests", "commit": "82c621c" }
+        {
+          "description": "Use filepath.Join for cross-platform path tests",
+          "commit": "82c621c"
+        }
       ],
       "documentation": [
-        { "description": "Corrected MCP tools status from Stub to Implemented (get_spec, get_eval, run_eval, synthesize, reconcile, approve, export)", "commit": "c152a4f" },
-        { "description": "Corrected CLI commands status from Planned to Implemented (approve, serve, graph)", "commit": "77a6ac4" },
-        { "description": "Added comprehensive MCP tools documentation with all 16 tools", "commit": "c152a4f" },
-        { "description": "Graph command documentation", "commit": "2b9901c" }
+        {
+          "description": "Corrected MCP tools status from Stub to Implemented (get_spec, get_eval, run_eval, synthesize, reconcile, approve, export)",
+          "commit": "c152a4f"
+        },
+        {
+          "description": "Corrected CLI commands status from Planned to Implemented (approve, serve, graph)",
+          "commit": "77a6ac4"
+        },
+        {
+          "description": "Added comprehensive MCP tools documentation with all 16 tools",
+          "commit": "c152a4f"
+        },
+        {
+          "description": "Graph command documentation",
+          "commit": "2b9901c"
+        }
       ],
       "tests": [
-        { "description": "Unit tests for types and config packages", "commit": "a2491ff" }
+        {
+          "description": "Unit tests for types and config packages",
+          "commit": "a2491ff"
+        }
       ],
       "dependencies": [
-        { "description": "Add graphize v0.3.0 for requirement graph visualization", "commit": "e33c3fb" },
-        { "description": "Add graphfs v0.2.0 for graph data structures" }
+        {
+          "description": "Add graphize v0.3.0 for requirement graph visualization",
+          "commit": "e33c3fb"
+        },
+        {
+          "description": "Add graphfs v0.2.0 for graph data structures"
+        }
       ]
     },
     {
@@ -563,49 +1580,133 @@
       "date": "2026-05-24",
       "commit": "7e3b584",
       "highlights": [
-        { "description": "Multi-domain specification orchestration for humans and AI agents" },
-        { "description": "MCP server integration for Claude Code and Kiro CLI" },
-        { "description": "AI-assisted authoring workflow with draft management and LLM evaluation" }
+        {
+          "description": "Multi-domain specification orchestration for humans and AI agents"
+        },
+        {
+          "description": "MCP server integration for Claude Code and Kiro CLI"
+        },
+        {
+          "description": "AI-assisted authoring workflow with draft management and LLM evaluation"
+        }
       ],
       "added": [
-        { "description": "Core type definitions for spec types, evaluation, and project configuration", "commit": "b2c2bcb" },
-        { "description": "Project configuration management with `visionspec.yaml`", "commit": "dea8836" },
-        { "description": "Spec templates with `go:embed` for MRD, PRD, UXD, Press, FAQ, Narrative, TRD, IRD", "commit": "b4671af" },
-        { "description": "Evaluation rubrics for all spec types using categorical scoring (pass/partial/fail)", "commit": "984110f" },
-        { "description": "Draft authoring workflow with session management, versioning, and eval history", "commit": "594b4e5" },
-        { "description": "LLM evaluation integration with structured-evaluation rubrics", "commit": "8f77632" },
-        { "description": "Spec synthesis from source documents (GTM and technical)", "commit": "e526061" },
-        { "description": "Spec reconciliation for generating unified execution specs", "commit": "7b11c6d" },
-        { "description": "Export framework with SpecKit adapter (spec.md, plan.md, tasks.md)", "commit": "ddef147" },
-        { "description": "Project structure validation with `visionspec lint`", "commit": "a710be8" },
-        { "description": "MCP server with tools: list_projects, get_project_status, start_draft, update_draft, eval_draft, finalize_draft, get_draft, discard_draft", "commit": "2412405" },
-        { "description": "CLI commands: init, lint, status, targets, eval, synthesize, reconcile, export", "commit": "9941480" },
-        { "description": "Authoring skills for Claude Code: author-mrd, author-prd, author-uxd", "commit": "bd82e87" }
+        {
+          "description": "Core type definitions for spec types, evaluation, and project configuration",
+          "commit": "b2c2bcb"
+        },
+        {
+          "description": "Project configuration management with `visionspec.yaml`",
+          "commit": "dea8836"
+        },
+        {
+          "description": "Spec templates with `go:embed` for MRD, PRD, UXD, Press, FAQ, Narrative, TRD, IRD",
+          "commit": "b4671af"
+        },
+        {
+          "description": "Evaluation rubrics for all spec types using categorical scoring (pass/partial/fail)",
+          "commit": "984110f"
+        },
+        {
+          "description": "Draft authoring workflow with session management, versioning, and eval history",
+          "commit": "594b4e5"
+        },
+        {
+          "description": "LLM evaluation integration with structured-evaluation rubrics",
+          "commit": "8f77632"
+        },
+        {
+          "description": "Spec synthesis from source documents (GTM and technical)",
+          "commit": "e526061"
+        },
+        {
+          "description": "Spec reconciliation for generating unified execution specs",
+          "commit": "7b11c6d"
+        },
+        {
+          "description": "Export framework with SpecKit adapter (spec.md, plan.md, tasks.md)",
+          "commit": "ddef147"
+        },
+        {
+          "description": "Project structure validation with `visionspec lint`",
+          "commit": "a710be8"
+        },
+        {
+          "description": "MCP server with tools: list_projects, get_project_status, start_draft, update_draft, eval_draft, finalize_draft, get_draft, discard_draft",
+          "commit": "2412405"
+        },
+        {
+          "description": "CLI commands: init, lint, status, targets, eval, synthesize, reconcile, export",
+          "commit": "9941480"
+        },
+        {
+          "description": "Authoring skills for Claude Code: author-mrd, author-prd, author-uxd",
+          "commit": "bd82e87"
+        }
       ],
       "changed": [
-        { "description": "Rubrics updated to use `CategoricalCriteria` type from structured-evaluation v0.4.0", "commit": "feeeaa6" },
-        { "description": "All rubrics converted to categorical scoring (pass/partial/fail)", "commit": "6b46caf" },
-        { "description": "Evaluation module updated for categorical scoring", "commit": "625413b" }
+        {
+          "description": "Rubrics updated to use `CategoricalCriteria` type from structured-evaluation v0.4.0",
+          "commit": "feeeaa6"
+        },
+        {
+          "description": "All rubrics converted to categorical scoring (pass/partial/fail)",
+          "commit": "6b46caf"
+        },
+        {
+          "description": "Evaluation module updated for categorical scoring",
+          "commit": "625413b"
+        }
       ],
       "fixed": [
-        { "description": "Draft paths now use `filepath.Join` for Windows compatibility", "commit": "7154de4" },
-        { "description": "Test error handling for `os.MkdirAll` calls", "commit": "a13ff7b" },
-        { "description": "Unused parameter lint warning in speckit.go", "commit": "7e3b584" }
+        {
+          "description": "Draft paths now use `filepath.Join` for Windows compatibility",
+          "commit": "7154de4"
+        },
+        {
+          "description": "Test error handling for `os.MkdirAll` calls",
+          "commit": "a13ff7b"
+        },
+        {
+          "description": "Unused parameter lint warning in speckit.go",
+          "commit": "7e3b584"
+        }
       ],
       "tests": [
-        { "description": "Rubric tests updated for categorical scoring", "commit": "f2f812b" }
+        {
+          "description": "Rubric tests updated for categorical scoring",
+          "commit": "f2f812b"
+        }
       ],
       "documentation": [
-        { "description": "README with project overview, installation, and CLI documentation", "commit": "76e2a54" },
-        { "description": "MkDocs documentation site configuration", "commit": "76e2a54" },
-        { "description": "Roadmap with implementation phases", "commit": "76e2a54" }
+        {
+          "description": "README with project overview, installation, and CLI documentation",
+          "commit": "76e2a54"
+        },
+        {
+          "description": "MkDocs documentation site configuration",
+          "commit": "76e2a54"
+        },
+        {
+          "description": "Roadmap with implementation phases",
+          "commit": "76e2a54"
+        }
       ],
       "build": [
-        { "description": "Go module initialization with build configuration", "commit": "88e232d" },
-        { "description": "GitHub Actions CI/CD workflows", "commit": "27306a6" }
+        {
+          "description": "Go module initialization with build configuration",
+          "commit": "88e232d"
+        },
+        {
+          "description": "GitHub Actions CI/CD workflows",
+          "commit": "27306a6"
+        }
       ],
       "dependencies": [
-        { "description": "Add structured-evaluation v0.5.0 for rubric and evaluation types", "commit": "30bbea0" }
+        {
+          "description": "Add structured-evaluation v0.5.0 for rubric and evaluation types",
+          "commit": "30bbea0"
+        }
       ]
     }
   ]
