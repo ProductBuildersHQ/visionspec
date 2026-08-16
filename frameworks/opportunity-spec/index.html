@@ -1061,15 +1061,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#using-the-aws-feature-profile" class="md-nav__link">
+  <a href="#using-the-aws-two-way-door-profile" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Using the aws-feature Profile
+        Using the aws-two-way-door Profile
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Using the aws-feature Profile">
+    <nav class="md-nav" aria-label="Using the aws-two-way-door Profile">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -3061,6 +3061,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../releases/v0.16.0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.16.0
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../releases/v0.15.0/" class="md-nav__link">
         
   
@@ -3680,15 +3708,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#using-the-aws-feature-profile" class="md-nav__link">
+  <a href="#using-the-aws-two-way-door-profile" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Using the aws-feature Profile
+        Using the aws-two-way-door Profile
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Using the aws-feature Profile">
+    <nav class="md-nav" aria-label="Using the aws-two-way-door Profile">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -3857,48 +3885,51 @@
 <h1 id="opportunityspec-framework">OpportunitySpec Framework<a class="headerlink" href="#opportunityspec-framework" title="Permanent link">&para;</a></h1>
 <p>OpportunitySpec is a merged 12-box framework from <a href="https://github.com/grokify/prism-roadmap">prism-roadmap</a> that combines Jeff Patton's Opportunity Canvas (discovery-focused) with Marty Cagan's SVPG Opportunity Assessment (business case-focused).</p>
 <h2 id="when-to-use">When to Use<a class="headerlink" href="#when-to-use" title="Permanent link">&para;</a></h2>
-<p>Use OpportunitySpec when evaluating <strong>feature-level opportunities</strong> within an existing product line. For new product lines, start with MRD instead.</p>
+<p>Use OpportunitySpec as optional <strong>post-FAQ deepening</strong> when the risk warrants
+discovery depth — typically at feature scale. Both AWS door profiles offer it
+alongside MRD: the door sets the ceremony; the scale picks the tool.</p>
 <table>
 <thead>
 <tr>
-<th>Scope</th>
-<th>Starting Document</th>
-<th>Profile</th>
+<th>Deepening Tool</th>
+<th>Typical Scale</th>
+<th>Available In</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>New product line</td>
-<td>MRD (Market Requirements)</td>
-<td><code>aws-product</code></td>
+<td>OpportunitySpec (discovery canvas)</td>
+<td>Feature</td>
+<td><code>aws-one-way-door</code>, <code>aws-two-way-door</code></td>
 </tr>
 <tr>
-<td>New feature on existing product</td>
-<td>OpportunitySpec</td>
-<td><code>aws-feature</code></td>
+<td>MRD (market validation)</td>
+<td>Product</td>
+<td><code>aws-one-way-door</code>, <code>aws-two-way-door</code></td>
 </tr>
 </tbody>
 </table>
 <h2 id="the-opportunityspec-flow">The OpportunitySpec Flow<a class="headerlink" href="#the-opportunityspec-flow" title="Permanent link">&para;</a></h2>
-<p>OpportunitySpec replaces MRD as the starting point for feature-level Working Backwards:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>1. OPPORTUNITY DISCOVERY (human-authored)
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>   opportunity-spec.md
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>       ↓
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>2. WORKING BACKWARDS (synthesized, editable)
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>   press.md  →  faq.md  →  prd.md
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>   (vision)     (scope)    (requirements)
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>       ↓
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>3. STAKEHOLDER REVIEW (synthesized, editable)
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>   narrative-1p.md / narrative-6p.md
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>       ↓
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>4. USER EXPERIENCE (human-authored)
-<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>   uxd.md
-<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>       ↓
-<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>5. TECHNICAL SPECS (synthesized, editable)
-<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>   trd.md  →  tpd.md  →  ird.md
-<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>       ↓
-<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>6. RECONCILIATION
-<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>   spec.md
+<p>Working Backwards starts with the human-authored Press Release — the founding
+artifact — and the FAQ that stress-tests it. The OpportunitySpec deepens the
+FAQ's discovery and business-case answers, and feeds PRD synthesis when
+present:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>1. WORKING BACKWARDS (human-authored PR, iterated with FAQ)
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>   press.md  ⇄  faq.md
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>   (vision)     (challenge assumptions)
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>       ↓
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>2. OPPORTUNITY DEEPENING (synthesized from press + faq, optional)
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>   opportunity-spec.md
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>   (12-box discovery canvas; flag unanswered boxes as discovery gaps)
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>       ↓
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>3. REQUIREMENTS (synthesized, editable)
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>   prd.md  ←  press + faq + whichever deepening is present
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>       ↓
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>4. USER EXPERIENCE (human-authored)
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>   uxd.md
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>       ↓
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>5. TECHNICAL SPECS (synthesized, editable)
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>   trd.md  →  tpd.md
 </code></pre></div>
 <h2 id="opportunityspec-structure">OpportunitySpec Structure<a class="headerlink" href="#opportunityspec-structure" title="Permanent link">&para;</a></h2>
 <p>The 12-box canvas is organized in a 3×4 grid:</p>
@@ -4010,9 +4041,9 @@
 </tr>
 </tbody>
 </table>
-<h2 id="using-the-aws-feature-profile">Using the aws-feature Profile<a class="headerlink" href="#using-the-aws-feature-profile" title="Permanent link">&para;</a></h2>
+<h2 id="using-the-aws-two-way-door-profile">Using the aws-two-way-door Profile<a class="headerlink" href="#using-the-aws-two-way-door-profile" title="Permanent link">&para;</a></h2>
 <h3 id="initialize-a-feature-project">Initialize a Feature Project<a class="headerlink" href="#initialize-a-feature-project" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>multispec<span class="w"> </span>init<span class="w"> </span>mobile-app-feature<span class="w"> </span>--profile<span class="w"> </span>aws-feature
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>multispec<span class="w"> </span>init<span class="w"> </span>mobile-app-feature<span class="w"> </span>--profile<span class="w"> </span>aws-two-way-door
 </code></pre></div>
 <h3 id="draft-the-opportunityspec">Draft the OpportunitySpec<a class="headerlink" href="#draft-the-opportunityspec" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>multispec<span class="w"> </span>draft<span class="w"> </span>opportunity-spec<span class="w"> </span>-p<span class="w"> </span>mobile-app-feature
@@ -4335,42 +4366,38 @@
 </table>
 <h2 id="example-workflow">Example Workflow<a class="headerlink" href="#example-workflow" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># 1. Initialize feature project</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>multispec<span class="w"> </span>init<span class="w"> </span>checkout-optimization<span class="w"> </span>--profile<span class="w"> </span>aws-feature
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>multispec<span class="w"> </span>init<span class="w"> </span>checkout-optimization<span class="w"> </span>--profile<span class="w"> </span>aws-two-way-door
 <a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
-<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="c1"># 2. Draft OpportunitySpec</span>
-<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>multispec<span class="w"> </span>draft<span class="w"> </span>opportunity-spec<span class="w"> </span>-p<span class="w"> </span>checkout-optimization
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="c1"># 2. Human authors the Press Release — the founding artifact</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>multispec<span class="w"> </span>draft<span class="w"> </span>press<span class="w"> </span>-p<span class="w"> </span>checkout-optimization
 <a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>
-<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="c1"># 3. Collaborate on OpportunitySpec</span>
-<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="c1"># ... edit opportunity-spec.md ...</span>
-<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>
-<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="c1"># 4. Evaluate</span>
-<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>multispec<span class="w"> </span><span class="nb">eval</span><span class="w"> </span>opportunity-spec<span class="w"> </span>-p<span class="w"> </span>checkout-optimization
-<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="c1"># Score: 85% (PASS)</span>
-<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>
-<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="c1"># 5. Approve and continue</span>
-<a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a>multispec<span class="w"> </span>approve<span class="w"> </span>opportunity-spec<span class="w"> </span>-p<span class="w"> </span>checkout-optimization
-<a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a>
-<a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a><span class="c1"># 6. Synthesize Press Release</span>
-<a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a>multispec<span class="w"> </span>synthesize<span class="w"> </span>press<span class="w"> </span>-p<span class="w"> </span>checkout-optimization
-<a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a>multispec<span class="w"> </span><span class="nb">eval</span><span class="w"> </span>press<span class="w"> </span>-p<span class="w"> </span>checkout-optimization
-<a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a>multispec<span class="w"> </span>approve<span class="w"> </span>press<span class="w"> </span>-p<span class="w"> </span>checkout-optimization
-<a id="__codelineno-9-21" name="__codelineno-9-21" href="#__codelineno-9-21"></a>
-<a id="__codelineno-9-22" name="__codelineno-9-22" href="#__codelineno-9-22"></a><span class="c1"># 7. Synthesize FAQ</span>
-<a id="__codelineno-9-23" name="__codelineno-9-23" href="#__codelineno-9-23"></a>multispec<span class="w"> </span>synthesize<span class="w"> </span>faq<span class="w"> </span>-p<span class="w"> </span>checkout-optimization
-<a id="__codelineno-9-24" name="__codelineno-9-24" href="#__codelineno-9-24"></a>multispec<span class="w"> </span><span class="nb">eval</span><span class="w"> </span>faq<span class="w"> </span>-p<span class="w"> </span>checkout-optimization
-<a id="__codelineno-9-25" name="__codelineno-9-25" href="#__codelineno-9-25"></a>multispec<span class="w"> </span>approve<span class="w"> </span>faq<span class="w"> </span>-p<span class="w"> </span>checkout-optimization
-<a id="__codelineno-9-26" name="__codelineno-9-26" href="#__codelineno-9-26"></a>
-<a id="__codelineno-9-27" name="__codelineno-9-27" href="#__codelineno-9-27"></a><span class="c1"># 8. Generate PRD</span>
-<a id="__codelineno-9-28" name="__codelineno-9-28" href="#__codelineno-9-28"></a>multispec<span class="w"> </span>synthesize<span class="w"> </span>prd<span class="w"> </span>-p<span class="w"> </span>checkout-optimization
-<a id="__codelineno-9-29" name="__codelineno-9-29" href="#__codelineno-9-29"></a>
-<a id="__codelineno-9-30" name="__codelineno-9-30" href="#__codelineno-9-30"></a><span class="c1"># 9. Human authors UXD</span>
-<a id="__codelineno-9-31" name="__codelineno-9-31" href="#__codelineno-9-31"></a>multispec<span class="w"> </span>draft<span class="w"> </span>uxd<span class="w"> </span>-p<span class="w"> </span>checkout-optimization
-<a id="__codelineno-9-32" name="__codelineno-9-32" href="#__codelineno-9-32"></a>
-<a id="__codelineno-9-33" name="__codelineno-9-33" href="#__codelineno-9-33"></a><span class="c1"># 10. Generate technical specs</span>
-<a id="__codelineno-9-34" name="__codelineno-9-34" href="#__codelineno-9-34"></a>multispec<span class="w"> </span>synthesize<span class="w"> </span>trd<span class="w"> </span>-p<span class="w"> </span>checkout-optimization
-<a id="__codelineno-9-35" name="__codelineno-9-35" href="#__codelineno-9-35"></a>
-<a id="__codelineno-9-36" name="__codelineno-9-36" href="#__codelineno-9-36"></a><span class="c1"># 11. Check status</span>
-<a id="__codelineno-9-37" name="__codelineno-9-37" href="#__codelineno-9-37"></a>multispec<span class="w"> </span>status<span class="w"> </span>-p<span class="w"> </span>checkout-optimization
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="c1"># 3. Synthesize FAQ to stress-test the PR; iterate the pair through drafts</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>multispec<span class="w"> </span>synthesize<span class="w"> </span>faq<span class="w"> </span>-p<span class="w"> </span>checkout-optimization
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>multispec<span class="w"> </span><span class="nb">eval</span><span class="w"> </span>faq<span class="w"> </span>-p<span class="w"> </span>checkout-optimization
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>multispec<span class="w"> </span>approve<span class="w"> </span>faq<span class="w"> </span>-p<span class="w"> </span>checkout-optimization
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="c1"># 4. Optional deepening: populate the OpportunitySpec from press + faq</span>
+<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>multispec<span class="w"> </span>synthesize<span class="w"> </span>opportunity-spec<span class="w"> </span>-p<span class="w"> </span>checkout-optimization
+<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>
+<a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="c1"># 5. Collaborate on OpportunitySpec — fill the discovery gaps it flags</span>
+<a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a><span class="c1"># ... edit opportunity-spec.md ...</span>
+<a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a>
+<a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a><span class="c1"># 6. Evaluate and approve</span>
+<a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a>multispec<span class="w"> </span><span class="nb">eval</span><span class="w"> </span>opportunity-spec<span class="w"> </span>-p<span class="w"> </span>checkout-optimization
+<a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a><span class="c1"># Score: 85% (PASS)</span>
+<a id="__codelineno-9-21" name="__codelineno-9-21" href="#__codelineno-9-21"></a>multispec<span class="w"> </span>approve<span class="w"> </span>opportunity-spec<span class="w"> </span>-p<span class="w"> </span>checkout-optimization
+<a id="__codelineno-9-22" name="__codelineno-9-22" href="#__codelineno-9-22"></a>
+<a id="__codelineno-9-23" name="__codelineno-9-23" href="#__codelineno-9-23"></a><span class="c1"># 7. Generate PRD (grounded in press + faq + opportunity-spec)</span>
+<a id="__codelineno-9-24" name="__codelineno-9-24" href="#__codelineno-9-24"></a>multispec<span class="w"> </span>synthesize<span class="w"> </span>prd<span class="w"> </span>-p<span class="w"> </span>checkout-optimization
+<a id="__codelineno-9-25" name="__codelineno-9-25" href="#__codelineno-9-25"></a>
+<a id="__codelineno-9-26" name="__codelineno-9-26" href="#__codelineno-9-26"></a><span class="c1"># 8. Human authors UXD</span>
+<a id="__codelineno-9-27" name="__codelineno-9-27" href="#__codelineno-9-27"></a>multispec<span class="w"> </span>draft<span class="w"> </span>uxd<span class="w"> </span>-p<span class="w"> </span>checkout-optimization
+<a id="__codelineno-9-28" name="__codelineno-9-28" href="#__codelineno-9-28"></a>
+<a id="__codelineno-9-29" name="__codelineno-9-29" href="#__codelineno-9-29"></a><span class="c1"># 9. Generate technical specs</span>
+<a id="__codelineno-9-30" name="__codelineno-9-30" href="#__codelineno-9-30"></a>multispec<span class="w"> </span>synthesize<span class="w"> </span>trd<span class="w"> </span>-p<span class="w"> </span>checkout-optimization
+<a id="__codelineno-9-31" name="__codelineno-9-31" href="#__codelineno-9-31"></a>
+<a id="__codelineno-9-32" name="__codelineno-9-32" href="#__codelineno-9-32"></a><span class="c1"># 10. Check status</span>
+<a id="__codelineno-9-33" name="__codelineno-9-33" href="#__codelineno-9-33"></a>multispec<span class="w"> </span>status<span class="w"> </span>-p<span class="w"> </span>checkout-optimization
 </code></pre></div>
 <h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
 <ul>

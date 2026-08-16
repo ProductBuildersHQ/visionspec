@@ -2954,6 +2954,34 @@
   
   
     <li class="md-nav__item">
+      <a href="releases/v0.16.0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.16.0
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="releases/v0.15.0/" class="md-nav__link">
         
   
@@ -3696,7 +3724,7 @@
 <a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>visionspec<span class="w"> </span>init<span class="w"> </span>user-onboarding
 <a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
 <a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="c1"># Initialize with a methodology profile</span>
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>visionspec<span class="w"> </span>init<span class="w"> </span>my-product<span class="w"> </span>--profile<span class="w"> </span>aws-product
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>visionspec<span class="w"> </span>init<span class="w"> </span>my-product<span class="w"> </span>--profile<span class="w"> </span>aws-one-way-door
 <a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
 <a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="c1"># Initialize with a stage profile</span>
 <a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>visionspec<span class="w"> </span>init<span class="w"> </span>my-feature<span class="w"> </span>--profile<span class="w"> </span>startup
@@ -3791,7 +3819,7 @@
 </thead>
 <tbody>
 <tr>
-<td><code>aws-product</code> / <code>aws-feature</code></td>
+<td><code>aws-one-way-door</code> / <code>aws-two-way-door</code></td>
 <td>Working Backwards</td>
 <td>Customer-centric products</td>
 </tr>
@@ -3832,16 +3860,16 @@
 </tr>
 </tbody>
 </table>
-<p>The full library — 24 workflows including Big Tech syntheses, V2MOM, and
-pbhq-lite — is defined in
-<a href="https://github.com/ProductBuildersHQ/specification-workflow-spec">specification-workflow-spec</a>;
-run <code>visionspec profiles list</code> to see them all. See
-<a href="frameworks/">Frameworks</a> for detailed methodology documentation.</p>
+<p>The full library — 25 workflows including Big Tech syntheses, V2MOM, the
+AWS one-way/two-way door workflows, and pbhq-lite — is embedded directly in
+this repo (<code>pkg/workflows</code>); run <code>visionspec profiles list</code> to see them
+all. See <a href="frameworks/">Frameworks</a> for detailed methodology
+documentation.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># List available profiles</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>visionspec<span class="w"> </span>profiles<span class="w"> </span>list
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
 <a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># Initialize with a methodology profile</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>visionspec<span class="w"> </span>init<span class="w"> </span>my-product<span class="w"> </span>--profile<span class="w"> </span>aws-product
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>visionspec<span class="w"> </span>init<span class="w"> </span>my-product<span class="w"> </span>--profile<span class="w"> </span>aws-one-way-door
 <a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
 <a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="c1"># Export a profile for customization</span>
 <a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>visionspec<span class="w"> </span>profiles<span class="w"> </span><span class="nb">export</span><span class="w"> </span>enterprise<span class="w"> </span>./my-profile

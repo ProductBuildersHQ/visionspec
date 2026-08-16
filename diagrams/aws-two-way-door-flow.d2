@@ -1,30 +1,22 @@
-# AWS Working Backwards - Product Flow (MRD Start)
+# AWS Working Backwards - Two-Way Door Flow (PR/FAQ Start)
 # Layout: ELK
 
 direction: down
 
 title: {
-  label: AWS Working Backwards - Product Flow
+  label: AWS Working Backwards - Two-Way Door
   near: top-center
   shape: text
   style.font-size: 24
   style.bold: true
 }
 
-# Discovery Phase
-mrd: {
-  label: MRD\n(Market Requirements)
+# Vision Phase (Working Backwards) - the founding artifacts
+press: {
+  label: Press Release\n(Founding Artifact)
   shape: rectangle
   style.fill: "#e8f5e9"
   style.stroke: "#2e7d32"
-}
-
-# Vision Phase (Working Backwards)
-press: {
-  label: Press Release\n(Vision Document)
-  shape: rectangle
-  style.fill: "#e3f2fd"
-  style.stroke: "#1565c0"
 }
 
 faq: {
@@ -34,11 +26,22 @@ faq: {
   style.stroke: "#1565c0"
 }
 
-narrative: {
-  label: 6-Pager Narrative\n(Executive Document)
+# Discovery Phase (optional post-FAQ deepening — the door sets the ceremony;
+# the scale picks the tool: OpportunitySpec at feature scale, MRD at product scale)
+opportunity-spec: {
+  label: OpportunitySpec\n(12-Box Canvas)
   shape: rectangle
-  style.fill: "#fce4ec"
-  style.stroke: "#c2185b"
+  style.fill: "#e3f2fd"
+  style.stroke: "#1565c0"
+  style.stroke-dash: 3
+}
+
+mrd: {
+  label: MRD\n(Market Validation)
+  shape: rectangle
+  style.fill: "#e3f2fd"
+  style.stroke: "#1565c0"
+  style.stroke-dash: 3
 }
 
 # Requirements Phase
@@ -72,45 +75,41 @@ tpd: {
   style.stroke: "#1565c0"
 }
 
-ird: {
-  label: IRD\n(Infrastructure)
-  shape: rectangle
-  style.fill: "#e3f2fd"
-  style.stroke: "#1565c0"
+# Flow - Working Backwards: the human-authored PR is the origin
+press -> faq: synthesize
+
+# The PR/FAQ iterates through many drafts - iteration is the method
+faq -> press: iterate (many drafts) {
   style.stroke-dash: 3
 }
 
-# Flow - Working Backwards
-mrd -> press: synthesize
-press -> faq: synthesize
-mrd -> faq
-faq -> prd: synthesize
-press -> prd
-mrd -> prd
+# Optional deepening of the FAQ's answers (either tool, per scale)
+press -> opportunity-spec
+faq -> opportunity-spec: synthesize
+press -> mrd
+faq -> mrd: synthesize
 
-# Executive narrative
-mrd -> narrative: synthesize
-prd -> narrative
-press -> narrative
+# Requirements derived from the announced experience, grounded in whichever
+# optional deepening is present
+press -> prd
+faq -> prd: synthesize
+opportunity-spec -> prd
+mrd -> prd
 
 # Technical synthesis
 uxd -> trd
 prd -> trd: synthesize
-mrd -> trd
 
 # Test plan synthesis
 prd -> tpd
 trd -> tpd: synthesize
 uxd -> tpd
 
-# Infrastructure synthesis (optional)
-trd -> ird: synthesize
-
 # Legend
 legend: {
   label: Legend
   near: bottom-center
-  grid-columns: 4
+  grid-columns: 3
 
   human: {
     label: Human-Authored
@@ -131,12 +130,5 @@ legend: {
     shape: rectangle
     style.fill: "#fff3e0"
     style.stroke: "#ef6c00"
-  }
-
-  exec: {
-    label: Executive
-    shape: rectangle
-    style.fill: "#fce4ec"
-    style.stroke: "#c2185b"
   }
 }

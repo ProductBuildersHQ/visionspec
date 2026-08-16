@@ -3055,6 +3055,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../releases/v0.16.0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.16.0
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../releases/v0.15.0/" class="md-nav__link">
         
   
@@ -3884,7 +3912,7 @@
 <tbody>
 <tr>
 <td><strong>Workflows/Profiles</strong></td>
-<td>24 defaults from <a href="https://github.com/ProductBuildersHQ/specification-workflow-spec">specification-workflow-spec</a></td>
+<td>25 embedded defaults (<code>pkg/workflows</code>)</td>
 <td>Custom workflow set chained over the defaults</td>
 </tr>
 <tr>
@@ -4036,15 +4064,14 @@
 <a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">cfg</span>
 <a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a><span class="p">}</span>
 </code></pre></div>
-<p>Workflow definitions (configuration profiles) come from
-<a href="https://github.com/ProductBuildersHQ/specification-workflow-spec">specification-workflow-spec</a>.
-To ship an organization workflow set, chain its loaders over the embedded
-defaults:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">import</span><span class="w"> </span><span class="nx">sws</span><span class="w"> </span><span class="s">&quot;github.com/ProductBuildersHQ/specification-workflow-spec/pkg/workflows&quot;</span>
+<p>Workflow definitions (configuration profiles) are embedded directly in this
+repo (<code>pkg/workflows</code>). To ship an organization workflow set, chain its
+loaders over the embedded defaults:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">import</span><span class="w"> </span><span class="s">&quot;github.com/ProductBuildersHQ/visionspec/pkg/workflows&quot;</span>
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="nx">cfg</span><span class="p">.</span><span class="nx">WorkflowLoader</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">sws</span><span class="p">.</span><span class="nx">NewResolvingLoader</span><span class="p">(</span><span class="nx">sws</span><span class="p">.</span><span class="nx">NewChainLoader</span><span class="p">(</span>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">    </span><span class="nx">sws</span><span class="p">.</span><span class="nx">NewFileLoader</span><span class="p">(</span><span class="s">&quot;/etc/acme/workflows&quot;</span><span class="p">),</span><span class="w"> </span><span class="c1">// org workflow directories</span>
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">    </span><span class="nx">sws</span><span class="p">.</span><span class="nx">DefaultLoader</span><span class="p">(),</span><span class="w">                      </span><span class="c1">// 24 embedded defaults</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="nx">cfg</span><span class="p">.</span><span class="nx">WorkflowLoader</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">workflows</span><span class="p">.</span><span class="nx">NewResolvingLoader</span><span class="p">(</span><span class="nx">workflows</span><span class="p">.</span><span class="nx">NewChainLoader</span><span class="p">(</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">    </span><span class="nx">workflows</span><span class="p">.</span><span class="nx">NewFileLoader</span><span class="p">(</span><span class="s">&quot;/etc/acme/workflows&quot;</span><span class="p">),</span><span class="w"> </span><span class="c1">// org workflow directories</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">    </span><span class="nx">workflows</span><span class="p">.</span><span class="nx">DefaultLoader</span><span class="p">(),</span><span class="w">                      </span><span class="c1">// 25 embedded defaults</span>
 <a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="p">))</span>
 </code></pre></div>
 <h3 id="step-4-create-organization-templates">Step 4: Create Organization Templates<a class="headerlink" href="#step-4-create-organization-templates" title="Permanent link">&para;</a></h3>
