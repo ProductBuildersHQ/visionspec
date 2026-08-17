@@ -2911,6 +2911,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../releases/v0.17.0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.17.0
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../releases/v0.16.0/" class="md-nav__link">
         
   
@@ -3606,6 +3634,12 @@
 </tbody>
 </table>
 <h2 id="supported-spec-types">Supported Spec Types<a class="headerlink" href="#supported-spec-types" title="Permanent link">&para;</a></h2>
+<p>The base types below are always available. Beyond these, <code>create</code> also
+accepts any spec type the project's configured profile defines a template
+for (e.g. <code>enterprise</code>'s <code>bmc</code>) — run <code>visionspec workflow</code> or
+<a href="../profiles/"><code>profiles show &lt;name&gt;</code></a> to see what a given profile
+provides. A type unavailable in both is rejected with the actual list of
+what's available for that project.</p>
 <table>
 <thead>
 <tr>
@@ -3633,7 +3667,7 @@
 <tr>
 <td><code>press</code></td>
 <td>GTM</td>
-<td>Press Release (Working Backwards)</td>
+<td>Press Release (human-authored under aws-one-way-door/aws-two-way-door; not owned by <code>enterprise</code>)</td>
 </tr>
 <tr>
 <td><code>faq</code></td>
@@ -3654,6 +3688,11 @@
 <td><code>trd</code></td>
 <td>Technical</td>
 <td>Technical Requirements Document</td>
+</tr>
+<tr>
+<td><code>tpd</code></td>
+<td>Technical</td>
+<td>Test Plan Document</td>
 </tr>
 <tr>
 <td><code>ird</code></td>
@@ -3700,6 +3739,8 @@
 <li>Source specs: <code>source/{type}.md</code></li>
 <li>GTM specs: <code>gtm/{type}.md</code></li>
 <li>Technical specs: <code>technical/{type}.md</code></li>
+<li>Output specs and any type outside the base set above (e.g. <code>bmc</code>):
+  project root, <code>{type}.md</code></li>
 </ul>
 <h2 id="see-also">See Also<a class="headerlink" href="#see-also" title="Permanent link">&para;</a></h2>
 <ul>

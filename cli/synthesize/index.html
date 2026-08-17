@@ -1229,21 +1229,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#working-backwards-flow" class="md-nav__link">
+  <a href="#example-aws-one-way-door" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Working Backwards Flow
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#synthesis-types" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Synthesis Types
+        Example: aws-one-way-door
       
     </span>
   </a>
@@ -1273,10 +1262,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#synthesis-dependencies" class="md-nav__link">
+  <a href="#without-a-configured-profile" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Synthesis Dependencies
+        Without a Configured Profile
       
     </span>
   </a>
@@ -2955,6 +2944,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../releases/v0.17.0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.17.0
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../releases/v0.16.0/" class="md-nav__link">
         
   
@@ -3541,21 +3558,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#working-backwards-flow" class="md-nav__link">
+  <a href="#example-aws-one-way-door" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Working Backwards Flow
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#synthesis-types" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Synthesis Types
+        Example: aws-one-way-door
       
     </span>
   </a>
@@ -3585,10 +3591,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#synthesis-dependencies" class="md-nav__link">
+  <a href="#without-a-configured-profile" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Synthesis Dependencies
+        Without a Configured Profile
       
     </span>
   </a>
@@ -3676,49 +3682,36 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>visionspec<span class="w"> </span>synthesize<span class="w"> </span>&lt;type&gt;<span class="w"> </span><span class="o">[</span>flags<span class="o">]</span>
 </code></pre></div>
 <h2 id="description">Description<a class="headerlink" href="#description" title="Permanent link">&para;</a></h2>
-<p>The <code>synthesize</code> command generates specification documents from existing source specs using an LLM. It implements Amazon's Working Backwards methodology where the Press Release defines the vision, and requirements flow from that vision.</p>
-<h2 id="working-backwards-flow">Working Backwards Flow<a class="headerlink" href="#working-backwards-flow" title="Permanent link">&para;</a></h2>
-<p>VisionSpec implements Amazon's Working Backwards methodology:</p>
-<ol>
-<li><strong>MRD</strong> - Define the market problem (human-authored)</li>
-<li><strong>Press</strong> - Write the press release announcing the solution</li>
-<li><strong>FAQ</strong> - Anticipate customer and stakeholder questions</li>
-<li><strong>PRD</strong> - Derive detailed requirements from the vision</li>
-</ol>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>MRD (human-authored)
+<p>The <code>synthesize</code> command generates a specification document from its source
+specs using an LLM. Which sources a type needs, and what guidance drives its
+prompt, come from the project's configured profile (its <code>synthesis:</code> rules)
+— not a single fixed flow. Run <code>visionspec workflow</code> to see the exact
+sequence and sources for the current project, or <a href="../profiles/"><code>profiles show
+&lt;name&gt;</code></a> for another profile.</p>
+<p>A type with no synthesis rule under the configured profile — or an
+explicit empty source list, e.g. Press under <code>aws-one-way-door</code> — is
+human-authored instead; use <a href="../create/"><code>create</code></a> for those.</p>
+<h2 id="example-aws-one-way-door">Example: aws-one-way-door<a class="headerlink" href="#example-aws-one-way-door" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Press (human-authored — write this first)
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    ↓
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>Press (synthesized from MRD)
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>FAQ (synthesized from Press)
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>    ↓
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>FAQ (synthesized from MRD + Press)
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>MRD or OpportunitySpec (optional deepening, synthesized from Press + FAQ)
 <a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    ↓
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>PRD (synthesized from MRD + Press + FAQ)
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>PRD (synthesized from Press + FAQ + MRD/OpportunitySpec)
 <a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>    ↓
-<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>UXD (human-authored)
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>Narrative 6P (synthesized from Press + FAQ + PRD)
 <a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>    ↓
-<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>TRD (synthesized from MRD + PRD + UXD + context)
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>UXD (human-authored)
 <a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>    ↓
-<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>TPD (synthesized from PRD + TRD + UXD)
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>TRD (synthesized from PRD + UXD + MRD, where present)
 <a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>    ↓
-<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>IRD (synthesized from TRD + context)
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>TPD, IRD (synthesized from PRD/TRD/UXD)
 </code></pre></div>
-<h2 id="synthesis-types">Synthesis Types<a class="headerlink" href="#synthesis-types" title="Permanent link">&para;</a></h2>
-<p><strong>Working Backwards Flow</strong></p>
-<ul>
-<li><code>press</code> - Press Release from MRD (vision document)</li>
-<li><code>faq</code> - FAQ from MRD + Press (scope clarification)</li>
-<li><code>prd</code> - PRD from MRD + Press + FAQ (detailed requirements)</li>
-</ul>
-<p><strong>Technical Synthesis</strong></p>
-<ul>
-<li><code>trd</code> - Technical Requirements from MRD + PRD + UXD + CONSTITUTION + CONTEXT</li>
-<li><code>tpd</code> - Test Plan Document from PRD + TRD + UXD</li>
-<li><code>ird</code> - Infrastructure Requirements from TRD + CONSTITUTION + CONTEXT</li>
-</ul>
-<p><strong>Narrative Documents</strong></p>
-<ul>
-<li><code>narrative-1p</code> - 1-Page Narrative from MRD + PRD</li>
-<li><code>narrative-6p</code> - 6-Page Narrative from MRD + PRD + UXD</li>
-</ul>
+<p>This is one profile's sequence, not a universal one — <code>enterprise</code>, for
+example, has no Press/FAQ at all and derives PRD from MRD directly. See
+<a href="../../concepts/working-backwards/">Working Backwards</a> for the methodology
+behind the AWS door profiles specifically.</p>
 <h2 id="arguments">Arguments<a class="headerlink" href="#arguments" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -3730,7 +3723,7 @@
 <tbody>
 <tr>
 <td><code>type</code></td>
-<td>Spec type to synthesize: <code>press</code>, <code>faq</code>, <code>prd</code>, <code>trd</code>, <code>tpd</code>, <code>ird</code>, <code>narrative-1p</code>, <code>narrative-6p</code></td>
+<td>Spec type to synthesize. Valid values depend on the project's configured profile — see <code>visionspec workflow</code>.</td>
 </tr>
 </tbody>
 </table>
@@ -3759,72 +3752,65 @@
 </tr>
 </tbody>
 </table>
-<h2 id="synthesis-dependencies">Synthesis Dependencies<a class="headerlink" href="#synthesis-dependencies" title="Permanent link">&para;</a></h2>
+<h2 id="without-a-configured-profile">Without a Configured Profile<a class="headerlink" href="#without-a-configured-profile" title="Permanent link">&para;</a></h2>
+<p>If the project has no <code>--profile</code> set (bare <code>visionspec init</code> with no
+profile), synthesis falls back to the original Working Backwards flow for
+these types only:</p>
 <table>
 <thead>
 <tr>
 <th>Target</th>
 <th>Required Sources</th>
-<th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>press</code></td>
-<td>MRD</td>
-<td>Vision document from market requirements</td>
+<td>mrd</td>
 </tr>
 <tr>
 <td><code>faq</code></td>
-<td>MRD, Press</td>
-<td>Scope clarification from vision</td>
+<td>mrd, press</td>
 </tr>
 <tr>
 <td><code>prd</code></td>
-<td>MRD, Press, FAQ</td>
-<td>Detailed requirements from Working Backwards artifacts</td>
+<td>mrd, press, faq</td>
 </tr>
 <tr>
 <td><code>trd</code></td>
-<td>MRD, PRD</td>
-<td>Technical requirements (UXD optional)</td>
+<td>mrd, prd</td>
 </tr>
 <tr>
 <td><code>tpd</code></td>
-<td>PRD, TRD, UXD</td>
-<td>Test plan from requirements and technical design</td>
+<td>prd, trd, uxd</td>
 </tr>
 <tr>
 <td><code>ird</code></td>
-<td>TRD</td>
-<td>Infrastructure requirements</td>
+<td>trd</td>
 </tr>
 <tr>
 <td><code>narrative-1p</code></td>
-<td>MRD, PRD</td>
-<td>1-page executive narrative</td>
+<td>mrd, prd</td>
 </tr>
 <tr>
 <td><code>narrative-6p</code></td>
-<td>MRD, PRD</td>
-<td>6-page detailed narrative (UXD optional)</td>
+<td>mrd, prd</td>
 </tr>
 </tbody>
 </table>
 <h2 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Working Backwards flow</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>visionspec<span class="w"> </span>synthesize<span class="w"> </span>press<span class="w">        </span><span class="c1"># Generate Press Release from MRD</span>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>visionspec<span class="w"> </span>synthesize<span class="w"> </span>faq<span class="w">          </span><span class="c1"># Generate FAQ from MRD + Press</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>visionspec<span class="w"> </span>synthesize<span class="w"> </span>prd<span class="w">          </span><span class="c1"># Generate PRD from MRD + Press + FAQ</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="c1"># Technical synthesis</span>
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>visionspec<span class="w"> </span>synthesize<span class="w"> </span>trd<span class="w"> </span>--eval<span class="w">   </span><span class="c1"># Generate TRD with evaluation</span>
-<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>visionspec<span class="w"> </span>synthesize<span class="w"> </span>tpd<span class="w">          </span><span class="c1"># Generate TPD (test plan) from PRD + TRD + UXD</span>
-<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>visionspec<span class="w"> </span>synthesize<span class="w"> </span>ird<span class="w"> </span>--no-context<span class="w">  </span><span class="c1"># Generate IRD without context gathering</span>
-<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>
-<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="c1"># Narrative documents</span>
-<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>visionspec<span class="w"> </span>synthesize<span class="w"> </span>narrative-1p
-<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>visionspec<span class="w"> </span>synthesize<span class="w"> </span>narrative-6p
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># See this project&#39;s actual sequence and sources first</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>visionspec<span class="w"> </span>workflow
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># Then synthesize in that order, e.g. under aws-one-way-door:</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>visionspec<span class="w"> </span>create<span class="w"> </span>press<span class="w">            </span><span class="c1"># Human-authored — write it first</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>visionspec<span class="w"> </span>synthesize<span class="w"> </span>faq<span class="w">          </span><span class="c1"># From press</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>visionspec<span class="w"> </span>synthesize<span class="w"> </span>prd<span class="w">          </span><span class="c1"># From press + faq (+ mrd/opportunity-spec if present)</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="c1"># Technical synthesis</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>visionspec<span class="w"> </span>synthesize<span class="w"> </span>trd<span class="w"> </span>--eval
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>visionspec<span class="w"> </span>synthesize<span class="w"> </span>tpd
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>visionspec<span class="w"> </span>synthesize<span class="w"> </span>ird<span class="w"> </span>--no-context
 </code></pre></div>
 <h2 id="context-grounding">Context Grounding<a class="headerlink" href="#context-grounding" title="Permanent link">&para;</a></h2>
 <p>For TRD, TPD, and IRD synthesis, the command automatically gathers codebase context if configured in <code>visionspec.yaml</code>:</p>
@@ -3837,23 +3823,23 @@
 </code></pre></div>
 <p>This grounds technical decisions in the reality of existing code. Use <code>--no-context</code> to skip this step.</p>
 <h2 id="output">Output<a class="headerlink" href="#output" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>⋯ Synthesizing press from [mrd]...
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>✓ Generated docs/specs/my-project/gtm/press.md
+<p>Example under <code>aws-one-way-door</code> (press already created via <code>create</code>):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>⋯ Synthesizing faq from [press]...
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>✓ Generated docs/specs/my-project/gtm/faq.md
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>⋯ Synthesizing faq from [mrd press]...
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>✓ Generated docs/specs/my-project/gtm/faq.md
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>⋯ Synthesizing prd from [press faq]...
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>✓ Generated docs/specs/my-project/source/prd.md
 <a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
-<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>⋯ Synthesizing prd from [mrd press faq]...
-<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>✓ Generated docs/specs/my-project/source/prd.md
-<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>
-<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>⋯ Gathering codebase context for grounding...
-<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>  Gathered context from 2 sources
-<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>⋯ Synthesizing trd from [mrd prd]...
-<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>✓ Generated docs/specs/my-project/technical/trd.md
-<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>
-<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>⋯ Evaluating trd...
-<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>✓ trd: 8.2/10 PASS
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>⋯ Gathering codebase context for grounding...
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>  Gathered context from 2 sources
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>⋯ Synthesizing trd from [prd uxd]...
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>✓ Generated docs/specs/my-project/technical/trd.md
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>⋯ Evaluating trd...
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>✓ trd: 8.2/10 PASS
 </code></pre></div>
+<p>The bracketed list after "from" is always the actual sources found on disk
+for that type under the project's configured profile — not a fixed set.</p>
 <h2 id="llm-configuration">LLM Configuration<a class="headerlink" href="#llm-configuration" title="Permanent link">&para;</a></h2>
 <p>Configure the LLM in <code>visionspec.yaml</code>:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nt">llm</span><span class="p">:</span>

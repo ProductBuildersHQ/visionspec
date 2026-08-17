@@ -2945,6 +2945,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../releases/v0.17.0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.17.0
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../releases/v0.16.0/" class="md-nav__link">
         
   
@@ -3684,7 +3712,7 @@
 <tr>
 <td><code>enterprise</code></td>
 <td>Comprehensive for post-PMF</td>
-<td>prd, mrd, uxd, trd, press, faq</td>
+<td>mrd, prd, uxd, trd, tpd, spec</td>
 </tr>
 </tbody>
 </table>
@@ -3705,7 +3733,7 @@
 <a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>
 <a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>Use with: visionspec init &lt;project&gt; --profile &lt;name&gt;
 </code></pre></div>
-<p>All 24 embedded workflows carry the <code>[default]</code> marker; custom profiles loaded from a directory appear without it.</p>
+<p>All 25 embedded workflows carry the <code>[default]</code> marker; custom profiles loaded from a directory appear without it.</p>
 <h3 id="show">show<a class="headerlink" href="#show" title="Permanent link">&para;</a></h3>
 <p>Show detailed information about a profile.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>visionspec<span class="w"> </span>profiles<span class="w"> </span>show<span class="w"> </span>&lt;profile-name&gt;
@@ -3715,32 +3743,45 @@
 </code></pre></div>
 <p><strong>Output:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>Profile: enterprise
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>Description: Comprehensive configuration for post-PMF enterprises. Full specs with security and compliance.
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>Description: Comprehensive configuration for post-PMF enterprises. Full specs with security and compliance. MRD includes embedded Business Model Canvas.
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
 <a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>Required specs:
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>  - prd (source)
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>  - mrd (source)
-<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>  - uxd (source)
-<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>  - press (gtm)
-<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>  - faq (gtm)
-<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>  - trd (technical)
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>  - mrd (source)
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>  - prd (source)
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>  - spec (output)
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>  - tpd (technical)
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>  - trd (technical)
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>  - uxd (source)
 <a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>
 <a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>Custom templates:
-<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>  - prd
-<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>  - mrd
-<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>  - uxd
-<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>  - trd
-<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a>  - press
-<a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a>  - faq
-<a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a>
-<a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a>Custom rubrics:
-<a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a>  - prd
-<a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a>  - mrd
-<a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a>  - uxd
-<a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a>  - trd
-<a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a>  - press
-<a id="__codelineno-5-26" name="__codelineno-5-26" href="#__codelineno-5-26"></a>  - faq
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>  - bmc
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>  - ird
+<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>  - mrd
+<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>  - narrative-1p
+<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a>  - opportunity-spec
+<a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a>  - plan
+<a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a>  - prd
+<a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a>  - roadmap
+<a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a>  - spec
+<a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a>  - tpd
+<a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a>  - trd
+<a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a>  - uxd
+<a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a>
+<a id="__codelineno-5-26" name="__codelineno-5-26" href="#__codelineno-5-26"></a>Custom rubrics:
+<a id="__codelineno-5-27" name="__codelineno-5-27" href="#__codelineno-5-27"></a>  - bmc
+<a id="__codelineno-5-28" name="__codelineno-5-28" href="#__codelineno-5-28"></a>  - ird
+<a id="__codelineno-5-29" name="__codelineno-5-29" href="#__codelineno-5-29"></a>  - mrd
+<a id="__codelineno-5-30" name="__codelineno-5-30" href="#__codelineno-5-30"></a>  - narrative-1p
+<a id="__codelineno-5-31" name="__codelineno-5-31" href="#__codelineno-5-31"></a>  - opportunity-spec
+<a id="__codelineno-5-32" name="__codelineno-5-32" href="#__codelineno-5-32"></a>  - prd
+<a id="__codelineno-5-33" name="__codelineno-5-33" href="#__codelineno-5-33"></a>  - spec
+<a id="__codelineno-5-34" name="__codelineno-5-34" href="#__codelineno-5-34"></a>  - tpd
+<a id="__codelineno-5-35" name="__codelineno-5-35" href="#__codelineno-5-35"></a>  - trd
+<a id="__codelineno-5-36" name="__codelineno-5-36" href="#__codelineno-5-36"></a>  - uxd
 </code></pre></div>
+<p><code>press</code>, <code>faq</code>, and <code>narrative-6p</code> are not owned by <code>enterprise</code> — their
+canonical home is <code>aws-one-way-door</code>; families that use them source
+<code>{from: aws-one-way-door}</code>.</p>
 <h3 id="export">export<a class="headerlink" href="#export" title="Permanent link">&para;</a></h3>
 <p>Export a profile to a directory for customization.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>visionspec<span class="w"> </span>profiles<span class="w"> </span><span class="nb">export</span><span class="w"> </span>&lt;profile-name&gt;<span class="w"> </span>&lt;output-dir&gt;
@@ -3756,23 +3797,33 @@
 </code></pre></div>
 <p><strong>Output:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>Created ./my-profile/profile.yaml
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>Created ./my-profile/templates/prd.md
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>Created ./my-profile/templates/mrd.md
-<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>Created ./my-profile/templates/uxd.md
-<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>Created ./my-profile/templates/trd.md
-<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>Created ./my-profile/templates/press.md
-<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>Created ./my-profile/templates/faq.md
-<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>Created ./my-profile/rubrics/prd.rubric.yaml
-<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>Created ./my-profile/rubrics/mrd.rubric.yaml
-<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>Created ./my-profile/rubrics/uxd.rubric.yaml
-<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>Created ./my-profile/rubrics/trd.rubric.yaml
-<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>Created ./my-profile/rubrics/press.rubric.yaml
-<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>Created ./my-profile/rubrics/faq.rubric.yaml
-<a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>
-<a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a>Profile exported to ./my-profile
-<a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a>
-<a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a>To use this profile:
-<a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a>  visionspec init my-project --profile-dir ./my-profile
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>Created ./my-profile/templates/bmc.md
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>Created ./my-profile/templates/ird.md
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>Created ./my-profile/templates/mrd.md
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>Created ./my-profile/templates/narrative-1p.md
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>Created ./my-profile/templates/opportunity-spec.md
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>Created ./my-profile/templates/plan.md
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>Created ./my-profile/templates/prd.md
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>Created ./my-profile/templates/roadmap.md
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>Created ./my-profile/templates/spec.md
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>Created ./my-profile/templates/tpd.md
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>Created ./my-profile/templates/trd.md
+<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>Created ./my-profile/templates/uxd.md
+<a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>Created ./my-profile/rubrics/bmc.rubric.yaml
+<a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a>Created ./my-profile/rubrics/ird.rubric.yaml
+<a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a>Created ./my-profile/rubrics/mrd.rubric.yaml
+<a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a>Created ./my-profile/rubrics/narrative-1p.rubric.yaml
+<a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a>Created ./my-profile/rubrics/opportunity-spec.rubric.yaml
+<a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a>Created ./my-profile/rubrics/prd.rubric.yaml
+<a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a>Created ./my-profile/rubrics/spec.rubric.yaml
+<a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a>Created ./my-profile/rubrics/tpd.rubric.yaml
+<a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a>Created ./my-profile/rubrics/trd.rubric.yaml
+<a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a>Created ./my-profile/rubrics/uxd.rubric.yaml
+<a id="__codelineno-8-24" name="__codelineno-8-24" href="#__codelineno-8-24"></a>
+<a id="__codelineno-8-25" name="__codelineno-8-25" href="#__codelineno-8-25"></a>Profile exported to ./my-profile
+<a id="__codelineno-8-26" name="__codelineno-8-26" href="#__codelineno-8-26"></a>
+<a id="__codelineno-8-27" name="__codelineno-8-27" href="#__codelineno-8-27"></a>To use this profile:
+<a id="__codelineno-8-28" name="__codelineno-8-28" href="#__codelineno-8-28"></a>  visionspec init my-project --profile-dir ./my-profile
 </code></pre></div>
 <h2 id="using-profiles">Using Profiles<a class="headerlink" href="#using-profiles" title="Permanent link">&para;</a></h2>
 <h3 id="with-init-command">With init command<a class="headerlink" href="#with-init-command" title="Permanent link">&para;</a></h3>

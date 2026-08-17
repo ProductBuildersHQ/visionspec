@@ -2772,6 +2772,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../../../releases/v0.17.0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.17.0
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../../../releases/v0.16.0/" class="md-nav__link">
         
   
@@ -3412,6 +3440,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#phase-8-follow-ons-surfaced-by-phases-57-review" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 8 — Follow-ons Surfaced by Phases 5–7 Review
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -3494,32 +3533,57 @@
 <h2 id="phase-6-profile-consistency-and-loader-safety">Phase 6 — Profile Consistency and Loader Safety<a class="headerlink" href="#phase-6-profile-consistency-and-loader-safety" title="Permanent link">&para;</a></h2>
 <p><strong>Theme:</strong> correctness follow-ups surfaced by the Phase 5 review — commit the accumulated work, close the synthesis asymmetry, and harden the loader against the one recursion trap explicit provenance introduces</p>
 <ul>
-<li>[ ] <code>RMI-SPECWORKFLOWSPEC-017</code> Topical commit and push of the accumulated working tree</li>
-<li>The entire hardening body (RMI-008 through RMI-016) exists only as uncommitted changes in the working tree; break it into conventional-commit topical commits carrying <code>Refs:</code> trailers, run the pre-push checklist, and push after CI passes</li>
+<li>[x] <code>RMI-SPECWORKFLOWSPEC-017</code> Topical commit and push of the accumulated working tree</li>
+<li>Done: the hardening body (RMI-008 through RMI-016) landed as topical conventional commits with <code>Refs:</code> trailers (<code>feat(workflow): provenance-aware loader with strict resolution and cycle guard</code>, <code>feat(workflows): harden enterprise normative contract templates and rubrics</code>, <code>feat(workflows): add hardened AWS one-way/two-way door profiles</code>, among others); working tree confirmed clean</li>
 <li>[x] <code>RMI-SPECWORKFLOWSPEC-018</code> Symmetric optional-deepening synthesis in the AWS door profiles</li>
 <li>Both door profiles document MRD (product-scale) and OpportunitySpec (feature-scale) as optional post-FAQ deepening paths, but aws-one-way-door's <code>prd</code> synthesis never consumes opportunity-spec and aws-two-way-door's never consumes mrd — the off-path document a team chooses never feeds PRD synthesis; wire both sources into each profile's <code>prd</code> rule</li>
 <li>Done: both profiles' <code>prd</code> synthesis now consumes press, faq, mrd, and opportunity-spec with guidance naming whichever deepening is present; visionspec's aws-one-way-door-flow.d2 / aws-two-way-door-flow.d2 (and their SVGs) carry the symmetric optional nodes and edges; guarded by <code>TestAWSDoorProfilesSymmetricDeepening</code> plus the new library-wide <code>TestSynthesisSourcesDeclared</code> (every unqualified synthesis source must be declared in spec_config)</li>
 <li>[x] <code>RMI-SPECWORKFLOWSPEC-019</code> Loader cycle guard for explicit spec sources</li>
 <li><code>ResolvingLoader.sourceWorkflow</code> resolves a declared <code>{from: &lt;workflow&gt;}</code> with a fresh inheritance chain (<code>loadWithChain(from, nil)</code>), so a source naming a descendant of the declaring workflow recurses forever instead of erroring; thread the chain through source resolution (or detect and fail with a clear message) and document the ancestor-only invariant on <code>SpecSource</code></li>
 <li>Done: the resolution chain now threads through <code>applyExplicitSources</code> → <code>sourceTemplate</code>/<code>sourceRubric</code> → <code>sourceWorkflow</code>, so extends links and spec sources share one cycle check ("circular workflow reference detected"); the invariant is documented on <code>SpecSource</code> (sources point at ancestors or unrelated workflows; descendant-owned content is copied, never referenced); guarded by <code>TestResolvingLoader_SourceNamingDescendantIsCycle</code> from both load entry points</li>
-<li>[ ] <code>RMI-SPECWORKFLOWSPEC-020</code> Model or remove unparsed profile keys</li>
-<li><code>rubric_extensions</code> (big-tech, big-tech-essentials), v2mom's bespoke <code>evaluation</code> block, and <code>cycles</code>/<code>cadence</code>/<code>assumption_types</code>/<code>v2mom</code> keys are silently dropped by the Workflow parser — config that does nothing; either add them to the schema or delete them, and reconcile <code>category: tracking</code> (big-tech shapeup-scope, discovery-snapshot) with the SpecRequirement category enum</li>
+<li>[x] <code>RMI-SPECWORKFLOWSPEC-020</code> Model or remove unparsed profile keys</li>
+<li>Done: added <code>Methodology.Parameters</code> (map[string]any) and moved the genuinely-useful methodology config into it (Shape Up <code>cycles</code>, Continuous Discovery <code>cadence</code>/<code>assumption_types</code>, V2MOM <code>cascading</code>/<code>productcontext</code>); deleted the dead <code>rubric_extensions</code> (big-tech, big-tech-essentials, superseded by real rubric files) and v2mom's redundant <code>evaluation</code> block; added <code>tracking</code> to the <code>SpecRequirement.Category</code> enum (big-tech shapeup-scope/discovery-snapshot); regenerated JSON schemas (also fixed a stale <code>$id</code> from the pre-merge module path). Merged in PR #11.</li>
 </ul>
 <h2 id="phase-7-domain-home-consolidation-and-release">Phase 7 — Domain Home Consolidation and Release<a class="headerlink" href="#phase-7-domain-home-consolidation-and-release" title="Permanent link">&para;</a></h2>
 <p><strong>Theme:</strong> locally authored stopgaps move to their domain homes, duplicates collapse to one owner, and the replace directives finally drop</p>
 <ul>
-<li>[ ] <code>RMI-SPECWORKFLOWSPEC-021</code> Upstream locally authored roadmap-domain content to prism-roadmap</li>
+<li>[x] <code>RMI-SPECWORKFLOWSPEC-021</code> Upstream locally authored roadmap-domain content to prism-roadmap</li>
 <li>experience-map template/rubric and the v2mom-summary rubric were authored here as marked upstream candidates (prism-roadmap has the experience-map schema and the v2mom-summary template but not these files); land them upstream and convert the local copies to prism-sync manifest entries</li>
-<li>[ ] <code>RMI-SPECWORKFLOWSPEC-022</code> Dedupe press/faq/narrative-6p via explicit provenance</li>
-<li>Byte-identical copies now live in enterprise, aws-one-way-door, and aws-two-way-door; keep enterprise as the owner and declare <code>template:/rubric: {from: enterprise}</code> in the door profiles (safe direction — enterprise is their ancestor), depends on the RMI-019 guard landing first</li>
-<li>[ ] <code>RMI-SPECWORKFLOWSPEC-023</code> Release sequencing — drop the replace directives</li>
+<li><strong>Done:</strong> the three files landed in prism-roadmap and shipped in its <strong>v0.18.0</strong> release (experience-map template + rubric, v2mom-summary rubric — with matching README/mkdocs catalog docs). visionspec bumped its prism-sync require to v0.18.0, added experience-map (template + rubric) and v2mom-summary (rubric) to the prism-sync manifest, and re-synced — converting the last four local stopgaps into prism-synced copies with provenance headers, so prism-roadmap is now the single source of truth for all roadmap/discovery/goals content. The sync contract is documented in <code>tools/prism-sync/README.md</code> (rewritten for the post-v0.18.0 world) and a new <code>CLAUDE.md</code> "Synced Content (Generated — Do Not Edit)" section. Verified: <code>prism-sync -check</code> reports all synced; full suite green. Merged in PR #14.</li>
+<li>[x] <code>RMI-SPECWORKFLOWSPEC-022</code> Dedupe press/faq/narrative-6p via explicit provenance</li>
+<li>Done, with a correction to the original premise: press/faq were byte-identical between the two AWS doors but had diverged from enterprise (the doors carry real Working Backwards content enterprise's generic version lacked), so sourcing from enterprise would have destroyed it — instead aws-two-way-door sources press/faq <code>{from: aws-one-way-door}</code> (the fuller-fidelity door), and narrative-6p (genuinely identical) was consolidated. <strong>Ownership itself is then corrected by RMI-027</strong> (enterprise was the wrong owner for these AWS-origin artifacts). Depends on the RMI-019 guard (landed).</li>
+<li>[x] <code>RMI-SPECWORKFLOWSPEC-023</code> Release sequencing — drop the replace directives</li>
 <li>Tag structured-evaluation v0.14.0 and a prism-roadmap release containing the upstreamed content, bump the requires, and drop the local replace directives in go.mod and tools/prism-sync/go.mod (completes the release step RMI-014 explicitly deferred)</li>
-<li>[ ] <code>RMI-SPECWORKFLOWSPEC-024</code> Layered-rubric relabeling for the remaining workflow families</li>
-<li>Apply class/blocking/evaluation metadata to big-tech, google, shapeup, and the other family rubrics now that the enterprise + both-door-profile pattern is proven; extend the hardenedRubrics guard list as each family lands</li>
-<li>[ ] <code>RMI-SPECWORKFLOWSPEC-025</code> Requirements-family template ownership review</li>
-<li>Evaluate migrating PRD/TRD/MRD (and PLAN/ROADMAP) template ownership to prism-roadmap's domain home per the domain-home pattern; today enterprise owns them locally</li>
-<li>[ ] <code>RMI-SPECWORKFLOWSPEC-026</code> visionstudio spec judge calibration against the hardened rubrics</li>
-<li>Calibration run exercising the layered rubrics end to end in visionstudio: deterministic checks vs LLM semantic checks vs human gates, using the 15 hardened rubric pairs as the corpus</li>
+<li><strong>Done:</strong> structured-evaluation <strong>v0.14.0</strong> and prism-roadmap <strong>v0.18.0</strong> are both tagged and required by version; no <code>replace</code> directives remain anywhere (<code>grep -rn '=&gt;' $(find . -name go.mod)</code> returns nothing), so visionspec builds from a fresh clone against tagged dependencies only. RMI-014's deferred release step is complete.</li>
+<li>[x] <code>RMI-SPECWORKFLOWSPEC-024</code> Layered-rubric relabeling for the remaining workflow families</li>
+<li>Applied class/blocking/evaluation to every locally-owned rubric — 62 rubrics, 415 categories — via a principled classifier: LP-named categories → leadership_principle (non-blocking, semantic; bar-raiser/investment → human), coverage/requirements/interface/security/testability → implementation_readiness (blocking, deterministic), the rest → specification_quality (non-blocking, semantic). Result: 36 leadership_principle, 160 implementation_readiness, 214 specification_quality. INV-3 holds by construction. prism-synced rubrics (bmc, ost, v2mom-*, etc.) left untouched (owned upstream). Guarded by two new library-wide tests: <code>TestAllLocalRubricsClassified</code> (every non-synced category has a class) and <code>TestNoLeadershipPrincipleIsBlocking</code> (INV-3). The guard caught the one structural variant (<code>shapeup-pitch</code>, rich-criteria form) the first classifier pass missed. Full suite + vet + gofmt + golangci-lint + <code>prism-sync -check</code> clean.</li>
+<li>[x] <code>RMI-SPECWORKFLOWSPEC-025</code> Requirements-family template ownership review</li>
+<li><strong>Reviewed → recommend NOT migrating now (deferred with rationale).</strong> prism-roadmap has a requirements <em>domain</em> but only as Go struct models (<code>requirements/{prd,mrd,trd}</code>), with none of the prd/trd/mrd templates or rubrics — and no domain at all for tpd/ird/uxd/spec. So a move would (1) split the contract family across two repos (prd/trd upstream, tpd/ird/uxd local), (2) relocate only enterprise's generic copies while the genuinely-distinct family variants (google/stripe/big-tech, per RMI-024) stay local, and (3) leave two competing PRD representations unreconciled (prism-roadmap's <code>PRDDocument</code> Go model vs visionspec's markdown template + rubric). The evaluation's output is this decision; the real prerequisite is the reconciliation follow-on below, not the move.</li>
+<li>[x] <code>RMI-SPECWORKFLOWSPEC-026</code> visionstudio spec judge calibration against the hardened rubrics</li>
+<li>Ran an agent-in-the-loop calibration (<code>visionstudio spec judge</code>) on the initiative's own PRD/TRD against the layered pbhq-lite rubrics; verdicts recorded in VisionStudio (PRD 5/5, TRD 4/5). <strong>The layered split held:</strong> implementation_readiness/deterministic/blocking categories (goals, user_stories, requirements, success_metrics; api_design, data_models, dependencies) were mechanically verifiable and gated correctly; specification_quality/semantic categories were the advisory lens; INV-3 held (pbhq-lite has no leadership_principle categories, correct). <strong>Finding:</strong> <code>security_considerations</code> is blocking with no section, but this is a spec-content library where security is genuinely N/A — and the lighter pbhq-lite rubric lacks the N/A-with-rationale applicability option the hardened enterprise/aws rubrics have (TRD-009c), producing a false-negative block. Actioned as the follow-on below. (Note: the installed visionstudio binary predates this work and could not see the layered pbhq-lite rubric — the calibration was run against the current source rubrics directly; wiring the layered rubrics into the tool requires rebuilding visionstudio against the merged visionspec.)</li>
+<li>[x] <code>RMI-SPECWORKFLOWSPEC-027</code> AWS Working Backwards artifacts get their canonical home; enterprise becomes the pure contract layer</li>
+<li><strong>Premise correction (supersedes RMI-022's enterprise-as-owner decision):</strong> enterprise <em>required</em> <code>press</code> + <code>faq</code> with generic, LP-stripped rubrics — a latent modeling error. The press-release-as-planning-artifact, the PR/FAQ pair, and the six-pager are Amazon Working Backwards inventions, not cross-methodology contracts; enterprise mandating them baked an AWS assumption into the base that every descendant inherited. Forcing constraint: enterprise cannot <code>{from: aws-one-way-door}</code> (sourcing a descendant → RMI-019 cycle guard), so the fix is enterprise <em>stops owning and requiring</em> the three.</li>
+<li><strong>Done:</strong> aws-one-way-door owns press/faq/narrative-6p locally (canonical Working Backwards home). enterprise stripped — deleted the 3 templates + 3 rubrics, dropped their spec_config entries, and rewired synthesis (removed the press/faq rules; <code>prd</code> now derives from <code>mrd</code> alone, the contract-layer view — the press-first flow remains an aws-one-way-door override). enterprise is now MRD/PRD/UXD/TRD/TPD/IRD/spec (+ optional bmc/narrative-1p/opportunity-spec/plan/roadmap).</li>
+<li><strong>Per-workflow disposition, each decided explicitly (non-AWS methodologies validated by web research into their actual canonical artifacts):</strong><ul>
+<li>Source <code>{from: aws-one-way-door}</code>: <code>aws-two-way-door</code> (press/faq already; narrative-6p retargeted from enterprise), <code>big-tech</code>, <code>big-tech-essentials</code>, <code>big-tech-essentials-feature</code> (all three), <code>big-tech-essentials-product</code> (press/faq; its narrative-6p stays local) — the big-tech family is PBHQ's explicit best-practices superset, so it keeps the AWS artifacts including the optional six-pager.</li>
+<li>Left local (self-sufficient): <code>big-tech-feature</code>, <code>big-tech-product</code>, <code>growth</code> (local faq — flagged for a later ownership look).</li>
+<li>Dropped as genuinely not-part-of-the-methodology (research-confirmed, all were optional and unused in execution/synthesis): <code>google</code> (Design Sprints/OKRs), <code>shapeup</code> (pitch/bet/hill chart), <code>jtbd</code> (job statements/maps/outcomes), <code>lean-startup</code> (MVP/Build-Measure-Learn — press release is only a vanity-metric anti-pattern there), <code>design-thinking</code> (empathize/define/ideate/prototype/test), <code>startup</code> and <code>0-1</code> (generic, no basis).</li>
+</ul>
+</li>
+<li>Verified: <code>TestRequiredSpecsResolve</code>, <code>TestSynthesisSourcesDeclared</code>, <code>TestHardenedRubricLayering</code>, <code>TestAWSDoorProfilesSymmetricDeepening</code> green; full suite + vet + gofmt + golangci-lint + <code>prism-sync -check</code> clean.</li>
+</ul>
+<h2 id="phase-8-follow-ons-surfaced-by-phases-57-review">Phase 8 — Follow-ons Surfaced by Phases 5–7 Review<a class="headerlink" href="#phase-8-follow-ons-surfaced-by-phases-57-review" title="Permanent link">&para;</a></h2>
+<p><strong>Theme:</strong> concrete, actionable items the layering, ownership review, and judge calibration surfaced — each scoped from a finding, not speculation</p>
+<ul>
+<li>[x] <code>RMI-SPECWORKFLOWSPEC-028</code> Reconcile the two PRD representations before any requirements-family migration (from RMI-025)</li>
+<li><strong>Reviewed → decision: they are not two representations of one thing, but three complementary layers over one shared schema; keep them separate.</strong> (1) <em>PRD as structured data</em> — prism-roadmap <code>requirements/prd</code> (<code>prd.Document</code> → generated <code>schema/prd.schema.json</code>; section vocabulary in <code>section.go</code>; programmatic completeness scoring in <code>scoring.go</code>/<code>completeness.go</code>; <code>evaluation_template.go</code> emits a <code>rubric.Rubric</code> <strong>report</strong>, derived from the sections). Consumed only by prism-roadmap's own CLI + schema-gen — not visionspec, not visionstudio. (2) <em>PRD authoring skeleton</em> — visionspec workflows' <code>prd.md</code> (blank template). (3) <em>PRD LLM-judging rubric</em> — visionspec's <code>prd.rubric.yaml</code> (a <code>RubricSet</code> <strong>definition</strong>, hardened + layered). The shared substrate is <strong>structured-evaluation</strong> (prism-roadmap emits its <code>Rubric</code> report; visionspec consumes its <code>RubricSet</code> definition) — same schema package, different roles, no collision.</li>
+<li><strong>Vocabulary homes (the crux):</strong> prism-roadmap has <strong>one</strong> canonical, section-schema-derived evaluation vocabulary (single source); visionspec has <strong>15</strong> per-workflow <code>prd.rubric.yaml</code> files with intentionally methodology-specific categories (google's peer-review, stripe's SDK/API, AWS's Leadership Principles — per RMI-024). prism-roadmap's <code>section.go</code>/<code>prd.schema.json</code> is therefore the natural canonical anchor for PRD <em>structure</em>, while the per-methodology <em>judging</em> vocabularies should stay distinct.</li>
+<li><strong>Consequence:</strong> RMI-025's "move templates to prism-roadmap" is retired as mis-scoped — the template is the <em>authoring</em> layer (belongs with the workflows), prism-roadmap owns the <em>data-model</em> layer; they are different concerns, not a duplication to consolidate. No code change.</li>
+<li><strong>Optional backlog (not required):</strong> if a hybrid programmatic-plus-LLM PRD score is ever wanted, align prism-roadmap's <code>evaluation_template.go</code> category vocabulary with visionspec's hardened rubric and add the v0.14.0 layered metadata (<code>class</code>/<code>blocking</code>/<code>evaluation</code>) to it, so the two scores compose. Deferred; not part of this initiative.</li>
+<li>[x] <code>RMI-SPECWORKFLOWSPEC-029</code> Backport N/A-with-rationale applicability to the lighter family rubrics' blocking categories (from RMI-026)</li>
+<li>Scoped to the genuinely-generic engineering rubrics — <strong>pbhq-lite</strong> (quick-fix inherits them; it owns no local rubrics) — since those are what get applied to arbitrary initiatives (this one used pbhq-lite). Added <code>not_applicable</code> (N/A-with-rationale, matching the hardened enterprise/aws pattern) to the 6 conditional blocking categories that assume a service/feature: trd's <code>api_design</code>, <code>data_models</code>, <code>security_considerations</code>, <code>dependencies</code> and prd's <code>user_stories</code>, <code>success_metrics</code>. Universally-applicable gates (goals, requirements, problem, plan/roadmap execution) intentionally keep no escape hatch. This closes the RMI-026 finding — the initiative's own library TRD would now score <code>security_considerations</code> as not_applicable-with-rationale (pass) instead of a false-negative block. Guarded by <code>TestConditionalBlockingCategoriesAllowNA</code>; full suite + vet + gofmt + golangci-lint + <code>prism-sync -check</code> clean. The methodology-specific family rubrics (startup, google, stripe, etc.) are lower-risk — applied within their own domain where categories are more likely to apply — and left as an optional extension.</li>
+<li>[ ] <code>RMI-SPECWORKFLOWSPEC-030</code> Rebuild visionstudio against merged visionspec so <code>spec judge</code> sees the layered rubrics (from RMI-026)</li>
+<li>The installed visionstudio binary predates this initiative and reports "no rubric defined" for the layered pbhq-lite specs; the calibration ran against source rubrics directly. Bump visionstudio's visionspec dependency to the merged version (after this initiative's branches land) and rebuild, so the judge flow exercises the layered rubrics natively.</li>
 </ul>
 
 

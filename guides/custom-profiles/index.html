@@ -3028,6 +3028,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../releases/v0.17.0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.17.0
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../releases/v0.16.0/" class="md-nav__link">
         
   
@@ -4155,6 +4183,21 @@ taken from the filename (<code>prd.rubric.yaml</code> → <code>prd</code>).</p>
 <td>Must this category pass?</td>
 </tr>
 <tr>
+<td><code>class</code></td>
+<td>string</td>
+<td>Evaluation layer: <code>leadership_principle</code>, <code>specification_quality</code>, <code>implementation_readiness</code>, or <code>deterministic_integrity</code></td>
+</tr>
+<tr>
+<td><code>blocking</code></td>
+<td>bool</td>
+<td>Whether a failure hard-blocks (gates) rather than advises</td>
+</tr>
+<tr>
+<td><code>evaluation</code></td>
+<td>string</td>
+<td>How the category is judged: <code>deterministic</code>, <code>semantic</code>, or <code>human</code></td>
+</tr>
+<tr>
 <td><code>scale</code></td>
 <td>object</td>
 <td>Categorical scale with pass/partial/fail options (flat rubrics)</td>
@@ -4167,6 +4210,12 @@ taken from the filename (<code>prd.rubric.yaml</code> → <code>prd</code>).</p>
 </tbody>
 </table>
 <p>Use <strong>either</strong> <code>scale</code> (flat) <strong>or</strong> <code>criteria</code> (rich) per category.</p>
+<p>The <code>class</code>/<code>blocking</code>/<code>evaluation</code> fields form the <strong>layered rubric taxonomy</strong>:
+they separate advisory Leadership-Principle judgment from blocking
+implementation-readiness gates. <strong>Invariant INV-3:</strong> a <code>leadership_principle</code>
+category is never <code>blocking</code> — principle-based judgment advises, it never hard-
+gates. A conditional blocking category can offer a <code>not_applicable</code> scale option
+(N/A-with-rationale) so it doesn't false-fail on work it doesn't apply to.</p>
 <h3 id="scale-and-pass-criteria">Scale and Pass Criteria<a class="headerlink" href="#scale-and-pass-criteria" title="Permanent link">&para;</a></h3>
 <table>
 <thead>

@@ -3011,6 +3011,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../releases/v0.17.0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.17.0
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../releases/v0.16.0/" class="md-nav__link">
         
   
@@ -3793,23 +3821,28 @@
 </ol>
 <p>This inversion ensures that every requirement traces back to a specific customer outcome.</p>
 <h2 id="the-visionspec-flow">The VisionSpec Flow<a class="headerlink" href="#the-visionspec-flow" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>MRD (human-authored)
+<p>The canonical home for this flow is <code>aws-one-way-door</code> (new, hard-to-reverse
+decisions) and <code>aws-two-way-door</code> (reversible ones). The Press Release is
+the human-authored founding artifact — not synthesized from anything —
+because a press release synthesized from research is "working forwards",
+the exact inversion this methodology exists to prevent:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Press Release (human-authored — write this first)
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    │
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    │  &quot;What market problem are we solving?&quot;
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    │  &quot;How will we announce this to customers?&quot;
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    ↓
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>Press Release (synthesized from MRD)
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>FAQ (synthesized from Press)
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    │
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    │  &quot;How will we announce this to customers?&quot;
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    │  &quot;What questions will stakeholders ask?&quot;
 <a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    ↓
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>FAQ (synthesized from MRD + Press)
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>MRD or OpportunitySpec (optional deepening, synthesized from Press + FAQ)
 <a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    │
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    │  &quot;What questions will stakeholders ask?&quot;
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    │  &quot;What market/discovery evidence validates the FAQ&#39;s business case?&quot;
 <a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    ↓
-<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>PRD (synthesized from MRD + Press + FAQ)
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>PRD (synthesized from Press + FAQ + MRD/OpportunitySpec)
 <a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>    │
 <a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>    │  &quot;What detailed requirements follow from this vision?&quot;
 <a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>    ↓
-<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>Narrative 1P/6P (synthesized, for stakeholder review)
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>Narrative 6P (synthesized from Press + FAQ + PRD, for the decision meeting)
 <a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>    │
 <a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>    │  &quot;Does leadership align on this vision?&quot;
 <a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>    ↓
@@ -3817,13 +3850,13 @@
 <a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>    │
 <a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>    │  &quot;How will users interact with this?&quot;
 <a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>    ↓
-<a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>TRD (synthesized from MRD + PRD + UXD + context)
+<a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>TRD (synthesized from PRD + UXD + MRD, where present)
 <a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a>    │
 <a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a>    │  &quot;How will we build this technically?&quot;
 <a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a>    ↓
-<a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a>IRD (synthesized from TRD + context)
+<a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a>TPD, IRD (synthesized from PRD/TRD/UXD)
 <a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a>    │
-<a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a>    │  &quot;How will we deploy and operate this?&quot;
+<a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a>    │  &quot;How will we test, deploy, and operate this?&quot;
 <a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a>    ↓
 <a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a>spec.md (reconciled from all approved specs)
 <a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a>    │
@@ -3831,6 +3864,10 @@
 <a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a>    ↓
 <a id="__codelineno-0-37" name="__codelineno-0-37" href="#__codelineno-0-37"></a>AI-Assisted Execution
 </code></pre></div>
+<p>MRD (product-scale) and OpportunitySpec (feature-scale) are optional and
+mutually substitutable — a team picks whichever fits, and it grounds the
+PRD; the door (one-way vs. two-way) sets the ceremony, the scale picks the
+deepening tool.</p>
 <h2 id="why-this-matters-for-ai-execution">Why This Matters for AI Execution<a class="headerlink" href="#why-this-matters-for-ai-execution" title="Permanent link">&para;</a></h2>
 <p>When an AI coding agent executes from specifications, it benefits from:</p>
 <h3 id="1-vision-anchoring">1. Vision Anchoring<a class="headerlink" href="#1-vision-anchoring" title="Permanent link">&para;</a></h3>
@@ -3841,11 +3878,11 @@
 <p>PRD derived from Press + FAQ tends to produce concrete, testable requirements rather than abstract feature lists. "Users can export reports in PDF format" is more actionable than "the system should support exports."</p>
 <h3 id="4-traceability-chain">4. Traceability Chain<a class="headerlink" href="#4-traceability-chain" title="Permanent link">&para;</a></h3>
 <p>Every technical decision can trace back through the chain:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>IRD decision → TRD requirement → PRD feature → FAQ clarification → Press vision → MRD problem
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>IRD decision → TRD requirement → PRD feature → FAQ clarification → Press vision
 </code></pre></div>
 <p>This enables principled conflict resolution during reconciliation.</p>
 <h2 id="synthesized-documents-in-git">Synthesized Documents in Git<a class="headerlink" href="#synthesized-documents-in-git" title="Permanent link">&para;</a></h2>
-<p>All synthesized documents (Press, FAQ, PRD, TRD, IRD, Narratives) are committed to git and can be:</p>
+<p>All synthesized documents (FAQ, PRD, TRD, IRD, Narratives) are committed to git and can be:</p>
 <ul>
 <li><strong>Reviewed</strong> by stakeholders before approval</li>
 <li><strong>Edited</strong> by humans to add nuance or correct errors</li>
@@ -3888,6 +3925,7 @@
 <a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>visionspec<span class="w"> </span>synthesize<span class="w"> </span>trd
 </code></pre></div>
 <h2 id="human-vs-synthesized-documents">Human vs. Synthesized Documents<a class="headerlink" href="#human-vs-synthesized-documents" title="Permanent link">&para;</a></h2>
+<p>In <code>aws-one-way-door</code>/<code>aws-two-way-door</code> (the canonical Working Backwards profiles):</p>
 <table>
 <thead>
 <tr>
@@ -3899,28 +3937,28 @@
 </thead>
 <tbody>
 <tr>
-<td>MRD</td>
-<td>Human-authored</td>
-<td>No</td>
-<td>Product/business owner writes</td>
-</tr>
-<tr>
 <td>Press</td>
-<td>Synthesized</td>
-<td>Yes</td>
-<td>Synthesize, review, refine</td>
+<td><strong>Human-authored</strong></td>
+<td>No — deliberately not synthesizable</td>
+<td>Write the founding artifact first</td>
 </tr>
 <tr>
 <td>FAQ</td>
 <td>Synthesized</td>
 <td>Yes</td>
-<td>Synthesize, add questions</td>
+<td>Synthesize from Press, add questions</td>
+</tr>
+<tr>
+<td>MRD / OpportunitySpec</td>
+<td>Synthesized (optional deepening)</td>
+<td>Yes</td>
+<td>Synthesize from Press + FAQ to validate</td>
 </tr>
 <tr>
 <td>PRD</td>
-<td>Either</td>
+<td>Synthesized</td>
 <td>Yes</td>
-<td>Synthesize or human-author</td>
+<td>Synthesize from Press + FAQ + deepening</td>
 </tr>
 <tr>
 <td>UXD</td>
@@ -3932,7 +3970,7 @@
 <td>Narrative</td>
 <td>Synthesized</td>
 <td>Yes</td>
-<td>Synthesize for review</td>
+<td>Synthesize for the decision meeting</td>
 </tr>
 <tr>
 <td>TRD</td>
@@ -3941,13 +3979,17 @@
 <td>Synthesize, architect reviews</td>
 </tr>
 <tr>
-<td>IRD</td>
+<td>TPD, IRD</td>
 <td>Synthesized</td>
 <td>Yes</td>
-<td>Synthesize, SRE reviews</td>
+<td>Synthesize, reviewed by their owners</td>
 </tr>
 </tbody>
 </table>
+<p>Press is intentionally <em>not</em> synthesizable here — a press release generated
+from other documents is "working forwards", the exact inversion this
+methodology prevents. (Outside these two profiles, e.g. <code>enterprise</code>,
+Press/FAQ don't exist at all; MRD is the human-authored root instead.)</p>
 <h2 id="recommended-workflow">Recommended Workflow<a class="headerlink" href="#recommended-workflow" title="Permanent link">&para;</a></h2>
 <h3 id="for-new-projects">For New Projects<a class="headerlink" href="#for-new-projects" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># 1. Initialize project</span>
@@ -4020,11 +4062,18 @@
 <td>PRD, FAQ (validate scope)</td>
 </tr>
 <tr>
+<td><code>aws-one-way-door</code> / <code>aws-two-way-door</code></td>
+<td>Full Working Backwards flow (Press → FAQ → PRD → Narrative → TRD → IRD)</td>
+</tr>
+<tr>
 <td><code>enterprise</code></td>
-<td>Full flow (MRD → Press → FAQ → PRD → Narratives → TRD → IRD)</td>
+<td>Full spec suite (MRD → PRD → UXD → TRD → TPD → IRD → spec); no Press/FAQ</td>
 </tr>
 </tbody>
 </table>
+<p>Press-first Working Backwards is owned by the <code>aws-one-way-door</code> (canonical) and
+<code>aws-two-way-door</code> profiles. As of v0.17.0, <code>enterprise</code> is the pure contract
+layer and no longer provides or requires Press, FAQ, or the six-pager narrative.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Initialize with appropriate profile</span>
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>visionspec<span class="w"> </span>init<span class="w"> </span>my-feature<span class="w"> </span>--profile<span class="w"> </span>growth
 </code></pre></div>

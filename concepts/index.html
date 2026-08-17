@@ -2895,6 +2895,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../releases/v0.17.0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.17.0
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../releases/v0.16.0/" class="md-nav__link">
         
   
@@ -3561,7 +3589,8 @@
 <h3 id="vision-first-development">Vision-First Development<a class="headerlink" href="#vision-first-development" title="Permanent link">&para;</a></h3>
 <p>The Press Release is written first, describing the product as if it's already shipped. This creates an unambiguous target state that grounds all subsequent requirements.</p>
 <h3 id="synthesized-but-editable">Synthesized but Editable<a class="headerlink" href="#synthesized-but-editable" title="Permanent link">&para;</a></h3>
-<p>All LLM-generated documents (Press, FAQ, PRD, TRD, IRD, Narratives) are:</p>
+<p>All LLM-generated documents (FAQ, PRD, TRD, IRD, Narratives — Press itself
+is human-authored under <code>aws-one-way-door</code>/<code>aws-two-way-door</code>) are:</p>
 <ul>
 <li>Committed to git alongside source code</li>
 <li>Reviewable by stakeholders before approval</li>
@@ -3570,7 +3599,7 @@
 </ul>
 <h3 id="traceability-chain">Traceability Chain<a class="headerlink" href="#traceability-chain" title="Permanent link">&para;</a></h3>
 <p>Every decision traces back through the chain:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>IRD → TRD → PRD → FAQ → Press → MRD
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>IRD → TRD → PRD → FAQ → Press
 </code></pre></div>
 <p>This enables principled conflict resolution during reconciliation.</p>
 <h3 id="profile-based-configuration">Profile-Based Configuration<a class="headerlink" href="#profile-based-configuration" title="Permanent link">&para;</a></h3>
@@ -3601,8 +3630,13 @@
 </tr>
 <tr>
 <td><code>enterprise</code></td>
-<td>Full Working Backwards</td>
-<td>Complete documentation</td>
+<td>MRD, PRD, UXD, TRD, TPD, IRD, spec</td>
+<td>Complete contract suite</td>
+</tr>
+<tr>
+<td><code>aws-one-way-door</code> / <code>aws-two-way-door</code></td>
+<td>Full Working Backwards (Press, FAQ, …)</td>
+<td>Amazon-style launch specs</td>
 </tr>
 </tbody>
 </table>
