@@ -14,24 +14,30 @@ This inversion ensures that every requirement traces back to a specific customer
 
 ## The VisionSpec Flow
 
+The canonical home for this flow is `aws-one-way-door` (new, hard-to-reverse
+decisions) and `aws-two-way-door` (reversible ones). The Press Release is
+the human-authored founding artifact — not synthesized from anything —
+because a press release synthesized from research is "working forwards",
+the exact inversion this methodology exists to prevent:
+
 ```
-MRD (human-authored)
-    │
-    │  "What market problem are we solving?"
-    ↓
-Press Release (synthesized from MRD)
+Press Release (human-authored — write this first)
     │
     │  "How will we announce this to customers?"
     ↓
-FAQ (synthesized from MRD + Press)
+FAQ (synthesized from Press)
     │
     │  "What questions will stakeholders ask?"
     ↓
-PRD (synthesized from MRD + Press + FAQ)
+MRD or OpportunitySpec (optional deepening, synthesized from Press + FAQ)
+    │
+    │  "What market/discovery evidence validates the FAQ's business case?"
+    ↓
+PRD (synthesized from Press + FAQ + MRD/OpportunitySpec)
     │
     │  "What detailed requirements follow from this vision?"
     ↓
-Narrative 1P/6P (synthesized, for stakeholder review)
+Narrative 6P (synthesized from Press + FAQ + PRD, for the decision meeting)
     │
     │  "Does leadership align on this vision?"
     ↓
@@ -39,13 +45,13 @@ UXD (human-authored)
     │
     │  "How will users interact with this?"
     ↓
-TRD (synthesized from MRD + PRD + UXD + context)
+TRD (synthesized from PRD + UXD + MRD, where present)
     │
     │  "How will we build this technically?"
     ↓
-IRD (synthesized from TRD + context)
+TPD, IRD (synthesized from PRD/TRD/UXD)
     │
-    │  "How will we deploy and operate this?"
+    │  "How will we test, deploy, and operate this?"
     ↓
 spec.md (reconciled from all approved specs)
     │
@@ -53,6 +59,11 @@ spec.md (reconciled from all approved specs)
     ↓
 AI-Assisted Execution
 ```
+
+MRD (product-scale) and OpportunitySpec (feature-scale) are optional and
+mutually substitutable — a team picks whichever fits, and it grounds the
+PRD; the door (one-way vs. two-way) sets the ceremony, the scale picks the
+deepening tool.
 
 ## Why This Matters for AI Execution
 
@@ -75,14 +86,14 @@ PRD derived from Press + FAQ tends to produce concrete, testable requirements ra
 Every technical decision can trace back through the chain:
 
 ```
-IRD decision → TRD requirement → PRD feature → FAQ clarification → Press vision → MRD problem
+IRD decision → TRD requirement → PRD feature → FAQ clarification → Press vision
 ```
 
 This enables principled conflict resolution during reconciliation.
 
 ## Synthesized Documents in Git
 
-All synthesized documents (Press, FAQ, PRD, TRD, IRD, Narratives) are committed to git and can be:
+All synthesized documents (FAQ, PRD, TRD, IRD, Narratives) are committed to git and can be:
 
 - **Reviewed** by stakeholders before approval
 - **Edited** by humans to add nuance or correct errors
@@ -116,16 +127,23 @@ visionspec synthesize trd
 
 ## Human vs. Synthesized Documents
 
+In `aws-one-way-door`/`aws-two-way-door` (the canonical Working Backwards profiles):
+
 | Document | Default Source | Can Be Synthesized? | Typical Workflow |
 |----------|----------------|---------------------|------------------|
-| MRD | Human-authored | No | Product/business owner writes |
-| Press | Synthesized | Yes | Synthesize, review, refine |
-| FAQ | Synthesized | Yes | Synthesize, add questions |
-| PRD | Either | Yes | Synthesize or human-author |
+| Press | **Human-authored** | No — deliberately not synthesizable | Write the founding artifact first |
+| FAQ | Synthesized | Yes | Synthesize from Press, add questions |
+| MRD / OpportunitySpec | Synthesized (optional deepening) | Yes | Synthesize from Press + FAQ to validate |
+| PRD | Synthesized | Yes | Synthesize from Press + FAQ + deepening |
 | UXD | Human-authored | No | Designer creates |
-| Narrative | Synthesized | Yes | Synthesize for review |
+| Narrative | Synthesized | Yes | Synthesize for the decision meeting |
 | TRD | Synthesized | Yes | Synthesize, architect reviews |
-| IRD | Synthesized | Yes | Synthesize, SRE reviews |
+| TPD, IRD | Synthesized | Yes | Synthesize, reviewed by their owners |
+
+Press is intentionally *not* synthesizable here — a press release generated
+from other documents is "working forwards", the exact inversion this
+methodology prevents. (Outside these two profiles, e.g. `enterprise`,
+Press/FAQ don't exist at all; MRD is the human-authored root instead.)
 
 ## Recommended Workflow
 
