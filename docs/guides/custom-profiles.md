@@ -252,10 +252,20 @@ The spec type comes from the filename, not a field (`prd.rubric.yaml` → `prd`)
 | `description` | string | What this category evaluates |
 | `weight` | float | Relative importance (any positive scale; normalized against the total) |
 | `required` | bool | Must this category pass? |
+| `class` | string | Evaluation layer: `leadership_principle`, `specification_quality`, `implementation_readiness`, or `deterministic_integrity` |
+| `blocking` | bool | Whether a failure hard-blocks (gates) rather than advises |
+| `evaluation` | string | How the category is judged: `deterministic`, `semantic`, or `human` |
 | `scale` | object | Categorical scale with pass/partial/fail options (flat rubrics) |
 | `criteria` | array | Weighted sub-criteria, each with `pass`/`partial`/`fail` bands (rich rubrics) |
 
 Use **either** `scale` (flat) **or** `criteria` (rich) per category.
+
+The `class`/`blocking`/`evaluation` fields form the **layered rubric taxonomy**:
+they separate advisory Leadership-Principle judgment from blocking
+implementation-readiness gates. **Invariant INV-3:** a `leadership_principle`
+category is never `blocking` — principle-based judgment advises, it never hard-
+gates. A conditional blocking category can offer a `not_applicable` scale option
+(N/A-with-rationale) so it doesn't false-fail on work it doesn't apply to.
 
 ### Scale and Pass Criteria
 

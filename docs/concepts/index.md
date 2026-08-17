@@ -42,4 +42,5 @@ Different organizational stages need different levels of ceremony:
 | `0-1` | Hypothesis only | Idea validation |
 | `startup` | PRD | Minimum viable spec |
 | `growth` | PRD, FAQ | Validate scope |
-| `enterprise` | Full Working Backwards | Complete documentation |
+| `enterprise` | MRD, PRD, UXD, TRD, TPD, IRD, spec | Complete contract suite |
+| `aws-one-way-door` / `aws-two-way-door` | Full Working Backwards (Press, FAQ, …) | Amazon-style launch specs |

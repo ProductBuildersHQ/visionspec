@@ -112,7 +112,7 @@ VisionSpec includes two types of profiles:
 | `0-1` | hypothesis | Idea validation phase |
 | `startup` | prd | Pre-PMF startups |
 | `growth` | prd, uxd, faq | 1-N scaling phase |
-| `enterprise` | mrd, prd, uxd, trd, press, faq, spec | Post-PMF enterprises |
+| `enterprise` | mrd, prd, uxd, trd, tpd, spec | Post-PMF enterprises |
 
 ### Methodology Profiles
 
