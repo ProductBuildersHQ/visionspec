@@ -17,6 +17,8 @@ templates:
     workflows: [continuous-discovery]
   - name: discovery-snapshot
     workflows: [continuous-discovery]
+  - name: experience-map
+    workflows: [continuous-discovery]
   - name: v2mom-vision
     workflows: [v2mom]
   - name: v2mom-values
@@ -43,6 +45,8 @@ rubrics:
     workflows: [continuous-discovery]
   - name: discovery-snapshot
     workflows: [continuous-discovery]
+  - name: experience-map
+    workflows: [continuous-discovery]
   - name: v2mom-vision
     workflows: [v2mom]
   - name: v2mom-values
@@ -54,4 +58,6 @@ rubrics:
   - name: v2mom-measures
     workflows: [v2mom]
   - name: v2mom-alignment
+    workflows: [v2mom]
+  - name: v2mom-summary
     workflows: [v2mom]
