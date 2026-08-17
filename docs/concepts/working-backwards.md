@@ -193,7 +193,12 @@ Different organizational stages need different levels of ceremony:
 | `0-1` | Just hypothesis (no full flow) |
 | `startup` | PRD only (minimal ceremony) |
 | `growth` | PRD, FAQ (validate scope) |
-| `enterprise` | Full flow (MRD → Press → FAQ → PRD → Narratives → TRD → IRD) |
+| `aws-one-way-door` / `aws-two-way-door` | Full Working Backwards flow (Press → FAQ → PRD → Narrative → TRD → IRD) |
+| `enterprise` | Full spec suite (MRD → PRD → UXD → TRD → TPD → IRD → spec); no Press/FAQ |
+
+Press-first Working Backwards is owned by the `aws-one-way-door` (canonical) and
+`aws-two-way-door` profiles. As of v0.17.0, `enterprise` is the pure contract
+layer and no longer provides or requires Press, FAQ, or the six-pager narrative.
 
 ```bash
 # Initialize with appropriate profile

@@ -80,7 +80,7 @@ access. The stage-based profiles:
 | `0-1` | Idea validation | hypothesis |
 | `startup` | Pre-PMF startups | prd |
 | `growth` | 1-N scaling | prd, uxd, faq |
-| `enterprise` | Post-PMF enterprises | prd, mrd, uxd, trd, press, faq |
+| `enterprise` | Post-PMF enterprises | mrd, prd, uxd, trd, tpd, spec |
 
 ```bash
 # Use a profile when initializing

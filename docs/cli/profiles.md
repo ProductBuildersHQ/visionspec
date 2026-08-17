@@ -17,7 +17,7 @@ Configuration profiles allow you to customize which specs are required and how t
 | `0-1` | Minimal for idea validation | hypothesis |
 | `startup` | Lightweight for pre-PMF | prd |
 | `growth` | Metrics-driven for 1-N scaling | prd, uxd, faq |
-| `enterprise` | Comprehensive for post-PMF | prd, mrd, uxd, trd, press, faq |
+| `enterprise` | Comprehensive for post-PMF | mrd, prd, uxd, trd, tpd, spec |
 
 ## Subcommands
 
@@ -44,7 +44,7 @@ Available profiles:
 Use with: visionspec init <project> --profile <name>
 ```
 
-All 24 embedded workflows carry the `[default]` marker; custom profiles loaded from a directory appear without it.
+All 25 embedded workflows carry the `[default]` marker; custom profiles loaded from a directory appear without it.
 
 ### show
 
@@ -64,32 +64,46 @@ visionspec profiles show enterprise
 
 ```
 Profile: enterprise
-Description: Comprehensive configuration for post-PMF enterprises. Full specs with security and compliance.
+Description: Comprehensive configuration for post-PMF enterprises. Full specs with security and compliance. MRD includes embedded Business Model Canvas.
 
 Required specs:
-  - prd (source)
   - mrd (source)
-  - uxd (source)
-  - press (gtm)
-  - faq (gtm)
+  - prd (source)
+  - spec (output)
+  - tpd (technical)
   - trd (technical)
+  - uxd (source)
 
 Custom templates:
-  - prd
+  - bmc
+  - ird
   - mrd
-  - uxd
+  - narrative-1p
+  - opportunity-spec
+  - plan
+  - prd
+  - roadmap
+  - spec
+  - tpd
   - trd
-  - press
-  - faq
+  - uxd
 
 Custom rubrics:
-  - prd
+  - bmc
+  - ird
   - mrd
-  - uxd
+  - narrative-1p
+  - opportunity-spec
+  - prd
+  - spec
+  - tpd
   - trd
-  - press
-  - faq
+  - uxd
 ```
+
+`press`, `faq`, and `narrative-6p` are not owned by `enterprise` — their
+canonical home is `aws-one-way-door`; families that use them source
+`{from: aws-one-way-door}`.
 
 ### export
 
@@ -115,18 +129,28 @@ visionspec profiles export enterprise ./my-profile
 
 ```
 Created ./my-profile/profile.yaml
-Created ./my-profile/templates/prd.md
+Created ./my-profile/templates/bmc.md
+Created ./my-profile/templates/ird.md
 Created ./my-profile/templates/mrd.md
-Created ./my-profile/templates/uxd.md
+Created ./my-profile/templates/narrative-1p.md
+Created ./my-profile/templates/opportunity-spec.md
+Created ./my-profile/templates/plan.md
+Created ./my-profile/templates/prd.md
+Created ./my-profile/templates/roadmap.md
+Created ./my-profile/templates/spec.md
+Created ./my-profile/templates/tpd.md
 Created ./my-profile/templates/trd.md
-Created ./my-profile/templates/press.md
-Created ./my-profile/templates/faq.md
-Created ./my-profile/rubrics/prd.rubric.yaml
+Created ./my-profile/templates/uxd.md
+Created ./my-profile/rubrics/bmc.rubric.yaml
+Created ./my-profile/rubrics/ird.rubric.yaml
 Created ./my-profile/rubrics/mrd.rubric.yaml
-Created ./my-profile/rubrics/uxd.rubric.yaml
+Created ./my-profile/rubrics/narrative-1p.rubric.yaml
+Created ./my-profile/rubrics/opportunity-spec.rubric.yaml
+Created ./my-profile/rubrics/prd.rubric.yaml
+Created ./my-profile/rubrics/spec.rubric.yaml
+Created ./my-profile/rubrics/tpd.rubric.yaml
 Created ./my-profile/rubrics/trd.rubric.yaml
-Created ./my-profile/rubrics/press.rubric.yaml
-Created ./my-profile/rubrics/faq.rubric.yaml
+Created ./my-profile/rubrics/uxd.rubric.yaml
 
 Profile exported to ./my-profile
 
