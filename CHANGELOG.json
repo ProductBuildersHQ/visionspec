@@ -71,6 +71,10 @@
         {
           "description": "ROADMAP.md: RMI-020 through RMI-029 marked complete with resolution notes; Phase 8 filed with follow-ons (RMI-028 PRD-representation reconciliation, RMI-029 N/A-applicability backport, RMI-030 rebuild visionstudio against merged visionspec)",
           "commit": "6bc0643"
+        },
+        {
+          "description": "Align the README and MkDocs site with the v0.17.0 profile changes: enterprise no longer lists press/faq (it is now the pure MRD/PRD/UXD/TRD/TPD/spec contract layer), refreshed the stage-profile tables and the profiles show/export sample output, and documented the layered class/blocking/evaluation rubric fields (with INV-3 and the not_applicable option) in the custom-profiles guide",
+          "commit": "a72f437"
         }
       ],
       "infrastructure": [
