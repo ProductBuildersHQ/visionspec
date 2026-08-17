@@ -6,6 +6,7 @@ import (
 	"github.com/ProductBuildersHQ/visionspec/pkg/rubrics"
 	"github.com/ProductBuildersHQ/visionspec/pkg/templates"
 	"github.com/ProductBuildersHQ/visionspec/pkg/types"
+	sws "github.com/ProductBuildersHQ/visionspec/pkg/workflows"
 	"github.com/spf13/cobra"
 )
 
@@ -182,5 +183,31 @@ func TestCustomConfig(t *testing.T) {
 	_, err := cfg.TemplateLoader.Load(types.SpecTypeMRD)
 	if err != nil {
 		t.Errorf("Failed to load MRD template from custom loader: %v", err)
+	}
+}
+
+// TestWorkflowSpecificTemplatesLoadableByCustomTypes guards RMI-032:
+// runCreate/runApprove used to hard-reject any spec type outside
+// types.SpecType's fixed enum via IsValid(), even when a project's
+// configured workflow legitimately defines it — e.g. enterprise's bmc,
+// which isn't a built-in type but has a real template and synthesis rule.
+// The fix is to resolve validity through the workflow's own template
+// loader instead. This documents both halves: the built-in enum genuinely
+// doesn't know about "bmc" (so a naive IsValid() gate would still reject
+// it), and the workflow-aware loader can load it anyway.
+func TestWorkflowSpecificTemplatesLoadableByCustomTypes(t *testing.T) {
+	bmc := types.SpecType("bmc")
+	if bmc.IsValid() {
+		t.Fatal("expected \"bmc\" to be outside types.SpecType's fixed enum (if this now passes, the enum grew and this guard may be stale)")
+	}
+
+	w, err := sws.DefaultLoader().Load("enterprise")
+	if err != nil {
+		t.Fatalf("loading enterprise workflow: %v", err)
+	}
+
+	loader := templates.LoaderForWorkflow(w)
+	if _, err := loader.Load(bmc); err != nil {
+		t.Errorf("enterprise's workflow-aware template loader should load bmc, got error: %v", err)
 	}
 }

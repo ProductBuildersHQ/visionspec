@@ -407,27 +407,37 @@ func runCreate(cmd *cobra.Command, args []string, cfg *Config) error {
 		return fmt.Errorf("loading project config: %w", err)
 	}
 
-	// Parse spec type
 	specType := types.SpecType(specTypeStr)
-	if !specType.IsValid() {
-		// List available spec types
-		available := templates.Available()
-		names := make([]string, len(available))
-		for i, t := range available {
-			names[i] = string(t)
-		}
-		return fmt.Errorf("invalid spec type %q (available: %s)", specTypeStr, strings.Join(names, ", "))
-	}
 
-	// Get template
+	// Resolve the template loader: the project's configured workflow's own
+	// templates when one is set, so workflow-specific spec types (e.g.
+	// enterprise's bmc, which isn't in types.SpecType's fixed enum) are
+	// recognized, not just the pre-merge default set. A type that fails to
+	// load — from either loader — is genuinely invalid, so template
+	// resolution itself is the validity check; there's no separate
+	// IsValid() gate to fall out of sync with the catalog.
 	loader := cfg.TemplateLoader
+	if project.Workflow != "" {
+		wfLoader := cfg.WorkflowLoader
+		if wfLoader == nil {
+			wfLoader = sws.DefaultLoader()
+		}
+		if w, err := wfLoader.Load(project.Workflow); err == nil {
+			loader = templates.LoaderForWorkflow(w)
+		}
+	}
 	if loader == nil {
 		loader = templates.DefaultLoader()
 	}
 
 	tmpl, err := loader.Load(specType)
 	if err != nil {
-		return fmt.Errorf("loading template for %s: %w", specType, err)
+		available := loader.Available()
+		names := make([]string, len(available))
+		for i, t := range available {
+			names[i] = string(t)
+		}
+		return fmt.Errorf("invalid spec type %q (available: %s)", specTypeStr, strings.Join(names, ", "))
 	}
 
 	// Determine output path
@@ -1522,11 +1532,7 @@ func runApprove(cmd *cobra.Command, args []string) error {
 	approver, _ := cmd.Flags().GetString("approver")
 	comment, _ := cmd.Flags().GetString("comment")
 
-	// Parse spec type
 	specType := types.SpecType(specTypeArg)
-	if !specType.IsValid() {
-		return fmt.Errorf("invalid spec type: %s", specTypeArg)
-	}
 
 	// Find project root
 	cwd, err := os.Getwd()
@@ -1545,7 +1551,11 @@ func runApprove(cmd *cobra.Command, args []string) error {
 		return fmt.Errorf("loading project config: %w", err)
 	}
 
-	// Check that spec exists
+	// Check that spec exists — this is the real validity check: any spec
+	// type with a file on disk (built-in or workflow-custom, e.g.
+	// enterprise's bmc) can be approved. A standalone IsValid() gate here
+	// would reject legitimate custom types before ever checking the
+	// filesystem.
 	specPath := config.SpecPath(projectPath, specType)
 	if _, err := os.Stat(specPath); os.IsNotExist(err) {
 		return fmt.Errorf("spec not found: %s - cannot approve non-existent spec", specType)

@@ -710,11 +710,6 @@ func (s *Server) handleApprove(ctx context.Context, req *mcp.CallToolRequest, ar
 	// Parse spec type
 	specType := types.SpecType(strings.ToLower(args.SpecType))
 
-	// Validate spec type is approvable
-	if !specType.IsValid() {
-		return errorResult("invalid spec type: " + args.SpecType)
-	}
-
 	// Get project path
 	projectPath, err := getProjectPath(args.Project)
 	if err != nil {
@@ -727,7 +722,11 @@ func (s *Server) handleApprove(ctx context.Context, req *mcp.CallToolRequest, ar
 		return errorResult("failed to load project config: " + err.Error())
 	}
 
-	// Check that spec exists
+	// Check that spec exists — this is the real validity check: any spec
+	// type with a file on disk (built-in or workflow-custom, e.g.
+	// enterprise's bmc) can be approved. A standalone IsValid() gate here
+	// would reject legitimate custom types before ever checking the
+	// filesystem.
 	specPath := config.SpecPath(projectPath, specType)
 	if _, err := os.Stat(specPath); os.IsNotExist(err) {
 		return errorResult("spec not found: " + args.SpecType + " - cannot approve non-existent spec")
