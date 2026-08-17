@@ -27,6 +27,7 @@ import (
 	"github.com/ProductBuildersHQ/visionspec/pkg/templates"
 	"github.com/ProductBuildersHQ/visionspec/pkg/testmap"
 	"github.com/ProductBuildersHQ/visionspec/pkg/types"
+	"github.com/ProductBuildersHQ/visionspec/pkg/workflow"
 	sws "github.com/ProductBuildersHQ/visionspec/pkg/workflows"
 )
 
@@ -483,25 +484,36 @@ func (s *Server) handleSynthesize(ctx context.Context, req *mcp.CallToolRequest,
 	// Parse spec type
 	specType := types.SpecType(strings.ToLower(args.SpecType))
 
-	// Validate that this spec type can be synthesized
-	if !synth.CanSynthesize(specType) {
-		return errorResult("spec type cannot be synthesized: " + args.SpecType + " (only trd, ird, press, faq, narrative-1p, narrative-6p)")
-	}
-
 	// Get project path
 	projectPath, err := getProjectPath(args.Project)
 	if err != nil {
 		return errorResult("failed to find project: " + err.Error())
 	}
 
-	// Load project config for LLM settings
+	// Load project config for LLM settings and workflow resolution
 	project, err := config.Load(projectPath)
 	if err != nil {
 		return errorResult("failed to load project config: " + err.Error())
 	}
 
+	// Resolve the project's actual configured workflow's synthesis rule for
+	// this type, preferring it over pkg/synth's hardcoded pre-merge Working
+	// Backwards table — a workflow can override which sources a type needs
+	// (e.g. aws-one-way-door's press has no sources at all, since it's
+	// human-authored) or make a type synthesizable that the legacy table
+	// doesn't know about (e.g. enterprise's bmc).
+	loadedWorkflow, rule, hasRule := synth.LoadWorkflowRule(nil, project.Workflow, specType)
+
+	// Validate that this spec type can be synthesized
+	if !synth.CanSynthesizeWithRule(rule, hasRule, specType) {
+		if hasRule {
+			return errorResult(string(specType) + " is human-authored under the " + project.Workflow + " workflow, not synthesized — use spec_create instead")
+		}
+		return errorResult("spec type cannot be synthesized: " + args.SpecType + " (only trd, ird, press, faq, narrative-1p, narrative-6p)")
+	}
+
 	// Check required source specs exist
-	requiredSources := synth.RequiredSources(specType)
+	requiredSources := synth.SourcesForRule(rule, hasRule, specType)
 	for _, srcType := range requiredSources {
 		srcPath := config.SpecPath(projectPath, srcType)
 		if _, err := os.Stat(srcPath); os.IsNotExist(err) {
@@ -509,28 +521,36 @@ func (s *Server) handleSynthesize(ctx context.Context, req *mcp.CallToolRequest,
 		}
 	}
 
-	// Load source specs into input
+	// Load source specs into input — generically, for whichever types this
+	// rule (or the legacy table) actually declares, not a fixed set.
 	input := synth.SynthesisInput{}
-	if content, err := os.ReadFile(config.SpecPath(projectPath, types.SpecTypeMRD)); err == nil {
-		input.MRD = string(content)
-	}
-	if content, err := os.ReadFile(config.SpecPath(projectPath, types.SpecTypePRD)); err == nil {
-		input.PRD = string(content)
-	}
-	if content, err := os.ReadFile(config.SpecPath(projectPath, types.SpecTypeUXD)); err == nil {
-		input.UXD = string(content)
-	}
-	if content, err := os.ReadFile(config.SpecPath(projectPath, types.SpecTypeTRD)); err == nil {
-		input.TRD = string(content)
-	}
-	if content, err := os.ReadFile(config.SpecPath(projectPath, types.SpecTypePress)); err == nil {
-		input.Press = string(content)
+	for _, srcType := range requiredSources {
+		if content, err := os.ReadFile(config.SpecPath(projectPath, srcType)); err == nil {
+			input.Set(srcType, string(content))
+		}
 	}
 
 	// Load constitution if exists
 	constitutionPath := filepath.Join(projectPath, "..", "CONSTITUTION.md")
 	if content, err := os.ReadFile(constitutionPath); err == nil {
 		input.Constitution = string(content)
+	}
+
+	// Resolve the template: the project's workflow-specific template when
+	// one is configured, falling back to the embedded default.
+	var templateContent string
+	if loadedWorkflow != nil {
+		tmpl, err := templates.LoaderForWorkflow(loadedWorkflow).Load(specType)
+		if err != nil {
+			return errorResult("no template for " + string(specType) + ": " + err.Error())
+		}
+		templateContent = tmpl.Content
+	} else {
+		tmpl, err := templates.Get(specType)
+		if err != nil {
+			return errorResult("no template for " + string(specType) + ": " + err.Error())
+		}
+		templateContent = tmpl.Content
 	}
 
 	// Create LLM client
@@ -544,7 +564,11 @@ func (s *Server) handleSynthesize(ctx context.Context, req *mcp.CallToolRequest,
 	synthesizer := synth.NewSynthesizer(&synthLLMAdapter{client: llmClient})
 
 	// Run synthesis
-	synthResult, err := synthesizer.Synthesize(ctx, specType, input)
+	var synthesisRule *workflow.SynthesisRule
+	if hasRule {
+		synthesisRule = rule
+	}
+	synthResult, err := synthesizer.Synthesize(ctx, specType, input, synthesisRule, templateContent)
 	if err != nil {
 		return errorResult("synthesis failed: " + err.Error())
 	}

@@ -60,19 +60,28 @@ func initCmd(cfg *Config) *cobra.Command {
 
 The project name must be kebab-case (lowercase with hyphens).
 
-Profiles:
-  --profile 0-1         Minimal for idea validation
-  --profile startup     Lightweight for pre-PMF startups
-  --profile growth      Metrics-driven for 1-N scaling
-  --profile enterprise  Comprehensive for post-PMF enterprises
+Profiles (--profile): 25 embedded methodologies are available, from
+lightweight stage-based ones to full AWS Working Backwards ceremony.
+Common starting points:
+  --profile 0-1              Minimal for idea validation
+  --profile startup          Lightweight for pre-PMF startups
+  --profile growth           Metrics-driven for 1-N scaling
+  --profile enterprise       Comprehensive contract layer for post-PMF enterprises
+  --profile aws-one-way-door Working Backwards for hard-to-reverse decisions
+  --profile aws-two-way-door Working Backwards for reversible decisions
+Run 'visionspec profiles list' for the full catalog, or 'visionspec profiles
+show <name>' for a specific profile's required specs.
 
 Creates:
   docs/specs/<project>/
-  ├── source/          # Human-authored specs (mrd, prd, uxd)
-  ├── gtm/             # LLM-generated GTM docs (press, faq, narrative)
-  ├── technical/       # LLM-generated technical docs (trd, ird)
+  ├── source/          # Human-authored specs (mrd, prd, uxd, and any the profile marks human-authored, e.g. press under aws-one-way-door)
+  ├── gtm/             # Synthesized GTM docs (faq, narrative, etc. per profile)
+  ├── technical/       # Synthesized technical docs (trd, tpd, ird)
   ├── eval/            # Evaluation results
-  └── visionspec.yaml   # Project configuration`,
+  └── visionspec.yaml   # Project configuration
+
+After init, 'visionspec workflow' shows this project's actual spec
+sequence, derived from its configured profile.`,
 		Args: cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			return runInit(cmd, args, cfg)
@@ -81,7 +90,7 @@ Creates:
 
 	cmd.Flags().String("constitution", "", "Path to constitution file (relative or absolute)")
 	cmd.Flags().Bool("with-templates", false, "Create template spec files")
-	cmd.Flags().String("profile", "", "Configuration profile (0-1, startup, growth, enterprise)")
+	cmd.Flags().String("profile", "", "Configuration profile — see 'visionspec profiles list' for all 25")
 	cmd.Flags().String("workflow", "", "Workflow methodology/level (e.g., aws-working-backwards/product)")
 
 	return cmd
@@ -356,9 +365,12 @@ func createCmd(cfg *Config) *cobra.Command {
 Supported spec types:
   Source specs:   mrd, prd, uxd
   GTM specs:      press, faq, narrative-1p, narrative-6p
-  Technical:      trd, ird
+  Technical:      trd, tpd, ird
 
-The command must be run from within a visionspec project directory.
+The command must be run from within a visionspec project directory. Which
+of these your project actually needs, and whether a given type is
+human-authored (create) or synthesized (synthesize), depends on its
+configured profile — run 'visionspec workflow' to see the real sequence.
 
 Examples:
   visionspec create mrd          # Create MRD from template
@@ -1123,22 +1135,20 @@ func runRender(cmd *cobra.Command, args []string, _ *Config) error {
 func synthesizeCmd(cfg *Config) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "synthesize <type>",
-		Short: "Generate specs using Working Backwards methodology",
+		Short: "Generate a spec from its source specs via LLM synthesis",
 		Long: `Generate specification documents from source specs using LLM synthesis.
 
-Working Backwards Flow:
-  visionspec synthesize press        # MRD → press.md (vision document)
-  visionspec synthesize faq          # MRD + Press → faq.md (scope clarification)
-  visionspec synthesize prd          # MRD + Press + FAQ → prd.md (detailed requirements)
+Which sources a type needs, and what guidance drives its prompt, comes
+from the project's configured profile (its synthesis: rules) — not a
+single fixed flow. Run 'visionspec workflow' to see the exact sequence and
+sources for the current project, or 'visionspec profiles show <name>' for
+another profile. A type with no synthesis rule (or an explicit empty
+source list, e.g. Press under aws-one-way-door) is human-authored instead
+— use 'visionspec create' for those.
 
-Technical Synthesis:
-  visionspec synthesize trd          # MRD + PRD + UXD + CONSTITUTION + CONTEXT → trd.md
-  visionspec synthesize tpd          # PRD + TRD + UXD → tpd.md (test plan)
-  visionspec synthesize ird          # TRD + CONSTITUTION + CONTEXT → ird.md
-
-Narrative Documents:
-  visionspec synthesize narrative-1p # MRD + PRD → narrative-1p.md
-  visionspec synthesize narrative-6p # MRD + PRD + UXD → narrative-6p.md
+Without a configured profile, synthesis falls back to the original
+Working Backwards flow for these types:
+  press, faq, prd, trd, tpd, ird, narrative-1p, narrative-6p
 
 Context grounding:
   For TRD, TPD, and IRD, if context sources are configured, the synthesizer
@@ -1160,11 +1170,7 @@ func runSynthesize(cmd *cobra.Command, args []string, cfg *Config) error {
 	evalFlag, _ := cmd.Flags().GetBool("eval")
 	noContext, _ := cmd.Flags().GetBool("no-context")
 
-	// Parse spec type
 	specType := types.SpecType(specTypeArg)
-	if !synth.CanSynthesize(specType) {
-		return fmt.Errorf("cannot synthesize %s (valid: press, faq, prd, trd, tpd, ird, narrative-1p, narrative-6p)", specTypeArg)
-	}
 
 	// Find project root
 	cwd, err := os.Getwd()
@@ -1183,12 +1189,22 @@ func runSynthesize(cmd *cobra.Command, args []string, cfg *Config) error {
 		return fmt.Errorf("loading project config: %w", err)
 	}
 
-	// Check required sources exist. Prefer the project's actual configured
-	// workflow's synthesis rules (profile.yaml's synthesis: block) over
-	// pkg/synth's hardcoded pre-merge Working Backwards table, since a
-	// project's workflow can override which sources a type needs (e.g.
-	// aws-one-way-door's press has no sources at all — it's human-authored).
-	requiredSources := resolveRequiredSources(cfg, project, specType)
+	// Resolve the project's actual configured workflow's synthesis rule for
+	// this type, preferring it over pkg/synth's hardcoded pre-merge Working
+	// Backwards table — a workflow can override which sources a type needs
+	// (e.g. aws-one-way-door's press has no sources at all, since it's
+	// human-authored) or make a type synthesizable that the legacy table
+	// doesn't know about (e.g. enterprise's bmc).
+	loadedWorkflow, rule, hasRule := synth.LoadWorkflowRule(cfg.WorkflowLoader, project.Workflow, specType)
+
+	if !synth.CanSynthesizeWithRule(rule, hasRule, specType) {
+		if hasRule {
+			return fmt.Errorf("%s is human-authored under the %q workflow, not synthesized — use 'visionspec create %s'", specType, project.Workflow, specType)
+		}
+		return fmt.Errorf("cannot synthesize %s (valid: press, faq, prd, trd, tpd, ird, narrative-1p, narrative-6p)", specTypeArg)
+	}
+
+	requiredSources := synth.SourcesForRule(rule, hasRule, specType)
 	for _, srcType := range requiredSources {
 		srcPath := config.SpecPath(projectPath, srcType)
 		if _, err := os.Stat(srcPath); os.IsNotExist(err) {
@@ -1196,25 +1212,13 @@ func runSynthesize(cmd *cobra.Command, args []string, cfg *Config) error {
 		}
 	}
 
-	// Load source specs
+	// Load source specs — generically, for whichever types this rule (or
+	// the legacy table) actually declares, not a fixed set.
 	input := synth.SynthesisInput{}
-	if content, err := os.ReadFile(config.SpecPath(projectPath, types.SpecTypeMRD)); err == nil {
-		input.MRD = string(content)
-	}
-	if content, err := os.ReadFile(config.SpecPath(projectPath, types.SpecTypePRD)); err == nil {
-		input.PRD = string(content)
-	}
-	if content, err := os.ReadFile(config.SpecPath(projectPath, types.SpecTypeUXD)); err == nil {
-		input.UXD = string(content)
-	}
-	if content, err := os.ReadFile(config.SpecPath(projectPath, types.SpecTypeTRD)); err == nil {
-		input.TRD = string(content)
-	}
-	if content, err := os.ReadFile(config.SpecPath(projectPath, types.SpecTypePress)); err == nil {
-		input.Press = string(content)
-	}
-	if content, err := os.ReadFile(config.SpecPath(projectPath, types.SpecTypeFAQ)); err == nil {
-		input.FAQ = string(content)
+	for _, srcType := range requiredSources {
+		if content, err := os.ReadFile(config.SpecPath(projectPath, srcType)); err == nil {
+			input.Set(srcType, string(content))
+		}
 	}
 
 	// Load constitution from repo-level or org-level
@@ -1240,6 +1244,23 @@ func runSynthesize(cmd *cobra.Command, args []string, cfg *Config) error {
 		}
 	}
 
+	// Resolve the template: the project's workflow-specific template when
+	// one is configured, falling back to the embedded default.
+	var templateContent string
+	if loadedWorkflow != nil {
+		tmpl, err := templates.LoaderForWorkflow(loadedWorkflow).Load(specType)
+		if err != nil {
+			return fmt.Errorf("no template for %s: %w", specType, err)
+		}
+		templateContent = tmpl.Content
+	} else {
+		tmpl, err := templates.Get(specType)
+		if err != nil {
+			return fmt.Errorf("no template for %s: %w", specType, err)
+		}
+		templateContent = tmpl.Content
+	}
+
 	// Create LLM client
 	llmClient, err := eval.NewLLMClientFromProject(project.LLM)
 	if err != nil {
@@ -1253,7 +1274,11 @@ func runSynthesize(cmd *cobra.Command, args []string, cfg *Config) error {
 	fmt.Printf("⋯ Synthesizing %s from %v...\n", specType, requiredSources)
 
 	ctx := context.Background()
-	result, err := synthesizer.Synthesize(ctx, specType, input)
+	var synthesisRule *swf.SynthesisRule
+	if hasRule {
+		synthesisRule = rule
+	}
+	result, err := synthesizer.Synthesize(ctx, specType, input, synthesisRule, templateContent)
 	if err != nil {
 		return fmt.Errorf("synthesis failed: %w", err)
 	}
@@ -1297,38 +1322,6 @@ func runSynthesize(cmd *cobra.Command, args []string, cfg *Config) error {
 	}
 
 	return nil
-}
-
-// resolveRequiredSources returns the source spec types needed to synthesize
-// specType, preferring the project's own configured workflow's synthesis
-// rules (its profile.yaml synthesis: block) over pkg/synth's hardcoded
-// pre-merge table. Falls back to the hardcoded table when the project has
-// no workflow set, the workflow fails to load, or the workflow doesn't
-// declare a rule for specType.
-func resolveRequiredSources(cfg *Config, project *types.Project, specType types.SpecType) []types.SpecType {
-	if project.Workflow == "" {
-		return synth.RequiredSources(specType)
-	}
-
-	loader := cfg.WorkflowLoader
-	if loader == nil {
-		loader = sws.DefaultLoader()
-	}
-	w, err := loader.Load(project.Workflow)
-	if err != nil || w.Workflow == nil || w.Workflow.Synthesis == nil {
-		return synth.RequiredSources(specType)
-	}
-
-	rule, ok := w.Workflow.Synthesis[string(specType)]
-	if !ok {
-		return synth.RequiredSources(specType)
-	}
-
-	sources := make([]types.SpecType, 0, len(rule.Sources))
-	for _, s := range rule.Sources {
-		sources = append(sources, types.SpecType(s))
-	}
-	return sources
 }
 
 // cliSynthLLMAdapter adapts eval.LLMClient to synth.LLMClient interface.
