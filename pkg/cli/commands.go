@@ -98,6 +98,7 @@ func runInit(cmd *cobra.Command, args []string, cfg *Config) error {
 	}
 
 	// Load profile if specified
+	var loadedWorkflow *sws.LoadedWorkflow
 	profileName, _ := cmd.Flags().GetString("profile")
 	if profileName != "" {
 		loader := cfg.WorkflowLoader
@@ -109,6 +110,7 @@ func runInit(cmd *cobra.Command, args []string, cfg *Config) error {
 		if err != nil {
 			return fmt.Errorf("loading profile %q: %w", profileName, err)
 		}
+		loadedWorkflow = w
 
 		// Apply profile settings to config
 		if specConfig := types.SpecConfigFromWorkflow(w.Workflow); specConfig != nil {
@@ -188,11 +190,21 @@ func runInit(cmd *cobra.Command, args []string, cfg *Config) error {
 		fmt.Printf("Using workflow: %s (from %s)\n\n", workflowID, repo.Path)
 	}
 
+	// project.Workflow holds the embedded-catalog profile name (resolved via
+	// workflows.DefaultLoader by runWorkflow/runLint/etc. on every later
+	// command) — it must be --profile's value, not --workflow's. --workflow
+	// is an unrelated, older mechanism for pointing at an external
+	// spec-workflows repository and has no bearing on the embedded catalog.
+	resolvedWorkflow := workflowID
+	if profileName != "" {
+		resolvedWorkflow = profileName
+	}
+
 	project := &types.Project{
 		Name:         projectName,
 		Path:         projectPath,
 		Constitution: constitution,
-		Workflow:     workflowID,
+		Workflow:     resolvedWorkflow,
 		CreatedAt:    time.Now(),
 		UpdatedAt:    time.Now(),
 		Targets: types.TargetConfig{
@@ -255,19 +267,41 @@ func runInit(cmd *cobra.Command, args []string, cfg *Config) error {
 	fmt.Println("  ├── eval/          # Evaluation results")
 	fmt.Println("  └── visionspec.yaml # Project configuration")
 	fmt.Println()
-	fmt.Println("Working Backwards workflow:")
-	fmt.Println("  1. Write MRD:           visionspec create mrd")
-	fmt.Println("  2. Synthesize vision:   visionspec synthesize press")
-	fmt.Println("  3. Challenge scope:     visionspec synthesize faq")
-	fmt.Println("  4. Derive requirements: visionspec synthesize prd")
-	fmt.Println("  5. Review narratives:   visionspec synthesize narrative-1p")
-	fmt.Println("  6. Write UXD:           visionspec create uxd")
-	fmt.Println("  7. Technical specs:     visionspec synthesize trd && visionspec synthesize ird")
-	fmt.Println("  8. Reconcile:           visionspec reconcile")
+	printNextSteps(loadedWorkflow)
 	fmt.Println()
 	fmt.Println("All synthesized docs are editable - refine them in git or with AI assistants.")
 
 	return nil
+}
+
+// printNextSteps prints the create/synthesize command sequence for a
+// project. When a workflow was resolved at init time, the sequence is
+// derived from its own execution.sequence and synthesis rules — a spec
+// type is "created" (human-authored) if the workflow declares no synthesis
+// rule for it, or a rule with no sources (e.g. aws-one-way-door's press);
+// otherwise it's "synthesized". Falls back to generic guidance when no
+// workflow was resolved (bare `visionspec init` with no --profile).
+func printNextSteps(w *sws.LoadedWorkflow) {
+	if w == nil || w.Workflow == nil || w.Workflow.Execution == nil || len(w.Workflow.Execution.Sequence) == 0 {
+		fmt.Println("Next steps:")
+		fmt.Println("  visionspec profiles list         # See available profiles/methodologies")
+		fmt.Println("  visionspec workflow               # See this project's spec sequence")
+		fmt.Println("  visionspec create <type>          # Author a human-authored spec")
+		fmt.Println("  visionspec synthesize <type>      # Generate a spec from its sources")
+		fmt.Println("  visionspec reconcile              # Merge approved specs into spec.md")
+		return
+	}
+
+	fmt.Printf("%s workflow:\n", w.Workflow.Name)
+	for i, specTypeID := range w.Workflow.Execution.Sequence {
+		rule, hasRule := w.Workflow.Synthesis[specTypeID]
+		if !hasRule || len(rule.Sources) == 0 {
+			fmt.Printf("  %d. visionspec create %s\n", i+1, specTypeID)
+		} else {
+			fmt.Printf("  %d. visionspec synthesize %s   (from %s)\n", i+1, specTypeID, strings.Join(rule.Sources, ", "))
+		}
+	}
+	fmt.Println("  visionspec reconcile")
 }
 
 func createTemplateFiles(projectPath string, cfg *Config) error {
@@ -1086,7 +1120,7 @@ func runRender(cmd *cobra.Command, args []string, _ *Config) error {
 }
 
 // synthesizeCmd creates the synthesize command.
-func synthesizeCmd(cfg *Config) *cobra.Command { //nolint:unparam // cfg reserved for future use
+func synthesizeCmd(cfg *Config) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "synthesize <type>",
 		Short: "Generate specs using Working Backwards methodology",
@@ -1110,7 +1144,9 @@ Context grounding:
   For TRD, TPD, and IRD, if context sources are configured, the synthesizer
   will gather codebase context to ground technical decisions in reality.`,
 		Args: cobra.ExactArgs(1),
-		RunE: runSynthesize,
+		RunE: func(cmd *cobra.Command, args []string) error {
+			return runSynthesize(cmd, args, cfg)
+		},
 	}
 
 	cmd.Flags().Bool("eval", false, "Run evaluation after synthesis")
@@ -1119,7 +1155,7 @@ Context grounding:
 	return cmd
 }
 
-func runSynthesize(cmd *cobra.Command, args []string) error {
+func runSynthesize(cmd *cobra.Command, args []string, cfg *Config) error {
 	specTypeArg := args[0]
 	evalFlag, _ := cmd.Flags().GetBool("eval")
 	noContext, _ := cmd.Flags().GetBool("no-context")
@@ -1147,8 +1183,12 @@ func runSynthesize(cmd *cobra.Command, args []string) error {
 		return fmt.Errorf("loading project config: %w", err)
 	}
 
-	// Check required sources exist
-	requiredSources := synth.RequiredSources(specType)
+	// Check required sources exist. Prefer the project's actual configured
+	// workflow's synthesis rules (profile.yaml's synthesis: block) over
+	// pkg/synth's hardcoded pre-merge Working Backwards table, since a
+	// project's workflow can override which sources a type needs (e.g.
+	// aws-one-way-door's press has no sources at all — it's human-authored).
+	requiredSources := resolveRequiredSources(cfg, project, specType)
 	for _, srcType := range requiredSources {
 		srcPath := config.SpecPath(projectPath, srcType)
 		if _, err := os.Stat(srcPath); os.IsNotExist(err) {
@@ -1257,6 +1297,38 @@ func runSynthesize(cmd *cobra.Command, args []string) error {
 	}
 
 	return nil
+}
+
+// resolveRequiredSources returns the source spec types needed to synthesize
+// specType, preferring the project's own configured workflow's synthesis
+// rules (its profile.yaml synthesis: block) over pkg/synth's hardcoded
+// pre-merge table. Falls back to the hardcoded table when the project has
+// no workflow set, the workflow fails to load, or the workflow doesn't
+// declare a rule for specType.
+func resolveRequiredSources(cfg *Config, project *types.Project, specType types.SpecType) []types.SpecType {
+	if project.Workflow == "" {
+		return synth.RequiredSources(specType)
+	}
+
+	loader := cfg.WorkflowLoader
+	if loader == nil {
+		loader = sws.DefaultLoader()
+	}
+	w, err := loader.Load(project.Workflow)
+	if err != nil || w.Workflow == nil || w.Workflow.Synthesis == nil {
+		return synth.RequiredSources(specType)
+	}
+
+	rule, ok := w.Workflow.Synthesis[string(specType)]
+	if !ok {
+		return synth.RequiredSources(specType)
+	}
+
+	sources := make([]types.SpecType, 0, len(rule.Sources))
+	for _, s := range rule.Sources {
+		sources = append(sources, types.SpecType(s))
+	}
+	return sources
 }
 
 // cliSynthLLMAdapter adapts eval.LLMClient to synth.LLMClient interface.
