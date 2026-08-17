@@ -16,7 +16,8 @@ The Press Release is written first, describing the product as if it's already sh
 
 ### Synthesized but Editable
 
-All LLM-generated documents (Press, FAQ, PRD, TRD, IRD, Narratives) are:
+All LLM-generated documents (FAQ, PRD, TRD, IRD, Narratives — Press itself
+is human-authored under `aws-one-way-door`/`aws-two-way-door`) are:
 
 - Committed to git alongside source code
 - Reviewable by stakeholders before approval
@@ -28,7 +29,7 @@ All LLM-generated documents (Press, FAQ, PRD, TRD, IRD, Narratives) are:
 Every decision traces back through the chain:
 
 ```
-IRD → TRD → PRD → FAQ → Press → MRD
+IRD → TRD → PRD → FAQ → Press
 ```
 
 This enables principled conflict resolution during reconciliation.

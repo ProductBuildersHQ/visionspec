@@ -23,6 +23,9 @@
         },
         {
           "description": "N/A-with-rationale applicability backported to pbhq-lite's conditional blocking gates, fixing a false-fail the spec-judge calibration surfaced on this initiative's own spec-content library"
+        },
+        {
+          "description": "`synthesize`, `init`, `create`, and `approve` now fully respect the project's configured workflow \u2014 previously they silently applied a hardcoded pre-merge Working Backwards ruleset regardless of `--profile`, so `aws-one-way-door`'s `faq` wrongly required `mrd` and `enterprise`'s `bmc` couldn't be created, approved, or synthesized at all"
         }
       ],
       "breaking": [
@@ -75,12 +78,34 @@
         {
           "description": "Align the README and MkDocs site with the v0.17.0 profile changes: enterprise no longer lists press/faq (it is now the pure MRD/PRD/UXD/TRD/TPD/spec contract layer), refreshed the stage-profile tables and the profiles show/export sample output, and documented the layered class/blocking/evaluation rubric fields (with INV-3 and the not_applicable option) in the custom-profiles guide",
           "commit": "a72f437"
+        },
+        {
+          "description": "`init`/`create`/`synthesize --help` no longer hardcode the pre-merge MRD-first flow or a 4-of-25 profile list; they point at `visionspec profiles list` / `visionspec workflow` for the real, per-project catalog and sequence",
+          "commit": "d09fae7"
         }
       ],
       "infrastructure": [
         {
           "description": "Bump grokify/prism-roadmap to v0.18.0 in both go.mod and tools/prism-sync/go.mod",
           "commit": "ff6ed8c"
+        }
+      ],
+      "fixed": [
+        {
+          "description": "`init` now persists the resolved `--profile` name into `visionspec.yaml` instead of the unrelated `--workflow` flag's value (an older mechanism for an external spec-workflows repository) \u2014 the chosen embedded-catalog profile was previously forgotten immediately after project creation, so every later command silently fell back to legacy defaults",
+          "commit": "0357b92"
+        },
+        {
+          "description": "`synthesize`'s required-sources check, prompt guidance, and template resolution now come from the project's actual workflow synthesis rules (profile.yaml's `synthesis:` block) instead of a hardcoded pre-merge table \u2014 fixes `aws-one-way-door`'s `faq` wrongly requiring `mrd`, and makes workflow-declared types the legacy table never knew about (e.g. `enterprise`'s `bmc`) synthesizable for the first time",
+          "commit": "d09fae7"
+        },
+        {
+          "description": "`SynthesisInput` generalized from six fixed struct fields to `map[types.SpecType]string`, and prompt building now includes the workflow's own `Guidance`/`PromptContext` text \u2014 the methodology-specific synthesis instructions every `profile.yaml` already authors (e.g. `aws-two-way-door`'s exact FAQ question categories) now actually reach the LLM instead of being silently discarded",
+          "commit": "d09fae7"
+        },
+        {
+          "description": "`create` and `approve` (CLI and MCP) no longer reject spec types outside `types.SpecType`'s fixed 10-type enum when the project's workflow legitimately defines them (e.g. `enterprise`'s `bmc`, which `synthesize` already handled correctly) \u2014 `create` now validates through the workflow's own template loader instead of the closed enum",
+          "commit": "2cf6547"
         }
       ]
     },

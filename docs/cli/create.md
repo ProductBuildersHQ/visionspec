@@ -22,16 +22,24 @@ The command must be run from within a visionspec project directory (where `visio
 
 ## Supported Spec Types
 
+The base types below are always available. Beyond these, `create` also
+accepts any spec type the project's configured profile defines a template
+for (e.g. `enterprise`'s `bmc`) — run `visionspec workflow` or
+[`profiles show <name>`](profiles.md) to see what a given profile
+provides. A type unavailable in both is rejected with the actual list of
+what's available for that project.
+
 | Type | Category | Description |
 |------|----------|-------------|
 | `mrd` | Source | Market Requirements Document |
 | `prd` | Source | Product Requirements Document |
 | `uxd` | Source | User Experience Design |
-| `press` | GTM | Press Release (Working Backwards) |
+| `press` | GTM | Press Release (human-authored under aws-one-way-door/aws-two-way-door; not owned by `enterprise`) |
 | `faq` | GTM | FAQ Document |
 | `narrative-1p` | GTM | 1-Page Narrative |
 | `narrative-6p` | GTM | 6-Page Narrative |
 | `trd` | Technical | Technical Requirements Document |
+| `tpd` | Technical | Test Plan Document |
 | `ird` | Technical | Infrastructure Requirements Document |
 
 ## Flags
@@ -63,6 +71,8 @@ The command creates a file in the appropriate directory:
 - Source specs: `source/{type}.md`
 - GTM specs: `gtm/{type}.md`
 - Technical specs: `technical/{type}.md`
+- Output specs and any type outside the base set above (e.g. `bmc`):
+  project root, `{type}.md`
 
 ## See Also
 

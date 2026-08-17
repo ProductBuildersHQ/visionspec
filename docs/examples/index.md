@@ -47,7 +47,9 @@ visionspec init petstore-api --profile startup
 
 ## Creating Your Own Examples
 
-Use the PetStore pattern as a template:
+Use the PetStore pattern as a template (this is the no-`--profile` legacy
+flow; under `aws-one-way-door`/`aws-two-way-door`, Press is written first
+by hand instead — see [Working Backwards](../concepts/working-backwards.md)):
 
 1. **Start with MRD** - Define the market problem
 2. **Synthesize Working Backwards** - Generate Press, FAQ, PRD

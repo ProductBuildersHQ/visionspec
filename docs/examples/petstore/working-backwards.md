@@ -2,6 +2,16 @@
 
 This walkthrough demonstrates the Working Backwards methodology using the PetStore API example.
 
+!!! note "Which flow is this?"
+    This walkthrough uses the **no-`--profile` legacy flow** (MRD first,
+    Press synthesized from it) — still valid, and what you get from a bare
+    `visionspec init` with no profile. The **canonical** Working Backwards
+    experience is now the `aws-one-way-door`/`aws-two-way-door` profiles,
+    where Press is written by hand first and MRD becomes an optional
+    post-FAQ deepening step instead of the root document. See
+    [Working Backwards](../../concepts/working-backwards.md) for that flow,
+    and [`profiles show aws-one-way-door`](../../cli/profiles.md) to try it.
+
 ## The Working Backwards Flow
 
 ```

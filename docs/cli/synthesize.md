@@ -10,59 +10,47 @@ visionspec synthesize <type> [flags]
 
 ## Description
 
-The `synthesize` command generates specification documents from existing source specs using an LLM. It implements Amazon's Working Backwards methodology where the Press Release defines the vision, and requirements flow from that vision.
+The `synthesize` command generates a specification document from its source
+specs using an LLM. Which sources a type needs, and what guidance drives its
+prompt, come from the project's configured profile (its `synthesis:` rules)
+— not a single fixed flow. Run `visionspec workflow` to see the exact
+sequence and sources for the current project, or [`profiles show
+<name>`](profiles.md) for another profile.
 
-## Working Backwards Flow
+A type with no synthesis rule under the configured profile — or an
+explicit empty source list, e.g. Press under `aws-one-way-door` — is
+human-authored instead; use [`create`](create.md) for those.
 
-VisionSpec implements Amazon's Working Backwards methodology:
-
-1. **MRD** - Define the market problem (human-authored)
-2. **Press** - Write the press release announcing the solution
-3. **FAQ** - Anticipate customer and stakeholder questions
-4. **PRD** - Derive detailed requirements from the vision
+## Example: aws-one-way-door
 
 ```
-MRD (human-authored)
+Press (human-authored — write this first)
     ↓
-Press (synthesized from MRD)
+FAQ (synthesized from Press)
     ↓
-FAQ (synthesized from MRD + Press)
+MRD or OpportunitySpec (optional deepening, synthesized from Press + FAQ)
     ↓
-PRD (synthesized from MRD + Press + FAQ)
+PRD (synthesized from Press + FAQ + MRD/OpportunitySpec)
+    ↓
+Narrative 6P (synthesized from Press + FAQ + PRD)
     ↓
 UXD (human-authored)
     ↓
-TRD (synthesized from MRD + PRD + UXD + context)
+TRD (synthesized from PRD + UXD + MRD, where present)
     ↓
-TPD (synthesized from PRD + TRD + UXD)
-    ↓
-IRD (synthesized from TRD + context)
+TPD, IRD (synthesized from PRD/TRD/UXD)
 ```
 
-## Synthesis Types
-
-**Working Backwards Flow**
-
-- `press` - Press Release from MRD (vision document)
-- `faq` - FAQ from MRD + Press (scope clarification)
-- `prd` - PRD from MRD + Press + FAQ (detailed requirements)
-
-**Technical Synthesis**
-
-- `trd` - Technical Requirements from MRD + PRD + UXD + CONSTITUTION + CONTEXT
-- `tpd` - Test Plan Document from PRD + TRD + UXD
-- `ird` - Infrastructure Requirements from TRD + CONSTITUTION + CONTEXT
-
-**Narrative Documents**
-
-- `narrative-1p` - 1-Page Narrative from MRD + PRD
-- `narrative-6p` - 6-Page Narrative from MRD + PRD + UXD
+This is one profile's sequence, not a universal one — `enterprise`, for
+example, has no Press/FAQ at all and derives PRD from MRD directly. See
+[Working Backwards](../concepts/working-backwards.md) for the methodology
+behind the AWS door profiles specifically.
 
 ## Arguments
 
 | Argument | Description |
 |----------|-------------|
-| `type` | Spec type to synthesize: `press`, `faq`, `prd`, `trd`, `tpd`, `ird`, `narrative-1p`, `narrative-6p` |
+| `type` | Spec type to synthesize. Valid values depend on the project's configured profile — see `visionspec workflow`. |
 
 ## Flags
 
@@ -71,35 +59,38 @@ IRD (synthesized from TRD + context)
 | `--eval` | bool | `false` | Run evaluation after synthesis |
 | `--no-context` | bool | `false` | Skip context gathering for technical synthesis |
 
-## Synthesis Dependencies
+## Without a Configured Profile
 
-| Target | Required Sources | Description |
-|--------|------------------|-------------|
-| `press` | MRD | Vision document from market requirements |
-| `faq` | MRD, Press | Scope clarification from vision |
-| `prd` | MRD, Press, FAQ | Detailed requirements from Working Backwards artifacts |
-| `trd` | MRD, PRD | Technical requirements (UXD optional) |
-| `tpd` | PRD, TRD, UXD | Test plan from requirements and technical design |
-| `ird` | TRD | Infrastructure requirements |
-| `narrative-1p` | MRD, PRD | 1-page executive narrative |
-| `narrative-6p` | MRD, PRD | 6-page detailed narrative (UXD optional) |
+If the project has no `--profile` set (bare `visionspec init` with no
+profile), synthesis falls back to the original Working Backwards flow for
+these types only:
+
+| Target | Required Sources |
+|--------|------------------|
+| `press` | mrd |
+| `faq` | mrd, press |
+| `prd` | mrd, press, faq |
+| `trd` | mrd, prd |
+| `tpd` | prd, trd, uxd |
+| `ird` | trd |
+| `narrative-1p` | mrd, prd |
+| `narrative-6p` | mrd, prd |
 
 ## Examples
 
 ```bash
-# Working Backwards flow
-visionspec synthesize press        # Generate Press Release from MRD
-visionspec synthesize faq          # Generate FAQ from MRD + Press
-visionspec synthesize prd          # Generate PRD from MRD + Press + FAQ
+# See this project's actual sequence and sources first
+visionspec workflow
+
+# Then synthesize in that order, e.g. under aws-one-way-door:
+visionspec create press            # Human-authored — write it first
+visionspec synthesize faq          # From press
+visionspec synthesize prd          # From press + faq (+ mrd/opportunity-spec if present)
 
 # Technical synthesis
-visionspec synthesize trd --eval   # Generate TRD with evaluation
-visionspec synthesize tpd          # Generate TPD (test plan) from PRD + TRD + UXD
-visionspec synthesize ird --no-context  # Generate IRD without context gathering
-
-# Narrative documents
-visionspec synthesize narrative-1p
-visionspec synthesize narrative-6p
+visionspec synthesize trd --eval
+visionspec synthesize tpd
+visionspec synthesize ird --no-context
 ```
 
 ## Context Grounding
@@ -119,24 +110,26 @@ This grounds technical decisions in the reality of existing code. Use `--no-cont
 
 ## Output
 
-```
-⋯ Synthesizing press from [mrd]...
-✓ Generated docs/specs/my-project/gtm/press.md
+Example under `aws-one-way-door` (press already created via `create`):
 
-⋯ Synthesizing faq from [mrd press]...
+```
+⋯ Synthesizing faq from [press]...
 ✓ Generated docs/specs/my-project/gtm/faq.md
 
-⋯ Synthesizing prd from [mrd press faq]...
+⋯ Synthesizing prd from [press faq]...
 ✓ Generated docs/specs/my-project/source/prd.md
 
 ⋯ Gathering codebase context for grounding...
   Gathered context from 2 sources
-⋯ Synthesizing trd from [mrd prd]...
+⋯ Synthesizing trd from [prd uxd]...
 ✓ Generated docs/specs/my-project/technical/trd.md
 
 ⋯ Evaluating trd...
 ✓ trd: 8.2/10 PASS
 ```
+
+The bracketed list after "from" is always the actual sources found on disk
+for that type under the project's configured profile — not a fixed set.
 
 ## LLM Configuration
 

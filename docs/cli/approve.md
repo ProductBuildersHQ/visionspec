@@ -61,13 +61,14 @@ visionspec approve mrd --approver=pm@company.com --comment="Reviewed in spec rev
 
 ## Required Approvals
 
-The specs required for reconciliation depend on your profile:
+The specs required for reconciliation depend on your profile — run
+[`profiles show <name>`](profiles.md) for any profile's exact list:
 
 | Profile | Required Approvals |
 |---------|-------------------|
 | `startup` | prd |
-| `growth` | prd, uxd |
-| `enterprise` | mrd, prd, uxd, trd |
+| `growth` | faq, prd, uxd |
+| `enterprise` | mrd, prd, spec, tpd, trd, uxd |
 
 ## Checking Approval Status
 
