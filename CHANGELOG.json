@@ -9,6 +9,78 @@
   ],
   "releases": [
     {
+      "version": "v0.17.0",
+      "date": "2026-08-16",
+      "highlights": [
+        {
+          "description": "prism-roadmap upstream complete: experience-map and v2mom-summary are now synced from the tagged prism-roadmap v0.18.0 release, converting the last four local stopgaps into prism-synced copies with provenance headers \u2014 prism-roadmap is now the single source of truth for all roadmap/discovery/goals content"
+        },
+        {
+          "description": "The layered class/blocking/evaluation taxonomy (introduced for enterprise/aws-door rubrics in v0.16.0) now covers all 62 remaining locally-owned rubrics (415 categories), so every consumer can separate advisory Leadership-Principle judgment from blocking implementation-readiness gates"
+        },
+        {
+          "description": "AWS Working Backwards artifacts (press, faq, narrative-6p) re-homed to aws-one-way-door as their canonical owner; enterprise becomes the pure contract layer (MRD/PRD/UXD/TRD/TPD/IRD/spec)"
+        },
+        {
+          "description": "N/A-with-rationale applicability backported to pbhq-lite's conditional blocking gates, fixing a false-fail the spec-judge calibration surfaced on this initiative's own spec-content library"
+        }
+      ],
+      "breaking": [
+        {
+          "description": "enterprise no longer provides or requires press/faq/narrative-6p; the canonical home is aws-one-way-door (full ownership with AWS Leadership Principle rubrics). aws-two-way-door and the big-tech family still source these artifacts via {from: aws-one-way-door}; non-Working-Backwards methodologies (google, shapeup, jtbd, lean-startup, design-thinking, startup, 0-1) drop the unused optional entries",
+          "commit": "5adae67"
+        }
+      ],
+      "added": [
+        {
+          "description": "Methodology.Parameters (map[string]any) carries methodology-specific structured config whose shape varies per methodology \u2014 Shape Up betting cycles, Continuous Discovery cadence and assumption taxonomy, V2MOM cascading and ProductContext links \u2014 previously expressed as top-level profile keys the loader silently dropped",
+          "commit": "eeb0c82"
+        },
+        {
+          "description": "\"tracking\" added to the SpecRequirement.Category enum (used by big-tech's shapeup-scope and discovery-snapshot)",
+          "commit": "eeb0c82"
+        },
+        {
+          "description": "not_applicable (N/A-with-rationale) added to pbhq-lite's 6 conditional blocking categories that assume a service/feature: trd api_design/data_models/security_considerations/dependencies and prd user_stories/success_metrics; quick-fix inherits them. Universally-applicable gates keep no escape hatch. Guarded by TestConditionalBlockingCategoriesAllowNA",
+          "commit": "111abe4"
+        },
+        {
+          "description": "experience-map (template + rubric, continuous-discovery) and the v2mom-summary rubric are now prism-synced from prism-roadmap v0.18.0; remaining synced files re-stamped from @v0.17.0 to @v0.18.0",
+          "commit": "26716e6"
+        },
+        {
+          "description": "class/blocking/evaluation layered taxonomy applied to all 62 remaining locally-owned rubrics across big-tech (+ feature/product/essentials families), google, shapeup, stripe, growth, jtbd, lean-startup, design-thinking, startup, 0-1, pbhq-lite, aws-one-way-door's Working Backwards rubrics, and enterprise's mrd/spec/narrative-1p. Guarded by TestAllLocalRubricsClassified and TestNoLeadershipPrincipleIsBlocking (Leadership-Principle categories are never blocking, library-wide)",
+          "commit": "0ef4271"
+        }
+      ],
+      "changed": [
+        {
+          "description": "rubric_extensions removed and cycles migrated to parameters for the big-tech, big-tech-essentials, and shapeup profiles touched by the AWS artifact re-homing",
+          "commit": "5adae67"
+        },
+        {
+          "description": "v2mom and continuous-discovery methodology config moved into methodology.parameters; v2mom's dead evaluation block dropped (superseded by the real v2mom-*.rubric.yaml files)",
+          "commit": "eeb0c82"
+        }
+      ],
+      "documentation": [
+        {
+          "description": "tools/prism-sync/README.md rewritten for the post-v0.18.0 world: drop the stale replace-directive / \"manual only, cannot run in CI\" sections, document syncing from the tagged release, refresh the synced-content table, add an upgrade procedure; CLAUDE.md gains a \"Synced Content (Generated \u2014 Do Not Edit)\" section",
+          "commit": "21bb587"
+        },
+        {
+          "description": "ROADMAP.md: RMI-020 through RMI-029 marked complete with resolution notes; Phase 8 filed with follow-ons (RMI-028 PRD-representation reconciliation, RMI-029 N/A-applicability backport, RMI-030 rebuild visionstudio against merged visionspec)",
+          "commit": "6bc0643"
+        }
+      ],
+      "infrastructure": [
+        {
+          "description": "Bump grokify/prism-roadmap to v0.18.0 in both go.mod and tools/prism-sync/go.mod",
+          "commit": "ff6ed8c"
+        }
+      ]
+    },
+    {
       "version": "v0.16.0",
       "date": "2026-08-15",
       "highlights": [
