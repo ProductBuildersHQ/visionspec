@@ -1,13 +1,13 @@
 module github.com/ProductBuildersHQ/visionspec
 
-go 1.26.1
+go 1.26.5
 
 require (
 	github.com/bmatcuk/doublestar/v4 v4.10.0
 	github.com/fsnotify/fsnotify v1.10.1
 	github.com/grokify/oscompat v0.5.0
 	github.com/grokify/pidl v0.5.0
-	github.com/grokify/prism-roadmap v0.18.0
+	github.com/grokify/prism-roadmap v0.20.0
 	github.com/invopop/jsonschema v0.14.0
 	github.com/modelcontextprotocol/go-sdk v1.7.0
 	github.com/plexusone/graphfs v0.2.0
