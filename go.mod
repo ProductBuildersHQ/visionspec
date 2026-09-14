@@ -9,7 +9,7 @@ require (
 	github.com/grokify/pidl v0.5.0
 	github.com/grokify/prism-roadmap v0.20.0
 	github.com/invopop/jsonschema v0.14.0
-	github.com/modelcontextprotocol/go-sdk v1.7.0
+	github.com/modelcontextprotocol/go-sdk v1.8.0
 	github.com/plexusone/graphfs v0.2.0
 	github.com/plexusone/graphize v0.4.0
 	github.com/plexusone/omnillm-core v0.18.0
