@@ -3,7 +3,7 @@ module github.com/ProductBuildersHQ/visionspec
 go 1.26.5
 
 require (
-	github.com/bmatcuk/doublestar/v4 v4.10.0
+	github.com/bmatcuk/doublestar/v4 v4.10.1
 	github.com/fsnotify/fsnotify v1.10.1
 	github.com/grokify/oscompat v0.5.0
 	github.com/grokify/pidl v0.5.0
