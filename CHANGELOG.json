@@ -9,6 +9,79 @@
   ],
   "releases": [
     {
+      "version": "v0.18.0",
+      "date": "2026-09-26",
+      "highlights": [
+        {
+          "description": "New `visionspec speckit export` command packages a VisionSpec workflow family as native GitHub Spec Kit extensions, workflows, and bundles — the first family shipped is aws-one-way-door, split by spec category into a `one-way-door` product extension and a `one-way-door-engineering` add-on, each spec type becoming a self-evaluating Spec Kit command"
+        },
+        {
+          "description": "A hand-authored `risk-adjusted` triage workflow routes any piece of work by reversibility — bug to Spec Kit's built-in bug pipeline, a reversible two-way-door feature to the core specify/plan/tasks/implement flow, a hard-to-reverse initiative to the full one-way-door chain with its review gates — alongside a generated `one-way-door-chain` workflow compiled straight from the family's execution sequence for when the ceremony decision is already made"
+        },
+        {
+          "description": "Two role bundles (`product-management`, `product-builders`) and component catalogs let any Spec Kit project install the whole methodology with one command, independent of VisionSpec's own CLI or MCP surface"
+        },
+        {
+          "description": "Spec type ids are now a documented, stable node-identity contract on `Execution.Sequence` (the same id the loader already derives from a template's filename), with a matching `ReviewGate.StepID()` so gates get equally stable identity — the exporter and any future consumer rely on it rather than reinventing identity per integration"
+        },
+        {
+          "description": "RMI-030 complete: the spec judge now sees the layered class/blocking/evaluation rubric taxonomy introduced in v0.16.0/v0.17.0"
+        }
+      ],
+      "added": [
+        {
+          "description": "`pkg/speckit`: exports a workflow family's execution sequence as Spec Kit extension commands (rubric-driven self-evaluation, review gates rendered as STOP instructions) and as a single compiled workflow.yml",
+          "commit": "6a7aced"
+        },
+        {
+          "description": "`visionspec speckit export [workflow] [-o dir] [--check]` CLI command, with `--check` as a CI drift gate against the committed output",
+          "commit": "712216f"
+        },
+        {
+          "description": "`speckit/`: generated `one-way-door` and `one-way-door-engineering` extensions and the generated `one-way-door-chain` workflow for aws-one-way-door, plus the hand-authored `risk-adjusted` triage workflow and the `product-management`/`product-builders` bundles with catalogs",
+          "commit": "30ca209"
+        },
+        {
+          "description": "`ReviewGate.StepID()` and a documented stable node-identity contract on `Execution.Sequence`",
+          "commit": "ba7bb9e"
+        }
+      ],
+      "documentation": [
+        {
+          "description": "Spec Kit Plugins guide walking through installing the exported extensions and workflows into a real external Spec Kit project and running a real initiative through it",
+          "commit": "8cb1637"
+        },
+        {
+          "description": "`speckit/README.md` component reference and install instructions",
+          "commit": "f52a219"
+        },
+        {
+          "description": "Every methodology framework page (AWS, Google, Stripe, Big Tech, Shape Up, Continuous Discovery, Lean Startup, Design Thinking, JTBD, OpportunitySpec) now discloses it is ProductBuildersHQ's independent interpretation, not official material from the named company or practitioner",
+          "commit": "e994cbe"
+        },
+        {
+          "description": "RMI-030 marked complete in ROADMAP.md",
+          "commit": "af824f0"
+        }
+      ],
+      "infrastructure": [
+        {
+          "description": "Tag-triggered `release-speckit.yaml` GitHub Actions workflow packaging extensions and bundles as release zips with checksums",
+          "commit": "13254ab"
+        }
+      ],
+      "tests": [
+        {
+          "description": "Structural exporter tests: command-name validity, manifest/fileset completeness, chain handoff integrity, determinism",
+          "commit": "18ddbf6"
+        },
+        {
+          "description": "CLI coverage for speckit export and its drift check",
+          "commit": "29a4c75"
+        }
+      ]
+    },
+    {
       "version": "v0.17.0",
       "date": "2026-08-16",
       "highlights": [
