@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0",
+  "updated_at": "2026-09-25T00:00:00Z",
+  "catalog_url": "https://raw.githubusercontent.com/ProductBuildersHQ/visionspec/main/speckit/catalog/workflows.json",
+  "workflows": {
+    "risk-adjusted": {
+      "id": "risk-adjusted",
+      "name": "Risk-Adjusted Delivery Triage",
+      "description": "Routes work by reversibility: bugs to the bug pipeline, reversible two-way-door features to the core specify flow, hard-to-reverse one-way-door initiatives to the Working Backwards chain",
+      "author": "ProductBuildersHQ",
+      "version": "1.0.0",
+      "url": "https://raw.githubusercontent.com/ProductBuildersHQ/visionspec/speckit-v0.1.0/speckit/workflows/risk-adjusted/workflow.yml",
+      "repository": "https://github.com/ProductBuildersHQ/visionspec",
+      "license": "MIT",
+      "requires": {
+        "speckit_version": ">=1.0.0"
+      },
+      "tags": ["triage", "working-backwards", "one-way-door", "two-way-door"],
+      "created_at": "2026-09-25T00:00:00Z",
+      "updated_at": "2026-09-25T00:00:00Z"
+    },
+    "one-way-door-chain": {
+      "id": "one-way-door-chain",
+      "name": "One Way Door Chain",
+      "description": "Amazon Working Backwards end-to-end chain, generated from the aws-one-way-door family's execution sequence and review gates: press through ird",
+      "author": "ProductBuildersHQ",
+      "version": "0.1.0",
+      "url": "https://raw.githubusercontent.com/ProductBuildersHQ/visionspec/speckit-v0.1.0/speckit/workflows/one-way-door-chain/workflow.yml",
+      "repository": "https://github.com/ProductBuildersHQ/visionspec",
+      "license": "MIT",
+      "requires": {
+        "speckit_version": ">=1.0.0"
+      },
+      "tags": ["working-backwards", "one-way-door", "chain", "generated"],
+      "created_at": "2026-09-25T00:00:00Z",
+      "updated_at": "2026-09-25T00:00:00Z"
+    }
+  }
+}

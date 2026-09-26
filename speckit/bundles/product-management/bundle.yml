@@ -1,0 +1,30 @@
+# Product Management role bundle — hand-authored.
+# Maintained by ProductBuildersHQ in github.com/ProductBuildersHQ/visionspec
+# (speckit/bundles/product-management/).
+schema_version: "1.0"
+
+bundle:
+  id: "product-management"
+  name: "Product Management"
+  version: "1.0.0"
+  role: "product-manager"
+  description: "Risk-adjusted product delivery for product teams: the one-way-door Working Backwards requirements chain (through UXD) plus the risk-adjusted triage workflow. Stops at the requirements handoff."
+  author: "ProductBuildersHQ"
+  license: "MIT"
+
+requires:
+  speckit_version: ">=1.0.0"
+  tools: []
+  mcp: []
+
+# Agnostic bundle: inherits the project's active integration.
+
+provides:
+  extensions:
+    - id: "one-way-door"
+      version: "0.1.0"
+  workflows:
+    - id: "risk-adjusted"
+      version: "1.0.0"
+
+tags: ["product", "working-backwards", "one-way-door", "triage"]

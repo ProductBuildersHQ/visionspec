@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0",
+  "updated_at": "2026-09-25T00:00:00Z",
+  "catalog_url": "https://raw.githubusercontent.com/ProductBuildersHQ/visionspec/main/speckit/catalog/extensions.json",
+  "extensions": {
+    "one-way-door": {
+      "name": "One Way Door Product Chain",
+      "id": "one-way-door",
+      "description": "Amazon Working Backwards requirements chain with review gates and quality rubrics: press → faq → mrd → prd → narrative-6p → uxd",
+      "author": "ProductBuildersHQ",
+      "version": "0.1.0",
+      "download_url": "https://github.com/ProductBuildersHQ/visionspec/releases/download/speckit-v0.1.0/one-way-door-0.1.0.zip",
+      "repository": "https://github.com/ProductBuildersHQ/visionspec",
+      "documentation": "https://github.com/ProductBuildersHQ/visionspec/blob/main/speckit/README.md",
+      "license": "MIT",
+      "category": "process",
+      "effect": "read-write",
+      "requires": {
+        "speckit_version": ">=1.0.0"
+      },
+      "provides": {
+        "commands": 6
+      },
+      "tags": ["product", "working-backwards", "one-way-door", "prfaq"],
+      "verified": false,
+      "downloads": 0,
+      "stars": 0,
+      "created_at": "2026-09-25T00:00:00Z",
+      "updated_at": "2026-09-25T00:00:00Z"
+    },
+    "one-way-door-engineering": {
+      "name": "One Way Door Engineering Add-On",
+      "id": "one-way-door-engineering",
+      "description": "Amazon Working Backwards technical spec chain extending the product extension: trd → tpd → ird",
+      "author": "ProductBuildersHQ",
+      "version": "0.1.0",
+      "download_url": "https://github.com/ProductBuildersHQ/visionspec/releases/download/speckit-v0.1.0/one-way-door-engineering-0.1.0.zip",
+      "repository": "https://github.com/ProductBuildersHQ/visionspec",
+      "documentation": "https://github.com/ProductBuildersHQ/visionspec/blob/main/speckit/README.md",
+      "license": "MIT",
+      "category": "process",
+      "effect": "read-write",
+      "requires": {
+        "speckit_version": ">=1.0.0"
+      },
+      "provides": {
+        "commands": 3
+      },
+      "tags": ["engineering", "working-backwards", "one-way-door"],
+      "verified": false,
+      "downloads": 0,
+      "stars": 0,
+      "created_at": "2026-09-25T00:00:00Z",
+      "updated_at": "2026-09-25T00:00:00Z"
+    }
+  }
+}

@@ -1,0 +1,32 @@
+# Product Builders role bundle — hand-authored.
+# Maintained by ProductBuildersHQ in github.com/ProductBuildersHQ/visionspec
+# (speckit/bundles/product-builders/).
+schema_version: "1.0"
+
+bundle:
+  id: "product-builders"
+  name: "Product Builders"
+  version: "1.0.0"
+  role: "product-builder"
+  description: "Risk-adjusted product delivery for teams that carry requirements through implementation: the one-way-door product chain, its engineering add-on (TRD, TPD, IRD), and the risk-adjusted triage workflow."
+  author: "ProductBuildersHQ"
+  license: "MIT"
+
+requires:
+  speckit_version: ">=1.0.0"
+  tools: []
+  mcp: []
+
+# Agnostic bundle: inherits the project's active integration.
+
+provides:
+  extensions:
+    - id: "one-way-door"
+      version: "0.1.0"
+    - id: "one-way-door-engineering"
+      version: "0.1.0"
+  workflows:
+    - id: "risk-adjusted"
+      version: "1.0.0"
+
+tags: ["product", "engineering", "working-backwards", "one-way-door", "triage"]

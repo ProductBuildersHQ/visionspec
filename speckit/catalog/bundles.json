@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0",
+  "updated_at": "2026-09-25T00:00:00Z",
+  "catalog_url": "https://raw.githubusercontent.com/ProductBuildersHQ/visionspec/main/speckit/catalog/bundles.json",
+  "bundles": {
+    "product-management": {
+      "name": "Product Management",
+      "id": "product-management",
+      "version": "1.0.0",
+      "role": "product-manager",
+      "description": "Risk-adjusted product delivery for product teams: the one-way-door Working Backwards requirements chain (through UXD) plus the risk-adjusted triage workflow.",
+      "author": "ProductBuildersHQ",
+      "license": "MIT",
+      "download_url": "https://github.com/ProductBuildersHQ/visionspec/releases/download/speckit-v0.1.0/product-management-bundle-1.0.0.zip",
+      "repository": "https://github.com/ProductBuildersHQ/visionspec",
+      "requires": {
+        "speckit_version": ">=1.0.0"
+      },
+      "provides": {
+        "extensions": 1,
+        "presets": 0,
+        "steps": 0,
+        "workflows": 1
+      },
+      "tags": ["product", "working-backwards", "one-way-door", "triage"],
+      "verified": false,
+      "created_at": "2026-09-25T00:00:00Z",
+      "updated_at": "2026-09-25T00:00:00Z"
+    },
+    "product-builders": {
+      "name": "Product Builders",
+      "id": "product-builders",
+      "version": "1.0.0",
+      "role": "product-builder",
+      "description": "Risk-adjusted product delivery for teams that carry requirements through implementation: the one-way-door product chain, its engineering add-on, and the risk-adjusted triage workflow.",
+      "author": "ProductBuildersHQ",
+      "license": "MIT",
+      "download_url": "https://github.com/ProductBuildersHQ/visionspec/releases/download/speckit-v0.1.0/product-builders-bundle-1.0.0.zip",
+      "repository": "https://github.com/ProductBuildersHQ/visionspec",
+      "requires": {
+        "speckit_version": ">=1.0.0"
+      },
+      "provides": {
+        "extensions": 2,
+        "presets": 0,
+        "steps": 0,
+        "workflows": 1
+      },
+      "tags": ["product", "engineering", "working-backwards", "one-way-door", "triage"],
+      "verified": false,
+      "created_at": "2026-09-25T00:00:00Z",
+      "updated_at": "2026-09-25T00:00:00Z"
+    }
+  }
+}
