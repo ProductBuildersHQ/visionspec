@@ -46,13 +46,14 @@ VisionSpec bridges the gap between organizational intent and executable specific
 - 📊 **Structured evaluation** - Per-domain LLM judges with 1-5 numeric scoring
 - 🔄 **Reconciliation** - Conflict detection and tradeoff resolution
 - 📦 **Target adapters** - Export to SpecKit, GSD, GasTown, GasCity, AWS AI-DLC, OpenSpec
+- 🔌 **Spec Kit plugins** - Package a whole workflow methodology as native GitHub Spec Kit extensions, workflows, and bundles, for use in any Spec Kit project
 
 All synthesized documents are committed to git and can be reviewed, edited, and refined by humans or collaboratively with AI assistants.
 
 ## Installation
 
 ```bash
-go install github.com/ProductBuildersHQ/visionspec/cmd/visionspec@v0.13.0
+go install github.com/ProductBuildersHQ/visionspec/cmd/visionspec@v0.18.0
 ```
 
 ## Quick Start
