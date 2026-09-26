@@ -1,5 +1,8 @@
 # Jobs to be Done (JTBD)
 
+!!! note "Independent interpretation"
+    This page is ProductBuildersHQ's own interpretation of Jobs to be Done, adapted for AI-assisted spec authoring. It is not affiliated with, endorsed by, or sponsored by the Christensen Institute or any other JTBD practitioner or firm.
+
 Clayton Christensen's Jobs to be Done framework focuses on understanding the underlying motivations behind customer behavior. People don't buy products—they "hire" them to get a job done.
 
 ## The Flow

@@ -1,5 +1,8 @@
 # Google Design Docs + RFC
 
+!!! note "Independent interpretation"
+    This page is ProductBuildersHQ's own interpretation of Google's publicly described Design Doc and RFC culture, adapted for AI-assisted spec authoring. It is not affiliated with, endorsed by, or sponsored by Google LLC.
+
 Google's engineering culture emphasizes written communication through Design Docs and RFCs. This approach focuses on explicit tradeoffs, alternatives considered, and peer review before building.
 
 ## The Flow

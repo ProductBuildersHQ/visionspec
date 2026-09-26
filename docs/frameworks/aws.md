@@ -1,5 +1,8 @@
 # AWS Working Backwards
 
+!!! note "Independent interpretation"
+    This page is ProductBuildersHQ's own interpretation of Amazon's publicly described Working Backwards practice, adapted for AI-assisted spec authoring. It is not affiliated with, endorsed by, or sponsored by Amazon.com, Inc.
+
 Amazon's Working Backwards methodology starts with the customer and works backward to the solution. It emphasizes writing as thinking, with the PR/FAQ and 6-Pager as core artifacts.
 
 ## Profile Variants

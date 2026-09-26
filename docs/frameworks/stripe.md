@@ -1,5 +1,8 @@
 # Stripe API-First
 
+!!! note "Independent interpretation"
+    This page is ProductBuildersHQ's own interpretation of Stripe's publicly described API-first practices, adapted for AI-assisted spec authoring. It is not affiliated with, endorsed by, or sponsored by Stripe, Inc.
+
 Stripe's methodology treats APIs as products and documentation as a first-class deliverable. This approach emphasizes contract-first design, developer empathy, and precision in specifications.
 
 ## The Flow

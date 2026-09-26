@@ -1,5 +1,8 @@
 # Methodology Frameworks
 
+!!! note "Independent interpretation"
+    Each framework page below is ProductBuildersHQ's own interpretation of publicly described practices, adapted for AI-assisted spec authoring. None are affiliated with, endorsed by, or sponsored by the companies or practitioners named.
+
 VisionSpec supports multiple product development methodologies through its profile system. Each profile provides customized templates and evaluation rubrics tailored to the methodology's artifacts and practices.
 
 ## Available Frameworks

@@ -1,5 +1,8 @@
 # Big Tech Best Practices
 
+!!! note "Independent interpretation"
+    This page is ProductBuildersHQ's own synthesis of practices publicly described by the named companies and practitioners, adapted for AI-assisted spec authoring. It is not affiliated with, endorsed by, or sponsored by any of them.
+
 The Big Tech profiles combine proven product development practices from 10 leading methodologies into a comprehensive "best of all worlds" framework. They merge the best of Amazon, Google, Stripe, Netflix, Spotify, Meta, Apple, Microsoft, Basecamp (Shape Up), and Teresa Torres (Continuous Discovery).
 
 ## Profile Variants

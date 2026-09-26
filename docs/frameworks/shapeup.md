@@ -1,5 +1,8 @@
 # Shape Up
 
+!!! note "Independent interpretation"
+    This page is ProductBuildersHQ's own interpretation of Shape Up, adapted for AI-assisted spec authoring. It is not affiliated with, endorsed by, or sponsored by Basecamp or Ryan Singer.
+
 Shape Up is Basecamp's product development methodology created by Ryan Singer. It emphasizes fixed time with variable scope, betting on shaped pitches rather than managing backlogs.
 
 ## When to Use

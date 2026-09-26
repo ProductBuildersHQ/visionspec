@@ -1,5 +1,8 @@
 # Design Thinking
 
+!!! note "Independent interpretation"
+    This page is ProductBuildersHQ's own interpretation of Design Thinking, adapted for AI-assisted spec authoring. It is not affiliated with, endorsed by, or sponsored by Stanford University or the Hasso Plattner Institute of Design (d.school).
+
 Stanford d.school's Design Thinking methodology is a human-centered approach to innovation. It emphasizes empathy, experimentation, and iteration through five interconnected stages.
 
 ## The Flow

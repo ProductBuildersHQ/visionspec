@@ -1,5 +1,8 @@
 # OpportunitySpec Framework
 
+!!! note "Independent interpretation"
+    This page is ProductBuildersHQ's own synthesis of practices publicly described by Jeff Patton and the Silicon Valley Product Group (SVPG), adapted for AI-assisted spec authoring. It is not affiliated with, endorsed by, or sponsored by either.
+
 OpportunitySpec is a merged 12-box framework from [prism-roadmap](https://github.com/grokify/prism-roadmap) that combines Jeff Patton's Opportunity Canvas (discovery-focused) with Marty Cagan's SVPG Opportunity Assessment (business case-focused).
 
 ## When to Use

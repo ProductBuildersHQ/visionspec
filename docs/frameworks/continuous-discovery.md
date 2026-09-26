@@ -1,5 +1,8 @@
 # Continuous Discovery
 
+!!! note "Independent interpretation"
+    This page is ProductBuildersHQ's own interpretation of Continuous Discovery, adapted for AI-assisted spec authoring. It is not affiliated with, endorsed by, or sponsored by Teresa Torres or Product Talk.
+
 Continuous Discovery is Teresa Torres's framework for integrating customer research into the daily product development process through weekly touchpoints, opportunity solution trees, and assumption testing.
 
 ## When to Use

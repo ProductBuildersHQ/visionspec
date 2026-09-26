@@ -1,5 +1,8 @@
 # Lean Startup
 
+!!! note "Independent interpretation"
+    This page is ProductBuildersHQ's own interpretation of Lean Startup, adapted for AI-assisted spec authoring. It is not affiliated with, endorsed by, or sponsored by Eric Ries.
+
 Eric Ries' Lean Startup methodology emphasizes rapid experimentation and validated learning. The Build-Measure-Learn feedback loop is the core engine for turning ideas into sustainable businesses.
 
 ## The Flow
