@@ -1,0 +1,50 @@
+name: release-speckit
+
+on:
+  push:
+    tags:
+      - "speckit-v*"
+
+permissions:
+  contents: write
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-go@v6
+        with:
+          go-version-file: go.mod
+
+      - name: Verify committed artifacts match the generator
+        run: go run ./cmd/visionspec speckit export aws-one-way-door -o speckit --check
+
+      - name: Package extensions, workflow, and bundles
+        run: |
+          set -euo pipefail
+          VERSION="${GITHUB_REF_NAME#speckit-v}"
+          mkdir -p dist
+          for ext in speckit/extensions/*/; do
+            id=$(basename "$ext")
+            (cd "$ext" && zip -r "$GITHUB_WORKSPACE/dist/${id}-${VERSION}.zip" .)
+          done
+          for bundle in speckit/bundles/*/; do
+            id=$(basename "$bundle")
+            bundle_version=$(awk '/^  version:/ {gsub(/"/, "", $2); print $2; exit}' "$bundle/bundle.yml")
+            (cd "$bundle" && zip -r "$GITHUB_WORKSPACE/dist/${id}-bundle-${bundle_version}.zip" .)
+          done
+          for wf in speckit/workflows/*/; do
+            id=$(basename "$wf")
+            cp "$wf/workflow.yml" "dist/${id}-workflow.yml"
+          done
+          (cd dist && shasum -a 256 -- * > checksums.txt)
+
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" dist/* \
+            --title "Spec Kit plugins $GITHUB_REF_NAME" \
+            --generate-notes
