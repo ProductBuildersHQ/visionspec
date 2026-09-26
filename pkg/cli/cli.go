@@ -257,6 +257,7 @@ func AddCommandsTo(root *cobra.Command, cfg *Config) {
 		cmds.Reconcile,
 		cmds.Approve,
 		cmds.Export,
+		cmds.SpecKit,
 		cmds.Targets,
 		cmds.Graph,
 		cmds.Docs,
@@ -292,6 +293,7 @@ type CommandSet struct {
 	Reconcile  *cobra.Command
 	Approve    *cobra.Command
 	Export     *cobra.Command
+	SpecKit    *cobra.Command
 	Targets    *cobra.Command
 	Graph      *cobra.Command
 	Docs       *cobra.Command
@@ -332,6 +334,7 @@ func Commands(cfg *Config) *CommandSet {
 		Reconcile:  reconcileCmd(cfg),
 		Approve:    approveCmd(cfg),
 		Export:     exportCmd(cfg),
+		SpecKit:    speckitCmd(cfg),
 		Targets:    targetsCmd(cfg),
 		Graph:      graphCmd(cfg),
 		Docs:       docsCmd(cfg),
