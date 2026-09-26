@@ -40,6 +40,7 @@ VisionSpec provides a command-line interface for managing specifications.
 | Command | Description |
 |---------|-------------|
 | [export](export.md) | Export to target execution system |
+| [speckit](speckit.md) | Export a workflow family as Spec Kit extensions and workflows |
 | [targets](targets.md) | List available export targets |
 | [serve](serve.md) | Start MCP server |
 | [docs](docs.md) | Generate MkDocs documentation |

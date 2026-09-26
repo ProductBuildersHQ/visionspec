@@ -80,6 +80,7 @@ nav:
       - reconcile: cli/reconcile.md
       - approve: cli/approve.md
       - export: cli/export.md
+      - speckit: cli/speckit.md
       - targets: cli/targets.md
       - status: cli/status.md
       - profiles: cli/profiles.md

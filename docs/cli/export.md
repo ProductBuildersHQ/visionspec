@@ -179,3 +179,4 @@ For SpecKit exports, if `CONSTITUTION.md` exists, it's synced to `.specify/memor
 
 - [reconcile](reconcile.md) - Generate spec.md before export
 - [targets](targets.md) - List available targets
+- [speckit](speckit.md) - Package a whole workflow *family* as Spec Kit extensions, for any Spec Kit project (a different mechanism from the `speckit` target above)
