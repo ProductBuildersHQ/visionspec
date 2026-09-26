@@ -1,0 +1,168 @@
+# Risk-Adjusted Delivery Triage — hand-authored spec-kit workflow.
+# Maintained by ProductBuildersHQ in github.com/ProductBuildersHQ/visionspec
+# (speckit/workflows/risk-adjusted/). Companion to the one-way-door
+# extensions exported from the visionspec aws-one-way-door workflow family.
+#
+# The door test is computed in the `route` shell step (POSIX sh) so each
+# delivery chain appears exactly once — spec-kit requires globally unique
+# step ids, so branches cannot be shared via YAML anchors.
+schema_version: "1.0"
+
+workflow:
+  id: "risk-adjusted"
+  name: "Risk-Adjusted Delivery Triage"
+  version: "1.0.0"
+  author: "ProductBuildersHQ"
+  description: "Routes work by reversibility: bugs to the bug pipeline, reversible two-way-door features to the core specify flow, hard-to-reverse one-way-door initiatives to the Working Backwards chain"
+
+requires:
+  speckit_version: ">=1.0.0"
+
+inputs:
+  work:
+    type: string
+    required: true
+    prompt: "Describe the work (bug report, feature idea, or initiative)"
+  slug:
+    type: string
+    required: true
+    prompt: "Short kebab-case slug for this work (e.g. offline-mode)"
+  work_type:
+    type: string
+    default: "unsure"
+    enum: [bug, feature, initiative, unsure]
+    prompt: "What is this? bug (defect in existing behavior) | feature (reversible two-way-door change) | initiative (hard-to-reverse one-way-door bet) | unsure (the next two answers decide)"
+  reversibility:
+    type: string
+    default: "reversible"
+    enum: [reversible, one-way]
+    prompt: "Door test (used when unsure): could you fully roll this back within a sprint at contained cost? reversible = yes | one-way = no"
+  blast_radius:
+    type: string
+    default: "contained"
+    enum: [contained, broad]
+    prompt: "Blast radius (used when unsure): does this involve public commitments, pricing, data migrations, or major investment? contained = no | broad = yes"
+  deepen:
+    type: string
+    default: "skip"
+    enum: [skip, mrd]
+    prompt: "Initiative chain only: deepen the FAQ with market validation (MRD)? skip | mrd"
+  integration:
+    type: string
+    default: "auto"
+    prompt: "Integration to use (e.g. claude, copilot; 'auto' uses the project's initialized integration)"
+
+steps:
+  # The decision tree: an explicit work_type wins; otherwise the one-way-door
+  # test escalates — irreversible or broad-blast work is an initiative,
+  # everything else is a feature.
+  - id: route
+    type: shell
+    run: |
+      if [ "{{ inputs.work_type }}" != "unsure" ]; then
+        echo "{{ inputs.work_type }}"
+      elif [ "{{ inputs.reversibility }}" = "one-way" ] || [ "{{ inputs.blast_radius }}" = "broad" ]; then
+        echo "initiative"
+      else
+        echo "feature"
+      fi
+
+  - id: triage
+    type: switch
+    expression: "{{ steps.route.output.stdout }}"
+    cases:
+      # Defect in existing behavior: lightweight bug pipeline (spec-kit's
+      # built-in bug extension).
+      bug:
+        - id: bug-assess
+          command: speckit.bug.assess
+          integration: "{{ inputs.integration }}"
+          input:
+            args: "{{ inputs.work }} slug={{ inputs.slug }}"
+        - id: bug-review
+          type: gate
+          message: "Review the bug assessment before any code change."
+        - id: bug-fix
+          command: speckit.bug.fix
+          integration: "{{ inputs.integration }}"
+          input:
+            args: "slug={{ inputs.slug }}"
+        - id: bug-test
+          command: speckit.bug.test
+          integration: "{{ inputs.integration }}"
+          input:
+            args: "slug={{ inputs.slug }}"
+
+      # Reversible two-way-door change: decide fast, use the core
+      # Spec-Driven Development flow.
+      feature:
+        - id: specify
+          command: speckit.specify
+          integration: "{{ inputs.integration }}"
+          input:
+            args: "{{ inputs.work }}"
+        - id: review-spec
+          type: gate
+          message: "Review the spec before planning. Two-way doors are decided quickly — but still decided."
+        - id: plan
+          command: speckit.plan
+          integration: "{{ inputs.integration }}"
+          input:
+            args: "{{ inputs.work }}"
+        - id: tasks
+          command: speckit.tasks
+          integration: "{{ inputs.integration }}"
+          input:
+            args: "{{ inputs.work }}"
+        - id: implement
+          command: speckit.implement
+          integration: "{{ inputs.integration }}"
+          input:
+            args: "{{ inputs.work }}"
+
+      # Hard-to-reverse one-way-door bet: Working Backwards chain from the
+      # one-way-door extension, with its review gates made explicit.
+      initiative:
+        - id: press
+          command: speckit.one-way-door.press
+          integration: "{{ inputs.integration }}"
+          input:
+            args: "{{ inputs.work }} slug={{ inputs.slug }}"
+        - id: faq
+          command: speckit.one-way-door.faq
+          integration: "{{ inputs.integration }}"
+          input:
+            args: "slug={{ inputs.slug }}"
+        - id: prfaq-review
+          type: gate
+          message: "PR/FAQ review: read the press release and FAQ together; iterate until the announced experience survives the room."
+        - id: maybe-mrd
+          type: if
+          condition: "{{ inputs.deepen == 'mrd' }}"
+          then:
+            - id: mrd
+              command: speckit.one-way-door.mrd
+              integration: "{{ inputs.integration }}"
+              input:
+                args: "slug={{ inputs.slug }}"
+        - id: prd
+          command: speckit.one-way-door.prd
+          integration: "{{ inputs.integration }}"
+          input:
+            args: "slug={{ inputs.slug }}"
+        - id: narrative-6p
+          command: speckit.one-way-door.narrative-6p
+          integration: "{{ inputs.integration }}"
+          input:
+            args: "slug={{ inputs.slug }}"
+        - id: decision-meeting
+          type: gate
+          message: "ONE-WAY-DOOR DECISION MEETING (required): build spend is gated on an explicit human decision recorded in .specify/initiatives/{{ inputs.slug }}/decision.md. Never proceed automatically."
+        - id: uxd
+          command: speckit.one-way-door.uxd
+          integration: "{{ inputs.integration }}"
+          input:
+            args: "slug={{ inputs.slug }}"
+        - id: engineering-handoff
+          type: gate
+          message: "Product chain complete. Continue with the one-way-door-engineering extension (speckit.one-way-door-engineering.trd) if installed. Otherwise hand off to /speckit.specify — read prd.md and uxd.md, and pass their scope, requirements, and user stories as its description; that synthesizes spec-kit's own spec.md, ready for /speckit.plan."
