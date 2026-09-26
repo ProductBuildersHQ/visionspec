@@ -105,6 +105,7 @@ nav:
       - Custom Profiles: guides/custom-profiles.md
       - Organization Customization: guides/organization-customization.md
       - AIDLC Integration: guides/aidlc-integration.md
+      - Spec Kit Plugins: guides/speckit-plugins.md
   - Execution Targets:
       - Overview: execution-targets/index.md
       - AWS AI-DLC: execution-targets/aws-aidlc.md

@@ -2,6 +2,9 @@
 
 This guide helps you select the right execution target for your project.
 
+!!! note "Not finding SpecKit here quite what you meant?"
+    These targets all assume a finished, reconciled VisionSpec project. If instead you want to *author* specs using a VisionSpec methodology inside a project that has no VisionSpec involvement at all, see [Spec Kit Plugins](../guides/speckit-plugins.md) — a different mechanism that installs a methodology as native Spec Kit extensions and workflows.
+
 ## Quick Decision Matrix
 
 | If you need... | Choose |

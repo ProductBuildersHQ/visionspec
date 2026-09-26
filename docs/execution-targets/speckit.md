@@ -328,3 +328,4 @@ ls -la .specify/memory/
 - [Choosing a Target](choosing-a-target.md) - Compare with other targets
 - [CLI: export](../cli/export.md) - Export command reference
 - [Google Design Docs Framework](../frameworks/google.md) - Good pairing for SpecKit
+- [Spec Kit Plugins](../guides/speckit-plugins.md) - Install a whole VisionSpec methodology as native Spec Kit extensions, workflows, and bundles
