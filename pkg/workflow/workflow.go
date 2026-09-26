@@ -5,6 +5,8 @@
 // "big-tech-feature", "pbhq-lite").
 package workflow
 
+import "strings"
+
 // Workflow represents a complete specification workflow configuration.
 type Workflow struct {
 	// Name is the workflow identifier (e.g., "aws-one-way-door", "pbhq-lite").
@@ -175,8 +177,20 @@ func (s *SpecSource) clone() *SpecSource {
 }
 
 // Execution defines the ordered execution of specs.
+//
+// Node identity contract: the spec type ids in Sequence are the workflow's
+// stable execution-node identifiers ("step ids"). A spec type id equals the
+// lower-kebab-case stem of its template filename (press.md -> "press",
+// narrative-6p.md -> "narrative-6p"), and exporters and sync integrations
+// (e.g. the Spec Kit exporter in pkg/speckit) use it verbatim as command and
+// step identity. Renaming a spec type is therefore a breaking change for
+// every downstream consumer, not a cosmetic edit. Note this id names the
+// process node; it is distinct from a work-item slug (the per-initiative
+// directory name an execution system uses for the work flowing through the
+// node).
 type Execution struct {
-	// Sequence is the ordered list of spec types to produce.
+	// Sequence is the ordered list of spec types to produce. Each entry is a
+	// stable node identifier; see the Execution doc for the contract.
 	Sequence []string `json:"sequence,omitempty" yaml:"sequence,omitempty" jsonschema:"description=Ordered spec type IDs"`
 
 	// Phases groups specs into named phases.
@@ -206,6 +220,12 @@ type Phase struct {
 
 // ReviewGate is an approval checkpoint after a spec.
 type ReviewGate struct {
+	// ID optionally names this gate as a stable execution node, following the
+	// same contract as Execution.Sequence entries (lower kebab-case, stable
+	// across renames). When empty, the node id defaults to the kebab-cased
+	// Action (see StepID).
+	ID string `json:"id,omitempty" yaml:"id,omitempty" jsonschema:"description=Stable node identifier for this gate (defaults to kebab-cased action)"`
+
 	// After is the spec type after which this gate applies.
 	After string `json:"after" yaml:"after" jsonschema:"required,description=Spec type ID after which gate applies"`
 
@@ -214,6 +234,16 @@ type ReviewGate struct {
 
 	// Required indicates whether passing this gate is mandatory.
 	Required bool `json:"required,omitempty" yaml:"required,omitempty" jsonschema:"description=Whether gate is mandatory"`
+}
+
+// StepID returns the gate's stable execution-node identifier: ID when set,
+// otherwise the Action with underscores kebab-cased (e.g. "prfaq_review" ->
+// "prfaq-review"), matching the node-identity contract on Execution.
+func (g ReviewGate) StepID() string {
+	if g.ID != "" {
+		return g.ID
+	}
+	return strings.ReplaceAll(g.Action, "_", "-")
 }
 
 // EvaluationConfig defines pass/fail thresholds.

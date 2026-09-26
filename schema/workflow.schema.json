@@ -208,6 +208,10 @@
     },
     "ReviewGate": {
       "properties": {
+        "id": {
+          "type": "string",
+          "description": "Stable node identifier for this gate (defaults to kebab-cased action)"
+        },
         "after": {
           "type": "string",
           "description": "Spec type ID after which gate applies"
