@@ -3,7 +3,7 @@ module github.com/ProductBuildersHQ/visionspec
 go 1.26.5
 
 require (
-	github.com/bmatcuk/doublestar/v4 v4.10.2
+	github.com/bmatcuk/doublestar/v4 v4.10.3
 	github.com/fsnotify/fsnotify v1.10.1
 	github.com/grokify/oscompat v0.5.0
 	github.com/grokify/pidl v0.6.0
@@ -25,6 +25,7 @@ require (
 	github.com/grokify/mogo v0.75.0 // indirect
 	github.com/grokify/sogo v0.15.0 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
+	github.com/kr/text v0.2.0 // indirect
 	github.com/pb33f/ordered-map/v2 v2.3.1 // indirect
 	github.com/segmentio/asm v1.2.1 // indirect
 	github.com/segmentio/encoding v0.5.4 // indirect
